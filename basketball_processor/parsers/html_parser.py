@@ -25,6 +25,76 @@ from ..engines.special_events_engine import SpecialEventsEngine
 from ..utils.venue_resolver import resolve_venue
 
 
+class HTMLParsingError(Exception):
+    """Raised when HTML parsing fails due to invalid or incomplete data."""
+    pass
+
+
+def validate_html_content(html_content: str) -> None:
+    """
+    Validate that HTML content is suitable for parsing.
+
+    Args:
+        html_content: Raw HTML string
+
+    Raises:
+        HTMLParsingError: If content is invalid
+    """
+    if not html_content:
+        raise HTMLParsingError("Empty HTML content provided")
+
+    if not isinstance(html_content, str):
+        raise HTMLParsingError(f"Expected string, got {type(html_content).__name__}")
+
+    # Check minimum length (a valid box score should be at least a few KB)
+    if len(html_content) < 1000:
+        raise HTMLParsingError("HTML content too short to be a valid box score")
+
+    # Check for Sports Reference indicators
+    if 'sports-reference' not in html_content.lower() and 'scorebox' not in html_content.lower():
+        raise HTMLParsingError("HTML does not appear to be a Sports Reference box score")
+
+
+def validate_game_data(game_data: Dict[str, Any]) -> List[str]:
+    """
+    Validate parsed game data and return list of warnings.
+
+    Args:
+        game_data: Parsed game dictionary
+
+    Returns:
+        List of warning messages (empty if all valid)
+    """
+    warnings = []
+    basic_info = game_data.get('basic_info', {})
+
+    # Check required fields
+    if not basic_info.get('away_team'):
+        warnings.append("Missing away team name")
+    if not basic_info.get('home_team'):
+        warnings.append("Missing home team name")
+    if not basic_info.get('date'):
+        warnings.append("Missing game date")
+
+    # Check scores
+    away_score = basic_info.get('away_score', 0)
+    home_score = basic_info.get('home_score', 0)
+    if away_score == 0 and home_score == 0:
+        warnings.append("Both team scores are 0 - possible parsing error")
+
+    # Check box score data
+    box_score = game_data.get('box_score', {})
+    away_players = box_score.get('away', {}).get('players', [])
+    home_players = box_score.get('home', {}).get('players', [])
+
+    if not away_players:
+        warnings.append("No away team player stats found")
+    if not home_players:
+        warnings.append("No home team player stats found")
+
+    return warnings
+
+
 def parse_sports_reference_boxscore(html_content: str, gender: str = 'M') -> Dict[str, Any]:
     """
     Parse a Sports Reference college basketball box score HTML file.
@@ -35,7 +105,13 @@ def parse_sports_reference_boxscore(html_content: str, gender: str = 'M') -> Dic
 
     Returns:
         game_data dictionary with all extracted information
+
+    Raises:
+        HTMLParsingError: If HTML content is invalid
     """
+    # Validate input
+    validate_html_content(html_content)
+
     soup = BeautifulSoup(html_content, 'html.parser')
 
     # Initialize game data structure
@@ -136,6 +212,11 @@ def parse_sports_reference_boxscore(html_content: str, gender: str = 'M') -> Dic
     # Run special events detection
     special_events_engine = SpecialEventsEngine(game_data)
     game_data = special_events_engine.detect()
+
+    # Validate parsed data and store any warnings
+    warnings = validate_game_data(game_data)
+    if warnings:
+        game_data['_parsing_warnings'] = warnings
 
     return game_data
 

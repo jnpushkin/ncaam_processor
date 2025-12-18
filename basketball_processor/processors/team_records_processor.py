@@ -8,7 +8,7 @@ from collections import defaultdict
 
 from .base_processor import BaseProcessor
 from ..utils.helpers import safe_int, get_team_code
-from ..utils.constants import CONFERENCES, get_conference
+from ..utils.constants import CONFERENCES, get_conference, get_conference_for_date
 
 
 class TeamRecordsProcessor(BaseProcessor):
@@ -85,10 +85,11 @@ class TeamRecordsProcessor(BaseProcessor):
             is_neutral = basic_info.get('neutral_site', False)
 
             # Auto-detect conference games - check if both teams are in the same conference
+            # Use date-aware lookup to handle historical conference affiliations
             is_conference = basic_info.get('conference_game', False)
             if not is_conference:
-                away_conf = get_conference(away_team)
-                home_conf = get_conference(home_team)
+                away_conf = get_conference_for_date(away_team, date_yyyymmdd)
+                home_conf = get_conference_for_date(home_team, date_yyyymmdd)
                 if away_conf and home_conf and away_conf == home_conf:
                     is_conference = True
 

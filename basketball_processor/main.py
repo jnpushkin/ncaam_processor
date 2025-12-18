@@ -9,15 +9,21 @@ import argparse
 import traceback
 import re
 from pathlib import Path
+from typing import Dict, List, Any, Optional
 
 from .excel.workbook_generator import generate_excel_workbook
-from .parsers.html_parser import parse_sports_reference_boxscore
+from .parsers.html_parser import parse_sports_reference_boxscore, HTMLParsingError
 from .utils.constants import BASE_DIR, DEFAULT_INPUT_DIR, CACHE_DIR
-from .utils.log import info, warn, set_verbosity, set_use_emoji
+from .utils.log import info, warn, error, success, debug, set_verbosity, set_use_emoji
 from .website import generate_website_from_data
 
 
-def process_html_file(file_path: str, index: int = None, total: int = None, gender: str = 'M'):
+def process_html_file(
+    file_path: str,
+    index: Optional[int] = None,
+    total: Optional[int] = None,
+    gender: str = 'M'
+) -> Dict[str, Any]:
     """
     Process a single Sports Reference HTML file, with filename-based caching.
 
@@ -77,6 +83,12 @@ def process_html_file(file_path: str, index: int = None, total: int = None, gend
 
         info(f"  Parsed game: {game_id}")
 
+        # Report any parsing warnings
+        parsing_warnings = game_data.get('_parsing_warnings', [])
+        if parsing_warnings:
+            for warning in parsing_warnings:
+                warn(f"    Warning: {warning}")
+
         # Save to cache
         with open(cache_path, 'w', encoding='utf-8') as f:
             json.dump(game_data, f, indent=2)
@@ -84,14 +96,18 @@ def process_html_file(file_path: str, index: int = None, total: int = None, gend
 
         return game_data
 
+    except HTMLParsingError as e:
+        error_msg = str(e)
+        error(f"Invalid HTML in {file_path}: {error_msg}")
+        return {"_error": True, "file": file_path, "error": error_msg}
     except Exception as e:
         error_msg = str(e)
-        warn(f"Error processing {file_path}: {error_msg}")
+        error(f"Error processing {file_path}: {error_msg}")
         traceback.print_exc()
         return {"_error": True, "file": file_path, "error": error_msg}
 
 
-def process_directory_or_file(input_path: str, gender: str = 'M'):
+def process_directory_or_file(input_path: str, gender: str = 'M') -> List[Dict[str, Any]]:
     """
     Process HTML files from directory or single file.
 
@@ -148,7 +164,7 @@ def process_directory_or_file(input_path: str, gender: str = 'M'):
     return all_games_data
 
 
-def main():
+def main() -> None:
     parser = argparse.ArgumentParser(
         description="College Basketball Game Processor - Parse HTML box scores and generate statistics"
     )
@@ -258,14 +274,14 @@ def main():
             processed_data['_raw_games'] = games_data
             generate_website_from_data(processed_data, html_path)
 
-            info("\nProcessing complete!")
+            success("\nProcessing complete!")
             info(f"Website: {os.path.abspath(html_path)}")
 
         elif args.excel_only:
             info("\nExcel-only mode: Skipping website generation...")
 
             if os.path.exists(args.output_excel):
-                info(f"Removing existing file: {args.output_excel}")
+                debug(f"Removing existing file: {args.output_excel}")
                 os.remove(args.output_excel)
 
             processed_data = generate_excel_workbook(
@@ -274,14 +290,14 @@ def main():
                 write_file=True
             )
 
-            info("\nProcessing complete!")
+            success("\nProcessing complete!")
             info(f"Excel: {os.path.abspath(args.output_excel)}")
 
         else:
             info("\nGenerating both Excel and website...")
 
             if os.path.exists(args.output_excel):
-                info(f"Removing existing file: {args.output_excel}")
+                debug(f"Removing existing file: {args.output_excel}")
                 os.remove(args.output_excel)
 
             processed_data = generate_excel_workbook(
@@ -296,12 +312,12 @@ def main():
             processed_data['_raw_games'] = games_data
             generate_website_from_data(processed_data, html_path)
 
-            info("\nProcessing complete!")
+            success("\nProcessing complete!")
             info(f"Excel: {os.path.abspath(args.output_excel)}")
             info(f"Website: {os.path.abspath(html_path)}")
 
     except Exception as e:
-        warn(f"Error during processing: {str(e)}")
+        error(f"Error during processing: {str(e)}")
         traceback.print_exc()
 
 

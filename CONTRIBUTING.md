@@ -7,6 +7,7 @@ This document explains how to update the basketball processor when team informat
 | Data Type | File Location |
 |-----------|---------------|
 | Conference membership | `basketball_processor/utils/constants.py` → `_DEFAULT_CONFERENCES` |
+| Historical conferences | `basketball_processor/utils/constants.py` → `CONFERENCE_HISTORY` |
 | Team aliases | `basketball_processor/utils/constants.py` → `TEAM_ALIASES` |
 | Home arenas | `basketball_processor/references/venues.json` → `home_arenas` |
 | Game-specific venue overrides | `basketball_processor/references/venues.json` → `game_overrides` |
@@ -17,7 +18,7 @@ This document explains how to update the basketball processor when team informat
 
 **Example:** Delaware moves from CAA to Conference USA
 
-Edit `basketball_processor/utils/constants.py`:
+**Step 1:** Update current conference in `_DEFAULT_CONFERENCES`:
 
 ```python
 # REMOVE from old conference
@@ -32,6 +33,20 @@ Edit `basketball_processor/utils/constants.py`:
     ...
 ],
 ```
+
+**Step 2:** Add historical tracking in `CONFERENCE_HISTORY`:
+
+```python
+CONFERENCE_HISTORY = {
+    'Delaware': [
+        (20010701, 'CAA'),       # When they joined CAA
+        (20250701, 'Conference USA'),  # When they move to C-USA
+    ],
+    ...
+}
+```
+
+This ensures historical games show Delaware in the CAA, while future games show Conference USA.
 
 ### 2. Team Changes Arena
 
@@ -156,13 +171,53 @@ Use these Wikipedia pages as the primary source of truth:
 
 3. **Verify changes** in the generated HTML file.
 
+## Historical Conference Tracking
+
+The system tracks which conference each team was in at any point in time. This allows historical games to display the correct conference, even after realignment.
+
+### How It Works
+
+The `CONFERENCE_HISTORY` dictionary in `constants.py` stores conference membership changes:
+
+```python
+CONFERENCE_HISTORY = {
+    'UCLA': [
+        (19280101, 'Pac-12'),    # Date format: YYYYMMDD
+        (20240701, 'Big Ten'),   # July 1, 2024 - moved to Big Ten
+    ],
+}
+```
+
+When processing a game, the system uses `get_conference_for_date(team, game_date)` to find the most recent conference assignment before the game date.
+
+### Adding Historical Data
+
+Only teams that have changed conferences need entries. Format:
+
+```python
+'Team Name': [
+    (YYYYMMDD, 'Conference'),  # Oldest first
+    (YYYYMMDD, 'Conference'),  # Newest last
+],
+```
+
+### Major Realignment Already Tracked
+
+The following realignments are pre-populated:
+- **2024-25**: Pac-12 dissolution (UCLA, USC, Oregon, Washington to Big Ten; Arizona schools, Colorado, Utah to Big 12; Cal, Stanford to ACC)
+- **2024-25**: Texas, Oklahoma to SEC
+- **2023-24**: BYU, Houston, Cincinnati, UCF to Big 12
+- **2020**: UConn back to Big East
+- **2013-14**: Big East/AAC split, ACC expansion
+
 ## Annual Update Checklist (July 1)
 
 Conference realignment typically takes effect July 1. Each year:
 
 1. [ ] Check Wikipedia for conference changes
 2. [ ] Update `_DEFAULT_CONFERENCES` in `constants.py`
-3. [ ] Update `home_arenas` in `venues.json` for any arena changes
-4. [ ] Add aliases for renamed teams
-5. [ ] Remove defunct programs
-6. [ ] Clear cache and regenerate to verify
+3. [ ] Add entries to `CONFERENCE_HISTORY` for any teams changing conferences
+4. [ ] Update `home_arenas` in `venues.json` for any arena changes
+5. [ ] Add aliases for renamed teams
+6. [ ] Remove defunct programs
+7. [ ] Clear cache and regenerate to verify

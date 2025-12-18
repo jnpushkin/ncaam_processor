@@ -3,12 +3,14 @@ Basketball constants, team codes, and configuration.
 """
 
 import re
+from datetime import datetime
 from pathlib import Path
+from typing import Dict, List, Optional, Tuple, Union
 import os
 
 
 # === Directory and File Path Configuration ===
-def _find_project_root():
+def _find_project_root() -> Path:
     """Find the project root directory.
 
     Searches for CBB_TRACKER_DIR env var, then .project_root marker,
@@ -420,7 +422,7 @@ _DEFAULT_CONFERENCES = {
 }
 
 
-def _load_conferences():
+def _load_conferences() -> Dict[str, List[str]]:
     """Load conferences from JSON file if available, otherwise use defaults."""
     import json
     conf_file = Path(__file__).parent.parent / 'references' / 'conferences.json'
@@ -441,35 +443,539 @@ def _load_conferences():
 # Load conferences (from JSON if available, else defaults)
 CONFERENCES = _load_conferences()
 
+# === HISTORICAL CONFERENCE TRACKING ===
+# Tracks conference changes over time for accurate historical game attribution
+# Format: 'Team': [(effective_date_YYYYMMDD, 'Conference'), ...]
+# Entries are sorted oldest to newest; system uses latest entry before game date
+# Only teams that have changed conferences need entries here
+
+CONFERENCE_HISTORY = {
+    # === 2024-25 Major Realignment (Pac-12 dissolution) ===
+    # To Big Ten (effective 2024-07-01)
+    'UCLA': [
+        (19280101, 'Pac-12'),
+        (20240701, 'Big Ten'),
+    ],
+    'USC': [
+        (19220101, 'Pac-12'),
+        (20240701, 'Big Ten'),
+    ],
+    'Oregon': [
+        (19150101, 'Pac-12'),
+        (20240701, 'Big Ten'),
+    ],
+    'Washington': [
+        (19150101, 'Pac-12'),
+        (20240701, 'Big Ten'),
+    ],
+
+    # To Big 12 (effective 2024-07-01)
+    'Arizona': [
+        (19780101, 'Pac-12'),
+        (20240701, 'Big 12'),
+    ],
+    'Arizona State': [
+        (19780101, 'Pac-12'),
+        (20240701, 'Big 12'),
+    ],
+    'Colorado': [
+        (19470101, 'Big Eight'),
+        (19960701, 'Big 12'),
+        (20110701, 'Pac-12'),
+        (20240701, 'Big 12'),
+    ],
+    'Utah': [
+        (19990701, 'Mountain West'),
+        (20110701, 'Pac-12'),
+        (20240701, 'Big 12'),
+    ],
+
+    # To SEC (effective 2024-07-01)
+    'Texas': [
+        (19960701, 'Big 12'),
+        (20240701, 'SEC'),
+    ],
+    'Oklahoma': [
+        (19960701, 'Big 12'),
+        (20240701, 'SEC'),
+    ],
+
+    # To ACC (effective 2024-07-01)
+    'California': [
+        (19150101, 'Pac-12'),
+        (20240701, 'ACC'),
+    ],
+    'Stanford': [
+        (19150101, 'Pac-12'),
+        (20240701, 'ACC'),
+    ],
+    'SMU': [
+        (20130701, 'AAC'),
+        (20240701, 'ACC'),
+    ],
+
+    # To WCC (effective 2024-07-01) - Pac-12 remainders
+    'Oregon State': [
+        (19150101, 'Pac-12'),
+        (20240701, 'WCC'),
+    ],
+    'Washington State': [
+        (19170101, 'Pac-12'),
+        (20240701, 'WCC'),
+    ],
+
+    # === Other 2024-25 Realignment ===
+    # To Mountain West
+    'Grand Canyon': [
+        (20130701, 'WAC'),
+        (20240701, 'Mountain West'),
+    ],
+
+    # To WCC
+    'Seattle': [
+        (20090701, 'Independent'),
+        (20240701, 'WCC'),
+    ],
+
+    # === 2023-24 Realignment ===
+    # To Big 12
+    'BYU': [
+        (20110701, 'WCC'),
+        (20230701, 'Big 12'),
+    ],
+    'Cincinnati': [
+        (20130701, 'AAC'),
+        (20230701, 'Big 12'),
+    ],
+    'Houston': [
+        (20130701, 'AAC'),
+        (20230701, 'Big 12'),
+    ],
+    'UCF': [
+        (20130701, 'AAC'),
+        (20230701, 'Big 12'),
+    ],
+
+    # To Big East
+    'UConn': [
+        (19790701, 'Big East'),
+        (20130701, 'AAC'),
+        (20200701, 'Big East'),
+    ],
+
+    # === 2022-23 Realignment ===
+    # To SEC
+    'Missouri': [
+        (19070701, 'Big Eight'),
+        (19960701, 'Big 12'),
+        (20120701, 'SEC'),
+    ],
+    'Texas A&M': [
+        (19960701, 'Big 12'),
+        (20120701, 'SEC'),
+    ],
+
+    # === Historical Conference Changes ===
+    # ACC expansion
+    'Louisville': [
+        (19950701, 'Conference USA'),
+        (20050701, 'Big East'),
+        (20140701, 'ACC'),
+    ],
+    'Syracuse': [
+        (19790701, 'Big East'),
+        (20130701, 'ACC'),
+    ],
+    'Pittsburgh': [
+        (19820701, 'Big East'),
+        (20130701, 'ACC'),
+    ],
+    'Notre Dame': [
+        (19950701, 'Big East'),
+        (20130701, 'ACC'),
+    ],
+
+    # Big Ten expansion
+    'Maryland': [
+        (19530701, 'ACC'),
+        (20140701, 'Big Ten'),
+    ],
+    'Rutgers': [
+        (19910701, 'Big East'),
+        (20140701, 'Big Ten'),
+    ],
+    'Nebraska': [
+        (19070701, 'Big Eight'),
+        (19960701, 'Big 12'),
+        (20110701, 'Big Ten'),
+    ],
+
+    # Big East reconfiguration (2013)
+    'Creighton': [
+        (19760701, 'MVC'),
+        (20130701, 'Big East'),
+    ],
+    'Xavier': [
+        (19950701, 'Atlantic 10'),
+        (20130701, 'Big East'),
+    ],
+    'Butler': [
+        (19790701, 'Horizon League'),
+        (20120701, 'Atlantic 10'),
+        (20130701, 'Big East'),
+    ],
+
+    # Atlantic 10 changes
+    'Dayton': [
+        (19950701, 'Great Midwest'),
+        (19950701, 'Atlantic 10'),
+    ],
+    'VCU': [
+        (19950701, 'CAA'),
+        (20120701, 'Atlantic 10'),
+    ],
+    'Davidson': [
+        (19910701, 'Southern Conference'),
+        (20140701, 'Atlantic 10'),
+    ],
+    'Loyola Chicago': [
+        (20130701, 'MVC'),
+        (20210701, 'Atlantic 10'),
+    ],
+
+    # MVC changes
+    'Murray State': [
+        (19480701, 'OVC'),
+        (20220701, 'MVC'),
+    ],
+    'Belmont': [
+        (20120701, 'OVC'),
+        (20220701, 'MVC'),
+    ],
+
+    # Conference USA / AAC splits
+    'Memphis': [
+        (19950701, 'Conference USA'),
+        (20130701, 'AAC'),
+    ],
+    'Temple': [
+        (20130701, 'Big East'),
+        (20130701, 'AAC'),
+    ],
+    'Tulane': [
+        (19950701, 'Conference USA'),
+        (20140701, 'AAC'),
+    ],
+    'Tulsa': [
+        (19960701, 'WAC'),
+        (20050701, 'Conference USA'),
+        (20140701, 'AAC'),
+    ],
+    'Wichita State': [
+        (19450701, 'MVC'),
+        (20170701, 'AAC'),
+    ],
+    'Florida Atlantic': [
+        (20130701, 'Conference USA'),
+        (20230701, 'AAC'),
+    ],
+
+    # Gonzaga WCC era
+    'Gonzaga': [
+        (19790701, 'WCAC'),
+        (19890701, 'WCC'),
+    ],
+    "Saint Mary's (CA)": [
+        (19770701, 'WCAC'),
+        (19890701, 'WCC'),
+    ],
+
+    # Recent school renames/transitions
+    'IU Indianapolis': [
+        (19980701, 'Mid-Continent'),
+        (20170701, 'Horizon League'),
+    ],
+    'East Texas A&M': [
+        (20130701, 'Lone Star'),  # D2
+        (20220701, 'Southland'),  # D1 transition
+    ],
+}
+
+
+def get_conference_for_date(
+    team_name: str,
+    game_date: Optional[Union[int, str, datetime]] = None
+) -> Optional[str]:
+    """Get conference name for a team at a specific date.
+
+    Args:
+        team_name: The team name to look up
+        game_date: Optional date as YYYYMMDD integer, datetime, or string.
+                   If None, returns current conference.
+
+    Returns:
+        Conference name or None if not found
+    """
+    # Normalize team name through aliases
+    canonical = TEAM_ALIASES.get(team_name, team_name)
+
+    # If no date provided, use current conference
+    if game_date is None:
+        return get_conference(canonical)
+
+    # Convert date to integer YYYYMMDD format
+    if isinstance(game_date, str):
+        # Handle various date formats
+        game_date = game_date.replace('-', '').replace('/', '')[:8]
+        try:
+            game_date = int(game_date)
+        except ValueError:
+            return get_conference(canonical)
+    elif hasattr(game_date, 'year'):  # datetime-like object
+        game_date = game_date.year * 10000 + game_date.month * 100 + game_date.day
+
+    # Check if team has historical conference data
+    # Try both the original name and the canonical name since CONFERENCE_HISTORY
+    # may use either form (e.g., 'SMU' vs 'Southern Methodist')
+    history = None
+    if team_name in CONFERENCE_HISTORY:
+        history = CONFERENCE_HISTORY[team_name]
+    elif canonical in CONFERENCE_HISTORY:
+        history = CONFERENCE_HISTORY[canonical]
+
+    if history:
+        # Find the most recent conference assignment before/on the game date
+        conference = None
+        for effective_date, conf in history:
+            if effective_date <= game_date:
+                conference = conf
+            else:
+                break
+        if conference:
+            return conference
+
+    # Fall back to current conference
+    return get_conference(canonical)
+
+
 # Team name aliases - maps common variations to canonical names
 TEAM_ALIASES = {
+    # === Renamed/Transitioned Schools ===
     'IUPUI': 'IU Indianapolis',
+    'Texas A&M-Commerce': 'East Texas A&M',
+
+    # === Common Nicknames ===
+    'Ole Miss': 'Mississippi',
+    'Mizzou': 'Missouri',
+    'Cuse': 'Syracuse',
+    'Nova': 'Villanova',
+    'Zags': 'Gonzaga',
+    'Hoos': 'Virginia',
+    'Heels': 'North Carolina',
+    'Dukies': 'Duke',
+
+    # === State School Variations ===
     'Pitt': 'Pittsburgh',
     'UNC': 'North Carolina',
     'NC State': 'North Carolina State',
-    "Saint Mary's": "Saint Mary's (CA)",
+    'NCSU': 'North Carolina State',
+    'OSU': 'Ohio State',  # Context-dependent, but Ohio State most common
+    'MSU': 'Michigan State',  # Context-dependent
+    'LSU': 'Louisiana State',
+    'FSU': 'Florida State',
+    'ASU': 'Arizona State',
+    'WSU': 'Washington State',
+    'KSU': 'Kansas State',
+    'ISU': 'Iowa State',
+    'PSU': 'Penn State',
+    'UVA': 'Virginia',
+    'UGA': 'Georgia',
+    'UK': 'Kentucky',
+    'UT': 'Texas',
+    'OU': 'Oklahoma',
+    'OSU': 'Oklahoma State',
+    'TTU': 'Texas Tech',
+    'TCU': 'Texas Christian',
+    'WVU': 'West Virginia',
+    'Miss State': 'Mississippi State',
+    'Miss St': 'Mississippi State',
+    'Penn St': 'Penn State',
+    'Ohio St': 'Ohio State',
+    'Mich St': 'Michigan State',
+    'Michigan St': 'Michigan State',
+    'Fla St': 'Florida State',
+    'Florida St': 'Florida State',
+    'Oregon St': 'Oregon State',
+    'Wash St': 'Washington State',
+    'Washington St': 'Washington State',
+    'Ariz St': 'Arizona State',
+    'Arizona St': 'Arizona State',
+    'Colo St': 'Colorado State',
+    'Colorado St': 'Colorado State',
+    'Utah St': 'Utah State',
+    'Fresno St': 'Fresno State',
+    'San Jose St': 'San Jose State',
+    'San Diego St': 'San Diego State',
+    'Boise St': 'Boise State',
+    'Iowa St': 'Iowa State',
+    'Kansas St': 'Kansas State',
+    'OK State': 'Oklahoma State',
+    'Okla St': 'Oklahoma State',
+
+    # === University of X Variations ===
     'Southern California': 'USC',
     'UConn': 'Connecticut',
     'Connecticut': 'UConn',  # Both ways since Big East uses UConn
+    'UCF': 'Central Florida',
+    'Central Florida': 'UCF',
+    'UMass': 'Massachusetts',
+    'Massachusetts': 'UMass',
+    'URI': 'Rhode Island',
+    'UNH': 'New Hampshire',
+    'UVM': 'Vermont',
+    'UCSB': 'UC Santa Barbara',
+    'UCI': 'UC Irvine',
+    'UCR': 'UC Riverside',
+    'UCSD': 'UC San Diego',
+    'UCD': 'UC Davis',
+    'Cal': 'California',
+    'Berkeley': 'California',
+    'UC Berkeley': 'California',
+    'UCLA': 'UCLA',  # Already canonical
+    'UTEP': 'UTEP',  # Already canonical
+    'UTSA': 'UTSA',  # Already canonical
+    'UTA': 'UT Arlington',
+    'UTM': 'UT Martin',
+    'MTSU': 'Middle Tennessee',
+    'WKU': 'Western Kentucky',
+    'EKU': 'Eastern Kentucky',
+    'NKU': 'Northern Kentucky',
+    'EWU': 'Eastern Washington',
+    'NIU': 'Northern Illinois',
+    'CMU': 'Central Michigan',
+    'EMU': 'Eastern Michigan',
+    'WMU': 'Western Michigan',
+    'BGSU': 'Bowling Green',
+    'BG': 'Bowling Green',
+
+    # === Abbreviated Names ===
     'SMU': 'Southern Methodist',
     'Southern Methodist': 'SMU',
-    'UCF': 'Central Florida',
     'VCU': 'Virginia Commonwealth',
     'GW': 'George Washington',
+    'GWU': 'George Washington',
     'FAU': 'Florida Atlantic',
     'FIU': 'Florida International',
     'UNLV': 'Nevada-Las Vegas',
-    'UMass': 'Massachusetts',
-    'URI': 'Rhode Island',
-    'Loyola (IL)': 'Loyola Chicago',
-    'Cal Baptist': 'California Baptist',
+    'Nevada Las Vegas': 'UNLV',
     'LMU': 'Loyola Marymount',
+    'Cal Baptist': 'California Baptist',
+    'CBU': 'California Baptist',
+    'GCU': 'Grand Canyon',
+    'SFA': 'Stephen F. Austin',
+    'SFASU': 'Stephen F. Austin',
+    'SHSU': 'Sam Houston',
+    'Sam Houston State': 'Sam Houston',
+    'NMSU': 'New Mexico State',
+    'SDSU': 'San Diego State',
+    'SJSU': 'San Jose State',
+    'CSUF': 'Cal State Fullerton',
+    'CSUN': 'Cal State Northridge',
+    'CSULB': 'Long Beach State',
+    'LBS': 'Long Beach State',
+    'LBSU': 'Long Beach State',
+
+    # === Saint/St. Variations ===
+    "Saint Mary's": "Saint Mary's (CA)",
+    "St. Mary's": "Saint Mary's (CA)",
+    "St Mary's": "Saint Mary's (CA)",
     'Saint Francis (PA)': 'St. Francis (PA)',
     'Saint Francis (NY)': 'St. Francis (NY)',
+    "Saint John's": "St. John's",
+    "Saint Joseph's": "Saint Joseph's",
+    "St. Joseph's": "Saint Joseph's",
+    "Saint Louis": "Saint Louis",
+    "St. Louis": "Saint Louis",
+    "Saint Bonaventure": "St. Bonaventure",
+    "St Bonaventure": "St. Bonaventure",
+    "Saint Peter's": "Saint Peter's",
+    "St. Peter's": "Saint Peter's",
+
+    # === Loyola Variations ===
+    'Loyola (IL)': 'Loyola Chicago',
+    'Loyola Illinois': 'Loyola Chicago',
+    'Loyola-Chicago': 'Loyola Chicago',
+    'Loyola (MD)': 'Loyola (MD)',  # Keep as-is
+    'Loyola Maryland': 'Loyola (MD)',
+    'Loyola-Maryland': 'Loyola (MD)',
+    'Loyola (LA)': 'Loyola New Orleans',
+    'Loyola-New Orleans': 'Loyola New Orleans',
+
+    # === Miami Variations ===
+    'Miami': 'Miami (FL)',  # Default to Florida
+    'Miami (Florida)': 'Miami (FL)',
+    'Miami Florida': 'Miami (FL)',
+    'Miami Ohio': 'Miami (OH)',
+    'Miami (Ohio)': 'Miami (OH)',
+    'Miami-Ohio': 'Miami (OH)',
+
+    # === A&M/Tech Variations ===
+    'Texas A&M': 'Texas A&M',  # Canonical
+    'TAMU': 'Texas A&M',
+    'A&M': 'Texas A&M',
+    'Georgia Tech': 'Georgia Tech',  # Canonical
+    'GT': 'Georgia Tech',
+    'GaTech': 'Georgia Tech',
+    'Virginia Tech': 'Virginia Tech',  # Canonical
+    'VT': 'Virginia Tech',
+    'VaTech': 'Virginia Tech',
+    'Texas Tech': 'Texas Tech',  # Canonical
+    'LA Tech': 'Louisiana Tech',
+    'LATech': 'Louisiana Tech',
+
+    # === Regional/Directional Schools ===
+    'UNI': 'Northern Iowa',
+    'SEMO': 'Southeast Missouri State',
+    'SIUE': 'SIU Edwardsville',
+    'SIU': 'Southern Illinois',
+    'SIUC': 'Southern Illinois',
+    'UIC': 'UIC',  # Illinois-Chicago
+    'Illinois-Chicago': 'UIC',
+    'UMBC': 'UMBC',  # Maryland-Baltimore County
+    'Maryland-Baltimore County': 'UMBC',
+    'UMKC': 'Kansas City',
+    'Missouri-Kansas City': 'Kansas City',
+    'UNO': 'New Orleans',
+    'UNCW': 'UNCW',  # UNC Wilmington
+    'UNC Wilmington': 'UNCW',
+    'UNCG': 'UNC Greensboro',
+    'UNC Greensboro': 'UNC Greensboro',
+    'UNCA': 'UNC Asheville',
+    'UNC Asheville': 'UNC Asheville',
+
+    # === Ivy League ===
+    'Penn': 'Penn',  # Pennsylvania
+    'Pennsylvania': 'Penn',
+
+    # === Service Academies ===
+    'Army West Point': 'Army',
+    'Navy Midshipmen': 'Navy',
+    'Air Force Falcons': 'Air Force',
+
+    # === Historical Names ===
+    'Southwest Missouri State': 'Missouri State',
+    'Middle Tennessee State': 'Middle Tennessee',
+    'Southeast Missouri': 'Southeast Missouri State',
+    'UT-Arlington': 'UT Arlington',
+    'Texas-Arlington': 'UT Arlington',
+    'UT-San Antonio': 'UTSA',
+    'Texas-San Antonio': 'UTSA',
+    'UT-El Paso': 'UTEP',
+    'Texas-El Paso': 'UTEP',
 }
 
 # Get conference for a team
-def get_conference(team_name):
+def get_conference(team_name: str) -> Optional[str]:
     """Get conference name for a team."""
     # Try direct match first
     for conf, teams in CONFERENCES.items():
