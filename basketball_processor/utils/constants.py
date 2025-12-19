@@ -318,7 +318,7 @@ _DEFAULT_CONFERENCES = {
         'Portland', "Saint Mary's (CA)", 'San Diego', 'San Francisco', 'Santa Clara', 'Seattle',
         'Washington State'
     ],
-    'AAC': [
+    'American': [
         'Charlotte', 'East Carolina', 'Florida Atlantic', 'Memphis',
         'North Texas', 'Rice', 'South Florida', 'Temple', 'Tulane', 'Tulsa',
         'UAB', 'UTSA', 'Wichita State'
@@ -366,8 +366,8 @@ _DEFAULT_CONFERENCES = {
         'North Alabama', 'North Florida', 'Queens', 'Stetson', 'West Georgia'
     ],
     'NEC': [
-        'Central Connecticut', 'Fairleigh Dickinson', 'Le Moyne', 'LIU', 'Mercyhurst',
-        'Merrimack', 'Sacred Heart', 'St. Francis (PA)', 'Stonehill', 'Wagner'
+        'Central Connecticut', 'Chicago State', 'Fairleigh Dickinson', 'Le Moyne', 'LIU', 'Mercyhurst',
+        'Merrimack', 'New Haven', 'Sacred Heart', 'St. Francis (PA)', 'Stonehill', 'Wagner'
     ],
     'MAAC': [
         'Canisius', 'Fairfield', 'Iona', 'Manhattan', 'Marist', "Mount St. Mary's",
@@ -388,7 +388,7 @@ _DEFAULT_CONFERENCES = {
         'Southeastern Louisiana', 'Stephen F. Austin', 'Texas A&M-Corpus Christi', 'UTRGV'
     ],
     'OVC': [
-        'Little Rock', 'Lindenwood', 'Morehead State', 'SIU Edwardsville',
+        'Eastern Illinois', 'Little Rock', 'Lindenwood', 'Morehead State', 'SIU Edwardsville',
         'Southeast Missouri State', 'Southern Indiana', 'Tennessee State',
         'Tennessee Tech', 'UT Martin', 'Western Illinois'
     ],
@@ -418,6 +418,15 @@ _DEFAULT_CONFERENCES = {
         'Akron', 'Ball State', 'Bowling Green', 'Buffalo', 'Central Michigan',
         'Eastern Michigan', 'Kent State', 'Miami (OH)', 'Northern Illinois',
         'Ohio', 'Toledo', 'UMass', 'Western Michigan'
+    ],
+    'Sun Belt': [
+        'Appalachian State', 'Arkansas State', 'Coastal Carolina', 'Georgia Southern',
+        'Georgia State', 'James Madison', 'Louisiana', 'Louisiana-Monroe', 'Marshall',
+        'Old Dominion', 'South Alabama', 'Southern Miss', 'Texas State', 'Troy'
+    ],
+    'Big South': [
+        'Charleston Southern', 'Gardner-Webb', 'High Point', 'Longwood',
+        'Presbyterian', 'Radford', 'UNC Asheville', 'USC Upstate', 'Winthrop'
     ],
 }
 

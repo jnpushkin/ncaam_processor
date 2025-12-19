@@ -163,6 +163,7 @@
     "Texas A&M-Corpus Christi": "American Bank Center, Corpus Christi, Texas",
 
     "_comment_ovc": "OVC Conference",
+    "Eastern Illinois": "Lantz Arena, Charleston, Illinois",
     "Little Rock": "Jack Stephens Center, Little Rock, Arkansas",
     "Lindenwood": "Hyland Arena, St. Charles, Missouri",
     "Morehead State": "Johnson Arena, Morehead, Kentucky",
@@ -392,10 +393,39 @@
     "UTRGV": "UTRGV Fieldhouse, Edinburg, Texas",
     "Utah Valley": "UCCU Center, Orem, Utah",
     "IU Indianapolis": "The Jungle, Indianapolis, Indiana",
+    "Chicago State": "Emil and Patricia Jones Convocation Center, Chicago, Illinois",
+    "New Haven": "Charger Gymnasium, West Haven, Connecticut",
 
     "_comment_other": "Other Notable Teams",
     "Colorado State": "Moby Arena, Fort Collins, Colorado",
-    "Utah State": "Dee Glen Smith Spectrum, Logan, Utah"
+    "Utah State": "Dee Glen Smith Spectrum, Logan, Utah",
+
+    "_comment_sun_belt": "Sun Belt Conference",
+    "Appalachian State": "Holmes Convocation Center, Boone, North Carolina",
+    "Arkansas State": "First National Bank Arena, Jonesboro, Arkansas",
+    "Coastal Carolina": "HTC Center, Conway, South Carolina",
+    "Georgia Southern": "Hanner Fieldhouse, Statesboro, Georgia",
+    "Georgia State": "GSU Convocation Center, Atlanta, Georgia",
+    "James Madison": "Atlantic Union Bank Center, Harrisonburg, Virginia",
+    "Louisiana": "Cajundome, Lafayette, Louisiana",
+    "Louisiana-Monroe": "Fant-Ewing Coliseum, Monroe, Louisiana",
+    "Marshall": "Cam Henderson Center, Huntington, West Virginia",
+    "Old Dominion": "Chartway Arena, Norfolk, Virginia",
+    "South Alabama": "Mitchell Center, Mobile, Alabama",
+    "Southern Miss": "Reed Green Coliseum, Hattiesburg, Mississippi",
+    "Texas State": "Strahan Arena, San Marcos, Texas",
+    "Troy": "Trojan Arena, Troy, Alabama",
+
+    "_comment_big_south": "Big South Conference",
+    "Charleston Southern": "Buccaneer Fieldhouse, North Charleston, South Carolina",
+    "Gardner-Webb": "Paul Porter Arena, Boiling Springs, North Carolina",
+    "High Point": "Qubein Arena, High Point, North Carolina",
+    "Longwood": "Joan Perry Brock Center, Farmville, Virginia",
+    "Presbyterian": "Templeton Center, Clinton, South Carolina",
+    "Radford": "Dedmon Center, Radford, Virginia",
+    "UNC Asheville": "Kimmel Arena, Asheville, North Carolina",
+    "USC Upstate": "G.B. Hodge Center, Spartanburg, South Carolina",
+    "Winthrop": "Winthrop Coliseum, Rock Hill, South Carolina"
   },
 
   "game_overrides": {

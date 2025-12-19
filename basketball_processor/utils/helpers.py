@@ -100,16 +100,17 @@ def format_date_yyyymmdd(date_str: str) -> str:
     return ""
 
 
-def generate_game_id(date_str: str, home_team: str, game_num: int = 0) -> str:
+def generate_game_id(date_str: str, home_team: str, game_num: int = 0, gender: str = 'M') -> str:
     """
     Generate a unique game ID.
 
-    Format: YYYYMMDD-HH-home_team_code[-N for doubleheaders]
+    Format: YYYYMMDD-home_team_code[-W for women's][-N for doubleheaders]
 
     Args:
         date_str: Game date
         home_team: Home team name
         game_num: Game number for doubleheaders (0 = single game)
+        gender: 'M' for men's, 'W' for women's
 
     Returns:
         Game ID string
@@ -119,10 +120,11 @@ def generate_game_id(date_str: str, home_team: str, game_num: int = 0) -> str:
         date_part = "00000000"
 
     team_code = get_team_code(home_team).lower()
+    gender_suffix = "-w" if gender == 'W' else ""
 
     if game_num > 0:
-        return f"{date_part}-{game_num:02d}-{team_code}"
-    return f"{date_part}-{team_code}"
+        return f"{date_part}-{game_num:02d}-{team_code}{gender_suffix}"
+    return f"{date_part}-{team_code}{gender_suffix}"
 
 
 def parse_minutes(mp_str: str) -> float:

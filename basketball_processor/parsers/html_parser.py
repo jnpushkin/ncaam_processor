@@ -134,6 +134,7 @@ def parse_sports_reference_boxscore(html_content: str, gender: str = 'M') -> Dic
 
     # Extract basic game info
     game_data['basic_info'] = extract_basic_info(soup)
+    game_data['basic_info']['gender'] = gender  # Copy gender to basic_info for easy access
 
     # Extract linescore
     game_data['linescore'] = extract_linescore(soup)
@@ -161,7 +162,8 @@ def parse_sports_reference_boxscore(html_content: str, gender: str = 'M') -> Dic
     # Generate game ID early so venue resolver can check game overrides
     game_data['game_id'] = generate_game_id(
         game_data['basic_info'].get('date', ''),
-        game_data['basic_info'].get('home_team', '')
+        game_data['basic_info'].get('home_team', ''),
+        gender=game_data.get('gender', 'M')
     )
 
     # Resolve venue using venue resolver

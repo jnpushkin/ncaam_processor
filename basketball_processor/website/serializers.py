@@ -263,15 +263,26 @@ class DataSerializer:
                 return False
             # Parse the home arena to get just the name
             arena_name = parse_venue_components(home_arena)['name']
-            # Check if the arena name matches any seen venue
+            # Check if the arena name matches any seen venue exactly
             if arena_name in seen_venues:
                 return True
-            # Also check if any seen venue contains or is contained in the arena name
-            arena_lower = arena_name.lower()
+            # Check for fuzzy matches, but require high similarity
+            arena_lower = arena_name.lower().strip()
             for venue in seen_venues:
-                venue_lower = venue.lower()
-                if arena_lower in venue_lower or venue_lower in arena_lower:
+                venue_lower = venue.lower().strip()
+                # Exact match (case insensitive)
+                if arena_lower == venue_lower:
                     return True
+                # Only allow substring match if one is a significant portion of the other
+                # and they're long enough to be meaningful (avoid "Arena" matching "Arena X")
+                if len(arena_lower) >= 15 and len(venue_lower) >= 15:
+                    # Check if one contains the other AND they share significant length
+                    if arena_lower in venue_lower:
+                        if len(arena_lower) >= len(venue_lower) * 0.8:
+                            return True
+                    if venue_lower in arena_lower:
+                        if len(venue_lower) >= len(arena_lower) * 0.8:
+                            return True
             return False
 
         # Build checklist for each conference
