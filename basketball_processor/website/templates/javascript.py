@@ -929,129 +929,11 @@ def get_javascript(json_data: str) -> str:
             }
         }
 
-        let currentCalendarMonth = new Date();
-
         function initCalendar() {
             try {
                 renderCalendar();
             } catch (e) {
                 console.error('Error in renderCalendar:', e);
-            }
-            try {
-                initMonthlyCalendar();
-            } catch (e) {
-                console.error('Error in initMonthlyCalendar:', e);
-            }
-        }
-
-        function initMonthlyCalendar() {
-            // Find the month with the most recent game
-            const games = DATA.games || [];
-            if (games.length > 0) {
-                const dates = games.map(g => new Date(g.Date)).filter(d => !isNaN(d));
-                if (dates.length > 0) {
-                    const mostRecent = dates.reduce((a, b) => a > b ? a : b);
-                    currentCalendarMonth = new Date(mostRecent.getFullYear(), mostRecent.getMonth(), 1);
-                }
-            }
-            renderMonthlyCalendar();
-        }
-
-        function changeMonth(delta) {
-            currentCalendarMonth.setMonth(currentCalendarMonth.getMonth() + delta);
-            renderMonthlyCalendar();
-        }
-
-        function renderMonthlyCalendar() {
-            const container = document.getElementById('monthly-calendar');
-            const label = document.getElementById('calendar-month-label');
-
-            if (!container || !label) {
-                console.warn('Monthly calendar elements not found');
-                return;
-            }
-
-            const year = currentCalendarMonth.getFullYear();
-            const month = currentCalendarMonth.getMonth();
-
-            const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
-                               'July', 'August', 'September', 'October', 'November', 'December'];
-            label.textContent = `${monthNames[month]} ${year}`;
-
-            // Build a map of games by date string (YYYY-MM-DD)
-            const gamesByDate = {};
-            (DATA.games || []).forEach(g => {
-                const d = new Date(g.Date);
-                if (!isNaN(d)) {
-                    const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-                    if (!gamesByDate[key]) gamesByDate[key] = [];
-                    gamesByDate[key].push(g);
-                }
-            });
-
-            // Get first day of month and number of days
-            const firstDay = new Date(year, month, 1).getDay(); // 0 = Sunday
-            const daysInMonth = new Date(year, month + 1, 0).getDate();
-
-            // Build calendar HTML
-            let html = `
-                <div class="day-header">Sun</div>
-                <div class="day-header">Mon</div>
-                <div class="day-header">Tue</div>
-                <div class="day-header">Wed</div>
-                <div class="day-header">Thu</div>
-                <div class="day-header">Fri</div>
-                <div class="day-header">Sat</div>
-            `;
-
-            // Empty cells before first day
-            for (let i = 0; i < firstDay; i++) {
-                html += `<div class="day-cell empty"></div>`;
-            }
-
-            // Days of month
-            for (let day = 1; day <= daysInMonth; day++) {
-                const dateKey = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-                const dayGames = gamesByDate[dateKey] || [];
-                const hasGames = dayGames.length > 0;
-
-                let gamesHtml = '';
-                if (hasGames) {
-                    gamesHtml = dayGames.slice(0, 2).map(g =>
-                        `<div class="game-entry">${g['Away Team']} @ ${g['Home Team']}</div>`
-                    ).join('');
-                    if (dayGames.length > 2) {
-                        gamesHtml += `<div class="game-entry">+${dayGames.length - 2} more</div>`;
-                    }
-                }
-
-                const clickHandler = hasGames ? `onclick="showCalendarDayGames('${dateKey}')"` : '';
-
-                html += `
-                    <div class="day-cell${hasGames ? ' has-games' : ''}" ${clickHandler}>
-                        <div class="day-number">${day}</div>
-                        ${hasGames ? `<div class="day-games">${gamesHtml}</div>` : ''}
-                    </div>
-                `;
-            }
-
-            container.innerHTML = html;
-        }
-
-        function showCalendarDayGames(dateKey) {
-            // Filter to games on this date and show in a simple alert or modal
-            const games = (DATA.games || []).filter(g => {
-                const d = new Date(g.Date);
-                if (isNaN(d)) return false;
-                const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-                return key === dateKey;
-            });
-
-            if (games.length === 1) {
-                showGameDetail(games[0].GameID);
-            } else if (games.length > 1) {
-                // Show first game, user can navigate from there
-                showGameDetail(games[0].GameID);
             }
         }
 
@@ -2031,12 +1913,13 @@ def get_javascript(json_data: str) -> str:
                 const loser = homeWon ? g['Away Team'] : g['Home Team'];
                 const winScore = homeWon ? g['Home Score'] : g['Away Score'];
                 const loseScore = homeWon ? g['Away Score'] : g['Home Score'];
+                const genderTag = g.Gender === 'W' ? ' <span class="gender-tag">(W)</span>' : '';
                 return `
                 <tr>
                     <td><a href="${getSportsRefUrl(g)}" target="_blank" class="game-link">${g.Date || ''}</a></td>
-                    <td><strong>${winner || ''}</strong></td>
+                    <td><strong>${winner || ''}${genderTag}</strong></td>
                     <td>${winScore || 0}-${loseScore || 0}</td>
-                    <td>${loser || ''}</td>
+                    <td>${loser || ''}${genderTag}</td>
                 </tr>
             `}).join('');
 
@@ -2400,7 +2283,25 @@ def get_javascript(json_data: str) -> str:
                 color = '#9b59b6';
             } else if (type === 'efficiency') {
                 // Shooting efficiency chart - eFG% and TS% for top 10 players by games
-                const qualified = [...(DATA.players || [])].filter(p => p.Games >= 3 && p.FGA >= 5).sort((a, b) => (b['TS%'] || 0) - (a['TS%'] || 0)).slice(0, 10);
+                // Calculate eFG% and TS% from raw stats
+                const calcEfficiency = (p) => {
+                    const fgm = p.FGM || 0;
+                    const fga = p.FGA || 0;
+                    const fg3m = p['3PM'] || 0;
+                    const fta = p.FTA || 0;
+                    const pts = p['Total PTS'] || 0;
+                    // eFG% = (FGM + 0.5 * 3PM) / FGA
+                    const efg = fga > 0 ? ((fgm + 0.5 * fg3m) / fga) * 100 : 0;
+                    // TS% = PTS / (2 * (FGA + 0.44 * FTA))
+                    const tsa = 2 * (fga + 0.44 * fta);
+                    const ts = tsa > 0 ? (pts / tsa) * 100 : 0;
+                    return { efg, ts };
+                };
+                const qualified = [...(DATA.players || [])]
+                    .filter(p => p.Games >= 3 && p.FGA >= 5)
+                    .map(p => ({ ...p, ...calcEfficiency(p) }))
+                    .sort((a, b) => b.ts - a.ts)
+                    .slice(0, 10);
                 const ctx = document.getElementById('stats-chart').getContext('2d');
                 statsChart = new Chart(ctx, {
                     type: 'bar',
@@ -2409,12 +2310,12 @@ def get_javascript(json_data: str) -> str:
                         datasets: [
                             {
                                 label: 'eFG%',
-                                data: qualified.map(p => ((p['eFG%'] || 0) * 100).toFixed(1)),
+                                data: qualified.map(p => p.efg.toFixed(1)),
                                 backgroundColor: '#003087',
                             },
                             {
                                 label: 'TS%',
-                                data: qualified.map(p => ((p['TS%'] || 0) * 100).toFixed(1)),
+                                data: qualified.map(p => p.ts.toFixed(1)),
                                 backgroundColor: '#27ae60',
                             }
                         ]

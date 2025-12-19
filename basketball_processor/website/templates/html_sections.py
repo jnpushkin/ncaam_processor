@@ -421,21 +421,11 @@ def get_body(total_games: int, total_players: int, total_teams: int, generated_t
         <div id="calendar" class="section" role="tabpanel">
             <h2>Calendar</h2>
             <div class="sub-tabs">
-                <button class="sub-tab active" onclick="showSubSection('calendar', 'monthly')">Monthly View</button>
-                <button class="sub-tab" onclick="showSubSection('calendar', 'season')">Season Day Tracker</button>
+                <button class="sub-tab active" onclick="showSubSection('calendar', 'season')">Season Day Tracker</button>
                 <button class="sub-tab" onclick="showSubSection('calendar', 'onthisday')">On This Day</button>
             </div>
 
-            <div id="calendar-monthly" class="sub-section active">
-                <div class="filter-row" style="margin-bottom: 1rem; justify-content: center;">
-                    <button class="btn btn-secondary" onclick="changeMonth(-1)">&larr; Prev</button>
-                    <span id="calendar-month-label" style="font-size: 1.25rem; font-weight: bold; margin: 0 1rem;"></span>
-                    <button class="btn btn-secondary" onclick="changeMonth(1)">Next &rarr;</button>
-                </div>
-                <div id="monthly-calendar" class="monthly-calendar"></div>
-            </div>
-
-            <div id="calendar-season" class="sub-section">
+            <div id="calendar-season" class="sub-section active">
                 <p style="margin-bottom: 1rem; color: var(--text-secondary);">Track your progress toward seeing a game on every day of the basketball season (year-agnostic).</p>
                 <div id="calendar-grid" class="calendar-grid"></div>
                 <div class="calendar-legend" style="margin-top: 1rem; display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">

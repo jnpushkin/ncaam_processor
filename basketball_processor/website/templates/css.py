@@ -450,58 +450,6 @@ def get_css() -> str:
             border-radius: 12px;
             transition: width 0.3s ease;
         }
-        /* Monthly calendar */
-        .monthly-calendar {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 4px;
-            max-width: 700px;
-            margin: 0 auto;
-        }
-        .monthly-calendar .day-header {
-            text-align: center;
-            font-weight: bold;
-            padding: 0.5rem;
-            color: var(--text-secondary);
-            font-size: 0.85rem;
-        }
-        .monthly-calendar .day-cell {
-            min-height: 80px;
-            background: var(--bg-primary);
-            border: 1px solid var(--border-color);
-            border-radius: 4px;
-            padding: 4px;
-            font-size: 0.75rem;
-        }
-        .monthly-calendar .day-cell.empty {
-            background: transparent;
-            border-color: transparent;
-        }
-        .monthly-calendar .day-cell.has-games {
-            background: var(--accent-color);
-            border-color: var(--accent-color);
-        }
-        .monthly-calendar .day-cell.has-games:hover {
-            background: var(--accent-hover);
-            cursor: pointer;
-        }
-        .monthly-calendar .day-number {
-            font-weight: bold;
-            margin-bottom: 2px;
-        }
-        .monthly-calendar .day-cell.has-games .day-number {
-            color: white;
-        }
-        .monthly-calendar .day-games {
-            font-size: 0.7rem;
-            color: rgba(255,255,255,0.9);
-            overflow: hidden;
-        }
-        .monthly-calendar .day-games .game-entry {
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
         /* Stat highlighting */
         .stat-excellent { color: var(--excellent); font-weight: bold; }
         .stat-good { color: var(--good); }
@@ -1085,16 +1033,6 @@ def get_css() -> str:
             }
             .calendar-months {
                 grid-template-columns: 1fr;
-            }
-            .monthly-calendar {
-                font-size: 0.7rem;
-            }
-            .monthly-calendar .day-cell {
-                min-height: 60px;
-                padding: 2px;
-            }
-            .monthly-calendar .day-games {
-                font-size: 0.6rem;
             }
             .pagination {
                 flex-wrap: wrap;
