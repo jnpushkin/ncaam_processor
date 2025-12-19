@@ -1593,10 +1593,10 @@ def _generate_html(json_data: str, summary: Dict[str, Any]) -> str:
         // Team to conference mapping (loaded from conferenceChecklist data)
         function getTeamConference(teamName) {{
             if (!teamName) return '';
-            const checklist = DATA.conferenceChecklist || [];
-            for (const conf of checklist) {{
-                if (conf.teams && conf.teams.some(t => t.team === teamName || t.name === teamName)) {{
-                    return conf.conference;
+            const checklist = DATA.conferenceChecklist || {{}};
+            for (const [confName, confData] of Object.entries(checklist)) {{
+                if (confData.teams && confData.teams.some(t => t.team === teamName || t.name === teamName)) {{
+                    return confName;
                 }}
             }}
             // Fallback: check teams data
@@ -2490,8 +2490,16 @@ def _generate_html(json_data: str, summary: Dict[str, Any]) -> str:
         let currentCalendarMonth = new Date();
 
         function initCalendar() {{
-            renderCalendar();
-            initMonthlyCalendar();
+            try {{
+                renderCalendar();
+            }} catch (e) {{
+                console.error('Error in renderCalendar:', e);
+            }}
+            try {{
+                initMonthlyCalendar();
+            }} catch (e) {{
+                console.error('Error in initMonthlyCalendar:', e);
+            }}
         }}
 
         function initMonthlyCalendar() {{
@@ -2515,6 +2523,11 @@ def _generate_html(json_data: str, summary: Dict[str, Any]) -> str:
         function renderMonthlyCalendar() {{
             const container = document.getElementById('monthly-calendar');
             const label = document.getElementById('calendar-month-label');
+
+            if (!container || !label) {{
+                console.warn('Monthly calendar elements not found');
+                return;
+            }}
 
             const year = currentCalendarMonth.getFullYear();
             const month = currentCalendarMonth.getMonth();
@@ -3109,6 +3122,11 @@ def _generate_html(json_data: str, summary: Dict[str, Any]) -> str:
         function renderCalendar() {{
             const games = DATA.games || [];
             const grid = document.getElementById('calendar-grid');
+
+            if (!grid) {{
+                console.warn('calendar-grid element not found');
+                return;
+            }}
 
             // Group games by month-day (year agnostic)
             const gamesByMonthDay = {{}};
@@ -3808,7 +3826,9 @@ def _generate_html(json_data: str, summary: Dict[str, Any]) -> str:
 
         function showChart(type) {{
             document.querySelectorAll('#charts .sub-tab').forEach(t => t.classList.remove('active'));
-            event.target.classList.add('active');
+            // Find and activate the button for this chart type
+            const btn = document.querySelector(`#charts .sub-tab[onclick*="'${{type}}'"]`);
+            if (btn) btn.classList.add('active');
 
             if (statsChart) statsChart.destroy();
 
@@ -3995,18 +4015,18 @@ def _generate_html(json_data: str, summary: Dict[str, Any]) -> str:
         }}
 
         // Initialize
-        populateGamesTable();
-        populatePlayersTable();
-        populateSeasonHighs();
-        populateMilestones();
-        populateTeamsTable();
-        populateStreaksTable();
-        populateSplitsTable();
-        populateConferenceTable();
-        populateVenuesTable();
-        initCalendar();
-        initChecklist();
-        showChart('scoring');
+        try {{ populateGamesTable(); }} catch(e) {{ console.error('populateGamesTable:', e); }}
+        try {{ populatePlayersTable(); }} catch(e) {{ console.error('populatePlayersTable:', e); }}
+        try {{ populateSeasonHighs(); }} catch(e) {{ console.error('populateSeasonHighs:', e); }}
+        try {{ populateMilestones(); }} catch(e) {{ console.error('populateMilestones:', e); }}
+        try {{ populateTeamsTable(); }} catch(e) {{ console.error('populateTeamsTable:', e); }}
+        try {{ populateStreaksTable(); }} catch(e) {{ console.error('populateStreaksTable:', e); }}
+        try {{ populateSplitsTable(); }} catch(e) {{ console.error('populateSplitsTable:', e); }}
+        try {{ populateConferenceTable(); }} catch(e) {{ console.error('populateConferenceTable:', e); }}
+        try {{ populateVenuesTable(); }} catch(e) {{ console.error('populateVenuesTable:', e); }}
+        try {{ initCalendar(); }} catch(e) {{ console.error('initCalendar:', e); }}
+        try {{ initChecklist(); }} catch(e) {{ console.error('initChecklist:', e); }}
+        try {{ showChart('scoring'); }} catch(e) {{ console.error('showChart:', e); }}
 
         // Handle URL on load
         handleURLNavigation();
