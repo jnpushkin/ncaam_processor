@@ -506,6 +506,58 @@ def _generate_html(json_data: str, summary: Dict[str, Any]) -> str:
             border-radius: 12px;
             transition: width 0.3s ease;
         }}
+        /* Monthly calendar */
+        .monthly-calendar {{
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 4px;
+            max-width: 700px;
+            margin: 0 auto;
+        }}
+        .monthly-calendar .day-header {{
+            text-align: center;
+            font-weight: bold;
+            padding: 0.5rem;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }}
+        .monthly-calendar .day-cell {{
+            min-height: 80px;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 4px;
+            font-size: 0.75rem;
+        }}
+        .monthly-calendar .day-cell.empty {{
+            background: transparent;
+            border-color: transparent;
+        }}
+        .monthly-calendar .day-cell.has-games {{
+            background: var(--accent-color);
+            border-color: var(--accent-color);
+        }}
+        .monthly-calendar .day-cell.has-games:hover {{
+            background: var(--accent-hover);
+            cursor: pointer;
+        }}
+        .monthly-calendar .day-number {{
+            font-weight: bold;
+            margin-bottom: 2px;
+        }}
+        .monthly-calendar .day-cell.has-games .day-number {{
+            color: white;
+        }}
+        .monthly-calendar .day-games {{
+            font-size: 0.7rem;
+            color: rgba(255,255,255,0.9);
+            overflow: hidden;
+        }}
+        .monthly-calendar .day-games .game-entry {{
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }}
         /* Stat highlighting */
         .stat-excellent {{ color: var(--excellent); font-weight: bold; }}
         .stat-good {{ color: var(--good); }}
@@ -1044,6 +1096,10 @@ def _generate_html(json_data: str, summary: Dict[str, Any]) -> str:
                     <label for="games-margin">Min Margin</label>
                     <input type="number" id="games-margin" min="0" max="50" placeholder="0" onchange="applyFilters('games')">
                 </div>
+                <div class="filter-group" style="display:flex;align-items:center;gap:0.5rem;">
+                    <input type="checkbox" id="games-ot" onchange="applyFilters('games')">
+                    <label for="games-ot" style="margin:0;">OT Only</label>
+                </div>
                 <button class="clear-filters" onclick="clearFilters('games')">Clear Filters</button>
             </div>
             <div class="table-container">
@@ -1225,6 +1281,7 @@ def _generate_html(json_data: str, summary: Dict[str, Any]) -> str:
                 <button class="sub-tab" onclick="showSubSection('teams', 'streaks')">Streaks</button>
                 <button class="sub-tab" onclick="showSubSection('teams', 'splits')">Home/Away</button>
                 <button class="sub-tab" onclick="showSubSection('teams', 'conference')">Conference</button>
+                <button class="sub-tab" onclick="showSubSection('teams', 'headtohead')">Head-to-Head</button>
             </div>
 
             <div id="teams-records" class="sub-section active">
@@ -1300,6 +1357,22 @@ def _generate_html(json_data: str, summary: Dict[str, Any]) -> str:
                 </div>
             </div>
 
+            <div id="teams-headtohead" class="sub-section">
+                <div class="filter-row" style="margin-bottom: 1rem;">
+                    <select id="h2h-team1" onchange="updateHeadToHead()">
+                        <option value="">Select Team 1</option>
+                    </select>
+                    <span style="margin: 0 0.5rem;">vs</span>
+                    <select id="h2h-team2" onchange="updateHeadToHead()">
+                        <option value="">Select Team 2</option>
+                    </select>
+                </div>
+                <div id="h2h-result" class="card" style="display:none;">
+                    <div id="h2h-summary" style="text-align:center; margin-bottom:1rem;"></div>
+                    <div id="h2h-games" class="table-container"></div>
+                </div>
+            </div>
+
         </div>
 
         <div id="venues" class="section" role="tabpanel">
@@ -1330,13 +1403,29 @@ def _generate_html(json_data: str, summary: Dict[str, Any]) -> str:
         </div>
 
         <div id="calendar" class="section" role="tabpanel">
-            <h2>Season Day Tracker</h2>
-            <p style="margin-bottom: 1rem; color: var(--text-secondary);">Track your progress toward seeing a game on every day of the basketball season (year-agnostic).</p>
-            <div id="calendar-grid" class="calendar-grid"></div>
-            <div class="calendar-legend" style="margin-top: 1rem; display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
-                <span><span class="calendar-day has-game" style="display: inline-block; width: 20px; height: 20px; vertical-align: middle;"></span> Game attended</span>
-                <span><span class="calendar-day has-multiple" style="display: inline-block; width: 20px; height: 20px; vertical-align: middle;"></span> Multiple games</span>
-                <span><span class="calendar-day" style="display: inline-block; width: 20px; height: 20px; vertical-align: middle; background: var(--bg-secondary); border: 1px solid var(--border-color);"></span> No game yet</span>
+            <h2>Calendar</h2>
+            <div class="sub-tabs">
+                <button class="sub-tab active" onclick="showSubSection('calendar', 'monthly')">Monthly View</button>
+                <button class="sub-tab" onclick="showSubSection('calendar', 'season')">Season Day Tracker</button>
+            </div>
+
+            <div id="calendar-monthly" class="sub-section active">
+                <div class="filter-row" style="margin-bottom: 1rem; justify-content: center;">
+                    <button class="btn btn-secondary" onclick="changeMonth(-1)">&larr; Prev</button>
+                    <span id="calendar-month-label" style="font-size: 1.25rem; font-weight: bold; margin: 0 1rem;"></span>
+                    <button class="btn btn-secondary" onclick="changeMonth(1)">Next &rarr;</button>
+                </div>
+                <div id="monthly-calendar" class="monthly-calendar"></div>
+            </div>
+
+            <div id="calendar-season" class="sub-section">
+                <p style="margin-bottom: 1rem; color: var(--text-secondary);">Track your progress toward seeing a game on every day of the basketball season (year-agnostic).</p>
+                <div id="calendar-grid" class="calendar-grid"></div>
+                <div class="calendar-legend" style="margin-top: 1rem; display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
+                    <span><span class="calendar-day has-game" style="display: inline-block; width: 20px; height: 20px; vertical-align: middle;"></span> Game attended</span>
+                    <span><span class="calendar-day has-multiple" style="display: inline-block; width: 20px; height: 20px; vertical-align: middle;"></span> Multiple games</span>
+                    <span><span class="calendar-day" style="display: inline-block; width: 20px; height: 20px; vertical-align: middle; background: var(--bg-secondary); border: 1px solid var(--border-color);"></span> No game yet</span>
+                </div>
             </div>
         </div>
 
@@ -1679,6 +1768,74 @@ def _generate_html(json_data: str, summary: Dict[str, Any]) -> str:
             }}
         }}
 
+        function updateHeadToHead() {{
+            const team1 = document.getElementById('h2h-team1').value;
+            const team2 = document.getElementById('h2h-team2').value;
+            const resultDiv = document.getElementById('h2h-result');
+            const summaryDiv = document.getElementById('h2h-summary');
+            const gamesDiv = document.getElementById('h2h-games');
+
+            if (!team1 || !team2 || team1 === team2) {{
+                resultDiv.style.display = 'none';
+                return;
+            }}
+
+            // Find all games between these two teams
+            const matchups = (DATA.games || []).filter(g =>
+                (g['Away Team'] === team1 && g['Home Team'] === team2) ||
+                (g['Away Team'] === team2 && g['Home Team'] === team1)
+            ).sort((a, b) => (b.Date || '').localeCompare(a.Date || ''));
+
+            if (matchups.length === 0) {{
+                resultDiv.style.display = 'block';
+                summaryDiv.innerHTML = `<h3>No games found between ${{team1}} and ${{team2}}</h3>`;
+                gamesDiv.innerHTML = '';
+                return;
+            }}
+
+            // Calculate record
+            let team1Wins = 0, team2Wins = 0;
+            matchups.forEach(g => {{
+                const awayScore = parseInt(g['Away Score']) || 0;
+                const homeScore = parseInt(g['Home Score']) || 0;
+                const awayWon = awayScore > homeScore;
+                if ((g['Away Team'] === team1 && awayWon) || (g['Home Team'] === team1 && !awayWon)) {{
+                    team1Wins++;
+                }} else {{
+                    team2Wins++;
+                }}
+            }});
+
+            resultDiv.style.display = 'block';
+            summaryDiv.innerHTML = `
+                <h3 style="margin-bottom:0.5rem;">${{team1}} vs ${{team2}}</h3>
+                <div style="font-size:2rem;font-weight:bold;color:var(--accent-color);">${{team1Wins}} - ${{team2Wins}}</div>
+                <p style="color:var(--text-secondary);">${{matchups.length}} game${{matchups.length !== 1 ? 's' : ''}}</p>
+            `;
+
+            gamesDiv.innerHTML = `
+                <table>
+                    <thead><tr><th>Date</th><th>Matchup</th><th>Score</th><th>Venue</th></tr></thead>
+                    <tbody>
+                        ${{matchups.map(g => {{
+                            const awayScore = parseInt(g['Away Score']) || 0;
+                            const homeScore = parseInt(g['Home Score']) || 0;
+                            const awayWon = awayScore > homeScore;
+                            const winner = awayWon ? g['Away Team'] : g['Home Team'];
+                            return `
+                                <tr class="clickable-row" onclick="showGameDetail('${{g.GameID}}')">
+                                    <td><span class="game-link">${{g.Date}}</span></td>
+                                    <td>${{g['Away Team']}} @ ${{g['Home Team']}}</td>
+                                    <td><strong>${{awayWon ? awayScore : homeScore}}</strong>-${{awayWon ? homeScore : awayScore}} (${{winner}})</td>
+                                    <td>${{g.Venue || ''}}</td>
+                                </tr>
+                            `;
+                        }}).join('')}}
+                    </tbody>
+                </table>
+            `;
+        }}
+
         function applyFilters(type) {{
             if (type === 'games') {{
                 applyGamesFilters();
@@ -1695,6 +1852,7 @@ def _generate_html(json_data: str, summary: Dict[str, Any]) -> str:
             const team = document.getElementById('games-team').value;
             const conference = document.getElementById('games-conference').value;
             const minMargin = parseInt(document.getElementById('games-margin').value) || 0;
+            const otOnly = document.getElementById('games-ot').checked;
 
             filteredData.games = (DATA.games || []).filter(game => {{
                 const text = `${{game['Away Team']}} ${{game['Home Team']}} ${{game.Venue || ''}}`.toLowerCase();
@@ -1711,6 +1869,11 @@ def _generate_html(json_data: str, summary: Dict[str, Any]) -> str:
                 if (minMargin > 0) {{
                     const margin = Math.abs((game['Away Score'] || 0) - (game['Home Score'] || 0));
                     if (margin < minMargin) return false;
+                }}
+                if (otOnly) {{
+                    const linescore = game.Linescore || {{}};
+                    const otPeriods = (linescore.away || {{}}).OT || [];
+                    if (otPeriods.length === 0) return false;
                 }}
                 return true;
             }});
@@ -1753,6 +1916,7 @@ def _generate_html(json_data: str, summary: Dict[str, Any]) -> str:
                 document.getElementById('games-team').value = '';
                 document.getElementById('games-conference').value = '';
                 document.getElementById('games-margin').value = '';
+                document.getElementById('games-ot').checked = false;
                 applyGamesFilters();
             }} else if (type === 'players') {{
                 document.getElementById('players-search').value = '';
@@ -2039,6 +2203,20 @@ def _generate_html(json_data: str, summary: Dict[str, Any]) -> str:
                 option.textContent = conf;
                 confSelect.appendChild(option);
             }});
+
+            // Populate head-to-head dropdowns
+            const h2h1 = document.getElementById('h2h-team1');
+            const h2h2 = document.getElementById('h2h-team2');
+            teams.forEach(team => {{
+                const opt1 = document.createElement('option');
+                opt1.value = team;
+                opt1.textContent = team;
+                h2h1.appendChild(opt1);
+                const opt2 = document.createElement('option');
+                opt2.value = team;
+                opt2.textContent = team;
+                h2h2.appendChild(opt2);
+            }});
         }}
 
         function populatePlayersTable() {{
@@ -2309,8 +2487,117 @@ def _generate_html(json_data: str, summary: Dict[str, Any]) -> str:
             }}
         }}
 
+        let currentCalendarMonth = new Date();
+
         function initCalendar() {{
             renderCalendar();
+            initMonthlyCalendar();
+        }}
+
+        function initMonthlyCalendar() {{
+            // Find the month with the most recent game
+            const games = DATA.games || [];
+            if (games.length > 0) {{
+                const dates = games.map(g => new Date(g.Date)).filter(d => !isNaN(d));
+                if (dates.length > 0) {{
+                    const mostRecent = dates.reduce((a, b) => a > b ? a : b);
+                    currentCalendarMonth = new Date(mostRecent.getFullYear(), mostRecent.getMonth(), 1);
+                }}
+            }}
+            renderMonthlyCalendar();
+        }}
+
+        function changeMonth(delta) {{
+            currentCalendarMonth.setMonth(currentCalendarMonth.getMonth() + delta);
+            renderMonthlyCalendar();
+        }}
+
+        function renderMonthlyCalendar() {{
+            const container = document.getElementById('monthly-calendar');
+            const label = document.getElementById('calendar-month-label');
+
+            const year = currentCalendarMonth.getFullYear();
+            const month = currentCalendarMonth.getMonth();
+
+            const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
+                               'July', 'August', 'September', 'October', 'November', 'December'];
+            label.textContent = `${{monthNames[month]}} ${{year}}`;
+
+            // Build a map of games by date string (YYYY-MM-DD)
+            const gamesByDate = {{}};
+            (DATA.games || []).forEach(g => {{
+                const d = new Date(g.Date);
+                if (!isNaN(d)) {{
+                    const key = `${{d.getFullYear()}}-${{String(d.getMonth() + 1).padStart(2, '0')}}-${{String(d.getDate()).padStart(2, '0')}}`;
+                    if (!gamesByDate[key]) gamesByDate[key] = [];
+                    gamesByDate[key].push(g);
+                }}
+            }});
+
+            // Get first day of month and number of days
+            const firstDay = new Date(year, month, 1).getDay(); // 0 = Sunday
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+            // Build calendar HTML
+            let html = `
+                <div class="day-header">Sun</div>
+                <div class="day-header">Mon</div>
+                <div class="day-header">Tue</div>
+                <div class="day-header">Wed</div>
+                <div class="day-header">Thu</div>
+                <div class="day-header">Fri</div>
+                <div class="day-header">Sat</div>
+            `;
+
+            // Empty cells before first day
+            for (let i = 0; i < firstDay; i++) {{
+                html += `<div class="day-cell empty"></div>`;
+            }}
+
+            // Days of month
+            for (let day = 1; day <= daysInMonth; day++) {{
+                const dateKey = `${{year}}-${{String(month + 1).padStart(2, '0')}}-${{String(day).padStart(2, '0')}}`;
+                const dayGames = gamesByDate[dateKey] || [];
+                const hasGames = dayGames.length > 0;
+
+                let gamesHtml = '';
+                if (hasGames) {{
+                    gamesHtml = dayGames.slice(0, 2).map(g =>
+                        `<div class="game-entry">${{g['Away Team']}} @ ${{g['Home Team']}}</div>`
+                    ).join('');
+                    if (dayGames.length > 2) {{
+                        gamesHtml += `<div class="game-entry">+${{dayGames.length - 2}} more</div>`;
+                    }}
+                }}
+
+                const clickHandler = hasGames ? `onclick="showCalendarDayGames('${{dateKey}}')"` : '';
+
+                html += `
+                    <div class="day-cell${{hasGames ? ' has-games' : ''}}" ${{clickHandler}}>
+                        <div class="day-number">${{day}}</div>
+                        ${{hasGames ? `<div class="day-games">${{gamesHtml}}</div>` : ''}}
+                    </div>
+                `;
+            }}
+
+            container.innerHTML = html;
+        }}
+
+        function showCalendarDayGames(dateKey) {{
+            // Filter to games on this date and show in a simple alert or modal
+            const games = (DATA.games || []).filter(g => {{
+                const d = new Date(g.Date);
+                if (isNaN(d)) return false;
+                const key = `${{d.getFullYear()}}-${{String(d.getMonth() + 1).padStart(2, '0')}}-${{String(d.getDate()).padStart(2, '0')}}`;
+                return key === dateKey;
+            }});
+
+            if (games.length === 1) {{
+                showGameDetail(games[0].GameID);
+            }} else if (games.length > 1) {{
+                // Show first game, user can navigate from there
+                showGameDetail(games[0].GameID);
+            }}
         }}
 
         // School coordinates for map
@@ -3094,16 +3381,23 @@ def _generate_html(json_data: str, summary: Dict[str, Any]) -> str:
                 return;
             }}
 
-            const games = (DATA.playerGames || []).filter(g => (g.player_id || g.player) === playerId);
+            const games = (DATA.playerGames || []).filter(g => (g.player_id || g.player) === playerId)
+                .sort((a, b) => (b.date_yyyymmdd || b.date || '').localeCompare(a.date_yyyymmdd || a.date || ''));
 
-            let gamesHtml = games.slice(0, 10).map(g => `
+            let gamesHtml = games.map(g => `
                 <tr class="clickable-row" onclick="closeModal('player-modal'); showGameDetail('${{g.game_id}}')">
                     <td><span class="game-link">${{g.date}}</span></td>
                     <td>${{g.opponent}}</td>
-                    <td>${{g.result}}</td>
+                    <td>${{g.result}} ${{g.score || ''}}</td>
+                    <td>${{g.minutes || 0}}</td>
                     <td>${{g.pts || 0}}</td>
                     <td>${{g.trb || 0}}</td>
                     <td>${{g.ast || 0}}</td>
+                    <td>${{g.stl || 0}}</td>
+                    <td>${{g.blk || 0}}</td>
+                    <td>${{g.fg || 0}}-${{g.fga || 0}}</td>
+                    <td>${{g.fg3 || 0}}-${{g.fg3a || 0}}</td>
+                    <td>${{g.ft || 0}}-${{g.fta || 0}}</td>
                 </tr>
             `).join('');
 
@@ -3137,10 +3431,10 @@ def _generate_html(json_data: str, summary: Dict[str, Any]) -> str:
                     </div>
                 </div>
                 ${{games.length > 0 ? `
-                    <h4 style="margin-top:1rem">Recent Games</h4>
-                    <div class="table-container">
+                    <h4 style="margin-top:1rem">Game Log (${{games.length}} games)</h4>
+                    <div class="table-container" style="max-height:300px;overflow-y:auto;">
                         <table>
-                            <thead><tr><th>Date</th><th>Opp</th><th>Result</th><th>PTS</th><th>REB</th><th>AST</th></tr></thead>
+                            <thead><tr><th>Date</th><th>Opp</th><th>Result</th><th>MIN</th><th>PTS</th><th>REB</th><th>AST</th><th>STL</th><th>BLK</th><th>FG</th><th>3P</th><th>FT</th></tr></thead>
                             <tbody>${{gamesHtml}}</tbody>
                         </table>
                     </div>
