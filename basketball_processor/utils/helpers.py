@@ -278,7 +278,7 @@ def sort_games_by_date(games: List[Dict]) -> List[Dict]:
     Returns:
         Sorted list of games
     """
-    def get_date_key(game):
+    def get_date_key(game: Dict) -> datetime:
         basic_info = game.get('basic_info', {})
         date_str = basic_info.get('date_yyyymmdd', '') or basic_info.get('date', '')
         if date_str:

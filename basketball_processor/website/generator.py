@@ -1034,6 +1034,16 @@ def _generate_html(json_data: str, summary: Dict[str, Any]) -> str:
                         <option value="">All Teams</option>
                     </select>
                 </div>
+                <div class="filter-group">
+                    <label for="games-conference">Conference</label>
+                    <select id="games-conference" onchange="applyFilters('games')">
+                        <option value="">All Conferences</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="games-margin">Min Margin</label>
+                    <input type="number" id="games-margin" min="0" max="50" placeholder="0" onchange="applyFilters('games')">
+                </div>
                 <button class="clear-filters" onclick="clearFilters('games')">Clear Filters</button>
             </div>
             <div class="table-container">
@@ -1090,8 +1100,18 @@ def _generate_html(json_data: str, summary: Dict[str, Any]) -> str:
                         </select>
                     </div>
                     <div class="filter-group">
+                        <label for="players-conference">Conference</label>
+                        <select id="players-conference" onchange="applyFilters('players')">
+                            <option value="">All Conferences</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
                         <label for="players-min-games">Min Games</label>
                         <input type="number" id="players-min-games" min="1" placeholder="1" onchange="applyFilters('players')">
+                    </div>
+                    <div class="filter-group">
+                        <label for="players-min-ppg">Min PPG</label>
+                        <input type="number" id="players-min-ppg" min="0" step="0.1" placeholder="0" onchange="applyFilters('players')">
                     </div>
                     <button class="clear-filters" onclick="clearFilters('players')">Clear Filters</button>
                 </div>
@@ -1424,7 +1444,9 @@ def _generate_html(json_data: str, summary: Dict[str, Any]) -> str:
                 <button class="sub-tab active" onclick="showChart('scoring')">Top Scorers</button>
                 <button class="sub-tab" onclick="showChart('rebounds')">Top Rebounders</button>
                 <button class="sub-tab" onclick="showChart('assists')">Top Assists</button>
+                <button class="sub-tab" onclick="showChart('efficiency')">Shooting Efficiency</button>
                 <button class="sub-tab" onclick="showChart('teams')">Team Wins</button>
+                <button class="sub-tab" onclick="showChart('trends')">Scoring Trends</button>
             </div>
             <div class="chart-container">
                 <canvas id="stats-chart"></canvas>
@@ -1478,6 +1500,25 @@ def _generate_html(json_data: str, summary: Dict[str, Any]) -> str:
             games: [],
             players: [],
         }};
+
+        // Team to conference mapping (loaded from conferenceChecklist data)
+        function getTeamConference(teamName) {{
+            if (!teamName) return '';
+            const checklist = DATA.conferenceChecklist || [];
+            for (const conf of checklist) {{
+                if (conf.teams && conf.teams.some(t => t.team === teamName || t.name === teamName)) {{
+                    return conf.conference;
+                }}
+            }}
+            // Fallback: check teams data
+            const teams = DATA.teams || [];
+            for (const team of teams) {{
+                if (team.Team === teamName && team.Conference) {{
+                    return team.Conference;
+                }}
+            }}
+            return '';
+        }}
 
         // Get Sports Reference box score URL (extracted from original HTML)
         function getSportsRefUrl(game) {{
@@ -1643,6 +1684,8 @@ def _generate_html(json_data: str, summary: Dict[str, Any]) -> str:
             const dateFrom = document.getElementById('games-date-from').value;
             const dateTo = document.getElementById('games-date-to').value;
             const team = document.getElementById('games-team').value;
+            const conference = document.getElementById('games-conference').value;
+            const minMargin = parseInt(document.getElementById('games-margin').value) || 0;
 
             filteredData.games = (DATA.games || []).filter(game => {{
                 const text = `${{game['Away Team']}} ${{game['Home Team']}} ${{game.Venue || ''}}`.toLowerCase();
@@ -1651,6 +1694,15 @@ def _generate_html(json_data: str, summary: Dict[str, Any]) -> str:
                 if (dateFrom && game.Date < dateFrom) return false;
                 if (dateTo && game.Date > dateTo) return false;
                 if (team && game['Away Team'] !== team && game['Home Team'] !== team) return false;
+                if (conference) {{
+                    const awayConf = getTeamConference(game['Away Team']);
+                    const homeConf = getTeamConference(game['Home Team']);
+                    if (awayConf !== conference && homeConf !== conference) return false;
+                }}
+                if (minMargin > 0) {{
+                    const margin = Math.abs((game['Away Score'] || 0) - (game['Home Score'] || 0));
+                    if (margin < minMargin) return false;
+                }}
                 return true;
             }});
 
@@ -1663,14 +1715,18 @@ def _generate_html(json_data: str, summary: Dict[str, Any]) -> str:
             const search = document.getElementById('players-search').value.toLowerCase();
             const gender = document.getElementById('players-gender').value;
             const team = document.getElementById('players-team').value;
+            const conference = document.getElementById('players-conference').value;
             const minGames = parseInt(document.getElementById('players-min-games').value) || 0;
+            const minPPG = parseFloat(document.getElementById('players-min-ppg').value) || 0;
 
             filteredData.players = (DATA.players || []).filter(player => {{
                 const text = `${{player.Player}} ${{player.Team}}`.toLowerCase();
                 if (search && !text.includes(search)) return false;
                 if (gender && player.Gender !== gender) return false;
                 if (team && player.Team !== team) return false;
+                if (conference && getTeamConference(player.Team) !== conference) return false;
                 if (player.Games < minGames) return false;
+                if ((player.PPG || 0) < minPPG) return false;
                 return true;
             }});
 
@@ -1686,12 +1742,16 @@ def _generate_html(json_data: str, summary: Dict[str, Any]) -> str:
                 document.getElementById('games-date-from').value = '';
                 document.getElementById('games-date-to').value = '';
                 document.getElementById('games-team').value = '';
+                document.getElementById('games-conference').value = '';
+                document.getElementById('games-margin').value = '';
                 applyGamesFilters();
             }} else if (type === 'players') {{
                 document.getElementById('players-search').value = '';
                 document.getElementById('players-gender').value = '';
                 document.getElementById('players-team').value = '';
+                document.getElementById('players-conference').value = '';
                 document.getElementById('players-min-games').value = '';
+                document.getElementById('players-min-ppg').value = '';
                 applyPlayersFilters();
             }}
         }}
@@ -1960,6 +2020,16 @@ def _generate_html(json_data: str, summary: Dict[str, Any]) -> str:
                 option.textContent = team;
                 select.appendChild(option);
             }});
+
+            // Populate conference filter
+            const conferences = [...new Set(teams.map(t => getTeamConference(t)))].filter(c => c).sort();
+            const confSelect = document.getElementById('games-conference');
+            conferences.forEach(conf => {{
+                const option = document.createElement('option');
+                option.value = conf;
+                option.textContent = conf;
+                confSelect.appendChild(option);
+            }});
         }}
 
         function populatePlayersTable() {{
@@ -1975,6 +2045,16 @@ def _generate_html(json_data: str, summary: Dict[str, Any]) -> str:
                 option.value = team;
                 option.textContent = team;
                 select.appendChild(option);
+            }});
+
+            // Populate conference filter
+            const conferences = [...new Set(teams.map(t => getTeamConference(t)))].filter(c => c).sort();
+            const confSelect = document.getElementById('players-conference');
+            conferences.forEach(conf => {{
+                const option = document.createElement('option');
+                option.value = conf;
+                option.textContent = conf;
+                confSelect.appendChild(option);
             }});
 
             // Populate comparison dropdowns
@@ -3412,6 +3492,96 @@ def _generate_html(json_data: str, summary: Dict[str, Any]) -> str:
                 }};
                 label = 'Assists Per Game';
                 color = '#9b59b6';
+            }} else if (type === 'efficiency') {{
+                // Shooting efficiency chart - eFG% and TS% for top 10 players by games
+                const qualified = [...(DATA.players || [])].filter(p => p.Games >= 3 && p.FGA >= 5).sort((a, b) => (b['TS%'] || 0) - (a['TS%'] || 0)).slice(0, 10);
+                const ctx = document.getElementById('stats-chart').getContext('2d');
+                statsChart = new Chart(ctx, {{
+                    type: 'bar',
+                    data: {{
+                        labels: qualified.map(p => p.Player),
+                        datasets: [
+                            {{
+                                label: 'eFG%',
+                                data: qualified.map(p => ((p['eFG%'] || 0) * 100).toFixed(1)),
+                                backgroundColor: '#003087',
+                            }},
+                            {{
+                                label: 'TS%',
+                                data: qualified.map(p => ((p['TS%'] || 0) * 100).toFixed(1)),
+                                backgroundColor: '#27ae60',
+                            }}
+                        ]
+                    }},
+                    options: {{
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {{
+                            legend: {{ display: true }},
+                            title: {{ display: true, text: 'Shooting Efficiency (min 3 games, 5 FGA)' }}
+                        }},
+                        scales: {{
+                            y: {{ beginAtZero: true, max: 100, title: {{ display: true, text: 'Percentage' }} }}
+                        }}
+                    }}
+                }});
+                return;
+            }} else if (type === 'trends') {{
+                // Scoring trends over time - average points per game by date
+                const games = [...(DATA.games || [])].sort((a, b) => (a.DateSort || '').localeCompare(b.DateSort || ''));
+                if (games.length === 0) {{
+                    alert('No game data available for trends');
+                    return;
+                }}
+                const labels = games.map(g => g.Date);
+                const awayScores = games.map(g => g['Away Score'] || 0);
+                const homeScores = games.map(g => g['Home Score'] || 0);
+                const totalScores = games.map((g, i) => awayScores[i] + homeScores[i]);
+
+                const ctx = document.getElementById('stats-chart').getContext('2d');
+                statsChart = new Chart(ctx, {{
+                    type: 'line',
+                    data: {{
+                        labels: labels,
+                        datasets: [
+                            {{
+                                label: 'Combined Score',
+                                data: totalScores,
+                                borderColor: '#003087',
+                                backgroundColor: 'rgba(0, 48, 135, 0.1)',
+                                fill: true,
+                                tension: 0.3
+                            }},
+                            {{
+                                label: 'Away Score',
+                                data: awayScores,
+                                borderColor: '#e74c3c',
+                                backgroundColor: 'transparent',
+                                tension: 0.3
+                            }},
+                            {{
+                                label: 'Home Score',
+                                data: homeScores,
+                                borderColor: '#27ae60',
+                                backgroundColor: 'transparent',
+                                tension: 0.3
+                            }}
+                        ]
+                    }},
+                    options: {{
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {{
+                            legend: {{ display: true }},
+                            title: {{ display: true, text: 'Scoring Trends Over Time' }}
+                        }},
+                        scales: {{
+                            y: {{ beginAtZero: true, title: {{ display: true, text: 'Points' }} }},
+                            x: {{ title: {{ display: true, text: 'Game Date' }} }}
+                        }}
+                    }}
+                }});
+                return;
             }} else {{
                 const teams = [...(DATA.teams || [])].sort((a, b) => (b.Wins || 0) - (a.Wins || 0)).slice(0, 10);
                 data = {{

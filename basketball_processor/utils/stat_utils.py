@@ -273,7 +273,7 @@ def calculate_pace(team_stats: Dict[str, Any], opponent_stats: Dict[str, Any],
     Returns:
         Estimated pace
     """
-    def estimate_possessions(stats):
+    def estimate_possessions(stats: Dict[str, Any]) -> float:
         fga = safe_int(stats.get('fga', 0))
         orb = safe_int(stats.get('orb', 0))
         tov = safe_int(stats.get('tov', 0))
@@ -461,7 +461,7 @@ def calculate_per(stats: Dict[str, Any], team_stats: Dict[str, Any],
     return round(per, 1)
 
 
-def calculate_four_factors(team_stats: Dict[str, Any], opp_stats: Dict[str, Any]) -> Dict[str, float]:
+def calculate_four_factors(team_stats: Dict[str, Any], opp_stats: Dict[str, Any]) -> Dict[str, Dict[str, float]]:
     """
     Calculate Dean Oliver's Four Factors for team performance.
 
@@ -478,7 +478,7 @@ def calculate_four_factors(team_stats: Dict[str, Any], opp_stats: Dict[str, Any]
     Returns:
         Dictionary with four factors for team and opponent
     """
-    def get_factors(stats, opp_orb):
+    def get_factors(stats: Dict[str, Any], opp_orb: int) -> Dict[str, float]:
         fg = safe_int(stats.get('fg', 0))
         fg3 = safe_int(stats.get('fg3', 0))
         fga = safe_int(stats.get('fga', 0))

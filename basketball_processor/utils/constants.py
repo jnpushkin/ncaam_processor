@@ -740,7 +740,7 @@ def get_conference_for_date(
             game_date = int(game_date)
         except ValueError:
             return get_conference(canonical)
-    elif hasattr(game_date, 'year'):  # datetime-like object
+    elif isinstance(game_date, datetime):  # datetime object
         game_date = game_date.year * 10000 + game_date.month * 100 + game_date.day
 
     # Check if team has historical conference data
