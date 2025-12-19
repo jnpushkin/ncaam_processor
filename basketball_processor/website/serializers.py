@@ -266,23 +266,14 @@ class DataSerializer:
             # Check if the arena name matches any seen venue exactly
             if arena_name in seen_venues:
                 return True
-            # Check for fuzzy matches, but require high similarity
+            # Check for exact match (case insensitive only)
             arena_lower = arena_name.lower().strip()
             for venue in seen_venues:
                 venue_lower = venue.lower().strip()
                 # Exact match (case insensitive)
                 if arena_lower == venue_lower:
                     return True
-                # Only allow substring match if one is a significant portion of the other
-                # and they're long enough to be meaningful (avoid "Arena" matching "Arena X")
-                if len(arena_lower) >= 15 and len(venue_lower) >= 15:
-                    # Check if one contains the other AND they share significant length
-                    if arena_lower in venue_lower:
-                        if len(arena_lower) >= len(venue_lower) * 0.8:
-                            return True
-                    if venue_lower in arena_lower:
-                        if len(venue_lower) >= len(arena_lower) * 0.8:
-                            return True
+            # No fuzzy matching - too many false positives
             return False
 
         # Build checklist for each conference
