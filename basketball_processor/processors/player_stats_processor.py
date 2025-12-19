@@ -7,11 +7,10 @@ import pandas as pd
 from collections import defaultdict
 
 from .base_processor import BaseProcessor
-from ..utils.helpers import safe_int, safe_float, normalize_name
+from ..utils.helpers import safe_int, safe_float, normalize_name, calculate_game_score
 from ..utils.stat_utils import (
     calculate_shooting_percentages,
     calculate_per_game_stats,
-    calculate_game_score,
 )
 
 

@@ -1079,3 +1079,40 @@ GID_DATE_RE = re.compile(r"^(\d{4})-?(\d{2})-?(\d{2})")
 # URL pattern for Sports Reference
 SPORTS_REF_PLAYER_URL = "https://www.sports-reference.com/cbb/players/{player_id}.html"
 SPORTS_REF_GAME_URL = "https://www.sports-reference.com/cbb/boxscores/{game_id}.html"
+
+# === MILESTONE THRESHOLDS ===
+# Simple single-stat thresholds for milestone detection
+# Format: (milestone_key, stat_name, min_value, max_value, detail_template)
+# max_value of None means no upper limit
+MILESTONE_THRESHOLDS: Dict[str, List[Tuple[str, str, int, Optional[int], str]]] = {
+    'scoring': [
+        ('fifty_point_games', 'pts', 50, None, '{value} points'),
+        ('forty_point_games', 'pts', 40, None, '{value} points'),
+        ('thirty_point_games', 'pts', 30, None, '{value} points'),
+        ('twenty_five_point_games', 'pts', 25, 29, '{value} points'),
+        ('twenty_point_games', 'pts', 20, 24, '{value} points'),
+    ],
+    'rebounding': [
+        ('twenty_rebound_games', 'trb', 20, None, '{value} rebounds'),
+        ('fifteen_rebound_games', 'trb', 15, 19, '{value} rebounds'),
+        ('ten_rebound_games', 'trb', 10, 14, '{value} rebounds'),
+    ],
+    'assists': [
+        ('twenty_assist_games', 'ast', 20, None, '{value} assists'),
+        ('fifteen_assist_games', 'ast', 15, 19, '{value} assists'),
+        ('ten_assist_games', 'ast', 10, 14, '{value} assists'),
+    ],
+    'blocks': [
+        ('ten_block_games', 'blk', 10, None, '{value} blocks'),
+        ('five_block_games', 'blk', 5, 9, '{value} blocks'),
+    ],
+    'steals': [
+        ('ten_steal_games', 'stl', 10, None, '{value} steals'),
+        ('five_steal_games', 'stl', 5, 9, '{value} steals'),
+    ],
+    'three_pointers': [
+        ('ten_three_games', 'fg3', 10, None, '{value} three-pointers'),
+        ('seven_three_games', 'fg3', 7, 9, '{value} three-pointers'),
+        ('five_three_games', 'fg3', 5, 6, '{value} three-pointers'),
+    ],
+}

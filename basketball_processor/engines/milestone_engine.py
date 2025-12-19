@@ -2,8 +2,8 @@
 Milestone detection engine for basketball achievements.
 """
 
-from typing import Dict, Any, List
-from ..utils.helpers import safe_int, safe_float
+from typing import Dict, Any, List, Optional
+from ..utils.helpers import safe_int, safe_float, calculate_game_score
 from ..utils.stat_utils import (
     is_double_double,
     is_triple_double,
@@ -14,8 +14,8 @@ from ..utils.stat_utils import (
     get_near_double_double_detail,
     calculate_four_factors,
     calculate_pace,
-    calculate_game_score,
 )
+from ..utils.constants import MILESTONE_THRESHOLDS
 
 
 class MilestoneEngine:
@@ -139,6 +139,34 @@ class MilestoneEngine:
             for player in players:
                 self._check_player_milestones(player, team_name, opponent, side)
 
+    def _add_milestone(
+        self,
+        milestone_key: str,
+        milestone_base: Dict[str, Any],
+        detail: str
+    ) -> None:
+        """Add a milestone entry to the milestones dict."""
+        self.milestones[milestone_key].append({
+            **milestone_base,
+            'detail': detail,
+        })
+
+    def _check_simple_thresholds(
+        self,
+        stats: Dict[str, int],
+        milestone_base: Dict[str, Any]
+    ) -> None:
+        """Check all simple single-stat thresholds from config."""
+        for category, thresholds in MILESTONE_THRESHOLDS.items():
+            for milestone_key, stat_name, min_val, max_val, detail_template in thresholds:
+                stat_value = stats.get(stat_name, 0)
+                # Check if stat meets threshold
+                if stat_value >= min_val:
+                    # Check max_val if specified (for range-based milestones)
+                    if max_val is None or stat_value <= max_val:
+                        detail = detail_template.format(value=stat_value)
+                        self._add_milestone(milestone_key, milestone_base, detail)
+
     def _check_player_milestones(self, player: Dict[str, Any], team: str, opponent: str, side: str):
         """Check all milestones for a single player."""
         player_name = player.get('name', '')
@@ -241,97 +269,18 @@ class MilestoneEngine:
             })
 
         # ===================
-        # SCORING MILESTONES
+        # SIMPLE STAT THRESHOLDS (config-driven)
+        # Scoring, rebounding, assists, blocks, steals, three-pointers
         # ===================
-        if pts >= 50:
-            self.milestones['fifty_point_games'].append({
-                **milestone_base,
-                'detail': f'{pts} points',
-            })
-        if pts >= 40:
-            self.milestones['forty_point_games'].append({
-                **milestone_base,
-                'detail': f'{pts} points',
-            })
-        if pts >= 30:
-            self.milestones['thirty_point_games'].append({
-                **milestone_base,
-                'detail': f'{pts} points',
-            })
-        if pts >= 25 and pts < 30:
-            self.milestones['twenty_five_point_games'].append({
-                **milestone_base,
-                'detail': f'{pts} points',
-            })
-        if pts >= 20 and pts < 25:
-            self.milestones['twenty_point_games'].append({
-                **milestone_base,
-                'detail': f'{pts} points',
-            })
+        simple_stats = {
+            'pts': pts, 'trb': trb, 'ast': ast,
+            'blk': blk, 'stl': stl, 'fg3': fg3,
+        }
+        self._check_simple_thresholds(simple_stats, milestone_base)
 
         # ===================
-        # REBOUNDING MILESTONES
+        # DEFENSIVE MILESTONES (complex)
         # ===================
-        if trb >= 20:
-            self.milestones['twenty_rebound_games'].append({
-                **milestone_base,
-                'detail': f'{trb} rebounds',
-            })
-        if trb >= 15 and trb < 20:
-            self.milestones['fifteen_rebound_games'].append({
-                **milestone_base,
-                'detail': f'{trb} rebounds',
-            })
-        if trb >= 10 and trb < 15:
-            self.milestones['ten_rebound_games'].append({
-                **milestone_base,
-                'detail': f'{trb} rebounds',
-            })
-
-        # ===================
-        # ASSIST MILESTONES
-        # ===================
-        if ast >= 20:
-            self.milestones['twenty_assist_games'].append({
-                **milestone_base,
-                'detail': f'{ast} assists',
-            })
-        if ast >= 15 and ast < 20:
-            self.milestones['fifteen_assist_games'].append({
-                **milestone_base,
-                'detail': f'{ast} assists',
-            })
-        if ast >= 10 and ast < 15:
-            self.milestones['ten_assist_games'].append({
-                **milestone_base,
-                'detail': f'{ast} assists',
-            })
-
-        # ===================
-        # DEFENSIVE MILESTONES
-        # ===================
-        if blk >= 10:
-            self.milestones['ten_block_games'].append({
-                **milestone_base,
-                'detail': f'{blk} blocks',
-            })
-        if blk >= 5 and blk < 10:
-            self.milestones['five_block_games'].append({
-                **milestone_base,
-                'detail': f'{blk} blocks',
-            })
-
-        if stl >= 10:
-            self.milestones['ten_steal_games'].append({
-                **milestone_base,
-                'detail': f'{stl} steals',
-            })
-        if stl >= 5 and stl < 10:
-            self.milestones['five_steal_games'].append({
-                **milestone_base,
-                'detail': f'{stl} steals',
-            })
-
         # Defensive monster (7+ combined blocks + steals)
         if blk + stl >= 7:
             self.milestones['defensive_monster'].append({
@@ -340,24 +289,8 @@ class MilestoneEngine:
             })
 
         # ===================
-        # THREE-POINTER MILESTONES
+        # THREE-POINTER MILESTONES (complex)
         # ===================
-        if fg3 >= 10:
-            self.milestones['ten_three_games'].append({
-                **milestone_base,
-                'detail': f'{fg3} three-pointers',
-            })
-        if fg3 >= 7 and fg3 < 10:
-            self.milestones['seven_three_games'].append({
-                **milestone_base,
-                'detail': f'{fg3} three-pointers',
-            })
-        if fg3 >= 5 and fg3 < 7:
-            self.milestones['five_three_games'].append({
-                **milestone_base,
-                'detail': f'{fg3} three-pointers',
-            })
-
         # Perfect from three (100% with 4+ attempts)
         if fg3a >= 4 and fg3 == fg3a:
             self.milestones['perfect_from_three'].append({

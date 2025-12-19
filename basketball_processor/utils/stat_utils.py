@@ -580,38 +580,3 @@ def get_near_double_double_detail(stats: Dict[str, Any]) -> str:
     needed = 10 - near_part[1]
 
     return f"{', '.join(detail_parts)} (needed {needed} more {near_part[0].lower()})"
-
-
-def calculate_game_score(stats: Dict[str, Any]) -> float:
-    """
-    Calculate John Hollinger's Game Score.
-
-    GameScore = PTS + 0.4*FG - 0.7*FGA - 0.4*(FTA-FT) + 0.7*ORB + 0.3*DRB
-                + STL + 0.7*AST + 0.7*BLK - 0.4*PF - TOV
-
-    Args:
-        stats: Player stats dictionary
-
-    Returns:
-        Game Score value
-    """
-    pts = safe_int(stats.get('pts', 0))
-    fg = safe_int(stats.get('fg', 0))
-    fga = safe_int(stats.get('fga', 0))
-    ft = safe_int(stats.get('ft', 0))
-    fta = safe_int(stats.get('fta', 0))
-    orb = safe_int(stats.get('orb', 0))
-    drb = safe_int(stats.get('drb', 0))
-    ast = safe_int(stats.get('ast', 0))
-    stl = safe_int(stats.get('stl', 0))
-    blk = safe_int(stats.get('blk', 0))
-    pf = safe_int(stats.get('pf', 0))
-    tov = safe_int(stats.get('tov', 0))
-
-    game_score = (
-        pts + 0.4 * fg - 0.7 * fga - 0.4 * (fta - ft) +
-        0.7 * orb + 0.3 * drb + stl + 0.7 * ast + 0.7 * blk -
-        0.4 * pf - tov
-    )
-
-    return round(game_score, 1)

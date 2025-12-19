@@ -949,50 +949,263 @@ def _generate_html(json_data: str, summary: Dict[str, Any]) -> str:
         .skip-link:focus {{
             top: 0;
         }}
+        /* Mobile-first responsive styles */
         @media (max-width: 768px) {{
+            .header {{
+                padding: 1rem;
+            }}
             .header h1 {{
-                font-size: 1.5rem;
+                font-size: 1.25rem;
+                margin-top: 2rem;
+            }}
+            .header-controls {{
+                top: 0.5rem;
+                right: 0.5rem;
+            }}
+            .theme-toggle, .share-btn {{
+                width: 36px;
+                height: 36px;
+                font-size: 1rem;
+            }}
+            .generated-time {{
+                font-size: 0.65rem;
+                right: 0.5rem;
             }}
             .stats-overview {{
-                gap: 1rem;
+                gap: 0.5rem;
+                margin-top: 0.75rem;
             }}
             .stat-box {{
-                padding: 0.75rem 1rem;
+                padding: 0.5rem 0.75rem;
             }}
             .stat-box .number {{
-                font-size: 1.5rem;
+                font-size: 1.25rem;
+            }}
+            .stat-box .label {{
+                font-size: 0.75rem;
+            }}
+            .container {{
+                padding: 1rem;
             }}
             .tabs {{
-                justify-content: center;
+                justify-content: flex-start;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
+                -ms-overflow-style: none;
+                padding-bottom: 0.5rem;
+                flex-wrap: nowrap;
+            }}
+            .tabs::-webkit-scrollbar {{
+                display: none;
             }}
             .tab {{
-                padding: 0.5rem 1rem;
-                font-size: 0.9rem;
+                padding: 0.5rem 0.75rem;
+                font-size: 0.8rem;
+                flex-shrink: 0;
+                white-space: nowrap;
+            }}
+            .sub-tabs {{
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
+                flex-wrap: nowrap;
+                padding-bottom: 0.5rem;
+            }}
+            .sub-tabs::-webkit-scrollbar {{
+                display: none;
+            }}
+            .sub-tab {{
+                flex-shrink: 0;
+                white-space: nowrap;
+                font-size: 0.75rem;
+                padding: 0.4rem 0.75rem;
+            }}
+            .section {{
+                padding: 1rem;
+                border-radius: 8px;
+            }}
+            .section h2 {{
+                font-size: 1.1rem;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }}
+            .section-actions {{
+                width: 100%;
+            }}
+            .section-actions .btn {{
+                width: 100%;
+                text-align: center;
             }}
             .filters {{
                 flex-direction: column;
+                padding: 0.75rem;
+                gap: 0.75rem;
             }}
             .filter-group {{
                 width: 100%;
             }}
+            .filter-group label {{
+                font-size: 0.7rem;
+            }}
             .filter-group input, .filter-group select {{
                 width: 100%;
+                padding: 0.6rem;
+                font-size: 0.9rem;
+            }}
+            .clear-filters {{
+                width: 100%;
+                padding: 0.6rem;
+            }}
+            .controls {{
+                flex-direction: column;
+                gap: 0.75rem;
+            }}
+            .search-box {{
+                width: 100%;
+                max-width: none;
+                font-size: 0.9rem;
+            }}
+            .compare-select {{
+                width: 100%;
+                min-width: auto;
             }}
             .box-score-header {{
                 flex-direction: column;
-                gap: 1rem;
+                gap: 0.75rem;
+            }}
+            .box-score-team h3 {{
+                font-size: 1rem;
+            }}
+            .box-score-score {{
+                font-size: 2rem;
             }}
             .box-score-vs {{
                 padding: 0;
+                font-size: 1rem;
             }}
             .modal-content {{
                 padding: 1rem;
+                width: 98%;
+                max-height: 95vh;
+            }}
+            .modal-close {{
+                top: 0.5rem;
+                right: 0.5rem;
             }}
             .table-container {{
-                font-size: 0.85rem;
+                font-size: 0.75rem;
+                margin: 0 -1rem;
+                width: calc(100% + 2rem);
+                border-radius: 0;
             }}
             th, td {{
-                padding: 0.5rem;
+                padding: 0.4rem 0.5rem;
+            }}
+            th {{
+                font-size: 0.7rem;
+            }}
+            .sticky-col {{
+                min-width: 100px;
+            }}
+            .milestone-grid {{
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.5rem;
+            }}
+            .milestone-card {{
+                padding: 0.75rem;
+            }}
+            .milestone-card .count {{
+                font-size: 1.25rem;
+            }}
+            .milestone-card .name {{
+                font-size: 0.8rem;
+            }}
+            .checklist-grid {{
+                grid-template-columns: 1fr;
+            }}
+            .checklist-summary {{
+                flex-wrap: wrap;
+                gap: 1rem;
+                padding: 0.75rem;
+            }}
+            .checklist-stat-value {{
+                font-size: 1.25rem;
+            }}
+            .compare-grid {{
+                grid-template-columns: 1fr;
+            }}
+            .chart-container {{
+                height: 250px;
+            }}
+            .calendar-months {{
+                grid-template-columns: 1fr;
+            }}
+            .monthly-calendar {{
+                font-size: 0.7rem;
+            }}
+            .monthly-calendar .day-cell {{
+                min-height: 60px;
+                padding: 2px;
+            }}
+            .monthly-calendar .day-games {{
+                font-size: 0.6rem;
+            }}
+            .pagination {{
+                flex-wrap: wrap;
+                gap: 0.25rem;
+            }}
+            .pagination button {{
+                padding: 0.4rem 0.6rem;
+                font-size: 0.8rem;
+            }}
+            .toast {{
+                bottom: 1rem;
+                right: 1rem;
+                left: 1rem;
+                text-align: center;
+            }}
+            #school-map {{
+                height: 350px !important;
+            }}
+            #map-legend {{
+                flex-direction: column;
+                gap: 0.5rem;
+            }}
+            .onthisday-game {{
+                padding: 0.75rem !important;
+            }}
+            .onthisday-game > div {{
+                flex-direction: column !important;
+                align-items: flex-start !important;
+            }}
+        }}
+
+        /* Extra small screens */
+        @media (max-width: 480px) {{
+            .header h1 {{
+                font-size: 1.1rem;
+            }}
+            .stat-box {{
+                padding: 0.4rem 0.5rem;
+            }}
+            .stat-box .number {{
+                font-size: 1rem;
+            }}
+            .stat-box .label {{
+                font-size: 0.65rem;
+            }}
+            .tab {{
+                padding: 0.4rem 0.6rem;
+                font-size: 0.75rem;
+            }}
+            .milestone-grid {{
+                grid-template-columns: 1fr;
+            }}
+            th, td {{
+                padding: 0.3rem 0.4rem;
+                font-size: 0.7rem;
             }}
         }}
         /* Print styles */
@@ -1407,6 +1620,7 @@ def _generate_html(json_data: str, summary: Dict[str, Any]) -> str:
             <div class="sub-tabs">
                 <button class="sub-tab active" onclick="showSubSection('calendar', 'monthly')">Monthly View</button>
                 <button class="sub-tab" onclick="showSubSection('calendar', 'season')">Season Day Tracker</button>
+                <button class="sub-tab" onclick="showSubSection('calendar', 'onthisday')">On This Day</button>
             </div>
 
             <div id="calendar-monthly" class="sub-section active">
@@ -1425,6 +1639,19 @@ def _generate_html(json_data: str, summary: Dict[str, Any]) -> str:
                     <span><span class="calendar-day has-game" style="display: inline-block; width: 20px; height: 20px; vertical-align: middle;"></span> Game attended</span>
                     <span><span class="calendar-day has-multiple" style="display: inline-block; width: 20px; height: 20px; vertical-align: middle;"></span> Multiple games</span>
                     <span><span class="calendar-day" style="display: inline-block; width: 20px; height: 20px; vertical-align: middle; background: var(--bg-secondary); border: 1px solid var(--border-color);"></span> No game yet</span>
+                </div>
+            </div>
+
+            <div id="calendar-onthisday" class="sub-section">
+                <div class="onthisday-header" style="text-align: center; margin-bottom: 1.5rem;">
+                    <h3 id="onthisday-date" style="font-size: 1.5rem; color: var(--accent-color);"></h3>
+                    <p style="color: var(--text-secondary);">Games you attended on this date in previous years</p>
+                </div>
+                <div id="onthisday-content"></div>
+                <div id="onthisday-empty" class="empty-state" style="display: none;">
+                    <div class="empty-state-icon">&#128197;</div>
+                    <h3>No games on this day</h3>
+                    <p>You haven't attended any games on this date in previous years</p>
                 </div>
             </div>
         </div>
@@ -2611,6 +2838,104 @@ def _generate_html(json_data: str, summary: Dict[str, Any]) -> str:
                 // Show first game, user can navigate from there
                 showGameDetail(games[0].GameID);
             }}
+        }}
+
+        function initOnThisDay() {{
+            renderOnThisDay();
+        }}
+
+        function renderOnThisDay() {{
+            const today = new Date();
+            const currentMonth = today.getMonth() + 1;
+            const currentDay = today.getDate();
+
+            const monthNames = ['', 'January', 'February', 'March', 'April', 'May', 'June',
+                               'July', 'August', 'September', 'October', 'November', 'December'];
+            const dateLabel = document.getElementById('onthisday-date');
+            const content = document.getElementById('onthisday-content');
+            const emptyState = document.getElementById('onthisday-empty');
+
+            if (!dateLabel || !content || !emptyState) return;
+
+            dateLabel.textContent = `${{monthNames[currentMonth]}} ${{currentDay}}`;
+
+            // Find all games that occurred on this month/day (any year)
+            const games = (DATA.games || []).filter(g => {{
+                const d = new Date(g.Date);
+                if (isNaN(d)) return false;
+                return (d.getMonth() + 1) === currentMonth && d.getDate() === currentDay;
+            }});
+
+            if (games.length === 0) {{
+                content.innerHTML = '';
+                emptyState.style.display = 'block';
+                return;
+            }}
+
+            emptyState.style.display = 'none';
+
+            // Group games by year
+            const gamesByYear = {{}};
+            games.forEach(g => {{
+                const d = new Date(g.Date);
+                const year = d.getFullYear();
+                if (!gamesByYear[year]) gamesByYear[year] = [];
+                gamesByYear[year].push(g);
+            }});
+
+            // Sort years descending
+            const years = Object.keys(gamesByYear).map(Number).sort((a, b) => b - a);
+
+            let html = '<div class="onthisday-games">';
+            years.forEach(year => {{
+                const yearGames = gamesByYear[year];
+                const yearsAgo = today.getFullYear() - year;
+                const yearsAgoText = yearsAgo === 0 ? 'Today' : yearsAgo === 1 ? '1 year ago' : `${{yearsAgo}} years ago`;
+
+                html += `
+                    <div class="onthisday-year" style="margin-bottom: 1.5rem;">
+                        <h4 style="margin-bottom: 0.75rem; color: var(--text-secondary); border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;">
+                            <span style="font-size: 1.25rem; color: var(--accent-color);">${{year}}</span>
+                            <span style="font-size: 0.9rem; margin-left: 0.5rem;">(${{yearsAgoText}})</span>
+                        </h4>
+                        <div class="onthisday-game-list">
+                `;
+
+                yearGames.forEach(g => {{
+                    const genderTag = g.Gender === 'M' ? '<span class="gender-seen gender-m">M</span>' :
+                                     g.Gender === 'W' ? '<span class="gender-seen gender-w">W</span>' : '';
+                    const awayWon = (g['Away Score'] || 0) > (g['Home Score'] || 0);
+                    const homeWon = (g['Home Score'] || 0) > (g['Away Score'] || 0);
+                    const awayStyle = awayWon ? 'font-weight: bold;' : '';
+                    const homeStyle = homeWon ? 'font-weight: bold;' : '';
+
+                    html += `
+                        <div class="onthisday-game" style="background: var(--bg-primary); padding: 1rem; border-radius: 8px; margin-bottom: 0.75rem; cursor: pointer;" onclick="showGameDetail('${{g.GameID}}')">
+                            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
+                                <div style="flex: 1; min-width: 200px;">
+                                    <span style="${{awayStyle}}">${{g['Away Team']}}</span>
+                                    <span style="margin: 0 0.5rem; color: var(--text-muted);">${{g['Away Score'] || 0}}</span>
+                                    <span style="color: var(--text-muted);">@</span>
+                                    <span style="margin: 0 0.5rem; color: var(--text-muted);">${{g['Home Score'] || 0}}</span>
+                                    <span style="${{homeStyle}}">${{g['Home Team']}}</span>
+                                    ${{genderTag}}
+                                </div>
+                                <div style="color: var(--text-secondary); font-size: 0.85rem;">
+                                    ${{g.Venue || ''}}${{g.City ? ', ' + g.City : ''}}${{g.State ? ', ' + g.State : ''}}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }});
+
+                html += `
+                        </div>
+                    </div>
+                `;
+            }});
+            html += '</div>';
+
+            content.innerHTML = html;
         }}
 
         // School coordinates for map
@@ -4026,6 +4351,7 @@ def _generate_html(json_data: str, summary: Dict[str, Any]) -> str:
         try {{ populateVenuesTable(); }} catch(e) {{ console.error('populateVenuesTable:', e); }}
         try {{ initCalendar(); }} catch(e) {{ console.error('initCalendar:', e); }}
         try {{ initChecklist(); }} catch(e) {{ console.error('initChecklist:', e); }}
+        try {{ initOnThisDay(); }} catch(e) {{ console.error('initOnThisDay:', e); }}
         try {{ showChart('scoring'); }} catch(e) {{ console.error('showChart:', e); }}
 
         // Handle URL on load
