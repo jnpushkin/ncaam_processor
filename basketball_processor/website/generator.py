@@ -676,12 +676,12 @@ def _generate_html(json_data: str, summary: Dict[str, Any]) -> str:
             height: 300px;
             margin-bottom: 2rem;
         }}
-        .player-link, .game-link, .venue-link {{
+        .player-link, .game-link, .venue-link, .team-link {{
             color: var(--accent-color);
             cursor: pointer;
             text-decoration: underline;
         }}
-        .player-link:hover, .game-link:hover, .venue-link:hover {{
+        .player-link:hover, .game-link:hover, .venue-link:hover, .team-link:hover {{
             opacity: 0.8;
         }}
         .external-link {{
@@ -1670,6 +1670,15 @@ def _generate_html(json_data: str, summary: Dict[str, Any]) -> str:
             }});
         }}
 
+        function filterByTeam(teamName) {{
+            // Set the team dropdown and apply filters
+            const select = document.getElementById('games-team');
+            if (select) {{
+                select.value = teamName;
+                applyFilters('games');
+            }}
+        }}
+
         function applyFilters(type) {{
             if (type === 'games') {{
                 applyGamesFilters();
@@ -1922,9 +1931,9 @@ def _generate_html(json_data: str, summary: Dict[str, Any]) -> str:
                     return `
                     <tr>
                         <td>${{game.Date || ''}} <a href="${{getSportsRefUrl(game)}}" target="_blank" title="View on Sports Reference" class="external-link">&#8599;</a></td>
-                        <td>${{game['Away Team'] || ''}}${{genderTag}}</td>
+                        <td><span class="team-link" onclick="filterByTeam('${{game['Away Team'] || ''}}')">${{game['Away Team'] || ''}}</span>${{genderTag}}</td>
                         <td><span class="game-link" onclick="showGameDetail('${{game.GameID || ''}}')">${{game['Away Score'] || 0}}-${{game['Home Score'] || 0}}</span></td>
-                        <td>${{game['Home Team'] || ''}}${{genderTag}}</td>
+                        <td><span class="team-link" onclick="filterByTeam('${{game['Home Team'] || ''}}')">${{game['Home Team'] || ''}}</span>${{genderTag}}</td>
                         <td><span class="venue-link" onclick="showVenueDetail('${{game.Venue || ''}}')">${{game.Venue || ''}}</span></td>
                         <td>${{game.City || ''}}</td>
                         <td>${{game.State || ''}}</td>
