@@ -3261,6 +3261,48 @@ def _generate_html(json_data: str, summary: Dict[str, Any]) -> str:
                 `;
             }};
 
+            // Build linescore table if available
+            const linescore = game.Linescore || {{}};
+            const awayLine = linescore.away || {{}};
+            const homeLine = linescore.home || {{}};
+            const periods = awayLine.quarters || awayLine.halves || [];
+            const homePeriods = homeLine.quarters || homeLine.halves || [];
+            const awayOT = awayLine.OT || [];
+            const homeOT = homeLine.OT || [];
+            const isQuarters = !!awayLine.quarters;
+
+            let linescoreHtml = '';
+            if (periods.length > 0) {{
+                const headers = periods.map((_, i) => isQuarters ? `Q${{i+1}}` : `${{i+1}}H`);
+                const otHeaders = awayOT.map((_, i) => `OT${{awayOT.length > 1 ? i+1 : ''}}`);
+                linescoreHtml = `
+                    <table class="linescore-table" style="width:auto;margin:0 auto 1rem auto;">
+                        <thead>
+                            <tr>
+                                <th style="text-align:left;">Team</th>
+                                ${{headers.map(h => `<th style="width:40px;text-align:center;">${{h}}</th>`).join('')}}
+                                ${{otHeaders.map(h => `<th style="width:40px;text-align:center;">${{h}}</th>`).join('')}}
+                                <th style="width:50px;text-align:center;font-weight:bold;">T</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="text-align:left;">${{game['Away Team']}}</td>
+                                ${{periods.map(s => `<td style="text-align:center;">${{s}}</td>`).join('')}}
+                                ${{awayOT.map(s => `<td style="text-align:center;">${{s}}</td>`).join('')}}
+                                <td style="text-align:center;font-weight:bold;">${{awayLine.total || game['Away Score'] || 0}}</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:left;">${{game['Home Team']}}</td>
+                                ${{homePeriods.map(s => `<td style="text-align:center;">${{s}}</td>`).join('')}}
+                                ${{homeOT.map(s => `<td style="text-align:center;">${{s}}</td>`).join('')}}
+                                <td style="text-align:center;font-weight:bold;">${{homeLine.total || game['Home Score'] || 0}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                `;
+            }}
+
             document.getElementById('game-detail').innerHTML = `
                 <div class="box-score-header">
                     <div class="box-score-team">
@@ -3276,6 +3318,7 @@ def _generate_html(json_data: str, summary: Dict[str, Any]) -> str:
                 <p style="text-align:center;margin-bottom:1rem;color:var(--text-secondary)">
                     ${{game.Date}} | ${{game.Venue || 'Unknown Venue'}}
                 </p>
+                ${{linescoreHtml}}
                 <div class="box-score-section">
                     <h4>${{game['Away Team']}}</h4>
                     <div class="table-container">${{renderBoxScore(awayPlayers, game['Away Team'])}}</div>

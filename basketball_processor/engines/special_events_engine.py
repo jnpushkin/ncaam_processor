@@ -74,19 +74,29 @@ class SpecialEventsEngine:
         Detect comeback wins.
 
         A comeback is when a team overcomes a significant halftime deficit.
+        For men's games (2 halves): halftime is after 1st half
+        For women's games (4 quarters): halftime is after 2nd quarter
         """
         linescore = self.game_data.get('linescore', {})
         basic_info = self.game_data.get('basic_info', {})
+        gender = self.game_data.get('gender', 'M')
 
-        away_halves = linescore.get('away', {}).get('halves', [])
-        home_halves = linescore.get('home', {}).get('halves', [])
+        # Get periods - could be halves (men) or quarters (women)
+        away_periods = linescore.get('away', {}).get('halves', []) or linescore.get('away', {}).get('quarters', [])
+        home_periods = linescore.get('home', {}).get('halves', []) or linescore.get('home', {}).get('quarters', [])
 
-        if len(away_halves) < 2 or len(home_halves) < 2:
+        # Need at least 2 periods for halftime calculation
+        if len(away_periods) < 2 or len(home_periods) < 2:
             return
 
         # Calculate halftime score
-        away_halftime = away_halves[0]
-        home_halftime = home_halves[0]
+        # For men's: 1st half score, for women's: sum of 1st and 2nd quarters
+        if gender == 'W' and len(away_periods) >= 2:
+            away_halftime = away_periods[0] + away_periods[1]
+            home_halftime = home_periods[0] + home_periods[1]
+        else:
+            away_halftime = away_periods[0]
+            home_halftime = home_periods[0]
 
         # Final score
         away_final = safe_int(basic_info.get('away_score', 0))

@@ -52,8 +52,14 @@ class VenueResolver:
         gender = game_data.get('gender', 'M')
 
         # Check for game-specific override first
-        if game_id and game_id in self.game_overrides:
-            return self.game_overrides[game_id]
+        # Try full game_id, then without gender suffix (-m or -w)
+        if game_id:
+            if game_id in self.game_overrides:
+                return self.game_overrides[game_id]
+            # Try without gender suffix
+            base_id = game_id.rsplit('-', 1)[0] if game_id.endswith('-m') or game_id.endswith('-w') else game_id
+            if base_id != game_id and base_id in self.game_overrides:
+                return self.game_overrides[base_id]
 
         # Use existing venue if present
         venue = basic_info.get('venue')

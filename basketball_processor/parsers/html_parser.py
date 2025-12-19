@@ -136,8 +136,8 @@ def parse_sports_reference_boxscore(html_content: str, gender: str = 'M') -> Dic
     game_data['basic_info'] = extract_basic_info(soup)
     game_data['basic_info']['gender'] = gender  # Copy gender to basic_info for easy access
 
-    # Extract linescore
-    game_data['linescore'] = extract_linescore(soup)
+    # Extract linescore (pass gender to correctly handle women's 4-quarter format)
+    game_data['linescore'] = extract_linescore(soup, gender)
 
     # Fallback: If team names are empty, try to extract from title
     if not game_data['basic_info'].get('away_team') or not game_data['basic_info'].get('home_team'):
@@ -334,16 +334,27 @@ def extract_basic_info(soup: BeautifulSoup) -> Dict[str, Any]:
     return info
 
 
-def extract_linescore(soup: BeautifulSoup) -> Dict[str, Any]:
+def extract_linescore(soup: BeautifulSoup, gender: str = 'M') -> Dict[str, Any]:
     """
-    Extract half-by-half and overtime scoring.
+    Extract period-by-period and overtime scoring.
+
+    Men's basketball uses 2 halves, women's uses 4 quarters.
+    Any periods beyond the standard count are overtime.
+
+    Args:
+        soup: BeautifulSoup object of the HTML
+        gender: 'M' for men's (2 halves), 'W' for women's (4 quarters)
 
     Returns:
-        Dictionary with linescore data
+        Dictionary with linescore data including periods and OT
     """
+    # Women's basketball has 4 quarters, men's has 2 halves
+    standard_periods = 4 if gender == 'W' else 2
+    period_key = 'quarters' if gender == 'W' else 'halves'
+
     linescore = {
-        'away': {'halves': [], 'OT': [], 'total': 0},
-        'home': {'halves': [], 'OT': [], 'total': 0},
+        'away': {period_key: [], 'OT': [], 'total': 0},
+        'home': {period_key: [], 'OT': [], 'total': 0},
     }
 
     # Find linescore table
@@ -391,11 +402,14 @@ def extract_linescore(soup: BeautifulSoup) -> Dict[str, Any]:
             # Last cell is total
             total = safe_int(cells[-1].get_text(strip=True), 0)
 
-            # First 2 periods are halves, rest are OT
-            if len(period_scores) >= 2:
-                linescore[team_key]['halves'] = period_scores[:2]
-                if len(period_scores) > 2:
-                    linescore[team_key]['OT'] = period_scores[2:]
+            # Standard periods (2 halves for men, 4 quarters for women), rest are OT
+            if len(period_scores) >= standard_periods:
+                linescore[team_key][period_key] = period_scores[:standard_periods]
+                if len(period_scores) > standard_periods:
+                    linescore[team_key]['OT'] = period_scores[standard_periods:]
+            else:
+                # Fewer periods than expected - just store what we have
+                linescore[team_key][period_key] = period_scores
 
             linescore[team_key]['total'] = total
 

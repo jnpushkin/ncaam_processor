@@ -241,10 +241,16 @@ def main() -> None:
     # Load game data
     if args.from_cache_only:
         info("Loading games from cache only...")
+        from .utils.venue_resolver import resolve_venue
         games_data = []
         for file in CACHE_DIR.glob("*.json"):
             with open(file, 'r', encoding='utf-8') as f:
-                games_data.append(json.load(f))
+                game = json.load(f)
+                # Re-apply venue resolution to pick up any overrides
+                resolved_venue = resolve_venue(game)
+                if resolved_venue:
+                    game['basic_info']['venue'] = resolved_venue
+                games_data.append(game)
     else:
         games_data = process_directory_or_file(args.input_path, args.gender)
 

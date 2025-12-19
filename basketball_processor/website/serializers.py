@@ -72,12 +72,24 @@ class DataSerializer:
         }
 
     def _serialize_games(self) -> List[Dict]:
-        """Serialize game log."""
+        """Serialize game log with linescore data."""
         game_log = self.processed_data.get('game_log', pd.DataFrame())
         if game_log.empty:
             return []
 
-        return self._df_to_records(game_log)
+        games = self._df_to_records(game_log)
+
+        # Add linescore data from raw games
+        raw_games_by_id = {g.get('game_id'): g for g in self.raw_games}
+        for game in games:
+            game_id = game.get('GameID')
+            if game_id and game_id in raw_games_by_id:
+                raw_game = raw_games_by_id[game_id]
+                linescore = raw_game.get('linescore', {})
+                if linescore:
+                    game['Linescore'] = linescore
+
+        return games
 
     def _serialize_players(self) -> List[Dict]:
         """Serialize player statistics."""

@@ -429,10 +429,11 @@
   },
 
   "game_overrides": {
-    "_comment": "Override venue for specific games by game_id (YYYYMMDD-team)",
+    "_comment": "Override venue for specific games by game_id (YYYYMMDD-team or YYYYMMDD-team-m/w)",
     "20240322-conn": "Barclays Center, Brooklyn, New York",
     "20240322-fau": "Barclays Center, Brooklyn, New York",
     "20241121-usf": "Chase Center, San Francisco, California",
+    "20241121-usf-w": "Chase Center, San Francisco, California",
     "20250301-usf": "Chase Center, San Francisco, California",
     "20171116-uva": "John Paul Jones Arena, Charlottesville, Virginia"
   },
