@@ -151,7 +151,7 @@ def get_column_width(column_name: str) -> int:
     return width_map.get(column_name, 12)
 
 
-def apply_column_formats(worksheet, workbook, df: pd.DataFrame, start_row: int = 1):
+def apply_column_formats(worksheet, workbook, df: pd.DataFrame, start_row: int = 1) -> None:
     """
     Apply appropriate formats to columns based on column names.
 
@@ -184,7 +184,7 @@ def apply_column_formats(worksheet, workbook, df: pd.DataFrame, start_row: int =
 
 
 def format_worksheet(worksheet, workbook, df: pd.DataFrame,
-                     sheet_name: str = '', freeze_panes: bool = True):
+                     sheet_name: str = '', freeze_panes: bool = True) -> None:
     """
     Apply standard formatting to a worksheet.
 

@@ -64,7 +64,7 @@ class TeamRecordsProcessor(BaseProcessor):
             'attendance_stats': self._create_attendance_stats_df(),
         }
 
-    def _aggregate_team_stats(self):
+    def _aggregate_team_stats(self) -> None:
         """Aggregate statistics for each team."""
         # Sort games by date first
         sorted_games = sorted(self.games,

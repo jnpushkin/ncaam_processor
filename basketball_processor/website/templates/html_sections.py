@@ -1,0 +1,690 @@
+"""
+HTML section templates for the basketball statistics website.
+"""
+
+
+def get_head(css: str) -> str:
+    """Return the HTML head section."""
+    return f"""<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College Basketball Stats</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <style>
+{css}
+    </style>
+</head>"""
+
+
+def get_body(total_games: int, total_players: int, total_teams: int, generated_time: str) -> str:
+    """
+    Return the HTML body content.
+    
+    Args:
+        total_games: Total number of games processed
+        total_players: Total number of players
+        total_teams: Total number of teams
+        generated_time: Timestamp when the page was generated
+    """
+    body_template = """<body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <div class="header">
+        <div class="header-controls">
+            <button class="share-btn" onclick="shareCurrentView()" title="Share this view" aria-label="Share">&#128279;</button>
+            <button class="theme-toggle" onclick="toggleTheme()" title="Toggle dark mode" aria-label="Toggle theme">&#127769;</button>
+        </div>
+        <h1>College Basketball Stats</h1>
+        <div class="stats-overview">
+            <div class="stat-box">
+                <div class="number">{TOTAL_GAMES_PLACEHOLDER}</div>
+                <div class="label">Games</div>
+            </div>
+            <div class="stat-box">
+                <div class="number">{TOTAL_PLAYERS_PLACEHOLDER}</div>
+                <div class="label">Players</div>
+            </div>
+            <div class="stat-box">
+                <div class="number">{TOTAL_TEAMS_PLACEHOLDER}</div>
+                <div class="label">Teams</div>
+            </div>
+        </div>
+        <div class="generated-time">Generated: {GENERATED_TIME_PLACEHOLDER}</div>
+    </div>
+
+    <div class="container" id="main-content">
+        <div class="tabs" role="tablist">
+            <button class="tab active" onclick="showSection('games')" role="tab" aria-selected="true" data-section="games" tabindex="0">Games</button>
+            <button class="tab" onclick="showSection('players')" role="tab" aria-selected="false" data-section="players" tabindex="-1">Players</button>
+            <button class="tab" onclick="showSection('milestones')" role="tab" aria-selected="false" data-section="milestones" tabindex="-1">Milestones</button>
+            <button class="tab" onclick="showSection('teams')" role="tab" aria-selected="false" data-section="teams" tabindex="-1">Teams</button>
+            <button class="tab" onclick="showSection('venues')" role="tab" aria-selected="false" data-section="venues" tabindex="-1">Venues</button>
+            <button class="tab" onclick="showSection('calendar')" role="tab" aria-selected="false" data-section="calendar" tabindex="-1">Calendar</button>
+            <button class="tab" onclick="showSection('checklist')" role="tab" aria-selected="false" data-section="checklist" tabindex="-1">Checklist</button>
+            <button class="tab" onclick="showSection('map')" role="tab" aria-selected="false" data-section="map" tabindex="-1">Map</button>
+            <button class="tab" onclick="showSection('compare')" role="tab" aria-selected="false" data-section="compare" tabindex="-1">Compare</button>
+            <button class="tab" onclick="showSection('charts')" role="tab" aria-selected="false" data-section="charts" tabindex="-1">Charts</button>
+        </div>
+
+        <div id="games" class="section active" role="tabpanel">
+            <h2>
+                Game Log
+                <div class="section-actions">
+                    <button class="btn btn-secondary" onclick="downloadCSV('games')">Download CSV</button>
+                </div>
+            </h2>
+            <div class="filters" id="games-filters">
+                <div class="filter-group">
+                    <label for="games-search">Search</label>
+                    <input type="text" id="games-search" class="search-box" placeholder="Search games..." onkeyup="applyFilters('games')">
+                </div>
+                <div class="filter-group">
+                    <label for="games-gender">Gender</label>
+                    <select id="games-gender" onchange="applyFilters('games')">
+                        <option value="">All</option>
+                        <option value="M">Men's</option>
+                        <option value="W">Women's</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="games-date-from">From Date</label>
+                    <input type="date" id="games-date-from" onchange="applyFilters('games')">
+                </div>
+                <div class="filter-group">
+                    <label for="games-date-to">To Date</label>
+                    <input type="date" id="games-date-to" onchange="applyFilters('games')">
+                </div>
+                <div class="filter-group">
+                    <label for="games-team">Team</label>
+                    <select id="games-team" onchange="applyFilters('games')">
+                        <option value="">All Teams</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="games-conference">Conference</label>
+                    <select id="games-conference" onchange="applyFilters('games')">
+                        <option value="">All Conferences</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="games-margin">Min Margin</label>
+                    <input type="number" id="games-margin" min="0" max="50" placeholder="0" onchange="applyFilters('games')">
+                </div>
+                <div class="filter-group" style="display:flex;align-items:center;gap:0.5rem;">
+                    <input type="checkbox" id="games-ot" onchange="applyFilters('games')">
+                    <label for="games-ot" style="margin:0;">OT Only</label>
+                </div>
+                <button class="clear-filters" onclick="clearFilters('games')">Clear Filters</button>
+            </div>
+            <div class="table-container">
+                <table id="games-table" aria-label="Game Log">
+                    <thead>
+                        <tr>
+                            <th onclick="sortTable('games-table', 0)" class="tooltip" data-tooltip="Game date">Date</th>
+                            <th onclick="sortTable('games-table', 1)" class="tooltip" data-tooltip="Visiting team">Away Team</th>
+                            <th onclick="sortTable('games-table', 2)" class="tooltip" data-tooltip="Final score">Score</th>
+                            <th onclick="sortTable('games-table', 3)" class="tooltip" data-tooltip="Home team">Home Team</th>
+                            <th onclick="sortTable('games-table', 4)" class="tooltip" data-tooltip="Click to see all games">Venue</th>
+                            <th onclick="sortTable('games-table', 5)">City</th>
+                            <th onclick="sortTable('games-table', 6)">State</th>
+                            <th onclick="sortTable('games-table', 7)">Notes</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            <div class="pagination" id="games-pagination"></div>
+        </div>
+
+        <div id="players" class="section" role="tabpanel">
+            <h2>
+                Player Statistics
+                <div class="section-actions">
+                    <button class="btn btn-secondary" onclick="downloadCSV('players')">Download CSV</button>
+                </div>
+            </h2>
+            <div class="sub-tabs">
+                <button class="sub-tab active" onclick="showSubSection('players', 'stats')">Stats</button>
+                <button class="sub-tab" onclick="showSubSection('players', 'highs')">Career Highs</button>
+                <button class="sub-tab" onclick="showSubSection('players', 'gamelogs')">Game Logs</button>
+            </div>
+
+            <div id="players-stats" class="sub-section active">
+                <div class="filters" id="players-filters">
+                    <div class="filter-group">
+                        <label for="players-search">Search</label>
+                        <input type="text" id="players-search" class="search-box" placeholder="Search players..." onkeyup="applyFilters('players')">
+                    </div>
+                    <div class="filter-group">
+                        <label for="players-gender">Gender</label>
+                        <select id="players-gender" onchange="applyFilters('players')">
+                            <option value="">All</option>
+                            <option value="M">Men's</option>
+                            <option value="W">Women's</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="players-team">Team</label>
+                        <select id="players-team" onchange="applyFilters('players')">
+                            <option value="">All Teams</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="players-conference">Conference</label>
+                        <select id="players-conference" onchange="applyFilters('players')">
+                            <option value="">All Conferences</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="players-min-games">Min Games</label>
+                        <input type="number" id="players-min-games" min="1" placeholder="1" onchange="applyFilters('players')">
+                    </div>
+                    <div class="filter-group">
+                        <label for="players-min-ppg">Min PPG</label>
+                        <input type="number" id="players-min-ppg" min="0" step="0.1" placeholder="0" onchange="applyFilters('players')">
+                    </div>
+                    <button class="clear-filters" onclick="clearFilters('players')">Clear Filters</button>
+                </div>
+                <div class="table-container table-scroll">
+                    <table id="players-table" aria-label="Player Statistics">
+                        <thead>
+                            <tr>
+                                <th onclick="sortTable('players-table', 0)" class="sticky-col">Player</th>
+                                <th onclick="sortTable('players-table', 1)">Team</th>
+                                <th onclick="sortTable('players-table', 2)" class="tooltip" data-tooltip="Games played">GP</th>
+                                <th onclick="sortTable('players-table', 3)" class="tooltip" data-tooltip="Minutes per game">MPG</th>
+                                <th onclick="sortTable('players-table', 4)" class="tooltip" data-tooltip="Points per game">PPG</th>
+                                <th onclick="sortTable('players-table', 5)" class="tooltip" data-tooltip="Rebounds per game">RPG</th>
+                                <th onclick="sortTable('players-table', 6)" class="tooltip" data-tooltip="Assists per game">APG</th>
+                                <th onclick="sortTable('players-table', 7)" class="tooltip" data-tooltip="Steals per game">SPG</th>
+                                <th onclick="sortTable('players-table', 8)" class="tooltip" data-tooltip="Blocks per game">BPG</th>
+                                <th onclick="sortTable('players-table', 9)" class="tooltip" data-tooltip="Field goals made">FGM</th>
+                                <th onclick="sortTable('players-table', 10)" class="tooltip" data-tooltip="Field goals attempted">FGA</th>
+                                <th onclick="sortTable('players-table', 11)" class="tooltip" data-tooltip="Field goal percentage">FG%</th>
+                                <th onclick="sortTable('players-table', 12)" class="tooltip" data-tooltip="Three-pointers made">3PM</th>
+                                <th onclick="sortTable('players-table', 13)" class="tooltip" data-tooltip="Three-pointers attempted">3PA</th>
+                                <th onclick="sortTable('players-table', 14)" class="tooltip" data-tooltip="Three-point percentage">3P%</th>
+                                <th onclick="sortTable('players-table', 15)" class="tooltip" data-tooltip="Free throws made">FTM</th>
+                                <th onclick="sortTable('players-table', 16)" class="tooltip" data-tooltip="Free throws attempted">FTA</th>
+                                <th onclick="sortTable('players-table', 17)" class="tooltip" data-tooltip="Free throw percentage">FT%</th>
+                                <th onclick="sortTable('players-table', 18)" class="tooltip" data-tooltip="Total points">PTS</th>
+                                <th onclick="sortTable('players-table', 19)" class="tooltip" data-tooltip="Total rebounds">REB</th>
+                                <th onclick="sortTable('players-table', 20)" class="tooltip" data-tooltip="Total assists">AST</th>
+                                <th onclick="sortTable('players-table', 21)" class="tooltip" data-tooltip="Total steals">STL</th>
+                                <th onclick="sortTable('players-table', 22)" class="tooltip" data-tooltip="Total blocks">BLK</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+                <div class="pagination" id="players-pagination"></div>
+            </div>
+
+            <div id="players-highs" class="sub-section">
+                <div class="table-container">
+                    <table id="highs-table" aria-label="Career Highs">
+                        <thead>
+                            <tr>
+                                <th onclick="sortTable('highs-table', 0)">Player</th>
+                                <th onclick="sortTable('highs-table', 1)">Team</th>
+                                <th onclick="sortTable('highs-table', 2)" class="tooltip" data-tooltip="Career high in points">High PTS</th>
+                                <th onclick="sortTable('highs-table', 3)" class="tooltip" data-tooltip="Career high in rebounds">High REB</th>
+                                <th onclick="sortTable('highs-table', 4)" class="tooltip" data-tooltip="Career high in assists">High AST</th>
+                                <th onclick="sortTable('highs-table', 5)" class="tooltip" data-tooltip="Career high in three-pointers made">High 3PM</th>
+                                <th onclick="sortTable('highs-table', 6)" class="tooltip" data-tooltip="Best game score (Hollinger formula)">Best GS</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="players-gamelogs" class="sub-section">
+                <div class="search-container">
+                    <input type="text" class="search-box" id="gamelog-player-search" placeholder="Search for a player..." list="gamelog-player-list" oninput="searchPlayerGameLog()" aria-label="Search for player game log">
+                    <datalist id="gamelog-player-list"></datalist>
+                </div>
+                <div class="table-container" id="gamelog-container">
+                    <div class="empty-state">
+                        <div class="empty-state-icon">&#128203;</div>
+                        <h3>Search for a player</h3>
+                        <p>Type a player name above to view their game log</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="milestones" class="section" role="tabpanel">
+            <h2>
+                Milestones
+                <div class="section-actions">
+                    <button class="btn btn-secondary" onclick="downloadCSV('milestones')">Download CSV</button>
+                </div>
+            </h2>
+            <div class="milestone-grid" id="milestone-grid" role="listbox"></div>
+            <div id="milestones-empty" class="empty-state" style="display:none;">
+                <div class="empty-state-icon">&#127942;</div>
+                <h3>No milestones yet</h3>
+                <p>Milestones will appear here as players achieve them</p>
+            </div>
+            <div class="table-container">
+                <table id="milestones-table" aria-label="Milestone Details">
+                    <thead>
+                        <tr>
+                            <th onclick="sortTable('milestones-table', 0)">Date</th>
+                            <th onclick="sortTable('milestones-table', 1)">Player</th>
+                            <th onclick="sortTable('milestones-table', 2)">Team</th>
+                            <th onclick="sortTable('milestones-table', 3)">Opponent</th>
+                            <th>Detail</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="teams" class="section" role="tabpanel">
+            <h2>
+                Team Statistics
+                <div class="section-actions">
+                    <button class="btn btn-secondary" onclick="downloadCSV('teams')">Download CSV</button>
+                </div>
+            </h2>
+            <div class="sub-tabs">
+                <button class="sub-tab active" onclick="showSubSection('teams', 'records')">Records</button>
+                <button class="sub-tab" onclick="showSubSection('teams', 'streaks')">Streaks</button>
+                <button class="sub-tab" onclick="showSubSection('teams', 'splits')">Home/Away</button>
+                <button class="sub-tab" onclick="showSubSection('teams', 'conference')">Conference</button>
+                <button class="sub-tab" onclick="showSubSection('teams', 'headtohead')">Head-to-Head</button>
+            </div>
+
+            <div id="teams-records" class="sub-section active">
+                <input type="text" class="search-box" placeholder="Search teams..." onkeyup="filterTable('teams-table', this.value)">
+                <div class="table-container">
+                    <table id="teams-table" aria-label="Team Records">
+                        <thead>
+                            <tr>
+                                <th onclick="sortTable('teams-table', 0)">Team</th>
+                                <th onclick="sortTable('teams-table', 1)" class="tooltip" data-tooltip="Games played">GP</th>
+                                <th onclick="sortTable('teams-table', 2)">Wins</th>
+                                <th onclick="sortTable('teams-table', 3)">Losses</th>
+                                <th onclick="sortTable('teams-table', 4)" class="tooltip" data-tooltip="Win percentage">Win%</th>
+                                <th onclick="sortTable('teams-table', 5)" class="tooltip" data-tooltip="Points per game">PPG</th>
+                                <th onclick="sortTable('teams-table', 6)" class="tooltip" data-tooltip="Points allowed per game">PAPG</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="teams-streaks" class="sub-section">
+                <div class="table-container">
+                    <table id="streaks-table" aria-label="Team Streaks">
+                        <thead>
+                            <tr>
+                                <th onclick="sortTable('streaks-table', 0)">Team</th>
+                                <th onclick="sortTable('streaks-table', 1)" class="tooltip" data-tooltip="Current win/loss streak">Current</th>
+                                <th onclick="sortTable('streaks-table', 2)" class="tooltip" data-tooltip="Longest winning streak">Best Win</th>
+                                <th onclick="sortTable('streaks-table', 3)" class="tooltip" data-tooltip="Longest losing streak">Worst Loss</th>
+                                <th onclick="sortTable('streaks-table', 4)" class="tooltip" data-tooltip="Record in last 5 games">Last 5</th>
+                                <th onclick="sortTable('streaks-table', 5)" class="tooltip" data-tooltip="Record in last 10 games">Last 10</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="teams-splits" class="sub-section">
+                <div class="table-container">
+                    <table id="splits-table" aria-label="Home/Away Splits">
+                        <thead>
+                            <tr>
+                                <th onclick="sortTable('splits-table', 0)">Team</th>
+                                <th onclick="sortTable('splits-table', 1)">Home W-L</th>
+                                <th onclick="sortTable('splits-table', 2)">Home%</th>
+                                <th onclick="sortTable('splits-table', 3)">Away W-L</th>
+                                <th onclick="sortTable('splits-table', 4)">Away%</th>
+                                <th onclick="sortTable('splits-table', 5)">Neutral</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="teams-conference" class="sub-section">
+                <div class="table-container">
+                    <table id="conference-table" aria-label="Conference Standings">
+                        <thead>
+                            <tr>
+                                <th onclick="sortTable('conference-table', 0)">Conference</th>
+                                <th onclick="sortTable('conference-table', 1)">Team</th>
+                                <th onclick="sortTable('conference-table', 2)">Conf W-L</th>
+                                <th onclick="sortTable('conference-table', 3)">Conf%</th>
+                                <th onclick="sortTable('conference-table', 4)">Overall</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="teams-headtohead" class="sub-section">
+                <div class="filter-row" style="margin-bottom: 1rem;">
+                    <select id="h2h-team1" onchange="updateHeadToHead()">
+                        <option value="">Select Team 1</option>
+                    </select>
+                    <span style="margin: 0 0.5rem;">vs</span>
+                    <select id="h2h-team2" onchange="updateHeadToHead()">
+                        <option value="">Select Team 2</option>
+                    </select>
+                </div>
+                <div id="h2h-result" class="card" style="display:none;">
+                    <div id="h2h-summary" style="text-align:center; margin-bottom:1rem;"></div>
+                    <div id="h2h-games" class="table-container"></div>
+                </div>
+            </div>
+
+        </div>
+
+        <div id="venues" class="section" role="tabpanel">
+            <h2>
+                Venue Statistics
+                <div class="section-actions">
+                    <button class="btn btn-secondary" onclick="downloadCSV('venues')">Download CSV</button>
+                </div>
+            </h2>
+            <input type="text" class="search-box" placeholder="Search venues..." onkeyup="filterTable('venues-table', this.value)">
+            <div class="table-container">
+                <table id="venues-table" aria-label="Venue Statistics">
+                    <thead>
+                        <tr>
+                            <th onclick="sortTable('venues-table', 0)">Venue</th>
+                            <th onclick="sortTable('venues-table', 1)">City</th>
+                            <th onclick="sortTable('venues-table', 2)">State</th>
+                            <th onclick="sortTable('venues-table', 3)" class="tooltip" data-tooltip="Games played at venue">Games</th>
+                            <th onclick="sortTable('venues-table', 4)" class="tooltip" data-tooltip="Home team wins">Home W</th>
+                            <th onclick="sortTable('venues-table', 5)" class="tooltip" data-tooltip="Away team wins">Away W</th>
+                            <th onclick="sortTable('venues-table', 6)" class="tooltip" data-tooltip="Avg home team points">Avg Home</th>
+                            <th onclick="sortTable('venues-table', 7)" class="tooltip" data-tooltip="Avg away team points">Avg Away</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="calendar" class="section" role="tabpanel">
+            <h2>Calendar</h2>
+            <div class="sub-tabs">
+                <button class="sub-tab active" onclick="showSubSection('calendar', 'monthly')">Monthly View</button>
+                <button class="sub-tab" onclick="showSubSection('calendar', 'season')">Season Day Tracker</button>
+                <button class="sub-tab" onclick="showSubSection('calendar', 'onthisday')">On This Day</button>
+            </div>
+
+            <div id="calendar-monthly" class="sub-section active">
+                <div class="filter-row" style="margin-bottom: 1rem; justify-content: center;">
+                    <button class="btn btn-secondary" onclick="changeMonth(-1)">&larr; Prev</button>
+                    <span id="calendar-month-label" style="font-size: 1.25rem; font-weight: bold; margin: 0 1rem;"></span>
+                    <button class="btn btn-secondary" onclick="changeMonth(1)">Next &rarr;</button>
+                </div>
+                <div id="monthly-calendar" class="monthly-calendar"></div>
+            </div>
+
+            <div id="calendar-season" class="sub-section">
+                <p style="margin-bottom: 1rem; color: var(--text-secondary);">Track your progress toward seeing a game on every day of the basketball season (year-agnostic).</p>
+                <div id="calendar-grid" class="calendar-grid"></div>
+                <div class="calendar-legend" style="margin-top: 1rem; display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
+                    <span><span class="calendar-day has-game" style="display: inline-block; width: 20px; height: 20px; vertical-align: middle;"></span> Game attended</span>
+                    <span><span class="calendar-day has-multiple" style="display: inline-block; width: 20px; height: 20px; vertical-align: middle;"></span> Multiple games</span>
+                    <span><span class="calendar-day" style="display: inline-block; width: 20px; height: 20px; vertical-align: middle; background: var(--bg-secondary); border: 1px solid var(--border-color);"></span> No game yet</span>
+                </div>
+            </div>
+
+            <div id="calendar-onthisday" class="sub-section">
+                <div class="onthisday-header" style="text-align: center; margin-bottom: 1.5rem;">
+                    <h3 id="onthisday-date" style="font-size: 1.5rem; color: var(--accent-color);"></h3>
+                    <p style="color: var(--text-secondary);">Games you attended on this date in previous years</p>
+                </div>
+                <div id="onthisday-content"></div>
+                <div id="onthisday-empty" class="empty-state" style="display: none;">
+                    <div class="empty-state-icon">&#128197;</div>
+                    <h3>No games on this day</h3>
+                    <p>You haven't attended any games on this date in previous years</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="checklist" class="section" role="tabpanel">
+            <h2>Conference Checklist</h2>
+            <p style="margin-bottom: 1rem; color: var(--text-secondary);">Track which teams you've seen play and which home arenas you've visited.</p>
+            <div class="filters" style="margin-bottom: 1rem;">
+                <div class="filter-group">
+                    <label for="checklist-conference">Conference</label>
+                    <select id="checklist-conference" onchange="populateChecklist()">
+                        <option value="">Select Conference...</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="checklist-gender">Gender</label>
+                    <select id="checklist-gender" onchange="populateChecklist()">
+                        <option value="">All</option>
+                        <option value="M">Men's</option>
+                        <option value="W">Women's</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="checklist-team-filter">Teams</label>
+                    <select id="checklist-team-filter" onchange="populateChecklist()">
+                        <option value="all">All Teams</option>
+                        <option value="seen">Seen</option>
+                        <option value="unseen">Not Seen</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="checklist-venue-filter">Venues</label>
+                    <select id="checklist-venue-filter" onchange="populateChecklist()">
+                        <option value="all">All Venues</option>
+                        <option value="visited">Visited</option>
+                        <option value="unvisited">Not Visited</option>
+                    </select>
+                </div>
+            </div>
+            <div id="checklist-content"></div>
+        </div>
+
+        <div id="map" class="section" role="tabpanel">
+            <h2>School Map</h2>
+            <p style="margin-bottom: 1rem; color: var(--text-secondary);">Interactive map of D1 basketball schools. Green = visited, Blue = seen (away), Gray = not seen.</p>
+            <div class="filters" style="margin-bottom: 1rem;">
+                <div class="filter-group">
+                    <label for="map-conference">Conference</label>
+                    <select id="map-conference" onchange="updateMapMarkers()">
+                        <option value="All D1">All D1</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="map-filter">Show</label>
+                    <select id="map-filter" onchange="updateMapMarkers()">
+                        <option value="all">All Schools</option>
+                        <option value="visited">Visited (Home Arena)</option>
+                        <option value="seen">Seen (Any Location)</option>
+                        <option value="unseen">Not Seen</option>
+                    </select>
+                </div>
+            </div>
+            <div id="school-map" style="height: 600px; border-radius: 8px; border: 1px solid var(--border-color);"></div>
+            <div id="map-legend" style="margin-top: 1rem; display: flex; gap: 1.5rem; flex-wrap: wrap;">
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <span style="width: 16px; height: 16px; background: #2E7D32; border-radius: 50%; display: inline-block;"></span>
+                    <span>Visited (Home Arena)</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <span style="width: 16px; height: 16px; background: #1976D2; border-radius: 50%; display: inline-block;"></span>
+                    <span>Seen (Away Only)</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <span style="width: 16px; height: 16px; background: #9E9E9E; border-radius: 50%; display: inline-block;"></span>
+                    <span>Not Seen</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="compare" class="section" role="tabpanel">
+            <h2>Player Comparison</h2>
+            <div class="controls">
+                <select class="compare-select" id="compare-player1" onchange="updateComparison()" aria-label="Select first player">
+                    <option value="">Select Player 1...</option>
+                </select>
+                <span>vs</span>
+                <select class="compare-select" id="compare-player2" onchange="updateComparison()" aria-label="Select second player">
+                    <option value="">Select Player 2...</option>
+                </select>
+            </div>
+            <div class="compare-grid" id="compare-grid">
+                <div class="empty-state">
+                    <div class="empty-state-icon">&#128101;</div>
+                    <h3>Select two players</h3>
+                    <p>Choose players from the dropdowns above to compare their statistics</p>
+                </div>
+            </div>
+            <div class="chart-container">
+                <canvas id="compare-chart"></canvas>
+            </div>
+        </div>
+
+        <div id="charts" class="section" role="tabpanel">
+            <h2>Statistics Charts</h2>
+            <div class="sub-tabs">
+                <button class="sub-tab active" onclick="showChart('scoring')">Top Scorers</button>
+                <button class="sub-tab" onclick="showChart('rebounds')">Top Rebounders</button>
+                <button class="sub-tab" onclick="showChart('assists')">Top Assists</button>
+                <button class="sub-tab" onclick="showChart('efficiency')">Shooting Efficiency</button>
+                <button class="sub-tab" onclick="showChart('teams')">Team Wins</button>
+                <button class="sub-tab" onclick="showChart('trends')">Scoring Trends</button>
+            </div>
+            <div class="chart-container">
+                <canvas id="stats-chart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Player Detail Modal -->
+    <div class="modal" id="player-modal" role="dialog" aria-labelledby="player-modal-title" onclick="if(event.target === this) closeModal('player-modal')">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('player-modal')" aria-label="Close">&times;</button>
+            <div id="player-detail"></div>
+        </div>
+    </div>
+
+    <!-- Game Detail Modal (Box Score) -->
+    <div class="modal" id="game-modal" role="dialog" aria-labelledby="game-modal-title" onclick="if(event.target === this) closeModal('game-modal')">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('game-modal')" aria-label="Close">&times;</button>
+            <div id="game-detail"></div>
+        </div>
+    </div>
+
+    <!-- Venue Detail Modal -->
+    <div class="modal" id="venue-modal" role="dialog" aria-labelledby="venue-modal-title" onclick="if(event.target === this) closeModal('venue-modal')">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('venue-modal')" aria-label="Close">&times;</button>
+            <div id="venue-detail"></div>
+        </div>
+    </div>
+
+    <!-- Toast container -->
+    <div id="toast" class="toast"></div>"""
+    
+    return (body_template
+        .replace('{TOTAL_GAMES_PLACEHOLDER}', str(total_games))
+        .replace('{TOTAL_PLAYERS_PLACEHOLDER}', str(total_players))
+        .replace('{TOTAL_TEAMS_PLACEHOLDER}', str(total_teams))
+        .replace('{GENERATED_TIME_PLACEHOLDER}', generated_time))
+
+
+def get_header(total_games: int, total_players: int, total_teams: int, generated_time: str) -> str:
+    """Return the header section with statistics overview."""
+    return f"""<a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <div class="header">
+        <div class="header-controls">
+            <button class="share-btn" onclick="shareCurrentView()" title="Share this view" aria-label="Share">&#128279;</button>
+            <button class="theme-toggle" onclick="toggleTheme()" title="Toggle dark mode" aria-label="Toggle theme">&#127769;</button>
+        </div>
+        <h1>College Basketball Stats</h1>
+        <div class="stats-overview">
+            <div class="stat-box">
+                <div class="number">{total_games}</div>
+                <div class="label">Games</div>
+            </div>
+            <div class="stat-box">
+                <div class="number">{total_players}</div>
+                <div class="label">Players</div>
+            </div>
+            <div class="stat-box">
+                <div class="number">{total_teams}</div>
+                <div class="label">Teams</div>
+            </div>
+        </div>
+        <div class="generated-time">Generated: {generated_time}</div>
+    </div>"""
+
+
+def get_navigation() -> str:
+    """Return the main navigation tabs."""
+    return """<div class="tabs" role="tablist">
+            <button class="tab active" onclick="showSection('games')" role="tab" aria-selected="true" data-section="games" tabindex="0">Games</button>
+            <button class="tab" onclick="showSection('players')" role="tab" aria-selected="false" data-section="players" tabindex="-1">Players</button>
+            <button class="tab" onclick="showSection('milestones')" role="tab" aria-selected="false" data-section="milestones" tabindex="-1">Milestones</button>
+            <button class="tab" onclick="showSection('teams')" role="tab" aria-selected="false" data-section="teams" tabindex="-1">Teams</button>
+            <button class="tab" onclick="showSection('venues')" role="tab" aria-selected="false" data-section="venues" tabindex="-1">Venues</button>
+            <button class="tab" onclick="showSection('calendar')" role="tab" aria-selected="false" data-section="calendar" tabindex="-1">Calendar</button>
+            <button class="tab" onclick="showSection('checklist')" role="tab" aria-selected="false" data-section="checklist" tabindex="-1">Checklist</button>
+            <button class="tab" onclick="showSection('map')" role="tab" aria-selected="false" data-section="map" tabindex="-1">Map</button>
+            <button class="tab" onclick="showSection('compare')" role="tab" aria-selected="false" data-section="compare" tabindex="-1">Compare</button>
+            <button class="tab" onclick="showSection('charts')" role="tab" aria-selected="false" data-section="charts" tabindex="-1">Charts</button>
+        </div>"""
+
+
+def get_main_content(total_games: int, total_players: int, total_teams: int, generated_time: str) -> str:
+    """
+    Return the full body HTML content.
+    
+    This is the main function to use for getting all body content.
+    """
+    return get_body(total_games, total_players, total_teams, generated_time)
+
+
+def get_modals() -> str:
+    """Return the modal dialogs HTML."""
+    return """<!-- Player Detail Modal -->
+    <div class="modal" id="player-modal" role="dialog" aria-labelledby="player-modal-title" onclick="if(event.target === this) closeModal('player-modal')">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('player-modal')" aria-label="Close">&times;</button>
+            <div id="player-detail"></div>
+        </div>
+    </div>
+
+    <!-- Game Detail Modal (Box Score) -->
+    <div class="modal" id="game-modal" role="dialog" aria-labelledby="game-modal-title" onclick="if(event.target === this) closeModal('game-modal')">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('game-modal')" aria-label="Close">&times;</button>
+            <div id="game-detail"></div>
+        </div>
+    </div>
+
+    <!-- Venue Detail Modal -->
+    <div class="modal" id="venue-modal" role="dialog" aria-labelledby="venue-modal-title" onclick="if(event.target === this) closeModal('venue-modal')">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('venue-modal')" aria-label="Close">&times;</button>
+            <div id="venue-detail"></div>
+        </div>
+    </div>
+
+    <!-- Toast container -->
+    <div id="toast" class="toast"></div>"""

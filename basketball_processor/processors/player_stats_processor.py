@@ -63,7 +63,7 @@ class PlayerStatsProcessor(BaseProcessor):
             'season_highs': season_highs_df,
         }
 
-    def _aggregate_player_stats(self):
+    def _aggregate_player_stats(self) -> None:
         """Aggregate statistics for each player across all games."""
         stat_keys = [
             'pts', 'trb', 'ast', 'stl', 'blk', 'tov', 'pf',
@@ -303,7 +303,7 @@ class PlayerStatsProcessor(BaseProcessor):
                 continue
 
             # Calculate averages
-            def calc_avg(totals, games, stat):
+            def calc_avg(totals: Dict[str, int], games: int, stat: str) -> float:
                 if games == 0:
                     return 0
                 return round(totals.get(stat, 0) / games, 1)
