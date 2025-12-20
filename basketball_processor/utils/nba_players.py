@@ -236,10 +236,14 @@ def get_nba_status_batch(player_ids: List[str], use_api_fallback: bool = True, m
             print(f"  {i+1}/{len(fetch_list)} {player_id}", end="", flush=True)
             result = check_player_nba_status(player_id)
             results[player_id] = result
+            # Show what was found (can be both NBA and Intl)
+            tags = []
             if result and result.get('nba_url'):
-                print(" → NBA")
-            elif result and result.get('intl_url'):
-                print(" → Intl")
+                tags.append("NBA")
+            if result and result.get('intl_url'):
+                tags.append("Intl")
+            if tags:
+                print(f" → {', '.join(tags)}")
             else:
                 print()
 
@@ -386,12 +390,16 @@ def check_all_players_from_cache() -> Dict[str, int]:
     for i, player_id in enumerate(to_check):
         print(f"  {i+1}/{len(to_check)} {player_id}", end="", flush=True)
         result = check_player_nba_status(player_id)
+        # Show what was found (can be both NBA and Intl)
+        tags = []
         if result and result.get('nba_url'):
             nba_found += 1
-            print(" → NBA")
-        elif result and result.get('intl_url'):
+            tags.append("NBA")
+        if result and result.get('intl_url'):
             intl_found += 1
-            print(" → Intl")
+            tags.append("Intl")
+        if tags:
+            print(f" → {', '.join(tags)}")
         else:
             print()
 
