@@ -18,7 +18,7 @@ def get_head(css: str) -> str:
 </head>"""
 
 
-def get_body(total_games: int, total_players: int, total_teams: int, total_venues: int, total_points: int, nba_players: int, intl_players: int, generated_time: str) -> str:
+def get_body(total_games: int, total_players: int, total_teams: int, total_venues: int, total_points: int, nba_players: int, wnba_players: int, intl_players: int, generated_time: str) -> str:
     """
     Return the HTML body content.
 
@@ -66,6 +66,10 @@ def get_body(total_games: int, total_players: int, total_teams: int, total_venue
                 <div class="number">{NBA_PLAYERS_PLACEHOLDER}</div>
                 <div class="label">NBA Players 🏀</div>
             </div>
+            <div class="stat-box wnba-stat">
+                <div class="number">{WNBA_PLAYERS_PLACEHOLDER}</div>
+                <div class="label">WNBA Players 🏀W</div>
+            </div>
             <div class="stat-box intl-stat">
                 <div class="number">{INTL_PLAYERS_PLACEHOLDER}</div>
                 <div class="label">Int'l Players 🌍</div>
@@ -88,6 +92,7 @@ def get_body(total_games: int, total_players: int, total_teams: int, total_venue
             <button class="tab" onclick="showSection('compare')" role="tab" aria-selected="false" data-section="compare" tabindex="-1">Compare</button>
             <button class="tab" onclick="showSection('charts')" role="tab" aria-selected="false" data-section="charts" tabindex="-1">Charts</button>
             <button class="tab" onclick="showSection('nba')" role="tab" aria-selected="false" data-section="nba" tabindex="-1">NBA 🏀</button>
+            <button class="tab" onclick="showSection('wnba')" role="tab" aria-selected="false" data-section="wnba" tabindex="-1">WNBA 🏀W</button>
             <button class="tab" onclick="showSection('international')" role="tab" aria-selected="false" data-section="international" tabindex="-1">Int'l 🌍</button>
         </div>
 
@@ -738,6 +743,28 @@ def get_body(total_games: int, total_players: int, total_teams: int, total_venue
             </div>
         </div>
 
+        <div id="wnba" class="section" role="tabpanel">
+            <h2>Future WNBA Players 🏀W</h2>
+            <p style="margin-bottom: 1rem; color: var(--text-secondary);">Players you've seen in college who went on to play in the WNBA.</p>
+            <div class="table-wrapper">
+                <table id="wnba-table" class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Player</th>
+                            <th>College Team</th>
+                            <th>Games Seen</th>
+                            <th>PPG</th>
+                            <th>RPG</th>
+                            <th>APG</th>
+                            <th>Total Points</th>
+                            <th>WNBA Page</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+
         <div id="international" class="section" role="tabpanel">
             <h2>International Players 🌍</h2>
             <p style="margin-bottom: 1rem; color: var(--text-secondary);">Players you've seen in college who played professionally overseas.</p>
@@ -811,6 +838,7 @@ def get_body(total_games: int, total_players: int, total_teams: int, total_venue
         .replace('{TOTAL_VENUES_PLACEHOLDER}', str(total_venues))
         .replace('{TOTAL_POINTS_PLACEHOLDER}', f'{total_points:,}')
         .replace('{NBA_PLAYERS_PLACEHOLDER}', str(nba_players))
+        .replace('{WNBA_PLAYERS_PLACEHOLDER}', str(wnba_players))
         .replace('{INTL_PLAYERS_PLACEHOLDER}', str(intl_players))
         .replace('{GENERATED_TIME_PLACEHOLDER}', generated_time))
 

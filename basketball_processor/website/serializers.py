@@ -33,10 +33,12 @@ class DataSerializer:
         summary = self._serialize_summary()
         players = self._serialize_players()
 
-        # Count NBA and International players after serialization
+        # Count NBA, WNBA, and International players after serialization
         nba_count = sum(1 for p in players if p.get('NBA'))
+        wnba_count = sum(1 for p in players if p.get('WNBA'))
         intl_count = sum(1 for p in players if p.get('International'))
         summary['nbaPlayers'] = nba_count
+        summary['wnbaPlayers'] = wnba_count
         summary['intlPlayers'] = intl_count
 
         return {
@@ -136,6 +138,14 @@ class DataSerializer:
                 record['NBA_URL'] = pro_info.get('nba_url', '')
             else:
                 record['NBA'] = False
+
+            # WNBA info (separate from NBA)
+            if pro_info and pro_info.get('wnba_url'):
+                record['WNBA'] = True
+                record['WNBA_Active'] = pro_info.get('is_wnba_active', False)
+                record['WNBA_URL'] = pro_info.get('wnba_url', '')
+            else:
+                record['WNBA'] = False
 
             # International info
             if pro_info and pro_info.get('intl_url'):

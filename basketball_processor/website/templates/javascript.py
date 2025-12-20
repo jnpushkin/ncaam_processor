@@ -1231,13 +1231,16 @@ def get_javascript(json_data: str) -> str:
                     const totalBlk = player['Total BLK'] || 0;
 
                     const genderTag = player.Gender === 'W' ? '<span class="gender-tag">(W)</span>' : '';
-                    const nbaTag = player.NBA ? `<span class="nba-badge" title="${player.NBA_Active ? 'Active NBA player' : 'Former NBA player'}">${player.NBA_Active ? '🏀' : '🏀'}</span>` : '';
+                    const nbaTag = player.NBA ? `<span class="nba-badge" title="${player.NBA_Active ? 'Active NBA player' : 'Former NBA player'}">🏀</span>` : '';
+                    const wnbaTag = player.WNBA ? `<span class="wnba-badge" title="${player.WNBA_Active ? 'Active WNBA player' : 'Former WNBA player'}">🏀W</span>` : '';
 
                     const playerId = player['Player ID'] || '';
                     const sportsRefLink = getPlayerSportsRefLink(player);
+                    // Priority: WNBA > NBA for row styling
+                    const rowClass = player.WNBA ? 'wnba-player' : (player.NBA ? 'nba-player' : '');
                     return `
-                        <tr class="${player.NBA ? 'nba-player' : ''}">
-                            <td class="sticky-col"><span class="player-link" onclick="showPlayerDetail('${playerId || player.Player}')">${player.Player || ''}</span>${nbaTag}${sportsRefLink}</td>
+                        <tr class="${rowClass}">
+                            <td class="sticky-col"><span class="player-link" onclick="showPlayerDetail('${playerId || player.Player}')">${player.Player || ''}</span>${nbaTag}${wnbaTag}${sportsRefLink}</td>
                             <td>${player.Team || ''} ${genderTag}</td>
                             <td>${gp}</td>
                             <td>${mpg.toFixed(1)}</td>
@@ -1618,6 +1621,46 @@ def get_javascript(json_data: str) -> str:
             }).join('');
         }
 
+        function populateWnbaTable() {
+            const tbody = document.querySelector('#wnba-table tbody');
+            const players = DATA.players || [];
+
+            // Filter to only WNBA players
+            const wnbaPlayers = players.filter(p => p.WNBA);
+
+            if (wnbaPlayers.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="8" class="empty-state"><h3>No WNBA players in dataset</h3></td></tr>';
+                return;
+            }
+
+            // Sort by total points descending
+            wnbaPlayers.sort((a, b) => (b['Total PTS'] || 0) - (a['Total PTS'] || 0));
+
+            tbody.innerHTML = wnbaPlayers.map(player => {
+                const playerId = player['Player ID'] || '';
+                const genderTag = player.Gender === 'W' ? ' <span class="gender-tag">(W)</span>' : '';
+                const wnbaUrl = player.WNBA_URL || '#';
+                const sportsRefLink = getPlayerSportsRefLink(player);
+
+                return `
+                    <tr class="wnba-player">
+                        <td>
+                            <span class="player-link" onclick="showPlayerDetail('${playerId || player.Player}')">${player.Player || ''}</span>
+                            <span class="wnba-badge" title="WNBA player">🏀W</span>
+                            ${sportsRefLink}${genderTag}
+                        </td>
+                        <td>${player.Team || ''}</td>
+                        <td>${player.Games || 0}</td>
+                        <td>${(player.PPG || 0).toFixed(1)}</td>
+                        <td>${(player.RPG || 0).toFixed(1)}</td>
+                        <td>${(player.APG || 0).toFixed(1)}</td>
+                        <td>${player['Total PTS'] || 0}</td>
+                        <td><a href="${wnbaUrl}" target="_blank" class="wnba-link">View WNBA Stats &#8599;</a></td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
         function populateIntlTable() {
             const tbody = document.querySelector('#intl-table tbody');
             const players = DATA.players || [];
@@ -1639,13 +1682,14 @@ def get_javascript(json_data: str) -> str:
                 const intlUrl = player.Intl_URL || '#';
                 const sportsRefLink = getPlayerSportsRefLink(player);
                 const nbaTag = player.NBA ? '<span class="nba-badge" title="Also played in NBA">🏀</span>' : '';
+                const wnbaTag = player.WNBA ? '<span class="wnba-badge" title="Also played in WNBA">🏀W</span>' : '';
 
                 return `
                     <tr class="intl-player">
                         <td>
                             <span class="player-link" onclick="showPlayerDetail('${playerId || player.Player}')">${player.Player || ''}</span>
                             <span class="intl-badge" title="International player">🌍</span>
-                            ${nbaTag}
+                            ${nbaTag}${wnbaTag}
                             ${sportsRefLink}${genderTag}
                         </td>
                         <td>${player.Team || ''}</td>
@@ -3679,6 +3723,7 @@ def get_javascript(json_data: str) -> str:
         try { buildConferenceCrossover(); } catch(e) { console.error('buildConferenceCrossover:', e); }
         try { populateVenuesTable(); } catch(e) { console.error('populateVenuesTable:', e); }
         try { populateNbaTable(); } catch(e) { console.error('populateNbaTable:', e); }
+        try { populateWnbaTable(); } catch(e) { console.error('populateWnbaTable:', e); }
         try { populateIntlTable(); } catch(e) { console.error('populateIntlTable:', e); }
         try { populateRecords(); } catch(e) { console.error('populateRecords:', e); }
         try { initCalendar(); } catch(e) { console.error('initCalendar:', e); }

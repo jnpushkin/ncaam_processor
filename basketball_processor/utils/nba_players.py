@@ -201,6 +201,19 @@ def check_player_nba_status(player_id: str) -> Optional[Dict[str, Any]]:
                 result['nba_url'] = nba_url
                 result['is_active'] = is_active
 
+            # Look for Basketball Reference WNBA link
+            wnba_match = re.search(
+                r'href="(https://www\.basketball-reference\.com/wnba/players/[^"]+)"[^>]*>Basketball-Reference\.com</a>',
+                html
+            )
+
+            if wnba_match:
+                wnba_url = wnba_match.group(1)
+                # Check if currently active
+                is_wnba_active = '2024' in html or '2025' in html
+                result['wnba_url'] = wnba_url
+                result['is_wnba_active'] = is_wnba_active
+
             # Look for Basketball Reference International link
             intl_match = re.search(
                 r'href="(https://www\.basketball-reference\.com/international/players/[^"]+)"',
@@ -292,10 +305,12 @@ def get_nba_status_batch(player_ids: List[str], use_api_fallback: bool = True, m
             print(f"  {i+1}/{len(fetch_list)} {player_id}", end="", flush=True)
             result = check_player_nba_status(player_id)
             results[player_id] = result
-            # Show what was found (can be both NBA and Intl)
+            # Show what was found (can be multiple)
             tags = []
             if result and result.get('nba_url'):
                 tags.append("NBA")
+            if result and result.get('wnba_url'):
+                tags.append("WNBA")
             if result and result.get('intl_url'):
                 tags.append("Intl")
             if tags:
@@ -442,15 +457,19 @@ def check_all_players_from_cache() -> Dict[str, int]:
 
     # Check remaining players
     nba_found = 0
+    wnba_found = 0
     intl_found = 0
     for i, player_id in enumerate(to_check):
         print(f"  {i+1}/{len(to_check)} {player_id}", end="", flush=True)
         result = check_player_nba_status(player_id)
-        # Show what was found (can be both NBA and Intl)
+        # Show what was found (can be multiple)
         tags = []
         if result and result.get('nba_url'):
             nba_found += 1
             tags.append("NBA")
+        if result and result.get('wnba_url'):
+            wnba_found += 1
+            tags.append("WNBA")
         if result and result.get('intl_url'):
             intl_found += 1
             tags.append("Intl")
@@ -601,6 +620,7 @@ def recheck_null_players(force: bool = False) -> Dict[str, int]:
     print(f"Estimated time: {est_minutes:.0f} minutes (rate limited to 20 req/min)")
 
     nba_found = 0
+    wnba_found = 0
     intl_found = 0
 
     for i, player_id in enumerate(null_players):
@@ -618,6 +638,9 @@ def recheck_null_players(force: bool = False) -> Dict[str, int]:
         if result and result.get('nba_url'):
             nba_found += 1
             tags.append("NBA")
+        if result and result.get('wnba_url'):
+            wnba_found += 1
+            tags.append("WNBA")
         if result and result.get('intl_url'):
             intl_found += 1
             tags.append("Intl")
@@ -636,7 +659,7 @@ def recheck_null_players(force: bool = False) -> Dict[str, int]:
     _save_recheck_timestamp()
 
     print(f"\nComplete! Re-checked {len(null_players)} null players")
-    print(f"  Found {nba_found} NBA, {intl_found} International")
+    print(f"  Found {nba_found} NBA, {wnba_found} WNBA, {intl_found} International")
     if intl_from_nba > 0:
         print(f"  Found {intl_from_nba} NBA players who also went international")
-    return {'checked': len(null_players), 'nba_found': nba_found, 'intl_found': intl_found + intl_from_nba}
+    return {'checked': len(null_players), 'nba_found': nba_found, 'wnba_found': wnba_found, 'intl_found': intl_found + intl_from_nba}

@@ -382,16 +382,50 @@ def get_css() -> str:
         tr.intl-player:hover {
             background: linear-gradient(90deg, rgba(46, 125, 50, 0.15) 0%, var(--hover-color) 30%);
         }
+        .wnba-badge {
+            font-size: 0.85rem;
+            margin-left: 0.35rem;
+            cursor: help;
+        }
+        tr.wnba-player {
+            background: linear-gradient(90deg, rgba(255, 102, 0, 0.08) 0%, transparent 30%);
+        }
+        tr.wnba-player:hover {
+            background: linear-gradient(90deg, rgba(255, 102, 0, 0.15) 0%, var(--hover-color) 30%);
+        }
+        .status-badge.wnba-active {
+            background: #FF6600;
+            color: white;
+        }
+        .status-badge.wnba-former {
+            background: #B8860B;
+            color: white;
+        }
+        .wnba-link {
+            color: #FF6600;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .wnba-link:hover {
+            text-decoration: underline;
+        }
+        .nba-stat .number {
+            color: #C8102E;
+        }
+        .wnba-stat .number {
+            color: #FF6600;
+        }
         .intl-stat .number {
             color: #2E7D32;
         }
-        #nba-table, #intl-table {
+        #nba-table, #wnba-table, #intl-table {
             margin-top: 1rem;
         }
-        #nba-table th, #nba-table td, #intl-table th, #intl-table td {
+        #nba-table th, #nba-table td, #wnba-table th, #wnba-table td, #intl-table th, #intl-table td {
             text-align: center;
         }
         #nba-table th:first-child, #nba-table td:first-child,
+        #wnba-table th:first-child, #wnba-table td:first-child,
         #intl-table th:first-child, #intl-table td:first-child {
             text-align: left;
         }
