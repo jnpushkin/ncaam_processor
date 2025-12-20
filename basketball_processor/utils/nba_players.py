@@ -29,6 +29,10 @@ NBA_LOOKUP_CACHE_FILE = CACHE_DIR / 'nba_lookup_cache.json'
 NBA_API_CACHE_FILE = CACHE_DIR / 'nba_api_cache.json'
 # Persistent confirmed file - survives cache clears
 NBA_CONFIRMED_FILE = CACHE_DIR / 'nba_confirmed.json'
+# Track when null players were last re-checked
+NBA_RECHECK_TIMESTAMP_FILE = CACHE_DIR / 'nba_recheck_timestamp.txt'
+# Days between automatic null re-checks
+RECHECK_INTERVAL_DAYS = 90
 
 # Sports Reference base URL
 SPORTS_REF_BASE = "https://www.sports-reference.com/cbb/players/"
@@ -457,57 +461,101 @@ def check_all_players_from_cache() -> Dict[str, int]:
     return {'total': len(player_ids), 'checked': len(to_check), 'nba_found': nba_found, 'skipped': len(player_ids) - len(to_check)}
 
 
-def recheck_null_players_for_intl() -> Dict[str, int]:
+def _get_last_recheck_time() -> Optional[datetime]:
+    """Get the timestamp of the last null re-check."""
+    if NBA_RECHECK_TIMESTAMP_FILE.exists():
+        try:
+            ts = NBA_RECHECK_TIMESTAMP_FILE.read_text().strip()
+            return datetime.fromisoformat(ts)
+        except Exception:
+            pass
+    return None
+
+
+def _save_recheck_timestamp() -> None:
+    """Save the current timestamp as the last re-check time."""
+    CACHE_DIR.mkdir(parents=True, exist_ok=True)
+    NBA_RECHECK_TIMESTAMP_FILE.write_text(datetime.now().isoformat())
+
+
+def should_recheck_nulls() -> bool:
+    """Check if it's time to re-check null players (every 90 days by default)."""
+    last_check = _get_last_recheck_time()
+    if last_check is None:
+        return True
+    days_since = (datetime.now() - last_check).days
+    return days_since >= RECHECK_INTERVAL_DAYS
+
+
+def recheck_null_players(force: bool = False) -> Dict[str, int]:
     """
-    Re-check players cached as null for international status.
-    This catches players who were checked before the BR international fallback was added.
+    Re-check players cached as null for NBA/Intl status.
+    Use this to catch players who have since joined the NBA or gone international.
+
+    By default, only runs if it's been 90+ days since the last re-check.
+    Use force=True to run regardless.
+
+    Run manually with:
+        python -c "from basketball_processor.utils.nba_players import recheck_null_players; recheck_null_players()"
 
     Returns:
-        Dict with counts: {'checked': N, 'intl_found': N}
+        Dict with counts: {'checked': N, 'nba_found': N, 'intl_found': N}
     """
-    if not HAS_CLOUDSCRAPER and not HAS_REQUESTS:
-        print("No HTTP library available")
-        return {'checked': 0, 'intl_found': 0}
+    # Check if we should run
+    if not force:
+        last_check = _get_last_recheck_time()
+        if last_check:
+            days_since = (datetime.now() - last_check).days
+            if days_since < RECHECK_INTERVAL_DAYS:
+                print(f"Last re-check was {days_since} days ago. Next re-check in {RECHECK_INTERVAL_DAYS - days_since} days.")
+                print("Use force=True to re-check anyway.")
+                return {'checked': 0, 'nba_found': 0, 'intl_found': 0}
 
     cache = _load_lookup_cache()
     null_players = [pid for pid, val in cache.items() if val is None]
 
-    print(f"Found {len(null_players)} players with null cache entries to re-check for international status")
+    print(f"Found {len(null_players)} players with null cache entries to re-check")
 
     if not null_players:
-        return {'checked': 0, 'intl_found': 0}
+        print("No null players to re-check!")
+        return {'checked': 0, 'nba_found': 0, 'intl_found': 0}
 
-    # Estimate time: ~3.5 seconds per player
-    est_minutes = (len(null_players) * RATE_LIMIT_SECONDS) / 60
+    # Estimate time: ~6.2 seconds per player (2 requests @ 3.1s each)
+    est_minutes = (len(null_players) * 6.2) / 60
     print(f"Estimated time: {est_minutes:.0f} minutes (rate limited to 20 req/min)")
 
+    nba_found = 0
     intl_found = 0
-    if HAS_CLOUDSCRAPER:
-        scraper = cloudscraper.create_scraper()
 
     for i, player_id in enumerate(null_players):
         print(f"  {i+1}/{len(null_players)} {player_id}", end="", flush=True)
 
-        # Rate limit to stay under 20 requests/minute
-        time.sleep(RATE_LIMIT_SECONDS)
+        # Remove from cache so check_player_nba_status will re-fetch
+        del cache[player_id]
+        _save_lookup_cache(cache)
 
-        # Check Basketball Reference international page directly
-        intl_check_url = f"https://www.basketball-reference.com/international/players/{player_id}.html"
-        try:
-            if HAS_CLOUDSCRAPER:
-                response = scraper.head(intl_check_url, timeout=10, allow_redirects=True)
-            else:
-                response = requests.head(intl_check_url, timeout=10, allow_redirects=True)
+        # Do a fresh check
+        result = check_player_nba_status(player_id)
 
-            if response.status_code == 200:
-                intl_found += 1
-                cache[player_id] = {'intl_url': intl_check_url}
-                print(" → Intl")
-            else:
-                print()
-        except Exception:
-            print()  # Print newline on failure
+        # Show what was found
+        tags = []
+        if result and result.get('nba_url'):
+            nba_found += 1
+            tags.append("NBA")
+        if result and result.get('intl_url'):
+            intl_found += 1
+            tags.append("Intl")
+        if tags:
+            print(f" → {', '.join(tags)}")
+        else:
+            print()
 
-    _save_lookup_cache(cache)
-    print(f"\nComplete! Re-checked {len(null_players)} players, found {intl_found} international players")
-    return {'checked': len(null_players), 'intl_found': intl_found}
+        # Reload cache for next iteration
+        cache = _load_lookup_cache()
+
+    # Save timestamp so we don't re-check again for 90 days
+    _save_recheck_timestamp()
+
+    print(f"\nComplete! Re-checked {len(null_players)} players")
+    print(f"  Found {nba_found} NBA, {intl_found} International")
+    return {'checked': len(null_players), 'nba_found': nba_found, 'intl_found': intl_found}
