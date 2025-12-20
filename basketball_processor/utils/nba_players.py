@@ -663,3 +663,113 @@ def recheck_null_players(force: bool = False) -> Dict[str, int]:
     if intl_from_nba > 0:
         print(f"  Found {intl_from_nba} NBA players who also went international")
     return {'checked': len(null_players), 'nba_found': nba_found, 'wnba_found': wnba_found, 'intl_found': intl_found + intl_from_nba}
+
+
+def recheck_female_players_for_wnba() -> Dict[str, int]:
+    """
+    Re-check female players for WNBA status.
+    Only checks players from women's games who don't already have wnba_url in cache.
+
+    Run manually with:
+        python -c "from basketball_processor.utils.nba_players import recheck_female_players_for_wnba; recheck_female_players_for_wnba()"
+
+    Returns:
+        Dict with counts: {'checked': N, 'wnba_found': N}
+    """
+    import json as json_module
+
+    # Get all female player IDs from cached games
+    female_player_ids: Set[str] = set()
+    game_files = list(CACHE_DIR.glob('*.json'))
+    game_files = [f for f in game_files if f.name not in ('nba_lookup_cache.json', 'nba_api_cache.json')]
+
+    for game_file in game_files:
+        # Check if it's a women's game (filename contains "Women" or game has gender='W')
+        is_womens_game = 'Women' in game_file.name
+
+        try:
+            with open(game_file, 'r') as f:
+                data = json_module.load(f)
+
+            # Also check gender field in basic_info
+            if not is_womens_game:
+                gender = data.get('basic_info', {}).get('gender', 'M')
+                is_womens_game = gender == 'W'
+
+            if not is_womens_game:
+                continue
+
+            box_score = data.get('box_score', {})
+            for team_key in ['away', 'home']:
+                team_data = box_score.get(team_key, {})
+                players = team_data.get('players', [])
+                for player in players:
+                    pid = player.get('player_id')
+                    if pid:
+                        female_player_ids.add(pid)
+        except Exception:
+            continue
+
+    print(f"Found {len(female_player_ids)} unique female players in cached women's games")
+
+    # Filter to only those without wnba_url in cache
+    cache = _load_lookup_cache()
+    to_check = []
+    for pid in female_player_ids:
+        if pid in FALSE_POSITIVE_IDS:
+            continue
+        cached = cache.get(pid)
+        # Check if we need to look up this player
+        if cached is None:
+            # Never checked - need to check
+            to_check.append(pid)
+        elif isinstance(cached, dict) and 'wnba_url' not in cached:
+            # Checked but no WNBA info - need to re-check
+            to_check.append(pid)
+        # If already has wnba_url (or wnba_url check was done), skip
+
+    print(f"Players needing WNBA check: {len(to_check)}")
+
+    if not to_check:
+        print("All female players already checked for WNBA!")
+        return {'checked': 0, 'wnba_found': 0}
+
+    # Estimate time: ~3.1 seconds per player (1 request to SR)
+    est_minutes = (len(to_check) * 3.1) / 60
+    print(f"Estimated time: {est_minutes:.0f} minutes (rate limited to 20 req/min)")
+
+    wnba_found = 0
+    intl_found = 0
+
+    for i, player_id in enumerate(to_check):
+        print(f"  {i+1}/{len(to_check)} {player_id}", end="", flush=True)
+
+        # Remove from cache so check_player_nba_status will re-fetch
+        if player_id in cache:
+            del cache[player_id]
+            _save_lookup_cache(cache)
+
+        # Do a fresh check
+        result = check_player_nba_status(player_id)
+
+        # Show what was found
+        tags = []
+        if result and result.get('wnba_url'):
+            wnba_found += 1
+            tags.append("WNBA")
+        if result and result.get('intl_url'):
+            intl_found += 1
+            tags.append("Intl")
+        if result and result.get('nba_url'):
+            tags.append("NBA")  # Unlikely but possible
+        if tags:
+            print(f" → {', '.join(tags)}")
+        else:
+            print()
+
+        # Reload cache for next iteration
+        cache = _load_lookup_cache()
+
+    print(f"\nComplete! Checked {len(to_check)} female players")
+    print(f"  Found {wnba_found} WNBA, {intl_found} International")
+    return {'checked': len(to_check), 'wnba_found': wnba_found, 'intl_found': intl_found}
