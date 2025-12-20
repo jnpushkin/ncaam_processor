@@ -144,6 +144,12 @@ class DataSerializer:
             else:
                 record['International'] = False
 
+            # Sports Reference page exists (False if 404)
+            if pro_info and pro_info.get('sr_page_exists') is False:
+                record['HasSportsRefPage'] = False
+            else:
+                record['HasSportsRefPage'] = True  # Default to true if unknown
+
         return records
 
     def _serialize_milestones(self) -> Dict[str, List[Dict]]:

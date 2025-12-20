@@ -72,6 +72,15 @@ def get_javascript(json_data: str) -> str:
             return `https://www.sports-reference.com/cbb/players/${playerId}.html`;
         }
 
+        function getPlayerSportsRefLink(player) {
+            // Returns SR link HTML only if the player has a SR page
+            const playerId = player['Player ID'] || player.player_id;
+            if (!playerId) return '';
+            // Check if we know the page doesn't exist
+            if (player.HasSportsRefPage === false) return '';
+            return ` <a href="${getPlayerSportsRefUrl(playerId)}" target="_blank" class="external-link" title="View on Sports Reference">&#8599;</a>`;
+        }
+
         // Stat thresholds for highlighting
         const STAT_THRESHOLDS = {
             ppg: { excellent: 20, good: 15, average: 10 },
@@ -1225,9 +1234,10 @@ def get_javascript(json_data: str) -> str:
                     const nbaTag = player.NBA ? `<span class="nba-badge" title="${player.NBA_Active ? 'Active NBA player' : 'Former NBA player'}">${player.NBA_Active ? '🏀' : '🏀'}</span>` : '';
 
                     const playerId = player['Player ID'] || '';
+                    const sportsRefLink = getPlayerSportsRefLink(player);
                     return `
                         <tr class="${player.NBA ? 'nba-player' : ''}">
-                            <td class="sticky-col"><span class="player-link" onclick="showPlayerDetail('${playerId || player.Player}')">${player.Player || ''}</span>${nbaTag}${playerId ? ` <a href="${getPlayerSportsRefUrl(playerId)}" target="_blank" class="external-link" title="View on Sports Reference">&#8599;</a>` : ''}</td>
+                            <td class="sticky-col"><span class="player-link" onclick="showPlayerDetail('${playerId || player.Player}')">${player.Player || ''}</span>${nbaTag}${sportsRefLink}</td>
                             <td>${player.Team || ''} ${genderTag}</td>
                             <td>${gp}</td>
                             <td>${mpg.toFixed(1)}</td>
@@ -1425,7 +1435,7 @@ def get_javascript(json_data: str) -> str:
 
             tbody.innerHTML = data.map(player => {
                 const playerId = player['Player ID'] || '';
-                const sportsRefLink = playerId ? ` <a href="${getPlayerSportsRefUrl(playerId)}" target="_blank" class="external-link" title="View on Sports Reference">&#8599;</a>` : '';
+                const sportsRefLink = getPlayerSportsRefLink(player);
                 return `
                 <tr>
                     <td><span class="player-link" onclick="showPlayerDetail('${playerId || player.Player}')">${player.Player || ''}</span>${sportsRefLink}</td>
@@ -1499,7 +1509,7 @@ def get_javascript(json_data: str) -> str:
 
             tbody.innerHTML = entries.map(entry => {
                 const playerId = entry['Player ID'] || '';
-                const sportsRefLink = playerId ? ` <a href="${getPlayerSportsRefUrl(playerId)}" target="_blank" class="external-link" title="View on Sports Reference">&#8599;</a>` : '';
+                const sportsRefLink = getPlayerSportsRefLink(entry);
                 const gender = gameGender[entry.GameID] || '';
                 const genderTag = gender === 'W' ? ' <span class="gender-tag">(W)</span>' : '';
                 return `
@@ -1587,7 +1597,7 @@ def get_javascript(json_data: str) -> str:
                 const playerId = player['Player ID'] || '';
                 const genderTag = player.Gender === 'W' ? ' <span class="gender-tag">(W)</span>' : '';
                 const nbaUrl = player.NBA_URL || '#';
-                const sportsRefLink = playerId ? ` <a href="${getPlayerSportsRefUrl(playerId)}" target="_blank" class="external-link" title="View college stats">&#8599;</a>` : '';
+                const sportsRefLink = getPlayerSportsRefLink(player);
 
                 return `
                     <tr class="nba-player">
@@ -1627,7 +1637,7 @@ def get_javascript(json_data: str) -> str:
                 const playerId = player['Player ID'] || '';
                 const genderTag = player.Gender === 'W' ? ' <span class="gender-tag">(W)</span>' : '';
                 const intlUrl = player.Intl_URL || '#';
-                const sportsRefLink = playerId ? ` <a href="${getPlayerSportsRefUrl(playerId)}" target="_blank" class="external-link" title="View college stats">&#8599;</a>` : '';
+                const sportsRefLink = getPlayerSportsRefLink(player);
                 const nbaTag = player.NBA ? '<span class="nba-badge" title="Also played in NBA">🏀</span>' : '';
 
                 return `
@@ -2991,8 +3001,7 @@ def get_javascript(json_data: str) -> str:
             `).join('');
 
             const genderTag = player.Gender === 'W' ? '<span class="gender-tag">(W)</span>' : '';
-            const playerIdForUrl = player['Player ID'] || '';
-            const sportsRefLink = playerIdForUrl ? `<a href="${getPlayerSportsRefUrl(playerIdForUrl)}" target="_blank" class="external-link" title="View on Sports Reference">&#8599;</a>` : '';
+            const sportsRefLink = getPlayerSportsRefLink(player);
 
             document.getElementById('player-detail').innerHTML = `
                 <h3 id="player-modal-title">${player.Player} ${sportsRefLink}</h3>
@@ -3184,7 +3193,7 @@ def get_javascript(json_data: str) -> str:
                         <tbody>
                             ${players.map(p => `
                                 <tr>
-                                    <td><span class="player-link" onclick="closeModal('game-modal'); showPlayerDetail('${p.player_id || p.player}')">${p.player || ''}</span>${p.player_id ? ` <a href="${getPlayerSportsRefUrl(p.player_id)}" target="_blank" class="external-link" title="View on Sports Reference">&#8599;</a>` : ''}</td>
+                                    <td><span class="player-link" onclick="closeModal('game-modal'); showPlayerDetail('${p.player_id || p.player}')">${p.player || ''}</span>${getPlayerSportsRefLink(p)}</td>
                                     <td>${p.mp ? Math.round(p.mp) : 0}</td>
                                     <td>${p.pts || 0}</td>
                                     <td>${p.fg || 0}-${p.fga || 0}</td>

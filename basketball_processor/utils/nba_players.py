@@ -175,10 +175,17 @@ def check_player_nba_status(player_id: str) -> Optional[Dict[str, Any]]:
 
         result = {}
 
-        if response.status_code != 200:
+        # Only warn about rate limiting, not missing pages
+        if response.status_code == 429:
+            print(f" [RATE LIMITED]", end="", flush=True)
+        elif response.status_code >= 500:
             print(f" [HTTP {response.status_code}]", end="", flush=True)
+        elif response.status_code == 404:
+            # Player doesn't have a Sports Reference page
+            result['sr_page_exists'] = False
 
         if response.status_code == 200:
+            result['sr_page_exists'] = True
             html = response.text
 
             # Look for Basketball Reference NBA link
@@ -488,6 +495,74 @@ def should_recheck_nulls() -> bool:
     return days_since >= RECHECK_INTERVAL_DAYS
 
 
+def _check_nba_players_for_intl() -> int:
+    """
+    Check NBA-only players for international status.
+    This catches players who went NBA first, then international.
+
+    Returns:
+        Number of players who were found to have international careers
+    """
+    if not HAS_CLOUDSCRAPER and not HAS_REQUESTS:
+        return 0
+
+    # Get all players with NBA but not Intl from cache and confirmed
+    cache = _load_lookup_cache()
+    confirmed = _load_confirmed()
+
+    nba_only = []
+    # Check cache
+    for pid, val in cache.items():
+        if val and val.get('nba_url') and not val.get('intl_url'):
+            nba_only.append(pid)
+    # Check confirmed
+    for pid, val in confirmed.items():
+        if val and val.get('nba_url') and not val.get('intl_url'):
+            if pid not in nba_only:
+                nba_only.append(pid)
+
+    if not nba_only:
+        return 0
+
+    print(f"\nChecking {len(nba_only)} NBA-only players for international status...")
+
+    intl_found = 0
+    if HAS_CLOUDSCRAPER:
+        scraper = cloudscraper.create_scraper()
+
+    for i, player_id in enumerate(nba_only):
+        print(f"  {i+1}/{len(nba_only)} {player_id}", end="", flush=True)
+
+        # Rate limit
+        time.sleep(RATE_LIMIT_SECONDS)
+
+        # Check Basketball Reference international page directly
+        intl_check_url = f"https://www.basketball-reference.com/international/players/{player_id}.html"
+        try:
+            if HAS_CLOUDSCRAPER:
+                response = scraper.head(intl_check_url, timeout=10, allow_redirects=True)
+            else:
+                response = requests.head(intl_check_url, timeout=10, allow_redirects=True)
+
+            if response.status_code == 200:
+                intl_found += 1
+                # Update cache
+                if player_id in cache and cache[player_id]:
+                    cache[player_id]['intl_url'] = intl_check_url
+                    _save_lookup_cache(cache)
+                # Update confirmed
+                if player_id in confirmed and confirmed[player_id]:
+                    confirmed[player_id]['intl_url'] = intl_check_url
+                    _save_confirmed(confirmed)
+                print(" → +Intl")
+            else:
+                print()
+        except Exception:
+            print()
+
+    return intl_found
+
+
 def recheck_null_players(force: bool = False) -> Dict[str, int]:
     """
     Re-check players cached as null for NBA/Intl status.
@@ -554,9 +629,14 @@ def recheck_null_players(force: bool = False) -> Dict[str, int]:
         # Reload cache for next iteration
         cache = _load_lookup_cache()
 
+    # Also check NBA-only players for international status
+    intl_from_nba = _check_nba_players_for_intl()
+
     # Save timestamp so we don't re-check again for 90 days
     _save_recheck_timestamp()
 
-    print(f"\nComplete! Re-checked {len(null_players)} players")
+    print(f"\nComplete! Re-checked {len(null_players)} null players")
     print(f"  Found {nba_found} NBA, {intl_found} International")
-    return {'checked': len(null_players), 'nba_found': nba_found, 'intl_found': intl_found}
+    if intl_from_nba > 0:
+        print(f"  Found {intl_from_nba} NBA players who also went international")
+    return {'checked': len(null_players), 'nba_found': nba_found, 'intl_found': intl_found + intl_from_nba}
