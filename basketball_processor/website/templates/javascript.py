@@ -509,6 +509,9 @@ def get_javascript(json_data: str) -> str:
             const container = document.getElementById('conf-crossover-matrix');
             if (!container) return;
 
+            // Conferences to exclude
+            const excludeConfs = ['Historical/Other'];
+
             // Get all conferences from games
             const confSet = new Set();
             const crossoverData = {};
@@ -517,10 +520,10 @@ def get_javascript(json_data: str) -> str:
                 const awayConf = getTeamConference(g['Away Team']);
                 const homeConf = getTeamConference(g['Home Team']);
 
-                if (awayConf) confSet.add(awayConf);
-                if (homeConf) confSet.add(homeConf);
+                if (awayConf && !excludeConfs.includes(awayConf)) confSet.add(awayConf);
+                if (homeConf && !excludeConfs.includes(homeConf)) confSet.add(homeConf);
 
-                if (awayConf && homeConf) {
+                if (awayConf && homeConf && !excludeConfs.includes(awayConf) && !excludeConfs.includes(homeConf)) {
                     // Normalize key (alphabetical)
                     const key1 = awayConf < homeConf ? awayConf : homeConf;
                     const key2 = awayConf < homeConf ? homeConf : awayConf;
@@ -540,8 +543,30 @@ def get_javascript(json_data: str) -> str:
                 return;
             }
 
+            // Calculate completion percentage (all matchups including intra-conference)
+            const n = conferences.length;
+            const totalPossibleMatchups = (n * n) / 2; // symmetric matrix
+            let matchupsWithGames = 0;
+
+            for (let i = 0; i < conferences.length; i++) {
+                for (let j = i; j < conferences.length; j++) {
+                    const key = `${conferences[i]}|${conferences[j]}`;
+                    if (crossoverData[key] && crossoverData[key].games > 0) {
+                        matchupsWithGames++;
+                    }
+                }
+            }
+
+            const completionPct = totalPossibleMatchups > 0 ? ((matchupsWithGames / totalPossibleMatchups) * 100).toFixed(1) : 0;
+
             // Build matrix
-            let html = '<table class="conf-crossover"><thead><tr><th></th>';
+            let html = `<div class="crossover-summary" style="margin-bottom: 1rem; text-align: center;">
+                <span style="font-size: 0.9rem; color: var(--text-secondary);">
+                    Conference matchups: <strong>${matchupsWithGames}</strong> of <strong>${totalPossibleMatchups}</strong>
+                    (<strong>${completionPct}%</strong> complete)
+                </span>
+            </div>`;
+            html += '<table class="conf-crossover"><thead><tr><th></th>';
             conferences.forEach(c => {
                 const abbrev = c.length > 10 ? c.substring(0, 8) + '..' : c;
                 html += `<th title="${c}">${abbrev}</th>`;
@@ -1492,13 +1517,13 @@ def get_javascript(json_data: str) -> str:
                 </div>
             `).join('');
 
-            // Show first milestone by default
+            // Show first milestone by default (don't update URL during init)
             if (entries.length > 0) {
-                showMilestoneEntries(entries[0][0]);
+                showMilestoneEntries(entries[0][0], false);
             }
         }
 
-        function showMilestoneEntries(key) {
+        function showMilestoneEntries(key, updateUrl = true) {
             const milestones = DATA.milestones || {};
             const entries = (milestones[key] || []).slice();
             // Build date lookup from games
@@ -1545,7 +1570,9 @@ def get_javascript(json_data: str) -> str:
                 </tr>
             `}).join('');
 
-            updateURL('milestones', { type: key });
+            if (updateUrl) {
+                updateURL('milestones', { type: key });
+            }
         }
 
         function populateTeamsTable() {

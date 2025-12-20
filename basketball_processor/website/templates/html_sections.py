@@ -41,30 +41,37 @@ def get_body(total_games: int, total_players: int, total_teams: int, total_venue
             <button class="theme-toggle" onclick="toggleTheme()" title="Toggle dark mode" aria-label="Toggle theme">&#127769;</button>
         </div>
         <h1>College Basketball Stats</h1>
+        <p class="header-subtitle">Personal game tracking and analytics</p>
         <div class="stats-overview">
             <div class="stat-box">
+                <div class="icon">&#127936;</div>
                 <div class="number">{TOTAL_GAMES_PLACEHOLDER}</div>
                 <div class="label">Games</div>
             </div>
             <div class="stat-box">
+                <div class="icon">&#128101;</div>
                 <div class="number">{TOTAL_PLAYERS_PLACEHOLDER}</div>
                 <div class="label">Players</div>
             </div>
             <div class="stat-box">
+                <div class="icon">&#127942;</div>
                 <div class="number">{TOTAL_TEAMS_PLACEHOLDER}</div>
                 <div class="label">Teams</div>
             </div>
             <div class="stat-box">
+                <div class="icon">&#127967;</div>
                 <div class="number">{TOTAL_VENUES_PLACEHOLDER}</div>
                 <div class="label">Venues</div>
             </div>
             <div class="stat-box">
+                <div class="icon">&#128200;</div>
                 <div class="number">{TOTAL_POINTS_PLACEHOLDER}</div>
                 <div class="label">Points</div>
             </div>
-            <div class="stat-box nba-stat">
+            <div class="stat-box highlight">
+                <div class="icon">&#11088;</div>
                 <div class="number">{FUTURE_PROS_PLACEHOLDER}</div>
-                <div class="label">Future Pros ⭐</div>
+                <div class="label">Future Pros</div>
             </div>
         </div>
         <div class="generated-time">Generated: {GENERATED_TIME_PLACEHOLDER}</div>

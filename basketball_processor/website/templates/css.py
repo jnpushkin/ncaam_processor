@@ -62,13 +62,21 @@ def get_css() -> str:
         .header {
             background: var(--bg-header);
             color: var(--text-header);
-            padding: 2rem;
+            padding: 2.5rem 2rem 2rem;
             text-align: center;
             position: relative;
         }
         .header h1 {
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
+            font-size: 1.75rem;
+            font-weight: 600;
+            letter-spacing: -0.025em;
+            margin-bottom: 0.25rem;
+        }
+        .header-subtitle {
+            font-size: 0.85rem;
+            opacity: 0.7;
+            font-weight: 400;
+            margin-bottom: 1.5rem;
         }
         .header-controls {
             position: absolute;
@@ -78,46 +86,73 @@ def get_css() -> str:
             gap: 0.5rem;
         }
         .theme-toggle, .share-btn {
-            background: rgba(255,255,255,0.2);
-            border: none;
-            border-radius: 50%;
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 10px;
             width: 40px;
             height: 40px;
             cursor: pointer;
-            font-size: 1.2rem;
-            transition: background 0.3s;
+            font-size: 1.1rem;
+            transition: all 0.2s ease;
             color: white;
+            backdrop-filter: blur(10px);
         }
         .theme-toggle:hover, .share-btn:hover {
-            background: rgba(255,255,255,0.3);
+            background: rgba(255,255,255,0.25);
+            transform: translateY(-1px);
         }
         .generated-time {
             position: absolute;
-            bottom: 0.5rem;
+            bottom: 0.75rem;
             right: 1rem;
-            font-size: 0.75rem;
-            opacity: 0.7;
+            font-size: 0.7rem;
+            opacity: 0.5;
+            font-weight: 400;
         }
         .stats-overview {
             display: flex;
             justify-content: center;
-            gap: 2rem;
-            margin-top: 1rem;
+            gap: 1rem;
             flex-wrap: wrap;
+            max-width: 900px;
+            margin: 0 auto;
         }
         .stat-box {
-            background: rgba(255,255,255,0.1);
-            padding: 1rem 2rem;
-            border-radius: 8px;
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.12);
+            padding: 1.25rem 1.5rem;
+            border-radius: 12px;
             text-align: center;
+            min-width: 110px;
+            transition: all 0.2s ease;
+        }
+        .stat-box:hover {
+            background: rgba(255,255,255,0.12);
+            transform: translateY(-2px);
+            border-color: rgba(255,255,255,0.2);
+        }
+        .stat-box .icon {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+            opacity: 0.9;
         }
         .stat-box .number {
-            font-size: 2rem;
-            font-weight: bold;
+            font-size: 1.75rem;
+            font-weight: 700;
+            letter-spacing: -0.025em;
+            line-height: 1.1;
         }
         .stat-box .label {
-            font-size: 0.9rem;
-            opacity: 0.9;
+            font-size: 0.75rem;
+            opacity: 0.7;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 500;
+            margin-top: 0.25rem;
+        }
+        .stat-box.highlight .number {
+            color: #ffd700;
         }
         .container {
             max-width: 1400px;
@@ -1076,37 +1111,47 @@ def get_css() -> str:
         /* Mobile-first responsive styles */
         @media (max-width: 768px) {
             .header {
-                padding: 1rem;
+                padding: 1.5rem 1rem 1rem;
             }
             .header h1 {
                 font-size: 1.25rem;
                 margin-top: 2rem;
+            }
+            .header-subtitle {
+                font-size: 0.75rem;
+                margin-bottom: 1rem;
             }
             .header-controls {
                 top: 0.5rem;
                 right: 0.5rem;
             }
             .theme-toggle, .share-btn {
-                width: 36px;
-                height: 36px;
-                font-size: 1rem;
+                width: 34px;
+                height: 34px;
+                font-size: 0.95rem;
+                border-radius: 8px;
             }
             .generated-time {
-                font-size: 0.65rem;
+                font-size: 0.6rem;
                 right: 0.5rem;
             }
             .stats-overview {
                 gap: 0.5rem;
-                margin-top: 0.75rem;
             }
             .stat-box {
-                padding: 0.5rem 0.75rem;
+                padding: 0.75rem 1rem;
+                min-width: 90px;
+                border-radius: 10px;
+            }
+            .stat-box .icon {
+                font-size: 1rem;
+                margin-bottom: 0.25rem;
             }
             .stat-box .number {
                 font-size: 1.25rem;
             }
             .stat-box .label {
-                font-size: 0.75rem;
+                font-size: 0.65rem;
             }
             .container {
                 padding: 1rem;
@@ -1301,14 +1346,27 @@ def get_css() -> str:
             .header h1 {
                 font-size: 1.1rem;
             }
+            .header-subtitle {
+                font-size: 0.7rem;
+                margin-bottom: 0.75rem;
+            }
+            .stats-overview {
+                gap: 0.35rem;
+            }
             .stat-box {
-                padding: 0.4rem 0.5rem;
+                padding: 0.5rem 0.6rem;
+                min-width: 70px;
+                border-radius: 8px;
+            }
+            .stat-box .icon {
+                font-size: 0.85rem;
+                margin-bottom: 0.15rem;
             }
             .stat-box .number {
                 font-size: 1rem;
             }
             .stat-box .label {
-                font-size: 0.65rem;
+                font-size: 0.55rem;
             }
             .tab {
                 padding: 0.4rem 0.6rem;
