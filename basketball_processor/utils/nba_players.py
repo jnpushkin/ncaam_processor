@@ -152,7 +152,7 @@ def _verify_nba_stats(nba_url: str, scraper: Any = None) -> Dict[str, Any]:
             return {'played': True, 'games': None}  # Can't verify, assume played
 
         if response.status_code != 200:
-            return {'played': True, 'games': None}  # Can't verify, assume played
+            return {'verified': False, 'status_code': response.status_code}  # Can't verify
 
         html = response.text
 
@@ -177,8 +177,8 @@ def _verify_nba_stats(nba_url: str, scraper: Any = None) -> Dict[str, Any]:
         # No NBA per_game_stats rows = never played NBA
         return {'played': False, 'games': 0}
 
-    except Exception:
-        return {'played': True, 'games': None}  # On error, assume played
+    except Exception as e:
+        return {'verified': False, 'error': str(e)}  # Can't verify
 
 
 def _verify_wnba_stats(wnba_url: str, scraper: Any = None) -> Dict[str, Any]:
@@ -205,7 +205,7 @@ def _verify_wnba_stats(wnba_url: str, scraper: Any = None) -> Dict[str, Any]:
             return {'played': True, 'games': None}  # Can't verify, assume played
 
         if response.status_code != 200:
-            return {'played': True, 'games': None}  # Can't verify, assume played
+            return {'verified': False, 'status_code': response.status_code}  # Can't verify
 
         html = response.text
 
@@ -229,8 +229,8 @@ def _verify_wnba_stats(wnba_url: str, scraper: Any = None) -> Dict[str, Any]:
         # No WNBA per_game0 rows = never played WNBA
         return {'played': False, 'games': 0}
 
-    except Exception:
-        return {'played': True, 'games': None}  # On error, assume played
+    except Exception as e:
+        return {'verified': False, 'error': str(e)}  # Can't verify
 
 
 def check_player_nba_status(player_id: str) -> Optional[Dict[str, Any]]:
@@ -307,18 +307,20 @@ def check_player_nba_status(player_id: str) -> Optional[Dict[str, Any]]:
                 nba_url = nba_match.group(1)
                 # Verify they actually played NBA games (not just a draft/G-League page)
                 nba_verify = _verify_nba_stats(nba_url, scraper if HAS_CLOUDSCRAPER else None)
-                # Always store the URL (they were signed), but track if they played
+                # Always store the URL (they were signed)
                 result['nba_url'] = nba_url
-                result['nba_played'] = nba_verify['played']
-                if nba_verify['games'] is not None:
-                    result['nba_games'] = nba_verify['games']
-                if nba_verify['played']:
-                    # Check if currently active (look for recent season stats)
-                    is_active = '2024-25' in html or '2025-26' in html
-                    result['is_active'] = is_active
-                else:
-                    result['is_active'] = False
-                    print(" [Signed, no games]", end="", flush=True)
+                # Only set played status if we could verify
+                if nba_verify.get('verified') is not False:
+                    result['nba_played'] = nba_verify['played']
+                    if nba_verify['games'] is not None:
+                        result['nba_games'] = nba_verify['games']
+                    if nba_verify['played']:
+                        # Check if currently active (look for recent season stats)
+                        is_active = '2024-25' in html or '2025-26' in html
+                        result['is_active'] = is_active
+                    else:
+                        result['is_active'] = False
+                        print(" [Signed, no games]", end="", flush=True)
 
             # Look for Basketball Reference WNBA link
             wnba_match = re.search(
@@ -330,18 +332,20 @@ def check_player_nba_status(player_id: str) -> Optional[Dict[str, Any]]:
                 wnba_url = wnba_match.group(1)
                 # Verify they actually played WNBA games
                 wnba_verify = _verify_wnba_stats(wnba_url, scraper if HAS_CLOUDSCRAPER else None)
-                # Always store the URL (they were signed), but track if they played
+                # Always store the URL (they were signed)
                 result['wnba_url'] = wnba_url
-                result['wnba_played'] = wnba_verify['played']
-                if wnba_verify['games'] is not None:
-                    result['wnba_games'] = wnba_verify['games']
-                if wnba_verify['played']:
-                    # Check if currently active
-                    is_wnba_active = '2024' in html or '2025' in html
-                    result['is_wnba_active'] = is_wnba_active
-                else:
-                    result['is_wnba_active'] = False
-                    print(" [Signed, no games]", end="", flush=True)
+                # Only set played status if we could verify
+                if wnba_verify.get('verified') is not False:
+                    result['wnba_played'] = wnba_verify['played']
+                    if wnba_verify['games'] is not None:
+                        result['wnba_games'] = wnba_verify['games']
+                    if wnba_verify['played']:
+                        # Check if currently active
+                        is_wnba_active = '2024' in html or '2025' in html
+                        result['is_wnba_active'] = is_wnba_active
+                    else:
+                        result['is_wnba_active'] = False
+                        print(" [Signed, no games]", end="", flush=True)
 
             # Look for Basketball Reference International link
             intl_match = re.search(
@@ -993,6 +997,17 @@ def reverify_cached_pro_players() -> Dict[str, int]:
             print(f"  {i+1}/{len(nba_players)} {player_id}", end="", flush=True)
 
             nba_verify = _verify_nba_stats(nba_url, scraper)
+
+            # Skip if we couldn't verify (rate limited, error, etc.)
+            if nba_verify.get('verified') is False:
+                if 'status_code' in nba_verify:
+                    print(f" ⚠️ (HTTP {nba_verify['status_code']} - skipped)")
+                elif 'error' in nba_verify:
+                    print(f" ⚠️ ({nba_verify['error']} - skipped)")
+                else:
+                    print(" ⚠️ (unknown error - skipped)")
+                continue
+
             # Update cache with played status
             cache[player_id]['nba_played'] = nba_verify['played']
             if nba_verify['games'] is not None:
@@ -1024,6 +1039,17 @@ def reverify_cached_pro_players() -> Dict[str, int]:
             print(f"  {i+1}/{len(wnba_players)} {player_id}", end="", flush=True)
 
             wnba_verify = _verify_wnba_stats(wnba_url, scraper)
+
+            # Skip if we couldn't verify (rate limited, error, etc.)
+            if wnba_verify.get('verified') is False:
+                if 'status_code' in wnba_verify:
+                    print(f" ⚠️ (HTTP {wnba_verify['status_code']} - skipped)")
+                elif 'error' in wnba_verify:
+                    print(f" ⚠️ ({wnba_verify['error']} - skipped)")
+                else:
+                    print(" ⚠️ (unknown error - skipped)")
+                continue
+
             # Update cache with played status
             cache[player_id]['wnba_played'] = wnba_verify['played']
             if wnba_verify['games'] is not None:
