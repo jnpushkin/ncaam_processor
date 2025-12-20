@@ -32,8 +32,8 @@ NBA_API_CACHE_FILE = CACHE_DIR / 'nba_api_cache.json'
 SPORTS_REF_BASE = "https://www.sports-reference.com/cbb/players/"
 
 # Rate limiting: Sports Reference allows 20 requests/minute
-# We use 3.5 seconds to stay safely under limit (17 req/min)
-RATE_LIMIT_SECONDS = 3.5
+# We use 3.1 seconds to stay under limit (19 req/min)
+RATE_LIMIT_SECONDS = 3.1
 
 # Manual overrides for name-based matching
 # Player IDs (e.g., 'marcus-williams-24') to EXCLUDE from NBA matching
@@ -229,8 +229,8 @@ def get_nba_status_batch(player_ids: List[str], use_api_fallback: bool = True, m
     # Fetch missing players
     if to_fetch and HAS_REQUESTS:
         fetch_list = to_fetch if max_fetch == 0 else to_fetch[:max_fetch]
-        # Estimate time: ~7 seconds per player (2 requests @ 3.5s each)
-        est_minutes = (len(fetch_list) * 7) / 60
+        # Estimate time: ~6.2 seconds per player (2 requests @ 3.1s each)
+        est_minutes = (len(fetch_list) * 6.2) / 60
         print(f"Checking {len(fetch_list)} players for NBA status... (est. {est_minutes:.0f} min)")
         for i, player_id in enumerate(fetch_list):
             if i > 0 and i % 10 == 0:
@@ -371,8 +371,8 @@ def check_all_players_from_cache() -> Dict[str, int]:
         nba_count = sum(1 for v in cache.values() if v is not None)
         return {'total': len(player_ids), 'checked': 0, 'nba_found': nba_count, 'skipped': len(player_ids) - len(to_check)}
 
-    # Estimate time: ~7 seconds per player (2 requests @ 3.5s each)
-    est_minutes = (len(to_check) * 7) / 60
+    # Estimate time: ~6.2 seconds per player (2 requests @ 3.1s each)
+    est_minutes = (len(to_check) * 6.2) / 60
     print(f"Estimated time: {est_minutes:.0f} minutes (rate limited to 20 req/min)")
 
     # Check remaining players
