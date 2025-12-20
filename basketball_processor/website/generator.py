@@ -63,16 +63,14 @@ def _generate_html(json_data: str, summary: Dict[str, Any]) -> str:
     total_teams = summary.get('totalTeams', 0)
     total_venues = summary.get('totalVenues', 0)
     total_points = summary.get('totalPoints', 0)
-    nba_players = summary.get('nbaPlayers', 0)
-    wnba_players = summary.get('wnbaPlayers', 0)
-    intl_players = summary.get('intlPlayers', 0)
+    future_pros = summary.get('futurePros', 0)
     generated_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
     # Get template components
     css = get_css()
     js = get_javascript(json_data)
     head = get_head(css)
-    body = get_body(total_games, total_players, total_teams, total_venues, total_points, nba_players, wnba_players, intl_players, generated_time)
+    body = get_body(total_games, total_players, total_teams, total_venues, total_points, future_pros, generated_time)
 
     # Assemble the final HTML
     html = f'''<!DOCTYPE html>

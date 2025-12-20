@@ -337,10 +337,28 @@ def get_css() -> str:
             color: var(--text-secondary);
             margin-left: 0.25rem;
         }
-        .nba-badge {
+        .nba-badge, .wnba-badge, .intl-badge {
             font-size: 0.85rem;
             margin-left: 0.35rem;
             cursor: help;
+            position: relative;
+        }
+        .nba-badge[data-tooltip]:hover::after,
+        .wnba-badge[data-tooltip]:hover::after,
+        .intl-badge[data-tooltip]:hover::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.85);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            white-space: nowrap;
+            z-index: 1000;
+            pointer-events: none;
         }
         tr.nba-player {
             background: linear-gradient(90deg, rgba(200, 16, 46, 0.08) 0%, transparent 30%);
@@ -381,11 +399,6 @@ def get_css() -> str:
         }
         tr.intl-player:hover {
             background: linear-gradient(90deg, rgba(46, 125, 50, 0.15) 0%, var(--hover-color) 30%);
-        }
-        .wnba-badge {
-            font-size: 0.85rem;
-            margin-left: 0.35rem;
-            cursor: help;
         }
         tr.wnba-player {
             background: linear-gradient(90deg, rgba(255, 102, 0, 0.08) 0%, transparent 30%);

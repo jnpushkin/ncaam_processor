@@ -36,13 +36,9 @@ class DataSerializer:
         summary = self._serialize_summary()
         players = self._serialize_players()
 
-        # Count NBA, WNBA, and International players after serialization
-        nba_count = sum(1 for p in players if p.get('NBA'))
-        wnba_count = sum(1 for p in players if p.get('WNBA'))
-        intl_count = sum(1 for p in players if p.get('International'))
-        summary['nbaPlayers'] = nba_count
-        summary['wnbaPlayers'] = wnba_count
-        summary['intlPlayers'] = intl_count
+        # Count unique future pros (any player with NBA, WNBA, or International status)
+        future_pros_count = sum(1 for p in players if p.get('NBA') or p.get('WNBA') or p.get('International'))
+        summary['futurePros'] = future_pros_count
 
         return {
             'summary': summary,
@@ -87,7 +83,7 @@ class DataSerializer:
             'totalVenues': len(venue_records),
             'totalPoints': total_points,
             'milestones': milestone_counts,
-            'nbaPlayers': 0,  # Will be calculated after players are serialized
+            'futurePros': 0,  # Will be calculated after players are serialized
         }
 
     def _serialize_games(self) -> List[Dict]:

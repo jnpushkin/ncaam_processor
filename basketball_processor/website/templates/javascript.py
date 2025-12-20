@@ -1231,8 +1231,28 @@ def get_javascript(json_data: str) -> str:
                     const totalBlk = player['Total BLK'] || 0;
 
                     const genderTag = player.Gender === 'W' ? '<span class="gender-tag">(W)</span>' : '';
-                    const nbaTag = player.NBA ? `<span class="nba-badge${player.NBA_Played === false ? ' signed-only' : ''}" title="${player.NBA_Played === false ? 'Signed to NBA (never played)' : (player.NBA_Active ? 'Active NBA player' : 'Former NBA player')}">${player.NBA_Played === false ? '📝' : '🏀'}</span>` : '';
-                    const wnbaTag = player.WNBA ? `<span class="wnba-badge${player.WNBA_Played === false ? ' signed-only' : ''}" title="${player.WNBA_Played === false ? 'Signed to WNBA (never played)' : (player.WNBA_Active ? 'Active WNBA player' : 'Former WNBA player')}">${player.WNBA_Played === false ? '📝W' : '🏀W'}</span>` : '';
+
+                    // NBA badge with game count tooltip
+                    let nbaTag = '';
+                    if (player.NBA) {
+                        const nbaGames = player.NBA_Games;
+                        const nbaTooltip = player.NBA_Played === false
+                            ? 'Signed to NBA (never played)'
+                            : (nbaGames ? `NBA: ${nbaGames} games` : (player.NBA_Active ? 'Active NBA player' : 'Former NBA player'));
+                        const nbaEmoji = player.NBA_Played === false ? '📝' : '🏀';
+                        nbaTag = `<span class="nba-badge${player.NBA_Played === false ? ' signed-only' : ''}" data-tooltip="${nbaTooltip}">${nbaEmoji}</span>`;
+                    }
+
+                    // WNBA badge with game count tooltip
+                    let wnbaTag = '';
+                    if (player.WNBA) {
+                        const wnbaGames = player.WNBA_Games;
+                        const wnbaTooltip = player.WNBA_Played === false
+                            ? 'Signed to WNBA (never played)'
+                            : (wnbaGames ? `WNBA: ${wnbaGames} games` : (player.WNBA_Active ? 'Active WNBA player' : 'Former WNBA player'));
+                        const wnbaEmoji = player.WNBA_Played === false ? '📝W' : '🏀W';
+                        wnbaTag = `<span class="wnba-badge${player.WNBA_Played === false ? ' signed-only' : ''}" data-tooltip="${wnbaTooltip}">${wnbaEmoji}</span>`;
+                    }
 
                     const playerId = player['Player ID'] || '';
                     const sportsRefLink = getPlayerSportsRefLink(player);
@@ -1581,132 +1601,92 @@ def get_javascript(json_data: str) -> str:
             `).join('');
         }
 
-        function populateNbaTable() {
-            const tbody = document.querySelector('#nba-table tbody');
+        function populateFutureProsTable() {
+            const tbody = document.querySelector('#future-pros-table tbody');
             const players = DATA.players || [];
 
-            // Filter to only NBA players
-            const nbaPlayers = players.filter(p => p.NBA);
+            // Filter to players who went pro (NBA, WNBA, or International)
+            const futurePros = players.filter(p => p.NBA || p.WNBA || p.International);
 
-            if (nbaPlayers.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="8" class="empty-state"><h3>No NBA players in dataset</h3></td></tr>';
+            if (futurePros.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="8" class="empty-state"><h3>No future pros in dataset</h3></td></tr>';
                 return;
             }
 
-            // Sort by total points descending
-            nbaPlayers.sort((a, b) => (b['Total PTS'] || 0) - (a['Total PTS'] || 0));
+            // Sort by pro games (prioritize those who actually played), then by total points
+            futurePros.sort((a, b) => {
+                const aGames = (a.NBA_Games || 0) + (a.WNBA_Games || 0);
+                const bGames = (b.NBA_Games || 0) + (b.WNBA_Games || 0);
+                if (bGames !== aGames) return bGames - aGames;
+                return (b['Total PTS'] || 0) - (a['Total PTS'] || 0);
+            });
 
-            tbody.innerHTML = nbaPlayers.map(player => {
+            tbody.innerHTML = futurePros.map(player => {
                 const playerId = player['Player ID'] || '';
                 const genderTag = player.Gender === 'W' ? ' <span class="gender-tag">(W)</span>' : '';
-                const nbaUrl = player.NBA_URL || '#';
                 const sportsRefLink = getPlayerSportsRefLink(player);
 
-                const signedOnly = player.NBA_Played === false;
-                const badgeTitle = signedOnly ? 'Signed to NBA (never played)' : (player.NBA_Active ? 'Active NBA player' : 'Former NBA player');
-                const badgeEmoji = signedOnly ? '📝' : '🏀';
+                // Determine primary league and build badges
+                let badges = '';
+                let league = '';
+                let proGames = '';
+                let proUrl = '#';
+                let linkClass = '';
+                let rowClass = '';
+
+                if (player.NBA) {
+                    const nbaGames = player.NBA_Games;
+                    const signedOnly = player.NBA_Played === false;
+                    const tooltip = signedOnly ? 'Signed to NBA (never played)' : (nbaGames ? `NBA: ${nbaGames} games` : 'Former NBA player');
+                    badges += `<span class="nba-badge${signedOnly ? ' signed-only' : ''}" data-tooltip="${tooltip}">${signedOnly ? '📝' : '🏀'}</span>`;
+                    if (!league) {
+                        league = signedOnly ? 'NBA (signed)' : 'NBA';
+                        proGames = signedOnly ? '0' : (nbaGames || '?');
+                        proUrl = player.NBA_URL || '#';
+                        linkClass = 'nba-link';
+                        rowClass = signedOnly ? 'signed-only' : 'nba-player';
+                    }
+                }
+
+                if (player.WNBA) {
+                    const wnbaGames = player.WNBA_Games;
+                    const signedOnly = player.WNBA_Played === false;
+                    const tooltip = signedOnly ? 'Signed to WNBA (never played)' : (wnbaGames ? `WNBA: ${wnbaGames} games` : 'Former WNBA player');
+                    badges += `<span class="wnba-badge${signedOnly ? ' signed-only' : ''}" data-tooltip="${tooltip}">${signedOnly ? '📝W' : '🏀W'}</span>`;
+                    if (!league || league.includes('signed')) {
+                        league = signedOnly ? 'WNBA (signed)' : 'WNBA';
+                        proGames = signedOnly ? '0' : (wnbaGames || '?');
+                        proUrl = player.WNBA_URL || '#';
+                        linkClass = 'wnba-link';
+                        rowClass = signedOnly ? 'signed-only' : 'wnba-player';
+                    }
+                }
+
+                if (player.International) {
+                    badges += `<span class="intl-badge" data-tooltip="Overseas Pro">🌍</span>`;
+                    if (!league || league.includes('signed')) {
+                        league = 'Overseas';
+                        proGames = '—';
+                        proUrl = player.Intl_URL || '#';
+                        linkClass = 'intl-link';
+                        rowClass = 'intl-player';
+                    }
+                }
 
                 return `
-                    <tr class="nba-player${signedOnly ? ' signed-only' : ''}">
+                    <tr class="${rowClass}">
                         <td>
                             <span class="player-link" onclick="showPlayerDetail('${playerId || player.Player}')">${player.Player || ''}</span>
-                            <span class="nba-badge${signedOnly ? ' signed-only' : ''}" title="${badgeTitle}">${badgeEmoji}</span>
+                            ${badges}
                             ${sportsRefLink}${genderTag}
                         </td>
                         <td>${player.Team || ''}</td>
+                        <td>${league}</td>
+                        <td>${proGames}</td>
                         <td>${player.Games || 0}</td>
                         <td>${(player.PPG || 0).toFixed(1)}</td>
-                        <td>${(player.RPG || 0).toFixed(1)}</td>
-                        <td>${(player.APG || 0).toFixed(1)}</td>
                         <td>${player['Total PTS'] || 0}</td>
-                        <td><a href="${nbaUrl}" target="_blank" class="nba-link">View NBA Stats &#8599;</a></td>
-                    </tr>
-                `;
-            }).join('');
-        }
-
-        function populateWnbaTable() {
-            const tbody = document.querySelector('#wnba-table tbody');
-            const players = DATA.players || [];
-
-            // Filter to only WNBA players
-            const wnbaPlayers = players.filter(p => p.WNBA);
-
-            if (wnbaPlayers.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="8" class="empty-state"><h3>No WNBA players in dataset</h3></td></tr>';
-                return;
-            }
-
-            // Sort by total points descending
-            wnbaPlayers.sort((a, b) => (b['Total PTS'] || 0) - (a['Total PTS'] || 0));
-
-            tbody.innerHTML = wnbaPlayers.map(player => {
-                const playerId = player['Player ID'] || '';
-                const genderTag = player.Gender === 'W' ? ' <span class="gender-tag">(W)</span>' : '';
-                const wnbaUrl = player.WNBA_URL || '#';
-                const sportsRefLink = getPlayerSportsRefLink(player);
-
-                const signedOnly = player.WNBA_Played === false;
-                const badgeTitle = signedOnly ? 'Signed to WNBA (never played)' : (player.WNBA_Active ? 'Active WNBA player' : 'Former WNBA player');
-                const badgeEmoji = signedOnly ? '📝W' : '🏀W';
-
-                return `
-                    <tr class="wnba-player${signedOnly ? ' signed-only' : ''}">
-                        <td>
-                            <span class="player-link" onclick="showPlayerDetail('${playerId || player.Player}')">${player.Player || ''}</span>
-                            <span class="wnba-badge${signedOnly ? ' signed-only' : ''}" title="${badgeTitle}">${badgeEmoji}</span>
-                            ${sportsRefLink}${genderTag}
-                        </td>
-                        <td>${player.Team || ''}</td>
-                        <td>${player.Games || 0}</td>
-                        <td>${(player.PPG || 0).toFixed(1)}</td>
-                        <td>${(player.RPG || 0).toFixed(1)}</td>
-                        <td>${(player.APG || 0).toFixed(1)}</td>
-                        <td>${player['Total PTS'] || 0}</td>
-                        <td><a href="${wnbaUrl}" target="_blank" class="wnba-link">View WNBA Stats &#8599;</a></td>
-                    </tr>
-                `;
-            }).join('');
-        }
-
-        function populateIntlTable() {
-            const tbody = document.querySelector('#intl-table tbody');
-            const players = DATA.players || [];
-
-            // Filter to only international players (excluding those already in NBA)
-            const intlPlayers = players.filter(p => p.International);
-
-            if (intlPlayers.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="8" class="empty-state"><h3>No international players in dataset</h3></td></tr>';
-                return;
-            }
-
-            // Sort by total points descending
-            intlPlayers.sort((a, b) => (b['Total PTS'] || 0) - (a['Total PTS'] || 0));
-
-            tbody.innerHTML = intlPlayers.map(player => {
-                const playerId = player['Player ID'] || '';
-                const genderTag = player.Gender === 'W' ? ' <span class="gender-tag">(W)</span>' : '';
-                const intlUrl = player.Intl_URL || '#';
-                const sportsRefLink = getPlayerSportsRefLink(player);
-                const nbaTag = player.NBA ? `<span class="nba-badge${player.NBA_Played === false ? ' signed-only' : ''}" title="${player.NBA_Played === false ? 'Signed to NBA (never played)' : 'Also played in NBA'}">${player.NBA_Played === false ? '📝' : '🏀'}</span>` : '';
-                const wnbaTag = player.WNBA ? `<span class="wnba-badge${player.WNBA_Played === false ? ' signed-only' : ''}" title="${player.WNBA_Played === false ? 'Signed to WNBA (never played)' : 'Also played in WNBA'}">${player.WNBA_Played === false ? '📝W' : '🏀W'}</span>` : '';
-
-                return `
-                    <tr class="intl-player">
-                        <td>
-                            <span class="player-link" onclick="showPlayerDetail('${playerId || player.Player}')">${player.Player || ''}</span>
-                            <span class="intl-badge" title="International player">🌍</span>
-                            ${nbaTag}${wnbaTag}
-                            ${sportsRefLink}${genderTag}
-                        </td>
-                        <td>${player.Team || ''}</td>
-                        <td>${player.Games || 0}</td>
-                        <td>${(player.PPG || 0).toFixed(1)}</td>
-                        <td>${(player.RPG || 0).toFixed(1)}</td>
-                        <td>${(player.APG || 0).toFixed(1)}</td>
-                        <td>${player['Total PTS'] || 0}</td>
-                        <td><a href="${intlUrl}" target="_blank" class="intl-link">View Int'l Stats &#8599;</a></td>
+                        <td><a href="${proUrl}" target="_blank" class="${linkClass}">View Stats &#8599;</a></td>
                     </tr>
                 `;
             }).join('');
@@ -3730,9 +3710,7 @@ def get_javascript(json_data: str) -> str:
         try { buildMatchupMatrix(); } catch(e) { console.error('buildMatchupMatrix:', e); }
         try { buildConferenceCrossover(); } catch(e) { console.error('buildConferenceCrossover:', e); }
         try { populateVenuesTable(); } catch(e) { console.error('populateVenuesTable:', e); }
-        try { populateNbaTable(); } catch(e) { console.error('populateNbaTable:', e); }
-        try { populateWnbaTable(); } catch(e) { console.error('populateWnbaTable:', e); }
-        try { populateIntlTable(); } catch(e) { console.error('populateIntlTable:', e); }
+        try { populateFutureProsTable(); } catch(e) { console.error('populateFutureProsTable:', e); }
         try { populateRecords(); } catch(e) { console.error('populateRecords:', e); }
         try { initCalendar(); } catch(e) { console.error('initCalendar:', e); }
         try { initChecklist(); } catch(e) { console.error('initChecklist:', e); }
