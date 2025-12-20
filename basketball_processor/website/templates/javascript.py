@@ -1231,8 +1231,8 @@ def get_javascript(json_data: str) -> str:
                     const totalBlk = player['Total BLK'] || 0;
 
                     const genderTag = player.Gender === 'W' ? '<span class="gender-tag">(W)</span>' : '';
-                    const nbaTag = player.NBA ? `<span class="nba-badge" title="${player.NBA_Active ? 'Active NBA player' : 'Former NBA player'}">🏀</span>` : '';
-                    const wnbaTag = player.WNBA ? `<span class="wnba-badge" title="${player.WNBA_Active ? 'Active WNBA player' : 'Former WNBA player'}">🏀W</span>` : '';
+                    const nbaTag = player.NBA ? `<span class="nba-badge${player.NBA_Played === false ? ' signed-only' : ''}" title="${player.NBA_Played === false ? 'Signed to NBA (never played)' : (player.NBA_Active ? 'Active NBA player' : 'Former NBA player')}">${player.NBA_Played === false ? '📝' : '🏀'}</span>` : '';
+                    const wnbaTag = player.WNBA ? `<span class="wnba-badge${player.WNBA_Played === false ? ' signed-only' : ''}" title="${player.WNBA_Played === false ? 'Signed to WNBA (never played)' : (player.WNBA_Active ? 'Active WNBA player' : 'Former WNBA player')}">${player.WNBA_Played === false ? '📝W' : '🏀W'}</span>` : '';
 
                     const playerId = player['Player ID'] || '';
                     const sportsRefLink = getPlayerSportsRefLink(player);
@@ -1602,11 +1602,15 @@ def get_javascript(json_data: str) -> str:
                 const nbaUrl = player.NBA_URL || '#';
                 const sportsRefLink = getPlayerSportsRefLink(player);
 
+                const signedOnly = player.NBA_Played === false;
+                const badgeTitle = signedOnly ? 'Signed to NBA (never played)' : (player.NBA_Active ? 'Active NBA player' : 'Former NBA player');
+                const badgeEmoji = signedOnly ? '📝' : '🏀';
+
                 return `
-                    <tr class="nba-player">
+                    <tr class="nba-player${signedOnly ? ' signed-only' : ''}">
                         <td>
                             <span class="player-link" onclick="showPlayerDetail('${playerId || player.Player}')">${player.Player || ''}</span>
-                            <span class="nba-badge" title="NBA player">🏀</span>
+                            <span class="nba-badge${signedOnly ? ' signed-only' : ''}" title="${badgeTitle}">${badgeEmoji}</span>
                             ${sportsRefLink}${genderTag}
                         </td>
                         <td>${player.Team || ''}</td>
@@ -1642,11 +1646,15 @@ def get_javascript(json_data: str) -> str:
                 const wnbaUrl = player.WNBA_URL || '#';
                 const sportsRefLink = getPlayerSportsRefLink(player);
 
+                const signedOnly = player.WNBA_Played === false;
+                const badgeTitle = signedOnly ? 'Signed to WNBA (never played)' : (player.WNBA_Active ? 'Active WNBA player' : 'Former WNBA player');
+                const badgeEmoji = signedOnly ? '📝W' : '🏀W';
+
                 return `
-                    <tr class="wnba-player">
+                    <tr class="wnba-player${signedOnly ? ' signed-only' : ''}">
                         <td>
                             <span class="player-link" onclick="showPlayerDetail('${playerId || player.Player}')">${player.Player || ''}</span>
-                            <span class="wnba-badge" title="WNBA player">🏀W</span>
+                            <span class="wnba-badge${signedOnly ? ' signed-only' : ''}" title="${badgeTitle}">${badgeEmoji}</span>
                             ${sportsRefLink}${genderTag}
                         </td>
                         <td>${player.Team || ''}</td>
@@ -1681,8 +1689,8 @@ def get_javascript(json_data: str) -> str:
                 const genderTag = player.Gender === 'W' ? ' <span class="gender-tag">(W)</span>' : '';
                 const intlUrl = player.Intl_URL || '#';
                 const sportsRefLink = getPlayerSportsRefLink(player);
-                const nbaTag = player.NBA ? '<span class="nba-badge" title="Also played in NBA">🏀</span>' : '';
-                const wnbaTag = player.WNBA ? '<span class="wnba-badge" title="Also played in WNBA">🏀W</span>' : '';
+                const nbaTag = player.NBA ? `<span class="nba-badge${player.NBA_Played === false ? ' signed-only' : ''}" title="${player.NBA_Played === false ? 'Signed to NBA (never played)' : 'Also played in NBA'}">${player.NBA_Played === false ? '📝' : '🏀'}</span>` : '';
+                const wnbaTag = player.WNBA ? `<span class="wnba-badge${player.WNBA_Played === false ? ' signed-only' : ''}" title="${player.WNBA_Played === false ? 'Signed to WNBA (never played)' : 'Also played in WNBA'}">${player.WNBA_Played === false ? '📝W' : '🏀W'}</span>` : '';
 
                 return `
                     <tr class="intl-player">

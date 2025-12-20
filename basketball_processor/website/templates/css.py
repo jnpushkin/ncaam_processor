@@ -409,6 +409,19 @@ def get_css() -> str:
         .wnba-link:hover {
             text-decoration: underline;
         }
+        /* Signed but never played styles */
+        .nba-badge.signed-only,
+        .wnba-badge.signed-only {
+            opacity: 0.7;
+        }
+        tr.nba-player.signed-only,
+        tr.wnba-player.signed-only {
+            background: linear-gradient(90deg, rgba(128, 128, 128, 0.08) 0%, transparent 30%);
+        }
+        tr.nba-player.signed-only:hover,
+        tr.wnba-player.signed-only:hover {
+            background: linear-gradient(90deg, rgba(128, 128, 128, 0.15) 0%, var(--hover-color) 30%);
+        }
         .nba-stat .number {
             color: #C8102E;
         }

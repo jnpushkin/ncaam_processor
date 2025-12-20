@@ -137,16 +137,22 @@ class DataSerializer:
             # NBA info
             if pro_info and pro_info.get('nba_url'):
                 record['NBA'] = True
+                record['NBA_Played'] = pro_info.get('nba_played', True)  # Default true for backwards compat
                 record['NBA_Active'] = pro_info.get('is_active', False)
                 record['NBA_URL'] = pro_info.get('nba_url', '')
+                if pro_info.get('nba_games') is not None:
+                    record['NBA_Games'] = pro_info.get('nba_games')
             else:
                 record['NBA'] = False
 
             # WNBA info (separate from NBA)
             if pro_info and pro_info.get('wnba_url'):
                 record['WNBA'] = True
+                record['WNBA_Played'] = pro_info.get('wnba_played', True)  # Default true for backwards compat
                 record['WNBA_Active'] = pro_info.get('is_wnba_active', False)
                 record['WNBA_URL'] = pro_info.get('wnba_url', '')
+                if pro_info.get('wnba_games') is not None:
+                    record['WNBA_Games'] = pro_info.get('wnba_games')
             else:
                 record['WNBA'] = False
 

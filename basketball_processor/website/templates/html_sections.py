@@ -72,7 +72,7 @@ def get_body(total_games: int, total_players: int, total_teams: int, total_venue
             </div>
             <div class="stat-box intl-stat">
                 <div class="number">{INTL_PLAYERS_PLACEHOLDER}</div>
-                <div class="label">Int'l Players 🌍</div>
+                <div class="label">Overseas Pro 🌍</div>
             </div>
         </div>
         <div class="generated-time">Generated: {GENERATED_TIME_PLACEHOLDER}</div>
@@ -93,7 +93,7 @@ def get_body(total_games: int, total_players: int, total_teams: int, total_venue
             <button class="tab" onclick="showSection('charts')" role="tab" aria-selected="false" data-section="charts" tabindex="-1">Charts</button>
             <button class="tab" onclick="showSection('nba')" role="tab" aria-selected="false" data-section="nba" tabindex="-1">NBA 🏀</button>
             <button class="tab" onclick="showSection('wnba')" role="tab" aria-selected="false" data-section="wnba" tabindex="-1">WNBA 🏀W</button>
-            <button class="tab" onclick="showSection('international')" role="tab" aria-selected="false" data-section="international" tabindex="-1">Int'l 🌍</button>
+            <button class="tab" onclick="showSection('international')" role="tab" aria-selected="false" data-section="international" tabindex="-1">Overseas 🌍</button>
         </div>
 
         <div id="games" class="section active" role="tabpanel">
@@ -766,7 +766,7 @@ def get_body(total_games: int, total_players: int, total_teams: int, total_venue
         </div>
 
         <div id="international" class="section" role="tabpanel">
-            <h2>International Players 🌍</h2>
+            <h2>Overseas Pro Players 🌍</h2>
             <p style="margin-bottom: 1rem; color: var(--text-secondary);">Players you've seen in college who played professionally overseas.</p>
             <div class="table-wrapper">
                 <table id="intl-table" class="data-table">
