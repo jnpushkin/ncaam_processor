@@ -32,6 +32,7 @@ NBA_API_CACHE_FILE = CACHE_DIR / 'nba_api_cache.json'
 DATA_DIR = Path(__file__).parent.parent.parent / 'data'
 NBA_CONFIRMED_FILE = DATA_DIR / 'nba_confirmed.json'
 NBA_RECHECK_TIMESTAMP_FILE = DATA_DIR / 'nba_recheck_timestamp.txt'
+WNBA_RECHECK_TIMESTAMP_FILE = DATA_DIR / 'wnba_recheck_timestamp.txt'
 # Days between automatic null re-checks
 RECHECK_INTERVAL_DAYS = 90
 
@@ -665,17 +666,55 @@ def recheck_null_players(force: bool = False) -> Dict[str, int]:
     return {'checked': len(null_players), 'nba_found': nba_found, 'wnba_found': wnba_found, 'intl_found': intl_found + intl_from_nba}
 
 
-def recheck_female_players_for_wnba() -> Dict[str, int]:
+def _get_last_wnba_recheck_time() -> Optional[datetime]:
+    """Get the timestamp of the last WNBA re-check."""
+    if WNBA_RECHECK_TIMESTAMP_FILE.exists():
+        try:
+            ts = WNBA_RECHECK_TIMESTAMP_FILE.read_text().strip()
+            return datetime.fromisoformat(ts)
+        except Exception:
+            pass
+    return None
+
+
+def _save_wnba_recheck_timestamp() -> None:
+    """Save the current timestamp as the last WNBA re-check time."""
+    DATA_DIR.mkdir(parents=True, exist_ok=True)
+    WNBA_RECHECK_TIMESTAMP_FILE.write_text(datetime.now().isoformat())
+
+
+def should_recheck_wnba() -> bool:
+    """Check if it's time to re-check female players for WNBA (every 90 days)."""
+    last_check = _get_last_wnba_recheck_time()
+    if last_check is None:
+        return True
+    days_since = (datetime.now() - last_check).days
+    return days_since >= RECHECK_INTERVAL_DAYS
+
+
+def recheck_female_players_for_wnba(force: bool = False) -> Dict[str, int]:
     """
     Re-check female players for WNBA status.
     Only checks players from women's games who don't already have wnba_url in cache.
 
+    By default, only runs if it's been 90+ days since the last WNBA re-check.
+    Use force=True to run regardless.
+
     Run manually with:
-        python -c "from basketball_processor.utils.nba_players import recheck_female_players_for_wnba; recheck_female_players_for_wnba()"
+        python -c "from basketball_processor.utils.nba_players import recheck_female_players_for_wnba; recheck_female_players_for_wnba(force=True)"
 
     Returns:
         Dict with counts: {'checked': N, 'wnba_found': N}
     """
+    # Check if we should run
+    if not force:
+        last_check = _get_last_wnba_recheck_time()
+        if last_check:
+            days_since = (datetime.now() - last_check).days
+            if days_since < RECHECK_INTERVAL_DAYS:
+                print(f"WNBA re-check: Last check was {days_since} days ago. Next in {RECHECK_INTERVAL_DAYS - days_since} days.")
+                return {'checked': 0, 'wnba_found': 0}
+
     import json as json_module
 
     # Get all female player IDs from cached games
@@ -769,6 +808,9 @@ def recheck_female_players_for_wnba() -> Dict[str, int]:
 
         # Reload cache for next iteration
         cache = _load_lookup_cache()
+
+    # Save timestamp so we don't re-check again for 90 days
+    _save_wnba_recheck_timestamp()
 
     print(f"\nComplete! Checked {len(to_check)} female players")
     print(f"  Found {wnba_found} WNBA, {intl_found} International")
