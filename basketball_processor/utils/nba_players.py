@@ -27,6 +27,8 @@ except ImportError:
 CACHE_DIR = Path(__file__).parent.parent.parent / 'cache'
 NBA_LOOKUP_CACHE_FILE = CACHE_DIR / 'nba_lookup_cache.json'
 NBA_API_CACHE_FILE = CACHE_DIR / 'nba_api_cache.json'
+# Persistent confirmed file - survives cache clears
+NBA_CONFIRMED_FILE = CACHE_DIR / 'nba_confirmed.json'
 
 # Sports Reference base URL
 SPORTS_REF_BASE = "https://www.sports-reference.com/cbb/players/"
@@ -91,6 +93,32 @@ def _save_lookup_cache(cache: Dict[str, Any]) -> None:
         json.dump(cache, f, indent=2)
 
 
+def _load_confirmed() -> Dict[str, Any]:
+    """Load persistent confirmed NBA/Intl players (survives cache clears)."""
+    if NBA_CONFIRMED_FILE.exists():
+        try:
+            with open(NBA_CONFIRMED_FILE, 'r') as f:
+                return json.load(f)
+        except Exception:
+            pass
+    return {}
+
+
+def _save_confirmed(confirmed: Dict[str, Any]) -> None:
+    """Save to persistent confirmed file."""
+    CACHE_DIR.mkdir(parents=True, exist_ok=True)
+    with open(NBA_CONFIRMED_FILE, 'w') as f:
+        json.dump(confirmed, f, indent=2)
+
+
+def _add_to_confirmed(player_id: str, data: Dict[str, Any]) -> None:
+    """Add a player to the persistent confirmed file."""
+    if data and (data.get('nba_url') or data.get('intl_url')):
+        confirmed = _load_confirmed()
+        confirmed[player_id] = data
+        _save_confirmed(confirmed)
+
+
 def check_player_nba_status(player_id: str) -> Optional[Dict[str, Any]]:
     """
     Check if a player went to the NBA by looking up their Sports Reference page.
@@ -105,9 +133,14 @@ def check_player_nba_status(player_id: str) -> Optional[Dict[str, Any]]:
     if player_id in FALSE_POSITIVE_IDS:
         return None
 
-    # Check confirmed NBA players first
+    # Check hardcoded confirmed NBA players
     if player_id in CONFIRMED_NBA_IDS:
         return CONFIRMED_NBA_IDS[player_id]
+
+    # Check persistent confirmed file (survives cache clears)
+    confirmed = _load_confirmed()
+    if player_id in confirmed:
+        return confirmed[player_id]
 
     # Check cache
     cache = _load_lookup_cache()
@@ -184,6 +217,7 @@ def check_player_nba_status(player_id: str) -> Optional[Dict[str, Any]]:
         if result:
             cache[player_id] = result
             _save_lookup_cache(cache)
+            _add_to_confirmed(player_id, result)  # Persist for cache clears
             return result
         else:
             cache[player_id] = None
@@ -210,6 +244,7 @@ def get_nba_status_batch(player_ids: List[str], use_api_fallback: bool = True, m
     """
     results = {}
     cache = _load_lookup_cache()
+    confirmed = _load_confirmed()
     to_fetch = []
 
     for player_id in player_ids:
@@ -218,9 +253,14 @@ def get_nba_status_batch(player_ids: List[str], use_api_fallback: bool = True, m
             results[player_id] = None
             continue
 
-        # Check confirmed list
+        # Check hardcoded confirmed list
         if player_id in CONFIRMED_NBA_IDS:
             results[player_id] = CONFIRMED_NBA_IDS[player_id]
+            continue
+
+        # Check persistent confirmed file
+        if player_id in confirmed:
+            results[player_id] = confirmed[player_id]
             continue
 
         # Check cache
