@@ -18,7 +18,7 @@ def get_head(css: str) -> str:
 </head>"""
 
 
-def get_body(total_games: int, total_players: int, total_teams: int, total_venues: int, total_points: int, generated_time: str) -> str:
+def get_body(total_games: int, total_players: int, total_teams: int, total_venues: int, total_points: int, nba_players: int, intl_players: int, generated_time: str) -> str:
     """
     Return the HTML body content.
 
@@ -28,6 +28,8 @@ def get_body(total_games: int, total_players: int, total_teams: int, total_venue
         total_teams: Total number of teams
         total_venues: Total number of unique venues
         total_points: Total points scored in all games
+        nba_players: Number of players who went to the NBA
+        intl_players: Number of players with international careers
         generated_time: Timestamp when the page was generated
     """
     body_template = """<body>
@@ -60,6 +62,14 @@ def get_body(total_games: int, total_players: int, total_teams: int, total_venue
                 <div class="number">{TOTAL_POINTS_PLACEHOLDER}</div>
                 <div class="label">Points</div>
             </div>
+            <div class="stat-box nba-stat">
+                <div class="number">{NBA_PLAYERS_PLACEHOLDER}</div>
+                <div class="label">NBA Players 🏀</div>
+            </div>
+            <div class="stat-box intl-stat">
+                <div class="number">{INTL_PLAYERS_PLACEHOLDER}</div>
+                <div class="label">Int'l Players 🌍</div>
+            </div>
         </div>
         <div class="generated-time">Generated: {GENERATED_TIME_PLACEHOLDER}</div>
     </div>
@@ -77,6 +87,8 @@ def get_body(total_games: int, total_players: int, total_teams: int, total_venue
             <button class="tab" onclick="showSection('map')" role="tab" aria-selected="false" data-section="map" tabindex="-1">Map</button>
             <button class="tab" onclick="showSection('compare')" role="tab" aria-selected="false" data-section="compare" tabindex="-1">Compare</button>
             <button class="tab" onclick="showSection('charts')" role="tab" aria-selected="false" data-section="charts" tabindex="-1">Charts</button>
+            <button class="tab" onclick="showSection('nba')" role="tab" aria-selected="false" data-section="nba" tabindex="-1">NBA 🏀</button>
+            <button class="tab" onclick="showSection('international')" role="tab" aria-selected="false" data-section="international" tabindex="-1">Int'l 🌍</button>
         </div>
 
         <div id="games" class="section active" role="tabpanel">
@@ -511,7 +523,7 @@ def get_body(total_games: int, total_players: int, total_teams: int, total_venue
                     <div class="label">Conferences Complete</div>
                 </div>
                 <div class="stat-box">
-                    <div class="number" id="badges-venues">0</div>
+                    <div class="number" id="badges-venues-count">0</div>
                     <div class="label">Venues Visited</div>
                 </div>
                 <div class="stat-box">
@@ -703,6 +715,50 @@ def get_body(total_games: int, total_players: int, total_teams: int, total_venue
                 <canvas id="stats-chart"></canvas>
             </div>
         </div>
+
+        <div id="nba" class="section" role="tabpanel">
+            <h2>Future NBA Players 🏀</h2>
+            <p style="margin-bottom: 1rem; color: var(--text-secondary);">Players you've seen in college who went on to play in the NBA.</p>
+            <div class="table-wrapper">
+                <table id="nba-table" class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Player</th>
+                            <th>College Team</th>
+                            <th>Games Seen</th>
+                            <th>PPG</th>
+                            <th>RPG</th>
+                            <th>APG</th>
+                            <th>Total Points</th>
+                            <th>NBA Page</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="international" class="section" role="tabpanel">
+            <h2>International Players 🌍</h2>
+            <p style="margin-bottom: 1rem; color: var(--text-secondary);">Players you've seen in college who played professionally overseas.</p>
+            <div class="table-wrapper">
+                <table id="intl-table" class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Player</th>
+                            <th>College Team</th>
+                            <th>Games Seen</th>
+                            <th>PPG</th>
+                            <th>RPG</th>
+                            <th>APG</th>
+                            <th>Total Points</th>
+                            <th>Int'l Stats</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
     </div>
 
     <!-- Player Detail Modal -->
@@ -729,15 +785,33 @@ def get_body(total_games: int, total_players: int, total_teams: int, total_venue
         </div>
     </div>
 
+    <!-- Day Games Modal (for calendar multi-game days) -->
+    <div class="modal" id="day-games-modal" role="dialog" aria-labelledby="day-games-modal-title" onclick="if(event.target === this) closeModal('day-games-modal')">
+        <div class="modal-content modal-small">
+            <button class="modal-close" onclick="closeModal('day-games-modal')" aria-label="Close">&times;</button>
+            <div id="day-games-detail"></div>
+        </div>
+    </div>
+
+    <!-- Conference Teams Modal (for conference progress click) -->
+    <div class="modal" id="conf-teams-modal" role="dialog" aria-labelledby="conf-teams-modal-title" onclick="if(event.target === this) closeModal('conf-teams-modal')">
+        <div class="modal-content modal-medium">
+            <button class="modal-close" onclick="closeModal('conf-teams-modal')" aria-label="Close">&times;</button>
+            <div id="conf-teams-detail"></div>
+        </div>
+    </div>
+
     <!-- Toast container -->
     <div id="toast" class="toast"></div>"""
-    
+
     return (body_template
         .replace('{TOTAL_GAMES_PLACEHOLDER}', str(total_games))
         .replace('{TOTAL_PLAYERS_PLACEHOLDER}', str(total_players))
         .replace('{TOTAL_TEAMS_PLACEHOLDER}', str(total_teams))
         .replace('{TOTAL_VENUES_PLACEHOLDER}', str(total_venues))
         .replace('{TOTAL_POINTS_PLACEHOLDER}', f'{total_points:,}')
+        .replace('{NBA_PLAYERS_PLACEHOLDER}', str(nba_players))
+        .replace('{INTL_PLAYERS_PLACEHOLDER}', str(intl_players))
         .replace('{GENERATED_TIME_PLACEHOLDER}', generated_time))
 
 

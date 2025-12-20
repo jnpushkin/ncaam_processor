@@ -347,8 +347,8 @@ class MilestoneEngine:
                 'detail': f'{pts} pts, {trb} reb, {ast} ast',
             })
 
-        # 20-10 games (not already counted in 20-10-5)
-        if pts >= 20 and trb >= 10 and ast < 5:
+        # 20-10 games (includes 20-10-5 games too)
+        if pts >= 20 and trb >= 10:
             self.milestones['twenty_ten_games'].append({
                 **milestone_base,
                 'detail': f'{pts} pts, {trb} reb',

@@ -337,6 +337,64 @@ def get_css() -> str:
             color: var(--text-secondary);
             margin-left: 0.25rem;
         }
+        .nba-badge {
+            font-size: 0.85rem;
+            margin-left: 0.35rem;
+            cursor: help;
+        }
+        tr.nba-player {
+            background: linear-gradient(90deg, rgba(200, 16, 46, 0.08) 0%, transparent 30%);
+        }
+        tr.nba-player:hover {
+            background: linear-gradient(90deg, rgba(200, 16, 46, 0.15) 0%, var(--hover-color) 30%);
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .status-badge.nba-active {
+            background: #2E7D32;
+            color: white;
+        }
+        .status-badge.nba-former {
+            background: #757575;
+            color: white;
+        }
+        .nba-link, .intl-link {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .nba-link:hover, .intl-link:hover {
+            text-decoration: underline;
+        }
+        .intl-badge {
+            font-size: 0.85rem;
+            margin-left: 0.35rem;
+            cursor: help;
+        }
+        tr.intl-player {
+            background: linear-gradient(90deg, rgba(46, 125, 50, 0.08) 0%, transparent 30%);
+        }
+        tr.intl-player:hover {
+            background: linear-gradient(90deg, rgba(46, 125, 50, 0.15) 0%, var(--hover-color) 30%);
+        }
+        .intl-stat .number {
+            color: #2E7D32;
+        }
+        #nba-table, #intl-table {
+            margin-top: 1rem;
+        }
+        #nba-table th, #nba-table td, #intl-table th, #intl-table td {
+            text-align: center;
+        }
+        #nba-table th:first-child, #nba-table td:first-child,
+        #intl-table th:first-child, #intl-table td:first-child {
+            text-align: left;
+        }
         .gender-seen {
             display: inline-block;
             font-size: 0.65rem;
@@ -745,6 +803,120 @@ def get_css() -> str:
         }
         .modal-close:hover {
             color: var(--text-primary);
+        }
+        .modal-small {
+            max-width: 500px;
+        }
+        .modal-medium {
+            max-width: 600px;
+        }
+        /* Conference Teams Modal */
+        .conf-teams-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+        .conf-teams-column {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .conf-teams-heading {
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin: 0 0 0.5rem 0;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+        .conf-teams-heading.seen {
+            color: #22c55e;
+            border-color: #22c55e;
+        }
+        .conf-teams-heading.unseen {
+            color: var(--text-secondary);
+        }
+        .conf-team-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.4rem 0.5rem;
+            border-radius: 4px;
+        }
+        .conf-team-item.seen {
+            background: rgba(34, 197, 94, 0.1);
+        }
+        .conf-team-item.unseen {
+            background: var(--bg-primary);
+        }
+        .conf-team-check {
+            font-size: 0.85rem;
+            width: 1.2rem;
+            text-align: center;
+        }
+        .conf-team-item.seen .conf-team-check {
+            color: #22c55e;
+        }
+        .conf-team-item.unseen .conf-team-check {
+            color: var(--text-tertiary);
+        }
+        .conf-team-name {
+            font-size: 0.9rem;
+        }
+        .conf-team-empty {
+            color: var(--text-secondary);
+            font-style: italic;
+            margin: 0;
+            padding: 0.5rem;
+        }
+        @media (max-width: 480px) {
+            .conf-teams-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        /* Day Games Modal */
+        .day-games-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .day-game-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem 1rem;
+            background: var(--bg-primary);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .day-game-item:hover {
+            background: var(--hover-color);
+        }
+        .day-game-year {
+            font-weight: 600;
+            color: var(--accent-color);
+            min-width: 50px;
+        }
+        .day-game-matchup {
+            flex: 1;
+        }
+        .day-game-score {
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+        .back-to-day-btn {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            color: var(--accent-color);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            transition: background 0.2s;
+        }
+        .back-to-day-btn:hover {
+            background: var(--hover-color);
         }
         /* Box Score Modal */
         .box-score-header {
@@ -1363,6 +1535,12 @@ def get_css() -> str:
             border: 1px solid var(--border-color);
             border-radius: 8px;
             padding: 1rem;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .conf-progress-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
         .conf-progress-card.complete {
             border-color: #4CAF50;

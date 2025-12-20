@@ -6,6 +6,8 @@ from typing import Dict, List, Any, Optional
 import pandas as pd
 import json
 
+from ..utils.nba_players import get_nba_player_info_by_id, get_nba_status_batch
+
 
 class DataSerializer:
     """Convert DataFrames to JSON format for website."""
@@ -28,10 +30,19 @@ class DataSerializer:
         Returns:
             Dictionary ready for JSON encoding
         """
+        summary = self._serialize_summary()
+        players = self._serialize_players()
+
+        # Count NBA and International players after serialization
+        nba_count = sum(1 for p in players if p.get('NBA'))
+        intl_count = sum(1 for p in players if p.get('International'))
+        summary['nbaPlayers'] = nba_count
+        summary['intlPlayers'] = intl_count
+
         return {
-            'summary': self._serialize_summary(),
+            'summary': summary,
             'games': self._serialize_games(),
-            'players': self._serialize_players(),
+            'players': players,
             'milestones': self._serialize_milestones(),
             'teams': self._serialize_teams(),
             'venues': self._serialize_venues(),
@@ -71,6 +82,7 @@ class DataSerializer:
             'totalVenues': len(venue_records),
             'totalPoints': total_points,
             'milestones': milestone_counts,
+            'nbaPlayers': 0,  # Will be calculated after players are serialized
         }
 
     def _serialize_games(self) -> List[Dict]:
@@ -99,12 +111,40 @@ class DataSerializer:
         return games
 
     def _serialize_players(self) -> List[Dict]:
-        """Serialize player statistics."""
+        """Serialize player statistics with NBA and international info."""
         players = self.processed_data.get('players', pd.DataFrame())
         if players.empty:
             return []
 
-        return self._df_to_records(players)
+        records = self._df_to_records(players)
+
+        # Batch fetch NBA/international status for all players
+        player_ids = [r.get('Player ID', '') for r in records if r.get('Player ID')]
+        pro_status = get_nba_status_batch(player_ids)
+
+        # Add NBA and International flags to each player
+        for record in records:
+            player_id = record.get('Player ID', '')
+            pro_info = pro_status.get(player_id) if player_id else None
+            if not pro_info:
+                pro_info = get_nba_player_info_by_id(player_id)
+
+            # NBA info
+            if pro_info and pro_info.get('nba_url'):
+                record['NBA'] = True
+                record['NBA_Active'] = pro_info.get('is_active', False)
+                record['NBA_URL'] = pro_info.get('nba_url', '')
+            else:
+                record['NBA'] = False
+
+            # International info
+            if pro_info and pro_info.get('intl_url'):
+                record['International'] = True
+                record['Intl_URL'] = pro_info.get('intl_url', '')
+            else:
+                record['International'] = False
+
+        return records
 
     def _serialize_milestones(self) -> Dict[str, List[Dict]]:
         """Serialize all milestones."""

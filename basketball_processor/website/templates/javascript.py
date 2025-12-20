@@ -1075,15 +1075,23 @@ def get_javascript(json_data: str) -> str:
                 if (venue) {
                     const isFirstVenueVisit = !venueCounts[venue];
                     venueCounts[venue] = (venueCounts[venue] || 0) + 1;
+                    const venueVisitCount = venueCounts[venue];
 
                     if (isFirstVenueVisit) {
                         venueOrder.push(venue);
                         const venueNum = venueOrder.length;
-                        // Always show badge for new venue
+                        // Badge for new venue
                         gameMilestones[gameId].badges.push({
                             type: 'venue',
-                            text: `Venue #${venueNum}`,
+                            text: `${venue} (Venue #${venueNum})`,
                             title: `${ordinal(venueNum)} different venue visited: ${venue}`
+                        });
+                    } else if (MILESTONE_COUNTS.includes(venueVisitCount)) {
+                        // Badge for milestone visit count to same venue
+                        gameMilestones[gameId].badges.push({
+                            type: 'venue',
+                            text: `${venue} #${venueVisitCount}`,
+                            title: `${ordinal(venueVisitCount)} game at ${venue}`
                         });
                     }
                 }
@@ -1214,11 +1222,12 @@ def get_javascript(json_data: str) -> str:
                     const totalBlk = player['Total BLK'] || 0;
 
                     const genderTag = player.Gender === 'W' ? '<span class="gender-tag">(W)</span>' : '';
+                    const nbaTag = player.NBA ? `<span class="nba-badge" title="${player.NBA_Active ? 'Active NBA player' : 'Former NBA player'}">${player.NBA_Active ? '🏀' : '🏀'}</span>` : '';
 
                     const playerId = player['Player ID'] || '';
                     return `
-                        <tr>
-                            <td class="sticky-col"><span class="player-link" onclick="showPlayerDetail('${playerId || player.Player}')">${player.Player || ''}</span>${playerId ? ` <a href="${getPlayerSportsRefUrl(playerId)}" target="_blank" class="external-link" title="View on Sports Reference">&#8599;</a>` : ''}</td>
+                        <tr class="${player.NBA ? 'nba-player' : ''}">
+                            <td class="sticky-col"><span class="player-link" onclick="showPlayerDetail('${playerId || player.Player}')">${player.Player || ''}</span>${nbaTag}${playerId ? ` <a href="${getPlayerSportsRefUrl(playerId)}" target="_blank" class="external-link" title="View on Sports Reference">&#8599;</a>` : ''}</td>
                             <td>${player.Team || ''} ${genderTag}</td>
                             <td>${gp}</td>
                             <td>${mpg.toFixed(1)}</td>
@@ -1458,7 +1467,16 @@ def get_javascript(json_data: str) -> str:
 
         function showMilestoneEntries(key) {
             const milestones = DATA.milestones || {};
-            const entries = milestones[key] || [];
+            const entries = (milestones[key] || []).slice();
+            // Build date lookup from games
+            const gameDateSort = {};
+            (DATA.games || []).forEach(g => { gameDateSort[g.GameID] = g.DateSort || ''; });
+            // Sort by date descending (newest first)
+            entries.sort((a, b) => {
+                const dateA = gameDateSort[a.GameID] || '';
+                const dateB = gameDateSort[b.GameID] || '';
+                return dateB.localeCompare(dateA);
+            });
             currentMilestoneType = key;
             currentMilestoneData = entries;
 
@@ -1548,6 +1566,88 @@ def get_javascript(json_data: str) -> str:
                     <td>${(venue['Avg Away Pts'] || 0).toFixed(1)}</td>
                 </tr>
             `).join('');
+        }
+
+        function populateNbaTable() {
+            const tbody = document.querySelector('#nba-table tbody');
+            const players = DATA.players || [];
+
+            // Filter to only NBA players
+            const nbaPlayers = players.filter(p => p.NBA);
+
+            if (nbaPlayers.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="8" class="empty-state"><h3>No NBA players in dataset</h3></td></tr>';
+                return;
+            }
+
+            // Sort by total points descending
+            nbaPlayers.sort((a, b) => (b['Total PTS'] || 0) - (a['Total PTS'] || 0));
+
+            tbody.innerHTML = nbaPlayers.map(player => {
+                const playerId = player['Player ID'] || '';
+                const genderTag = player.Gender === 'W' ? ' <span class="gender-tag">(W)</span>' : '';
+                const nbaUrl = player.NBA_URL || '#';
+                const sportsRefLink = playerId ? ` <a href="${getPlayerSportsRefUrl(playerId)}" target="_blank" class="external-link" title="View college stats">&#8599;</a>` : '';
+
+                return `
+                    <tr class="nba-player">
+                        <td>
+                            <span class="player-link" onclick="showPlayerDetail('${playerId || player.Player}')">${player.Player || ''}</span>
+                            <span class="nba-badge" title="NBA player">🏀</span>
+                            ${sportsRefLink}${genderTag}
+                        </td>
+                        <td>${player.Team || ''}</td>
+                        <td>${player.Games || 0}</td>
+                        <td>${(player.PPG || 0).toFixed(1)}</td>
+                        <td>${(player.RPG || 0).toFixed(1)}</td>
+                        <td>${(player.APG || 0).toFixed(1)}</td>
+                        <td>${player['Total PTS'] || 0}</td>
+                        <td><a href="${nbaUrl}" target="_blank" class="nba-link">View NBA Stats &#8599;</a></td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function populateIntlTable() {
+            const tbody = document.querySelector('#intl-table tbody');
+            const players = DATA.players || [];
+
+            // Filter to only international players (excluding those already in NBA)
+            const intlPlayers = players.filter(p => p.International);
+
+            if (intlPlayers.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="8" class="empty-state"><h3>No international players in dataset</h3></td></tr>';
+                return;
+            }
+
+            // Sort by total points descending
+            intlPlayers.sort((a, b) => (b['Total PTS'] || 0) - (a['Total PTS'] || 0));
+
+            tbody.innerHTML = intlPlayers.map(player => {
+                const playerId = player['Player ID'] || '';
+                const genderTag = player.Gender === 'W' ? ' <span class="gender-tag">(W)</span>' : '';
+                const intlUrl = player.Intl_URL || '#';
+                const sportsRefLink = playerId ? ` <a href="${getPlayerSportsRefUrl(playerId)}" target="_blank" class="external-link" title="View college stats">&#8599;</a>` : '';
+                const nbaTag = player.NBA ? '<span class="nba-badge" title="Also played in NBA">🏀</span>' : '';
+
+                return `
+                    <tr class="intl-player">
+                        <td>
+                            <span class="player-link" onclick="showPlayerDetail('${playerId || player.Player}')">${player.Player || ''}</span>
+                            <span class="intl-badge" title="International player">🌍</span>
+                            ${nbaTag}
+                            ${sportsRefLink}${genderTag}
+                        </td>
+                        <td>${player.Team || ''}</td>
+                        <td>${player.Games || 0}</td>
+                        <td>${(player.PPG || 0).toFixed(1)}</td>
+                        <td>${(player.RPG || 0).toFixed(1)}</td>
+                        <td>${(player.APG || 0).toFixed(1)}</td>
+                        <td>${player['Total PTS'] || 0}</td>
+                        <td><a href="${intlUrl}" target="_blank" class="intl-link">View Int'l Stats &#8599;</a></td>
+                    </tr>
+                `;
+            }).join('');
         }
 
         function populateRecords() {
@@ -2447,21 +2547,54 @@ def get_javascript(json_data: str) -> str:
             grid.innerHTML = html;
         }
 
+        // Track last shown calendar day for back navigation
+        let lastCalendarMonthDay = null;
+
         function showCalendarDayGames(monthDay) {
             // Find all games on this month-day (any year)
             const [month, day] = monthDay.split('-').map(Number);
             const games = DATA.games.filter(g => {
                 const date = new Date(g.Date);
                 return date.getMonth() === month - 1 && date.getDate() === day;
-            });
+            }).sort((a, b) => (b.DateSort || '').localeCompare(a.DateSort || ''));
 
             if (games.length === 1) {
+                lastCalendarMonthDay = null;  // No back button for single game
                 showGameDetail(games[0].GameID);
             } else if (games.length > 1) {
-                // Show toast with game count and years
-                const years = [...new Set(games.map(g => new Date(g.Date).getFullYear()))].sort().join(', ');
-                showToast(`${games.length} games on this date (${years})`);
+                lastCalendarMonthDay = monthDay;  // Store for back navigation
+                // Show modal with clickable game list
+                const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
+                                   'July', 'August', 'September', 'October', 'November', 'December'];
+                const dateLabel = `${monthNames[month - 1]} ${day}`;
+
+                let gamesHtml = games.map(g => {
+                    const date = new Date(g.Date);
+                    const year = date.getFullYear();
+                    const genderTag = g.Gender === 'W' ? ' <span class="gender-tag">(W)</span>' : '';
+                    const awayScore = g['Away Score'] || 0;
+                    const homeScore = g['Home Score'] || 0;
+                    return `
+                        <div class="day-game-item" onclick="closeModal('day-games-modal'); showGameDetailFromCalendar('${g.GameID}', '${monthDay}')">
+                            <span class="day-game-year">${year}</span>
+                            <span class="day-game-matchup">${g['Away Team']} @ ${g['Home Team']}${genderTag}</span>
+                            <span class="day-game-score">${awayScore}-${homeScore}</span>
+                        </div>
+                    `;
+                }).join('');
+
+                document.getElementById('day-games-detail').innerHTML = `
+                    <h3 id="day-games-modal-title">Games on ${dateLabel}</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: 1rem;">${games.length} games across multiple years</p>
+                    <div class="day-games-list">${gamesHtml}</div>
+                `;
+                document.getElementById('day-games-modal').classList.add('active');
             }
+        }
+
+        function showGameDetailFromCalendar(gameId, monthDay) {
+            lastCalendarMonthDay = monthDay;
+            showGameDetail(gameId, true);  // true = show back button
         }
 
         // Badges section functions
@@ -2509,7 +2642,7 @@ def get_javascript(json_data: str) -> str:
             const tracking = window.badgeTrackingData || {};
             const completedConfs = Object.keys(tracking.confCompleted || {}).length;
             document.getElementById('badges-conferences-complete').textContent = completedConfs;
-            document.getElementById('badges-venues').textContent = (tracking.venueOrder || []).length;
+            document.getElementById('badges-venues-count').textContent = (tracking.venueOrder || []).length;
             document.getElementById('badges-matchups').textContent = Object.keys(tracking.matchupsSeen || {}).length;
 
             // Render all badges
@@ -2534,7 +2667,7 @@ def get_javascript(json_data: str) -> str:
             // Reverse to show newest first
             const sortedBadges = [...badges].reverse();
 
-            container.innerHTML = sortedBadges.map(badge => {
+            const html = sortedBadges.map(badge => {
                 const typeClass = `badge-type-${badge.type}`;
                 const iconClass = `badge-icon-${badge.type}`;
 
@@ -2551,6 +2684,7 @@ def get_javascript(json_data: str) -> str:
                     </div>
                 `;
             }).join('');
+            container.innerHTML = html;
         }
 
         function populateConferenceProgress() {
@@ -2610,7 +2744,7 @@ def get_javascript(json_data: str) -> str:
                 }).join('');
 
                 return `
-                    <div class="conf-progress-card ${isComplete ? 'complete' : ''}">
+                    <div class="conf-progress-card ${isComplete ? 'complete' : ''}" data-conf="${confName}" onclick="showConferenceTeams(this.dataset.conf)">
                         <div class="conf-progress-header">
                             <span class="conf-progress-name">${confName}</span>
                             <span class="conf-progress-count">${displaySeen}/${displayTotal}</span>
@@ -2626,6 +2760,77 @@ def get_javascript(json_data: str) -> str:
             }).join('');
 
             container.innerHTML = cards || '<p>No conference data available.</p>';
+        }
+
+        function showConferenceTeams(confName) {
+            const gender = document.getElementById('conf-progress-gender')?.value || '';
+            const checklist = DATA.conferenceChecklist || {};
+            const conf = checklist[confName];
+
+            if (!conf) return;
+
+            const teams = conf.teams || [];
+
+            // Separate seen and unseen teams
+            const seenTeams = [];
+            const unseenTeams = [];
+
+            teams.forEach(team => {
+                let seen;
+                if (gender === 'M') {
+                    seen = team.seenM;
+                } else if (gender === 'W') {
+                    seen = team.seenW;
+                } else {
+                    seen = team.seen;
+                }
+
+                if (seen) {
+                    seenTeams.push(team);
+                } else {
+                    unseenTeams.push(team);
+                }
+            });
+
+            // Sort both lists alphabetically
+            seenTeams.sort((a, b) => a.team.localeCompare(b.team));
+            unseenTeams.sort((a, b) => a.team.localeCompare(b.team));
+
+            const genderLabel = gender === 'M' ? " (Men's)" : gender === 'W' ? " (Women's)" : '';
+
+            const seenHtml = seenTeams.length > 0 ? seenTeams.map(t => `
+                <div class="conf-team-item seen">
+                    <span class="conf-team-check">✓</span>
+                    <span class="conf-team-name">${t.team}</span>
+                </div>
+            `).join('') : '<p class="conf-team-empty">No teams seen yet</p>';
+
+            const unseenHtml = unseenTeams.length > 0 ? unseenTeams.map(t => `
+                <div class="conf-team-item unseen">
+                    <span class="conf-team-check">○</span>
+                    <span class="conf-team-name">${t.team}</span>
+                </div>
+            `).join('') : '<p class="conf-team-empty">All teams seen!</p>';
+
+            const modalHtml = `
+                <h3 id="conf-teams-modal-title">${confName}${genderLabel}</h3>
+                <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+                    ${seenTeams.length} of ${teams.length} teams seen
+                </p>
+                <div class="conf-teams-grid">
+                    <div class="conf-teams-column">
+                        <h4 class="conf-teams-heading seen">Seen (${seenTeams.length})</h4>
+                        ${seenHtml}
+                    </div>
+                    <div class="conf-teams-column">
+                        <h4 class="conf-teams-heading unseen">Not Seen (${unseenTeams.length})</h4>
+                        ${unseenHtml}
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('conf-teams-detail').innerHTML = modalHtml;
+            document.getElementById('conf-teams-modal').classList.add('active');
         }
 
         function populateChecklist() {
@@ -2773,7 +2978,7 @@ def get_javascript(json_data: str) -> str:
                     <td><span class="game-link">${g.date}</span></td>
                     <td>${g.opponent}</td>
                     <td>${g.result} ${g.score || ''}</td>
-                    <td>${g.minutes || 0}</td>
+                    <td>${g.mp != null ? Math.round(g.mp) : 0}</td>
                     <td>${g.pts || 0}</td>
                     <td>${g.trb || 0}</td>
                     <td>${g.ast || 0}</td>
@@ -2935,12 +3140,19 @@ def get_javascript(json_data: str) -> str:
             document.getElementById('venue-modal').classList.add('active');
         }
 
-        function showGameDetail(gameId) {
+        function showGameDetail(gameId, fromCalendarDay = false) {
             const game = DATA.games.find(g => g.GameID === gameId);
             if (!game) {
                 showToast('Game not found');
                 return;
             }
+
+            // Build back button HTML if coming from calendar day list
+            const backButtonHtml = (fromCalendarDay && lastCalendarMonthDay) ? `
+                <button class="back-to-day-btn" onclick="closeModal('game-modal'); showCalendarDayGames('${lastCalendarMonthDay}')">
+                    &larr; Back to day list
+                </button>
+            ` : '';
 
             // Get players from this game
             const playerGames = (DATA.playerGames || []).filter(pg => pg.game_id === gameId);
@@ -3036,6 +3248,7 @@ def get_javascript(json_data: str) -> str:
             }
 
             document.getElementById('game-detail').innerHTML = `
+                ${backButtonHtml}
                 <div class="box-score-header">
                     <div class="box-score-team">
                         <h3>${game['Away Team']}</h3>
@@ -3456,6 +3669,8 @@ def get_javascript(json_data: str) -> str:
         try { buildMatchupMatrix(); } catch(e) { console.error('buildMatchupMatrix:', e); }
         try { buildConferenceCrossover(); } catch(e) { console.error('buildConferenceCrossover:', e); }
         try { populateVenuesTable(); } catch(e) { console.error('populateVenuesTable:', e); }
+        try { populateNbaTable(); } catch(e) { console.error('populateNbaTable:', e); }
+        try { populateIntlTable(); } catch(e) { console.error('populateIntlTable:', e); }
         try { populateRecords(); } catch(e) { console.error('populateRecords:', e); }
         try { initCalendar(); } catch(e) { console.error('initCalendar:', e); }
         try { initChecklist(); } catch(e) { console.error('initChecklist:', e); }

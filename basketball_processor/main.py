@@ -243,7 +243,11 @@ def main() -> None:
         info("Loading games from cache only...")
         from .utils.venue_resolver import resolve_venue
         games_data = []
+        # Skip non-game cache files
+        skip_files = {'nba_lookup_cache.json', 'nba_api_cache.json'}
         for file in CACHE_DIR.glob("*.json"):
+            if file.name in skip_files:
+                continue
             with open(file, 'r', encoding='utf-8') as f:
                 game = json.load(f)
                 # Re-apply venue resolution to pick up any overrides
