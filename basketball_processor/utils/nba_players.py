@@ -229,7 +229,9 @@ def get_nba_status_batch(player_ids: List[str], use_api_fallback: bool = True, m
     # Fetch missing players
     if to_fetch and HAS_REQUESTS:
         fetch_list = to_fetch if max_fetch == 0 else to_fetch[:max_fetch]
-        print(f"Checking {len(fetch_list)} players for NBA status...")
+        # Estimate time: ~7 seconds per player (2 requests @ 3.5s each)
+        est_minutes = (len(fetch_list) * 7) / 60
+        print(f"Checking {len(fetch_list)} players for NBA status... (est. {est_minutes:.0f} min)")
         for i, player_id in enumerate(fetch_list):
             if i > 0 and i % 10 == 0:
                 print(f"  Checked {i}/{len(fetch_list)} players...")
