@@ -69,6 +69,7 @@ CONFIRMED_NBA_IDS = {
     'mamadi-diakite-1': {'nba_url': 'https://www.basketball-reference.com/players/d/diakima01.html', 'is_active': False},
     'isaiah-collier-1': {'nba_url': 'https://www.basketball-reference.com/players/c/colliis01.html', 'is_active': True},
     'ryan-nembhard-1': {'nba_url': 'https://www.basketball-reference.com/players/n/nemhary01.html', 'is_active': True},
+    'brooks-barnhizer-1': {'nba_url': 'https://www.basketball-reference.com/players/b/barnhbr01.html', 'is_active': True},
 }
 
 
