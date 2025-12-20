@@ -1104,4 +1104,173 @@ def get_css() -> str:
                 max-height: none;
                 overflow: visible;
             }
+        }
+        /* Matchup Matrix */
+        .matchup-matrix-container {
+            overflow-x: auto;
+            margin-top: 1rem;
+        }
+        .matchup-matrix {
+            border-collapse: collapse;
+            font-size: 0.75rem;
+        }
+        .matchup-matrix th,
+        .matchup-matrix td {
+            padding: 4px 6px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+            white-space: nowrap;
+        }
+        .matchup-matrix th {
+            background: var(--bg-primary);
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        .matchup-matrix th.row-header {
+            position: sticky;
+            left: 0;
+            z-index: 20;
+            text-align: left;
+            min-width: 120px;
+        }
+        .matchup-matrix th.corner {
+            position: sticky;
+            left: 0;
+            top: 0;
+            z-index: 30;
+        }
+        .matchup-matrix td {
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+        .matchup-matrix td:hover {
+            background: var(--hover-color);
+        }
+        .matchup-matrix td.win-record {
+            background: rgba(39, 174, 96, 0.15);
+            color: var(--success);
+        }
+        .matchup-matrix td.loss-record {
+            background: rgba(231, 76, 60, 0.15);
+            color: var(--danger);
+        }
+        .matchup-matrix td.even-record {
+            background: rgba(243, 156, 18, 0.1);
+            color: var(--warning);
+        }
+        .matchup-matrix td.no-games {
+            color: var(--text-muted);
+            cursor: default;
+        }
+        .matchup-matrix td.diagonal {
+            background: var(--bg-primary);
+            cursor: default;
+        }
+        .matrix-filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            align-items: flex-end;
+        }
+        @media (max-width: 768px) {
+            .matchup-matrix {
+                font-size: 0.65rem;
+            }
+            .matchup-matrix th,
+            .matchup-matrix td {
+                padding: 3px 4px;
+            }
+            .matchup-matrix th.row-header {
+                min-width: 80px;
+            }
+        }
+        /* First Matchup Badge */
+        .first-matchup-badge {
+            background: linear-gradient(135deg, #ffd700, #ffec8b);
+            color: #333;
+            font-size: 0.6rem;
+            font-weight: bold;
+            padding: 2px 5px;
+            border-radius: 3px;
+            margin-left: 6px;
+            text-transform: uppercase;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }
+        /* Conference Crossover Matrix */
+        .conf-crossover-container {
+            overflow-x: auto;
+            margin-top: 1rem;
+        }
+        .conf-crossover {
+            border-collapse: collapse;
+            font-size: 0.8rem;
+        }
+        .conf-crossover th,
+        .conf-crossover td {
+            padding: 6px 8px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+        }
+        .conf-crossover th {
+            background: var(--bg-primary);
+            font-weight: 600;
+        }
+        .conf-crossover td {
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+        .conf-crossover td:hover {
+            background: var(--hover-color);
+        }
+        .conf-crossover td.has-games {
+            background: rgba(0, 48, 135, 0.1);
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+        .conf-crossover td.diagonal {
+            background: var(--bg-primary);
+            color: var(--text-muted);
+        }
+        .conf-crossover td.no-games {
+            color: var(--text-muted);
+        }
+        /* Teams at Venue List */
+        .venue-teams-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+        .venue-team-tag {
+            background: var(--bg-primary);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            border: 1px solid var(--border-color);
+        }
+        .venue-team-tag .conf-label {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            margin-left: 4px;
+        }
+        .venue-stats-summary {
+            display: flex;
+            gap: 1.5rem;
+            margin: 1rem 0;
+            flex-wrap: wrap;
+        }
+        .venue-stat-item {
+            text-align: center;
+        }
+        .venue-stat-item .value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--accent-color);
+        }
+        .venue-stat-item .label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
         }"""

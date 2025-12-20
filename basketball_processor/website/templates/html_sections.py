@@ -298,6 +298,8 @@ def get_body(total_games: int, total_players: int, total_teams: int, generated_t
                 <button class="sub-tab" onclick="showSubSection('teams', 'splits')">Home/Away</button>
                 <button class="sub-tab" onclick="showSubSection('teams', 'conference')">Conference</button>
                 <button class="sub-tab" onclick="showSubSection('teams', 'headtohead')">Head-to-Head</button>
+                <button class="sub-tab" onclick="showSubSection('teams', 'matrix')">Matchup Matrix</button>
+                <button class="sub-tab" onclick="showSubSection('teams', 'crossover')">Conference Matchups</button>
             </div>
 
             <div id="teams-records" class="sub-section active">
@@ -375,7 +377,7 @@ def get_body(total_games: int, total_players: int, total_teams: int, generated_t
 
             <div id="teams-headtohead" class="sub-section">
                 <div class="filter-row" style="margin-bottom: 1rem;">
-                    <select id="h2h-team1" onchange="updateHeadToHead()">
+                    <select id="h2h-team1" onchange="updateH2HTeam2Options(); updateHeadToHead()">
                         <option value="">Select Team 1</option>
                     </select>
                     <span style="margin: 0 0.5rem;">vs</span>
@@ -386,6 +388,37 @@ def get_body(total_games: int, total_players: int, total_teams: int, generated_t
                 <div id="h2h-result" class="card" style="display:none;">
                     <div id="h2h-summary" style="text-align:center; margin-bottom:1rem;"></div>
                     <div id="h2h-games" class="table-container"></div>
+                </div>
+            </div>
+
+            <div id="teams-matrix" class="sub-section">
+                <p style="margin-bottom: 1rem; color: var(--text-secondary);">View head-to-head records between all teams. Click a cell to see game details.</p>
+                <div class="matrix-filters">
+                    <div class="filter-group">
+                        <label for="matrix-conference">Conference</label>
+                        <select id="matrix-conference" onchange="buildMatchupMatrix()">
+                            <option value="">All Teams</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="matrix-min-games">Min Games</label>
+                        <select id="matrix-min-games" onchange="buildMatchupMatrix()">
+                            <option value="0">Any</option>
+                            <option value="2">2+</option>
+                            <option value="3">3+</option>
+                            <option value="5">5+</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="matchup-matrix-container">
+                    <div id="matchup-matrix"></div>
+                </div>
+            </div>
+
+            <div id="teams-crossover" class="sub-section">
+                <p style="margin-bottom: 1rem; color: var(--text-secondary);">See which conference vs conference matchups you've witnessed. Click a cell to filter games.</p>
+                <div class="conf-crossover-container">
+                    <div id="conf-crossover-matrix"></div>
                 </div>
             </div>
 

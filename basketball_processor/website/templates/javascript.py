@@ -278,6 +278,291 @@ def get_javascript(json_data: str) -> str:
             `;
         }
 
+        // Store all teams for H2H dropdown reset
+        let allH2HTeams = [];
+
+        function updateH2HTeam2Options() {
+            const team1 = document.getElementById('h2h-team1').value;
+            const h2h2 = document.getElementById('h2h-team2');
+            const currentTeam2 = h2h2.value;
+
+            // Clear Team 2 dropdown
+            h2h2.innerHTML = '<option value="">Select Team 2</option>';
+
+            if (!team1) {
+                // No Team 1 selected - show all teams
+                allH2HTeams.forEach(team => {
+                    const opt = document.createElement('option');
+                    opt.value = team;
+                    opt.textContent = team;
+                    h2h2.appendChild(opt);
+                });
+            } else {
+                // Team 1 selected - show only opponents they've played
+                const opponents = new Set();
+                (DATA.games || []).forEach(g => {
+                    if (g['Away Team'] === team1) {
+                        opponents.add(g['Home Team']);
+                    } else if (g['Home Team'] === team1) {
+                        opponents.add(g['Away Team']);
+                    }
+                });
+
+                [...opponents].sort().forEach(team => {
+                    const opt = document.createElement('option');
+                    opt.value = team;
+                    opt.textContent = team;
+                    h2h2.appendChild(opt);
+                });
+            }
+
+            // Restore Team 2 selection if still valid
+            if (currentTeam2 && [...h2h2.options].some(o => o.value === currentTeam2)) {
+                h2h2.value = currentTeam2;
+            }
+        }
+
+        function buildMatchupMatrix() {
+            const confFilter = document.getElementById('matrix-conference').value;
+            const minGames = parseInt(document.getElementById('matrix-min-games')?.value) || 0;
+            const container = document.getElementById('matchup-matrix');
+
+            // Get all teams from games
+            const teamSet = new Set();
+            (DATA.games || []).forEach(g => {
+                teamSet.add(g['Away Team']);
+                teamSet.add(g['Home Team']);
+            });
+
+            let teams = [...teamSet].sort();
+
+            // Filter by conference if selected
+            if (confFilter) {
+                teams = teams.filter(t => getTeamConference(t) === confFilter);
+            }
+
+            if (teams.length === 0) {
+                container.innerHTML = '<div class="empty-state"><p>No teams found</p></div>';
+                return;
+            }
+
+            // Build matchup data: for each pair, calculate record from team1's perspective
+            const matchups = {};
+            teams.forEach(t => { matchups[t] = {}; });
+
+            (DATA.games || []).forEach(g => {
+                const away = g['Away Team'];
+                const home = g['Home Team'];
+                const awayScore = parseInt(g['Away Score']) || 0;
+                const homeScore = parseInt(g['Home Score']) || 0;
+
+                if (!matchups[away]) matchups[away] = {};
+                if (!matchups[home]) matchups[home] = {};
+                if (!matchups[away][home]) matchups[away][home] = { wins: 0, losses: 0, pointDiff: 0, totalGames: 0 };
+                if (!matchups[home][away]) matchups[home][away] = { wins: 0, losses: 0, pointDiff: 0, totalGames: 0 };
+
+                matchups[away][home].totalGames++;
+                matchups[home][away].totalGames++;
+
+                if (awayScore > homeScore) {
+                    // Away team won
+                    matchups[away][home].wins++;
+                    matchups[away][home].pointDiff += (awayScore - homeScore);
+                    matchups[home][away].losses++;
+                    matchups[home][away].pointDiff += (homeScore - awayScore);
+                } else {
+                    // Home team won
+                    matchups[home][away].wins++;
+                    matchups[home][away].pointDiff += (homeScore - awayScore);
+                    matchups[away][home].losses++;
+                    matchups[away][home].pointDiff += (awayScore - homeScore);
+                }
+            });
+
+            // Filter teams: hide those with no qualifying matchups when min games filter is active
+            if (minGames > 0) {
+                // Find teams that have at least one matchup meeting the min games threshold
+                const teamsWithMatches = new Set();
+                teams.forEach(team1 => {
+                    teams.forEach(team2 => {
+                        if (team1 !== team2) {
+                            const record = matchups[team1] && matchups[team1][team2];
+                            if (record && record.totalGames >= minGames) {
+                                teamsWithMatches.add(team1);
+                                teamsWithMatches.add(team2);
+                            }
+                        }
+                    });
+                });
+                teams = teams.filter(t => teamsWithMatches.has(t));
+            }
+
+            if (teams.length === 0) {
+                container.innerHTML = '<div class="empty-state"><p>No matchups found with current filters</p></div>';
+                return;
+            }
+
+            if (teams.length > 50) {
+                container.innerHTML = '<div class="empty-state"><p>Too many teams to display. Please select a conference filter.</p></div>';
+                return;
+            }
+
+            // Build table HTML
+            let html = '<table class="matchup-matrix"><thead><tr><th class="corner">Team</th>';
+            teams.forEach(t => {
+                // Abbreviate team names for column headers
+                const abbrev = t.length > 12 ? t.substring(0, 10) + '..' : t;
+                html += `<th title="${t}">${abbrev}</th>`;
+            });
+            html += '</tr></thead><tbody>';
+
+            teams.forEach(rowTeam => {
+                html += `<tr><th class="row-header">${rowTeam}</th>`;
+                teams.forEach(colTeam => {
+                    if (rowTeam === colTeam) {
+                        html += '<td class="diagonal">-</td>';
+                    } else {
+                        const record = matchups[rowTeam] && matchups[rowTeam][colTeam];
+                        if (record && record.totalGames >= minGames && record.totalGames > 0) {
+                            const diff = record.pointDiff;
+                            const diffStr = diff >= 0 ? `+${diff}` : `${diff}`;
+                            let cellClass = 'even-record';
+                            if (record.wins > record.losses) cellClass = 'win-record';
+                            else if (record.losses > record.wins) cellClass = 'loss-record';
+
+                            html += `<td class="${cellClass}" onclick="showH2HFromMatrix('${rowTeam}', '${colTeam}')" title="${rowTeam} vs ${colTeam}: ${record.wins}-${record.losses} (${diffStr})">${record.wins}-${record.losses}<br><small>${diffStr}</small></td>`;
+                        } else {
+                            html += '<td class="no-games">-</td>';
+                        }
+                    }
+                });
+                html += '</tr>';
+            });
+
+            html += '</tbody></table>';
+            container.innerHTML = html;
+        }
+
+        function showH2HFromMatrix(team1, team2) {
+            // Switch to Head-to-Head sub-tab and pre-select teams
+            showSubSection('teams', 'headtohead');
+
+            document.getElementById('h2h-team1').value = team1;
+            updateH2HTeam2Options();
+            document.getElementById('h2h-team2').value = team2;
+            updateHeadToHead();
+        }
+
+        function buildConferenceCrossover() {
+            const container = document.getElementById('conf-crossover-matrix');
+            if (!container) return;
+
+            // Get all conferences from games
+            const confSet = new Set();
+            const crossoverData = {};
+
+            (DATA.games || []).forEach(g => {
+                const awayConf = getTeamConference(g['Away Team']);
+                const homeConf = getTeamConference(g['Home Team']);
+
+                if (awayConf) confSet.add(awayConf);
+                if (homeConf) confSet.add(homeConf);
+
+                if (awayConf && homeConf) {
+                    // Normalize key (alphabetical)
+                    const key1 = awayConf < homeConf ? awayConf : homeConf;
+                    const key2 = awayConf < homeConf ? homeConf : awayConf;
+                    const key = `${key1}|${key2}`;
+
+                    if (!crossoverData[key]) {
+                        crossoverData[key] = { games: 0, conf1: key1, conf2: key2 };
+                    }
+                    crossoverData[key].games++;
+                }
+            });
+
+            const conferences = [...confSet].sort();
+
+            if (conferences.length === 0) {
+                container.innerHTML = '<div class="empty-state"><p>No conference data available</p></div>';
+                return;
+            }
+
+            // Build matrix
+            let html = '<table class="conf-crossover"><thead><tr><th></th>';
+            conferences.forEach(c => {
+                const abbrev = c.length > 10 ? c.substring(0, 8) + '..' : c;
+                html += `<th title="${c}">${abbrev}</th>`;
+            });
+            html += '</tr></thead><tbody>';
+
+            conferences.forEach(rowConf => {
+                html += `<tr><th>${rowConf}</th>`;
+                conferences.forEach(colConf => {
+                    if (rowConf === colConf) {
+                        // Same conference
+                        const key = `${rowConf}|${rowConf}`;
+                        const data = crossoverData[key];
+                        const count = data ? data.games : 0;
+                        html += `<td class="diagonal" onclick="filterGamesByConferences('${rowConf}', '${colConf}')" title="${rowConf} intra-conference: ${count} games">${count || '-'}</td>`;
+                    } else {
+                        const key1 = rowConf < colConf ? rowConf : colConf;
+                        const key2 = rowConf < colConf ? colConf : rowConf;
+                        const key = `${key1}|${key2}`;
+                        const data = crossoverData[key];
+                        const count = data ? data.games : 0;
+
+                        if (count > 0) {
+                            html += `<td class="has-games" onclick="filterGamesByConferences('${rowConf}', '${colConf}')" title="${rowConf} vs ${colConf}: ${count} games">${count}</td>`;
+                        } else {
+                            html += `<td class="no-games" title="${rowConf} vs ${colConf}: 0 games">-</td>`;
+                        }
+                    }
+                });
+                html += '</tr>';
+            });
+
+            html += '</tbody></table>';
+            container.innerHTML = html;
+        }
+
+        function filterGamesByConferences(conf1, conf2) {
+            // Navigate to games tab and filter
+            showSection('games');
+
+            // Clear existing filters
+            clearFilters('games');
+
+            // Apply conference filter to one of the dropdowns and manually filter
+            const searchBox = document.getElementById('games-search');
+            if (conf1 === conf2) {
+                // Intra-conference - just filter by that conference
+                document.getElementById('games-conference').value = conf1;
+            } else {
+                // Cross-conference - we need custom filter
+                // Use search to show games where one team is from each conference
+                searchBox.value = `${conf1} vs ${conf2}`;
+            }
+
+            // Custom filtering for cross-conference
+            if (conf1 !== conf2) {
+                filteredData.games = (DATA.games || []).filter(game => {
+                    const awayConf = getTeamConference(game['Away Team']);
+                    const homeConf = getTeamConference(game['Home Team']);
+                    return (awayConf === conf1 && homeConf === conf2) ||
+                           (awayConf === conf2 && homeConf === conf1);
+                });
+                searchBox.value = '';
+                pagination.games.page = 1;
+                pagination.games.total = filteredData.games.length;
+                renderGamesTable();
+                showToast(`Showing ${conf1} vs ${conf2} games`);
+            } else {
+                applyFilters('games');
+                showToast(`Showing ${conf1} games`);
+            }
+        }
+
         function applyFilters(type) {
             if (type === 'games') {
                 applyGamesFilters();
@@ -521,6 +806,141 @@ def get_javascript(json_data: str) -> str:
             showToast(`Downloaded ${filename}`);
         }
 
+        // Pre-compute milestones for badges
+        let gameMilestones = {};
+        const MILESTONE_COUNTS = [1, 5, 10, 25, 50, 100];
+
+        function computeGameMilestones() {
+            // Sort by DateSort (YYYYMMDD format) ascending - oldest first
+            const allGames = (DATA.games || []).slice().sort((a, b) => {
+                const dateA = a.DateSort || '';
+                const dateB = b.DateSort || '';
+                return dateA.localeCompare(dateB);
+            });
+
+            const teamCounts = {};         // track times each team seen (by gender)
+            const venueCounts = {};        // track times each venue visited
+            const matchupsSeen = {};       // track first time each matchup seen (by gender)
+            const confMatchupCounts = {};  // track conference vs conference matchups
+            const confTeamCounts = {};     // track first team from each conference
+            let venueOrder = [];           // track order venues were first visited
+
+            gameMilestones = {};
+
+            allGames.forEach(game => {
+                const gameId = game.GameID;
+                const away = game['Away Team'];
+                const home = game['Home Team'];
+                const venue = game.Venue || '';
+                const gender = game.Gender || 'M';
+                const genderSuffix = gender === 'W' ? ' (W)' : '';
+
+                // Get conferences
+                const awayConf = getTeamConference(away);
+                const homeConf = getTeamConference(home);
+
+                // Include gender in keys for separate tracking
+                const awayKey = `${away}|${gender}`;
+                const homeKey = `${home}|${gender}`;
+                // Normalize matchup key (alphabetical order, include gender)
+                const matchupKey = [away, home].sort().join(' vs ') + `|${gender}`;
+
+                gameMilestones[gameId] = { badges: [] };
+
+                // Track first team from each conference (by gender)
+                if (awayConf) {
+                    const awayConfKey = `${awayConf}|${gender}`;
+                    if (!confTeamCounts[awayConfKey]) {
+                        confTeamCounts[awayConfKey] = true;
+                        gameMilestones[gameId].badges.push({
+                            type: 'conf-first',
+                            text: `1st ${awayConf}${genderSuffix}`,
+                            title: `First ${awayConf} team seen${genderSuffix}: ${away}`
+                        });
+                    }
+                }
+                if (homeConf && homeConf !== awayConf) {
+                    const homeConfKey = `${homeConf}|${gender}`;
+                    if (!confTeamCounts[homeConfKey]) {
+                        confTeamCounts[homeConfKey] = true;
+                        gameMilestones[gameId].badges.push({
+                            type: 'conf-first',
+                            text: `1st ${homeConf}${genderSuffix}`,
+                            title: `First ${homeConf} team seen${genderSuffix}: ${home}`
+                        });
+                    }
+                }
+
+                // Track conference vs conference matchups (cross-conference only)
+                if (awayConf && homeConf && awayConf !== homeConf) {
+                    const confMatchupKey = [awayConf, homeConf].sort().join(' vs ') + `|${gender}`;
+                    confMatchupCounts[confMatchupKey] = (confMatchupCounts[confMatchupKey] || 0) + 1;
+
+                    if (MILESTONE_COUNTS.includes(confMatchupCounts[confMatchupKey])) {
+                        const confMatchupDisplay = [awayConf, homeConf].sort().join(' vs ');
+                        gameMilestones[gameId].badges.push({
+                            type: 'conf-matchup',
+                            text: confMatchupCounts[confMatchupKey] === 1 ? `1st ${confMatchupDisplay}` : `${confMatchupDisplay} #${confMatchupCounts[confMatchupKey]}`,
+                            title: `${ordinal(confMatchupCounts[confMatchupKey])} ${awayConf} vs ${homeConf} game${genderSuffix}`
+                        });
+                    }
+                }
+
+                // Track team counts (by gender)
+                teamCounts[awayKey] = (teamCounts[awayKey] || 0) + 1;
+                teamCounts[homeKey] = (teamCounts[homeKey] || 0) + 1;
+
+                // Check for team milestones
+                if (MILESTONE_COUNTS.includes(teamCounts[awayKey])) {
+                    gameMilestones[gameId].badges.push({
+                        type: 'team',
+                        text: teamCounts[awayKey] === 1 ? `1st ${away}${genderSuffix}` : `${away}${genderSuffix} #${teamCounts[awayKey]}`,
+                        title: `${ordinal(teamCounts[awayKey])} time seeing ${away}${genderSuffix}`
+                    });
+                }
+                if (MILESTONE_COUNTS.includes(teamCounts[homeKey])) {
+                    gameMilestones[gameId].badges.push({
+                        type: 'team',
+                        text: teamCounts[homeKey] === 1 ? `1st ${home}${genderSuffix}` : `${home}${genderSuffix} #${teamCounts[homeKey]}`,
+                        title: `${ordinal(teamCounts[homeKey])} time seeing ${home}${genderSuffix}`
+                    });
+                }
+
+                // Track venue visits (shared across genders)
+                if (venue) {
+                    const isFirstVenueVisit = !venueCounts[venue];
+                    venueCounts[venue] = (venueCounts[venue] || 0) + 1;
+
+                    if (isFirstVenueVisit) {
+                        venueOrder.push(venue);
+                        const venueNum = venueOrder.length;
+                        // Always show badge for new venue
+                        gameMilestones[gameId].badges.push({
+                            type: 'venue',
+                            text: `Venue #${venueNum}`,
+                            title: `${ordinal(venueNum)} different venue visited: ${venue}`
+                        });
+                    }
+                }
+
+                // Track first matchup (by gender)
+                if (!matchupsSeen[matchupKey]) {
+                    matchupsSeen[matchupKey] = true;
+                    gameMilestones[gameId].badges.push({
+                        type: 'matchup',
+                        text: '1st Matchup',
+                        title: `First time seeing ${away} vs ${home}${genderSuffix}`
+                    });
+                }
+            });
+        }
+
+        function ordinal(n) {
+            const s = ['th', 'st', 'nd', 'rd'];
+            const v = n % 100;
+            return n + (s[(v - 20) % 10] || s[v] || s[0]);
+        }
+
         function renderGamesTable() {
             const tbody = document.querySelector('#games-table tbody');
             const state = pagination.games;
@@ -534,11 +954,18 @@ def get_javascript(json_data: str) -> str:
             } else {
                 tbody.innerHTML = pageData.map(game => {
                     const genderTag = game.Gender === 'W' ? ' <span class="gender-tag">(W)</span>' : '';
+
+                    // Get milestone badges for this game
+                    const milestones = gameMilestones[game.GameID] || { badges: [] };
+                    const badgeHtml = milestones.badges.map(b =>
+                        `<span class="first-matchup-badge" title="${b.title}">${b.text}</span>`
+                    ).join('');
+
                     return `
                     <tr>
                         <td>${game.Date || ''} <a href="${getSportsRefUrl(game)}" target="_blank" title="View on Sports Reference" class="external-link">&#8599;</a></td>
                         <td><span class="team-link" onclick="filterByTeam('${game['Away Team'] || ''}')">${game['Away Team'] || ''}</span>${genderTag}</td>
-                        <td><span class="game-link" onclick="showGameDetail('${game.GameID || ''}')">${game['Away Score'] || 0}-${game['Home Score'] || 0}</span></td>
+                        <td><span class="game-link" onclick="showGameDetail('${game.GameID || ''}')">${game['Away Score'] || 0}-${game['Home Score'] || 0}</span>${badgeHtml}</td>
                         <td><span class="team-link" onclick="filterByTeam('${game['Home Team'] || ''}')">${game['Home Team'] || ''}</span>${genderTag}</td>
                         <td><span class="venue-link" onclick="showVenueDetail('${game.Venue || ''}')">${game.Venue || ''}</span></td>
                         <td>${game.City || ''}</td>
@@ -649,6 +1076,7 @@ def get_javascript(json_data: str) -> str:
             // Populate head-to-head dropdowns
             const h2h1 = document.getElementById('h2h-team1');
             const h2h2 = document.getElementById('h2h-team2');
+            allH2HTeams = teams.slice(); // Store for later use
             teams.forEach(team => {
                 const opt1 = document.createElement('option');
                 opt1.value = team;
@@ -659,6 +1087,17 @@ def get_javascript(json_data: str) -> str:
                 opt2.textContent = team;
                 h2h2.appendChild(opt2);
             });
+
+            // Populate matrix conference dropdown
+            const matrixConfSelect = document.getElementById('matrix-conference');
+            if (matrixConfSelect) {
+                conferences.forEach(conf => {
+                    const option = document.createElement('option');
+                    option.value = conf;
+                    option.textContent = conf;
+                    matrixConfSelect.appendChild(option);
+                });
+            }
         }
 
         function populatePlayersTable() {
@@ -1907,6 +2346,27 @@ def get_javascript(json_data: str) -> str:
             const city = games[0]?.City || venueInfo.City || '';
             const state = games[0]?.State || venueInfo.State || '';
 
+            // Compute teams seen at this venue
+            const teamSet = new Set();
+            const confSet = new Set();
+            games.forEach(g => {
+                teamSet.add(g['Away Team']);
+                teamSet.add(g['Home Team']);
+                const awayConf = getTeamConference(g['Away Team']);
+                const homeConf = getTeamConference(g['Home Team']);
+                if (awayConf) confSet.add(awayConf);
+                if (homeConf) confSet.add(homeConf);
+            });
+
+            const teamsList = [...teamSet].sort();
+            const confsList = [...confSet].sort();
+
+            // Build teams list HTML with conference labels
+            const teamsHtml = teamsList.map(team => {
+                const conf = getTeamConference(team);
+                return `<span class="venue-team-tag">${team}${conf ? `<span class="conf-label">${conf}</span>` : ''}</span>`;
+            }).join('');
+
             const gamesHtml = games.map(g => {
                 const homeWon = (g['Home Score'] || 0) > (g['Away Score'] || 0);
                 const winner = homeWon ? g['Home Team'] : g['Away Team'];
@@ -1925,10 +2385,33 @@ def get_javascript(json_data: str) -> str:
 
             document.getElementById('venue-detail').innerHTML = `
                 <h3 id="venue-modal-title">${venueName}</h3>
-                <p>${city}${state ? ', ' + state : ''} | ${games.length} game${games.length !== 1 ? 's' : ''}</p>
-                ${venueInfo['Home Wins'] !== undefined ? `
-                    <p>Home Wins: ${venueInfo['Home Wins'] || 0} | Away Wins: ${venueInfo['Away Wins'] || 0}</p>
-                ` : ''}
+                <p>${city}${state ? ', ' + state : ''}</p>
+
+                <div class="venue-stats-summary">
+                    <div class="venue-stat-item">
+                        <div class="value">${games.length}</div>
+                        <div class="label">Games</div>
+                    </div>
+                    <div class="venue-stat-item">
+                        <div class="value">${teamsList.length}</div>
+                        <div class="label">Teams Seen</div>
+                    </div>
+                    <div class="venue-stat-item">
+                        <div class="value">${confsList.length}</div>
+                        <div class="label">Conferences</div>
+                    </div>
+                    ${venueInfo['Home Wins'] !== undefined ? `
+                    <div class="venue-stat-item">
+                        <div class="value">${venueInfo['Home Wins'] || 0}-${venueInfo['Away Wins'] || 0}</div>
+                        <div class="label">Home-Away</div>
+                    </div>
+                    ` : ''}
+                </div>
+
+                <h4 style="margin-top: 1rem; margin-bottom: 0.5rem; color: var(--text-secondary);">Teams Seen Here</h4>
+                <div class="venue-teams-list">${teamsHtml}</div>
+
+                <h4 style="margin-top: 1.5rem; margin-bottom: 0.5rem; color: var(--text-secondary);">Game History</h4>
                 <div class="table-container">
                     <table>
                         <thead>
@@ -2456,6 +2939,7 @@ def get_javascript(json_data: str) -> str:
         }
 
         // Initialize
+        try { computeGameMilestones(); } catch(e) { console.error('computeGameMilestones:', e); }
         try { populateGamesTable(); } catch(e) { console.error('populateGamesTable:', e); }
         try { populatePlayersTable(); } catch(e) { console.error('populatePlayersTable:', e); }
         try { populateSeasonHighs(); } catch(e) { console.error('populateSeasonHighs:', e); }
@@ -2464,6 +2948,8 @@ def get_javascript(json_data: str) -> str:
         try { populateStreaksTable(); } catch(e) { console.error('populateStreaksTable:', e); }
         try { populateSplitsTable(); } catch(e) { console.error('populateSplitsTable:', e); }
         try { populateConferenceTable(); } catch(e) { console.error('populateConferenceTable:', e); }
+        try { buildMatchupMatrix(); } catch(e) { console.error('buildMatchupMatrix:', e); }
+        try { buildConferenceCrossover(); } catch(e) { console.error('buildConferenceCrossover:', e); }
         try { populateVenuesTable(); } catch(e) { console.error('populateVenuesTable:', e); }
         try { initCalendar(); } catch(e) { console.error('initCalendar:', e); }
         try { initChecklist(); } catch(e) { console.error('initChecklist:', e); }

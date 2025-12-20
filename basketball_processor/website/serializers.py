@@ -79,7 +79,7 @@ class DataSerializer:
 
         games = self._df_to_records(game_log)
 
-        # Add linescore data from raw games
+        # Add linescore and DateSort from raw games
         raw_games_by_id = {g.get('game_id'): g for g in self.raw_games}
         for game in games:
             game_id = game.get('GameID')
@@ -88,6 +88,11 @@ class DataSerializer:
                 linescore = raw_game.get('linescore', {})
                 if linescore:
                     game['Linescore'] = linescore
+                # Add sortable date (YYYYMMDD format)
+                basic_info = raw_game.get('basic_info', {})
+                date_sort = basic_info.get('date_yyyymmdd', '')
+                if date_sort:
+                    game['DateSort'] = date_sort
 
         return games
 
