@@ -233,10 +233,15 @@ def get_nba_status_batch(player_ids: List[str], use_api_fallback: bool = True, m
         est_minutes = (len(fetch_list) * 6.2) / 60
         print(f"Checking {len(fetch_list)} players for NBA status... (est. {est_minutes:.0f} min)")
         for i, player_id in enumerate(fetch_list):
-            if i > 0 and i % 10 == 0:
-                print(f"  Checked {i}/{len(fetch_list)} players...")
+            print(f"  {i+1}/{len(fetch_list)} {player_id}", end="", flush=True)
             result = check_player_nba_status(player_id)
             results[player_id] = result
+            if result and result.get('nba_url'):
+                print(" → NBA")
+            elif result and result.get('intl_url'):
+                print(" → Intl")
+            else:
+                print()
 
     return results
 
@@ -377,14 +382,18 @@ def check_all_players_from_cache() -> Dict[str, int]:
 
     # Check remaining players
     nba_found = 0
+    intl_found = 0
     for i, player_id in enumerate(to_check):
-        if i > 0 and i % 10 == 0:
-            print(f"  Progress: {i}/{len(to_check)} checked, {nba_found} NBA players found...")
-
+        print(f"  {i+1}/{len(to_check)} {player_id}", end="", flush=True)
         result = check_player_nba_status(player_id)
-        if result is not None:
+        if result and result.get('nba_url'):
             nba_found += 1
-            print(f"  Found NBA player: {player_id}")
+            print(" → NBA")
+        elif result and result.get('intl_url'):
+            intl_found += 1
+            print(" → Intl")
+        else:
+            print()
 
     print(f"\nComplete! Checked {len(to_check)} players, found {nba_found} new NBA players")
 
@@ -425,8 +434,7 @@ def recheck_null_players_for_intl() -> Dict[str, int]:
         scraper = cloudscraper.create_scraper()
 
     for i, player_id in enumerate(null_players):
-        if i > 0 and i % 20 == 0:
-            print(f"  Progress: {i}/{len(null_players)} checked, {intl_found} international players found...")
+        print(f"  {i+1}/{len(null_players)} {player_id}", end="", flush=True)
 
         # Rate limit to stay under 20 requests/minute
         time.sleep(RATE_LIMIT_SECONDS)
@@ -442,9 +450,11 @@ def recheck_null_players_for_intl() -> Dict[str, int]:
             if response.status_code == 200:
                 intl_found += 1
                 cache[player_id] = {'intl_url': intl_check_url}
-                print(f"  Found international player: {player_id}")
+                print(" → Intl")
+            else:
+                print()
         except Exception:
-            pass  # Silently ignore failures
+            print()  # Print newline on failure
 
     _save_lookup_cache(cache)
     print(f"\nComplete! Re-checked {len(null_players)} players, found {intl_found} international players")
