@@ -51,6 +51,7 @@ class DataSerializer:
         game_log = self.processed_data.get('game_log', pd.DataFrame())
         players = self.processed_data.get('players', pd.DataFrame())
         team_records = self.processed_data.get('team_records', pd.DataFrame())
+        venue_records = self.processed_data.get('venue_records', pd.DataFrame())
         milestones = self.processed_data.get('milestones', {})
 
         # Count milestones
@@ -67,6 +68,7 @@ class DataSerializer:
             'totalGames': len(game_log),
             'totalPlayers': len(players),
             'totalTeams': len(team_records),
+            'totalVenues': len(venue_records),
             'totalPoints': total_points,
             'milestones': milestone_counts,
         }

@@ -75,9 +75,13 @@ class TeamRecordsProcessor(BaseProcessor):
             game_id = self.get_game_id(game)
             date = basic_info.get('date', '')
             date_yyyymmdd = basic_info.get('date_yyyymmdd', '')
+            gender = game.get('gender', 'M')
 
-            away_team = basic_info.get('away_team', '')
-            home_team = basic_info.get('home_team', '')
+            # Use team|gender as key to separate men's and women's teams
+            away_team_raw = basic_info.get('away_team', '')
+            home_team_raw = basic_info.get('home_team', '')
+            away_team = f"{away_team_raw}|{gender}"
+            home_team = f"{home_team_raw}|{gender}"
             away_score = safe_int(basic_info.get('away_score', 0))
             home_score = safe_int(basic_info.get('home_score', 0))
             venue = basic_info.get('venue', '')
@@ -88,40 +92,43 @@ class TeamRecordsProcessor(BaseProcessor):
             # Use date-aware lookup to handle historical conference affiliations
             is_conference = basic_info.get('conference_game', False)
             if not is_conference:
-                away_conf = get_conference_for_date(away_team, date_yyyymmdd)
-                home_conf = get_conference_for_date(home_team, date_yyyymmdd)
+                away_conf = get_conference_for_date(away_team_raw, date_yyyymmdd)
+                home_conf = get_conference_for_date(home_team_raw, date_yyyymmdd)
                 if away_conf and home_conf and away_conf == home_conf:
                     is_conference = True
 
-            if not away_team or not home_team:
+            if not away_team_raw or not home_team_raw:
                 continue
 
-            # Track attendance
+            # Track attendance (use raw team names for display)
             if attendance:
                 self.attendance_data.append({
                     'date': date,
                     'game_id': game_id,
                     'venue': venue,
-                    'home_team': home_team,
-                    'away_team': away_team,
+                    'home_team': home_team_raw,
+                    'away_team': away_team_raw,
                     'attendance': attendance,
+                    'gender': gender,
                 })
 
             # Determine winner
             away_won = away_score > home_score
 
-            # Track head-to-head (both directions)
+            # Track head-to-head (both directions) - include gender in key for separate tracking
             matchup_key = tuple(sorted([away_team, home_team]))
+            winner_team = away_team if away_won else home_team
             self.head_to_head[matchup_key].append({
                 'date': date,
                 'date_yyyymmdd': date_yyyymmdd,
                 'game_id': game_id,
-                'away_team': away_team,
-                'home_team': home_team,
+                'away_team': away_team_raw,
+                'home_team': home_team_raw,
                 'away_score': away_score,
                 'home_score': home_score,
-                'winner': away_team if away_won else home_team,
+                'winner': away_team_raw if away_won else home_team_raw,
                 'venue': venue,
+                'gender': gender,
             })
 
             # Update away team stats
@@ -174,19 +181,27 @@ class TeamRecordsProcessor(BaseProcessor):
                     self.team_stats[home_team]['conf_wins'] += 1
 
         # Determine conferences for teams (using get_conference which handles aliases)
-        for team in self.team_stats.keys():
-            conf = get_conference(team)
+        for team_key in self.team_stats.keys():
+            # Split team|gender key to get raw team name for conference lookup
+            parts = team_key.rsplit('|', 1)
+            team_name = parts[0]
+            conf = get_conference(team_name)
             if conf:
-                self.team_stats[team]['conference'] = conf
+                self.team_stats[team_key]['conference'] = conf
 
     def _create_team_records_df(self) -> pd.DataFrame:
         """Create team records DataFrame."""
         rows = []
 
-        for team, stats in self.team_stats.items():
+        for team_key, stats in self.team_stats.items():
             total_games = stats['wins'] + stats['losses']
             if total_games == 0:
                 continue
+
+            # Split team|gender key
+            parts = team_key.rsplit('|', 1)
+            team_name = parts[0]
+            gender = parts[1] if len(parts) > 1 else 'M'
 
             win_pct = round(stats['wins'] / total_games, 3) if total_games > 0 else 0
             ppg = round(stats['points_for'] / total_games, 1) if total_games > 0 else 0
@@ -194,8 +209,9 @@ class TeamRecordsProcessor(BaseProcessor):
             diff = round(ppg - papg, 1)
 
             rows.append({
-                'Team': team,
-                'Code': get_team_code(team),
+                'Team': team_name,
+                'Gender': gender,
+                'Code': get_team_code(team_name),
                 'Conference': stats.get('conference', '') or 'Independent',
                 'Games': total_games,
                 'Wins': stats['wins'],
@@ -216,7 +232,7 @@ class TeamRecordsProcessor(BaseProcessor):
         rows.sort(key=lambda x: (x['Wins'], x['Win%']), reverse=True)
 
         columns = [
-            'Team', 'Code', 'Conference', 'Games', 'Wins', 'Losses', 'Win%',
+            'Team', 'Gender', 'Code', 'Conference', 'Games', 'Wins', 'Losses', 'Win%',
             'Home W', 'Home L', 'Away W', 'Away L',
             'PPG', 'PAPG', 'Diff', 'PF', 'PA'
         ]
@@ -322,10 +338,15 @@ class TeamRecordsProcessor(BaseProcessor):
         """Create team streaks DataFrame (current and longest win/loss streaks)."""
         rows = []
 
-        for team, stats in self.team_stats.items():
+        for team_key, stats in self.team_stats.items():
             results = stats.get('game_results', [])
             if not results:
                 continue
+
+            # Split team|gender key
+            parts = team_key.rsplit('|', 1)
+            team_name = parts[0]
+            gender = parts[1] if len(parts) > 1 else 'M'
 
             # Calculate current streak
             current_streak = 0
@@ -360,7 +381,8 @@ class TeamRecordsProcessor(BaseProcessor):
                     current_loss = 0
 
             rows.append({
-                'Team': team,
+                'Team': team_name,
+                'Gender': gender,
                 'Current Streak': f"{current_type}{current_streak}" if current_type else '-',
                 'Current Streak Count': current_streak if current_type == 'W' else -current_streak,
                 'Longest Win Streak': longest_win,
@@ -384,18 +406,28 @@ class TeamRecordsProcessor(BaseProcessor):
         rows = []
 
         for matchup_key, games in self.head_to_head.items():
-            team1, team2 = matchup_key
+            # matchup_key is (team1|gender, team2|gender)
+            team1_key, team2_key = matchup_key
+
+            # Extract team names and gender
+            parts1 = team1_key.rsplit('|', 1)
+            parts2 = team2_key.rsplit('|', 1)
+            team1_name = parts1[0]
+            team2_name = parts2[0]
+            # Gender should be same for both teams in same matchup
+            gender = parts1[1] if len(parts1) > 1 else 'M'
 
             # Sort games by date
             games_sorted = sorted(games, key=lambda x: x['date_yyyymmdd'])
 
-            team1_wins = sum(1 for g in games if g['winner'] == team1)
+            team1_wins = sum(1 for g in games if g['winner'] == team1_name)
             team2_wins = len(games) - team1_wins
 
             for game in games_sorted:
                 rows.append({
-                    'Team 1': team1,
-                    'Team 2': team2,
+                    'Team 1': team1_name,
+                    'Team 2': team2_name,
+                    'Gender': gender,
                     'Series': f"{team1_wins}-{team2_wins}",
                     'Date': game['date'],
                     'Away Team': game['away_team'],
@@ -412,17 +444,23 @@ class TeamRecordsProcessor(BaseProcessor):
         """Create conference standings DataFrame."""
         rows = []
 
-        for team, stats in self.team_stats.items():
+        for team_key, stats in self.team_stats.items():
             conf = stats.get('conference', '')
             total_games = stats['wins'] + stats['losses']
             if total_games == 0:
                 continue
 
+            # Split team|gender key
+            parts = team_key.rsplit('|', 1)
+            team_name = parts[0]
+            gender = parts[1] if len(parts) > 1 else 'M'
+
             conf_games = stats['conf_wins'] + stats['conf_losses']
 
             rows.append({
                 'Conference': conf if conf else 'Independent',
-                'Team': team,
+                'Team': team_name,
+                'Gender': gender,
                 'Conf W': stats['conf_wins'],
                 'Conf L': stats['conf_losses'],
                 'Conf Win%': round(stats['conf_wins'] / conf_games, 3) if conf_games > 0 else 0,
@@ -440,17 +478,23 @@ class TeamRecordsProcessor(BaseProcessor):
         """Create detailed home/away/neutral splits DataFrame."""
         rows = []
 
-        for team, stats in self.team_stats.items():
+        for team_key, stats in self.team_stats.items():
             total_games = stats['wins'] + stats['losses']
             if total_games == 0:
                 continue
+
+            # Split team|gender key
+            parts = team_key.rsplit('|', 1)
+            team_name = parts[0]
+            gender = parts[1] if len(parts) > 1 else 'M'
 
             home_games = stats['home_wins'] + stats['home_losses']
             away_games = stats['away_wins'] + stats['away_losses']
             neutral_games = stats['neutral_wins'] + stats['neutral_losses']
 
             rows.append({
-                'Team': team,
+                'Team': team_name,
+                'Gender': gender,
                 'Home W': stats['home_wins'],
                 'Home L': stats['home_losses'],
                 'Home Win%': round(stats['home_wins'] / home_games, 3) if home_games > 0 else 0,

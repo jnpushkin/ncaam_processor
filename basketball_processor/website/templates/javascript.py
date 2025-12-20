@@ -201,36 +201,48 @@ def get_javascript(json_data: str) -> str:
             });
         }
 
-        function filterByTeam(teamName) {
+        function filterByTeam(teamName, gender) {
             // Set the team dropdown and apply filters
             const select = document.getElementById('games-team');
             if (select) {
-                select.value = teamName;
+                // Build the team|gender value
+                const filterValue = gender ? `${teamName}|${gender}` : `${teamName}|M`;
+                select.value = filterValue;
                 applyFilters('games');
             }
         }
 
         function updateHeadToHead() {
-            const team1 = document.getElementById('h2h-team1').value;
-            const team2 = document.getElementById('h2h-team2').value;
+            const team1Value = document.getElementById('h2h-team1').value;
+            const team2Value = document.getElementById('h2h-team2').value;
             const resultDiv = document.getElementById('h2h-result');
             const summaryDiv = document.getElementById('h2h-summary');
             const gamesDiv = document.getElementById('h2h-games');
 
-            if (!team1 || !team2 || team1 === team2) {
+            if (!team1Value || !team2Value || team1Value === team2Value) {
                 resultDiv.style.display = 'none';
                 return;
             }
 
-            // Find all games between these two teams
-            const matchups = (DATA.games || []).filter(g =>
-                (g['Away Team'] === team1 && g['Home Team'] === team2) ||
-                (g['Away Team'] === team2 && g['Home Team'] === team1)
-            ).sort((a, b) => (b.Date || '').localeCompare(a.Date || ''));
+            // Parse team|gender values
+            const [team1Name, team1Gender] = team1Value.split('|');
+            const [team2Name, team2Gender] = team2Value.split('|');
+
+            // Find all games between these two teams (with matching gender)
+            const matchups = (DATA.games || []).filter(g => {
+                const genderMatch = !team1Gender || g.Gender === team1Gender;
+                const teamsMatch = (g['Away Team'] === team1Name && g['Home Team'] === team2Name) ||
+                                   (g['Away Team'] === team2Name && g['Home Team'] === team1Name);
+                return genderMatch && teamsMatch;
+            }).sort((a, b) => (b.Date || '').localeCompare(a.Date || ''));
+
+            // Build display names
+            const team1Display = team1Gender === 'W' ? `${team1Name} (W)` : team1Name;
+            const team2Display = team2Gender === 'W' ? `${team2Name} (W)` : team2Name;
 
             if (matchups.length === 0) {
                 resultDiv.style.display = 'block';
-                summaryDiv.innerHTML = `<h3>No games found between ${team1} and ${team2}</h3>`;
+                summaryDiv.innerHTML = `<h3>No games found between ${team1Display} and ${team2Display}</h3>`;
                 gamesDiv.innerHTML = '';
                 return;
             }
@@ -241,7 +253,7 @@ def get_javascript(json_data: str) -> str:
                 const awayScore = parseInt(g['Away Score']) || 0;
                 const homeScore = parseInt(g['Home Score']) || 0;
                 const awayWon = awayScore > homeScore;
-                if ((g['Away Team'] === team1 && awayWon) || (g['Home Team'] === team1 && !awayWon)) {
+                if ((g['Away Team'] === team1Name && awayWon) || (g['Home Team'] === team1Name && !awayWon)) {
                     team1Wins++;
                 } else {
                     team2Wins++;
@@ -250,7 +262,7 @@ def get_javascript(json_data: str) -> str:
 
             resultDiv.style.display = 'block';
             summaryDiv.innerHTML = `
-                <h3 style="margin-bottom:0.5rem;">${team1} vs ${team2}</h3>
+                <h3 style="margin-bottom:0.5rem;">${team1Display} vs ${team2Display}</h3>
                 <div style="font-size:2rem;font-weight:bold;color:var(--accent-color);">${team1Wins} - ${team2Wins}</div>
                 <p style="color:var(--text-secondary);">${matchups.length} game${matchups.length !== 1 ? 's' : ''}</p>
             `;
@@ -264,10 +276,11 @@ def get_javascript(json_data: str) -> str:
                             const homeScore = parseInt(g['Home Score']) || 0;
                             const awayWon = awayScore > homeScore;
                             const winner = awayWon ? g['Away Team'] : g['Home Team'];
+                            const genderTag = g.Gender === 'W' ? ' <span class="gender-tag">(W)</span>' : '';
                             return `
                                 <tr class="clickable-row" onclick="showGameDetail('${g.GameID}')">
                                     <td><span class="game-link">${g.Date}</span></td>
-                                    <td>${g['Away Team']} @ ${g['Home Team']}</td>
+                                    <td>${g['Away Team']} @ ${g['Home Team']}${genderTag}</td>
                                     <td><strong>${awayWon ? awayScore : homeScore}</strong>-${awayWon ? homeScore : awayScore} (${winner})</td>
                                     <td>${g.Venue || ''}</td>
                                 </tr>
@@ -282,36 +295,66 @@ def get_javascript(json_data: str) -> str:
         let allH2HTeams = [];
 
         function updateH2HTeam2Options() {
-            const team1 = document.getElementById('h2h-team1').value;
+            const team1Value = document.getElementById('h2h-team1').value;
             const h2h2 = document.getElementById('h2h-team2');
             const currentTeam2 = h2h2.value;
+
+            // Parse team1 value (format: "TeamName|Gender")
+            let team1Name = '', team1Gender = '';
+            if (team1Value && team1Value.includes('|')) {
+                const parts = team1Value.split('|');
+                team1Name = parts[0];
+                team1Gender = parts[1];
+            }
+
+            // Build gender lookup from games
+            const teamGenders = {};
+            (DATA.games || []).forEach(g => {
+                [g['Away Team'], g['Home Team']].forEach(team => {
+                    if (team) {
+                        if (!teamGenders[team]) teamGenders[team] = new Set();
+                        if (g.Gender) teamGenders[team].add(g.Gender);
+                    }
+                });
+            });
+
+            function getDisplayName(teamName, gender) {
+                const genders = teamGenders[teamName];
+                const hasBoth = genders && genders.has('M') && genders.has('W');
+                if (gender === 'W') return `${teamName} (W)`;
+                if (hasBoth && gender === 'M') return `${teamName} (M)`;
+                return teamName;
+            }
 
             // Clear Team 2 dropdown
             h2h2.innerHTML = '<option value="">Select Team 2</option>';
 
-            if (!team1) {
+            if (!team1Name) {
                 // No Team 1 selected - show all teams
-                allH2HTeams.forEach(team => {
+                allH2HTeams.forEach(teamValue => {
+                    const [teamName, gender] = teamValue.split('|');
                     const opt = document.createElement('option');
-                    opt.value = team;
-                    opt.textContent = team;
+                    opt.value = teamValue;
+                    opt.textContent = getDisplayName(teamName, gender);
                     h2h2.appendChild(opt);
                 });
             } else {
-                // Team 1 selected - show only opponents they've played
+                // Team 1 selected - show only opponents they've played (same gender)
                 const opponents = new Set();
                 (DATA.games || []).forEach(g => {
-                    if (g['Away Team'] === team1) {
-                        opponents.add(g['Home Team']);
-                    } else if (g['Home Team'] === team1) {
-                        opponents.add(g['Away Team']);
+                    if (g.Gender !== team1Gender) return; // Must match gender
+                    if (g['Away Team'] === team1Name) {
+                        opponents.add(`${g['Home Team']}|${g.Gender}`);
+                    } else if (g['Home Team'] === team1Name) {
+                        opponents.add(`${g['Away Team']}|${g.Gender}`);
                     }
                 });
 
-                [...opponents].sort().forEach(team => {
+                [...opponents].sort().forEach(teamValue => {
+                    const [teamName, gender] = teamValue.split('|');
                     const opt = document.createElement('option');
-                    opt.value = team;
-                    opt.textContent = team;
+                    opt.value = teamValue;
+                    opt.textContent = getDisplayName(teamName, gender);
                     h2h2.appendChild(opt);
                 });
             }
@@ -576,10 +619,19 @@ def get_javascript(json_data: str) -> str:
             const gender = document.getElementById('games-gender').value;
             const dateFrom = document.getElementById('games-date-from').value;
             const dateTo = document.getElementById('games-date-to').value;
-            const team = document.getElementById('games-team').value;
+            const teamFilter = document.getElementById('games-team').value;
             const conference = document.getElementById('games-conference').value;
             const minMargin = parseInt(document.getElementById('games-margin').value) || 0;
             const otOnly = document.getElementById('games-ot').checked;
+
+            // Parse team filter (format: "TeamName|Gender" or empty)
+            let filterTeamName = '';
+            let filterTeamGender = '';
+            if (teamFilter && teamFilter.includes('|')) {
+                const parts = teamFilter.split('|');
+                filterTeamName = parts[0];
+                filterTeamGender = parts[1];
+            }
 
             filteredData.games = (DATA.games || []).filter(game => {
                 const text = `${game['Away Team']} ${game['Home Team']} ${game.Venue || ''}`.toLowerCase();
@@ -587,7 +639,12 @@ def get_javascript(json_data: str) -> str:
                 if (gender && game.Gender !== gender) return false;
                 if (dateFrom && game.Date < dateFrom) return false;
                 if (dateTo && game.Date > dateTo) return false;
-                if (team && game['Away Team'] !== team && game['Home Team'] !== team) return false;
+                // Team filter: match team name AND gender
+                if (filterTeamName) {
+                    const teamMatch = game['Away Team'] === filterTeamName || game['Home Team'] === filterTeamName;
+                    const genderMatch = !filterTeamGender || game.Gender === filterTeamGender;
+                    if (!teamMatch || !genderMatch) return false;
+                }
                 if (conference) {
                     const awayConf = getTeamConference(game['Away Team']);
                     const homeConf = getTeamConference(game['Home Team']);
@@ -613,16 +670,29 @@ def get_javascript(json_data: str) -> str:
         function applyPlayersFilters() {
             const search = document.getElementById('players-search').value.toLowerCase();
             const gender = document.getElementById('players-gender').value;
-            const team = document.getElementById('players-team').value;
+            const teamFilter = document.getElementById('players-team').value;
             const conference = document.getElementById('players-conference').value;
             const minGames = parseInt(document.getElementById('players-min-games').value) || 0;
             const minPPG = parseFloat(document.getElementById('players-min-ppg').value) || 0;
+
+            // Parse team filter (format: "TeamName|Gender" or empty)
+            let filterTeamName = '';
+            let filterTeamGender = '';
+            if (teamFilter && teamFilter.includes('|')) {
+                const parts = teamFilter.split('|');
+                filterTeamName = parts[0];
+                filterTeamGender = parts[1];
+            }
 
             filteredData.players = (DATA.players || []).filter(player => {
                 const text = `${player.Player} ${player.Team}`.toLowerCase();
                 if (search && !text.includes(search)) return false;
                 if (gender && player.Gender !== gender) return false;
-                if (team && player.Team !== team) return false;
+                // Team filter: match team name AND gender
+                if (filterTeamName) {
+                    if (player.Team !== filterTeamName) return false;
+                    if (filterTeamGender && player.Gender !== filterTeamGender) return false;
+                }
                 if (conference && getTeamConference(player.Team) !== conference) return false;
                 if (player.Games < minGames) return false;
                 if ((player.PPG || 0) < minPPG) return false;
@@ -808,7 +878,8 @@ def get_javascript(json_data: str) -> str:
 
         // Pre-compute milestones for badges
         let gameMilestones = {};
-        const MILESTONE_COUNTS = [1, 5, 10, 25, 50, 100];
+        // Team milestones: 1st, then every 5th (5, 10, 15, 20...)
+        const MILESTONE_COUNTS = [1, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 75, 100, 150, 200];
 
         function computeGameMilestones() {
             // Sort by DateSort (YYYYMMDD format) ascending - oldest first
@@ -823,9 +894,55 @@ def get_javascript(json_data: str) -> str:
             const matchupsSeen = {};       // track first time each matchup seen (by gender)
             const confMatchupCounts = {};  // track conference vs conference matchups
             const confTeamCounts = {};     // track first team from each conference
+            const playerTeams = {};        // track teams each player has been seen on
             let venueOrder = [];           // track order venues were first visited
+            const confTeamsSeen = {};      // track teams seen per conference per gender
+            const confCompleted = {};      // track which conferences have been completed
 
             gameMilestones = {};
+
+            // Build conference team counts for completion tracking
+            const conferenceTeamCounts = {};
+            const checklist = DATA.conferenceChecklist || {};
+            for (const [confName, confData] of Object.entries(checklist)) {
+                if (confName === 'All D1' || confName === 'Historical/Other') continue;
+                conferenceTeamCounts[confName] = confData.totalTeams || 0;
+            }
+
+            // Game count milestone thresholds
+            const GAME_MILESTONES = [1, 10, 25, 50, 75, 100, 150, 200, 250, 500];
+            let gameCount = 0;
+
+            // Holiday detection helper (basketball season: Nov - April)
+            function getHoliday(dateStr) {
+                if (!dateStr) return null;
+                const date = new Date(dateStr);
+                const month = date.getMonth(); // 0-indexed
+                const day = date.getDate();
+                const dayOfWeek = date.getDay(); // 0 = Sunday
+                const year = date.getFullYear();
+
+                // Thanksgiving (4th Thursday of November)
+                if (month === 10 && dayOfWeek === 4 && day >= 22 && day <= 28) return 'Thanksgiving';
+                // Christmas Eve (Dec 24)
+                if (month === 11 && day === 24) return 'Christmas Eve';
+                // Christmas (Dec 25)
+                if (month === 11 && day === 25) return 'Christmas';
+                // New Year's Eve (Dec 31)
+                if (month === 11 && day === 31) return "New Year's Eve";
+                // New Year's Day (Jan 1)
+                if (month === 0 && day === 1) return "New Year's Day";
+                // MLK Day (3rd Monday of January)
+                if (month === 0 && dayOfWeek === 1 && day >= 15 && day <= 21) return 'MLK Day';
+                // Valentine's Day (Feb 14)
+                if (month === 1 && day === 14) return "Valentine's Day";
+                // Leap Day (Feb 29)
+                if (month === 1 && day === 29) return 'Leap Day';
+                // St. Patrick's Day (Mar 17)
+                if (month === 2 && day === 17) return "St. Patrick's Day";
+
+                return null;
+            }
 
             allGames.forEach(game => {
                 const gameId = game.GameID;
@@ -846,6 +963,27 @@ def get_javascript(json_data: str) -> str:
                 const matchupKey = [away, home].sort().join(' vs ') + `|${gender}`;
 
                 gameMilestones[gameId] = { badges: [] };
+
+                // Game count milestone
+                gameCount++;
+                if (GAME_MILESTONES.includes(gameCount)) {
+                    gameMilestones[gameId].badges.push({
+                        type: 'game-count',
+                        text: `Game #${gameCount}`,
+                        title: `${ordinal(gameCount)} game attended`
+                    });
+                }
+
+                // Holiday game badge
+                const dateForHoliday = game.DateSort || game.Date;
+                const holiday = getHoliday(dateForHoliday);
+                if (holiday) {
+                    gameMilestones[gameId].badges.push({
+                        type: 'holiday',
+                        text: holiday,
+                        title: `${holiday} game`
+                    });
+                }
 
                 // Track first team from each conference (by gender)
                 if (awayConf) {
@@ -890,6 +1028,33 @@ def get_javascript(json_data: str) -> str:
                 teamCounts[awayKey] = (teamCounts[awayKey] || 0) + 1;
                 teamCounts[homeKey] = (teamCounts[homeKey] || 0) + 1;
 
+                // Track teams seen per conference (for completion badges)
+                function trackConfTeam(team, conf, gender) {
+                    if (!conf || conf === 'All D1' || conf === 'Historical/Other') return;
+                    const confGenderKey = `${conf}|${gender}`;
+                    if (!confTeamsSeen[confGenderKey]) {
+                        confTeamsSeen[confGenderKey] = new Set();
+                    }
+                    const wasNew = !confTeamsSeen[confGenderKey].has(team);
+                    confTeamsSeen[confGenderKey].add(team);
+
+                    // Check if conference is now complete
+                    if (wasNew && !confCompleted[confGenderKey]) {
+                        const totalTeams = conferenceTeamCounts[conf] || 0;
+                        if (totalTeams > 0 && confTeamsSeen[confGenderKey].size >= totalTeams) {
+                            confCompleted[confGenderKey] = true;
+                            const genderLabel = gender === 'W' ? " (W)" : "";
+                            gameMilestones[gameId].badges.push({
+                                type: 'conf-complete',
+                                text: `${conf} Complete${genderLabel}`,
+                                title: `Seen all ${totalTeams} ${conf} teams${genderLabel}!`
+                            });
+                        }
+                    }
+                }
+                trackConfTeam(away, awayConf, gender);
+                trackConfTeam(home, homeConf, gender);
+
                 // Check for team milestones
                 if (MILESTONE_COUNTS.includes(teamCounts[awayKey])) {
                     gameMilestones[gameId].badges.push({
@@ -932,7 +1097,43 @@ def get_javascript(json_data: str) -> str:
                         title: `First time seeing ${away} vs ${home}${genderSuffix}`
                     });
                 }
+
+                // Track players on new teams (transfers)
+                const gamePlayers = (DATA.playerGames || []).filter(pg => pg.game_id === gameId);
+                gamePlayers.forEach(pg => {
+                    const playerId = pg.player_id || pg.player;
+                    const playerName = pg.player;
+                    const playerTeam = pg.team;
+
+                    if (!playerId || !playerTeam) return;
+
+                    if (!playerTeams[playerId]) {
+                        playerTeams[playerId] = { name: playerName, teams: new Set() };
+                    }
+
+                    // Check if this is a new team for this player
+                    if (playerTeams[playerId].teams.size > 0 && !playerTeams[playerId].teams.has(playerTeam)) {
+                        const prevTeams = [...playerTeams[playerId].teams].join(', ');
+                        gameMilestones[gameId].badges.push({
+                            type: 'transfer',
+                            text: `${playerName} (${prevTeams} → ${playerTeam})`,
+                            title: `First time seeing ${playerName} with ${playerTeam} (previously: ${prevTeams})`
+                        });
+                    }
+
+                    playerTeams[playerId].teams.add(playerTeam);
+                });
             });
+
+            // Store tracking data globally for badges display
+            window.badgeTrackingData = {
+                confTeamsSeen: confTeamsSeen,
+                confCompleted: confCompleted,
+                conferenceTeamCounts: conferenceTeamCounts,
+                venueOrder: venueOrder,
+                teamCounts: teamCounts,
+                matchupsSeen: matchupsSeen
+            };
         }
 
         function ordinal(n) {
@@ -964,9 +1165,9 @@ def get_javascript(json_data: str) -> str:
                     return `
                     <tr>
                         <td>${game.Date || ''} <a href="${getSportsRefUrl(game)}" target="_blank" title="View on Sports Reference" class="external-link">&#8599;</a></td>
-                        <td><span class="team-link" onclick="filterByTeam('${game['Away Team'] || ''}')">${game['Away Team'] || ''}</span>${genderTag}</td>
+                        <td><span class="team-link" onclick="filterByTeam('${game['Away Team'] || ''}', '${game.Gender || 'M'}')">${game['Away Team'] || ''}</span>${genderTag}</td>
                         <td><span class="game-link" onclick="showGameDetail('${game.GameID || ''}')">${game['Away Score'] || 0}-${game['Home Score'] || 0}</span>${badgeHtml}</td>
-                        <td><span class="team-link" onclick="filterByTeam('${game['Home Team'] || ''}')">${game['Home Team'] || ''}</span>${genderTag}</td>
+                        <td><span class="team-link" onclick="filterByTeam('${game['Home Team'] || ''}', '${game.Gender || 'M'}')">${game['Home Team'] || ''}</span>${genderTag}</td>
                         <td><span class="venue-link" onclick="showVenueDetail('${game.Venue || ''}')">${game.Venue || ''}</span></td>
                         <td>${game.City || ''}</td>
                         <td>${game.State || ''}</td>
@@ -1053,18 +1254,37 @@ def get_javascript(json_data: str) -> str:
             pagination.games.total = filteredData.games.length;
             renderGamesTable();
 
-            // Populate team filter
-            const teams = [...new Set((DATA.games || []).flatMap(g => [g['Away Team'], g['Home Team']]))].filter(t => t).sort();
+            // Populate team filter with separate options for each gender
+            const teamGenders = {};
+            (DATA.games || []).forEach(g => {
+                [g['Away Team'], g['Home Team']].forEach(team => {
+                    if (team) {
+                        if (!teamGenders[team]) teamGenders[team] = new Set();
+                        if (g.Gender) teamGenders[team].add(g.Gender);
+                    }
+                });
+            });
+            const teamNames = Object.keys(teamGenders).sort();
             const select = document.getElementById('games-team');
-            teams.forEach(team => {
-                const option = document.createElement('option');
-                option.value = team;
-                option.textContent = team;
-                select.appendChild(option);
+            // Create separate options for each team+gender combination
+            teamNames.forEach(team => {
+                const genders = teamGenders[team];
+                if (genders.has('M')) {
+                    const option = document.createElement('option');
+                    option.value = `${team}|M`;
+                    option.textContent = genders.has('W') ? `${team} (M)` : team;
+                    select.appendChild(option);
+                }
+                if (genders.has('W')) {
+                    const option = document.createElement('option');
+                    option.value = `${team}|W`;
+                    option.textContent = `${team} (W)`;
+                    select.appendChild(option);
+                }
             });
 
             // Populate conference filter
-            const conferences = [...new Set(teams.map(t => getTeamConference(t)))].filter(c => c).sort();
+            const conferences = [...new Set(teamNames.map(t => getTeamConference(t)))].filter(c => c).sort();
             const confSelect = document.getElementById('games-conference');
             conferences.forEach(conf => {
                 const option = document.createElement('option');
@@ -1073,19 +1293,38 @@ def get_javascript(json_data: str) -> str:
                 confSelect.appendChild(option);
             });
 
-            // Populate head-to-head dropdowns
+            // Populate head-to-head dropdowns with separate gender options
             const h2h1 = document.getElementById('h2h-team1');
             const h2h2 = document.getElementById('h2h-team2');
-            allH2HTeams = teams.slice(); // Store for later use
-            teams.forEach(team => {
-                const opt1 = document.createElement('option');
-                opt1.value = team;
-                opt1.textContent = team;
-                h2h1.appendChild(opt1);
-                const opt2 = document.createElement('option');
-                opt2.value = team;
-                opt2.textContent = team;
-                h2h2.appendChild(opt2);
+            allH2HTeams = []; // Store team|gender combos for later use
+            teamNames.forEach(team => {
+                const genders = teamGenders[team];
+                if (genders.has('M')) {
+                    const value = `${team}|M`;
+                    const displayName = genders.has('W') ? `${team} (M)` : team;
+                    allH2HTeams.push(value);
+                    const opt1 = document.createElement('option');
+                    opt1.value = value;
+                    opt1.textContent = displayName;
+                    h2h1.appendChild(opt1);
+                    const opt2 = document.createElement('option');
+                    opt2.value = value;
+                    opt2.textContent = displayName;
+                    h2h2.appendChild(opt2);
+                }
+                if (genders.has('W')) {
+                    const value = `${team}|W`;
+                    const displayName = `${team} (W)`;
+                    allH2HTeams.push(value);
+                    const opt1 = document.createElement('option');
+                    opt1.value = value;
+                    opt1.textContent = displayName;
+                    h2h1.appendChild(opt1);
+                    const opt2 = document.createElement('option');
+                    opt2.value = value;
+                    opt2.textContent = displayName;
+                    h2h2.appendChild(opt2);
+                }
             });
 
             // Populate matrix conference dropdown
@@ -1105,18 +1344,34 @@ def get_javascript(json_data: str) -> str:
             pagination.players.total = filteredData.players.length;
             renderPlayersTable();
 
-            // Populate team filter
-            const teams = [...new Set((DATA.players || []).map(p => p.Team))].filter(t => t).sort();
+            // Populate team filter with separate options for each gender
+            const playerTeamGenders = {};
+            (DATA.players || []).forEach(p => {
+                if (p.Team) {
+                    if (!playerTeamGenders[p.Team]) playerTeamGenders[p.Team] = new Set();
+                    if (p.Gender) playerTeamGenders[p.Team].add(p.Gender);
+                }
+            });
+            const playerTeamNames = Object.keys(playerTeamGenders).sort();
             const select = document.getElementById('players-team');
-            teams.forEach(team => {
-                const option = document.createElement('option');
-                option.value = team;
-                option.textContent = team;
-                select.appendChild(option);
+            playerTeamNames.forEach(team => {
+                const genders = playerTeamGenders[team];
+                if (genders.has('M')) {
+                    const option = document.createElement('option');
+                    option.value = `${team}|M`;
+                    option.textContent = genders.has('W') ? `${team} (M)` : team;
+                    select.appendChild(option);
+                }
+                if (genders.has('W')) {
+                    const option = document.createElement('option');
+                    option.value = `${team}|W`;
+                    option.textContent = `${team} (W)`;
+                    select.appendChild(option);
+                }
             });
 
             // Populate conference filter
-            const conferences = [...new Set(teams.map(t => getTeamConference(t)))].filter(c => c).sort();
+            const conferences = [...new Set(playerTeamNames.map(t => getTeamConference(t)))].filter(c => c).sort();
             const confSelect = document.getElementById('players-conference');
             conferences.forEach(conf => {
                 const option = document.createElement('option');
@@ -1131,9 +1386,10 @@ def get_javascript(json_data: str) -> str:
                 const sel = document.getElementById(id);
                 sel.innerHTML = '<option value="">Select a player...</option>';
                 players.forEach(p => {
+                    const genderTag = p.Gender === 'W' ? ' (W)' : '';
                     const option = document.createElement('option');
                     option.value = p['Player ID'] || p.Player;
-                    option.textContent = `${p.Player} (${p.Team})`;
+                    option.textContent = `${p.Player} (${p.Team}${genderTag})`;
                     sel.appendChild(option);
                 });
             });
@@ -1219,15 +1475,21 @@ def get_javascript(json_data: str) -> str:
             });
 
             const tbody = document.querySelector('#milestones-table tbody');
+            // Build game lookup for gender
+            const gameGender = {};
+            (DATA.games || []).forEach(g => { gameGender[g.GameID] = g.Gender; });
+
             tbody.innerHTML = entries.map(entry => {
                 const playerId = entry['Player ID'] || '';
                 const sportsRefLink = playerId ? ` <a href="${getPlayerSportsRefUrl(playerId)}" target="_blank" class="external-link" title="View on Sports Reference">&#8599;</a>` : '';
+                const gender = gameGender[entry.GameID] || '';
+                const genderTag = gender === 'W' ? ' <span class="gender-tag">(W)</span>' : '';
                 return `
                 <tr>
                     <td>${entry.Date || ''}</td>
                     <td><span class="player-link" onclick="showPlayerDetail('${playerId || entry.Player}')">${entry.Player || ''}</span>${sportsRefLink}</td>
-                    <td>${entry.Team || ''}</td>
-                    <td>${entry.Opponent || ''}</td>
+                    <td>${entry.Team || ''}${genderTag}</td>
+                    <td>${entry.Opponent || ''}${genderTag}</td>
                     <td>${entry.Detail || ''}</td>
                 </tr>
             `}).join('');
@@ -1237,16 +1499,24 @@ def get_javascript(json_data: str) -> str:
 
         function populateTeamsTable() {
             const tbody = document.querySelector('#teams-table tbody');
-            const data = DATA.teams || [];
+            const genderFilter = document.getElementById('teams-gender')?.value || '';
+            let data = DATA.teams || [];
+
+            // Apply gender filter
+            if (genderFilter) {
+                data = data.filter(team => team.Gender === genderFilter);
+            }
 
             if (data.length === 0) {
                 tbody.innerHTML = '<tr><td colspan="7" class="empty-state"><h3>No team data</h3></td></tr>';
                 return;
             }
 
-            tbody.innerHTML = data.map(team => `
+            tbody.innerHTML = data.map(team => {
+                const genderTag = team.Gender === 'W' ? ' <span class="gender-tag">(W)</span>' : '';
+                return `
                 <tr>
-                    <td>${team.Team || ''}</td>
+                    <td>${team.Team || ''}${genderTag}</td>
                     <td>${team.Games || 0}</td>
                     <td>${team.Wins || 0}</td>
                     <td>${team.Losses || 0}</td>
@@ -1254,7 +1524,7 @@ def get_javascript(json_data: str) -> str:
                     <td>${(team.PPG || 0).toFixed(1)}</td>
                     <td>${(team.PAPG || 0).toFixed(1)}</td>
                 </tr>
-            `).join('');
+            `}).join('');
         }
 
         function populateVenuesTable() {
@@ -1280,6 +1550,71 @@ def get_javascript(json_data: str) -> str:
             `).join('');
         }
 
+        function populateRecords() {
+            const games = DATA.games || [];
+            if (games.length === 0) return;
+
+            // Calculate margin for each game
+            const gamesWithMargin = games.map(g => {
+                const awayScore = parseInt(g['Away Score']) || 0;
+                const homeScore = parseInt(g['Home Score']) || 0;
+                const margin = Math.abs(homeScore - awayScore);
+                const total = homeScore + awayScore;
+                const winner = homeScore > awayScore ? g['Home Team'] : g['Away Team'];
+                const loser = homeScore > awayScore ? g['Away Team'] : g['Home Team'];
+                const winnerScore = Math.max(homeScore, awayScore);
+                const loserScore = Math.min(homeScore, awayScore);
+                return { ...g, margin, total, winner, loser, winnerScore, loserScore };
+            });
+
+            // Top 10 biggest blowouts
+            const blowouts = [...gamesWithMargin].sort((a, b) => b.margin - a.margin).slice(0, 10);
+            const blowoutsHtml = blowouts.map((g, i) => {
+                const wTag = g.Gender === 'W' ? ' (W)' : '';
+                return `
+                    <div class="record-item" onclick="showGameDetail('${g.GameID || ''}')">
+                        <span class="rank">${i + 1}.</span>
+                        <span class="teams">${g.winner}${wTag} def. ${g.loser}${wTag}</span>
+                        <span class="score">${g.winnerScore}-${g.loserScore}</span>
+                        <span class="margin">+${g.margin}</span>
+                    </div>
+                `;
+            }).join('');
+            document.getElementById('records-blowouts').innerHTML = blowoutsHtml || '<p>No games</p>';
+
+            // Top 10 closest games
+            const closest = [...gamesWithMargin].sort((a, b) => a.margin - b.margin).slice(0, 10);
+            const closestHtml = closest.map((g, i) => {
+                const wTag = g.Gender === 'W' ? ' (W)' : '';
+                return `
+                    <div class="record-item" onclick="showGameDetail('${g.GameID || ''}')">
+                        <span class="rank">${i + 1}.</span>
+                        <span class="teams">${g.winner}${wTag} def. ${g.loser}${wTag}</span>
+                        <span class="score">${g.winnerScore}-${g.loserScore}</span>
+                        <span class="margin">+${g.margin}</span>
+                    </div>
+                `;
+            }).join('');
+            document.getElementById('records-closest').innerHTML = closestHtml || '<p>No games</p>';
+
+            // Top 10 highest scoring games
+            const highest = [...gamesWithMargin].sort((a, b) => b.total - a.total).slice(0, 10);
+            const highestHtml = highest.map((g, i) => {
+                const wTag = g.Gender === 'W' ? ' (W)' : '';
+                const awayScore = parseInt(g['Away Score']) || 0;
+                const homeScore = parseInt(g['Home Score']) || 0;
+                return `
+                    <div class="record-item" onclick="showGameDetail('${g.GameID || ''}')">
+                        <span class="rank">${i + 1}.</span>
+                        <span class="teams">${g['Away Team']}${wTag} @ ${g['Home Team']}${wTag}</span>
+                        <span class="score">${awayScore}-${homeScore}</span>
+                        <span class="total">${g.total}</span>
+                    </div>
+                `;
+            }).join('');
+            document.getElementById('records-highest').innerHTML = highestHtml || '<p>No games</p>';
+        }
+
         function populateStreaksTable() {
             const tbody = document.querySelector('#streaks-table tbody');
             const data = DATA.teamStreaks || [];
@@ -1289,16 +1624,18 @@ def get_javascript(json_data: str) -> str:
                 return;
             }
 
-            tbody.innerHTML = data.map(team => `
+            tbody.innerHTML = data.map(team => {
+                const genderTag = team.Gender === 'W' ? ' <span class="gender-tag">(W)</span>' : '';
+                return `
                 <tr>
-                    <td>${team.Team || ''}</td>
+                    <td>${team.Team || ''}${genderTag}</td>
                     <td>${team['Current Streak'] || '-'}</td>
                     <td>${team['Longest Win Streak'] || 0}</td>
                     <td>${team['Longest Loss Streak'] || 0}</td>
                     <td>${team['Last 5'] || '-'}</td>
                     <td>${team['Last 10'] || '-'}</td>
                 </tr>
-            `).join('');
+            `}).join('');
         }
 
         function populateSplitsTable() {
@@ -1310,16 +1647,18 @@ def get_javascript(json_data: str) -> str:
                 return;
             }
 
-            tbody.innerHTML = data.map(team => `
+            tbody.innerHTML = data.map(team => {
+                const genderTag = team.Gender === 'W' ? ' <span class="gender-tag">(W)</span>' : '';
+                return `
                 <tr>
-                    <td>${team.Team || ''}</td>
+                    <td>${team.Team || ''}${genderTag}</td>
                     <td>${team['Home W'] || 0}-${team['Home L'] || 0}</td>
                     <td>${((team['Home Win%'] || 0) * 100).toFixed(1)}%</td>
                     <td>${team['Away W'] || 0}-${team['Away L'] || 0}</td>
                     <td>${((team['Away Win%'] || 0) * 100).toFixed(1)}%</td>
                     <td>${team['Neutral W'] || 0}-${team['Neutral L'] || 0}</td>
                 </tr>
-            `).join('');
+            `}).join('');
         }
 
         function populateConferenceTable() {
@@ -1331,15 +1670,17 @@ def get_javascript(json_data: str) -> str:
                 return;
             }
 
-            tbody.innerHTML = data.map(team => `
+            tbody.innerHTML = data.map(team => {
+                const genderTag = team.Gender === 'W' ? ' <span class="gender-tag">(W)</span>' : '';
+                return `
                 <tr>
                     <td>${team.Conference || 'Independent'}</td>
-                    <td>${team.Team || ''}</td>
+                    <td>${team.Team || ''}${genderTag}</td>
                     <td>${team['Conf W'] || 0}-${team['Conf L'] || 0}</td>
                     <td>${((team['Conf Win%'] || 0) * 100).toFixed(1)}%</td>
                     <td>${team['Overall W'] || 0}-${team['Overall L'] || 0}</td>
                 </tr>
-            `).join('');
+            `}).join('');
         }
 
         function initChecklist() {
@@ -2121,6 +2462,170 @@ def get_javascript(json_data: str) -> str:
                 const years = [...new Set(games.map(g => new Date(g.Date).getFullYear()))].sort().join(', ');
                 showToast(`${games.length} games on this date (${years})`);
             }
+        }
+
+        // Badges section functions
+        function populateBadges() {
+            // Collect all badges from gameMilestones
+            const allBadges = [];
+            const teamBadges = [];
+            const venueBadges = [];
+            const specialBadges = [];
+
+            // Iterate through games in chronological order
+            const games = (DATA.games || []).slice().sort((a, b) => {
+                const dateA = a.DateSort || '';
+                const dateB = b.DateSort || '';
+                return dateA.localeCompare(dateB);
+            });
+
+            games.forEach(game => {
+                const milestones = gameMilestones[game.GameID];
+                if (!milestones || !milestones.badges) return;
+
+                milestones.badges.forEach(badge => {
+                    const badgeWithContext = {
+                        ...badge,
+                        date: game.Date,
+                        gameId: game.GameID,
+                        away: game['Away Team'],
+                        home: game['Home Team']
+                    };
+
+                    allBadges.push(badgeWithContext);
+
+                    if (badge.type === 'team') {
+                        teamBadges.push(badgeWithContext);
+                    } else if (badge.type === 'venue') {
+                        venueBadges.push(badgeWithContext);
+                    } else if (['holiday', 'game-count', 'transfer', 'conf-complete'].includes(badge.type)) {
+                        specialBadges.push(badgeWithContext);
+                    }
+                });
+            });
+
+            // Update summary stats
+            document.getElementById('badges-total').textContent = allBadges.length;
+            const tracking = window.badgeTrackingData || {};
+            const completedConfs = Object.keys(tracking.confCompleted || {}).length;
+            document.getElementById('badges-conferences-complete').textContent = completedConfs;
+            document.getElementById('badges-venues').textContent = (tracking.venueOrder || []).length;
+            document.getElementById('badges-matchups').textContent = Object.keys(tracking.matchupsSeen || {}).length;
+
+            // Render all badges
+            renderBadgesGrid('all-badges-grid', allBadges);
+            renderBadgesGrid('team-badges-grid', teamBadges);
+            renderBadgesGrid('venue-badges-grid', venueBadges);
+            renderBadgesGrid('special-badges-grid', specialBadges);
+
+            // Populate conference progress
+            populateConferenceProgress();
+        }
+
+        function renderBadgesGrid(containerId, badges) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+
+            if (badges.length === 0) {
+                container.innerHTML = '<div class="empty-state"><div class="empty-state-icon">🏅</div><h3>No badges yet</h3><p>Keep attending games to earn badges!</p></div>';
+                return;
+            }
+
+            // Reverse to show newest first
+            const sortedBadges = [...badges].reverse();
+
+            container.innerHTML = sortedBadges.map(badge => {
+                const typeClass = `badge-type-${badge.type}`;
+                const iconClass = `badge-icon-${badge.type}`;
+
+                return `
+                    <div class="badge-card ${typeClass}" onclick="showGameDetail('${badge.gameId}')" title="${badge.title}">
+                        <div class="badge-card-header">
+                            <div class="badge-icon ${iconClass}"></div>
+                            <div>
+                                <div class="badge-title">${badge.text}</div>
+                                <div class="badge-subtitle">${badge.away} vs ${badge.home}</div>
+                            </div>
+                        </div>
+                        <div class="badge-date">${badge.date}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function populateConferenceProgress() {
+            const container = document.getElementById('conference-progress-grid');
+            if (!container) return;
+
+            const gender = document.getElementById('conf-progress-gender')?.value || '';
+            const checklist = DATA.conferenceChecklist || {};
+            const tracking = window.badgeTrackingData || {};
+            const confTeamsSeen = tracking.confTeamsSeen || {};
+            const confCompleted = tracking.confCompleted || {};
+            const conferenceTeamCounts = tracking.conferenceTeamCounts || {};
+
+            const conferences = Object.entries(checklist)
+                .filter(([name]) => name !== 'All D1' && name !== 'Historical/Other')
+                .sort((a, b) => a[0].localeCompare(b[0]));
+
+            const cards = conferences.map(([confName, confData]) => {
+                const teams = confData.teams || [];
+                const totalTeams = teams.length;
+
+                // Count teams seen based on gender filter
+                let teamsSeen = 0;
+                let teamsSeenM = 0;
+                let teamsSeenW = 0;
+
+                teams.forEach(team => {
+                    if (team.seenM) teamsSeenM++;
+                    if (team.seenW) teamsSeenW++;
+                    if (team.seen) teamsSeen++;
+                });
+
+                let displaySeen, displayTotal;
+                if (gender === 'M') {
+                    displaySeen = teamsSeenM;
+                } else if (gender === 'W') {
+                    displaySeen = teamsSeenW;
+                } else {
+                    displaySeen = teamsSeen;
+                }
+                displayTotal = totalTeams;
+
+                const isComplete = displaySeen >= displayTotal;
+                const progressPct = displayTotal > 0 ? (displaySeen / displayTotal * 100) : 0;
+
+                // Generate team dots
+                const teamDots = teams.map(team => {
+                    let dotClass = 'conf-team-dot';
+                    if (gender === 'M') {
+                        if (team.seenM) dotClass += ' seen-m';
+                    } else if (gender === 'W') {
+                        if (team.seenW) dotClass += ' seen-w';
+                    } else {
+                        if (team.seen) dotClass += ' seen';
+                    }
+                    return `<span class="${dotClass}" title="${team.team}"></span>`;
+                }).join('');
+
+                return `
+                    <div class="conf-progress-card ${isComplete ? 'complete' : ''}">
+                        <div class="conf-progress-header">
+                            <span class="conf-progress-name">${confName}</span>
+                            <span class="conf-progress-count">${displaySeen}/${displayTotal}</span>
+                        </div>
+                        <div class="badge-progress">
+                            <div class="badge-progress-bar">
+                                <div class="badge-progress-fill ${isComplete ? 'complete' : ''}" style="width: ${progressPct}%"></div>
+                            </div>
+                        </div>
+                        <div class="conf-progress-teams">${teamDots}</div>
+                    </div>
+                `;
+            }).join('');
+
+            container.innerHTML = cards || '<p>No conference data available.</p>';
         }
 
         function populateChecklist() {
@@ -2951,9 +3456,11 @@ def get_javascript(json_data: str) -> str:
         try { buildMatchupMatrix(); } catch(e) { console.error('buildMatchupMatrix:', e); }
         try { buildConferenceCrossover(); } catch(e) { console.error('buildConferenceCrossover:', e); }
         try { populateVenuesTable(); } catch(e) { console.error('populateVenuesTable:', e); }
+        try { populateRecords(); } catch(e) { console.error('populateRecords:', e); }
         try { initCalendar(); } catch(e) { console.error('initCalendar:', e); }
         try { initChecklist(); } catch(e) { console.error('initChecklist:', e); }
         try { initOnThisDay(); } catch(e) { console.error('initOnThisDay:', e); }
+        try { populateBadges(); } catch(e) { console.error('populateBadges:', e); }
         try { showChart('scoring'); } catch(e) { console.error('showChart:', e); }
 
         // Handle URL on load

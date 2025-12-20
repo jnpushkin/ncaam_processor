@@ -18,14 +18,16 @@ def get_head(css: str) -> str:
 </head>"""
 
 
-def get_body(total_games: int, total_players: int, total_teams: int, generated_time: str) -> str:
+def get_body(total_games: int, total_players: int, total_teams: int, total_venues: int, total_points: int, generated_time: str) -> str:
     """
     Return the HTML body content.
-    
+
     Args:
         total_games: Total number of games processed
         total_players: Total number of players
         total_teams: Total number of teams
+        total_venues: Total number of unique venues
+        total_points: Total points scored in all games
         generated_time: Timestamp when the page was generated
     """
     body_template = """<body>
@@ -50,6 +52,14 @@ def get_body(total_games: int, total_players: int, total_teams: int, generated_t
                 <div class="number">{TOTAL_TEAMS_PLACEHOLDER}</div>
                 <div class="label">Teams</div>
             </div>
+            <div class="stat-box">
+                <div class="number">{TOTAL_VENUES_PLACEHOLDER}</div>
+                <div class="label">Venues</div>
+            </div>
+            <div class="stat-box">
+                <div class="number">{TOTAL_POINTS_PLACEHOLDER}</div>
+                <div class="label">Points</div>
+            </div>
         </div>
         <div class="generated-time">Generated: {GENERATED_TIME_PLACEHOLDER}</div>
     </div>
@@ -61,6 +71,7 @@ def get_body(total_games: int, total_players: int, total_teams: int, generated_t
             <button class="tab" onclick="showSection('milestones')" role="tab" aria-selected="false" data-section="milestones" tabindex="-1">Milestones</button>
             <button class="tab" onclick="showSection('teams')" role="tab" aria-selected="false" data-section="teams" tabindex="-1">Teams</button>
             <button class="tab" onclick="showSection('venues')" role="tab" aria-selected="false" data-section="venues" tabindex="-1">Venues</button>
+            <button class="tab" onclick="showSection('badges')" role="tab" aria-selected="false" data-section="badges" tabindex="-1">Badges</button>
             <button class="tab" onclick="showSection('calendar')" role="tab" aria-selected="false" data-section="calendar" tabindex="-1">Calendar</button>
             <button class="tab" onclick="showSection('checklist')" role="tab" aria-selected="false" data-section="checklist" tabindex="-1">Checklist</button>
             <button class="tab" onclick="showSection('map')" role="tab" aria-selected="false" data-section="map" tabindex="-1">Map</button>
@@ -75,6 +86,12 @@ def get_body(total_games: int, total_players: int, total_teams: int, generated_t
                     <button class="btn btn-secondary" onclick="downloadCSV('games')">Download CSV</button>
                 </div>
             </h2>
+            <div class="sub-tabs">
+                <button class="sub-tab active" onclick="showSubSection('games', 'log')">All Games</button>
+                <button class="sub-tab" onclick="showSubSection('games', 'records')">Records</button>
+            </div>
+
+            <div id="games-log" class="sub-section active">
             <div class="filters" id="games-filters">
                 <div class="filter-group">
                     <label for="games-search">Search</label>
@@ -136,6 +153,25 @@ def get_body(total_games: int, total_players: int, total_teams: int, generated_t
                 </table>
             </div>
             <div class="pagination" id="games-pagination"></div>
+            </div>
+
+            <div id="games-records" class="sub-section">
+                <p style="margin-bottom: 1rem; color: var(--text-secondary);">Notable game records from your collection.</p>
+                <div class="records-grid">
+                    <div class="records-section">
+                        <h3>Biggest Blowouts</h3>
+                        <div id="records-blowouts" class="records-list"></div>
+                    </div>
+                    <div class="records-section">
+                        <h3>Closest Games</h3>
+                        <div id="records-closest" class="records-list"></div>
+                    </div>
+                    <div class="records-section">
+                        <h3>Highest Scoring</h3>
+                        <div id="records-highest" class="records-list"></div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div id="players" class="section" role="tabpanel">
@@ -303,7 +339,17 @@ def get_body(total_games: int, total_players: int, total_teams: int, generated_t
             </div>
 
             <div id="teams-records" class="sub-section active">
-                <input type="text" class="search-box" placeholder="Search teams..." onkeyup="filterTable('teams-table', this.value)">
+                <div class="filters" style="margin-bottom: 1rem;">
+                    <div class="filter-group">
+                        <label for="teams-gender">Gender</label>
+                        <select id="teams-gender" onchange="populateTeamsTable()">
+                            <option value="">All</option>
+                            <option value="M">Men's</option>
+                            <option value="W">Women's</option>
+                        </select>
+                    </div>
+                    <input type="text" class="search-box" placeholder="Search teams..." onkeyup="filterTable('teams-table', this.value)" style="flex: 1;">
+                </div>
                 <div class="table-container">
                     <table id="teams-table" aria-label="Team Records">
                         <thead>
@@ -448,6 +494,69 @@ def get_body(total_games: int, total_players: int, total_teams: int, generated_t
                     </thead>
                     <tbody></tbody>
                 </table>
+            </div>
+        </div>
+
+        <div id="badges" class="section" role="tabpanel">
+            <h2>Badges & Achievements</h2>
+            <p style="margin-bottom: 1rem; color: var(--text-secondary);">Your collection of game attendance milestones and achievements.</p>
+
+            <div class="badges-summary" id="badges-summary">
+                <div class="stat-box">
+                    <div class="number" id="badges-total">0</div>
+                    <div class="label">Total Badges</div>
+                </div>
+                <div class="stat-box">
+                    <div class="number" id="badges-conferences-complete">0</div>
+                    <div class="label">Conferences Complete</div>
+                </div>
+                <div class="stat-box">
+                    <div class="number" id="badges-venues">0</div>
+                    <div class="label">Venues Visited</div>
+                </div>
+                <div class="stat-box">
+                    <div class="number" id="badges-matchups">0</div>
+                    <div class="label">First Matchups</div>
+                </div>
+            </div>
+
+            <div class="sub-tabs">
+                <button class="sub-tab active" onclick="showSubSection('badges', 'all')">All Badges</button>
+                <button class="sub-tab" onclick="showSubSection('badges', 'conferences')">Conference Progress</button>
+                <button class="sub-tab" onclick="showSubSection('badges', 'teams')">Team Milestones</button>
+                <button class="sub-tab" onclick="showSubSection('badges', 'venues')">Venue Badges</button>
+                <button class="sub-tab" onclick="showSubSection('badges', 'special')">Special</button>
+            </div>
+
+            <div id="badges-all" class="sub-section active">
+                <div class="badges-grid" id="all-badges-grid"></div>
+            </div>
+
+            <div id="badges-conferences" class="sub-section">
+                <p style="margin-bottom: 1rem; color: var(--text-secondary);">Track your progress toward seeing every team in each conference.</p>
+                <div class="filters" style="margin-bottom: 1rem;">
+                    <div class="filter-group">
+                        <label for="conf-progress-gender">Gender</label>
+                        <select id="conf-progress-gender" onchange="populateConferenceProgress()">
+                            <option value="">All</option>
+                            <option value="M">Men's</option>
+                            <option value="W">Women's</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="conference-progress-grid" class="conference-progress-grid"></div>
+            </div>
+
+            <div id="badges-teams" class="sub-section">
+                <div class="badges-grid" id="team-badges-grid"></div>
+            </div>
+
+            <div id="badges-venues" class="sub-section">
+                <div class="badges-grid" id="venue-badges-grid"></div>
+            </div>
+
+            <div id="badges-special" class="sub-section">
+                <div class="badges-grid" id="special-badges-grid"></div>
             </div>
         </div>
 
@@ -627,6 +736,8 @@ def get_body(total_games: int, total_players: int, total_teams: int, generated_t
         .replace('{TOTAL_GAMES_PLACEHOLDER}', str(total_games))
         .replace('{TOTAL_PLAYERS_PLACEHOLDER}', str(total_players))
         .replace('{TOTAL_TEAMS_PLACEHOLDER}', str(total_teams))
+        .replace('{TOTAL_VENUES_PLACEHOLDER}', str(total_venues))
+        .replace('{TOTAL_POINTS_PLACEHOLDER}', f'{total_points:,}')
         .replace('{GENERATED_TIME_PLACEHOLDER}', generated_time))
 
 

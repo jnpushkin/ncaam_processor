@@ -1273,4 +1273,226 @@ def get_css() -> str:
         .venue-stat-item .label {
             font-size: 0.8rem;
             color: var(--text-secondary);
+        }
+        /* Badges Section */
+        .badges-summary {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .badges-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .badge-card {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+        }
+        .badge-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .badge-card.complete {
+            border-color: #4CAF50;
+            background: linear-gradient(135deg, var(--bg-primary) 0%, rgba(76,175,80,0.1) 100%);
+        }
+        .badge-card-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.5rem;
+        }
+        .badge-icon {
+            font-size: 2rem;
+            line-height: 1;
+        }
+        .badge-title {
+            font-weight: 600;
+            font-size: 1rem;
+        }
+        .badge-subtitle {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+        .badge-progress {
+            margin-top: 0.75rem;
+        }
+        .badge-progress-bar {
+            height: 8px;
+            background: var(--bg-tertiary);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .badge-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-color), #64B5F6);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+        .badge-progress-fill.complete {
+            background: linear-gradient(90deg, #4CAF50, #81C784);
+        }
+        .badge-progress-text {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-top: 0.25rem;
+            text-align: right;
+        }
+        .badge-date {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+        }
+        /* Conference Progress Grid */
+        .conference-progress-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .conf-progress-card {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+        }
+        .conf-progress-card.complete {
+            border-color: #4CAF50;
+            background: linear-gradient(135deg, var(--bg-primary) 0%, rgba(76,175,80,0.1) 100%);
+        }
+        .conf-progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+        .conf-progress-name {
+            font-weight: 600;
+            font-size: 1rem;
+        }
+        .conf-progress-count {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        .conf-progress-teams {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.25rem;
+            margin-top: 0.75rem;
+        }
+        .conf-team-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+        }
+        .conf-team-dot.seen {
+            background: #4CAF50;
+            border-color: #4CAF50;
+        }
+        .conf-team-dot.seen-m {
+            background: #2196F3;
+            border-color: #2196F3;
+        }
+        .conf-team-dot.seen-w {
+            background: #E91E63;
+            border-color: #E91E63;
+        }
+        /* Badge type colors */
+        .badge-type-team { border-left: 4px solid #2196F3; }
+        .badge-type-venue { border-left: 4px solid #4CAF50; }
+        .badge-type-matchup { border-left: 4px solid #FF9800; }
+        .badge-type-conf-first { border-left: 4px solid #9C27B0; }
+        .badge-type-conf-matchup { border-left: 4px solid #673AB7; }
+        .badge-type-conf-complete { border-left: 4px solid #FFD700; }
+        .badge-type-holiday { border-left: 4px solid #E91E63; }
+        .badge-type-game-count { border-left: 4px solid #00BCD4; }
+        .badge-type-transfer { border-left: 4px solid #795548; }
+        /* Badge icons by type */
+        .badge-icon-team::before { content: '🏀'; }
+        .badge-icon-venue::before { content: '🏟️'; }
+        .badge-icon-matchup::before { content: '🤝'; }
+        .badge-icon-conf-first::before { content: '🏆'; }
+        .badge-icon-conf-matchup::before { content: '⚔️'; }
+        .badge-icon-conf-complete::before { content: '👑'; }
+        .badge-icon-holiday::before { content: '🎉'; }
+        .badge-icon-game-count::before { content: '🎫'; }
+        .badge-icon-transfer::before { content: '✈️'; }
+
+        /* Records grid */
+        .records-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        .records-section {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+        }
+        .records-section h3 {
+            margin: 0 0 1rem 0;
+            font-size: 1rem;
+            color: var(--accent-color);
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 0.5rem;
+        }
+        .records-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        .record-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem;
+            background: var(--bg-secondary);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .record-item:hover {
+            background: var(--bg-tertiary);
+        }
+        .record-item .rank {
+            font-weight: bold;
+            color: var(--accent-color);
+            min-width: 1.5rem;
+        }
+        .record-item .teams {
+            flex: 1;
+            margin: 0 0.75rem;
+            font-size: 0.9rem;
+        }
+        .record-item .teams .gender-tag {
+            font-size: 0.7rem;
+            opacity: 0.7;
+        }
+        .record-item .score {
+            font-weight: bold;
+            white-space: nowrap;
+            margin-right: 0.75rem;
+        }
+        .record-item .margin {
+            color: var(--accent-color);
+            font-weight: bold;
+            min-width: 3rem;
+            text-align: right;
+        }
+        .record-item .total {
+            color: #4CAF50;
+            font-weight: bold;
+            min-width: 3rem;
+            text-align: right;
         }"""
