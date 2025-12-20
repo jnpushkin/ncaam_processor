@@ -191,7 +191,7 @@ def check_player_nba_status(player_id: str) -> Optional[Dict[str, Any]]:
         return None
 
 
-def get_nba_status_batch(player_ids: List[str], use_api_fallback: bool = True, max_fetch: int = 50) -> Dict[str, Optional[Dict[str, Any]]]:
+def get_nba_status_batch(player_ids: List[str], use_api_fallback: bool = True, max_fetch: int = 0) -> Dict[str, Optional[Dict[str, Any]]]:
     """
     Get NBA status for multiple players.
     Uses cached data where available, fetches missing data.
