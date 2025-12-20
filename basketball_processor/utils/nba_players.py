@@ -167,7 +167,8 @@ def _verify_nba_stats(nba_url: str, scraper: Any = None) -> Dict[str, Any]:
             if per_game_section:
                 section_html = per_game_section.group(0)
                 # Get career totals from this section (in tfoot)
-                career_match = re.search(r'<tfoot>.*?data-stat="g"[^>]*>(\d+)<', section_html, re.DOTALL)
+                # NBA uses data-stat="games" not data-stat="g"
+                career_match = re.search(r'<tfoot>.*?data-stat="games"[^>]*>(\d+)<', section_html, re.DOTALL)
                 if career_match:
                     games = int(career_match.group(1))
                     return {'played': True, 'games': games}

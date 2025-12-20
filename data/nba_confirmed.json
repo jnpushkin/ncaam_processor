@@ -2,37 +2,43 @@
   "taja-cole-1": {
     "sr_page_exists": true,
     "wnba_url": "https://www.basketball-reference.com/wnba/players/c/coleta01w.html",
-    "is_wnba_active": true,
-    "wnba_played": true
+    "is_wnba_active": false,
+    "wnba_played": false,
+    "wnba_games": 0
   },
   "mackenzie-engram-1": {
     "sr_page_exists": true,
     "wnba_url": "https://www.basketball-reference.com/wnba/players/e/engrama01w.html",
-    "is_wnba_active": true,
-    "wnba_played": true
+    "is_wnba_active": false,
+    "wnba_played": false,
+    "wnba_games": 0
   },
   "maya-caldwell-1": {
     "sr_page_exists": true,
     "wnba_url": "https://www.basketball-reference.com/wnba/players/c/caldwma01w.html",
     "is_wnba_active": true,
-    "wnba_played": true
+    "wnba_played": true,
+    "wnba_games": 105
   },
   "que-morrison-1": {
     "sr_page_exists": true,
     "wnba_url": "https://www.basketball-reference.com/wnba/players/m/morriqu01w.html",
-    "is_wnba_active": true,
-    "wnba_played": true
+    "is_wnba_active": false,
+    "wnba_played": false,
+    "wnba_games": 0
   },
   "caliya-robinson-1": {
     "sr_page_exists": true,
     "wnba_url": "https://www.basketball-reference.com/wnba/players/r/robinca01w.html",
-    "is_wnba_active": true,
-    "wnba_played": true
+    "is_wnba_active": false,
+    "wnba_played": false,
+    "wnba_games": 0
   },
   "jocelyn-willoughby-1": {
     "sr_page_exists": true,
     "wnba_url": "https://www.basketball-reference.com/wnba/players/w/willojo01w.html",
     "is_wnba_active": true,
-    "wnba_played": true
+    "wnba_played": true,
+    "wnba_games": 62
   }
 }
