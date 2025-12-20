@@ -23,14 +23,15 @@ try:
 except ImportError:
     HAS_REQUESTS = False
 
-# Cache file location
+# Cache file location (can be cleared)
 CACHE_DIR = Path(__file__).parent.parent.parent / 'cache'
 NBA_LOOKUP_CACHE_FILE = CACHE_DIR / 'nba_lookup_cache.json'
 NBA_API_CACHE_FILE = CACHE_DIR / 'nba_api_cache.json'
-# Persistent confirmed file - survives cache clears
-NBA_CONFIRMED_FILE = CACHE_DIR / 'nba_confirmed.json'
-# Track when null players were last re-checked
-NBA_RECHECK_TIMESTAMP_FILE = CACHE_DIR / 'nba_recheck_timestamp.txt'
+
+# Persistent data location (DO NOT DELETE - survives cache clears)
+DATA_DIR = Path(__file__).parent.parent.parent / 'data'
+NBA_CONFIRMED_FILE = DATA_DIR / 'nba_confirmed.json'
+NBA_RECHECK_TIMESTAMP_FILE = DATA_DIR / 'nba_recheck_timestamp.txt'
 # Days between automatic null re-checks
 RECHECK_INTERVAL_DAYS = 90
 
@@ -110,7 +111,7 @@ def _load_confirmed() -> Dict[str, Any]:
 
 def _save_confirmed(confirmed: Dict[str, Any]) -> None:
     """Save to persistent confirmed file."""
-    CACHE_DIR.mkdir(parents=True, exist_ok=True)
+    DATA_DIR.mkdir(parents=True, exist_ok=True)
     with open(NBA_CONFIRMED_FILE, 'w') as f:
         json.dump(confirmed, f, indent=2)
 
@@ -474,7 +475,7 @@ def _get_last_recheck_time() -> Optional[datetime]:
 
 def _save_recheck_timestamp() -> None:
     """Save the current timestamp as the last re-check time."""
-    CACHE_DIR.mkdir(parents=True, exist_ok=True)
+    DATA_DIR.mkdir(parents=True, exist_ok=True)
     NBA_RECHECK_TIMESTAMP_FILE.write_text(datetime.now().isoformat())
 
 
