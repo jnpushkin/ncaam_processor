@@ -137,6 +137,9 @@ def check_player_nba_status(player_id: str) -> Optional[Dict[str, Any]]:
 
         result = {}
 
+        if response.status_code != 200:
+            print(f" [HTTP {response.status_code}]", end="", flush=True)
+
         if response.status_code == 200:
             html = response.text
 
