@@ -156,28 +156,25 @@ def _verify_nba_stats(nba_url: str, scraper: Any = None) -> Dict[str, Any]:
 
         html = response.text
 
-        # Check for per-game stats table with actual data
-        # Players with no games have empty tables or just "Rookie" designation
+        # Check for NBA per-game stats table with actual data
+        # The table ID is "per_game_stats" and rows have IDs like "per_game_stats.2023"
+        # Note: College stats appear separately with different table structure
 
-        # Look for the per_game table with actual rows
-        if 'id="per_game"' in html:
-            # Check if table has data rows (not just header)
-            # Real players have rows like <tr id="per_game.2023" ...>
-            if re.search(r'id="per_game\.\d{4}"', html):
-                # Try to get games count
-                career_match = re.search(r'data-stat="g"[^>]*>(\d+)<', html)
-                games = int(career_match.group(1)) if career_match else None
-                return {'played': True, 'games': games}
+        # Look for NBA per_game_stats rows (e.g., id="per_game_stats.2023")
+        if re.search(r'id="per_game_stats\.\d{4}"', html):
+            # Extract games from the per_game_stats section (after the table starts)
+            per_game_section = re.search(r'id="per_game_stats".*?</table>', html, re.DOTALL)
+            if per_game_section:
+                section_html = per_game_section.group(0)
+                # Get career totals from this section (in tfoot)
+                career_match = re.search(r'<tfoot>.*?data-stat="g"[^>]*>(\d+)<', section_html, re.DOTALL)
+                if career_match:
+                    games = int(career_match.group(1))
+                    return {'played': True, 'games': games}
+            # Has row IDs but couldn't get count - still played
+            return {'played': True, 'games': None}
 
-        # Alternative: check for career totals
-        # Players who played have career stats like "G" (games) > 0
-        career_match = re.search(r'data-stat="g"[^>]*>(\d+)<', html)
-        if career_match:
-            games = int(career_match.group(1))
-            if games > 0:
-                return {'played': True, 'games': games}
-
-        # Has BR page but no games = signed but didn't play
+        # No NBA per_game_stats rows = never played NBA
         return {'played': False, 'games': 0}
 
     except Exception:
@@ -212,21 +209,24 @@ def _verify_wnba_stats(wnba_url: str, scraper: Any = None) -> Dict[str, Any]:
 
         html = response.text
 
-        # Check for per-game stats table with actual data
-        if 'id="per_game"' in html:
-            if re.search(r'id="per_game\.\d{4}"', html):
-                career_match = re.search(r'data-stat="g"[^>]*>(\d+)<', html)
-                games = int(career_match.group(1)) if career_match else None
-                return {'played': True, 'games': games}
+        # Check for WNBA per-game stats table with actual data
+        # WNBA uses id="per_game0" for the table and rows like id="per_game0.2016"
 
-        # Alternative: check for career games > 0
-        career_match = re.search(r'data-stat="g"[^>]*>(\d+)<', html)
-        if career_match:
-            games = int(career_match.group(1))
-            if games > 0:
-                return {'played': True, 'games': games}
+        # Look for WNBA per_game0 rows (e.g., id="per_game0.2023")
+        if re.search(r'id="per_game0\.\d{4}"', html):
+            # Extract games from the per_game0 section
+            per_game_section = re.search(r'id="per_game0".*?</table>', html, re.DOTALL)
+            if per_game_section:
+                section_html = per_game_section.group(0)
+                # Get career totals from this section (in tfoot)
+                career_match = re.search(r'<tfoot>.*?data-stat="g"[^>]*>(\d+)<', section_html, re.DOTALL)
+                if career_match:
+                    games = int(career_match.group(1))
+                    return {'played': True, 'games': games}
+            # Has row IDs but couldn't get count - still played
+            return {'played': True, 'games': None}
 
-        # Has BR page but no games = signed but didn't play
+        # No WNBA per_game0 rows = never played WNBA
         return {'played': False, 'games': 0}
 
     except Exception:
