@@ -6,7 +6,7 @@ from typing import Dict, List, Any, Optional
 import pandas as pd
 import json
 
-from ..utils.nba_players import get_nba_player_info_by_id, get_nba_status_batch
+from ..utils.nba_players import get_nba_player_info_by_id, get_nba_status_batch, recheck_female_players_for_wnba
 
 
 class DataSerializer:
@@ -30,6 +30,9 @@ class DataSerializer:
         Returns:
             Dictionary ready for JSON encoding
         """
+        # Check female players for WNBA status before serialization
+        recheck_female_players_for_wnba()
+
         summary = self._serialize_summary()
         players = self._serialize_players()
 

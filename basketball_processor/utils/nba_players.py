@@ -118,7 +118,7 @@ def _save_confirmed(confirmed: Dict[str, Any]) -> None:
 
 def _add_to_confirmed(player_id: str, data: Dict[str, Any]) -> None:
     """Add a player to the persistent confirmed file."""
-    if data and (data.get('nba_url') or data.get('intl_url')):
+    if data and (data.get('nba_url') or data.get('wnba_url') or data.get('intl_url')):
         confirmed = _load_confirmed()
         confirmed[player_id] = data
         _save_confirmed(confirmed)
