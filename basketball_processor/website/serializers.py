@@ -89,6 +89,24 @@ class DataSerializer:
         if not players.empty and 'Total PTS' in players.columns:
             total_points = int(players['Total PTS'].sum())
 
+        # Count unique conferences seen
+        from ..utils.constants import get_conference_for_date, DEFUNCT_TEAMS
+        conferences_seen = set()
+        for game in self.raw_games:
+            basic_info = game.get('basic_info', {})
+            date_str = basic_info.get('date_yyyymmdd', '')
+            gender = basic_info.get('gender', 'M')
+            away_team = basic_info.get('away_team', '')
+            home_team = basic_info.get('home_team', '')
+            if away_team:
+                conf = get_conference_for_date(away_team, date_str, gender)
+                if conf and conf not in ('Historical/Other', 'D3', 'D2', 'NAIA', 'Non-D1'):
+                    conferences_seen.add(conf)
+            if home_team:
+                conf = get_conference_for_date(home_team, date_str, gender)
+                if conf and conf not in ('Historical/Other', 'D3', 'D2', 'NAIA', 'Non-D1'):
+                    conferences_seen.add(conf)
+
         # Count ranked games and upsets from raw games
         ranked_games = 0
         ranked_matchups = 0  # Both teams ranked
@@ -122,6 +140,7 @@ class DataSerializer:
             'totalTeams': len(team_records),
             'totalVenues': len(venue_records),
             'totalPoints': total_points,
+            'conferencesSeen': len(conferences_seen),
             'milestones': milestone_counts,
             'futurePros': 0,  # Will be calculated after players are serialized
             'rankedGames': ranked_games,

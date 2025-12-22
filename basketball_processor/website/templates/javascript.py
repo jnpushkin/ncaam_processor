@@ -2108,9 +2108,26 @@ def get_javascript(json_data: str) -> str:
 
             // Move special entries to top/bottom
             const specialOrder = ['All D1', 'Historical/Other'];
-            conferences = conferences.filter(c => !specialOrder.includes(c));
+            const realConferences = conferences.filter(c => !specialOrder.includes(c));
+            conferences = [...realConferences];
             if (checklist['All D1']) conferences.unshift('All D1');
             if (checklist['Historical/Other']) conferences.push('Historical/Other');
+
+            // Count conferences with at least one team seen
+            let conferencesSeen = 0;
+            const totalConferences = realConferences.length;
+            realConferences.forEach(conf => {
+                const data = checklist[conf];
+                if (data && data.teamsSeen > 0) {
+                    conferencesSeen++;
+                }
+            });
+
+            // Update conferences seen count display
+            const countEl = document.getElementById('conferences-seen-count');
+            if (countEl) {
+                countEl.textContent = `${conferencesSeen}/${totalConferences}`;
+            }
 
             conferences.forEach(conf => {
                 const option = document.createElement('option');
@@ -3011,61 +3028,72 @@ def get_javascript(json_data: str) -> str:
 
             const gender = document.getElementById('conf-progress-gender')?.value || '';
             const checklist = DATA.conferenceChecklist || {};
-            const tracking = window.badgeTrackingData || {};
-            const confTeamsSeen = tracking.confTeamsSeen || {};
-            const confCompleted = tracking.confCompleted || {};
-            const conferenceTeamCounts = tracking.conferenceTeamCounts || {};
 
             const conferences = Object.entries(checklist)
                 .filter(([name]) => name !== 'All D1' && name !== 'Historical/Other')
                 .sort((a, b) => a[0].localeCompare(b[0]));
 
+            // Calculate totals for summary
+            let totalConferences = conferences.length;
+            let conferencesSeen = 0;
+            let totalTeamsSeen = 0;
+            let totalTeams = 0;
+            let totalVenuesVisited = 0;
+            let totalVenues = 0;
+
             const cards = conferences.map(([confName, confData]) => {
                 const teams = confData.teams || [];
-                const totalTeams = teams.length;
+                const numTeams = teams.length;
+                totalTeams += numTeams;
+                totalVenues += numTeams; // Each team has one home venue
 
-                // Count teams seen based on gender filter
+                // Count teams seen and venues visited based on gender filter
                 let teamsSeen = 0;
-                let teamsSeenM = 0;
-                let teamsSeenW = 0;
+                let venuesVisited = 0;
 
                 teams.forEach(team => {
-                    if (team.seenM) teamsSeenM++;
-                    if (team.seenW) teamsSeenW++;
-                    if (team.seen) teamsSeen++;
+                    let seen, visited;
+                    if (gender === 'M') {
+                        seen = team.seenM;
+                        visited = team.arenaVisitedM;
+                    } else if (gender === 'W') {
+                        seen = team.seenW;
+                        visited = team.arenaVisitedW;
+                    } else {
+                        seen = team.seen;
+                        visited = team.arenaVisited;
+                    }
+                    if (seen) teamsSeen++;
+                    if (visited) venuesVisited++;
                 });
 
-                let displaySeen, displayTotal;
-                if (gender === 'M') {
-                    displaySeen = teamsSeenM;
-                } else if (gender === 'W') {
-                    displaySeen = teamsSeenW;
-                } else {
-                    displaySeen = teamsSeen;
-                }
-                displayTotal = totalTeams;
+                totalTeamsSeen += teamsSeen;
+                totalVenuesVisited += venuesVisited;
+                if (teamsSeen > 0) conferencesSeen++;
 
-                const isComplete = displaySeen >= displayTotal;
-                const progressPct = displayTotal > 0 ? (displaySeen / displayTotal * 100) : 0;
+                const isComplete = teamsSeen >= numTeams;
+                const progressPct = numTeams > 0 ? (teamsSeen / numTeams * 100) : 0;
 
                 // Generate team dots
                 const teamDots = teams.map(team => {
                     let dotClass = 'conf-team-dot';
+                    let seen;
                     if (gender === 'M') {
-                        if (team.seenM) dotClass += ' seen-m';
+                        seen = team.seenM;
                     } else if (gender === 'W') {
-                        if (team.seenW) dotClass += ' seen-w';
+                        seen = team.seenW;
                     } else {
-                        if (team.seen) dotClass += ' seen';
+                        seen = team.seen;
                     }
+                    if (seen) dotClass += ' seen';
                     return `<span class="${dotClass}" title="${team.team}"></span>`;
                 }).join('');
 
                 return `
-                    <div class="conf-progress-card ${isComplete ? 'complete' : ''}" data-conf="${confName}" onclick="showConferenceTeams(this.dataset.conf)">
+                    <div class="conf-progress-card ${isComplete ? 'complete' : ''}" data-conf="${confName}" onclick="showConferenceDetail('${confName.replace(/'/g, "\\'")}')">
                         <div class="conf-progress-header">
                             <span class="conf-progress-name">${confName}</span>
-                            <span class="conf-progress-count">${displaySeen}/${displayTotal}</span>
+                            <span class="conf-progress-count">${teamsSeen}/${numTeams}</span>
                         </div>
                         <div class="badge-progress">
                             <div class="badge-progress-bar">
@@ -3073,14 +3101,27 @@ def get_javascript(json_data: str) -> str:
                             </div>
                         </div>
                         <div class="conf-progress-teams">${teamDots}</div>
+                        <div class="conf-progress-venues" style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.25rem;">
+                            🏟️ ${venuesVisited}/${numTeams} venues
+                        </div>
                     </div>
                 `;
             }).join('');
 
             container.innerHTML = cards || '<p>No conference data available.</p>';
+
+            // Update summary stats
+            const confCountEl = document.getElementById('conferences-seen-count');
+            if (confCountEl) confCountEl.textContent = `${conferencesSeen}/${totalConferences}`;
+
+            const teamsCountEl = document.getElementById('total-teams-seen-count');
+            if (teamsCountEl) teamsCountEl.textContent = `${totalTeamsSeen}/${totalTeams}`;
+
+            const venuesCountEl = document.getElementById('total-venues-visited-count');
+            if (venuesCountEl) venuesCountEl.textContent = `${totalVenuesVisited}/${totalVenues}`;
         }
 
-        function showConferenceTeams(confName) {
+        function showConferenceDetail(confName) {
             const gender = document.getElementById('conf-progress-gender')?.value || '';
             const checklist = DATA.conferenceChecklist || {};
             const conf = checklist[confName];
@@ -3089,30 +3130,47 @@ def get_javascript(json_data: str) -> str:
 
             const teams = conf.teams || [];
 
-            // Separate seen and unseen teams
+            // Separate teams by seen/unseen and venues by visited/unvisited
             const seenTeams = [];
             const unseenTeams = [];
+            const visitedVenues = [];
+            const unvisitedVenues = [];
 
             teams.forEach(team => {
-                let seen;
+                let seen, visited, homeArena;
                 if (gender === 'M') {
                     seen = team.seenM;
+                    visited = team.arenaVisitedM;
+                    homeArena = team.homeArenaM || team.homeArena;
                 } else if (gender === 'W') {
                     seen = team.seenW;
+                    visited = team.arenaVisitedW;
+                    homeArena = team.homeArenaW || team.homeArena;
                 } else {
                     seen = team.seen;
+                    visited = team.arenaVisited;
+                    homeArena = team.homeArena;
                 }
+                team._homeArena = homeArena; // Store for display
 
                 if (seen) {
                     seenTeams.push(team);
                 } else {
                     unseenTeams.push(team);
                 }
+
+                if (visited) {
+                    visitedVenues.push(team);
+                } else {
+                    unvisitedVenues.push(team);
+                }
             });
 
-            // Sort both lists alphabetically
+            // Sort lists alphabetically
             seenTeams.sort((a, b) => a.team.localeCompare(b.team));
             unseenTeams.sort((a, b) => a.team.localeCompare(b.team));
+            visitedVenues.sort((a, b) => a.team.localeCompare(b.team));
+            unvisitedVenues.sort((a, b) => a.team.localeCompare(b.team));
 
             const genderLabel = gender === 'M' ? " (Men's)" : gender === 'W' ? " (Women's)" : '';
 
@@ -3120,6 +3178,7 @@ def get_javascript(json_data: str) -> str:
                 <div class="conf-team-item seen">
                     <span class="conf-team-check">✓</span>
                     <span class="conf-team-name">${t.team}</span>
+                    <span class="conf-team-count" style="margin-left: auto; color: var(--text-secondary);">${t.visitCount || 0}x</span>
                 </div>
             `).join('') : '<p class="conf-team-empty">No teams seen yet</p>';
 
@@ -3130,25 +3189,77 @@ def get_javascript(json_data: str) -> str:
                 </div>
             `).join('') : '<p class="conf-team-empty">All teams seen!</p>';
 
-            const modalHtml = `
-                <h3 id="conf-teams-modal-title">${confName}${genderLabel}</h3>
-                <p style="color: var(--text-secondary); margin-bottom: 1rem;">
-                    ${seenTeams.length} of ${teams.length} teams seen
-                </p>
-                <div class="conf-teams-grid">
-                    <div class="conf-teams-column">
-                        <h4 class="conf-teams-heading seen">Seen (${seenTeams.length})</h4>
-                        ${seenHtml}
+            const visitedHtml = visitedVenues.length > 0 ? visitedVenues.map(t => `
+                <div class="conf-team-item seen">
+                    <span class="conf-team-check">✓</span>
+                    <span class="conf-team-name">${t._homeArena || 'Unknown Arena'}</span>
+                    <span class="conf-team-count" style="margin-left: auto; color: var(--text-secondary);">${t.team}</span>
+                </div>
+            `).join('') : '<p class="conf-team-empty">No venues visited yet</p>';
+
+            const unvisitedHtml = unvisitedVenues.length > 0 ? unvisitedVenues.map(t => `
+                <div class="conf-team-item unseen">
+                    <span class="conf-team-check">○</span>
+                    <span class="conf-team-name">${t._homeArena || 'Unknown Arena'}</span>
+                    <span class="conf-team-count" style="margin-left: auto; color: var(--text-secondary);">${t.team}</span>
+                </div>
+            `).join('') : '<p class="conf-team-empty">All venues visited!</p>';
+
+            const detailHtml = `
+                <div class="conf-detail-summary" style="display: flex; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap;">
+                    <div class="stat-box">
+                        <div class="number">${seenTeams.length}/${teams.length}</div>
+                        <div class="label">Teams Seen</div>
                     </div>
-                    <div class="conf-teams-column">
-                        <h4 class="conf-teams-heading unseen">Not Seen (${unseenTeams.length})</h4>
-                        ${unseenHtml}
+                    <div class="stat-box">
+                        <div class="number">${visitedVenues.length}/${teams.length}</div>
+                        <div class="label">Venues Visited</div>
+                    </div>
+                </div>
+                <div class="conf-detail-sections" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+                    <div class="conf-detail-section">
+                        <h4 style="margin-bottom: 1rem;">Teams</h4>
+                        <div class="conf-teams-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                            <div class="conf-teams-column">
+                                <h5 class="conf-teams-heading seen" style="color: var(--success-color); margin-bottom: 0.5rem;">Seen (${seenTeams.length})</h5>
+                                ${seenHtml}
+                            </div>
+                            <div class="conf-teams-column">
+                                <h5 class="conf-teams-heading unseen" style="color: var(--text-secondary); margin-bottom: 0.5rem;">Not Seen (${unseenTeams.length})</h5>
+                                ${unseenHtml}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="conf-detail-section">
+                        <h4 style="margin-bottom: 1rem;">Venues</h4>
+                        <div class="conf-teams-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                            <div class="conf-teams-column">
+                                <h5 class="conf-teams-heading seen" style="color: var(--success-color); margin-bottom: 0.5rem;">Visited (${visitedVenues.length})</h5>
+                                ${visitedHtml}
+                            </div>
+                            <div class="conf-teams-column">
+                                <h5 class="conf-teams-heading unseen" style="color: var(--text-secondary); margin-bottom: 0.5rem;">Not Visited (${unvisitedVenues.length})</h5>
+                                ${unvisitedHtml}
+                            </div>
+                        </div>
                     </div>
                 </div>
             `;
 
-            document.getElementById('conf-teams-detail').innerHTML = modalHtml;
-            document.getElementById('conf-teams-modal').classList.add('active');
+            document.getElementById('conference-detail-title').textContent = confName + genderLabel;
+            document.getElementById('conference-detail-content').innerHTML = detailHtml;
+            document.getElementById('conference-progress-grid').style.display = 'none';
+            document.getElementById('conference-detail-panel').style.display = 'block';
+        }
+
+        function hideConferenceDetail() {
+            document.getElementById('conference-progress-grid').style.display = '';
+            document.getElementById('conference-detail-panel').style.display = 'none';
+        }
+
+        // Keep old function for modal (used elsewhere)
+        function showConferenceTeams(confName) {
+            showConferenceDetail(confName);
         }
 
         function populateChecklist() {

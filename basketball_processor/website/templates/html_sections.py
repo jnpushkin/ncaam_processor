@@ -96,7 +96,7 @@ def get_body(total_games: int, total_players: int, total_teams: int, total_venue
             <button class="tab" onclick="showSection('matchups')" role="tab" aria-selected="false" data-section="matchups" tabindex="-1">Matchups</button>
             <button class="tab" onclick="showSection('venues')" role="tab" aria-selected="false" data-section="venues" tabindex="-1">Venues</button>
             <button class="tab" onclick="showSection('calendar')" role="tab" aria-selected="false" data-section="calendar" tabindex="-1">Calendar</button>
-            <button class="tab" onclick="showSection('checklist')" role="tab" aria-selected="false" data-section="checklist" tabindex="-1">Checklist</button>
+            <button class="tab" onclick="showSection('conferences')" role="tab" aria-selected="false" data-section="conferences" tabindex="-1">Conference Progress</button>
             <button class="tab" onclick="showSection('map')" role="tab" aria-selected="false" data-section="map" tabindex="-1">Map</button>
             <button class="tab" onclick="showSection('future-pros')" role="tab" aria-selected="false" data-section="future-pros" tabindex="-1">Future Pros</button>
         </div>
@@ -394,7 +394,6 @@ def get_body(total_games: int, total_players: int, total_teams: int, total_venue
 
             <div class="sub-tabs">
                 <button class="sub-tab active" onclick="showSubSection('milestones', 'badges-all')">All Badges</button>
-                <button class="sub-tab" onclick="showSubSection('milestones', 'conferences')">Conference Progress</button>
                 <button class="sub-tab" onclick="showSubSection('milestones', 'player-milestones')">Player Milestones</button>
                 <button class="sub-tab" onclick="showSubSection('milestones', 'venues')">Venue Badges</button>
                 <button class="sub-tab" onclick="showSubSection('milestones', 'special')">Special</button>
@@ -402,21 +401,6 @@ def get_body(total_games: int, total_players: int, total_teams: int, total_venue
 
             <div id="milestones-badges-all" class="sub-section active">
                 <div class="badges-grid" id="all-badges-grid"></div>
-            </div>
-
-            <div id="milestones-conferences" class="sub-section">
-                <p style="margin-bottom: 1rem; color: var(--text-secondary);">Track your progress toward seeing every team in each conference.</p>
-                <div class="filters" style="margin-bottom: 1rem;">
-                    <div class="filter-group">
-                        <label for="conf-progress-gender">Gender</label>
-                        <select id="conf-progress-gender" onchange="populateConferenceProgress()">
-                            <option value="">All</option>
-                            <option value="M">Men's</option>
-                            <option value="W">Women's</option>
-                        </select>
-                    </div>
-                </div>
-                <div id="conference-progress-grid" class="conference-progress-grid"></div>
             </div>
 
             <div id="milestones-player-milestones" class="sub-section">
@@ -664,42 +648,41 @@ def get_body(total_games: int, total_players: int, total_teams: int, total_venue
             </div>
         </div>
 
-        <div id="checklist" class="section" role="tabpanel">
-            <h2>Conference Checklist</h2>
-            <p style="margin-bottom: 1rem; color: var(--text-secondary);">Track which teams you've seen play and which home arenas you've visited.</p>
+        <div id="conferences" class="section" role="tabpanel">
+            <h2>Conference Progress</h2>
+            <p style="margin-bottom: 1rem; color: var(--text-secondary);">Track which teams you've seen play and which home arenas you've visited. Click a conference to see details.</p>
+            <div class="conf-progress-summary" style="display: flex; gap: 1rem; margin-bottom: 1rem; flex-wrap: wrap;">
+                <div class="stat-box" style="min-width: 100px;">
+                    <div class="number" id="conferences-seen-count">0</div>
+                    <div class="label">Conferences</div>
+                </div>
+                <div class="stat-box" style="min-width: 100px;">
+                    <div class="number" id="total-teams-seen-count">0</div>
+                    <div class="label">Teams Seen</div>
+                </div>
+                <div class="stat-box" style="min-width: 100px;">
+                    <div class="number" id="total-venues-visited-count">0</div>
+                    <div class="label">Venues Visited</div>
+                </div>
+            </div>
             <div class="filters" style="margin-bottom: 1rem;">
                 <div class="filter-group">
-                    <label for="checklist-conference">Conference</label>
-                    <select id="checklist-conference" onchange="populateChecklist()">
-                        <option value="">Select Conference...</option>
-                    </select>
-                </div>
-                <div class="filter-group">
-                    <label for="checklist-gender">Gender</label>
-                    <select id="checklist-gender" onchange="populateChecklist()">
+                    <label for="conf-progress-gender">Gender</label>
+                    <select id="conf-progress-gender" onchange="populateConferenceProgress()">
                         <option value="">All</option>
                         <option value="M">Men's</option>
                         <option value="W">Women's</option>
                     </select>
                 </div>
-                <div class="filter-group">
-                    <label for="checklist-team-filter">Teams</label>
-                    <select id="checklist-team-filter" onchange="populateChecklist()">
-                        <option value="all">All Teams</option>
-                        <option value="seen">Seen</option>
-                        <option value="unseen">Not Seen</option>
-                    </select>
-                </div>
-                <div class="filter-group">
-                    <label for="checklist-venue-filter">Venues</label>
-                    <select id="checklist-venue-filter" onchange="populateChecklist()">
-                        <option value="all">All Venues</option>
-                        <option value="visited">Visited</option>
-                        <option value="unvisited">Not Visited</option>
-                    </select>
-                </div>
             </div>
-            <div id="checklist-content"></div>
+            <div id="conference-progress-grid" class="conference-progress-grid"></div>
+            <div id="conference-detail-panel" class="conference-detail-panel" style="display: none;">
+                <div class="conference-detail-header">
+                    <button class="btn btn-secondary" onclick="hideConferenceDetail()">← Back to All Conferences</button>
+                    <h3 id="conference-detail-title"></h3>
+                </div>
+                <div id="conference-detail-content"></div>
+            </div>
         </div>
 
         <div id="map" class="section" role="tabpanel">
