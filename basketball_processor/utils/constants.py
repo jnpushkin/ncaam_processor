@@ -428,6 +428,10 @@ _DEFAULT_CONFERENCES = {
         'Charleston Southern', 'Gardner-Webb', 'High Point', 'Longwood',
         'Presbyterian', 'Radford', 'UNC Asheville', 'USC Upstate', 'Winthrop'
     ],
+    # Non-D1 schools
+    'D3': [
+        'Sarah Lawrence',
+    ],
 }
 
 
