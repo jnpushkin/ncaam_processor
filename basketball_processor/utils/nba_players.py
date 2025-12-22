@@ -429,8 +429,8 @@ def get_nba_status_batch(player_ids: List[str], use_api_fallback: bool = True, m
 
         to_fetch.append(player_id)
 
-    # Fetch missing players
-    if to_fetch and HAS_REQUESTS:
+    # Fetch missing players (max_fetch=-1 means cache only, skip fetching)
+    if to_fetch and HAS_REQUESTS and max_fetch != -1:
         fetch_list = to_fetch if max_fetch == 0 else to_fetch[:max_fetch]
         # Estimate time: ~6.2 seconds per player (2 requests @ 3.1s each)
         est_minutes = (len(fetch_list) * 6.2) / 60

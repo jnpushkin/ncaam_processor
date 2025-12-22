@@ -367,7 +367,7 @@ _DEFAULT_CONFERENCES = {
     ],
     'NEC': [
         'Central Connecticut', 'Chicago State', 'Fairleigh Dickinson', 'Le Moyne', 'LIU', 'Mercyhurst',
-        'Merrimack', 'New Haven', 'Sacred Heart', 'St. Francis (PA)', 'Stonehill', 'Wagner'
+        'Merrimack', 'New Haven', 'Sacred Heart', 'St. Francis (NY)', 'St. Francis (PA)', 'Stonehill', 'Wagner'
     ],
     'MAAC': [
         'Canisius', 'Fairfield', 'Iona', 'Manhattan', 'Marist', "Mount St. Mary's",
@@ -455,6 +455,13 @@ def _load_conferences() -> Dict[str, List[str]]:
 
 # Load conferences (from JSON if available, else defaults)
 CONFERENCES = _load_conferences()
+
+# === DEFUNCT TEAMS ===
+# Teams that no longer have active programs - included in conferences for historical
+# badge attribution but excluded from checklist of teams to see
+DEFUNCT_TEAMS = {
+    'St. Francis (NY)',  # Program discontinued after 2022-23 season
+}
 
 # === HISTORICAL CONFERENCE TRACKING ===
 # Tracks conference changes over time for accurate historical game attribution

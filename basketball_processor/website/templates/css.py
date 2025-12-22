@@ -112,19 +112,20 @@ def get_css() -> str:
         .stats-overview {
             display: flex;
             justify-content: center;
-            gap: 1rem;
-            flex-wrap: wrap;
-            max-width: 900px;
+            gap: 0.75rem;
+            flex-wrap: nowrap;
+            max-width: 1200px;
             margin: 0 auto;
         }
         .stat-box {
             background: rgba(255,255,255,0.08);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255,255,255,0.12);
-            padding: 1.25rem 1.5rem;
+            padding: 0.75rem 1rem;
             border-radius: 12px;
             text-align: center;
-            min-width: 110px;
+            min-width: 85px;
+            flex: 1;
             transition: all 0.2s ease;
         }
         .stat-box:hover {
@@ -133,23 +134,23 @@ def get_css() -> str:
             border-color: rgba(255,255,255,0.2);
         }
         .stat-box .icon {
-            font-size: 1.25rem;
-            margin-bottom: 0.5rem;
+            font-size: 1rem;
+            margin-bottom: 0.35rem;
             opacity: 0.9;
         }
         .stat-box .number {
-            font-size: 1.75rem;
+            font-size: 1.5rem;
             font-weight: 700;
             letter-spacing: -0.025em;
             line-height: 1.1;
         }
         .stat-box .label {
-            font-size: 0.75rem;
+            font-size: 0.65rem;
             opacity: 0.7;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
+            letter-spacing: 0.03em;
             font-weight: 500;
-            margin-top: 0.25rem;
+            margin-top: 0.2rem;
         }
         .stat-box.highlight .number {
             color: #ffd700;
@@ -164,6 +165,7 @@ def get_css() -> str:
             gap: 0.5rem;
             margin-bottom: 1rem;
             flex-wrap: wrap;
+            justify-content: center;
         }
         .tab {
             padding: 0.75rem 1.5rem;
@@ -777,6 +779,9 @@ def get_css() -> str:
             color: var(--accent-color);
             cursor: pointer;
             text-decoration: underline;
+        }
+        .game-link {
+            white-space: nowrap;
         }
         .player-link:hover, .game-link:hover, .venue-link:hover, .team-link:hover {
             opacity: 0.8;
@@ -1531,6 +1536,82 @@ def get_css() -> str:
         }
         tr.has-ranked:hover {
             background: rgba(26, 115, 232, 0.1);
+        }
+        /* OT Label */
+        .ot-label {
+            background: linear-gradient(135deg, #9c27b0, #7b1fa2);
+            color: white;
+            font-size: 0.6rem;
+            font-weight: bold;
+            padding: 2px 5px;
+            border-radius: 3px;
+            margin-left: 4px;
+            text-transform: uppercase;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }
+        /* Milestone badges */
+        .milestone-badge {
+            background: linear-gradient(135deg, #00bcd4, #0097a7);
+            color: white;
+            font-size: 0.55rem;
+            font-weight: bold;
+            padding: 2px 6px;
+            border-radius: 3px;
+            margin: 2px 3px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.15);
+            white-space: nowrap;
+            display: inline-block;
+        }
+        .milestone-badge.more {
+            background: linear-gradient(135deg, #78909c, #546e7a);
+            cursor: pointer;
+        }
+        .milestone-badge.more:hover {
+            background: linear-gradient(135deg, #90a4ae, #607d8b);
+        }
+        /* Upset badge spacing */
+        .upset-badge {
+            margin: 2px 3px;
+            display: inline-block;
+        }
+        /* Badges cell and hidden badges */
+        .badges-cell {
+            white-space: normal;
+            max-width: 280px;
+            line-height: 1.8;
+        }
+        .badges-hidden {
+            display: none;
+        }
+        .badges-hidden.expanded {
+            display: inline;
+        }
+        /* Quick filters */
+        .quick-filters {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+        .quick-filter {
+            padding: 0.4rem 0.8rem;
+            border: 1px solid var(--border-color);
+            background: var(--bg-secondary);
+            color: var(--text-secondary);
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+        .quick-filter:hover {
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+        }
+        .quick-filter.active {
+            background: var(--accent-color);
+            border-color: var(--accent-color);
+            color: white;
         }
         /* Conference Crossover Matrix */
         .conf-crossover-container {

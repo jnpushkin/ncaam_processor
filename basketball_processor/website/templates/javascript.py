@@ -157,6 +157,24 @@ def get_javascript(json_data: str) -> str:
             setTimeout(() => toast.classList.remove('show'), 3000);
         }
 
+        function toggleBadges(gameId, event) {
+            event.stopPropagation();
+            const hiddenSpan = document.getElementById(`badges-hidden-${gameId}`);
+            const moreBtn = event.target;
+            if (hiddenSpan) {
+                const isExpanded = hiddenSpan.classList.contains('expanded');
+                if (isExpanded) {
+                    hiddenSpan.classList.remove('expanded');
+                    moreBtn.textContent = `+${hiddenSpan.children.length}`;
+                    moreBtn.title = `Click to show ${hiddenSpan.children.length} more`;
+                } else {
+                    hiddenSpan.classList.add('expanded');
+                    moreBtn.textContent = '−';
+                    moreBtn.title = 'Click to collapse';
+                }
+            }
+        }
+
         function showSection(sectionId) {
             document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
             document.querySelectorAll('.tab').forEach(t => {
@@ -229,6 +247,24 @@ def get_javascript(json_data: str) -> str:
                 select.value = filterValue;
                 applyFilters('games');
             }
+        }
+
+        function quickFilterGames(filterType) {
+            // Update active button
+            document.querySelectorAll('.quick-filter').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Reset all filters first
+            const genderSelect = document.getElementById('games-gender');
+            const searchBox = document.getElementById('games-search');
+            if (genderSelect) genderSelect.value = '';
+            if (searchBox) searchBox.value = '';
+
+            // Store the quick filter type for applyGamesFilters to use
+            window.currentQuickFilter = filterType;
+
+            // Apply the filter
+            applyGamesFilters();
         }
 
         function updateHeadToHead() {
@@ -519,8 +555,8 @@ def get_javascript(json_data: str) -> str:
             const container = document.getElementById('conf-crossover-matrix');
             if (!container) return;
 
-            // Conferences to exclude
-            const excludeConfs = ['Historical/Other'];
+            // Conferences to exclude (non-D1)
+            const excludeConfs = ['Historical/Other', 'D3', 'D2', 'NAIA', 'Non-D1'];
 
             // Get all conferences from games
             const confSet = new Set();
@@ -555,7 +591,7 @@ def get_javascript(json_data: str) -> str:
 
             // Calculate completion percentage (all matchups including intra-conference)
             const n = conferences.length;
-            const totalPossibleMatchups = (n * n) / 2; // symmetric matrix
+            const totalPossibleMatchups = (n * (n + 1)) / 2; // triangular number for unique pairs
             let matchupsWithGames = 0;
 
             for (let i = 0; i < conferences.length; i++) {
@@ -667,6 +703,7 @@ def get_javascript(json_data: str) -> str:
             const conference = document.getElementById('games-conference').value;
             const minMargin = parseInt(document.getElementById('games-margin').value) || 0;
             const otOnly = document.getElementById('games-ot').checked;
+            const quickFilter = window.currentQuickFilter || 'all';
 
             // Parse team filter (format: "TeamName|Gender" or empty)
             let filterTeamName = '';
@@ -702,6 +739,25 @@ def get_javascript(json_data: str) -> str:
                     const linescore = game.Linescore || {};
                     const otPeriods = (linescore.away || {}).OT || [];
                     if (otPeriods.length === 0) return false;
+                }
+                // Quick filter logic
+                if (quickFilter === 'ranked') {
+                    if (!game.AwayRank && !game.HomeRank) return false;
+                } else if (quickFilter === 'upsets') {
+                    // Upset = higher-ranked team lost
+                    const awayRank = game.AwayRank || 999;
+                    const homeRank = game.HomeRank || 999;
+                    const awayWon = (game['Away Score'] || 0) > (game['Home Score'] || 0);
+                    const isUpset = (awayWon && homeRank < awayRank) || (!awayWon && awayRank < homeRank);
+                    if (!isUpset || (awayRank === 999 && homeRank === 999)) return false;
+                } else if (quickFilter === 'ot') {
+                    const linescore = game.Linescore || {};
+                    const otPeriods = (linescore.away || {}).OT || [];
+                    if (otPeriods.length === 0) return false;
+                } else if (quickFilter === 'mens') {
+                    if (game.Gender !== 'M') return false;
+                } else if (quickFilter === 'womens') {
+                    if (game.Gender !== 'W') return false;
                 }
                 return true;
             });
@@ -1062,7 +1118,7 @@ def get_javascript(json_data: str) -> str:
                         const confMatchupDisplay = [awayConf, homeConf].sort().join(' vs ');
                         gameMilestones[gameId].badges.push({
                             type: 'conf-matchup',
-                            text: confMatchupCounts[confMatchupKey] === 1 ? `1st ${confMatchupDisplay}` : `${confMatchupDisplay} #${confMatchupCounts[confMatchupKey]}`,
+                            text: confMatchupCounts[confMatchupKey] === 1 ? `1st ${confMatchupDisplay}${genderSuffix}` : `${confMatchupDisplay}${genderSuffix} #${confMatchupCounts[confMatchupKey]}`,
                             title: `${ordinal(confMatchupCounts[confMatchupKey])} ${awayConf} vs ${homeConf} game${genderSuffix}`
                         });
                     }
@@ -1127,15 +1183,15 @@ def get_javascript(json_data: str) -> str:
                         // Badge for new venue
                         gameMilestones[gameId].badges.push({
                             type: 'venue',
-                            text: `${venue} (Venue #${venueNum})`,
-                            title: `${ordinal(venueNum)} different venue visited: ${venue}`
+                            text: `${venue}${genderSuffix} (Venue #${venueNum})`,
+                            title: `${ordinal(venueNum)} different venue visited: ${venue}${genderSuffix}`
                         });
                     } else if (MILESTONE_COUNTS.includes(venueVisitCount)) {
                         // Badge for milestone visit count to same venue
                         gameMilestones[gameId].badges.push({
                             type: 'venue',
-                            text: `${venue} #${venueVisitCount}`,
-                            title: `${ordinal(venueVisitCount)} game at ${venue}`
+                            text: `${venue}${genderSuffix} #${venueVisitCount}`,
+                            title: `${ordinal(venueVisitCount)} game at ${venue}${genderSuffix}`
                         });
                     }
                 }
@@ -1145,7 +1201,7 @@ def get_javascript(json_data: str) -> str:
                     matchupsSeen[matchupKey] = true;
                     gameMilestones[gameId].badges.push({
                         type: 'matchup',
-                        text: '1st Matchup',
+                        text: `1st Matchup${genderSuffix}`,
                         title: `First time seeing ${away} vs ${home}${genderSuffix}`
                     });
                 }
@@ -1218,15 +1274,35 @@ def get_javascript(json_data: str) -> str:
                     const homeRankNum = game.HomeRank || 999;
 
                     if (awayWon && homeRankNum < awayRankNum) {
-                        // Away team won but home was higher ranked - upset!
                         upsetBadge = `<span class="upset-badge" title="Upset! #${homeRankNum} ${game['Home Team']} lost to ${awayRankNum < 999 ? '#' + awayRankNum + ' ' : ''}${game['Away Team']}">UPSET</span>`;
                     } else if (!awayWon && awayRankNum < homeRankNum) {
-                        // Home team won but away was higher ranked - upset!
                         upsetBadge = `<span class="upset-badge" title="Upset! #${awayRankNum} ${game['Away Team']} lost to ${homeRankNum < 999 ? '#' + homeRankNum + ' ' : ''}${game['Home Team']}">UPSET</span>`;
                     }
 
-                    // Only show upset badge inline - milestone badges available in game detail
-                    const badgeHtml = upsetBadge;
+                    // Check for overtime
+                    const linescore = game.Linescore || {};
+                    const otPeriods = (linescore.away?.OT?.length || 0);
+                    const otText = otPeriods > 0 ? ` (${otPeriods > 1 ? otPeriods + 'OT' : 'OT'})` : '';
+
+                    // Milestone badges (compact display with expandable)
+                    const allBadges = [...(upsetBadge ? [{text: 'UPSET', title: upsetBadge.match(/title="([^"]+)"/)?.[1] || 'Upset', type: 'upset'}] : []), ...milestones.badges];
+                    const visibleBadges = allBadges.slice(0, 3);
+                    const hiddenBadges = allBadges.slice(3);
+                    const gameIdSafe = (game.GameID || '').replace(/[^a-zA-Z0-9]/g, '_');
+
+                    let badgeHtml = visibleBadges.map(b =>
+                        b.type === 'upset'
+                            ? `<span class="upset-badge" title="${b.title}">UPSET</span>`
+                            : `<span class="milestone-badge" title="${b.title}">${b.text}</span>`
+                    ).join('');
+
+                    if (hiddenBadges.length > 0) {
+                        const hiddenHtml = hiddenBadges.map(b =>
+                            `<span class="milestone-badge" title="${b.title}">${b.text}</span>`
+                        ).join('');
+                        badgeHtml += `<span class="milestone-badge more" onclick="toggleBadges('${gameIdSafe}', event)" title="Click to show ${hiddenBadges.length} more">+${hiddenBadges.length}</span>`;
+                        badgeHtml += `<span id="badges-hidden-${gameIdSafe}" class="badges-hidden">${hiddenHtml}</span>`;
+                    }
 
                     // AP ranking display
                     const awayRank = game.AwayRank ? `<span class="ap-rank" title="AP #${game.AwayRank}">#${game.AwayRank}</span> ` : '';
@@ -1236,12 +1312,12 @@ def get_javascript(json_data: str) -> str:
                     <tr class="${game.AwayRank && game.HomeRank ? 'ranked-matchup' : game.AwayRank || game.HomeRank ? 'has-ranked' : ''}">
                         <td>${game.Date || ''} <a href="${getSportsRefUrl(game)}" target="_blank" title="View on Sports Reference" class="external-link">&#8599;</a></td>
                         <td>${awayRank}<span class="team-link" onclick="filterByTeam('${game['Away Team'] || ''}', '${game.Gender || 'M'}')">${game['Away Team'] || ''}</span>${genderTag}</td>
-                        <td><span class="game-link" onclick="showGameDetail('${game.GameID || ''}')">${game['Away Score'] || 0}-${game['Home Score'] || 0}</span>${badgeHtml}</td>
+                        <td><span class="game-link" onclick="showGameDetail('${game.GameID || ''}')">${game['Away Score'] || 0}-${game['Home Score'] || 0}${otText}</span></td>
                         <td>${homeRank}<span class="team-link" onclick="filterByTeam('${game['Home Team'] || ''}', '${game.Gender || 'M'}')">${game['Home Team'] || ''}</span>${genderTag}</td>
                         <td><span class="venue-link" onclick="showVenueDetail('${game.Venue || ''}')">${game.Venue || ''}</span></td>
                         <td>${game.City || ''}</td>
                         <td>${game.State || ''}</td>
-                        <td>${game.Notes || ''}</td>
+                        <td class="badges-cell">${badgeHtml}</td>
                     </tr>
                 `}).join('');
             }
@@ -1678,7 +1754,8 @@ def get_javascript(json_data: str) -> str:
 
             tbody.innerHTML = futurePros.map(player => {
                 const playerId = player['Player ID'] || '';
-                const genderTag = player.Gender === 'W' ? ' <span class="gender-tag">(W)</span>' : '';
+                // Don't show (W) gender tag if player has WNBA badge - it's redundant
+                const genderTag = (player.Gender === 'W' && !player.WNBA) ? ' <span class="gender-tag">(W)</span>' : '';
                 const sportsRefLink = getPlayerSportsRefLink(player);
 
                 // Determine primary league and build badges

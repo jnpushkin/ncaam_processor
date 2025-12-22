@@ -18,7 +18,7 @@ def get_head(css: str) -> str:
 </head>"""
 
 
-def get_body(total_games: int, total_players: int, total_teams: int, total_venues: int, total_points: int, future_pros: int, generated_time: str) -> str:
+def get_body(total_games: int, total_players: int, total_teams: int, total_venues: int, total_points: int, ranked_matchups: int, upsets: int, future_pros: int, generated_time: str) -> str:
     """
     Return the HTML body content.
 
@@ -68,6 +68,16 @@ def get_body(total_games: int, total_players: int, total_teams: int, total_venue
                 <div class="number">{TOTAL_POINTS_PLACEHOLDER}</div>
                 <div class="label">Points</div>
             </div>
+            <div class="stat-box">
+                <div class="icon">&#127941;</div>
+                <div class="number">{RANKED_MATCHUPS_PLACEHOLDER}</div>
+                <div class="label">Ranked Matchups</div>
+            </div>
+            <div class="stat-box">
+                <div class="icon">&#128165;</div>
+                <div class="number">{UPSETS_PLACEHOLDER}</div>
+                <div class="label">Ranked Upsets</div>
+            </div>
             <div class="stat-box highlight">
                 <div class="icon">&#11088;</div>
                 <div class="number">{FUTURE_PROS_PLACEHOLDER}</div>
@@ -81,16 +91,14 @@ def get_body(total_games: int, total_players: int, total_teams: int, total_venue
         <div class="tabs" role="tablist">
             <button class="tab active" onclick="showSection('games')" role="tab" aria-selected="true" data-section="games" tabindex="0">Games</button>
             <button class="tab" onclick="showSection('players')" role="tab" aria-selected="false" data-section="players" tabindex="-1">Players</button>
-            <button class="tab" onclick="showSection('milestones')" role="tab" aria-selected="false" data-section="milestones" tabindex="-1">Milestones</button>
+            <button class="tab" onclick="showSection('milestones')" role="tab" aria-selected="false" data-section="milestones" tabindex="-1">Achievements</button>
             <button class="tab" onclick="showSection('teams')" role="tab" aria-selected="false" data-section="teams" tabindex="-1">Teams</button>
+            <button class="tab" onclick="showSection('matchups')" role="tab" aria-selected="false" data-section="matchups" tabindex="-1">Matchups</button>
             <button class="tab" onclick="showSection('venues')" role="tab" aria-selected="false" data-section="venues" tabindex="-1">Venues</button>
-            <button class="tab" onclick="showSection('badges')" role="tab" aria-selected="false" data-section="badges" tabindex="-1">Badges</button>
             <button class="tab" onclick="showSection('calendar')" role="tab" aria-selected="false" data-section="calendar" tabindex="-1">Calendar</button>
             <button class="tab" onclick="showSection('checklist')" role="tab" aria-selected="false" data-section="checklist" tabindex="-1">Checklist</button>
             <button class="tab" onclick="showSection('map')" role="tab" aria-selected="false" data-section="map" tabindex="-1">Map</button>
-            <button class="tab" onclick="showSection('compare')" role="tab" aria-selected="false" data-section="compare" tabindex="-1">Compare</button>
-            <button class="tab" onclick="showSection('charts')" role="tab" aria-selected="false" data-section="charts" tabindex="-1">Charts</button>
-            <button class="tab" onclick="showSection('future-pros')" role="tab" aria-selected="false" data-section="future-pros" tabindex="-1">Future Pros ⭐</button>
+            <button class="tab" onclick="showSection('future-pros')" role="tab" aria-selected="false" data-section="future-pros" tabindex="-1">Future Pros</button>
         </div>
 
         <div id="games" class="section active" role="tabpanel">
@@ -106,6 +114,14 @@ def get_body(total_games: int, total_players: int, total_teams: int, total_venue
             </div>
 
             <div id="games-log" class="sub-section active">
+            <div class="quick-filters">
+                <button class="quick-filter active" onclick="quickFilterGames('all')">All</button>
+                <button class="quick-filter" onclick="quickFilterGames('ranked')">Ranked</button>
+                <button class="quick-filter" onclick="quickFilterGames('upsets')">Upsets</button>
+                <button class="quick-filter" onclick="quickFilterGames('ot')">OT</button>
+                <button class="quick-filter" onclick="quickFilterGames('mens')">Men's</button>
+                <button class="quick-filter" onclick="quickFilterGames('womens')">Women's</button>
+            </div>
             <div class="filters" id="games-filters">
                 <div class="filter-group">
                     <label for="games-search">Search</label>
@@ -160,7 +176,7 @@ def get_body(total_games: int, total_players: int, total_teams: int, total_venue
                             <th onclick="sortTable('games-table', 4)" class="tooltip" data-tooltip="Click to see all games">Venue</th>
                             <th onclick="sortTable('games-table', 5)">City</th>
                             <th onclick="sortTable('games-table', 6)">State</th>
-                            <th onclick="sortTable('games-table', 7)">Notes</th>
+                            <th>Badges</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -354,31 +370,84 @@ def get_body(total_games: int, total_players: int, total_teams: int, total_venue
         </div>
 
         <div id="milestones" class="section" role="tabpanel">
-            <h2>
-                Milestones
-                <div class="section-actions">
-                    <button class="btn btn-secondary" onclick="downloadCSV('milestones')">Download CSV</button>
+            <h2>Achievements</h2>
+            <p style="margin-bottom: 1rem; color: var(--text-secondary);">Your collection of game attendance milestones and achievements.</p>
+
+            <div class="badges-summary" id="badges-summary">
+                <div class="stat-box">
+                    <div class="number" id="badges-total">0</div>
+                    <div class="label">Total Badges</div>
                 </div>
-            </h2>
-            <div class="milestone-grid" id="milestone-grid" role="listbox"></div>
-            <div id="milestones-empty" class="empty-state" style="display:none;">
-                <div class="empty-state-icon">&#127942;</div>
-                <h3>No milestones yet</h3>
-                <p>Milestones will appear here as players achieve them</p>
+                <div class="stat-box">
+                    <div class="number" id="badges-conferences-complete">0</div>
+                    <div class="label">Conferences Complete</div>
+                </div>
+                <div class="stat-box">
+                    <div class="number" id="badges-venues-count">0</div>
+                    <div class="label">Venues Visited</div>
+                </div>
+                <div class="stat-box">
+                    <div class="number" id="badges-matchups">0</div>
+                    <div class="label">First Matchups</div>
+                </div>
             </div>
-            <div class="table-container">
-                <table id="milestones-table" aria-label="Milestone Details">
-                    <thead>
-                        <tr>
-                            <th onclick="sortTable('milestones-table', 0)">Date</th>
-                            <th onclick="sortTable('milestones-table', 1)">Player</th>
-                            <th onclick="sortTable('milestones-table', 2)">Team</th>
-                            <th onclick="sortTable('milestones-table', 3)">Opponent</th>
-                            <th>Detail</th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
+
+            <div class="sub-tabs">
+                <button class="sub-tab active" onclick="showSubSection('milestones', 'badges-all')">All Badges</button>
+                <button class="sub-tab" onclick="showSubSection('milestones', 'conferences')">Conference Progress</button>
+                <button class="sub-tab" onclick="showSubSection('milestones', 'player-milestones')">Player Milestones</button>
+                <button class="sub-tab" onclick="showSubSection('milestones', 'venues')">Venue Badges</button>
+                <button class="sub-tab" onclick="showSubSection('milestones', 'special')">Special</button>
+            </div>
+
+            <div id="milestones-badges-all" class="sub-section active">
+                <div class="badges-grid" id="all-badges-grid"></div>
+            </div>
+
+            <div id="milestones-conferences" class="sub-section">
+                <p style="margin-bottom: 1rem; color: var(--text-secondary);">Track your progress toward seeing every team in each conference.</p>
+                <div class="filters" style="margin-bottom: 1rem;">
+                    <div class="filter-group">
+                        <label for="conf-progress-gender">Gender</label>
+                        <select id="conf-progress-gender" onchange="populateConferenceProgress()">
+                            <option value="">All</option>
+                            <option value="M">Men's</option>
+                            <option value="W">Women's</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="conference-progress-grid" class="conference-progress-grid"></div>
+            </div>
+
+            <div id="milestones-player-milestones" class="sub-section">
+                <div class="milestone-grid" id="milestone-grid" role="listbox"></div>
+                <div id="milestones-empty" class="empty-state" style="display:none;">
+                    <div class="empty-state-icon">&#127942;</div>
+                    <h3>No milestones yet</h3>
+                    <p>Milestones will appear here as players achieve them</p>
+                </div>
+                <div class="table-container">
+                    <table id="milestones-table" aria-label="Milestone Details">
+                        <thead>
+                            <tr>
+                                <th onclick="sortTable('milestones-table', 0)">Date</th>
+                                <th onclick="sortTable('milestones-table', 1)">Player</th>
+                                <th onclick="sortTable('milestones-table', 2)">Team</th>
+                                <th onclick="sortTable('milestones-table', 3)">Opponent</th>
+                                <th>Detail</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="milestones-venues" class="sub-section">
+                <div class="badges-grid" id="venue-badges-grid"></div>
+            </div>
+
+            <div id="milestones-special" class="sub-section">
+                <div class="badges-grid" id="special-badges-grid"></div>
             </div>
         </div>
 
@@ -395,8 +464,6 @@ def get_body(total_games: int, total_players: int, total_teams: int, total_venue
                 <button class="sub-tab" onclick="showSubSection('teams', 'splits')">Home/Away</button>
                 <button class="sub-tab" onclick="showSubSection('teams', 'conference')">Conference</button>
                 <button class="sub-tab" onclick="showSubSection('teams', 'headtohead')">Head-to-Head</button>
-                <button class="sub-tab" onclick="showSubSection('teams', 'matrix')">Matchup Matrix</button>
-                <button class="sub-tab" onclick="showSubSection('teams', 'crossover')">Conference Matchups</button>
             </div>
 
             <div id="teams-records" class="sub-section active">
@@ -436,8 +503,8 @@ def get_body(total_games: int, total_players: int, total_teams: int, total_venue
                             <tr>
                                 <th onclick="sortTable('streaks-table', 0)">Team</th>
                                 <th onclick="sortTable('streaks-table', 1)" class="tooltip" data-tooltip="Current win/loss streak">Current</th>
-                                <th onclick="sortTable('streaks-table', 2)" class="tooltip" data-tooltip="Longest winning streak">Best Win</th>
-                                <th onclick="sortTable('streaks-table', 3)" class="tooltip" data-tooltip="Longest losing streak">Worst Loss</th>
+                                <th onclick="sortTable('streaks-table', 2)" class="tooltip" data-tooltip="Longest winning streak">Longest Win Streak</th>
+                                <th onclick="sortTable('streaks-table', 3)" class="tooltip" data-tooltip="Longest losing streak">Longest Losing Streak</th>
                                 <th onclick="sortTable('streaks-table', 4)" class="tooltip" data-tooltip="Record in last 5 games">Last 5</th>
                                 <th onclick="sortTable('streaks-table', 5)" class="tooltip" data-tooltip="Record in last 10 games">Last 10</th>
                             </tr>
@@ -498,7 +565,16 @@ def get_body(total_games: int, total_players: int, total_teams: int, total_venue
                 </div>
             </div>
 
-            <div id="teams-matrix" class="sub-section">
+        </div>
+
+        <div id="matchups" class="section" role="tabpanel">
+            <h2>Matchups</h2>
+            <div class="sub-tabs">
+                <button class="sub-tab active" onclick="showSubSection('matchups', 'matrix')">Team Matrix</button>
+                <button class="sub-tab" onclick="showSubSection('matchups', 'conferences')">Conference Matchups</button>
+            </div>
+
+            <div id="matchups-matrix" class="sub-section active">
                 <p style="margin-bottom: 1rem; color: var(--text-secondary);">View head-to-head records between all teams. Click a cell to see game details.</p>
                 <div class="matrix-filters">
                     <div class="filter-group">
@@ -522,13 +598,12 @@ def get_body(total_games: int, total_players: int, total_teams: int, total_venue
                 </div>
             </div>
 
-            <div id="teams-crossover" class="sub-section">
+            <div id="matchups-conferences" class="sub-section">
                 <p style="margin-bottom: 1rem; color: var(--text-secondary);">See which conference vs conference matchups you've witnessed. Click a cell to filter games.</p>
                 <div class="conf-crossover-container">
                     <div id="conf-crossover-matrix"></div>
                 </div>
             </div>
-
         </div>
 
         <div id="venues" class="section" role="tabpanel">
@@ -555,69 +630,6 @@ def get_body(total_games: int, total_players: int, total_teams: int, total_venue
                     </thead>
                     <tbody></tbody>
                 </table>
-            </div>
-        </div>
-
-        <div id="badges" class="section" role="tabpanel">
-            <h2>Badges & Achievements</h2>
-            <p style="margin-bottom: 1rem; color: var(--text-secondary);">Your collection of game attendance milestones and achievements.</p>
-
-            <div class="badges-summary" id="badges-summary">
-                <div class="stat-box">
-                    <div class="number" id="badges-total">0</div>
-                    <div class="label">Total Badges</div>
-                </div>
-                <div class="stat-box">
-                    <div class="number" id="badges-conferences-complete">0</div>
-                    <div class="label">Conferences Complete</div>
-                </div>
-                <div class="stat-box">
-                    <div class="number" id="badges-venues-count">0</div>
-                    <div class="label">Venues Visited</div>
-                </div>
-                <div class="stat-box">
-                    <div class="number" id="badges-matchups">0</div>
-                    <div class="label">First Matchups</div>
-                </div>
-            </div>
-
-            <div class="sub-tabs">
-                <button class="sub-tab active" onclick="showSubSection('badges', 'all')">All Badges</button>
-                <button class="sub-tab" onclick="showSubSection('badges', 'conferences')">Conference Progress</button>
-                <button class="sub-tab" onclick="showSubSection('badges', 'teams')">Team Milestones</button>
-                <button class="sub-tab" onclick="showSubSection('badges', 'venues')">Venue Badges</button>
-                <button class="sub-tab" onclick="showSubSection('badges', 'special')">Special</button>
-            </div>
-
-            <div id="badges-all" class="sub-section active">
-                <div class="badges-grid" id="all-badges-grid"></div>
-            </div>
-
-            <div id="badges-conferences" class="sub-section">
-                <p style="margin-bottom: 1rem; color: var(--text-secondary);">Track your progress toward seeing every team in each conference.</p>
-                <div class="filters" style="margin-bottom: 1rem;">
-                    <div class="filter-group">
-                        <label for="conf-progress-gender">Gender</label>
-                        <select id="conf-progress-gender" onchange="populateConferenceProgress()">
-                            <option value="">All</option>
-                            <option value="M">Men's</option>
-                            <option value="W">Women's</option>
-                        </select>
-                    </div>
-                </div>
-                <div id="conference-progress-grid" class="conference-progress-grid"></div>
-            </div>
-
-            <div id="badges-teams" class="sub-section">
-                <div class="badges-grid" id="team-badges-grid"></div>
-            </div>
-
-            <div id="badges-venues" class="sub-section">
-                <div class="badges-grid" id="venue-badges-grid"></div>
-            </div>
-
-            <div id="badges-special" class="sub-section">
-                <div class="badges-grid" id="special-badges-grid"></div>
             </div>
         </div>
 
@@ -727,44 +739,6 @@ def get_body(total_games: int, total_players: int, total_teams: int, total_venue
             </div>
         </div>
 
-        <div id="compare" class="section" role="tabpanel">
-            <h2>Player Comparison</h2>
-            <div class="controls">
-                <select class="compare-select" id="compare-player1" onchange="updateComparison()" aria-label="Select first player">
-                    <option value="">Select Player 1...</option>
-                </select>
-                <span>vs</span>
-                <select class="compare-select" id="compare-player2" onchange="updateComparison()" aria-label="Select second player">
-                    <option value="">Select Player 2...</option>
-                </select>
-            </div>
-            <div class="compare-grid" id="compare-grid">
-                <div class="empty-state">
-                    <div class="empty-state-icon">&#128101;</div>
-                    <h3>Select two players</h3>
-                    <p>Choose players from the dropdowns above to compare their statistics</p>
-                </div>
-            </div>
-            <div class="chart-container">
-                <canvas id="compare-chart"></canvas>
-            </div>
-        </div>
-
-        <div id="charts" class="section" role="tabpanel">
-            <h2>Statistics Charts</h2>
-            <div class="sub-tabs">
-                <button class="sub-tab active" onclick="showChart('scoring')">Top Scorers</button>
-                <button class="sub-tab" onclick="showChart('rebounds')">Top Rebounders</button>
-                <button class="sub-tab" onclick="showChart('assists')">Top Assists</button>
-                <button class="sub-tab" onclick="showChart('efficiency')">Shooting Efficiency</button>
-                <button class="sub-tab" onclick="showChart('teams')">Team Wins</button>
-                <button class="sub-tab" onclick="showChart('trends')">Scoring Trends</button>
-            </div>
-            <div class="chart-container">
-                <canvas id="stats-chart"></canvas>
-            </div>
-        </div>
-
         <div id="future-pros" class="section" role="tabpanel">
             <h2>Future Pros ⭐</h2>
             <p style="margin-bottom: 1rem; color: var(--text-secondary);">Players you've seen in college who went on to play professionally (NBA, WNBA, or overseas).</p>
@@ -837,6 +811,8 @@ def get_body(total_games: int, total_players: int, total_teams: int, total_venue
         .replace('{TOTAL_TEAMS_PLACEHOLDER}', str(total_teams))
         .replace('{TOTAL_VENUES_PLACEHOLDER}', str(total_venues))
         .replace('{TOTAL_POINTS_PLACEHOLDER}', f'{total_points:,}')
+        .replace('{RANKED_MATCHUPS_PLACEHOLDER}', str(ranked_matchups))
+        .replace('{UPSETS_PLACEHOLDER}', str(upsets))
         .replace('{FUTURE_PROS_PLACEHOLDER}', str(future_pros))
         .replace('{GENERATED_TIME_PLACEHOLDER}', generated_time))
 
@@ -880,18 +856,16 @@ def get_navigation() -> str:
             <button class="tab" onclick="showSection('calendar')" role="tab" aria-selected="false" data-section="calendar" tabindex="-1">Calendar</button>
             <button class="tab" onclick="showSection('checklist')" role="tab" aria-selected="false" data-section="checklist" tabindex="-1">Checklist</button>
             <button class="tab" onclick="showSection('map')" role="tab" aria-selected="false" data-section="map" tabindex="-1">Map</button>
-            <button class="tab" onclick="showSection('compare')" role="tab" aria-selected="false" data-section="compare" tabindex="-1">Compare</button>
-            <button class="tab" onclick="showSection('charts')" role="tab" aria-selected="false" data-section="charts" tabindex="-1">Charts</button>
         </div>"""
 
 
-def get_main_content(total_games: int, total_players: int, total_teams: int, total_venues: int, total_points: int, future_pros: int, generated_time: str) -> str:
+def get_main_content(total_games: int, total_players: int, total_teams: int, total_venues: int, total_points: int, ranked_matchups: int, upsets: int, future_pros: int, generated_time: str) -> str:
     """
     Return the full body HTML content.
 
     This is the main function to use for getting all body content.
     """
-    return get_body(total_games, total_players, total_teams, total_venues, total_points, future_pros, generated_time)
+    return get_body(total_games, total_players, total_teams, total_venues, total_points, ranked_matchups, upsets, future_pros, generated_time)
 
 
 def get_modals() -> str:

@@ -188,12 +188,9 @@ class DataSerializer:
 
         # Batch fetch NBA/international status for all players
         skip_nba = getattr(self, '_skip_nba', False)
-        if skip_nba:
-            # Skip NBA lookups entirely for faster generation
-            pro_status = {}
-        else:
-            player_ids = [r.get('Player ID', '') for r in records if r.get('Player ID')]
-            pro_status = get_nba_status_batch(player_ids, max_fetch=999)
+        player_ids = [r.get('Player ID', '') for r in records if r.get('Player ID')]
+        # Use cache_only=-1 to skip new lookups but still use cached data
+        pro_status = get_nba_status_batch(player_ids, max_fetch=-1 if skip_nba else 999)
 
         # Add NBA and International flags to each player
         for record in records:
@@ -359,7 +356,7 @@ class DataSerializer:
 
     def _serialize_conference_checklist(self) -> Dict[str, Any]:
         """Serialize conference checklist data - teams and venues seen per conference."""
-        from ..utils.constants import CONFERENCES, TEAM_ALIASES
+        from ..utils.constants import CONFERENCES, TEAM_ALIASES, DEFUNCT_TEAMS
         from ..utils.venue_resolver import get_venue_resolver, parse_venue_components
 
         game_log = self.processed_data.get('game_log', pd.DataFrame())
@@ -433,9 +430,17 @@ class DataSerializer:
         all_d1_teams = []  # For "All D1" option
         all_conference_teams = set()  # Track all teams in conferences
 
+        # Skip non-D1 conferences
+        skip_conferences = {'D3', 'D2', 'NAIA', 'Non-D1'}
+
         for conf_name, conf_teams in CONFERENCES.items():
+            if conf_name in skip_conferences:
+                continue
             teams_data = []
             for team in sorted(conf_teams):
+                # Skip defunct teams - they count for badges but not checklist
+                if team in DEFUNCT_TEAMS:
+                    continue
                 all_conference_teams.add(team)
                 # Also add aliases to the set
                 aliases = reverse_aliases.get(team, [])
