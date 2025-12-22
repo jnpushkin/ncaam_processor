@@ -19,7 +19,7 @@ A Python tool for parsing Sports Reference HTML box scores and generating statis
 
 ```bash
 # Clone the repository
-git clone https://github.com/YOUR_USERNAME/ncaam_processor.git
+git clone https://github.com/jnpushkin/ncaam_processor.git
 cd ncaam_processor
 
 # Install dependencies
