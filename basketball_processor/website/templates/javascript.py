@@ -1225,11 +1225,8 @@ def get_javascript(json_data: str) -> str:
                         upsetBadge = `<span class="upset-badge" title="Upset! #${awayRankNum} ${game['Away Team']} lost to ${homeRankNum < 999 ? '#' + homeRankNum + ' ' : ''}${game['Home Team']}">UPSET</span>`;
                     }
 
-                    // Wrap milestone badges in container for overflow control
-                    const milestoneBadges = milestones.badges.map(b =>
-                        `<span class="first-matchup-badge" title="${b.title}">${b.text}</span>`
-                    ).join('');
-                    const badgeHtml = `<span class="badge-container">${upsetBadge}${milestoneBadges}</span>`;
+                    // Only show upset badge inline - milestone badges available in game detail
+                    const badgeHtml = upsetBadge;
 
                     // AP ranking display
                     const awayRank = game.AwayRank ? `<span class="ap-rank" title="AP #${game.AwayRank}">#${game.AwayRank}</span> ` : '';
@@ -1239,12 +1236,12 @@ def get_javascript(json_data: str) -> str:
                     <tr class="${game.AwayRank && game.HomeRank ? 'ranked-matchup' : game.AwayRank || game.HomeRank ? 'has-ranked' : ''}">
                         <td>${game.Date || ''} <a href="${getSportsRefUrl(game)}" target="_blank" title="View on Sports Reference" class="external-link">&#8599;</a></td>
                         <td>${awayRank}<span class="team-link" onclick="filterByTeam('${game['Away Team'] || ''}', '${game.Gender || 'M'}')">${game['Away Team'] || ''}</span>${genderTag}</td>
-                        <td><span class="game-link" onclick="showGameDetail('${game.GameID || ''}')">${game['Away Score'] || 0}-${game['Home Score'] || 0}</span></td>
+                        <td><span class="game-link" onclick="showGameDetail('${game.GameID || ''}')">${game['Away Score'] || 0}-${game['Home Score'] || 0}</span>${badgeHtml}</td>
                         <td>${homeRank}<span class="team-link" onclick="filterByTeam('${game['Home Team'] || ''}', '${game.Gender || 'M'}')">${game['Home Team'] || ''}</span>${genderTag}</td>
                         <td><span class="venue-link" onclick="showVenueDetail('${game.Venue || ''}')">${game.Venue || ''}</span></td>
                         <td>${game.City || ''}</td>
                         <td>${game.State || ''}</td>
-                        <td>${game.Notes || ''}${badgeHtml}</td>
+                        <td>${game.Notes || ''}</td>
                     </tr>
                 `}).join('');
             }
