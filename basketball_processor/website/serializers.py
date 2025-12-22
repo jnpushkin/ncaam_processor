@@ -23,13 +23,18 @@ class DataSerializer:
         self.processed_data = processed_data
         self.raw_games = raw_games or []
 
-    def serialize_all(self) -> Dict[str, Any]:
+    def serialize_all(self, skip_nba: bool = False) -> Dict[str, Any]:
         """
         Serialize all data for website.
+
+        Args:
+            skip_nba: If True, skip NBA/WNBA player lookups for faster generation
 
         Returns:
             Dictionary ready for JSON encoding
         """
+        self._skip_nba = skip_nba
+
         # Auto-refresh conference data if needed (runs every ~90 days)
         try:
             from ..utils.school_history_scraper import auto_refresh_if_needed
@@ -37,8 +42,9 @@ class DataSerializer:
         except ImportError:
             pass
 
-        # Check female players for WNBA status before serialization
-        recheck_female_players_for_wnba()
+        # Check female players for WNBA status before serialization (unless skipped)
+        if not skip_nba:
+            recheck_female_players_for_wnba()
 
         summary = self._serialize_summary()
         players = self._serialize_players()
@@ -151,14 +157,19 @@ class DataSerializer:
         records = self._df_to_records(players)
 
         # Batch fetch NBA/international status for all players
-        player_ids = [r.get('Player ID', '') for r in records if r.get('Player ID')]
-        pro_status = get_nba_status_batch(player_ids)
+        skip_nba = getattr(self, '_skip_nba', False)
+        if skip_nba:
+            # Skip NBA lookups entirely for faster generation
+            pro_status = {}
+        else:
+            player_ids = [r.get('Player ID', '') for r in records if r.get('Player ID')]
+            pro_status = get_nba_status_batch(player_ids, max_fetch=999)
 
         # Add NBA and International flags to each player
         for record in records:
             player_id = record.get('Player ID', '')
             pro_info = pro_status.get(player_id) if player_id else None
-            if not pro_info:
+            if not pro_info and not skip_nba:
                 pro_info = get_nba_player_info_by_id(player_id)
 
             # NBA info

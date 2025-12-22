@@ -15,13 +15,14 @@ from .templates import get_css, get_javascript, get_head, get_body
 from ..utils.log import info
 
 
-def generate_website_from_data(processed_data: Dict[str, Any], output_path: str) -> None:
+def generate_website_from_data(processed_data: Dict[str, Any], output_path: str, skip_nba: bool = False) -> None:
     """
     Generate interactive HTML website from processed data.
 
     Args:
         processed_data: Dictionary containing processed DataFrames
         output_path: Path to save the HTML file
+        skip_nba: If True, skip NBA/WNBA player lookups for faster generation
     """
     info(f"Generating website: {output_path}")
 
@@ -30,7 +31,7 @@ def generate_website_from_data(processed_data: Dict[str, Any], output_path: str)
 
     # Serialize data
     serializer = DataSerializer(processed_data, raw_games)
-    data = serializer.serialize_all()
+    data = serializer.serialize_all(skip_nba=skip_nba)
     json_data = json.dumps(data, default=str)
 
     # Generate HTML

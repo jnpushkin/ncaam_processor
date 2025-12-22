@@ -265,6 +265,11 @@ def main() -> None:
         action='store_true',
         help='Disable emoji in console output'
     )
+    parser.add_argument(
+        '--skip-nba',
+        action='store_true',
+        help='Skip NBA/WNBA player lookups (faster website generation)'
+    )
 
     args = parser.parse_args()
 
@@ -332,7 +337,7 @@ def main() -> None:
 
             html_path = args.output_excel.replace('.xlsx', '.html')
             processed_data['_raw_games'] = games_data
-            generate_website_from_data(processed_data, html_path)
+            generate_website_from_data(processed_data, html_path, skip_nba=args.skip_nba)
 
             success("\nProcessing complete!")
             info(f"Website: {os.path.abspath(html_path)}")
@@ -370,7 +375,7 @@ def main() -> None:
 
             html_path = args.output_excel.replace('.xlsx', '.html')
             processed_data['_raw_games'] = games_data
-            generate_website_from_data(processed_data, html_path)
+            generate_website_from_data(processed_data, html_path, skip_nba=args.skip_nba)
 
             success("\nProcessing complete!")
             info(f"Excel: {os.path.abspath(args.output_excel)}")
