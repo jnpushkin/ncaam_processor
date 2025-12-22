@@ -5,8 +5,11 @@ Scrapes historical AP poll data from Sports Reference with rate limiting
 and caching to avoid excessive requests.
 
 Usage:
-    # Scrape and cache current season
+    # Scrape and cache current season (men's)
     python -m basketball_processor.scrapers.poll_scraper
+
+    # Scrape women's polls
+    python -m basketball_processor.scrapers.poll_scraper --gender W
 
     # Scrape specific season
     python -m basketball_processor.scrapers.poll_scraper --season 2024-25
@@ -31,19 +34,26 @@ except ImportError:
 
 
 # Rate limiting: Sports Reference asks for 3+ seconds between requests
-REQUEST_DELAY = 4  # seconds between requests
+REQUEST_DELAY = 3.05  # seconds between requests
 USER_AGENT = "Mozilla/5.0 (compatible; CollegeBasketballTracker/1.0)"
 
 # File paths
 REFERENCES_DIR = Path(__file__).parent.parent / "references"
-POLLS_FILE = REFERENCES_DIR / "ap_polls.json"
+POLLS_FILE_MEN = REFERENCES_DIR / "ap_polls.json"
+POLLS_FILE_WOMEN = REFERENCES_DIR / "ap_polls_women.json"
 
 
-def get_season_url(season: str) -> str:
+def get_polls_file(gender: str = 'M') -> Path:
+    """Get the polls JSON file path for the given gender."""
+    return POLLS_FILE_WOMEN if gender == 'W' else POLLS_FILE_MEN
+
+
+def get_season_url(season: str, gender: str = 'M') -> str:
     """Get Sports Reference URL for a season's polls.
 
     Args:
         season: Season string like '2025-26' or '2026' (end year)
+        gender: 'M' for men's, 'W' for women's
 
     Returns:
         URL string
@@ -54,7 +64,8 @@ def get_season_url(season: str) -> str:
     else:
         end_year = int(season)
 
-    return f"https://www.sports-reference.com/cbb/seasons/men/{end_year}-polls.html"
+    gender_path = "women" if gender == 'W' else "men"
+    return f"https://www.sports-reference.com/cbb/seasons/{gender_path}/{end_year}-polls.html"
 
 
 def parse_poll_table(soup: BeautifulSoup) -> Dict[str, Dict[str, int]]:
@@ -213,31 +224,34 @@ def load_polls_from_file(filepath: Path) -> Optional[BeautifulSoup]:
         return BeautifulSoup(f.read(), 'html.parser')
 
 
-def load_existing_polls() -> Dict[str, Dict[str, Dict[str, int]]]:
+def load_existing_polls(gender: str = 'M') -> Dict[str, Dict[str, Dict[str, int]]]:
     """Load existing polls data from JSON file."""
-    if POLLS_FILE.exists():
+    polls_file = get_polls_file(gender)
+    if polls_file.exists():
         try:
-            with open(POLLS_FILE, 'r') as f:
+            with open(polls_file, 'r') as f:
                 return json.load(f)
         except (json.JSONDecodeError, IOError):
             pass
     return {}
 
 
-def save_polls(all_polls: Dict[str, Dict[str, Dict[str, int]]]):
+def save_polls(all_polls: Dict[str, Dict[str, Dict[str, int]]], gender: str = 'M'):
     """Save polls data to JSON file."""
     REFERENCES_DIR.mkdir(parents=True, exist_ok=True)
-    with open(POLLS_FILE, 'w') as f:
+    polls_file = get_polls_file(gender)
+    with open(polls_file, 'w') as f:
         json.dump(all_polls, f, indent=2, sort_keys=True)
-    print(f"Saved polls to: {POLLS_FILE}")
+    print(f"Saved polls to: {polls_file}")
 
 
-def scrape_season_polls(season: str, local_file: Optional[Path] = None) -> Dict[str, Dict[str, int]]:
+def scrape_season_polls(season: str, local_file: Optional[Path] = None, gender: str = 'M') -> Dict[str, Dict[str, int]]:
     """Scrape AP polls for a season.
 
     Args:
         season: Season string like '2025-26'
         local_file: Optional local HTML file to use instead of scraping
+        gender: 'M' for men's, 'W' for women's
 
     Returns:
         Dict mapping ISO date -> {team_name: rank}
@@ -245,7 +259,7 @@ def scrape_season_polls(season: str, local_file: Optional[Path] = None) -> Dict[
     if local_file:
         soup = load_polls_from_file(local_file)
     else:
-        url = get_season_url(season)
+        url = get_season_url(season, gender)
         soup = fetch_polls_from_url(url)
 
     if not soup:
@@ -261,18 +275,19 @@ def scrape_season_polls(season: str, local_file: Optional[Path] = None) -> Dict[
     return normalized
 
 
-def get_team_rank(team_name: str, game_date: str, season: str) -> Optional[int]:
+def get_team_rank(team_name: str, game_date: str, season: str, gender: str = 'M') -> Optional[int]:
     """Get a team's AP ranking for a specific game date.
 
     Args:
         team_name: Team name to look up
         game_date: Game date in ISO format (YYYY-MM-DD)
         season: Season string like '2025-26'
+        gender: 'M' for men's, 'W' for women's
 
     Returns:
         Rank (1-25) or None if unranked
     """
-    all_polls = load_existing_polls()
+    all_polls = load_existing_polls(gender)
 
     if season not in all_polls:
         return None
@@ -316,14 +331,14 @@ def get_team_rank(team_name: str, game_date: str, season: str) -> Optional[int]:
     return None
 
 
-def get_rankings_for_game(away_team: str, home_team: str, game_date: str, season: str) -> Tuple[Optional[int], Optional[int]]:
+def get_rankings_for_game(away_team: str, home_team: str, game_date: str, season: str, gender: str = 'M') -> Tuple[Optional[int], Optional[int]]:
     """Get rankings for both teams in a game.
 
     Returns:
         Tuple of (away_rank, home_rank), None if unranked
     """
-    away_rank = get_team_rank(away_team, game_date, season)
-    home_rank = get_team_rank(home_team, game_date, season)
+    away_rank = get_team_rank(away_team, game_date, season, gender)
+    home_rank = get_team_rank(home_team, game_date, season, gender)
     return away_rank, home_rank
 
 
@@ -335,29 +350,32 @@ def main():
     parser.add_argument('--season', default='2025-26', help='Season to scrape (e.g., 2025-26)')
     parser.add_argument('--local', type=Path, help='Load from local HTML file instead of scraping')
     parser.add_argument('--list', action='store_true', help='List cached seasons')
+    parser.add_argument('--gender', choices=['M', 'W'], default='M', help="Gender: M=men's, W=women's")
 
     args = parser.parse_args()
 
+    gender_label = "Women's" if args.gender == 'W' else "Men's"
+
     if args.list:
-        all_polls = load_existing_polls()
-        print("Cached seasons:")
+        all_polls = load_existing_polls(args.gender)
+        print(f"Cached {gender_label} seasons:")
         for season in sorted(all_polls.keys()):
             weeks = len(all_polls[season])
             print(f"  {season}: {weeks} poll weeks")
         return
 
     # Load existing data
-    all_polls = load_existing_polls()
+    all_polls = load_existing_polls(args.gender)
 
     # Scrape the requested season
-    season_polls = scrape_season_polls(args.season, args.local)
+    season_polls = scrape_season_polls(args.season, args.local, args.gender)
 
     if season_polls:
         all_polls[args.season] = season_polls
-        save_polls(all_polls)
-        print(f"\nSuccessfully updated {args.season} poll data")
+        save_polls(all_polls, args.gender)
+        print(f"\nSuccessfully updated {gender_label} {args.season} poll data")
     else:
-        print(f"\nNo poll data found for {args.season}")
+        print(f"\nNo poll data found for {gender_label} {args.season}")
 
 
 if __name__ == '__main__':
