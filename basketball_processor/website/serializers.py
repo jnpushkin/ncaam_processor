@@ -89,6 +89,33 @@ class DataSerializer:
         if not players.empty and 'Total PTS' in players.columns:
             total_points = int(players['Total PTS'].sum())
 
+        # Count ranked games and upsets from raw games
+        ranked_games = 0
+        ranked_matchups = 0  # Both teams ranked
+        upsets = 0
+
+        for game in self.raw_games:
+            basic_info = game.get('basic_info', {})
+            away_rank = basic_info.get('away_rank')
+            home_rank = basic_info.get('home_rank')
+            away_score = basic_info.get('away_score', 0)
+            home_score = basic_info.get('home_score', 0)
+
+            if away_rank or home_rank:
+                ranked_games += 1
+                if away_rank and home_rank:
+                    ranked_matchups += 1
+
+                # Check for upset
+                away_won = away_score > home_score
+                away_rank_num = away_rank or 999
+                home_rank_num = home_rank or 999
+
+                if away_won and home_rank_num < away_rank_num:
+                    upsets += 1  # Higher-ranked home team lost
+                elif not away_won and away_rank_num < home_rank_num:
+                    upsets += 1  # Higher-ranked away team lost
+
         return {
             'totalGames': len(game_log),
             'totalPlayers': len(players),
@@ -97,6 +124,9 @@ class DataSerializer:
             'totalPoints': total_points,
             'milestones': milestone_counts,
             'futurePros': 0,  # Will be calculated after players are serialized
+            'rankedGames': ranked_games,
+            'rankedMatchups': ranked_matchups,
+            'upsets': upsets,
         }
 
     def _serialize_games(self) -> List[Dict]:

@@ -1489,6 +1489,22 @@ def get_css() -> str:
             text-transform: uppercase;
             box-shadow: 0 1px 2px rgba(0,0,0,0.2);
         }
+        /* Badge container */
+        .badge-container {
+            display: inline;
+        }
+        /* Upset badge */
+        .upset-badge {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a5a);
+            color: white;
+            font-size: 0.6rem;
+            font-weight: bold;
+            padding: 2px 5px;
+            border-radius: 3px;
+            margin-left: 6px;
+            text-transform: uppercase;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }
         /* AP Ranking Badge */
         .ap-rank {
             background: linear-gradient(135deg, #1a73e8, #4285f4);
