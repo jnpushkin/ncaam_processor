@@ -1489,6 +1489,33 @@ def get_css() -> str:
             text-transform: uppercase;
             box-shadow: 0 1px 2px rgba(0,0,0,0.2);
         }
+        /* AP Ranking Badge */
+        .ap-rank {
+            background: linear-gradient(135deg, #1a73e8, #4285f4);
+            color: white;
+            font-size: 0.7rem;
+            font-weight: bold;
+            padding: 2px 5px;
+            border-radius: 3px;
+            margin-right: 4px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.15);
+        }
+        .ap-rank:hover {
+            background: linear-gradient(135deg, #1557b0, #1a73e8);
+        }
+        /* Ranked matchup row highlighting */
+        tr.ranked-matchup {
+            background: linear-gradient(90deg, rgba(26, 115, 232, 0.08), rgba(255, 215, 0, 0.08));
+        }
+        tr.ranked-matchup:hover {
+            background: linear-gradient(90deg, rgba(26, 115, 232, 0.15), rgba(255, 215, 0, 0.15));
+        }
+        tr.has-ranked {
+            background: rgba(26, 115, 232, 0.04);
+        }
+        tr.has-ranked:hover {
+            background: rgba(26, 115, 232, 0.1);
+        }
         /* Conference Crossover Matrix */
         .conf-crossover-container {
             overflow-x: auto;

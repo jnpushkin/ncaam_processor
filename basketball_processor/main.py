@@ -18,6 +18,53 @@ from .utils.log import info, warn, error, success, debug, set_verbosity, set_use
 from .website import generate_website_from_data
 
 
+def enrich_game_with_rankings(game_data: Dict[str, Any]) -> Dict[str, Any]:
+    """Add AP rankings to game data if poll data is available.
+
+    Rankings are stored in basic_info as 'away_rank' and 'home_rank'.
+    """
+    try:
+        from .scrapers.poll_scraper import get_rankings_for_game, load_existing_polls
+        polls_data = load_existing_polls()
+        if not polls_data:
+            return game_data
+    except ImportError:
+        return game_data
+
+    basic_info = game_data.get('basic_info', {})
+    date_yyyymmdd = basic_info.get('date_yyyymmdd', '')
+    away_team = basic_info.get('away_team', '')
+    home_team = basic_info.get('home_team', '')
+
+    if not (date_yyyymmdd and away_team and home_team):
+        return game_data
+
+    # Convert YYYYMMDD to ISO format
+    if len(date_yyyymmdd) == 8:
+        game_date_iso = f"{date_yyyymmdd[:4]}-{date_yyyymmdd[4:6]}-{date_yyyymmdd[6:8]}"
+
+        # Determine season (Nov-Apr spans two calendar years)
+        month = int(date_yyyymmdd[4:6])
+        year = int(date_yyyymmdd[:4])
+        if month >= 11:
+            season = f"{year}-{str(year + 1)[-2:]}"
+        else:
+            season = f"{year - 1}-{str(year)[-2:]}"
+
+        away_rank, home_rank = get_rankings_for_game(
+            away_team, home_team, game_date_iso, season
+        )
+
+        if away_rank:
+            game_data['basic_info']['away_rank'] = away_rank
+            info(f"    #{away_rank} {away_team}")
+        if home_rank:
+            game_data['basic_info']['home_rank'] = home_rank
+            info(f"    #{home_rank} {home_team}")
+
+    return game_data
+
+
 def process_html_file(
     file_path: str,
     index: Optional[int] = None,
@@ -88,6 +135,9 @@ def process_html_file(
         if parsing_warnings:
             for warning in parsing_warnings:
                 warn(f"    Warning: {warning}")
+
+        # Enrich with AP rankings if poll data available
+        game_data = enrich_game_with_rankings(game_data)
 
         # Save to cache
         with open(cache_path, 'w', encoding='utf-8') as f:
