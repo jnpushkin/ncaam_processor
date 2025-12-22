@@ -51,6 +51,16 @@ def get_javascript(json_data: str) -> str:
             return '';
         }
 
+        // Get historical conference for a team from game data (pre-computed based on game date)
+        function getGameConference(game, teamType) {
+            if (!game) return '';
+            if (teamType === 'away' && game.AwayConf) return game.AwayConf;
+            if (teamType === 'home' && game.HomeConf) return game.HomeConf;
+            // Fallback to current conference lookup
+            const teamName = teamType === 'away' ? game['Away Team'] : game['Home Team'];
+            return getTeamConference(teamName);
+        }
+
         // Get Sports Reference box score URL (extracted from original HTML)
         function getSportsRefUrl(game) {
             // Use the actual URL extracted from the HTML canonical link
@@ -517,8 +527,8 @@ def get_javascript(json_data: str) -> str:
             const crossoverData = {};
 
             (DATA.games || []).forEach(g => {
-                const awayConf = getTeamConference(g['Away Team']);
-                const homeConf = getTeamConference(g['Home Team']);
+                const awayConf = getGameConference(g, 'away');
+                const homeConf = getGameConference(g, 'home');
 
                 if (awayConf && !excludeConfs.includes(awayConf)) confSet.add(awayConf);
                 if (homeConf && !excludeConfs.includes(homeConf)) confSet.add(homeConf);
@@ -624,8 +634,8 @@ def get_javascript(json_data: str) -> str:
             // Custom filtering for cross-conference
             if (conf1 !== conf2) {
                 filteredData.games = (DATA.games || []).filter(game => {
-                    const awayConf = getTeamConference(game['Away Team']);
-                    const homeConf = getTeamConference(game['Home Team']);
+                    const awayConf = getGameConference(game, 'away');
+                    const homeConf = getGameConference(game, 'home');
                     return (awayConf === conf1 && homeConf === conf2) ||
                            (awayConf === conf2 && homeConf === conf1);
                 });
@@ -680,8 +690,8 @@ def get_javascript(json_data: str) -> str:
                     if (!teamMatch || !genderMatch) return false;
                 }
                 if (conference) {
-                    const awayConf = getTeamConference(game['Away Team']);
-                    const homeConf = getTeamConference(game['Home Team']);
+                    const awayConf = getGameConference(game, 'away');
+                    const homeConf = getGameConference(game, 'home');
                     if (awayConf !== conference && homeConf !== conference) return false;
                 }
                 if (minMargin > 0) {
@@ -986,9 +996,9 @@ def get_javascript(json_data: str) -> str:
                 const gender = game.Gender || 'M';
                 const genderSuffix = gender === 'W' ? ' (W)' : '';
 
-                // Get conferences
-                const awayConf = getTeamConference(away);
-                const homeConf = getTeamConference(home);
+                // Get conferences (using historical data from game)
+                const awayConf = getGameConference(game, 'away');
+                const homeConf = getGameConference(game, 'home');
 
                 // Include gender in keys for separate tracking
                 const awayKey = `${away}|${gender}`;
@@ -1766,7 +1776,7 @@ def get_javascript(json_data: str) -> str:
             }).join('');
             document.getElementById('records-closest').innerHTML = closestHtml || '<p>No games</p>';
 
-            // Top 10 highest scoring games
+            // Top 10 highest scoring games (combined)
             const highest = [...gamesWithMargin].sort((a, b) => b.total - a.total).slice(0, 10);
             const highestHtml = highest.map((g, i) => {
                 const wTag = g.Gender === 'W' ? ' (W)' : '';
@@ -1777,11 +1787,146 @@ def get_javascript(json_data: str) -> str:
                         <span class="rank">${i + 1}.</span>
                         <span class="teams">${g['Away Team']}${wTag} @ ${g['Home Team']}${wTag}</span>
                         <span class="score">${awayScore}-${homeScore}</span>
-                        <span class="total">${g.total}</span>
+                        <span class="total">${g.total} pts</span>
                     </div>
                 `;
             }).join('');
             document.getElementById('records-highest').innerHTML = highestHtml || '<p>No games</p>';
+
+            // Top 10 lowest scoring games (combined)
+            const lowest = [...gamesWithMargin].sort((a, b) => a.total - b.total).slice(0, 10);
+            const lowestHtml = lowest.map((g, i) => {
+                const wTag = g.Gender === 'W' ? ' (W)' : '';
+                const awayScore = parseInt(g['Away Score']) || 0;
+                const homeScore = parseInt(g['Home Score']) || 0;
+                return `
+                    <div class="record-item" onclick="showGameDetail('${g.GameID || ''}')">
+                        <span class="rank">${i + 1}.</span>
+                        <span class="teams">${g['Away Team']}${wTag} @ ${g['Home Team']}${wTag}</span>
+                        <span class="score">${awayScore}-${homeScore}</span>
+                        <span class="total">${g.total} pts</span>
+                    </div>
+                `;
+            }).join('');
+            document.getElementById('records-lowest').innerHTML = lowestHtml || '<p>No games</p>';
+
+            // Build single-team scoring records (each game contributes 2 entries - one per team)
+            const singleTeamScores = [];
+            games.forEach(g => {
+                const awayScore = parseInt(g['Away Score']) || 0;
+                const homeScore = parseInt(g['Home Score']) || 0;
+                const wTag = g.Gender === 'W' ? ' (W)' : '';
+                singleTeamScores.push({
+                    team: g['Away Team'],
+                    opponent: g['Home Team'],
+                    score: awayScore,
+                    oppScore: homeScore,
+                    gameId: g.GameID,
+                    wTag,
+                    isAway: true
+                });
+                singleTeamScores.push({
+                    team: g['Home Team'],
+                    opponent: g['Away Team'],
+                    score: homeScore,
+                    oppScore: awayScore,
+                    gameId: g.GameID,
+                    wTag,
+                    isAway: false
+                });
+            });
+
+            // Top 10 most points by single team
+            const mostSingle = [...singleTeamScores].sort((a, b) => b.score - a.score).slice(0, 10);
+            const mostSingleHtml = mostSingle.map((g, i) => `
+                <div class="record-item" onclick="showGameDetail('${g.gameId || ''}')">
+                    <span class="rank">${i + 1}.</span>
+                    <span class="teams">${g.team}${g.wTag} ${g.isAway ? '@' : 'vs'} ${g.opponent}${g.wTag}</span>
+                    <span class="score">${g.score}-${g.oppScore}</span>
+                    <span class="total">${g.score} pts</span>
+                </div>
+            `).join('');
+            document.getElementById('records-most-single').innerHTML = mostSingleHtml || '<p>No games</p>';
+
+            // Top 10 fewest points by single team
+            const fewestSingle = [...singleTeamScores].sort((a, b) => a.score - b.score).slice(0, 10);
+            const fewestSingleHtml = fewestSingle.map((g, i) => `
+                <div class="record-item" onclick="showGameDetail('${g.gameId || ''}')">
+                    <span class="rank">${i + 1}.</span>
+                    <span class="teams">${g.team}${g.wTag} ${g.isAway ? '@' : 'vs'} ${g.opponent}${g.wTag}</span>
+                    <span class="score">${g.score}-${g.oppScore}</span>
+                    <span class="total">${g.score} pts</span>
+                </div>
+            `).join('');
+            document.getElementById('records-fewest-single').innerHTML = fewestSingleHtml || '<p>No games</p>';
+
+            // 100+ point games - only show section if there are any
+            const hundredPtGames = singleTeamScores.filter(g => g.score >= 100).sort((a, b) => b.score - a.score);
+            const hundredPtContainer = document.getElementById('records-100pt');
+            if (hundredPtContainer) {
+                const section = hundredPtContainer.closest('.records-section');
+                if (hundredPtGames.length > 0) {
+                    section.style.display = '';
+                    hundredPtContainer.innerHTML = hundredPtGames.map((g, i) => `
+                        <div class="record-item" onclick="showGameDetail('${g.gameId || ''}')">
+                            <span class="rank">${i + 1}.</span>
+                            <span class="teams">${g.team}${g.wTag} ${g.isAway ? '@' : 'vs'} ${g.opponent}${g.wTag}</span>
+                            <span class="score">${g.score}-${g.oppScore}</span>
+                            <span class="total">${g.score} pts</span>
+                        </div>
+                    `).join('');
+                } else {
+                    section.style.display = 'none';
+                }
+            }
+        }
+
+        function populatePlayerRecords() {
+            const playerGames = DATA.playerGames || [];
+            if (playerGames.length === 0) return;
+
+            // Helper to render a record list
+            const renderRecords = (sorted, statKey, label) => {
+                return sorted.slice(0, 10).map((g, i) => {
+                    const wTag = g.gender === 'W' ? ' (W)' : '';
+                    return `
+                        <div class="record-item player-record" onclick="showGameDetail('${g.game_id || ''}')">
+                            <span class="rank">${i + 1}.</span>
+                            <div class="record-details">
+                                <div class="record-main">
+                                    <span class="player-name">${g.player}</span>
+                                    <span class="stat-value">${g[statKey]} ${label}</span>
+                                </div>
+                                <div class="record-sub">${g.team} vs ${g.opponent}${wTag}</div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            };
+
+            // Most points
+            const byPts = [...playerGames].sort((a, b) => (b.pts || 0) - (a.pts || 0));
+            document.getElementById('player-records-pts').innerHTML = renderRecords(byPts, 'pts', 'pts') || '<p>No data</p>';
+
+            // Most rebounds
+            const byReb = [...playerGames].sort((a, b) => (b.trb || 0) - (a.trb || 0));
+            document.getElementById('player-records-reb').innerHTML = renderRecords(byReb, 'trb', 'reb') || '<p>No data</p>';
+
+            // Most assists
+            const byAst = [...playerGames].sort((a, b) => (b.ast || 0) - (a.ast || 0));
+            document.getElementById('player-records-ast').innerHTML = renderRecords(byAst, 'ast', 'ast') || '<p>No data</p>';
+
+            // Most 3-pointers
+            const by3pm = [...playerGames].sort((a, b) => (b.fg3 || 0) - (a.fg3 || 0));
+            document.getElementById('player-records-3pm').innerHTML = renderRecords(by3pm, 'fg3', '3pm') || '<p>No data</p>';
+
+            // Most steals
+            const byStl = [...playerGames].sort((a, b) => (b.stl || 0) - (a.stl || 0));
+            document.getElementById('player-records-stl').innerHTML = renderRecords(byStl, 'stl', 'stl') || '<p>No data</p>';
+
+            // Most blocks
+            const byBlk = [...playerGames].sort((a, b) => (b.blk || 0) - (a.blk || 0));
+            document.getElementById('player-records-blk').innerHTML = renderRecords(byBlk, 'blk', 'blk') || '<p>No data</p>';
         }
 
         function populateStreaksTable() {
@@ -3130,8 +3275,8 @@ def get_javascript(json_data: str) -> str:
             games.forEach(g => {
                 teamSet.add(g['Away Team']);
                 teamSet.add(g['Home Team']);
-                const awayConf = getTeamConference(g['Away Team']);
-                const homeConf = getTeamConference(g['Home Team']);
+                const awayConf = getGameConference(g, 'away');
+                const homeConf = getGameConference(g, 'home');
                 if (awayConf) confSet.add(awayConf);
                 if (homeConf) confSet.add(homeConf);
             });
@@ -3739,6 +3884,7 @@ def get_javascript(json_data: str) -> str:
         try { populateVenuesTable(); } catch(e) { console.error('populateVenuesTable:', e); }
         try { populateFutureProsTable(); } catch(e) { console.error('populateFutureProsTable:', e); }
         try { populateRecords(); } catch(e) { console.error('populateRecords:', e); }
+        try { populatePlayerRecords(); } catch(e) { console.error('populatePlayerRecords:', e); }
         try { initCalendar(); } catch(e) { console.error('initCalendar:', e); }
         try { initChecklist(); } catch(e) { console.error('initChecklist:', e); }
         try { initOnThisDay(); } catch(e) { console.error('initOnThisDay:', e); }

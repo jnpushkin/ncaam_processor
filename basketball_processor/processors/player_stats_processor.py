@@ -177,6 +177,7 @@ class PlayerStatsProcessor(BaseProcessor):
                         'score': f"{team_score}-{opp_score}",
                         'game_id': game_id,
                         'starter': is_starter,
+                        'gender': gender,
                         **player_stats,
                         'game_score': game_score,
                     })

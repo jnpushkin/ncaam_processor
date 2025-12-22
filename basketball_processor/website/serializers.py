@@ -87,14 +87,16 @@ class DataSerializer:
         }
 
     def _serialize_games(self) -> List[Dict]:
-        """Serialize game log with linescore data."""
+        """Serialize game log with linescore data and historical conferences."""
+        from ..utils.constants import get_conference_for_date
+
         game_log = self.processed_data.get('game_log', pd.DataFrame())
         if game_log.empty:
             return []
 
         games = self._df_to_records(game_log)
 
-        # Add linescore and DateSort from raw games
+        # Add linescore, DateSort, and conferences from raw games
         raw_games_by_id = {g.get('game_id'): g for g in self.raw_games}
         for game in games:
             game_id = game.get('GameID')
@@ -108,6 +110,22 @@ class DataSerializer:
                 date_sort = basic_info.get('date_yyyymmdd', '')
                 if date_sort:
                     game['DateSort'] = date_sort
+
+            # Add historical conference for each team based on game date
+            date_sort = game.get('DateSort', '')
+            gender = game.get('Gender', 'M')
+            away_team = game.get('Away Team', '')
+            home_team = game.get('Home Team', '')
+
+            if date_sort and away_team:
+                away_conf = get_conference_for_date(away_team, date_sort, gender)
+                if away_conf:
+                    game['AwayConf'] = away_conf
+
+            if date_sort and home_team:
+                home_conf = get_conference_for_date(home_team, date_sort, gender)
+                if home_conf:
+                    game['HomeConf'] = home_conf
 
         return games
 

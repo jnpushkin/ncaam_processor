@@ -181,8 +181,24 @@ def get_body(total_games: int, total_players: int, total_teams: int, total_venue
                         <div id="records-closest" class="records-list"></div>
                     </div>
                     <div class="records-section">
-                        <h3>Highest Scoring</h3>
+                        <h3>Highest Scoring (Combined)</h3>
                         <div id="records-highest" class="records-list"></div>
+                    </div>
+                    <div class="records-section">
+                        <h3>Lowest Scoring (Combined)</h3>
+                        <div id="records-lowest" class="records-list"></div>
+                    </div>
+                    <div class="records-section">
+                        <h3>Most Points (Single Team)</h3>
+                        <div id="records-most-single" class="records-list"></div>
+                    </div>
+                    <div class="records-section">
+                        <h3>Fewest Points (Single Team)</h3>
+                        <div id="records-fewest-single" class="records-list"></div>
+                    </div>
+                    <div class="records-section">
+                        <h3>100+ Point Games</h3>
+                        <div id="records-100pt" class="records-list"></div>
                     </div>
                 </div>
             </div>
@@ -199,6 +215,7 @@ def get_body(total_games: int, total_players: int, total_teams: int, total_venue
                 <button class="sub-tab active" onclick="showSubSection('players', 'stats')">Stats</button>
                 <button class="sub-tab" onclick="showSubSection('players', 'highs')">Career Highs</button>
                 <button class="sub-tab" onclick="showSubSection('players', 'gamelogs')">Game Logs</button>
+                <button class="sub-tab" onclick="showSubSection('players', 'records')">Records</button>
             </div>
 
             <div id="players-stats" class="sub-section active">
@@ -301,6 +318,36 @@ def get_body(total_games: int, total_players: int, total_teams: int, total_venue
                         <div class="empty-state-icon">&#128203;</div>
                         <h3>Search for a player</h3>
                         <p>Type a player name above to view their game log</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="players-records" class="sub-section">
+                <p style="margin-bottom: 1rem; color: var(--text-secondary);">Top individual game performances.</p>
+                <div class="records-grid">
+                    <div class="records-section">
+                        <h3>Most Points</h3>
+                        <div id="player-records-pts" class="records-list"></div>
+                    </div>
+                    <div class="records-section">
+                        <h3>Most Rebounds</h3>
+                        <div id="player-records-reb" class="records-list"></div>
+                    </div>
+                    <div class="records-section">
+                        <h3>Most Assists</h3>
+                        <div id="player-records-ast" class="records-list"></div>
+                    </div>
+                    <div class="records-section">
+                        <h3>Most 3-Pointers</h3>
+                        <div id="player-records-3pm" class="records-list"></div>
+                    </div>
+                    <div class="records-section">
+                        <h3>Most Steals</h3>
+                        <div id="player-records-stl" class="records-list"></div>
+                    </div>
+                    <div class="records-section">
+                        <h3>Most Blocks</h3>
+                        <div id="player-records-blk" class="records-list"></div>
                     </div>
                 </div>
             </div>

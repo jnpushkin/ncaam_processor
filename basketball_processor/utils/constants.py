@@ -713,7 +713,8 @@ CONFERENCE_HISTORY = {
 
 def get_conference_for_date(
     team_name: str,
-    game_date: Optional[Union[int, str, datetime]] = None
+    game_date: Optional[Union[int, str, datetime]] = None,
+    gender: str = 'M'
 ) -> Optional[str]:
     """Get conference name for a team at a specific date.
 
@@ -721,6 +722,7 @@ def get_conference_for_date(
         team_name: The team name to look up
         game_date: Optional date as YYYYMMDD integer, datetime, or string.
                    If None, returns current conference.
+        gender: 'M' for men's, 'W' for women's
 
     Returns:
         Conference name or None if not found
@@ -732,18 +734,23 @@ def get_conference_for_date(
     if game_date is None:
         return get_conference(canonical)
 
-    # Convert date to integer YYYYMMDD format
+    # Convert date to integer YYYYMMDD format and extract year
+    year = None
     if isinstance(game_date, str):
         # Handle various date formats
         game_date = game_date.replace('-', '').replace('/', '')[:8]
         try:
             game_date = int(game_date)
+            year = game_date // 10000
         except ValueError:
             return get_conference(canonical)
     elif isinstance(game_date, datetime):  # datetime object
+        year = game_date.year
         game_date = game_date.year * 10000 + game_date.month * 100 + game_date.day
+    elif isinstance(game_date, int):
+        year = game_date // 10000
 
-    # Check if team has historical conference data
+    # Check if team has manual historical conference data (for recent realignment)
     # Try both the original name and the canonical name since CONFERENCE_HISTORY
     # may use either form (e.g., 'SMU' vs 'Southern Methodist')
     history = None
@@ -762,6 +769,21 @@ def get_conference_for_date(
                 break
         if conference:
             return conference
+
+    # Try scraped historical data (by year)
+    if year:
+        try:
+            from .conference_history import get_conference_for_year
+            historical_conf = get_conference_for_year(team_name, year, gender)
+            if historical_conf:
+                return historical_conf
+            # Also try canonical name
+            if canonical != team_name:
+                historical_conf = get_conference_for_year(canonical, year, gender)
+                if historical_conf:
+                    return historical_conf
+        except ImportError:
+            pass  # Module not available, fall back to current
 
     # Fall back to current conference
     return get_conference(canonical)

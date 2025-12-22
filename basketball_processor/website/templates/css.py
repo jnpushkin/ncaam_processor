@@ -1791,4 +1791,34 @@ def get_css() -> str:
             font-weight: bold;
             min-width: 3rem;
             text-align: right;
+        }
+        /* Player record specific styles */
+        .record-item.player-record {
+            align-items: flex-start;
+        }
+        .record-item .record-details {
+            flex: 1;
+            min-width: 0;
+        }
+        .record-item .record-main {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .record-item .player-name {
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .record-item .stat-value {
+            color: #4CAF50;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+        .record-item .record-sub {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-top: 0.25rem;
         }"""
