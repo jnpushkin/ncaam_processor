@@ -1,0 +1,9861 @@
+{
+  "Abilene Christian": [
+    {
+      "conference": "Southland",
+      "from": 1968,
+      "to": 2020
+    },
+    {
+      "conference": "WAC",
+      "from": 2021,
+      "to": 2025
+    }
+  ],
+  "Air Force": [
+    {
+      "conference": "Ind",
+      "from": 1957,
+      "to": 1978
+    },
+    {
+      "conference": "WAC",
+      "from": 1979,
+      "to": 1998
+    },
+    {
+      "conference": "MWC",
+      "from": 1999,
+      "to": 2025
+    }
+  ],
+  "Akron": [
+    {
+      "conference": "Ind",
+      "from": 1901,
+      "to": 1949
+    },
+    {
+      "conference": "OVC",
+      "from": 1980,
+      "to": 1986
+    },
+    {
+      "conference": "Ind",
+      "from": 1987,
+      "to": 1989
+    },
+    {
+      "conference": "Mid-Cont",
+      "from": 1990,
+      "to": 1991
+    },
+    {
+      "conference": "MAC",
+      "from": 1992,
+      "to": 2025
+    }
+  ],
+  "Alabama": [
+    {
+      "conference": "Ind",
+      "from": 1912,
+      "to": 1920
+    },
+    {
+      "conference": "Southern",
+      "from": 1921,
+      "to": 1931
+    },
+    {
+      "conference": "SEC",
+      "from": 1932,
+      "to": 2025
+    }
+  ],
+  "Alabama A&amp;M": [
+    {
+      "conference": "SWAC",
+      "from": 1998,
+      "to": 2025
+    }
+  ],
+  "Alabama State": [
+    {
+      "conference": "SWAC",
+      "from": 1982,
+      "to": 2025
+    }
+  ],
+  "Albany (NY)": [
+    {
+      "conference": "Ind",
+      "from": 1999,
+      "to": 2000
+    },
+    {
+      "conference": "AEC",
+      "from": 2001,
+      "to": 2025
+    }
+  ],
+  "Alcorn State": [
+    {
+      "conference": "SWAC",
+      "from": 1977,
+      "to": 2025
+    }
+  ],
+  "Allegheny Gators": [
+    {
+      "conference": "Ind",
+      "from": 1895,
+      "to": 1915
+    }
+  ],
+  "American": [
+    {
+      "conference": "Mid-Atl",
+      "from": 1966,
+      "to": 1973
+    },
+    {
+      "conference": "ECC",
+      "from": 1974,
+      "to": 1983
+    },
+    {
+      "conference": "ECACS",
+      "from": 1984,
+      "to": 1984
+    },
+    {
+      "conference": "CAA",
+      "from": 1985,
+      "to": 2000
+    },
+    {
+      "conference": "Patriot",
+      "from": 2001,
+      "to": 2025
+    }
+  ],
+  "Amherst Lord Jeffs": [
+    {
+      "conference": "Ind",
+      "from": 1900,
+      "to": 1936
+    }
+  ],
+  "Appalachian State": [
+    {
+      "conference": "Southern",
+      "from": 1972,
+      "to": 2013
+    },
+    {
+      "conference": "Sun Belt",
+      "from": 2014,
+      "to": 2025
+    }
+  ],
+  "Arizona": [
+    {
+      "conference": "Ind",
+      "from": 1904,
+      "to": 1930
+    },
+    {
+      "conference": "BIAA",
+      "from": 1931,
+      "to": 1939
+    },
+    {
+      "conference": "Ind",
+      "from": 1940,
+      "to": 1940
+    },
+    {
+      "conference": "BIAA",
+      "from": 1941,
+      "to": 1960
+    },
+    {
+      "conference": "Ind",
+      "from": 1961,
+      "to": 1961
+    },
+    {
+      "conference": "WAC",
+      "from": 1962,
+      "to": 1977
+    },
+    {
+      "conference": "Pac-10",
+      "from": 1978,
+      "to": 2010
+    },
+    {
+      "conference": "Pac-12",
+      "from": 2011,
+      "to": 2023
+    },
+    {
+      "conference": "Big 12",
+      "from": 2024,
+      "to": 2025
+    }
+  ],
+  "Arizona State": [
+    {
+      "conference": "Ind",
+      "from": 1911,
+      "to": 1930
+    },
+    {
+      "conference": "BIAA",
+      "from": 1931,
+      "to": 1939
+    },
+    {
+      "conference": "Ind",
+      "from": 1940,
+      "to": 1940
+    },
+    {
+      "conference": "BIAA",
+      "from": 1941,
+      "to": 1961
+    },
+    {
+      "conference": "WAC",
+      "from": 1962,
+      "to": 1977
+    },
+    {
+      "conference": "Pac-10",
+      "from": 1978,
+      "to": 2010
+    },
+    {
+      "conference": "Pac-12",
+      "from": 2011,
+      "to": 2023
+    },
+    {
+      "conference": "Big 12",
+      "from": 2024,
+      "to": 2025
+    }
+  ],
+  "Arkansas": [
+    {
+      "conference": "SWC",
+      "from": 1923,
+      "to": 1990
+    },
+    {
+      "conference": "SEC",
+      "from": 1991,
+      "to": 2025
+    }
+  ],
+  "Arkansas State": [
+    {
+      "conference": "Southland",
+      "from": 1968,
+      "to": 1986
+    },
+    {
+      "conference": "ASC",
+      "from": 1987,
+      "to": 1990
+    },
+    {
+      "conference": "Sun Belt",
+      "from": 1991,
+      "to": 2025
+    }
+  ],
+  "Arkansas-Pine Bluff": [
+    {
+      "conference": "SWAC",
+      "from": 1997,
+      "to": 2025
+    }
+  ],
+  "Armstrong Pirates": [
+    {
+      "conference": "Big South",
+      "from": 1985,
+      "to": 1986
+    }
+  ],
+  "Army": [
+    {
+      "conference": "Ind",
+      "from": 1902,
+      "to": 1978
+    },
+    {
+      "conference": "ECACM",
+      "from": 1979,
+      "to": 1980
+    },
+    {
+      "conference": "MAAC",
+      "from": 1981,
+      "to": 1989
+    },
+    {
+      "conference": "Patriot",
+      "from": 1990,
+      "to": 2025
+    }
+  ],
+  "Auburn": [
+    {
+      "conference": "Ind",
+      "from": 1905,
+      "to": 1919
+    },
+    {
+      "conference": "Southern",
+      "from": 1920,
+      "to": 1931
+    },
+    {
+      "conference": "SEC",
+      "from": 1932,
+      "to": 2025
+    }
+  ],
+  "Augusta Jaguars": [
+    {
+      "conference": "Ind",
+      "from": 1984,
+      "to": 1984
+    },
+    {
+      "conference": "Big South",
+      "from": 1985,
+      "to": 1990
+    }
+  ],
+  "Augustana (IL) Vikings": [
+    {
+      "conference": "Ind",
+      "from": 1901,
+      "to": 1916
+    }
+  ],
+  "Austin Peay": [
+    {
+      "conference": "OVC",
+      "from": 1963,
+      "to": 2021
+    },
+    {
+      "conference": "A-Sun",
+      "from": 2022,
+      "to": 2025
+    }
+  ],
+  "Baldwin-Wallace Yellow Jackets": [
+    {
+      "conference": "Ind",
+      "from": 1947,
+      "to": 1952
+    }
+  ],
+  "Ball State": [
+    {
+      "conference": "Ind",
+      "from": 1971,
+      "to": 1974
+    },
+    {
+      "conference": "MAC",
+      "from": 1975,
+      "to": 2025
+    }
+  ],
+  "Baltimore Super Bees": [
+    {
+      "conference": "Ind",
+      "from": 1978,
+      "to": 1978
+    },
+    {
+      "conference": "ECACS",
+      "from": 1979,
+      "to": 1980
+    },
+    {
+      "conference": "ECACM",
+      "from": 1981,
+      "to": 1982
+    }
+  ],
+  "Baylor": [
+    {
+      "conference": "Ind",
+      "from": 1906,
+      "to": 1913
+    },
+    {
+      "conference": "SWC",
+      "from": 1914,
+      "to": 1995
+    },
+    {
+      "conference": "Big 12",
+      "from": 1996,
+      "to": 2025
+    }
+  ],
+  "Bellarmine": [
+    {
+      "conference": "A-Sun",
+      "from": 2020,
+      "to": 2025
+    }
+  ],
+  "Belmont": [
+    {
+      "conference": "Ind",
+      "from": 1999,
+      "to": 2000
+    },
+    {
+      "conference": "A-Sun",
+      "from": 2001,
+      "to": 2011
+    },
+    {
+      "conference": "OVC",
+      "from": 2012,
+      "to": 2021
+    },
+    {
+      "conference": "MVC",
+      "from": 2022,
+      "to": 2025
+    }
+  ],
+  "Beloit Buccaneers": [
+    {
+      "conference": "Ind",
+      "from": 1910,
+      "to": 1950
+    }
+  ],
+  "Bethune-Cookman": [
+    {
+      "conference": "MEAC",
+      "from": 1980,
+      "to": 2019
+    },
+    {
+      "conference": "SWAC",
+      "from": 2021,
+      "to": 2025
+    }
+  ],
+  "Binghamton": [
+    {
+      "conference": "AEC",
+      "from": 2001,
+      "to": 2025
+    }
+  ],
+  "Birmingham-Southern Panthers": [
+    {
+      "conference": "Ind",
+      "from": 1919,
+      "to": 1919
+    },
+    {
+      "conference": "Southern",
+      "from": 1920,
+      "to": 1920
+    },
+    {
+      "conference": "Big South",
+      "from": 2001,
+      "to": 2005
+    }
+  ],
+  "Bloomsburg Huskies": [
+    {
+      "conference": "Ind",
+      "from": 1895,
+      "to": 1910
+    }
+  ],
+  "Boise State": [
+    {
+      "conference": "Big Sky",
+      "from": 1970,
+      "to": 1995
+    },
+    {
+      "conference": "Big West",
+      "from": 1996,
+      "to": 2000
+    },
+    {
+      "conference": "WAC",
+      "from": 2001,
+      "to": 2010
+    },
+    {
+      "conference": "MWC",
+      "from": 2011,
+      "to": 2025
+    }
+  ],
+  "Boston College": [
+    {
+      "conference": "Ind",
+      "from": 1945,
+      "to": 1978
+    },
+    {
+      "conference": "Big East",
+      "from": 1979,
+      "to": 2004
+    },
+    {
+      "conference": "ACC",
+      "from": 2005,
+      "to": 2025
+    }
+  ],
+  "Boston University": [
+    {
+      "conference": "Ind",
+      "from": 1915,
+      "to": 1971
+    },
+    {
+      "conference": "Yankee",
+      "from": 1972,
+      "to": 1975
+    },
+    {
+      "conference": "Ind",
+      "from": 1976,
+      "to": 1978
+    },
+    {
+      "conference": "ECACN",
+      "from": 1979,
+      "to": 1987
+    },
+    {
+      "conference": "NAC",
+      "from": 1988,
+      "to": 1995
+    },
+    {
+      "conference": "AEC",
+      "from": 1996,
+      "to": 2012
+    },
+    {
+      "conference": "Patriot",
+      "from": 2013,
+      "to": 2025
+    }
+  ],
+  "Bowling Green": [
+    {
+      "conference": "Ind",
+      "from": 1915,
+      "to": 1952
+    },
+    {
+      "conference": "MAC",
+      "from": 1953,
+      "to": 2025
+    }
+  ],
+  "Bradley": [
+    {
+      "conference": "Ind",
+      "from": 1902,
+      "to": 1947
+    },
+    {
+      "conference": "MVC",
+      "from": 1948,
+      "to": 1950
+    },
+    {
+      "conference": "Ind",
+      "from": 1951,
+      "to": 1954
+    },
+    {
+      "conference": "MVC",
+      "from": 1955,
+      "to": 2025
+    }
+  ],
+  "Brigham Young": [
+    {
+      "conference": "Ind",
+      "from": 1902,
+      "to": 1922
+    },
+    {
+      "conference": "MSAC",
+      "from": 1923,
+      "to": 1942
+    },
+    {
+      "conference": "Ind",
+      "from": 1943,
+      "to": 1943
+    },
+    {
+      "conference": "MSAC",
+      "from": 1944,
+      "to": 1961
+    },
+    {
+      "conference": "WAC",
+      "from": 1962,
+      "to": 1998
+    },
+    {
+      "conference": "MWC",
+      "from": 1999,
+      "to": 2010
+    },
+    {
+      "conference": "WCC",
+      "from": 2011,
+      "to": 2022
+    },
+    {
+      "conference": "Big 12",
+      "from": 2023,
+      "to": 2025
+    }
+  ],
+  "Brigham Young College": [
+    {
+      "conference": "Ind",
+      "from": 1907,
+      "to": 1907
+    }
+  ],
+  "Brooklyn Bulldogs": [
+    {
+      "conference": "Metro NY",
+      "from": 1933,
+      "to": 1933
+    },
+    {
+      "conference": "Ind",
+      "from": 1934,
+      "to": 1934
+    },
+    {
+      "conference": "Metro NY",
+      "from": 1935,
+      "to": 1938
+    },
+    {
+      "conference": "Ind",
+      "from": 1939,
+      "to": 1941
+    },
+    {
+      "conference": "Metro NY",
+      "from": 1942,
+      "to": 1942
+    },
+    {
+      "conference": "Ind",
+      "from": 1943,
+      "to": 1944
+    },
+    {
+      "conference": "Metro NY",
+      "from": 1945,
+      "to": 1962
+    },
+    {
+      "conference": "Ind",
+      "from": 1982,
+      "to": 1990
+    },
+    {
+      "conference": "ECC",
+      "from": 1991,
+      "to": 1991
+    }
+  ],
+  "Brown": [
+    {
+      "conference": "Ind",
+      "from": 1900,
+      "to": 1952
+    },
+    {
+      "conference": "Ivy",
+      "from": 1953,
+      "to": 2025
+    }
+  ],
+  "Bryant": [
+    {
+      "conference": "Ind",
+      "from": 2008,
+      "to": 2008
+    },
+    {
+      "conference": "NEC",
+      "from": 2009,
+      "to": 2021
+    },
+    {
+      "conference": "AEC",
+      "from": 2022,
+      "to": 2025
+    }
+  ],
+  "Bucknell": [
+    {
+      "conference": "Ind",
+      "from": 1895,
+      "to": 1932
+    },
+    {
+      "conference": "EIC",
+      "from": 1933,
+      "to": 1933
+    },
+    {
+      "conference": "Ind",
+      "from": 1934,
+      "to": 1944
+    },
+    {
+      "conference": "MASCN",
+      "from": 1945,
+      "to": 1948
+    },
+    {
+      "conference": "Ind",
+      "from": 1949,
+      "to": 1957
+    },
+    {
+      "conference": "Mid-Atl",
+      "from": 1958,
+      "to": 1973
+    },
+    {
+      "conference": "ECC",
+      "from": 1974,
+      "to": 1989
+    },
+    {
+      "conference": "Patriot",
+      "from": 1990,
+      "to": 2025
+    }
+  ],
+  "Buffalo": [
+    {
+      "conference": "Ind",
+      "from": 1906,
+      "to": 1976
+    },
+    {
+      "conference": "ECC",
+      "from": 1991,
+      "to": 1991
+    },
+    {
+      "conference": "Ind",
+      "from": 1992,
+      "to": 1992
+    },
+    {
+      "conference": "ECC",
+      "from": 1993,
+      "to": 1993
+    },
+    {
+      "conference": "Mid-Cont",
+      "from": 1994,
+      "to": 1997
+    },
+    {
+      "conference": "MAC",
+      "from": 1998,
+      "to": 2025
+    }
+  ],
+  "Butler": [
+    {
+      "conference": "Ind",
+      "from": 1896,
+      "to": 1931
+    },
+    {
+      "conference": "MVC",
+      "from": 1932,
+      "to": 1933
+    },
+    {
+      "conference": "Ind",
+      "from": 1934,
+      "to": 1945
+    },
+    {
+      "conference": "MAC",
+      "from": 1946,
+      "to": 1949
+    },
+    {
+      "conference": "Ind",
+      "from": 1950,
+      "to": 1978
+    },
+    {
+      "conference": "MW City",
+      "from": 1979,
+      "to": 1984
+    },
+    {
+      "conference": "MW Coll",
+      "from": 1985,
+      "to": 2000
+    },
+    {
+      "conference": "Horizon",
+      "from": 2001,
+      "to": 2011
+    },
+    {
+      "conference": "A-10",
+      "from": 2012,
+      "to": 2012
+    },
+    {
+      "conference": "Big East",
+      "from": 2013,
+      "to": 2025
+    }
+  ],
+  "Cal Poly": [
+    {
+      "conference": "AWC",
+      "from": 1994,
+      "to": 1995
+    },
+    {
+      "conference": "Big West",
+      "from": 1996,
+      "to": 2025
+    }
+  ],
+  "Cal State Bakersfield": [
+    {
+      "conference": "Ind",
+      "from": 2006,
+      "to": 2012
+    },
+    {
+      "conference": "WAC",
+      "from": 2013,
+      "to": 2019
+    },
+    {
+      "conference": "Big West",
+      "from": 2020,
+      "to": 2025
+    }
+  ],
+  "Cal State Fullerton": [
+    {
+      "conference": "PCAA",
+      "from": 1974,
+      "to": 1987
+    },
+    {
+      "conference": "Big West",
+      "from": 1988,
+      "to": 2025
+    }
+  ],
+  "Cal State Los Angeles Golden Eagles": [
+    {
+      "conference": "PCAA",
+      "from": 1969,
+      "to": 1973
+    },
+    {
+      "conference": "Ind",
+      "from": 1974,
+      "to": 1974
+    }
+  ],
+  "Cal State Northridge": [
+    {
+      "conference": "Ind",
+      "from": 1990,
+      "to": 1993
+    },
+    {
+      "conference": "AWC",
+      "from": 1994,
+      "to": 1995
+    },
+    {
+      "conference": "Big Sky",
+      "from": 1996,
+      "to": 2000
+    },
+    {
+      "conference": "Big West",
+      "from": 2001,
+      "to": 2025
+    }
+  ],
+  "California": [
+    {
+      "conference": "Ind",
+      "from": 1907,
+      "to": 1914
+    },
+    {
+      "conference": "PCC",
+      "from": 1915,
+      "to": 1916
+    },
+    {
+      "conference": "Ind",
+      "from": 1917,
+      "to": 1917
+    },
+    {
+      "conference": "PCC",
+      "from": 1918,
+      "to": 1958
+    },
+    {
+      "conference": "AAWU",
+      "from": 1959,
+      "to": 1967
+    },
+    {
+      "conference": "Pac-8",
+      "from": 1968,
+      "to": 1977
+    },
+    {
+      "conference": "Pac-10",
+      "from": 1978,
+      "to": 2010
+    },
+    {
+      "conference": "Pac-12",
+      "from": 2011,
+      "to": 2023
+    },
+    {
+      "conference": "ACC",
+      "from": 2024,
+      "to": 2025
+    }
+  ],
+  "California Baptist": [
+    {
+      "conference": "WAC",
+      "from": 2018,
+      "to": 2025
+    }
+  ],
+  "Campbell": [
+    {
+      "conference": "Ind",
+      "from": 1977,
+      "to": 1984
+    },
+    {
+      "conference": "Big South",
+      "from": 1985,
+      "to": 1993
+    },
+    {
+      "conference": "TAAC",
+      "from": 1994,
+      "to": 2000
+    },
+    {
+      "conference": "A-Sun",
+      "from": 2001,
+      "to": 2010
+    },
+    {
+      "conference": "Big South",
+      "from": 2011,
+      "to": 2022
+    },
+    {
+      "conference": "CAA",
+      "from": 2023,
+      "to": 2025
+    }
+  ],
+  "Canisius": [
+    {
+      "conference": "Ind",
+      "from": 1903,
+      "to": 1945
+    },
+    {
+      "conference": "WNY3",
+      "from": 1946,
+      "to": 1957
+    },
+    {
+      "conference": "Ind",
+      "from": 1958,
+      "to": 1978
+    },
+    {
+      "conference": "ECACN",
+      "from": 1979,
+      "to": 1987
+    },
+    {
+      "conference": "NAC",
+      "from": 1988,
+      "to": 1988
+    },
+    {
+      "conference": "MAAC",
+      "from": 1989,
+      "to": 2025
+    }
+  ],
+  "Canterbury College": [
+    {
+      "conference": "Ind",
+      "from": 1930,
+      "to": 1930
+    }
+  ],
+  "Carleton Knights": [
+    {
+      "conference": "Ind",
+      "from": 1909,
+      "to": 1933
+    }
+  ],
+  "Carnegie Mellon Tartans": [
+    {
+      "conference": "Ind",
+      "from": 1930,
+      "to": 1931
+    },
+    {
+      "conference": "EIC",
+      "from": 1932,
+      "to": 1938
+    }
+  ],
+  "Case Western Reserve Spartans": [
+    {
+      "conference": "Ind",
+      "from": 1897,
+      "to": 1917
+    },
+    {
+      "conference": "MAC",
+      "from": 1946,
+      "to": 1954
+    }
+  ],
+  "Catholic Cardinals": [
+    {
+      "conference": "Ind",
+      "from": 1912,
+      "to": 1978
+    },
+    {
+      "conference": "ECACS",
+      "from": 1979,
+      "to": 1980
+    }
+  ],
+  "Centenary (LA) Gents": [
+    {
+      "conference": "Ind",
+      "from": 1959,
+      "to": 1977
+    },
+    {
+      "conference": "TAAC",
+      "from": 1978,
+      "to": 1998
+    },
+    {
+      "conference": "Ind",
+      "from": 1999,
+      "to": 2002
+    },
+    {
+      "conference": "Mid-Cont",
+      "from": 2003,
+      "to": 2006
+    },
+    {
+      "conference": "Summit",
+      "from": 2007,
+      "to": 2010
+    }
+  ],
+  "Central Arkansas": [
+    {
+      "conference": "Southland",
+      "from": 2006,
+      "to": 2020
+    },
+    {
+      "conference": "A-Sun",
+      "from": 2021,
+      "to": 2025
+    }
+  ],
+  "Central Connecticut State": [
+    {
+      "conference": "Ind",
+      "from": 1986,
+      "to": 1989
+    },
+    {
+      "conference": "ECC",
+      "from": 1990,
+      "to": 1991
+    },
+    {
+      "conference": "Ind",
+      "from": 1992,
+      "to": 1992
+    },
+    {
+      "conference": "ECC",
+      "from": 1993,
+      "to": 1993
+    },
+    {
+      "conference": "Mid-Cont",
+      "from": 1994,
+      "to": 1996
+    },
+    {
+      "conference": "NEC",
+      "from": 1997,
+      "to": 2025
+    }
+  ],
+  "Central Michigan": [
+    {
+      "conference": "MAC",
+      "from": 1972,
+      "to": 2025
+    }
+  ],
+  "Central Missouri Mules": [
+    {
+      "conference": "Ind",
+      "from": 1912,
+      "to": 1937
+    }
+  ],
+  "Central Pennsylvania College Knights": [
+    {
+      "conference": "Ind",
+      "from": 1895,
+      "to": 1899
+    }
+  ],
+  "Centre (KY) Colonels": [
+    {
+      "conference": "Ind",
+      "from": 1909,
+      "to": 1918
+    }
+  ],
+  "Charleston Southern": [
+    {
+      "conference": "Ind",
+      "from": 1974,
+      "to": 1984
+    },
+    {
+      "conference": "Big South",
+      "from": 1985,
+      "to": 2025
+    }
+  ],
+  "Charlotte": [
+    {
+      "conference": "Ind",
+      "from": 1972,
+      "to": 1975
+    },
+    {
+      "conference": "Sun Belt",
+      "from": 1976,
+      "to": 1990
+    },
+    {
+      "conference": "Metro",
+      "from": 1991,
+      "to": 1994
+    },
+    {
+      "conference": "CUSA",
+      "from": 1995,
+      "to": 2004
+    },
+    {
+      "conference": "A-10",
+      "from": 2005,
+      "to": 2012
+    },
+    {
+      "conference": "CUSA",
+      "from": 2013,
+      "to": 2022
+    },
+    {
+      "conference": "AAC",
+      "from": 2023,
+      "to": 2024
+    },
+    {
+      "conference": "American",
+      "from": 2025,
+      "to": 2025
+    }
+  ],
+  "Chattanooga": [
+    {
+      "conference": "Southern",
+      "from": 1976,
+      "to": 2025
+    }
+  ],
+  "Cheyenne Business College": [
+    {
+      "conference": "Ind",
+      "from": 1902,
+      "to": 1902
+    }
+  ],
+  "Chicago Maroons": [
+    {
+      "conference": "Ind",
+      "from": 1895,
+      "to": 1897
+    },
+    {
+      "conference": "Western",
+      "from": 1903,
+      "to": 1916
+    },
+    {
+      "conference": "Big Ten",
+      "from": 1917,
+      "to": 1945
+    }
+  ],
+  "Chicago State": [
+    {
+      "conference": "Ind",
+      "from": 1984,
+      "to": 1992
+    },
+    {
+      "conference": "ECC",
+      "from": 1993,
+      "to": 1993
+    },
+    {
+      "conference": "Mid-Cont",
+      "from": 1994,
+      "to": 2005
+    },
+    {
+      "conference": "Ind",
+      "from": 2006,
+      "to": 2008
+    },
+    {
+      "conference": "GWC",
+      "from": 2009,
+      "to": 2012
+    },
+    {
+      "conference": "WAC",
+      "from": 2013,
+      "to": 2021
+    },
+    {
+      "conference": "Ind",
+      "from": 2022,
+      "to": 2023
+    },
+    {
+      "conference": "NEC",
+      "from": 2024,
+      "to": 2025
+    }
+  ],
+  "Cincinnati": [
+    {
+      "conference": "Ind",
+      "from": 1901,
+      "to": 1945
+    },
+    {
+      "conference": "MAC",
+      "from": 1946,
+      "to": 1952
+    },
+    {
+      "conference": "Ind",
+      "from": 1953,
+      "to": 1956
+    },
+    {
+      "conference": "MVC",
+      "from": 1957,
+      "to": 1969
+    },
+    {
+      "conference": "Ind",
+      "from": 1970,
+      "to": 1974
+    },
+    {
+      "conference": "Metro",
+      "from": 1975,
+      "to": 1990
+    },
+    {
+      "conference": "GMWC",
+      "from": 1991,
+      "to": 1994
+    },
+    {
+      "conference": "CUSA",
+      "from": 1995,
+      "to": 2004
+    },
+    {
+      "conference": "Big East",
+      "from": 2005,
+      "to": 2012
+    },
+    {
+      "conference": "AAC",
+      "from": 2013,
+      "to": 2022
+    },
+    {
+      "conference": "Big 12",
+      "from": 2023,
+      "to": 2025
+    }
+  ],
+  "City College of New York Beavers": [
+    {
+      "conference": "Ind",
+      "from": 1905,
+      "to": 1932
+    },
+    {
+      "conference": "Metro NY",
+      "from": 1933,
+      "to": 1933
+    },
+    {
+      "conference": "Ind",
+      "from": 1934,
+      "to": 1934
+    },
+    {
+      "conference": "Metro NY",
+      "from": 1935,
+      "to": 1938
+    },
+    {
+      "conference": "Ind",
+      "from": 1939,
+      "to": 1941
+    },
+    {
+      "conference": "Metro NY",
+      "from": 1942,
+      "to": 1942
+    },
+    {
+      "conference": "Ind",
+      "from": 1943,
+      "to": 1944
+    },
+    {
+      "conference": "Metro NY",
+      "from": 1945,
+      "to": 1962
+    }
+  ],
+  "Clemson": [
+    {
+      "conference": "Ind",
+      "from": 1911,
+      "to": 1919
+    },
+    {
+      "conference": "Southern",
+      "from": 1920,
+      "to": 1952
+    },
+    {
+      "conference": "ACC",
+      "from": 1953,
+      "to": 2025
+    }
+  ],
+  "Cleveland State": [
+    {
+      "conference": "Ind",
+      "from": 1972,
+      "to": 1981
+    },
+    {
+      "conference": "Mid-Cont",
+      "from": 1982,
+      "to": 1993
+    },
+    {
+      "conference": "MW Coll",
+      "from": 1994,
+      "to": 2000
+    },
+    {
+      "conference": "Horizon",
+      "from": 2001,
+      "to": 2025
+    }
+  ],
+  "Coastal Carolina": [
+    {
+      "conference": "Big South",
+      "from": 1985,
+      "to": 2015
+    },
+    {
+      "conference": "Sun Belt",
+      "from": 2016,
+      "to": 2025
+    }
+  ],
+  "Colgate": [
+    {
+      "conference": "Ind",
+      "from": 1900,
+      "to": 1978
+    },
+    {
+      "conference": "ECACN",
+      "from": 1979,
+      "to": 1987
+    },
+    {
+      "conference": "NAC",
+      "from": 1988,
+      "to": 1989
+    },
+    {
+      "conference": "Patriot",
+      "from": 1990,
+      "to": 2025
+    }
+  ],
+  "College of Charleston": [
+    {
+      "conference": "Ind",
+      "from": 1991,
+      "to": 1991
+    },
+    {
+      "conference": "TAAC",
+      "from": 1992,
+      "to": 1997
+    },
+    {
+      "conference": "Southern",
+      "from": 1998,
+      "to": 2012
+    },
+    {
+      "conference": "CAA",
+      "from": 2013,
+      "to": 2025
+    }
+  ],
+  "College of New Jersey Lions": [
+    {
+      "conference": "Ind",
+      "from": 1899,
+      "to": 1899
+    }
+  ],
+  "Colorado": [
+    {
+      "conference": "Ind",
+      "from": 1901,
+      "to": 1909
+    },
+    {
+      "conference": "MSAC",
+      "from": 1910,
+      "to": 1946
+    },
+    {
+      "conference": "Big 7",
+      "from": 1947,
+      "to": 1956
+    },
+    {
+      "conference": "Big 8",
+      "from": 1957,
+      "to": 1995
+    },
+    {
+      "conference": "Big 12",
+      "from": 1996,
+      "to": 2010
+    },
+    {
+      "conference": "Pac-12",
+      "from": 2011,
+      "to": 2023
+    },
+    {
+      "conference": "Big 12",
+      "from": 2024,
+      "to": 2025
+    }
+  ],
+  "Colorado College Tigers": [
+    {
+      "conference": "MSAC",
+      "from": 1914,
+      "to": 1936
+    }
+  ],
+  "Colorado School of Mines Orediggers": [
+    {
+      "conference": "Ind",
+      "from": 1907,
+      "to": 1907
+    },
+    {
+      "conference": "MSAC",
+      "from": 1910,
+      "to": 1936
+    }
+  ],
+  "Colorado State": [
+    {
+      "conference": "Ind",
+      "from": 1901,
+      "to": 1909
+    },
+    {
+      "conference": "MSAC",
+      "from": 1910,
+      "to": 1921
+    },
+    {
+      "conference": "Ind",
+      "from": 1922,
+      "to": 1922
+    },
+    {
+      "conference": "MSAC",
+      "from": 1923,
+      "to": 1961
+    },
+    {
+      "conference": "Ind",
+      "from": 1962,
+      "to": 1968
+    },
+    {
+      "conference": "WAC",
+      "from": 1969,
+      "to": 1998
+    },
+    {
+      "conference": "MWC",
+      "from": 1999,
+      "to": 2025
+    }
+  ],
+  "Columbia": [
+    {
+      "conference": "Ind",
+      "from": 1900,
+      "to": 1900
+    },
+    {
+      "conference": "Ivy",
+      "from": 1901,
+      "to": 1907
+    },
+    {
+      "conference": "Ind",
+      "from": 1908,
+      "to": 1909
+    },
+    {
+      "conference": "Ivy",
+      "from": 1910,
+      "to": 2025
+    }
+  ],
+  "Concordia Seminary Preachers": [
+    {
+      "conference": "Ind",
+      "from": 1906,
+      "to": 1922
+    }
+  ],
+  "Connecticut": [
+    {
+      "conference": "Ind",
+      "from": 1900,
+      "to": 1936
+    },
+    {
+      "conference": "Yankee",
+      "from": 1937,
+      "to": 1942
+    },
+    {
+      "conference": "Ind",
+      "from": 1943,
+      "to": 1944
+    },
+    {
+      "conference": "Yankee",
+      "from": 1945,
+      "to": 1975
+    },
+    {
+      "conference": "Ind",
+      "from": 1976,
+      "to": 1978
+    },
+    {
+      "conference": "Big East",
+      "from": 1979,
+      "to": 2012
+    },
+    {
+      "conference": "AAC",
+      "from": 2013,
+      "to": 2019
+    },
+    {
+      "conference": "Big East",
+      "from": 2020,
+      "to": 2025
+    }
+  ],
+  "Coppin State": [
+    {
+      "conference": "MEAC",
+      "from": 1985,
+      "to": 2025
+    }
+  ],
+  "Cornell": [
+    {
+      "conference": "Ind",
+      "from": 1898,
+      "to": 1900
+    },
+    {
+      "conference": "Ivy",
+      "from": 1901,
+      "to": 1907
+    },
+    {
+      "conference": "Ind",
+      "from": 1908,
+      "to": 1909
+    },
+    {
+      "conference": "Ivy",
+      "from": 1910,
+      "to": 2025
+    }
+  ],
+  "Cotner College": [
+    {
+      "conference": "Ind",
+      "from": 1909,
+      "to": 1910
+    }
+  ],
+  "Creighton": [
+    {
+      "conference": "Ind",
+      "from": 1911,
+      "to": 1926
+    },
+    {
+      "conference": "MVC",
+      "from": 1927,
+      "to": 1947
+    },
+    {
+      "conference": "Ind",
+      "from": 1948,
+      "to": 1975
+    },
+    {
+      "conference": "MVC",
+      "from": 1976,
+      "to": 2012
+    },
+    {
+      "conference": "Big East",
+      "from": 2013,
+      "to": 2025
+    }
+  ],
+  "Cumberland (TN)": [
+    {
+      "conference": "Ind",
+      "from": 1903,
+      "to": 1903
+    }
+  ],
+  "Dakota Wesleyan Tigers": [
+    {
+      "conference": "Ind",
+      "from": 1931,
+      "to": 1931
+    }
+  ],
+  "Dartmouth": [
+    {
+      "conference": "Ind",
+      "from": 1899,
+      "to": 1910
+    },
+    {
+      "conference": "Ivy",
+      "from": 1911,
+      "to": 2025
+    }
+  ],
+  "Davidson": [
+    {
+      "conference": "Ind",
+      "from": 1908,
+      "to": 1935
+    },
+    {
+      "conference": "Southern",
+      "from": 1936,
+      "to": 1987
+    },
+    {
+      "conference": "Ind",
+      "from": 1988,
+      "to": 1989
+    },
+    {
+      "conference": "Big South",
+      "from": 1990,
+      "to": 1991
+    },
+    {
+      "conference": "Southern",
+      "from": 1992,
+      "to": 2013
+    },
+    {
+      "conference": "A-10",
+      "from": 2014,
+      "to": 2025
+    }
+  ],
+  "Dayton": [
+    {
+      "conference": "Ind",
+      "from": 1903,
+      "to": 1987
+    },
+    {
+      "conference": "MW Coll",
+      "from": 1988,
+      "to": 1992
+    },
+    {
+      "conference": "GMWC",
+      "from": 1993,
+      "to": 1994
+    },
+    {
+      "conference": "A-10",
+      "from": 1995,
+      "to": 2025
+    }
+  ],
+  "Delaware": [
+    {
+      "conference": "Ind",
+      "from": 1905,
+      "to": 1957
+    },
+    {
+      "conference": "Mid-Atl",
+      "from": 1958,
+      "to": 1973
+    },
+    {
+      "conference": "ECC",
+      "from": 1974,
+      "to": 1990
+    },
+    {
+      "conference": "NAC",
+      "from": 1991,
+      "to": 1995
+    },
+    {
+      "conference": "AEC",
+      "from": 1996,
+      "to": 2000
+    },
+    {
+      "conference": "CAA",
+      "from": 2001,
+      "to": 2024
+    },
+    {
+      "conference": "CUSA",
+      "from": 2025,
+      "to": 2025
+    }
+  ],
+  "Delaware State": [
+    {
+      "conference": "MEAC",
+      "from": 1971,
+      "to": 2025
+    }
+  ],
+  "Denison Big Red": [
+    {
+      "conference": "Ind",
+      "from": 1904,
+      "to": 1943
+    }
+  ],
+  "Denver": [
+    {
+      "conference": "Ind",
+      "from": 1903,
+      "to": 1908
+    },
+    {
+      "conference": "MSAC",
+      "from": 1910,
+      "to": 1941
+    },
+    {
+      "conference": "Ind",
+      "from": 1942,
+      "to": 1943
+    },
+    {
+      "conference": "MSAC",
+      "from": 1944,
+      "to": 1961
+    },
+    {
+      "conference": "Ind",
+      "from": 1962,
+      "to": 1998
+    },
+    {
+      "conference": "Sun Belt",
+      "from": 1999,
+      "to": 2011
+    },
+    {
+      "conference": "WAC",
+      "from": 2012,
+      "to": 2012
+    },
+    {
+      "conference": "Summit",
+      "from": 2013,
+      "to": 2025
+    }
+  ],
+  "DePaul": [
+    {
+      "conference": "Ind",
+      "from": 1923,
+      "to": 1990
+    },
+    {
+      "conference": "GMWC",
+      "from": 1991,
+      "to": 1994
+    },
+    {
+      "conference": "CUSA",
+      "from": 1995,
+      "to": 2004
+    },
+    {
+      "conference": "Big East",
+      "from": 2005,
+      "to": 2025
+    }
+  ],
+  "DePauw Tigers": [
+    {
+      "conference": "Ind",
+      "from": 1915,
+      "to": 1931
+    }
+  ],
+  "Detroit Mercy": [
+    {
+      "conference": "Ind",
+      "from": 1909,
+      "to": 1948
+    },
+    {
+      "conference": "MVC",
+      "from": 1949,
+      "to": 1956
+    },
+    {
+      "conference": "Ind",
+      "from": 1957,
+      "to": 1979
+    },
+    {
+      "conference": "MW City",
+      "from": 1980,
+      "to": 1984
+    },
+    {
+      "conference": "MW Coll",
+      "from": 1985,
+      "to": 2000
+    },
+    {
+      "conference": "Horizon",
+      "from": 2001,
+      "to": 2025
+    }
+  ],
+  "Dickinson College Red Devils": [
+    {
+      "conference": "Ind",
+      "from": 1925,
+      "to": 1925
+    },
+    {
+      "conference": "MASCN",
+      "from": 1946,
+      "to": 1946
+    }
+  ],
+  "Drake": [
+    {
+      "conference": "Ind",
+      "from": 1906,
+      "to": 1906
+    },
+    {
+      "conference": "MVC",
+      "from": 1907,
+      "to": 1950
+    },
+    {
+      "conference": "Ind",
+      "from": 1951,
+      "to": 1955
+    },
+    {
+      "conference": "MVC",
+      "from": 1956,
+      "to": 2025
+    }
+  ],
+  "Drexel": [
+    {
+      "conference": "Ind",
+      "from": 1894,
+      "to": 1899
+    },
+    {
+      "conference": "Mid-Atl",
+      "from": 1970,
+      "to": 1973
+    },
+    {
+      "conference": "ECC",
+      "from": 1974,
+      "to": 1990
+    },
+    {
+      "conference": "NAC",
+      "from": 1991,
+      "to": 1995
+    },
+    {
+      "conference": "AEC",
+      "from": 1996,
+      "to": 2000
+    },
+    {
+      "conference": "CAA",
+      "from": 2001,
+      "to": 2025
+    }
+  ],
+  "Duke": [
+    {
+      "conference": "Ind",
+      "from": 1905,
+      "to": 1927
+    },
+    {
+      "conference": "Southern",
+      "from": 1928,
+      "to": 1952
+    },
+    {
+      "conference": "ACC",
+      "from": 1953,
+      "to": 2025
+    }
+  ],
+  "Duquesne": [
+    {
+      "conference": "Ind",
+      "from": 1913,
+      "to": 1975
+    },
+    {
+      "conference": "ECBL",
+      "from": 1976,
+      "to": 1976
+    },
+    {
+      "conference": "EAA",
+      "from": 1977,
+      "to": 1981
+    },
+    {
+      "conference": "A-10",
+      "from": 1982,
+      "to": 1991
+    },
+    {
+      "conference": "MW Coll",
+      "from": 1992,
+      "to": 1992
+    },
+    {
+      "conference": "A-10",
+      "from": 1993,
+      "to": 2025
+    }
+  ],
+  "East Carolina": [
+    {
+      "conference": "Southern",
+      "from": 1964,
+      "to": 1976
+    },
+    {
+      "conference": "Ind",
+      "from": 1977,
+      "to": 1980
+    },
+    {
+      "conference": "ECACS",
+      "from": 1981,
+      "to": 1984
+    },
+    {
+      "conference": "CAA",
+      "from": 1985,
+      "to": 2000
+    },
+    {
+      "conference": "CUSA",
+      "from": 2001,
+      "to": 2013
+    },
+    {
+      "conference": "AAC",
+      "from": 2014,
+      "to": 2024
+    },
+    {
+      "conference": "American",
+      "from": 2025,
+      "to": 2025
+    }
+  ],
+  "East Central Tigers": [
+    {
+      "conference": "Ind",
+      "from": 1928,
+      "to": 1930
+    }
+  ],
+  "East Tennessee State": [
+    {
+      "conference": "OVC",
+      "from": 1957,
+      "to": 1977
+    },
+    {
+      "conference": "Southern",
+      "from": 1978,
+      "to": 2004
+    },
+    {
+      "conference": "A-Sun",
+      "from": 2005,
+      "to": 2013
+    },
+    {
+      "conference": "Southern",
+      "from": 2014,
+      "to": 2025
+    }
+  ],
+  "East Texas A&amp;M": [
+    {
+      "conference": "Southland",
+      "from": 2022,
+      "to": 2025
+    }
+  ],
+  "Eastern Illinois": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "Mid-Cont",
+      "from": 1982,
+      "to": 1995
+    },
+    {
+      "conference": "OVC",
+      "from": 1996,
+      "to": 2025
+    }
+  ],
+  "Eastern Kentucky": [
+    {
+      "conference": "Ind",
+      "from": 1947,
+      "to": 1947
+    },
+    {
+      "conference": "OVC",
+      "from": 1948,
+      "to": 2020
+    },
+    {
+      "conference": "A-Sun",
+      "from": 2021,
+      "to": 2025
+    }
+  ],
+  "Eastern Michigan": [
+    {
+      "conference": "Ind",
+      "from": 1932,
+      "to": 1973
+    },
+    {
+      "conference": "MAC",
+      "from": 1974,
+      "to": 2025
+    }
+  ],
+  "Eastern Washington": [
+    {
+      "conference": "Ind",
+      "from": 1983,
+      "to": 1986
+    },
+    {
+      "conference": "Big Sky",
+      "from": 1987,
+      "to": 2025
+    }
+  ],
+  "Elon": [
+    {
+      "conference": "Big South",
+      "from": 1999,
+      "to": 2002
+    },
+    {
+      "conference": "Southern",
+      "from": 2003,
+      "to": 2013
+    },
+    {
+      "conference": "CAA",
+      "from": 2014,
+      "to": 2025
+    }
+  ],
+  "Emporia State Hornets": [
+    {
+      "conference": "Ind",
+      "from": 1933,
+      "to": 1933
+    }
+  ],
+  "Ensign College": [
+    {
+      "conference": "Ind",
+      "from": 1902,
+      "to": 1902
+    }
+  ],
+  "Evansville": [
+    {
+      "conference": "Ind",
+      "from": 1924,
+      "to": 1927
+    },
+    {
+      "conference": "OVC",
+      "from": 1948,
+      "to": 1951
+    },
+    {
+      "conference": "Ind",
+      "from": 1977,
+      "to": 1978
+    },
+    {
+      "conference": "MW City",
+      "from": 1979,
+      "to": 1984
+    },
+    {
+      "conference": "MW Coll",
+      "from": 1985,
+      "to": 1993
+    },
+    {
+      "conference": "MVC",
+      "from": 1994,
+      "to": 2025
+    }
+  ],
+  "Fairfield": [
+    {
+      "conference": "Ind",
+      "from": 1964,
+      "to": 1978
+    },
+    {
+      "conference": "ECACM",
+      "from": 1979,
+      "to": 1980
+    },
+    {
+      "conference": "MAAC",
+      "from": 1981,
+      "to": 2025
+    }
+  ],
+  "FDU": [
+    {
+      "conference": "MCC",
+      "from": 1965,
+      "to": 1968
+    },
+    {
+      "conference": "Ind",
+      "from": 1969,
+      "to": 1978
+    },
+    {
+      "conference": "ECACM",
+      "from": 1979,
+      "to": 1987
+    },
+    {
+      "conference": "NEC",
+      "from": 1988,
+      "to": 2025
+    }
+  ],
+  "Florida": [
+    {
+      "conference": "Ind",
+      "from": 1920,
+      "to": 1921
+    },
+    {
+      "conference": "Southern",
+      "from": 1922,
+      "to": 1931
+    },
+    {
+      "conference": "SEC",
+      "from": 1932,
+      "to": 2025
+    }
+  ],
+  "Florida A&amp;M": [
+    {
+      "conference": "Ind",
+      "from": 1978,
+      "to": 1978
+    },
+    {
+      "conference": "MEAC",
+      "from": 1979,
+      "to": 1983
+    },
+    {
+      "conference": "Ind",
+      "from": 1984,
+      "to": 1985
+    },
+    {
+      "conference": "MEAC",
+      "from": 1986,
+      "to": 2020
+    },
+    {
+      "conference": "SWAC",
+      "from": 2021,
+      "to": 2025
+    }
+  ],
+  "Florida Atlantic": [
+    {
+      "conference": "TAAC",
+      "from": 1993,
+      "to": 2000
+    },
+    {
+      "conference": "A-Sun",
+      "from": 2001,
+      "to": 2005
+    },
+    {
+      "conference": "Sun Belt",
+      "from": 2006,
+      "to": 2012
+    },
+    {
+      "conference": "CUSA",
+      "from": 2013,
+      "to": 2022
+    },
+    {
+      "conference": "AAC",
+      "from": 2023,
+      "to": 2024
+    },
+    {
+      "conference": "American",
+      "from": 2025,
+      "to": 2025
+    }
+  ],
+  "Florida Gulf Coast": [
+    {
+      "conference": "A-Sun",
+      "from": 2007,
+      "to": 2025
+    }
+  ],
+  "Florida International": [
+    {
+      "conference": "Ind",
+      "from": 1987,
+      "to": 1990
+    },
+    {
+      "conference": "TAAC",
+      "from": 1991,
+      "to": 1997
+    },
+    {
+      "conference": "Sun Belt",
+      "from": 1998,
+      "to": 2012
+    },
+    {
+      "conference": "CUSA",
+      "from": 2013,
+      "to": 2025
+    }
+  ],
+  "Florida State": [
+    {
+      "conference": "Ind",
+      "from": 1956,
+      "to": 1975
+    },
+    {
+      "conference": "Metro",
+      "from": 1976,
+      "to": 1990
+    },
+    {
+      "conference": "ACC",
+      "from": 1991,
+      "to": 2025
+    }
+  ],
+  "Fordham": [
+    {
+      "conference": "Ind",
+      "from": 1902,
+      "to": 1932
+    },
+    {
+      "conference": "Metro NY",
+      "from": 1933,
+      "to": 1933
+    },
+    {
+      "conference": "Ind",
+      "from": 1934,
+      "to": 1934
+    },
+    {
+      "conference": "Metro NY",
+      "from": 1935,
+      "to": 1938
+    },
+    {
+      "conference": "Ind",
+      "from": 1939,
+      "to": 1941
+    },
+    {
+      "conference": "Metro NY",
+      "from": 1942,
+      "to": 1942
+    },
+    {
+      "conference": "Ind",
+      "from": 1944,
+      "to": 1944
+    },
+    {
+      "conference": "Metro NY",
+      "from": 1945,
+      "to": 1962
+    },
+    {
+      "conference": "Ind",
+      "from": 1963,
+      "to": 1975
+    },
+    {
+      "conference": "NJNY7",
+      "from": 1976,
+      "to": 1978
+    },
+    {
+      "conference": "ECACM",
+      "from": 1979,
+      "to": 1980
+    },
+    {
+      "conference": "MAAC",
+      "from": 1981,
+      "to": 1989
+    },
+    {
+      "conference": "Patriot",
+      "from": 1990,
+      "to": 1994
+    },
+    {
+      "conference": "A-10",
+      "from": 1995,
+      "to": 2025
+    }
+  ],
+  "Franklin Grizzlies": [
+    {
+      "conference": "Ind",
+      "from": 1906,
+      "to": 1924
+    }
+  ],
+  "Fresno State": [
+    {
+      "conference": "CBA",
+      "from": 1955,
+      "to": 1955
+    },
+    {
+      "conference": "WCAC",
+      "from": 1956,
+      "to": 1956
+    },
+    {
+      "conference": "Ind",
+      "from": 1957,
+      "to": 1957
+    },
+    {
+      "conference": "PCAA",
+      "from": 1969,
+      "to": 1987
+    },
+    {
+      "conference": "Big West",
+      "from": 1988,
+      "to": 1991
+    },
+    {
+      "conference": "WAC",
+      "from": 1992,
+      "to": 2011
+    },
+    {
+      "conference": "MWC",
+      "from": 2012,
+      "to": 2025
+    }
+  ],
+  "Furman": [
+    {
+      "conference": "Ind",
+      "from": 1919,
+      "to": 1919
+    },
+    {
+      "conference": "Southern",
+      "from": 1920,
+      "to": 1920
+    },
+    {
+      "conference": "Ind",
+      "from": 1921,
+      "to": 1935
+    },
+    {
+      "conference": "Southern",
+      "from": 1936,
+      "to": 2025
+    }
+  ],
+  "Gardner-Webb": [
+    {
+      "conference": "A-Sun",
+      "from": 2002,
+      "to": 2007
+    },
+    {
+      "conference": "Big South",
+      "from": 2008,
+      "to": 2025
+    }
+  ],
+  "Geneva Golden Tornadoes": [
+    {
+      "conference": "Ind",
+      "from": 1892,
+      "to": 1942
+    }
+  ],
+  "George Mason": [
+    {
+      "conference": "Ind",
+      "from": 1978,
+      "to": 1978
+    },
+    {
+      "conference": "ECACS",
+      "from": 1979,
+      "to": 1984
+    },
+    {
+      "conference": "CAA",
+      "from": 1985,
+      "to": 2012
+    },
+    {
+      "conference": "A-10",
+      "from": 2013,
+      "to": 2025
+    }
+  ],
+  "George Washington": [
+    {
+      "conference": "Ind",
+      "from": 1912,
+      "to": 1940
+    },
+    {
+      "conference": "Southern",
+      "from": 1941,
+      "to": 1969
+    },
+    {
+      "conference": "Ind",
+      "from": 1970,
+      "to": 1975
+    },
+    {
+      "conference": "ECBL",
+      "from": 1976,
+      "to": 1976
+    },
+    {
+      "conference": "EAA",
+      "from": 1977,
+      "to": 1981
+    },
+    {
+      "conference": "A-10",
+      "from": 1982,
+      "to": 2025
+    }
+  ],
+  "Georgetown": [
+    {
+      "conference": "Ind",
+      "from": 1906,
+      "to": 1931
+    },
+    {
+      "conference": "EIC",
+      "from": 1932,
+      "to": 1938
+    },
+    {
+      "conference": "Ind",
+      "from": 1939,
+      "to": 1978
+    },
+    {
+      "conference": "Big East",
+      "from": 1979,
+      "to": 2025
+    }
+  ],
+  "Georgia": [
+    {
+      "conference": "Ind",
+      "from": 1905,
+      "to": 1919
+    },
+    {
+      "conference": "Southern",
+      "from": 1920,
+      "to": 1931
+    },
+    {
+      "conference": "SEC",
+      "from": 1932,
+      "to": 2025
+    }
+  ],
+  "Georgia Southern": [
+    {
+      "conference": "Ind",
+      "from": 1971,
+      "to": 1978
+    },
+    {
+      "conference": "TAAC",
+      "from": 1979,
+      "to": 1991
+    },
+    {
+      "conference": "Southern",
+      "from": 1992,
+      "to": 2013
+    },
+    {
+      "conference": "Sun Belt",
+      "from": 2014,
+      "to": 2025
+    }
+  ],
+  "Georgia State": [
+    {
+      "conference": "Ind",
+      "from": 1973,
+      "to": 1975
+    },
+    {
+      "conference": "Sun Belt",
+      "from": 1976,
+      "to": 1980
+    },
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1982
+    },
+    {
+      "conference": "TAAC",
+      "from": 1983,
+      "to": 2000
+    },
+    {
+      "conference": "A-Sun",
+      "from": 2001,
+      "to": 2004
+    },
+    {
+      "conference": "CAA",
+      "from": 2005,
+      "to": 2012
+    },
+    {
+      "conference": "Sun Belt",
+      "from": 2013,
+      "to": 2025
+    }
+  ],
+  "Georgia Tech": [
+    {
+      "conference": "Ind",
+      "from": 1919,
+      "to": 1919
+    },
+    {
+      "conference": "Southern",
+      "from": 1920,
+      "to": 1931
+    },
+    {
+      "conference": "SEC",
+      "from": 1932,
+      "to": 1963
+    },
+    {
+      "conference": "Ind",
+      "from": 1964,
+      "to": 1974
+    },
+    {
+      "conference": "Metro",
+      "from": 1975,
+      "to": 1977
+    },
+    {
+      "conference": "Ind",
+      "from": 1978,
+      "to": 1978
+    },
+    {
+      "conference": "ACC",
+      "from": 1979,
+      "to": 2025
+    }
+  ],
+  "Gettysburg Bullets": [
+    {
+      "conference": "Ind",
+      "from": 1900,
+      "to": 1921
+    },
+    {
+      "conference": "MASCN",
+      "from": 1945,
+      "to": 1948
+    },
+    {
+      "conference": "Ind",
+      "from": 1949,
+      "to": 1950
+    },
+    {
+      "conference": "Mid-Atl",
+      "from": 1958,
+      "to": 1973
+    }
+  ],
+  "Gonzaga": [
+    {
+      "conference": "Ind",
+      "from": 1943,
+      "to": 1962
+    },
+    {
+      "conference": "Big Sky",
+      "from": 1963,
+      "to": 1978
+    },
+    {
+      "conference": "WCAC",
+      "from": 1979,
+      "to": 1988
+    },
+    {
+      "conference": "WCC",
+      "from": 1989,
+      "to": 2025
+    }
+  ],
+  "Grambling": [
+    {
+      "conference": "SWAC",
+      "from": 1977,
+      "to": 2025
+    }
+  ],
+  "Grand Canyon": [
+    {
+      "conference": "WAC",
+      "from": 2013,
+      "to": 2024
+    },
+    {
+      "conference": "MWC",
+      "from": 2025,
+      "to": 2025
+    }
+  ],
+  "Green Bay": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "Mid-Cont",
+      "from": 1982,
+      "to": 1993
+    },
+    {
+      "conference": "MW Coll",
+      "from": 1994,
+      "to": 2000
+    },
+    {
+      "conference": "Horizon",
+      "from": 2001,
+      "to": 2025
+    }
+  ],
+  "Grinnell Pioneers": [
+    {
+      "conference": "Ind",
+      "from": 1900,
+      "to": 1917
+    },
+    {
+      "conference": "MVC",
+      "from": 1918,
+      "to": 1938
+    }
+  ],
+  "Grove City Wolverines": [
+    {
+      "conference": "Ind",
+      "from": 1898,
+      "to": 1924
+    }
+  ],
+  "Hamline Pipers": [
+    {
+      "conference": "Ind",
+      "from": 1944,
+      "to": 1948
+    }
+  ],
+  "Hampton": [
+    {
+      "conference": "MEAC",
+      "from": 1995,
+      "to": 2017
+    },
+    {
+      "conference": "Big South",
+      "from": 2018,
+      "to": 2021
+    },
+    {
+      "conference": "CAA",
+      "from": 2022,
+      "to": 2025
+    }
+  ],
+  "Hardin-Simmons Cowboys": [
+    {
+      "conference": "Ind",
+      "from": 1922,
+      "to": 1936
+    },
+    {
+      "conference": "BIAA",
+      "from": 1941,
+      "to": 1961
+    },
+    {
+      "conference": "Ind",
+      "from": 1962,
+      "to": 1977
+    },
+    {
+      "conference": "TAAC",
+      "from": 1978,
+      "to": 1989
+    }
+  ],
+  "Hartford Hawks": [
+    {
+      "conference": "ECACN",
+      "from": 1984,
+      "to": 1987
+    },
+    {
+      "conference": "NAC",
+      "from": 1988,
+      "to": 1995
+    },
+    {
+      "conference": "AEC",
+      "from": 1996,
+      "to": 2021
+    },
+    {
+      "conference": "Ind",
+      "from": 2022,
+      "to": 2022
+    }
+  ],
+  "Harvard": [
+    {
+      "conference": "Ind",
+      "from": 1900,
+      "to": 1900
+    },
+    {
+      "conference": "Ivy",
+      "from": 1901,
+      "to": 1903
+    },
+    {
+      "conference": "Ind",
+      "from": 1904,
+      "to": 1904
+    },
+    {
+      "conference": "Ivy",
+      "from": 1905,
+      "to": 1906
+    },
+    {
+      "conference": "Ind",
+      "from": 1907,
+      "to": 1932
+    },
+    {
+      "conference": "Ivy",
+      "from": 1933,
+      "to": 1942
+    },
+    {
+      "conference": "Ind",
+      "from": 1943,
+      "to": 1943
+    },
+    {
+      "conference": "Ivy",
+      "from": 1944,
+      "to": 1944
+    },
+    {
+      "conference": "Ind",
+      "from": 1945,
+      "to": 1945
+    },
+    {
+      "conference": "Ivy",
+      "from": 1946,
+      "to": 2025
+    }
+  ],
+  "Haskell (KS) Fighting Indians": [
+    {
+      "conference": "Ind",
+      "from": 1902,
+      "to": 1907
+    }
+  ],
+  "Hawaii": [
+    {
+      "conference": "Ind",
+      "from": 1970,
+      "to": 1978
+    },
+    {
+      "conference": "WAC",
+      "from": 1979,
+      "to": 2011
+    },
+    {
+      "conference": "Big West",
+      "from": 2012,
+      "to": 2025
+    }
+  ],
+  "High Point": [
+    {
+      "conference": "Big South",
+      "from": 1999,
+      "to": 2025
+    }
+  ],
+  "Hiram Terriers": [
+    {
+      "conference": "Ind",
+      "from": 1893,
+      "to": 1903
+    }
+  ],
+  "Hofstra": [
+    {
+      "conference": "Metro NY",
+      "from": 1942,
+      "to": 1942
+    },
+    {
+      "conference": "MCC",
+      "from": 1965,
+      "to": 1968
+    },
+    {
+      "conference": "Mid-Atl",
+      "from": 1969,
+      "to": 1973
+    },
+    {
+      "conference": "ECC",
+      "from": 1974,
+      "to": 1991
+    },
+    {
+      "conference": "Ind",
+      "from": 1992,
+      "to": 1992
+    },
+    {
+      "conference": "ECC",
+      "from": 1993,
+      "to": 1993
+    },
+    {
+      "conference": "NAC",
+      "from": 1994,
+      "to": 1995
+    },
+    {
+      "conference": "AEC",
+      "from": 1996,
+      "to": 2000
+    },
+    {
+      "conference": "CAA",
+      "from": 2001,
+      "to": 2025
+    }
+  ],
+  "Holy Cross": [
+    {
+      "conference": "Ind",
+      "from": 1900,
+      "to": 1978
+    },
+    {
+      "conference": "ECACN",
+      "from": 1979,
+      "to": 1982
+    },
+    {
+      "conference": "MAAC",
+      "from": 1983,
+      "to": 1989
+    },
+    {
+      "conference": "Patriot",
+      "from": 1990,
+      "to": 2025
+    }
+  ],
+  "Hope Flying Dutchmen": [
+    {
+      "conference": "Ind",
+      "from": 1907,
+      "to": 1912
+    }
+  ],
+  "Houston": [
+    {
+      "conference": "MVC",
+      "from": 1950,
+      "to": 1959
+    },
+    {
+      "conference": "Ind",
+      "from": 1960,
+      "to": 1974
+    },
+    {
+      "conference": "SWC",
+      "from": 1975,
+      "to": 1995
+    },
+    {
+      "conference": "CUSA",
+      "from": 1996,
+      "to": 2012
+    },
+    {
+      "conference": "AAC",
+      "from": 2013,
+      "to": 2022
+    },
+    {
+      "conference": "Big 12",
+      "from": 2023,
+      "to": 2025
+    }
+  ],
+  "Houston Christian": [
+    {
+      "conference": "Ind",
+      "from": 1973,
+      "to": 1977
+    },
+    {
+      "conference": "TAAC",
+      "from": 1978,
+      "to": 1988
+    },
+    {
+      "conference": "Ind",
+      "from": 2008,
+      "to": 2008
+    },
+    {
+      "conference": "GWC",
+      "from": 2009,
+      "to": 2012
+    },
+    {
+      "conference": "Southland",
+      "from": 2013,
+      "to": 2025
+    }
+  ],
+  "Howard": [
+    {
+      "conference": "MEAC",
+      "from": 1971,
+      "to": 2025
+    }
+  ],
+  "Idaho": [
+    {
+      "conference": "Ind",
+      "from": 1905,
+      "to": 1920
+    },
+    {
+      "conference": "PCC",
+      "from": 1921,
+      "to": 1958
+    },
+    {
+      "conference": "Ind",
+      "from": 1959,
+      "to": 1962
+    },
+    {
+      "conference": "Big Sky",
+      "from": 1963,
+      "to": 1995
+    },
+    {
+      "conference": "Big West",
+      "from": 1996,
+      "to": 2004
+    },
+    {
+      "conference": "WAC",
+      "from": 2005,
+      "to": 2013
+    },
+    {
+      "conference": "Big Sky",
+      "from": 2014,
+      "to": 2025
+    }
+  ],
+  "Idaho State": [
+    {
+      "conference": "Ind",
+      "from": 1952,
+      "to": 1962
+    },
+    {
+      "conference": "Big Sky",
+      "from": 1963,
+      "to": 2025
+    }
+  ],
+  "Illinois": [
+    {
+      "conference": "Western",
+      "from": 1905,
+      "to": 1916
+    },
+    {
+      "conference": "Big Ten",
+      "from": 1917,
+      "to": 2025
+    }
+  ],
+  "Illinois State": [
+    {
+      "conference": "Ind",
+      "from": 1898,
+      "to": 1980
+    },
+    {
+      "conference": "MVC",
+      "from": 1981,
+      "to": 2025
+    }
+  ],
+  "Illinois Wesleyan Titans": [
+    {
+      "conference": "Ind",
+      "from": 1927,
+      "to": 1935
+    }
+  ],
+  "Illinois-Chicago": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "Mid-Cont",
+      "from": 1982,
+      "to": 1993
+    },
+    {
+      "conference": "MW Coll",
+      "from": 1994,
+      "to": 2000
+    },
+    {
+      "conference": "Horizon",
+      "from": 2001,
+      "to": 2021
+    },
+    {
+      "conference": "MVC",
+      "from": 2022,
+      "to": 2025
+    }
+  ],
+  "Incarnate Word": [
+    {
+      "conference": "Southland",
+      "from": 2013,
+      "to": 2025
+    }
+  ],
+  "Indiana": [
+    {
+      "conference": "Western",
+      "from": 1900,
+      "to": 1916
+    },
+    {
+      "conference": "Big Ten",
+      "from": 1917,
+      "to": 2025
+    }
+  ],
+  "Indiana State": [
+    {
+      "conference": "Ind",
+      "from": 1899,
+      "to": 1975
+    },
+    {
+      "conference": "MVC",
+      "from": 1976,
+      "to": 2025
+    }
+  ],
+  "Iona": [
+    {
+      "conference": "Ind",
+      "from": 1953,
+      "to": 1964
+    },
+    {
+      "conference": "MCC",
+      "from": 1965,
+      "to": 1968
+    },
+    {
+      "conference": "Ind",
+      "from": 1969,
+      "to": 1978
+    },
+    {
+      "conference": "ECACM",
+      "from": 1979,
+      "to": 1980
+    },
+    {
+      "conference": "MAAC",
+      "from": 1981,
+      "to": 2025
+    }
+  ],
+  "Iowa": [
+    {
+      "conference": "Ind",
+      "from": 1892,
+      "to": 1897
+    },
+    {
+      "conference": "Western",
+      "from": 1901,
+      "to": 1916
+    },
+    {
+      "conference": "Big Ten",
+      "from": 1917,
+      "to": 2025
+    }
+  ],
+  "Iowa State": [
+    {
+      "conference": "MVC",
+      "from": 1907,
+      "to": 1927
+    },
+    {
+      "conference": "Big 6",
+      "from": 1928,
+      "to": 1946
+    },
+    {
+      "conference": "Big 7",
+      "from": 1947,
+      "to": 1956
+    },
+    {
+      "conference": "Big 8",
+      "from": 1957,
+      "to": 1995
+    },
+    {
+      "conference": "Big 12",
+      "from": 1996,
+      "to": 2025
+    }
+  ],
+  "IU Indy": [
+    {
+      "conference": "Mid-Cont",
+      "from": 1998,
+      "to": 2006
+    },
+    {
+      "conference": "Summit",
+      "from": 2007,
+      "to": 2016
+    },
+    {
+      "conference": "Horizon",
+      "from": 2017,
+      "to": 2025
+    }
+  ],
+  "Jackson State": [
+    {
+      "conference": "SWAC",
+      "from": 1977,
+      "to": 2025
+    }
+  ],
+  "Jacksonville": [
+    {
+      "conference": "Ind",
+      "from": 1966,
+      "to": 1975
+    },
+    {
+      "conference": "Sun Belt",
+      "from": 1976,
+      "to": 1997
+    },
+    {
+      "conference": "TAAC",
+      "from": 1998,
+      "to": 2000
+    },
+    {
+      "conference": "A-Sun",
+      "from": 2001,
+      "to": 2025
+    }
+  ],
+  "Jacksonville State": [
+    {
+      "conference": "TAAC",
+      "from": 1995,
+      "to": 2000
+    },
+    {
+      "conference": "A-Sun",
+      "from": 2001,
+      "to": 2002
+    },
+    {
+      "conference": "OVC",
+      "from": 2003,
+      "to": 2020
+    },
+    {
+      "conference": "A-Sun",
+      "from": 2021,
+      "to": 2022
+    },
+    {
+      "conference": "CUSA",
+      "from": 2023,
+      "to": 2025
+    }
+  ],
+  "James Madison": [
+    {
+      "conference": "Ind",
+      "from": 1976,
+      "to": 1978
+    },
+    {
+      "conference": "ECACS",
+      "from": 1979,
+      "to": 1984
+    },
+    {
+      "conference": "CAA",
+      "from": 1985,
+      "to": 2021
+    },
+    {
+      "conference": "Sun Belt",
+      "from": 2022,
+      "to": 2025
+    }
+  ],
+  "John Carroll Blue Streaks": [
+    {
+      "conference": "Ind",
+      "from": 1947,
+      "to": 1954
+    }
+  ],
+  "Kalamazoo Hornets": [
+    {
+      "conference": "Ind",
+      "from": 1907,
+      "to": 1922
+    }
+  ],
+  "Kansas": [
+    {
+      "conference": "Ind",
+      "from": 1898,
+      "to": 1906
+    },
+    {
+      "conference": "MVC",
+      "from": 1907,
+      "to": 1927
+    },
+    {
+      "conference": "Big 6",
+      "from": 1928,
+      "to": 1946
+    },
+    {
+      "conference": "Big 7",
+      "from": 1947,
+      "to": 1956
+    },
+    {
+      "conference": "Big 8",
+      "from": 1957,
+      "to": 1995
+    },
+    {
+      "conference": "Big 12",
+      "from": 1996,
+      "to": 2025
+    }
+  ],
+  "Kansas City": [
+    {
+      "conference": "Ind",
+      "from": 1989,
+      "to": 1993
+    },
+    {
+      "conference": "Mid-Cont",
+      "from": 1994,
+      "to": 2006
+    },
+    {
+      "conference": "Summit",
+      "from": 2007,
+      "to": 2012
+    },
+    {
+      "conference": "WAC",
+      "from": 2013,
+      "to": 2019
+    },
+    {
+      "conference": "Summit",
+      "from": 2020,
+      "to": 2025
+    }
+  ],
+  "Kansas State": [
+    {
+      "conference": "Ind",
+      "from": 1905,
+      "to": 1912
+    },
+    {
+      "conference": "MVC",
+      "from": 1913,
+      "to": 1927
+    },
+    {
+      "conference": "Big 6",
+      "from": 1928,
+      "to": 1946
+    },
+    {
+      "conference": "Big 7",
+      "from": 1947,
+      "to": 1956
+    },
+    {
+      "conference": "Big 8",
+      "from": 1957,
+      "to": 1995
+    },
+    {
+      "conference": "Big 12",
+      "from": 1996,
+      "to": 2025
+    }
+  ],
+  "Kennesaw State": [
+    {
+      "conference": "A-Sun",
+      "from": 2005,
+      "to": 2023
+    },
+    {
+      "conference": "CUSA",
+      "from": 2024,
+      "to": 2025
+    }
+  ],
+  "Kent State": [
+    {
+      "conference": "Ind",
+      "from": 1913,
+      "to": 1947
+    },
+    {
+      "conference": "MAC",
+      "from": 1951,
+      "to": 2025
+    }
+  ],
+  "Kentucky": [
+    {
+      "conference": "Ind",
+      "from": 1902,
+      "to": 1919
+    },
+    {
+      "conference": "Southern",
+      "from": 1920,
+      "to": 1931
+    },
+    {
+      "conference": "SEC",
+      "from": 1932,
+      "to": 2025
+    }
+  ],
+  "Kentucky Wesleyan Panthers": [
+    {
+      "conference": "Ind",
+      "from": 1956,
+      "to": 1957
+    }
+  ],
+  "La Salle": [
+    {
+      "conference": "Ind",
+      "from": 1931,
+      "to": 1957
+    },
+    {
+      "conference": "Mid-Atl",
+      "from": 1958,
+      "to": 1973
+    },
+    {
+      "conference": "ECC",
+      "from": 1974,
+      "to": 1982
+    },
+    {
+      "conference": "MAAC",
+      "from": 1983,
+      "to": 1991
+    },
+    {
+      "conference": "MW Coll",
+      "from": 1992,
+      "to": 1994
+    },
+    {
+      "conference": "A-10",
+      "from": 1995,
+      "to": 2025
+    }
+  ],
+  "Lafayette": [
+    {
+      "conference": "Ind",
+      "from": 1900,
+      "to": 1941
+    },
+    {
+      "conference": "Mid-3",
+      "from": 1942,
+      "to": 1942
+    },
+    {
+      "conference": "Ind",
+      "from": 1943,
+      "to": 1944
+    },
+    {
+      "conference": "MASCN",
+      "from": 1945,
+      "to": 1948
+    },
+    {
+      "conference": "Mid-3",
+      "from": 1949,
+      "to": 1951
+    },
+    {
+      "conference": "Ind",
+      "from": 1952,
+      "to": 1957
+    },
+    {
+      "conference": "Mid-Atl",
+      "from": 1958,
+      "to": 1973
+    },
+    {
+      "conference": "ECC",
+      "from": 1974,
+      "to": 1989
+    },
+    {
+      "conference": "Patriot",
+      "from": 1990,
+      "to": 2025
+    }
+  ],
+  "Lake Forest Foresters": [
+    {
+      "conference": "Ind",
+      "from": 1904,
+      "to": 1915
+    }
+  ],
+  "Lamar": [
+    {
+      "conference": "Southland",
+      "from": 1968,
+      "to": 1986
+    },
+    {
+      "conference": "ASC",
+      "from": 1987,
+      "to": 1990
+    },
+    {
+      "conference": "Sun Belt",
+      "from": 1991,
+      "to": 1997
+    },
+    {
+      "conference": "Southland",
+      "from": 1998,
+      "to": 2020
+    },
+    {
+      "conference": "WAC",
+      "from": 2021,
+      "to": 2021
+    },
+    {
+      "conference": "Southland",
+      "from": 2022,
+      "to": 2025
+    }
+  ],
+  "Le Moyne": [
+    {
+      "conference": "NEC",
+      "from": 2023,
+      "to": 2025
+    }
+  ],
+  "Lehigh": [
+    {
+      "conference": "Ind",
+      "from": 1901,
+      "to": 1941
+    },
+    {
+      "conference": "Mid-3",
+      "from": 1942,
+      "to": 1942
+    },
+    {
+      "conference": "Ind",
+      "from": 1943,
+      "to": 1944
+    },
+    {
+      "conference": "MASCN",
+      "from": 1945,
+      "to": 1948
+    },
+    {
+      "conference": "Mid-3",
+      "from": 1949,
+      "to": 1951
+    },
+    {
+      "conference": "Ind",
+      "from": 1952,
+      "to": 1957
+    },
+    {
+      "conference": "Mid-Atl",
+      "from": 1958,
+      "to": 1973
+    },
+    {
+      "conference": "ECC",
+      "from": 1974,
+      "to": 1989
+    },
+    {
+      "conference": "Patriot",
+      "from": 1990,
+      "to": 2025
+    }
+  ],
+  "Lewis Flyers": [
+    {
+      "conference": "Ind",
+      "from": 1904,
+      "to": 1904
+    }
+  ],
+  "Liberty": [
+    {
+      "conference": "Ind",
+      "from": 1988,
+      "to": 1990
+    },
+    {
+      "conference": "Big South",
+      "from": 1991,
+      "to": 2017
+    },
+    {
+      "conference": "A-Sun",
+      "from": 2018,
+      "to": 2022
+    },
+    {
+      "conference": "CUSA",
+      "from": 2023,
+      "to": 2025
+    }
+  ],
+  "Lindenwood": [
+    {
+      "conference": "OVC",
+      "from": 2022,
+      "to": 2025
+    }
+  ],
+  "Lipscomb": [
+    {
+      "conference": "Ind",
+      "from": 2001,
+      "to": 2002
+    },
+    {
+      "conference": "A-Sun",
+      "from": 2003,
+      "to": 2025
+    }
+  ],
+  "Little Rock": [
+    {
+      "conference": "Ind",
+      "from": 1978,
+      "to": 1978
+    },
+    {
+      "conference": "TAAC",
+      "from": 1979,
+      "to": 1990
+    },
+    {
+      "conference": "Sun Belt",
+      "from": 1991,
+      "to": 2021
+    },
+    {
+      "conference": "OVC",
+      "from": 2022,
+      "to": 2025
+    }
+  ],
+  "Long Beach State": [
+    {
+      "conference": "PCAA",
+      "from": 1969,
+      "to": 1987
+    },
+    {
+      "conference": "Big West",
+      "from": 1988,
+      "to": 2025
+    }
+  ],
+  "Long Island University": [
+    {
+      "conference": "Ind",
+      "from": 1928,
+      "to": 1932
+    },
+    {
+      "conference": "Metro NY",
+      "from": 1933,
+      "to": 1933
+    },
+    {
+      "conference": "Ind",
+      "from": 1934,
+      "to": 1934
+    },
+    {
+      "conference": "Metro NY",
+      "from": 1935,
+      "to": 1938
+    },
+    {
+      "conference": "Ind",
+      "from": 1939,
+      "to": 1950
+    },
+    {
+      "conference": "MCC",
+      "from": 1965,
+      "to": 1968
+    },
+    {
+      "conference": "Ind",
+      "from": 1969,
+      "to": 1978
+    },
+    {
+      "conference": "ECACM",
+      "from": 1979,
+      "to": 1987
+    },
+    {
+      "conference": "NEC",
+      "from": 1988,
+      "to": 2025
+    }
+  ],
+  "Longwood": [
+    {
+      "conference": "Ind",
+      "from": 2004,
+      "to": 2011
+    },
+    {
+      "conference": "Big South",
+      "from": 2012,
+      "to": 2025
+    }
+  ],
+  "Louisiana": [
+    {
+      "conference": "Southland",
+      "from": 1971,
+      "to": 1981
+    },
+    {
+      "conference": "Ind",
+      "from": 1982,
+      "to": 1986
+    },
+    {
+      "conference": "ASC",
+      "from": 1987,
+      "to": 1990
+    },
+    {
+      "conference": "Sun Belt",
+      "from": 1991,
+      "to": 2025
+    }
+  ],
+  "Louisiana State": [
+    {
+      "conference": "Ind",
+      "from": 1908,
+      "to": 1921
+    },
+    {
+      "conference": "Southern",
+      "from": 1922,
+      "to": 1931
+    },
+    {
+      "conference": "SEC",
+      "from": 1932,
+      "to": 2025
+    }
+  ],
+  "Louisiana Tech": [
+    {
+      "conference": "Southland",
+      "from": 1971,
+      "to": 1986
+    },
+    {
+      "conference": "ASC",
+      "from": 1987,
+      "to": 1990
+    },
+    {
+      "conference": "Sun Belt",
+      "from": 1991,
+      "to": 2000
+    },
+    {
+      "conference": "WAC",
+      "from": 2001,
+      "to": 2012
+    },
+    {
+      "conference": "CUSA",
+      "from": 2013,
+      "to": 2025
+    }
+  ],
+  "Louisiana-Monroe": [
+    {
+      "conference": "Ind",
+      "from": 1973,
+      "to": 1977
+    },
+    {
+      "conference": "TAAC",
+      "from": 1978,
+      "to": 1981
+    },
+    {
+      "conference": "Southland",
+      "from": 1982,
+      "to": 2005
+    },
+    {
+      "conference": "Sun Belt",
+      "from": 2006,
+      "to": 2025
+    }
+  ],
+  "Louisville": [
+    {
+      "conference": "Ind",
+      "from": 1911,
+      "to": 1947
+    },
+    {
+      "conference": "OVC",
+      "from": 1948,
+      "to": 1948
+    },
+    {
+      "conference": "Ind",
+      "from": 1949,
+      "to": 1963
+    },
+    {
+      "conference": "MVC",
+      "from": 1964,
+      "to": 1974
+    },
+    {
+      "conference": "Metro",
+      "from": 1975,
+      "to": 1994
+    },
+    {
+      "conference": "CUSA",
+      "from": 1995,
+      "to": 2004
+    },
+    {
+      "conference": "Big East",
+      "from": 2005,
+      "to": 2012
+    },
+    {
+      "conference": "AAC",
+      "from": 2013,
+      "to": 2013
+    },
+    {
+      "conference": "ACC",
+      "from": 2014,
+      "to": 2025
+    }
+  ],
+  "Loyola (IL)": [
+    {
+      "conference": "Ind",
+      "from": 1920,
+      "to": 1978
+    },
+    {
+      "conference": "MW City",
+      "from": 1979,
+      "to": 1984
+    },
+    {
+      "conference": "MW Coll",
+      "from": 1985,
+      "to": 2000
+    },
+    {
+      "conference": "Horizon",
+      "from": 2001,
+      "to": 2012
+    },
+    {
+      "conference": "MVC",
+      "from": 2013,
+      "to": 2021
+    },
+    {
+      "conference": "A-10",
+      "from": 2022,
+      "to": 2025
+    }
+  ],
+  "Loyola (LA) Wolfpack": [
+    {
+      "conference": "Ind",
+      "from": 1951,
+      "to": 1971
+    }
+  ],
+  "Loyola (MD)": [
+    {
+      "conference": "Ind",
+      "from": 1907,
+      "to": 1949
+    },
+    {
+      "conference": "ECACM",
+      "from": 1981,
+      "to": 1987
+    },
+    {
+      "conference": "NEC",
+      "from": 1988,
+      "to": 1988
+    },
+    {
+      "conference": "MAAC",
+      "from": 1989,
+      "to": 2012
+    },
+    {
+      "conference": "Patriot",
+      "from": 2013,
+      "to": 2025
+    }
+  ],
+  "Loyola Marymount": [
+    {
+      "conference": "Ind",
+      "from": 1942,
+      "to": 1954
+    },
+    {
+      "conference": "CBA",
+      "from": 1955,
+      "to": 1955
+    },
+    {
+      "conference": "WCAC",
+      "from": 1956,
+      "to": 1988
+    },
+    {
+      "conference": "WCC",
+      "from": 1989,
+      "to": 2025
+    }
+  ],
+  "Macalester Scots": [
+    {
+      "conference": "Ind",
+      "from": 1895,
+      "to": 1898
+    }
+  ],
+  "Maine": [
+    {
+      "conference": "Ind",
+      "from": 1903,
+      "to": 1909
+    },
+    {
+      "conference": "Yankee",
+      "from": 1937,
+      "to": 1942
+    },
+    {
+      "conference": "Ind",
+      "from": 1943,
+      "to": 1944
+    },
+    {
+      "conference": "Yankee",
+      "from": 1945,
+      "to": 1975
+    },
+    {
+      "conference": "Ind",
+      "from": 1976,
+      "to": 1978
+    },
+    {
+      "conference": "ECACN",
+      "from": 1979,
+      "to": 1987
+    },
+    {
+      "conference": "NAC",
+      "from": 1988,
+      "to": 1995
+    },
+    {
+      "conference": "AEC",
+      "from": 1996,
+      "to": 2025
+    }
+  ],
+  "Manchester Spartans": [
+    {
+      "conference": "Ind",
+      "from": 1925,
+      "to": 1925
+    }
+  ],
+  "Manhattan": [
+    {
+      "conference": "Ind",
+      "from": 1904,
+      "to": 1932
+    },
+    {
+      "conference": "Metro NY",
+      "from": 1933,
+      "to": 1933
+    },
+    {
+      "conference": "Ind",
+      "from": 1934,
+      "to": 1934
+    },
+    {
+      "conference": "Metro NY",
+      "from": 1935,
+      "to": 1938
+    },
+    {
+      "conference": "Ind",
+      "from": 1939,
+      "to": 1941
+    },
+    {
+      "conference": "Metro NY",
+      "from": 1942,
+      "to": 1962
+    },
+    {
+      "conference": "Ind",
+      "from": 1963,
+      "to": 1964
+    },
+    {
+      "conference": "MCC",
+      "from": 1965,
+      "to": 1968
+    },
+    {
+      "conference": "Ind",
+      "from": 1969,
+      "to": 1975
+    },
+    {
+      "conference": "NJNY7",
+      "from": 1976,
+      "to": 1978
+    },
+    {
+      "conference": "ECACM",
+      "from": 1979,
+      "to": 1980
+    },
+    {
+      "conference": "MAAC",
+      "from": 1981,
+      "to": 2025
+    }
+  ],
+  "Marietta Pioneers": [
+    {
+      "conference": "Ind",
+      "from": 1907,
+      "to": 1919
+    }
+  ],
+  "Marist": [
+    {
+      "conference": "ECACM",
+      "from": 1981,
+      "to": 1987
+    },
+    {
+      "conference": "NEC",
+      "from": 1988,
+      "to": 1996
+    },
+    {
+      "conference": "MAAC",
+      "from": 1997,
+      "to": 2025
+    }
+  ],
+  "Marquette": [
+    {
+      "conference": "Ind",
+      "from": 1916,
+      "to": 1988
+    },
+    {
+      "conference": "MW Coll",
+      "from": 1989,
+      "to": 1990
+    },
+    {
+      "conference": "GMWC",
+      "from": 1991,
+      "to": 1994
+    },
+    {
+      "conference": "CUSA",
+      "from": 1995,
+      "to": 2004
+    },
+    {
+      "conference": "Big East",
+      "from": 2005,
+      "to": 2025
+    }
+  ],
+  "Marshall": [
+    {
+      "conference": "Ind",
+      "from": 1918,
+      "to": 1947
+    },
+    {
+      "conference": "OVC",
+      "from": 1948,
+      "to": 1951
+    },
+    {
+      "conference": "Ind",
+      "from": 1952,
+      "to": 1952
+    },
+    {
+      "conference": "MAC",
+      "from": 1953,
+      "to": 1968
+    },
+    {
+      "conference": "Ind",
+      "from": 1969,
+      "to": 1975
+    },
+    {
+      "conference": "Southern",
+      "from": 1976,
+      "to": 1996
+    },
+    {
+      "conference": "MAC",
+      "from": 1997,
+      "to": 2004
+    },
+    {
+      "conference": "CUSA",
+      "from": 2005,
+      "to": 2021
+    },
+    {
+      "conference": "Sun Belt",
+      "from": 2022,
+      "to": 2025
+    }
+  ],
+  "Maryland": [
+    {
+      "conference": "Southern",
+      "from": 1923,
+      "to": 1952
+    },
+    {
+      "conference": "ACC",
+      "from": 1953,
+      "to": 2013
+    },
+    {
+      "conference": "Big Ten",
+      "from": 2014,
+      "to": 2025
+    }
+  ],
+  "Maryland-Baltimore County": [
+    {
+      "conference": "Ind",
+      "from": 1986,
+      "to": 1989
+    },
+    {
+      "conference": "ECC",
+      "from": 1990,
+      "to": 1991
+    },
+    {
+      "conference": "Big South",
+      "from": 1992,
+      "to": 1997
+    },
+    {
+      "conference": "NEC",
+      "from": 1998,
+      "to": 2002
+    },
+    {
+      "conference": "AEC",
+      "from": 2003,
+      "to": 2025
+    }
+  ],
+  "Maryland-Eastern Shore": [
+    {
+      "conference": "MEAC",
+      "from": 1971,
+      "to": 2025
+    }
+  ],
+  "Massachusetts": [
+    {
+      "conference": "Ind",
+      "from": 1925,
+      "to": 1925
+    },
+    {
+      "conference": "Yankee",
+      "from": 1946,
+      "to": 1975
+    },
+    {
+      "conference": "ECBL",
+      "from": 1976,
+      "to": 1976
+    },
+    {
+      "conference": "EAA",
+      "from": 1977,
+      "to": 1981
+    },
+    {
+      "conference": "A-10",
+      "from": 1982,
+      "to": 2024
+    },
+    {
+      "conference": "MAC",
+      "from": 2025,
+      "to": 2025
+    }
+  ],
+  "Massachusetts Institute of Technology Engineers": [
+    {
+      "conference": "Ind",
+      "from": 1908,
+      "to": 1908
+    }
+  ],
+  "Massachusetts-Lowell": [
+    {
+      "conference": "Ind",
+      "from": 1905,
+      "to": 1905
+    },
+    {
+      "conference": "AEC",
+      "from": 2013,
+      "to": 2025
+    }
+  ],
+  "McNeese State": [
+    {
+      "conference": "Southland",
+      "from": 1972,
+      "to": 2025
+    }
+  ],
+  "Memphis": [
+    {
+      "conference": "Ind",
+      "from": 1954,
+      "to": 1966
+    },
+    {
+      "conference": "MVC",
+      "from": 1967,
+      "to": 1972
+    },
+    {
+      "conference": "Ind",
+      "from": 1973,
+      "to": 1974
+    },
+    {
+      "conference": "Metro",
+      "from": 1975,
+      "to": 1990
+    },
+    {
+      "conference": "GMWC",
+      "from": 1991,
+      "to": 1994
+    },
+    {
+      "conference": "CUSA",
+      "from": 1995,
+      "to": 2012
+    },
+    {
+      "conference": "AAC",
+      "from": 2013,
+      "to": 2024
+    },
+    {
+      "conference": "American",
+      "from": 2025,
+      "to": 2025
+    }
+  ],
+  "Mercer": [
+    {
+      "conference": "Ind",
+      "from": 1973,
+      "to": 1977
+    },
+    {
+      "conference": "TAAC",
+      "from": 1978,
+      "to": 2000
+    },
+    {
+      "conference": "A-Sun",
+      "from": 2001,
+      "to": 2013
+    },
+    {
+      "conference": "Southern",
+      "from": 2014,
+      "to": 2025
+    }
+  ],
+  "Merchant Marine Mariners": [
+    {
+      "conference": "Ind",
+      "from": 1945,
+      "to": 1946
+    }
+  ],
+  "Mercyhurst": [
+    {
+      "conference": "NEC",
+      "from": 2024,
+      "to": 2025
+    }
+  ],
+  "Merrimack": [
+    {
+      "conference": "NEC",
+      "from": 2019,
+      "to": 2023
+    },
+    {
+      "conference": "MAAC",
+      "from": 2024,
+      "to": 2025
+    }
+  ],
+  "Miami (FL)": [
+    {
+      "conference": "Ind",
+      "from": 1948,
+      "to": 1990
+    },
+    {
+      "conference": "Big East",
+      "from": 1991,
+      "to": 2003
+    },
+    {
+      "conference": "ACC",
+      "from": 2004,
+      "to": 2025
+    }
+  ],
+  "Miami (OH)": [
+    {
+      "conference": "Ind",
+      "from": 1905,
+      "to": 1946
+    },
+    {
+      "conference": "MAC",
+      "from": 1947,
+      "to": 2025
+    }
+  ],
+  "Michigan": [
+    {
+      "conference": "Big Ten",
+      "from": 1917,
+      "to": 2025
+    }
+  ],
+  "Michigan State": [
+    {
+      "conference": "Ind",
+      "from": 1898,
+      "to": 1947
+    },
+    {
+      "conference": "Big Ten",
+      "from": 1948,
+      "to": 2025
+    }
+  ],
+  "Middle Tennessee": [
+    {
+      "conference": "OVC",
+      "from": 1952,
+      "to": 1999
+    },
+    {
+      "conference": "Sun Belt",
+      "from": 2000,
+      "to": 2012
+    },
+    {
+      "conference": "CUSA",
+      "from": 2013,
+      "to": 2025
+    }
+  ],
+  "Millikin Big Blue": [
+    {
+      "conference": "Ind",
+      "from": 1909,
+      "to": 1920
+    }
+  ],
+  "Millsaps Majors": [
+    {
+      "conference": "Ind",
+      "from": 1910,
+      "to": 1919
+    },
+    {
+      "conference": "Southern",
+      "from": 1920,
+      "to": 1920
+    }
+  ],
+  "Milwaukee": [
+    {
+      "conference": "Ind",
+      "from": 1973,
+      "to": 1992
+    },
+    {
+      "conference": "Mid-Cont",
+      "from": 1993,
+      "to": 1993
+    },
+    {
+      "conference": "MW Coll",
+      "from": 1994,
+      "to": 2000
+    },
+    {
+      "conference": "Horizon",
+      "from": 2001,
+      "to": 2025
+    }
+  ],
+  "Minnesota": [
+    {
+      "conference": "Ind",
+      "from": 1895,
+      "to": 1897
+    },
+    {
+      "conference": "Western",
+      "from": 1898,
+      "to": 1916
+    },
+    {
+      "conference": "Big Ten",
+      "from": 1917,
+      "to": 2025
+    }
+  ],
+  "Minnesota A&amp;M Aggies": [
+    {
+      "conference": "Ind",
+      "from": 1895,
+      "to": 1902
+    }
+  ],
+  "Mississippi": [
+    {
+      "conference": "Ind",
+      "from": 1908,
+      "to": 1921
+    },
+    {
+      "conference": "Southern",
+      "from": 1922,
+      "to": 1931
+    },
+    {
+      "conference": "SEC",
+      "from": 1932,
+      "to": 2025
+    }
+  ],
+  "Mississippi State": [
+    {
+      "conference": "Ind",
+      "from": 1908,
+      "to": 1919
+    },
+    {
+      "conference": "Southern",
+      "from": 1920,
+      "to": 1931
+    },
+    {
+      "conference": "SEC",
+      "from": 1932,
+      "to": 2025
+    }
+  ],
+  "Mississippi Valley State": [
+    {
+      "conference": "SWAC",
+      "from": 1977,
+      "to": 2025
+    }
+  ],
+  "Missouri": [
+    {
+      "conference": "Ind",
+      "from": 1906,
+      "to": 1906
+    },
+    {
+      "conference": "MVC",
+      "from": 1907,
+      "to": 1927
+    },
+    {
+      "conference": "Big 6",
+      "from": 1928,
+      "to": 1946
+    },
+    {
+      "conference": "Big 7",
+      "from": 1947,
+      "to": 1956
+    },
+    {
+      "conference": "Big 8",
+      "from": 1957,
+      "to": 1995
+    },
+    {
+      "conference": "Big 12",
+      "from": 1996,
+      "to": 2011
+    },
+    {
+      "conference": "SEC",
+      "from": 2012,
+      "to": 2025
+    }
+  ],
+  "Missouri State": [
+    {
+      "conference": "Ind",
+      "from": 1952,
+      "to": 1952
+    },
+    {
+      "conference": "Mid-Cont",
+      "from": 1982,
+      "to": 1989
+    },
+    {
+      "conference": "MVC",
+      "from": 1990,
+      "to": 2024
+    },
+    {
+      "conference": "CUSA",
+      "from": 2025,
+      "to": 2025
+    }
+  ],
+  "Monmouth": [
+    {
+      "conference": "Ind",
+      "from": 1983,
+      "to": 1984
+    },
+    {
+      "conference": "ECACM",
+      "from": 1985,
+      "to": 1987
+    },
+    {
+      "conference": "NEC",
+      "from": 1988,
+      "to": 2012
+    },
+    {
+      "conference": "MAAC",
+      "from": 2013,
+      "to": 2021
+    },
+    {
+      "conference": "CAA",
+      "from": 2022,
+      "to": 2025
+    }
+  ],
+  "Montana": [
+    {
+      "conference": "Ind",
+      "from": 1911,
+      "to": 1922
+    },
+    {
+      "conference": "PCC",
+      "from": 1923,
+      "to": 1928
+    },
+    {
+      "conference": "Ind",
+      "from": 1929,
+      "to": 1936
+    },
+    {
+      "conference": "PCC",
+      "from": 1937,
+      "to": 1937
+    },
+    {
+      "conference": "Ind",
+      "from": 1938,
+      "to": 1950
+    },
+    {
+      "conference": "MSAC",
+      "from": 1951,
+      "to": 1961
+    },
+    {
+      "conference": "Ind",
+      "from": 1962,
+      "to": 1962
+    },
+    {
+      "conference": "Big Sky",
+      "from": 1963,
+      "to": 2025
+    }
+  ],
+  "Montana State": [
+    {
+      "conference": "Ind",
+      "from": 1901,
+      "to": 1923
+    },
+    {
+      "conference": "MSAC",
+      "from": 1924,
+      "to": 1936
+    },
+    {
+      "conference": "Ind",
+      "from": 1937,
+      "to": 1962
+    },
+    {
+      "conference": "Big Sky",
+      "from": 1963,
+      "to": 2025
+    }
+  ],
+  "Morehead State": [
+    {
+      "conference": "OVC",
+      "from": 1948,
+      "to": 2025
+    }
+  ],
+  "Morgan State": [
+    {
+      "conference": "MEAC",
+      "from": 1971,
+      "to": 2025
+    }
+  ],
+  "Morris Brown Wolverines": [
+    {
+      "conference": "Ind",
+      "from": 2001,
+      "to": 2002
+    }
+  ],
+  "Mount St. Mary's": [
+    {
+      "conference": "Ind",
+      "from": 1988,
+      "to": 1988
+    },
+    {
+      "conference": "NEC",
+      "from": 1989,
+      "to": 2021
+    },
+    {
+      "conference": "MAAC",
+      "from": 2022,
+      "to": 2025
+    }
+  ],
+  "Mount Union Purple Raiders": [
+    {
+      "conference": "Ind",
+      "from": 1895,
+      "to": 1931
+    }
+  ],
+  "Muhlenberg Mules": [
+    {
+      "conference": "Ind",
+      "from": 1900,
+      "to": 1944
+    },
+    {
+      "conference": "MASCN",
+      "from": 1945,
+      "to": 1948
+    },
+    {
+      "conference": "Ind",
+      "from": 1949,
+      "to": 1957
+    },
+    {
+      "conference": "Mid-Atl",
+      "from": 1958,
+      "to": 1962
+    }
+  ],
+  "Murray State": [
+    {
+      "conference": "Ind",
+      "from": 1935,
+      "to": 1937
+    },
+    {
+      "conference": "OVC",
+      "from": 1948,
+      "to": 2021
+    },
+    {
+      "conference": "MVC",
+      "from": 2022,
+      "to": 2025
+    }
+  ],
+  "Muskingum Fighting Muskies": [
+    {
+      "conference": "Ind",
+      "from": 1904,
+      "to": 1926
+    }
+  ],
+  "Navy": [
+    {
+      "conference": "Ind",
+      "from": 1907,
+      "to": 1978
+    },
+    {
+      "conference": "ECACS",
+      "from": 1979,
+      "to": 1984
+    },
+    {
+      "conference": "CAA",
+      "from": 1985,
+      "to": 1990
+    },
+    {
+      "conference": "Patriot",
+      "from": 1991,
+      "to": 2025
+    }
+  ],
+  "NC State": [
+    {
+      "conference": "Ind",
+      "from": 1912,
+      "to": 1920
+    },
+    {
+      "conference": "Southern",
+      "from": 1921,
+      "to": 1952
+    },
+    {
+      "conference": "ACC",
+      "from": 1953,
+      "to": 2025
+    }
+  ],
+  "Nebraska": [
+    {
+      "conference": "Ind",
+      "from": 1896,
+      "to": 1906
+    },
+    {
+      "conference": "MVC",
+      "from": 1907,
+      "to": 1918
+    },
+    {
+      "conference": "Ind",
+      "from": 1919,
+      "to": 1919
+    },
+    {
+      "conference": "MVC",
+      "from": 1920,
+      "to": 1927
+    },
+    {
+      "conference": "Big 6",
+      "from": 1928,
+      "to": 1946
+    },
+    {
+      "conference": "Big 7",
+      "from": 1947,
+      "to": 1956
+    },
+    {
+      "conference": "Big 8",
+      "from": 1957,
+      "to": 1995
+    },
+    {
+      "conference": "Big 12",
+      "from": 1996,
+      "to": 2010
+    },
+    {
+      "conference": "Big Ten",
+      "from": 2011,
+      "to": 2025
+    }
+  ],
+  "Nebraska Wesleyan Prairie Wolves": [
+    {
+      "conference": "Ind",
+      "from": 1905,
+      "to": 1916
+    }
+  ],
+  "Nevada": [
+    {
+      "conference": "Ind",
+      "from": 1912,
+      "to": 1947
+    },
+    {
+      "conference": "WCAC",
+      "from": 1969,
+      "to": 1978
+    },
+    {
+      "conference": "Big Sky",
+      "from": 1979,
+      "to": 1991
+    },
+    {
+      "conference": "Big West",
+      "from": 1992,
+      "to": 1999
+    },
+    {
+      "conference": "WAC",
+      "from": 2000,
+      "to": 2011
+    },
+    {
+      "conference": "MWC",
+      "from": 2012,
+      "to": 2025
+    }
+  ],
+  "Nevada-Las Vegas": [
+    {
+      "conference": "WCAC",
+      "from": 1969,
+      "to": 1974
+    },
+    {
+      "conference": "Ind",
+      "from": 1975,
+      "to": 1981
+    },
+    {
+      "conference": "PCAA",
+      "from": 1982,
+      "to": 1987
+    },
+    {
+      "conference": "Big West",
+      "from": 1988,
+      "to": 1995
+    },
+    {
+      "conference": "WAC",
+      "from": 1996,
+      "to": 1998
+    },
+    {
+      "conference": "MWC",
+      "from": 1999,
+      "to": 2025
+    }
+  ],
+  "New Hampshire": [
+    {
+      "conference": "Ind",
+      "from": 1926,
+      "to": 1926
+    },
+    {
+      "conference": "Yankee",
+      "from": 1937,
+      "to": 1975
+    },
+    {
+      "conference": "Ind",
+      "from": 1976,
+      "to": 1978
+    },
+    {
+      "conference": "ECACN",
+      "from": 1979,
+      "to": 1987
+    },
+    {
+      "conference": "NAC",
+      "from": 1988,
+      "to": 1995
+    },
+    {
+      "conference": "AEC",
+      "from": 1996,
+      "to": 2025
+    }
+  ],
+  "New Haven": [
+    {
+      "conference": "NEC",
+      "from": 2025,
+      "to": 2025
+    }
+  ],
+  "New Mexico": [
+    {
+      "conference": "Ind",
+      "from": 1899,
+      "to": 1930
+    },
+    {
+      "conference": "BIAA",
+      "from": 1931,
+      "to": 1939
+    },
+    {
+      "conference": "Ind",
+      "from": 1940,
+      "to": 1940
+    },
+    {
+      "conference": "BIAA",
+      "from": 1941,
+      "to": 1950
+    },
+    {
+      "conference": "MSAC",
+      "from": 1951,
+      "to": 1961
+    },
+    {
+      "conference": "WAC",
+      "from": 1962,
+      "to": 1998
+    },
+    {
+      "conference": "MWC",
+      "from": 1999,
+      "to": 2025
+    }
+  ],
+  "New Mexico State": [
+    {
+      "conference": "Ind",
+      "from": 1904,
+      "to": 1930
+    },
+    {
+      "conference": "BIAA",
+      "from": 1931,
+      "to": 1939
+    },
+    {
+      "conference": "Ind",
+      "from": 1940,
+      "to": 1940
+    },
+    {
+      "conference": "BIAA",
+      "from": 1941,
+      "to": 1961
+    },
+    {
+      "conference": "Ind",
+      "from": 1962,
+      "to": 1969
+    },
+    {
+      "conference": "MVC",
+      "from": 1970,
+      "to": 1982
+    },
+    {
+      "conference": "PCAA",
+      "from": 1983,
+      "to": 1987
+    },
+    {
+      "conference": "Big West",
+      "from": 1988,
+      "to": 1999
+    },
+    {
+      "conference": "Sun Belt",
+      "from": 2000,
+      "to": 2004
+    },
+    {
+      "conference": "WAC",
+      "from": 2005,
+      "to": 2022
+    },
+    {
+      "conference": "CUSA",
+      "from": 2023,
+      "to": 2025
+    }
+  ],
+  "New Orleans": [
+    {
+      "conference": "Ind",
+      "from": 1975,
+      "to": 1975
+    },
+    {
+      "conference": "Sun Belt",
+      "from": 1976,
+      "to": 1979
+    },
+    {
+      "conference": "Ind",
+      "from": 1980,
+      "to": 1986
+    },
+    {
+      "conference": "ASC",
+      "from": 1987,
+      "to": 1990
+    },
+    {
+      "conference": "Sun Belt",
+      "from": 1991,
+      "to": 2009
+    },
+    {
+      "conference": "Ind",
+      "from": 2012,
+      "to": 2012
+    },
+    {
+      "conference": "Southland",
+      "from": 2013,
+      "to": 2025
+    }
+  ],
+  "New York University Violets": [
+    {
+      "conference": "Ind",
+      "from": 1906,
+      "to": 1932
+    },
+    {
+      "conference": "Metro NY",
+      "from": 1933,
+      "to": 1933
+    },
+    {
+      "conference": "Ind",
+      "from": 1934,
+      "to": 1934
+    },
+    {
+      "conference": "Metro NY",
+      "from": 1935,
+      "to": 1938
+    },
+    {
+      "conference": "Ind",
+      "from": 1939,
+      "to": 1941
+    },
+    {
+      "conference": "Metro NY",
+      "from": 1942,
+      "to": 1942
+    },
+    {
+      "conference": "Ind",
+      "from": 1943,
+      "to": 1944
+    },
+    {
+      "conference": "Metro NY",
+      "from": 1945,
+      "to": 1962
+    },
+    {
+      "conference": "Ind",
+      "from": 1963,
+      "to": 1964
+    },
+    {
+      "conference": "MCC",
+      "from": 1965,
+      "to": 1966
+    },
+    {
+      "conference": "Ind",
+      "from": 1967,
+      "to": 1970
+    }
+  ],
+  "Newberry Wolves": [
+    {
+      "conference": "Southern",
+      "from": 1920,
+      "to": 1920
+    }
+  ],
+  "Niagara": [
+    {
+      "conference": "Ind",
+      "from": 1905,
+      "to": 1945
+    },
+    {
+      "conference": "WNY3",
+      "from": 1946,
+      "to": 1957
+    },
+    {
+      "conference": "Ind",
+      "from": 1958,
+      "to": 1978
+    },
+    {
+      "conference": "ECACN",
+      "from": 1979,
+      "to": 1987
+    },
+    {
+      "conference": "NAC",
+      "from": 1988,
+      "to": 1988
+    },
+    {
+      "conference": "MAAC",
+      "from": 1989,
+      "to": 2025
+    }
+  ],
+  "Nicholls State": [
+    {
+      "conference": "Ind",
+      "from": 1980,
+      "to": 1981
+    },
+    {
+      "conference": "TAAC",
+      "from": 1982,
+      "to": 1983
+    },
+    {
+      "conference": "GSC",
+      "from": 1984,
+      "to": 1986
+    },
+    {
+      "conference": "Ind",
+      "from": 1987,
+      "to": 1990
+    },
+    {
+      "conference": "Southland",
+      "from": 1991,
+      "to": 2025
+    }
+  ],
+  "NJIT": [
+    {
+      "conference": "Ind",
+      "from": 2006,
+      "to": 2008
+    },
+    {
+      "conference": "GWC",
+      "from": 2009,
+      "to": 2012
+    },
+    {
+      "conference": "Ind",
+      "from": 2013,
+      "to": 2014
+    },
+    {
+      "conference": "A-Sun",
+      "from": 2015,
+      "to": 2019
+    },
+    {
+      "conference": "AEC",
+      "from": 2020,
+      "to": 2025
+    }
+  ],
+  "Norfolk State": [
+    {
+      "conference": "MEAC",
+      "from": 1997,
+      "to": 2025
+    }
+  ],
+  "North Alabama": [
+    {
+      "conference": "A-Sun",
+      "from": 2018,
+      "to": 2025
+    }
+  ],
+  "North Carolina": [
+    {
+      "conference": "Ind",
+      "from": 1910,
+      "to": 1920
+    },
+    {
+      "conference": "Southern",
+      "from": 1921,
+      "to": 1952
+    },
+    {
+      "conference": "ACC",
+      "from": 1953,
+      "to": 2025
+    }
+  ],
+  "North Carolina A&amp;T": [
+    {
+      "conference": "MEAC",
+      "from": 1971,
+      "to": 2020
+    },
+    {
+      "conference": "Big South",
+      "from": 2021,
+      "to": 2021
+    },
+    {
+      "conference": "CAA",
+      "from": 2022,
+      "to": 2025
+    }
+  ],
+  "North Carolina Central": [
+    {
+      "conference": "MEAC",
+      "from": 1971,
+      "to": 1979
+    },
+    {
+      "conference": "Ind",
+      "from": 2007,
+      "to": 2010
+    },
+    {
+      "conference": "MEAC",
+      "from": 2011,
+      "to": 2025
+    }
+  ],
+  "North Central (IL) Cardinals": [
+    {
+      "conference": "Ind",
+      "from": 1910,
+      "to": 1921
+    }
+  ],
+  "North Dakota": [
+    {
+      "conference": "Ind",
+      "from": 1904,
+      "to": 1920
+    },
+    {
+      "conference": "GWC",
+      "from": 2009,
+      "to": 2011
+    },
+    {
+      "conference": "Big Sky",
+      "from": 2012,
+      "to": 2017
+    },
+    {
+      "conference": "Summit",
+      "from": 2018,
+      "to": 2025
+    }
+  ],
+  "North Dakota State": [
+    {
+      "conference": "Ind",
+      "from": 1897,
+      "to": 2006
+    },
+    {
+      "conference": "Summit",
+      "from": 2007,
+      "to": 2025
+    }
+  ],
+  "North Florida": [
+    {
+      "conference": "A-Sun",
+      "from": 2005,
+      "to": 2025
+    }
+  ],
+  "North Texas": [
+    {
+      "conference": "Ind",
+      "from": 1921,
+      "to": 1922
+    },
+    {
+      "conference": "MVC",
+      "from": 1957,
+      "to": 1974
+    },
+    {
+      "conference": "Ind",
+      "from": 1975,
+      "to": 1980
+    },
+    {
+      "conference": "Southland",
+      "from": 1981,
+      "to": 1995
+    },
+    {
+      "conference": "Big West",
+      "from": 1996,
+      "to": 1999
+    },
+    {
+      "conference": "Sun Belt",
+      "from": 2000,
+      "to": 2012
+    },
+    {
+      "conference": "CUSA",
+      "from": 2013,
+      "to": 2022
+    },
+    {
+      "conference": "AAC",
+      "from": 2023,
+      "to": 2024
+    },
+    {
+      "conference": "American",
+      "from": 2025,
+      "to": 2025
+    }
+  ],
+  "Northeastern": [
+    {
+      "conference": "Yankee",
+      "from": 1937,
+      "to": 1942
+    },
+    {
+      "conference": "Ind",
+      "from": 1943,
+      "to": 1944
+    },
+    {
+      "conference": "Yankee",
+      "from": 1945,
+      "to": 1945
+    },
+    {
+      "conference": "Ind",
+      "from": 1972,
+      "to": 1978
+    },
+    {
+      "conference": "ECACN",
+      "from": 1979,
+      "to": 1987
+    },
+    {
+      "conference": "NAC",
+      "from": 1988,
+      "to": 1995
+    },
+    {
+      "conference": "AEC",
+      "from": 1996,
+      "to": 2004
+    },
+    {
+      "conference": "CAA",
+      "from": 2005,
+      "to": 2025
+    }
+  ],
+  "Northeastern Illinois Golden Eagles": [
+    {
+      "conference": "Ind",
+      "from": 1990,
+      "to": 1992
+    },
+    {
+      "conference": "ECC",
+      "from": 1993,
+      "to": 1993
+    },
+    {
+      "conference": "Mid-Cont",
+      "from": 1994,
+      "to": 1997
+    }
+  ],
+  "Northern Arizona": [
+    {
+      "conference": "Ind",
+      "from": 1918,
+      "to": 1930
+    },
+    {
+      "conference": "BIAA",
+      "from": 1931,
+      "to": 1939
+    },
+    {
+      "conference": "Ind",
+      "from": 1940,
+      "to": 1940
+    },
+    {
+      "conference": "BIAA",
+      "from": 1941,
+      "to": 1952
+    },
+    {
+      "conference": "Big Sky",
+      "from": 1970,
+      "to": 2025
+    }
+  ],
+  "Northern Colorado": [
+    {
+      "conference": "Ind",
+      "from": 1910,
+      "to": 1923
+    },
+    {
+      "conference": "MSAC",
+      "from": 1924,
+      "to": 1936
+    },
+    {
+      "conference": "Ind",
+      "from": 1943,
+      "to": 2005
+    },
+    {
+      "conference": "Big Sky",
+      "from": 2006,
+      "to": 2025
+    }
+  ],
+  "Northern Illinois": [
+    {
+      "conference": "Ind",
+      "from": 1926,
+      "to": 1974
+    },
+    {
+      "conference": "MAC",
+      "from": 1975,
+      "to": 1985
+    },
+    {
+      "conference": "Ind",
+      "from": 1986,
+      "to": 1989
+    },
+    {
+      "conference": "Mid-Cont",
+      "from": 1990,
+      "to": 1993
+    },
+    {
+      "conference": "MW Coll",
+      "from": 1994,
+      "to": 1996
+    },
+    {
+      "conference": "MAC",
+      "from": 1997,
+      "to": 2025
+    }
+  ],
+  "Northern Iowa": [
+    {
+      "conference": "Ind",
+      "from": 1980,
+      "to": 1981
+    },
+    {
+      "conference": "Mid-Cont",
+      "from": 1982,
+      "to": 1990
+    },
+    {
+      "conference": "MVC",
+      "from": 1991,
+      "to": 2025
+    }
+  ],
+  "Northern Kentucky": [
+    {
+      "conference": "A-Sun",
+      "from": 2012,
+      "to": 2014
+    },
+    {
+      "conference": "Horizon",
+      "from": 2015,
+      "to": 2025
+    }
+  ],
+  "Northwest Missouri State Bearcats": [
+    {
+      "conference": "Ind",
+      "from": 1929,
+      "to": 1931
+    }
+  ],
+  "Northwestern": [
+    {
+      "conference": "Western",
+      "from": 1904,
+      "to": 1916
+    },
+    {
+      "conference": "Big Ten",
+      "from": 1917,
+      "to": 2025
+    }
+  ],
+  "Northwestern State": [
+    {
+      "conference": "Ind",
+      "from": 1976,
+      "to": 1978
+    },
+    {
+      "conference": "TAAC",
+      "from": 1979,
+      "to": 1983
+    },
+    {
+      "conference": "GSC",
+      "from": 1984,
+      "to": 1986
+    },
+    {
+      "conference": "Southland",
+      "from": 1987,
+      "to": 2025
+    }
+  ],
+  "Notre Dame": [
+    {
+      "conference": "Ind",
+      "from": 1896,
+      "to": 1994
+    },
+    {
+      "conference": "Big East",
+      "from": 1995,
+      "to": 2012
+    },
+    {
+      "conference": "ACC",
+      "from": 2013,
+      "to": 2025
+    }
+  ],
+  "Oakland": [
+    {
+      "conference": "Mid-Cont",
+      "from": 1999,
+      "to": 2006
+    },
+    {
+      "conference": "Summit",
+      "from": 2007,
+      "to": 2012
+    },
+    {
+      "conference": "Horizon",
+      "from": 2013,
+      "to": 2025
+    }
+  ],
+  "Oberlin Yeomen": [
+    {
+      "conference": "Ind",
+      "from": 1904,
+      "to": 1920
+    }
+  ],
+  "Ohio": [
+    {
+      "conference": "Ind",
+      "from": 1907,
+      "to": 1945
+    },
+    {
+      "conference": "MAC",
+      "from": 1946,
+      "to": 2025
+    }
+  ],
+  "Ohio State": [
+    {
+      "conference": "Ind",
+      "from": 1898,
+      "to": 1910
+    },
+    {
+      "conference": "Western",
+      "from": 1911,
+      "to": 1916
+    },
+    {
+      "conference": "Big Ten",
+      "from": 1917,
+      "to": 2025
+    }
+  ],
+  "Ohio Wesleyan Battling Bishops": [
+    {
+      "conference": "Ind",
+      "from": 1928,
+      "to": 1934
+    }
+  ],
+  "Oklahoma": [
+    {
+      "conference": "Ind",
+      "from": 1907,
+      "to": 1918
+    },
+    {
+      "conference": "MVC",
+      "from": 1919,
+      "to": 1927
+    },
+    {
+      "conference": "Big 6",
+      "from": 1928,
+      "to": 1946
+    },
+    {
+      "conference": "Big 7",
+      "from": 1947,
+      "to": 1956
+    },
+    {
+      "conference": "Big 8",
+      "from": 1957,
+      "to": 1995
+    },
+    {
+      "conference": "Big 12",
+      "from": 1996,
+      "to": 2023
+    },
+    {
+      "conference": "SEC",
+      "from": 2024,
+      "to": 2025
+    }
+  ],
+  "Oklahoma City Chiefs": [
+    {
+      "conference": "Ind",
+      "from": 1950,
+      "to": 1977
+    },
+    {
+      "conference": "TAAC",
+      "from": 1978,
+      "to": 1978
+    },
+    {
+      "conference": "MW City",
+      "from": 1979,
+      "to": 1984
+    }
+  ],
+  "Oklahoma State": [
+    {
+      "conference": "Ind",
+      "from": 1907,
+      "to": 1916
+    },
+    {
+      "conference": "SWC",
+      "from": 1917,
+      "to": 1917
+    },
+    {
+      "conference": "Ind",
+      "from": 1918,
+      "to": 1920
+    },
+    {
+      "conference": "SWC",
+      "from": 1921,
+      "to": 1924
+    },
+    {
+      "conference": "MVC",
+      "from": 1925,
+      "to": 1956
+    },
+    {
+      "conference": "Big 8",
+      "from": 1957,
+      "to": 1995
+    },
+    {
+      "conference": "Big 12",
+      "from": 1996,
+      "to": 2025
+    }
+  ],
+  "Old Dominion": [
+    {
+      "conference": "Ind",
+      "from": 1976,
+      "to": 1978
+    },
+    {
+      "conference": "ECACS",
+      "from": 1979,
+      "to": 1981
+    },
+    {
+      "conference": "Sun Belt",
+      "from": 1982,
+      "to": 1990
+    },
+    {
+      "conference": "CAA",
+      "from": 1991,
+      "to": 2012
+    },
+    {
+      "conference": "CUSA",
+      "from": 2013,
+      "to": 2021
+    },
+    {
+      "conference": "Sun Belt",
+      "from": 2022,
+      "to": 2025
+    }
+  ],
+  "Omaha": [
+    {
+      "conference": "Summit",
+      "from": 2012,
+      "to": 2025
+    }
+  ],
+  "Oral Roberts": [
+    {
+      "conference": "Ind",
+      "from": 1971,
+      "to": 1978
+    },
+    {
+      "conference": "MW City",
+      "from": 1979,
+      "to": 1984
+    },
+    {
+      "conference": "MW Coll",
+      "from": 1985,
+      "to": 1986
+    },
+    {
+      "conference": "Ind",
+      "from": 1987,
+      "to": 1996
+    },
+    {
+      "conference": "Mid-Cont",
+      "from": 1997,
+      "to": 2006
+    },
+    {
+      "conference": "Summit",
+      "from": 2007,
+      "to": 2011
+    },
+    {
+      "conference": "Southland",
+      "from": 2012,
+      "to": 2013
+    },
+    {
+      "conference": "Summit",
+      "from": 2014,
+      "to": 2025
+    }
+  ],
+  "Oregon": [
+    {
+      "conference": "Ind",
+      "from": 1902,
+      "to": 1914
+    },
+    {
+      "conference": "PCC",
+      "from": 1916,
+      "to": 1916
+    },
+    {
+      "conference": "Ind",
+      "from": 1917,
+      "to": 1917
+    },
+    {
+      "conference": "PCC",
+      "from": 1918,
+      "to": 1958
+    },
+    {
+      "conference": "Ind",
+      "from": 1959,
+      "to": 1963
+    },
+    {
+      "conference": "AAWU",
+      "from": 1964,
+      "to": 1967
+    },
+    {
+      "conference": "Pac-8",
+      "from": 1968,
+      "to": 1977
+    },
+    {
+      "conference": "Pac-10",
+      "from": 1978,
+      "to": 2010
+    },
+    {
+      "conference": "Pac-12",
+      "from": 2011,
+      "to": 2023
+    },
+    {
+      "conference": "Big Ten",
+      "from": 2024,
+      "to": 2025
+    }
+  ],
+  "Oregon State": [
+    {
+      "conference": "Ind",
+      "from": 1901,
+      "to": 1914
+    },
+    {
+      "conference": "PCC",
+      "from": 1915,
+      "to": 1916
+    },
+    {
+      "conference": "Ind",
+      "from": 1917,
+      "to": 1917
+    },
+    {
+      "conference": "PCC",
+      "from": 1918,
+      "to": 1958
+    },
+    {
+      "conference": "Ind",
+      "from": 1959,
+      "to": 1963
+    },
+    {
+      "conference": "AAWU",
+      "from": 1964,
+      "to": 1967
+    },
+    {
+      "conference": "Pac-8",
+      "from": 1968,
+      "to": 1977
+    },
+    {
+      "conference": "Pac-10",
+      "from": 1978,
+      "to": 2010
+    },
+    {
+      "conference": "Pac-12",
+      "from": 2011,
+      "to": 2023
+    },
+    {
+      "conference": "WCC",
+      "from": 2024,
+      "to": 2025
+    }
+  ],
+  "Pacific": [
+    {
+      "conference": "North CA",
+      "from": 1937,
+      "to": 1938
+    },
+    {
+      "conference": "Ind",
+      "from": 1943,
+      "to": 1943
+    },
+    {
+      "conference": "CBA",
+      "from": 1952,
+      "to": 1955
+    },
+    {
+      "conference": "WCAC",
+      "from": 1956,
+      "to": 1970
+    },
+    {
+      "conference": "PCAA",
+      "from": 1971,
+      "to": 1987
+    },
+    {
+      "conference": "Big West",
+      "from": 1988,
+      "to": 2012
+    },
+    {
+      "conference": "WCC",
+      "from": 2013,
+      "to": 2025
+    }
+  ],
+  "Penn State": [
+    {
+      "conference": "Ind",
+      "from": 1896,
+      "to": 1934
+    },
+    {
+      "conference": "EIC",
+      "from": 1935,
+      "to": 1938
+    },
+    {
+      "conference": "Ind",
+      "from": 1939,
+      "to": 1975
+    },
+    {
+      "conference": "ECBL",
+      "from": 1976,
+      "to": 1976
+    },
+    {
+      "conference": "EAA",
+      "from": 1977,
+      "to": 1978
+    },
+    {
+      "conference": "Ind",
+      "from": 1979,
+      "to": 1981
+    },
+    {
+      "conference": "A-10",
+      "from": 1982,
+      "to": 1990
+    },
+    {
+      "conference": "Ind",
+      "from": 1991,
+      "to": 1991
+    },
+    {
+      "conference": "Big Ten",
+      "from": 1992,
+      "to": 2025
+    }
+  ],
+  "Pennsylvania": [
+    {
+      "conference": "Ind",
+      "from": 1896,
+      "to": 1901
+    },
+    {
+      "conference": "Ivy",
+      "from": 1903,
+      "to": 1907
+    },
+    {
+      "conference": "Ind",
+      "from": 1908,
+      "to": 1909
+    },
+    {
+      "conference": "Ivy",
+      "from": 1910,
+      "to": 2025
+    }
+  ],
+  "Pepperdine": [
+    {
+      "conference": "Ind",
+      "from": 1943,
+      "to": 1943
+    },
+    {
+      "conference": "CBA",
+      "from": 1955,
+      "to": 1955
+    },
+    {
+      "conference": "WCAC",
+      "from": 1956,
+      "to": 1988
+    },
+    {
+      "conference": "WCC",
+      "from": 1989,
+      "to": 2025
+    }
+  ],
+  "Phillips Haymakers": [
+    {
+      "conference": "SWC",
+      "from": 1919,
+      "to": 1919
+    }
+  ],
+  "Pittsburg State Gorillas": [
+    {
+      "conference": "Ind",
+      "from": 1926,
+      "to": 1930
+    }
+  ],
+  "Pittsburgh": [
+    {
+      "conference": "Ind",
+      "from": 1905,
+      "to": 1931
+    },
+    {
+      "conference": "EIC",
+      "from": 1932,
+      "to": 1938
+    },
+    {
+      "conference": "Ind",
+      "from": 1939,
+      "to": 1975
+    },
+    {
+      "conference": "ECBL",
+      "from": 1976,
+      "to": 1976
+    },
+    {
+      "conference": "EAA",
+      "from": 1977,
+      "to": 1981
+    },
+    {
+      "conference": "Big East",
+      "from": 1982,
+      "to": 2012
+    },
+    {
+      "conference": "ACC",
+      "from": 2013,
+      "to": 2025
+    }
+  ],
+  "Portland": [
+    {
+      "conference": "Ind",
+      "from": 1953,
+      "to": 1975
+    },
+    {
+      "conference": "WCAC",
+      "from": 1976,
+      "to": 1988
+    },
+    {
+      "conference": "WCC",
+      "from": 1989,
+      "to": 2025
+    }
+  ],
+  "Portland State": [
+    {
+      "conference": "Ind",
+      "from": 1972,
+      "to": 1980
+    },
+    {
+      "conference": "Big Sky",
+      "from": 1996,
+      "to": 2025
+    }
+  ],
+  "Prairie View": [
+    {
+      "conference": "SWAC",
+      "from": 1977,
+      "to": 2025
+    }
+  ],
+  "Pratt Institute Cannoneers": [
+    {
+      "conference": "Metro NY",
+      "from": 1933,
+      "to": 1933
+    }
+  ],
+  "Presbyterian": [
+    {
+      "conference": "Ind",
+      "from": 2007,
+      "to": 2007
+    },
+    {
+      "conference": "Big South",
+      "from": 2008,
+      "to": 2025
+    }
+  ],
+  "Princeton": [
+    {
+      "conference": "Ind",
+      "from": 1900,
+      "to": 1900
+    },
+    {
+      "conference": "Ivy",
+      "from": 1901,
+      "to": 1907
+    },
+    {
+      "conference": "Ind",
+      "from": 1908,
+      "to": 1909
+    },
+    {
+      "conference": "Ivy",
+      "from": 1910,
+      "to": 2025
+    }
+  ],
+  "Providence": [
+    {
+      "conference": "Ind",
+      "from": 1928,
+      "to": 1978
+    },
+    {
+      "conference": "Big East",
+      "from": 1979,
+      "to": 2025
+    }
+  ],
+  "Purdue": [
+    {
+      "conference": "Ind",
+      "from": 1896,
+      "to": 1896
+    },
+    {
+      "conference": "Western",
+      "from": 1899,
+      "to": 1916
+    },
+    {
+      "conference": "Big Ten",
+      "from": 1917,
+      "to": 2025
+    }
+  ],
+  "Purdue Fort Wayne": [
+    {
+      "conference": "Ind",
+      "from": 2002,
+      "to": 2006
+    },
+    {
+      "conference": "Summit",
+      "from": 2007,
+      "to": 2019
+    },
+    {
+      "conference": "Horizon",
+      "from": 2020,
+      "to": 2025
+    }
+  ],
+  "Queens (NC)": [
+    {
+      "conference": "A-Sun",
+      "from": 2022,
+      "to": 2025
+    }
+  ],
+  "Quinnipiac": [
+    {
+      "conference": "NEC",
+      "from": 1998,
+      "to": 2012
+    },
+    {
+      "conference": "MAAC",
+      "from": 2013,
+      "to": 2025
+    }
+  ],
+  "Radford": [
+    {
+      "conference": "Ind",
+      "from": 1984,
+      "to": 1984
+    },
+    {
+      "conference": "Big South",
+      "from": 1985,
+      "to": 2025
+    }
+  ],
+  "Regis (CO) Rangers": [
+    {
+      "conference": "Ind",
+      "from": 1961,
+      "to": 1963
+    }
+  ],
+  "Rensselaer Engineers": [
+    {
+      "conference": "Ind",
+      "from": 1900,
+      "to": 1944
+    }
+  ],
+  "Rhode Island": [
+    {
+      "conference": "Ind",
+      "from": 1903,
+      "to": 1936
+    },
+    {
+      "conference": "Yankee",
+      "from": 1937,
+      "to": 1942
+    },
+    {
+      "conference": "Ind",
+      "from": 1943,
+      "to": 1944
+    },
+    {
+      "conference": "Yankee",
+      "from": 1945,
+      "to": 1975
+    },
+    {
+      "conference": "Ind",
+      "from": 1976,
+      "to": 1978
+    },
+    {
+      "conference": "ECACN",
+      "from": 1979,
+      "to": 1979
+    },
+    {
+      "conference": "EAA",
+      "from": 1980,
+      "to": 1981
+    },
+    {
+      "conference": "A-10",
+      "from": 1982,
+      "to": 2025
+    }
+  ],
+  "Rice": [
+    {
+      "conference": "SWC",
+      "from": 1914,
+      "to": 1915
+    },
+    {
+      "conference": "Ind",
+      "from": 1916,
+      "to": 1916
+    },
+    {
+      "conference": "SWC",
+      "from": 1917,
+      "to": 1995
+    },
+    {
+      "conference": "WAC",
+      "from": 1996,
+      "to": 2004
+    },
+    {
+      "conference": "CUSA",
+      "from": 2005,
+      "to": 2022
+    },
+    {
+      "conference": "AAC",
+      "from": 2023,
+      "to": 2024
+    },
+    {
+      "conference": "American",
+      "from": 2025,
+      "to": 2025
+    }
+  ],
+  "Richmond": [
+    {
+      "conference": "Ind",
+      "from": 1912,
+      "to": 1935
+    },
+    {
+      "conference": "Southern",
+      "from": 1936,
+      "to": 1975
+    },
+    {
+      "conference": "Ind",
+      "from": 1976,
+      "to": 1978
+    },
+    {
+      "conference": "ECACS",
+      "from": 1979,
+      "to": 1984
+    },
+    {
+      "conference": "CAA",
+      "from": 1985,
+      "to": 2000
+    },
+    {
+      "conference": "A-10",
+      "from": 2001,
+      "to": 2025
+    }
+  ],
+  "Rider": [
+    {
+      "conference": "Ind",
+      "from": 1928,
+      "to": 1943
+    },
+    {
+      "conference": "Mid-Atl",
+      "from": 1966,
+      "to": 1973
+    },
+    {
+      "conference": "ECC",
+      "from": 1974,
+      "to": 1991
+    },
+    {
+      "conference": "NEC",
+      "from": 1992,
+      "to": 1996
+    },
+    {
+      "conference": "MAAC",
+      "from": 1997,
+      "to": 2025
+    }
+  ],
+  "Ripon Red Hawks": [
+    {
+      "conference": "Ind",
+      "from": 1901,
+      "to": 1921
+    }
+  ],
+  "Roanoke Maroons": [
+    {
+      "conference": "Ind",
+      "from": 1911,
+      "to": 1938
+    }
+  ],
+  "Robert Morris": [
+    {
+      "conference": "Ind",
+      "from": 1976,
+      "to": 1978
+    },
+    {
+      "conference": "ECACS",
+      "from": 1979,
+      "to": 1980
+    },
+    {
+      "conference": "ECACM",
+      "from": 1981,
+      "to": 1987
+    },
+    {
+      "conference": "NEC",
+      "from": 1988,
+      "to": 2019
+    },
+    {
+      "conference": "Horizon",
+      "from": 2020,
+      "to": 2025
+    }
+  ],
+  "Rochester (NY) Yellowjackets": [
+    {
+      "conference": "Ind",
+      "from": 1909,
+      "to": 1943
+    }
+  ],
+  "Rose-Hulman Fightin' Engineers": [
+    {
+      "conference": "Ind",
+      "from": 1897,
+      "to": 1897
+    }
+  ],
+  "Rutgers": [
+    {
+      "conference": "Ind",
+      "from": 1913,
+      "to": 1941
+    },
+    {
+      "conference": "Mid-3",
+      "from": 1942,
+      "to": 1942
+    },
+    {
+      "conference": "Ind",
+      "from": 1944,
+      "to": 1947
+    },
+    {
+      "conference": "Mid-3",
+      "from": 1948,
+      "to": 1951
+    },
+    {
+      "conference": "Ind",
+      "from": 1952,
+      "to": 1957
+    },
+    {
+      "conference": "Mid-Atl",
+      "from": 1958,
+      "to": 1961
+    },
+    {
+      "conference": "Ind",
+      "from": 1962,
+      "to": 1975
+    },
+    {
+      "conference": "ECBL",
+      "from": 1976,
+      "to": 1976
+    },
+    {
+      "conference": "EAA",
+      "from": 1977,
+      "to": 1981
+    },
+    {
+      "conference": "A-10",
+      "from": 1982,
+      "to": 1994
+    },
+    {
+      "conference": "Big East",
+      "from": 1995,
+      "to": 2012
+    },
+    {
+      "conference": "AAC",
+      "from": 2013,
+      "to": 2013
+    },
+    {
+      "conference": "Big Ten",
+      "from": 2014,
+      "to": 2025
+    }
+  ],
+  "Sacramento State": [
+    {
+      "conference": "Ind",
+      "from": 1991,
+      "to": 1993
+    },
+    {
+      "conference": "AWC",
+      "from": 1994,
+      "to": 1995
+    },
+    {
+      "conference": "Big Sky",
+      "from": 1996,
+      "to": 2025
+    }
+  ],
+  "Sacred Heart": [
+    {
+      "conference": "NEC",
+      "from": 1999,
+      "to": 2023
+    },
+    {
+      "conference": "MAAC",
+      "from": 2024,
+      "to": 2025
+    }
+  ],
+  "Saint Francis (PA)": [
+    {
+      "conference": "Ind",
+      "from": 1953,
+      "to": 1978
+    },
+    {
+      "conference": "ECACS",
+      "from": 1979,
+      "to": 1980
+    },
+    {
+      "conference": "ECACM",
+      "from": 1981,
+      "to": 1987
+    },
+    {
+      "conference": "NEC",
+      "from": 1988,
+      "to": 2025
+    }
+  ],
+  "Saint Joseph's": [
+    {
+      "conference": "Ind",
+      "from": 1909,
+      "to": 1957
+    },
+    {
+      "conference": "Mid-Atl",
+      "from": 1958,
+      "to": 1973
+    },
+    {
+      "conference": "ECC",
+      "from": 1974,
+      "to": 1981
+    },
+    {
+      "conference": "A-10",
+      "from": 1982,
+      "to": 2025
+    }
+  ],
+  "Saint Louis": [
+    {
+      "conference": "Ind",
+      "from": 1915,
+      "to": 1936
+    },
+    {
+      "conference": "MVC",
+      "from": 1937,
+      "to": 1973
+    },
+    {
+      "conference": "Ind",
+      "from": 1974,
+      "to": 1974
+    },
+    {
+      "conference": "Metro",
+      "from": 1975,
+      "to": 1981
+    },
+    {
+      "conference": "MW City",
+      "from": 1982,
+      "to": 1984
+    },
+    {
+      "conference": "MW Coll",
+      "from": 1985,
+      "to": 1990
+    },
+    {
+      "conference": "GMWC",
+      "from": 1991,
+      "to": 1994
+    },
+    {
+      "conference": "CUSA",
+      "from": 1995,
+      "to": 2004
+    },
+    {
+      "conference": "A-10",
+      "from": 2005,
+      "to": 2025
+    }
+  ],
+  "Saint Mary's (CA)": [
+    {
+      "conference": "Ind",
+      "from": 1909,
+      "to": 1936
+    },
+    {
+      "conference": "North CA",
+      "from": 1937,
+      "to": 1938
+    },
+    {
+      "conference": "Ind",
+      "from": 1939,
+      "to": 1951
+    },
+    {
+      "conference": "CBA",
+      "from": 1952,
+      "to": 1955
+    },
+    {
+      "conference": "WCAC",
+      "from": 1956,
+      "to": 1988
+    },
+    {
+      "conference": "WCC",
+      "from": 1989,
+      "to": 2025
+    }
+  ],
+  "Saint Peter's": [
+    {
+      "conference": "MCC",
+      "from": 1964,
+      "to": 1968
+    },
+    {
+      "conference": "Ind",
+      "from": 1969,
+      "to": 1978
+    },
+    {
+      "conference": "ECACM",
+      "from": 1979,
+      "to": 1980
+    },
+    {
+      "conference": "MAAC",
+      "from": 1981,
+      "to": 2025
+    }
+  ],
+  "Sam Houston": [
+    {
+      "conference": "GSC",
+      "from": 1984,
+      "to": 1986
+    },
+    {
+      "conference": "Southland",
+      "from": 1987,
+      "to": 2020
+    },
+    {
+      "conference": "WAC",
+      "from": 2021,
+      "to": 2022
+    },
+    {
+      "conference": "CUSA",
+      "from": 2023,
+      "to": 2025
+    }
+  ],
+  "Samford": [
+    {
+      "conference": "Ind",
+      "from": 1972,
+      "to": 1977
+    },
+    {
+      "conference": "TAAC",
+      "from": 1978,
+      "to": 2000
+    },
+    {
+      "conference": "A-Sun",
+      "from": 2001,
+      "to": 2002
+    },
+    {
+      "conference": "OVC",
+      "from": 2003,
+      "to": 2007
+    },
+    {
+      "conference": "Southern",
+      "from": 2008,
+      "to": 2025
+    }
+  ],
+  "San Diego": [
+    {
+      "conference": "WCAC",
+      "from": 1979,
+      "to": 1988
+    },
+    {
+      "conference": "WCC",
+      "from": 1989,
+      "to": 2025
+    }
+  ],
+  "San Diego State": [
+    {
+      "conference": "PCAA",
+      "from": 1969,
+      "to": 1977
+    },
+    {
+      "conference": "WAC",
+      "from": 1978,
+      "to": 1998
+    },
+    {
+      "conference": "MWC",
+      "from": 1999,
+      "to": 2025
+    }
+  ],
+  "San Francisco": [
+    {
+      "conference": "Ind",
+      "from": 1923,
+      "to": 1936
+    },
+    {
+      "conference": "North CA",
+      "from": 1937,
+      "to": 1938
+    },
+    {
+      "conference": "Ind",
+      "from": 1939,
+      "to": 1951
+    },
+    {
+      "conference": "CBA",
+      "from": 1952,
+      "to": 1955
+    },
+    {
+      "conference": "WCAC",
+      "from": 1956,
+      "to": 1988
+    },
+    {
+      "conference": "WCC",
+      "from": 1989,
+      "to": 2025
+    }
+  ],
+  "San Jose State": [
+    {
+      "conference": "North CA",
+      "from": 1937,
+      "to": 1938
+    },
+    {
+      "conference": "Ind",
+      "from": 1949,
+      "to": 1951
+    },
+    {
+      "conference": "CBA",
+      "from": 1952,
+      "to": 1955
+    },
+    {
+      "conference": "WCAC",
+      "from": 1956,
+      "to": 1968
+    },
+    {
+      "conference": "PCAA",
+      "from": 1969,
+      "to": 1987
+    },
+    {
+      "conference": "Big West",
+      "from": 1988,
+      "to": 1995
+    },
+    {
+      "conference": "WAC",
+      "from": 1996,
+      "to": 2012
+    },
+    {
+      "conference": "MWC",
+      "from": 2013,
+      "to": 2025
+    }
+  ],
+  "Santa Clara": [
+    {
+      "conference": "Ind",
+      "from": 1908,
+      "to": 1936
+    },
+    {
+      "conference": "North CA",
+      "from": 1937,
+      "to": 1938
+    },
+    {
+      "conference": "Ind",
+      "from": 1939,
+      "to": 1951
+    },
+    {
+      "conference": "CBA",
+      "from": 1952,
+      "to": 1955
+    },
+    {
+      "conference": "WCAC",
+      "from": 1956,
+      "to": 1988
+    },
+    {
+      "conference": "WCC",
+      "from": 1989,
+      "to": 2025
+    }
+  ],
+  "Savage School of Physical Education": [
+    {
+      "conference": "Ind",
+      "from": 1895,
+      "to": 1897
+    }
+  ],
+  "Savannah State Tigers": [
+    {
+      "conference": "Ind",
+      "from": 2002,
+      "to": 2010
+    },
+    {
+      "conference": "MEAC",
+      "from": 2011,
+      "to": 2018
+    }
+  ],
+  "Scranton Royals": [
+    {
+      "conference": "Ind",
+      "from": 1947,
+      "to": 1947
+    }
+  ],
+  "Seattle": [
+    {
+      "conference": "Ind",
+      "from": 1951,
+      "to": 1970
+    },
+    {
+      "conference": "WCAC",
+      "from": 1971,
+      "to": 1979
+    },
+    {
+      "conference": "Ind",
+      "from": 2009,
+      "to": 2011
+    },
+    {
+      "conference": "WAC",
+      "from": 2012,
+      "to": 2024
+    },
+    {
+      "conference": "WCC",
+      "from": 2025,
+      "to": 2025
+    }
+  ],
+  "Seton Hall": [
+    {
+      "conference": "Ind",
+      "from": 1908,
+      "to": 1964
+    },
+    {
+      "conference": "MCC",
+      "from": 1965,
+      "to": 1968
+    },
+    {
+      "conference": "Ind",
+      "from": 1969,
+      "to": 1975
+    },
+    {
+      "conference": "NJNY7",
+      "from": 1976,
+      "to": 1978
+    },
+    {
+      "conference": "Big East",
+      "from": 1979,
+      "to": 2025
+    }
+  ],
+  "Sewanee Tigers": [
+    {
+      "conference": "Ind",
+      "from": 1922,
+      "to": 1922
+    },
+    {
+      "conference": "Southern",
+      "from": 1923,
+      "to": 1931
+    },
+    {
+      "conference": "SEC",
+      "from": 1932,
+      "to": 1939
+    },
+    {
+      "conference": "Ind",
+      "from": 1940,
+      "to": 1940
+    }
+  ],
+  "Siena": [
+    {
+      "conference": "Ind",
+      "from": 1938,
+      "to": 1978
+    },
+    {
+      "conference": "ECACM",
+      "from": 1979,
+      "to": 1983
+    },
+    {
+      "conference": "ECACN",
+      "from": 1984,
+      "to": 1987
+    },
+    {
+      "conference": "NAC",
+      "from": 1988,
+      "to": 1988
+    },
+    {
+      "conference": "MAAC",
+      "from": 1989,
+      "to": 2025
+    }
+  ],
+  "South Alabama": [
+    {
+      "conference": "Ind",
+      "from": 1971,
+      "to": 1975
+    },
+    {
+      "conference": "Sun Belt",
+      "from": 1976,
+      "to": 2025
+    }
+  ],
+  "South Carolina": [
+    {
+      "conference": "Ind",
+      "from": 1908,
+      "to": 1919
+    },
+    {
+      "conference": "Southern",
+      "from": 1920,
+      "to": 1920
+    },
+    {
+      "conference": "Ind",
+      "from": 1921,
+      "to": 1921
+    },
+    {
+      "conference": "Southern",
+      "from": 1922,
+      "to": 1952
+    },
+    {
+      "conference": "ACC",
+      "from": 1953,
+      "to": 1970
+    },
+    {
+      "conference": "Ind",
+      "from": 1971,
+      "to": 1982
+    },
+    {
+      "conference": "Metro",
+      "from": 1983,
+      "to": 1990
+    },
+    {
+      "conference": "SEC",
+      "from": 1991,
+      "to": 2025
+    }
+  ],
+  "South Carolina State": [
+    {
+      "conference": "MEAC",
+      "from": 1971,
+      "to": 2025
+    }
+  ],
+  "South Carolina Upstate": [
+    {
+      "conference": "A-Sun",
+      "from": 2007,
+      "to": 2017
+    },
+    {
+      "conference": "Big South",
+      "from": 2018,
+      "to": 2025
+    }
+  ],
+  "South Dakota": [
+    {
+      "conference": "GWC",
+      "from": 2009,
+      "to": 2010
+    },
+    {
+      "conference": "Summit",
+      "from": 2011,
+      "to": 2025
+    }
+  ],
+  "South Dakota State": [
+    {
+      "conference": "Ind",
+      "from": 2005,
+      "to": 2006
+    },
+    {
+      "conference": "Summit",
+      "from": 2007,
+      "to": 2025
+    }
+  ],
+  "South Florida": [
+    {
+      "conference": "Ind",
+      "from": 1973,
+      "to": 1975
+    },
+    {
+      "conference": "Sun Belt",
+      "from": 1976,
+      "to": 1990
+    },
+    {
+      "conference": "Metro",
+      "from": 1991,
+      "to": 1994
+    },
+    {
+      "conference": "CUSA",
+      "from": 1995,
+      "to": 2004
+    },
+    {
+      "conference": "Big East",
+      "from": 2005,
+      "to": 2012
+    },
+    {
+      "conference": "AAC",
+      "from": 2013,
+      "to": 2024
+    },
+    {
+      "conference": "American",
+      "from": 2025,
+      "to": 2025
+    }
+  ],
+  "Southeast Missouri State": [
+    {
+      "conference": "OVC",
+      "from": 1991,
+      "to": 2025
+    }
+  ],
+  "Southeastern Louisiana": [
+    {
+      "conference": "Ind",
+      "from": 1980,
+      "to": 1983
+    },
+    {
+      "conference": "GSC",
+      "from": 1984,
+      "to": 1986
+    },
+    {
+      "conference": "Ind",
+      "from": 1987,
+      "to": 1990
+    },
+    {
+      "conference": "TAAC",
+      "from": 1991,
+      "to": 1996
+    },
+    {
+      "conference": "Southland",
+      "from": 1997,
+      "to": 2025
+    }
+  ],
+  "Southern": [
+    {
+      "conference": "SWAC",
+      "from": 1977,
+      "to": 2025
+    }
+  ],
+  "Southern California": [
+    {
+      "conference": "Ind",
+      "from": 1906,
+      "to": 1920
+    },
+    {
+      "conference": "PCC",
+      "from": 1921,
+      "to": 1923
+    },
+    {
+      "conference": "Ind",
+      "from": 1924,
+      "to": 1924
+    },
+    {
+      "conference": "PCC",
+      "from": 1925,
+      "to": 1958
+    },
+    {
+      "conference": "AAWU",
+      "from": 1959,
+      "to": 1967
+    },
+    {
+      "conference": "Pac-8",
+      "from": 1968,
+      "to": 1977
+    },
+    {
+      "conference": "Pac-10",
+      "from": 1978,
+      "to": 2010
+    },
+    {
+      "conference": "Pac-12",
+      "from": 2011,
+      "to": 2023
+    },
+    {
+      "conference": "Big Ten",
+      "from": 2024,
+      "to": 2025
+    }
+  ],
+  "Southern Illinois": [
+    {
+      "conference": "Ind",
+      "from": 1966,
+      "to": 1973
+    },
+    {
+      "conference": "MVC",
+      "from": 1974,
+      "to": 2025
+    }
+  ],
+  "Southern Illinois-Edwardsville": [
+    {
+      "conference": "OVC",
+      "from": 2008,
+      "to": 2009
+    },
+    {
+      "conference": "Ind",
+      "from": 2010,
+      "to": 2010
+    },
+    {
+      "conference": "OVC",
+      "from": 2011,
+      "to": 2025
+    }
+  ],
+  "Southern Indiana": [
+    {
+      "conference": "OVC",
+      "from": 2022,
+      "to": 2025
+    }
+  ],
+  "Southern Methodist": [
+    {
+      "conference": "Ind",
+      "from": 1916,
+      "to": 1917
+    },
+    {
+      "conference": "SWC",
+      "from": 1918,
+      "to": 1995
+    },
+    {
+      "conference": "WAC",
+      "from": 1996,
+      "to": 2004
+    },
+    {
+      "conference": "CUSA",
+      "from": 2005,
+      "to": 2012
+    },
+    {
+      "conference": "AAC",
+      "from": 2013,
+      "to": 2023
+    },
+    {
+      "conference": "ACC",
+      "from": 2024,
+      "to": 2025
+    }
+  ],
+  "Southern Mississippi": [
+    {
+      "conference": "Ind",
+      "from": 1966,
+      "to": 1981
+    },
+    {
+      "conference": "Metro",
+      "from": 1982,
+      "to": 1994
+    },
+    {
+      "conference": "CUSA",
+      "from": 1995,
+      "to": 2021
+    },
+    {
+      "conference": "Sun Belt",
+      "from": 2022,
+      "to": 2025
+    }
+  ],
+  "Southern Utah": [
+    {
+      "conference": "Ind",
+      "from": 1988,
+      "to": 1993
+    },
+    {
+      "conference": "AWC",
+      "from": 1994,
+      "to": 1995
+    },
+    {
+      "conference": "Ind",
+      "from": 1996,
+      "to": 1996
+    },
+    {
+      "conference": "Mid-Cont",
+      "from": 1997,
+      "to": 2006
+    },
+    {
+      "conference": "Summit",
+      "from": 2007,
+      "to": 2011
+    },
+    {
+      "conference": "Big Sky",
+      "from": 2012,
+      "to": 2021
+    },
+    {
+      "conference": "WAC",
+      "from": 2022,
+      "to": 2025
+    }
+  ],
+  "Southwestern (KS) Moundbuilders": [
+    {
+      "conference": "Ind",
+      "from": 1904,
+      "to": 1938
+    }
+  ],
+  "Southwestern (TX) Pirates": [
+    {
+      "conference": "SWC",
+      "from": 1914,
+      "to": 1915
+    }
+  ],
+  "Springfield Pride": [
+    {
+      "conference": "Ind",
+      "from": 1896,
+      "to": 1939
+    }
+  ],
+  "St. Bonaventure": [
+    {
+      "conference": "Ind",
+      "from": 1919,
+      "to": 1945
+    },
+    {
+      "conference": "WNY3",
+      "from": 1946,
+      "to": 1957
+    },
+    {
+      "conference": "Ind",
+      "from": 1958,
+      "to": 1978
+    },
+    {
+      "conference": "EAA",
+      "from": 1979,
+      "to": 1981
+    },
+    {
+      "conference": "A-10",
+      "from": 1982,
+      "to": 2025
+    }
+  ],
+  "St. Francis (NY) Terriers": [
+    {
+      "conference": "Ind",
+      "from": 1901,
+      "to": 1932
+    },
+    {
+      "conference": "Metro NY",
+      "from": 1933,
+      "to": 1933
+    },
+    {
+      "conference": "Ind",
+      "from": 1934,
+      "to": 1934
+    },
+    {
+      "conference": "Metro NY",
+      "from": 1935,
+      "to": 1938
+    },
+    {
+      "conference": "Ind",
+      "from": 1939,
+      "to": 1941
+    },
+    {
+      "conference": "Metro NY",
+      "from": 1942,
+      "to": 1942
+    },
+    {
+      "conference": "Ind",
+      "from": 1943,
+      "to": 1944
+    },
+    {
+      "conference": "Metro NY",
+      "from": 1945,
+      "to": 1962
+    },
+    {
+      "conference": "Ind",
+      "from": 1963,
+      "to": 1964
+    },
+    {
+      "conference": "MCC",
+      "from": 1965,
+      "to": 1967
+    },
+    {
+      "conference": "Ind",
+      "from": 1968,
+      "to": 1978
+    },
+    {
+      "conference": "ECACM",
+      "from": 1979,
+      "to": 1987
+    },
+    {
+      "conference": "NEC",
+      "from": 1988,
+      "to": 2022
+    }
+  ],
+  "St. John's (NY)": [
+    {
+      "conference": "Ind",
+      "from": 1907,
+      "to": 1932
+    },
+    {
+      "conference": "Metro NY",
+      "from": 1933,
+      "to": 1933
+    },
+    {
+      "conference": "Ind",
+      "from": 1934,
+      "to": 1934
+    },
+    {
+      "conference": "Metro NY",
+      "from": 1935,
+      "to": 1938
+    },
+    {
+      "conference": "Ind",
+      "from": 1939,
+      "to": 1941
+    },
+    {
+      "conference": "Metro NY",
+      "from": 1942,
+      "to": 1942
+    },
+    {
+      "conference": "Ind",
+      "from": 1943,
+      "to": 1944
+    },
+    {
+      "conference": "Metro NY",
+      "from": 1945,
+      "to": 1962
+    },
+    {
+      "conference": "Ind",
+      "from": 1963,
+      "to": 1975
+    },
+    {
+      "conference": "NJNY7",
+      "from": 1976,
+      "to": 1978
+    },
+    {
+      "conference": "Big East",
+      "from": 1979,
+      "to": 2025
+    }
+  ],
+  "St. John's College (OH)": [
+    {
+      "conference": "Ind",
+      "from": 1920,
+      "to": 1920
+    }
+  ],
+  "St. Lawrence Saints": [
+    {
+      "conference": "Ind",
+      "from": 1901,
+      "to": 1914
+    }
+  ],
+  "St. Thomas": [
+    {
+      "conference": "Summit",
+      "from": 2021,
+      "to": 2025
+    }
+  ],
+  "Stanford": [
+    {
+      "conference": "Ind",
+      "from": 1913,
+      "to": 1915
+    },
+    {
+      "conference": "PCC",
+      "from": 1916,
+      "to": 1916
+    },
+    {
+      "conference": "Ind",
+      "from": 1917,
+      "to": 1917
+    },
+    {
+      "conference": "PCC",
+      "from": 1918,
+      "to": 1958
+    },
+    {
+      "conference": "AAWU",
+      "from": 1959,
+      "to": 1967
+    },
+    {
+      "conference": "Pac-8",
+      "from": 1968,
+      "to": 1977
+    },
+    {
+      "conference": "Pac-10",
+      "from": 1978,
+      "to": 2010
+    },
+    {
+      "conference": "Pac-12",
+      "from": 2011,
+      "to": 2023
+    },
+    {
+      "conference": "ACC",
+      "from": 2024,
+      "to": 2025
+    }
+  ],
+  "Stephen F. Austin": [
+    {
+      "conference": "GSC",
+      "from": 1984,
+      "to": 1986
+    },
+    {
+      "conference": "Southland",
+      "from": 1987,
+      "to": 2020
+    },
+    {
+      "conference": "WAC",
+      "from": 2021,
+      "to": 2023
+    },
+    {
+      "conference": "Southland",
+      "from": 2024,
+      "to": 2025
+    }
+  ],
+  "Stetson": [
+    {
+      "conference": "Ind",
+      "from": 1971,
+      "to": 1984
+    },
+    {
+      "conference": "TAAC",
+      "from": 1985,
+      "to": 2000
+    },
+    {
+      "conference": "A-Sun",
+      "from": 2001,
+      "to": 2025
+    }
+  ],
+  "Stevens Institute Ducks": [
+    {
+      "conference": "Ind",
+      "from": 1916,
+      "to": 1919
+    }
+  ],
+  "Stonehill": [
+    {
+      "conference": "NEC",
+      "from": 2022,
+      "to": 2025
+    }
+  ],
+  "Stony Brook": [
+    {
+      "conference": "Ind",
+      "from": 1999,
+      "to": 2000
+    },
+    {
+      "conference": "AEC",
+      "from": 2001,
+      "to": 2021
+    },
+    {
+      "conference": "CAA",
+      "from": 2022,
+      "to": 2025
+    }
+  ],
+  "SUNY Potsdam Bears": [
+    {
+      "conference": "Ind",
+      "from": 1909,
+      "to": 1912
+    }
+  ],
+  "Swarthmore Garnet": [
+    {
+      "conference": "Ind",
+      "from": 1905,
+      "to": 1918
+    }
+  ],
+  "Syracuse": [
+    {
+      "conference": "Ind",
+      "from": 1898,
+      "to": 1978
+    },
+    {
+      "conference": "Big East",
+      "from": 1979,
+      "to": 2012
+    },
+    {
+      "conference": "ACC",
+      "from": 2013,
+      "to": 2025
+    }
+  ],
+  "Tarleton State": [
+    {
+      "conference": "WAC",
+      "from": 2020,
+      "to": 2025
+    }
+  ],
+  "TCU": [
+    {
+      "conference": "Ind",
+      "from": 1913,
+      "to": 1922
+    },
+    {
+      "conference": "SWC",
+      "from": 1923,
+      "to": 1995
+    },
+    {
+      "conference": "WAC",
+      "from": 1996,
+      "to": 2000
+    },
+    {
+      "conference": "CUSA",
+      "from": 2001,
+      "to": 2004
+    },
+    {
+      "conference": "MWC",
+      "from": 2005,
+      "to": 2011
+    },
+    {
+      "conference": "Big 12",
+      "from": 2012,
+      "to": 2025
+    }
+  ],
+  "Temple": [
+    {
+      "conference": "Ind",
+      "from": 1894,
+      "to": 1931
+    },
+    {
+      "conference": "EIC",
+      "from": 1932,
+      "to": 1938
+    },
+    {
+      "conference": "Ind",
+      "from": 1939,
+      "to": 1957
+    },
+    {
+      "conference": "Mid-Atl",
+      "from": 1958,
+      "to": 1973
+    },
+    {
+      "conference": "ECC",
+      "from": 1974,
+      "to": 1981
+    },
+    {
+      "conference": "A-10",
+      "from": 1982,
+      "to": 2012
+    },
+    {
+      "conference": "AAC",
+      "from": 2013,
+      "to": 2024
+    },
+    {
+      "conference": "American",
+      "from": 2025,
+      "to": 2025
+    }
+  ],
+  "Tennessee": [
+    {
+      "conference": "Ind",
+      "from": 1908,
+      "to": 1919
+    },
+    {
+      "conference": "Southern",
+      "from": 1920,
+      "to": 1931
+    },
+    {
+      "conference": "SEC",
+      "from": 1932,
+      "to": 2025
+    }
+  ],
+  "Tennessee State": [
+    {
+      "conference": "Ind",
+      "from": 1945,
+      "to": 1985
+    },
+    {
+      "conference": "OVC",
+      "from": 1986,
+      "to": 2025
+    }
+  ],
+  "Tennessee Tech": [
+    {
+      "conference": "Ind",
+      "from": 1943,
+      "to": 1943
+    },
+    {
+      "conference": "OVC",
+      "from": 1948,
+      "to": 2025
+    }
+  ],
+  "Tennessee-Martin": [
+    {
+      "conference": "OVC",
+      "from": 1992,
+      "to": 2025
+    }
+  ],
+  "Texas": [
+    {
+      "conference": "Ind",
+      "from": 1905,
+      "to": 1913
+    },
+    {
+      "conference": "SWC",
+      "from": 1914,
+      "to": 1995
+    },
+    {
+      "conference": "Big 12",
+      "from": 1996,
+      "to": 2023
+    },
+    {
+      "conference": "SEC",
+      "from": 2024,
+      "to": 2025
+    }
+  ],
+  "Texas A&amp;M": [
+    {
+      "conference": "Ind",
+      "from": 1912,
+      "to": 1913
+    },
+    {
+      "conference": "SWC",
+      "from": 1914,
+      "to": 1995
+    },
+    {
+      "conference": "Big 12",
+      "from": 1996,
+      "to": 2011
+    },
+    {
+      "conference": "SEC",
+      "from": 2012,
+      "to": 2025
+    }
+  ],
+  "Texas A&amp;M-Corpus Christi": [
+    {
+      "conference": "Ind",
+      "from": 1972,
+      "to": 2005
+    },
+    {
+      "conference": "Southland",
+      "from": 2006,
+      "to": 2025
+    }
+  ],
+  "Texas Southern": [
+    {
+      "conference": "SWAC",
+      "from": 1977,
+      "to": 2025
+    }
+  ],
+  "Texas State": [
+    {
+      "conference": "Ind",
+      "from": 1951,
+      "to": 1951
+    },
+    {
+      "conference": "GSC",
+      "from": 1984,
+      "to": 1986
+    },
+    {
+      "conference": "Southland",
+      "from": 1987,
+      "to": 2011
+    },
+    {
+      "conference": "WAC",
+      "from": 2012,
+      "to": 2012
+    },
+    {
+      "conference": "Sun Belt",
+      "from": 2013,
+      "to": 2025
+    }
+  ],
+  "Texas Tech": [
+    {
+      "conference": "Ind",
+      "from": 1925,
+      "to": 1931
+    },
+    {
+      "conference": "BIAA",
+      "from": 1932,
+      "to": 1938
+    },
+    {
+      "conference": "Ind",
+      "from": 1939,
+      "to": 1940
+    },
+    {
+      "conference": "BIAA",
+      "from": 1941,
+      "to": 1955
+    },
+    {
+      "conference": "Ind",
+      "from": 1956,
+      "to": 1956
+    },
+    {
+      "conference": "SWC",
+      "from": 1957,
+      "to": 1995
+    },
+    {
+      "conference": "Big 12",
+      "from": 1996,
+      "to": 2025
+    }
+  ],
+  "Texas Wesleyan Rams": [
+    {
+      "conference": "Ind",
+      "from": 1947,
+      "to": 1947
+    }
+  ],
+  "Texas-Rio Grande Valley": [
+    {
+      "conference": "Ind",
+      "from": 1968,
+      "to": 1977
+    },
+    {
+      "conference": "TAAC",
+      "from": 1978,
+      "to": 1979
+    },
+    {
+      "conference": "Ind",
+      "from": 1980,
+      "to": 1986
+    },
+    {
+      "conference": "ASC",
+      "from": 1987,
+      "to": 1990
+    },
+    {
+      "conference": "Sun Belt",
+      "from": 1991,
+      "to": 1997
+    },
+    {
+      "conference": "Ind",
+      "from": 1998,
+      "to": 2008
+    },
+    {
+      "conference": "GWC",
+      "from": 2009,
+      "to": 2012
+    },
+    {
+      "conference": "WAC",
+      "from": 2013,
+      "to": 2023
+    },
+    {
+      "conference": "Southland",
+      "from": 2024,
+      "to": 2025
+    }
+  ],
+  "The Citadel": [
+    {
+      "conference": "Ind",
+      "from": 1912,
+      "to": 1935
+    },
+    {
+      "conference": "Southern",
+      "from": 1936,
+      "to": 2025
+    }
+  ],
+  "Toledo": [
+    {
+      "conference": "Ind",
+      "from": 1915,
+      "to": 1950
+    },
+    {
+      "conference": "MAC",
+      "from": 1951,
+      "to": 2025
+    }
+  ],
+  "Towson": [
+    {
+      "conference": "ECACS",
+      "from": 1979,
+      "to": 1980
+    },
+    {
+      "conference": "ECACM",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "ECC",
+      "from": 1982,
+      "to": 1991
+    },
+    {
+      "conference": "Big South",
+      "from": 1992,
+      "to": 1994
+    },
+    {
+      "conference": "NAC",
+      "from": 1995,
+      "to": 1995
+    },
+    {
+      "conference": "AEC",
+      "from": 1996,
+      "to": 2000
+    },
+    {
+      "conference": "CAA",
+      "from": 2001,
+      "to": 2025
+    }
+  ],
+  "Trinity (CT) Bantams": [
+    {
+      "conference": "Ind",
+      "from": 1895,
+      "to": 1910
+    }
+  ],
+  "Trinity (TX) Tigers": [
+    {
+      "conference": "Southland",
+      "from": 1968,
+      "to": 1971
+    },
+    {
+      "conference": "Ind",
+      "from": 1972,
+      "to": 1972
+    }
+  ],
+  "Troy": [
+    {
+      "conference": "ECC",
+      "from": 1993,
+      "to": 1993
+    },
+    {
+      "conference": "Mid-Cont",
+      "from": 1994,
+      "to": 1996
+    },
+    {
+      "conference": "TAAC",
+      "from": 1997,
+      "to": 2000
+    },
+    {
+      "conference": "A-Sun",
+      "from": 2001,
+      "to": 2004
+    },
+    {
+      "conference": "Sun Belt",
+      "from": 2005,
+      "to": 2025
+    }
+  ],
+  "Tulane": [
+    {
+      "conference": "Ind",
+      "from": 1905,
+      "to": 1919
+    },
+    {
+      "conference": "Southern",
+      "from": 1920,
+      "to": 1920
+    },
+    {
+      "conference": "Ind",
+      "from": 1921,
+      "to": 1921
+    },
+    {
+      "conference": "Southern",
+      "from": 1922,
+      "to": 1931
+    },
+    {
+      "conference": "SEC",
+      "from": 1932,
+      "to": 1965
+    },
+    {
+      "conference": "Ind",
+      "from": 1966,
+      "to": 1974
+    },
+    {
+      "conference": "Metro",
+      "from": 1975,
+      "to": 1994
+    },
+    {
+      "conference": "CUSA",
+      "from": 1995,
+      "to": 2013
+    },
+    {
+      "conference": "AAC",
+      "from": 2014,
+      "to": 2024
+    },
+    {
+      "conference": "American",
+      "from": 2025,
+      "to": 2025
+    }
+  ],
+  "Tulsa": [
+    {
+      "conference": "Ind",
+      "from": 1913,
+      "to": 1933
+    },
+    {
+      "conference": "MVC",
+      "from": 1934,
+      "to": 1995
+    },
+    {
+      "conference": "WAC",
+      "from": 1996,
+      "to": 2004
+    },
+    {
+      "conference": "CUSA",
+      "from": 2005,
+      "to": 2013
+    },
+    {
+      "conference": "AAC",
+      "from": 2014,
+      "to": 2024
+    },
+    {
+      "conference": "American",
+      "from": 2025,
+      "to": 2025
+    }
+  ],
+  "U.S. International Gulls": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1990
+    }
+  ],
+  "UAB": [
+    {
+      "conference": "Sun Belt",
+      "from": 1979,
+      "to": 1990
+    },
+    {
+      "conference": "GMWC",
+      "from": 1991,
+      "to": 1994
+    },
+    {
+      "conference": "CUSA",
+      "from": 1995,
+      "to": 2022
+    },
+    {
+      "conference": "AAC",
+      "from": 2023,
+      "to": 2024
+    },
+    {
+      "conference": "American",
+      "from": 2025,
+      "to": 2025
+    }
+  ],
+  "UC Davis": [
+    {
+      "conference": "Ind",
+      "from": 2004,
+      "to": 2006
+    },
+    {
+      "conference": "Big West",
+      "from": 2007,
+      "to": 2025
+    }
+  ],
+  "UC Irvine": [
+    {
+      "conference": "PCAA",
+      "from": 1977,
+      "to": 1987
+    },
+    {
+      "conference": "Big West",
+      "from": 1988,
+      "to": 2025
+    }
+  ],
+  "UC Riverside": [
+    {
+      "conference": "Big West",
+      "from": 2001,
+      "to": 2025
+    }
+  ],
+  "UC San Diego": [
+    {
+      "conference": "Big West",
+      "from": 2020,
+      "to": 2025
+    }
+  ],
+  "UC Santa Barbara": [
+    {
+      "conference": "WCAC",
+      "from": 1963,
+      "to": 1968
+    },
+    {
+      "conference": "PCAA",
+      "from": 1969,
+      "to": 1973
+    },
+    {
+      "conference": "Ind",
+      "from": 1974,
+      "to": 1975
+    },
+    {
+      "conference": "PCAA",
+      "from": 1976,
+      "to": 1987
+    },
+    {
+      "conference": "Big West",
+      "from": 1988,
+      "to": 2025
+    }
+  ],
+  "UCF": [
+    {
+      "conference": "Ind",
+      "from": 1984,
+      "to": 1989
+    },
+    {
+      "conference": "ASC",
+      "from": 1990,
+      "to": 1990
+    },
+    {
+      "conference": "Sun Belt",
+      "from": 1991,
+      "to": 1991
+    },
+    {
+      "conference": "TAAC",
+      "from": 1992,
+      "to": 2000
+    },
+    {
+      "conference": "A-Sun",
+      "from": 2001,
+      "to": 2004
+    },
+    {
+      "conference": "CUSA",
+      "from": 2005,
+      "to": 2012
+    },
+    {
+      "conference": "AAC",
+      "from": 2013,
+      "to": 2022
+    },
+    {
+      "conference": "Big 12",
+      "from": 2023,
+      "to": 2025
+    }
+  ],
+  "UCLA": [
+    {
+      "conference": "Ind",
+      "from": 1919,
+      "to": 1926
+    },
+    {
+      "conference": "PCC",
+      "from": 1927,
+      "to": 1958
+    },
+    {
+      "conference": "AAWU",
+      "from": 1959,
+      "to": 1967
+    },
+    {
+      "conference": "Pac-8",
+      "from": 1968,
+      "to": 1977
+    },
+    {
+      "conference": "Pac-10",
+      "from": 1978,
+      "to": 2010
+    },
+    {
+      "conference": "Pac-12",
+      "from": 2011,
+      "to": 2023
+    },
+    {
+      "conference": "Big Ten",
+      "from": 2024,
+      "to": 2025
+    }
+  ],
+  "UNC Asheville": [
+    {
+      "conference": "Big South",
+      "from": 1985,
+      "to": 2025
+    }
+  ],
+  "UNC Greensboro": [
+    {
+      "conference": "Ind",
+      "from": 1991,
+      "to": 1991
+    },
+    {
+      "conference": "Big South",
+      "from": 1992,
+      "to": 1996
+    },
+    {
+      "conference": "Southern",
+      "from": 1997,
+      "to": 2025
+    }
+  ],
+  "UNC Wilmington": [
+    {
+      "conference": "Ind",
+      "from": 1976,
+      "to": 1983
+    },
+    {
+      "conference": "ECACS",
+      "from": 1984,
+      "to": 1984
+    },
+    {
+      "conference": "CAA",
+      "from": 1985,
+      "to": 2025
+    }
+  ],
+  "Union (NY) Dutchmen": [
+    {
+      "conference": "Ind",
+      "from": 1906,
+      "to": 1924
+    }
+  ],
+  "UT Arlington": [
+    {
+      "conference": "Southland",
+      "from": 1968,
+      "to": 2011
+    },
+    {
+      "conference": "WAC",
+      "from": 2012,
+      "to": 2012
+    },
+    {
+      "conference": "Sun Belt",
+      "from": 2013,
+      "to": 2021
+    },
+    {
+      "conference": "WAC",
+      "from": 2022,
+      "to": 2025
+    }
+  ],
+  "Utah": [
+    {
+      "conference": "Ind",
+      "from": 1908,
+      "to": 1922
+    },
+    {
+      "conference": "MSAC",
+      "from": 1923,
+      "to": 1942
+    },
+    {
+      "conference": "Ind",
+      "from": 1943,
+      "to": 1943
+    },
+    {
+      "conference": "MSAC",
+      "from": 1944,
+      "to": 1961
+    },
+    {
+      "conference": "WAC",
+      "from": 1962,
+      "to": 1998
+    },
+    {
+      "conference": "MWC",
+      "from": 1999,
+      "to": 2010
+    },
+    {
+      "conference": "Pac-12",
+      "from": 2011,
+      "to": 2023
+    },
+    {
+      "conference": "Big 12",
+      "from": 2024,
+      "to": 2025
+    }
+  ],
+  "Utah State": [
+    {
+      "conference": "Ind",
+      "from": 1903,
+      "to": 1922
+    },
+    {
+      "conference": "MSAC",
+      "from": 1923,
+      "to": 1961
+    },
+    {
+      "conference": "Ind",
+      "from": 1962,
+      "to": 1977
+    },
+    {
+      "conference": "PCAA",
+      "from": 1978,
+      "to": 1987
+    },
+    {
+      "conference": "Big West",
+      "from": 1988,
+      "to": 2004
+    },
+    {
+      "conference": "WAC",
+      "from": 2005,
+      "to": 2012
+    },
+    {
+      "conference": "MWC",
+      "from": 2013,
+      "to": 2025
+    }
+  ],
+  "Utah Tech": [
+    {
+      "conference": "WAC",
+      "from": 2020,
+      "to": 2025
+    }
+  ],
+  "Utah Valley": [
+    {
+      "conference": "Ind",
+      "from": 2004,
+      "to": 2008
+    },
+    {
+      "conference": "GWC",
+      "from": 2009,
+      "to": 2012
+    },
+    {
+      "conference": "WAC",
+      "from": 2013,
+      "to": 2025
+    }
+  ],
+  "UTEP": [
+    {
+      "conference": "Ind",
+      "from": 1922,
+      "to": 1933
+    },
+    {
+      "conference": "BIAA",
+      "from": 1935,
+      "to": 1939
+    },
+    {
+      "conference": "Ind",
+      "from": 1940,
+      "to": 1940
+    },
+    {
+      "conference": "BIAA",
+      "from": 1941,
+      "to": 1961
+    },
+    {
+      "conference": "Ind",
+      "from": 1962,
+      "to": 1968
+    },
+    {
+      "conference": "WAC",
+      "from": 1969,
+      "to": 2004
+    },
+    {
+      "conference": "CUSA",
+      "from": 2005,
+      "to": 2025
+    }
+  ],
+  "Utica Pioneers": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1986
+    }
+  ],
+  "UTSA": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1985
+    },
+    {
+      "conference": "TAAC",
+      "from": 1986,
+      "to": 1990
+    },
+    {
+      "conference": "Southland",
+      "from": 1991,
+      "to": 2011
+    },
+    {
+      "conference": "WAC",
+      "from": 2012,
+      "to": 2012
+    },
+    {
+      "conference": "CUSA",
+      "from": 2013,
+      "to": 2022
+    },
+    {
+      "conference": "AAC",
+      "from": 2023,
+      "to": 2024
+    },
+    {
+      "conference": "American",
+      "from": 2025,
+      "to": 2025
+    }
+  ],
+  "Valparaiso": [
+    {
+      "conference": "Ind",
+      "from": 1917,
+      "to": 1981
+    },
+    {
+      "conference": "Mid-Cont",
+      "from": 1982,
+      "to": 2006
+    },
+    {
+      "conference": "Horizon",
+      "from": 2007,
+      "to": 2016
+    },
+    {
+      "conference": "MVC",
+      "from": 2017,
+      "to": 2025
+    }
+  ],
+  "Vanderbilt": [
+    {
+      "conference": "Ind",
+      "from": 1900,
+      "to": 1921
+    },
+    {
+      "conference": "Southern",
+      "from": 1922,
+      "to": 1931
+    },
+    {
+      "conference": "SEC",
+      "from": 1932,
+      "to": 2025
+    }
+  ],
+  "Vermont": [
+    {
+      "conference": "Ind",
+      "from": 1920,
+      "to": 1924
+    },
+    {
+      "conference": "Yankee",
+      "from": 1946,
+      "to": 1975
+    },
+    {
+      "conference": "Ind",
+      "from": 1976,
+      "to": 1978
+    },
+    {
+      "conference": "ECACN",
+      "from": 1979,
+      "to": 1987
+    },
+    {
+      "conference": "NAC",
+      "from": 1988,
+      "to": 1995
+    },
+    {
+      "conference": "AEC",
+      "from": 1996,
+      "to": 2025
+    }
+  ],
+  "Villanova": [
+    {
+      "conference": "Ind",
+      "from": 1920,
+      "to": 1975
+    },
+    {
+      "conference": "ECBL",
+      "from": 1976,
+      "to": 1976
+    },
+    {
+      "conference": "EAA",
+      "from": 1977,
+      "to": 1979
+    },
+    {
+      "conference": "Big East",
+      "from": 1980,
+      "to": 2025
+    }
+  ],
+  "Virginia": [
+    {
+      "conference": "Ind",
+      "from": 1905,
+      "to": 1920
+    },
+    {
+      "conference": "Southern",
+      "from": 1921,
+      "to": 1936
+    },
+    {
+      "conference": "Ind",
+      "from": 1937,
+      "to": 1952
+    },
+    {
+      "conference": "ACC",
+      "from": 1953,
+      "to": 2025
+    }
+  ],
+  "Virginia Commonwealth": [
+    {
+      "conference": "Ind",
+      "from": 1973,
+      "to": 1978
+    },
+    {
+      "conference": "Sun Belt",
+      "from": 1979,
+      "to": 1990
+    },
+    {
+      "conference": "Metro",
+      "from": 1991,
+      "to": 1994
+    },
+    {
+      "conference": "CAA",
+      "from": 1995,
+      "to": 2011
+    },
+    {
+      "conference": "A-10",
+      "from": 2012,
+      "to": 2025
+    }
+  ],
+  "Virginia Military Institute": [
+    {
+      "conference": "Ind",
+      "from": 1908,
+      "to": 1924
+    },
+    {
+      "conference": "Southern",
+      "from": 1925,
+      "to": 2002
+    },
+    {
+      "conference": "Big South",
+      "from": 2003,
+      "to": 2013
+    },
+    {
+      "conference": "Southern",
+      "from": 2014,
+      "to": 2025
+    }
+  ],
+  "Virginia Tech": [
+    {
+      "conference": "Ind",
+      "from": 1908,
+      "to": 1920
+    },
+    {
+      "conference": "Southern",
+      "from": 1921,
+      "to": 1964
+    },
+    {
+      "conference": "Ind",
+      "from": 1965,
+      "to": 1977
+    },
+    {
+      "conference": "Metro",
+      "from": 1978,
+      "to": 1994
+    },
+    {
+      "conference": "A-10",
+      "from": 1995,
+      "to": 1999
+    },
+    {
+      "conference": "Big East",
+      "from": 2000,
+      "to": 2003
+    },
+    {
+      "conference": "ACC",
+      "from": 2004,
+      "to": 2025
+    }
+  ],
+  "Wabash Little Giants": [
+    {
+      "conference": "Ind",
+      "from": 1896,
+      "to": 1924
+    }
+  ],
+  "Wagner": [
+    {
+      "conference": "MCC",
+      "from": 1965,
+      "to": 1968
+    },
+    {
+      "conference": "Ind",
+      "from": 1976,
+      "to": 1978
+    },
+    {
+      "conference": "ECACM",
+      "from": 1979,
+      "to": 1987
+    },
+    {
+      "conference": "NEC",
+      "from": 1988,
+      "to": 2025
+    }
+  ],
+  "Wake Forest": [
+    {
+      "conference": "Ind",
+      "from": 1905,
+      "to": 1935
+    },
+    {
+      "conference": "Southern",
+      "from": 1936,
+      "to": 1952
+    },
+    {
+      "conference": "ACC",
+      "from": 1953,
+      "to": 2025
+    }
+  ],
+  "Washburn Ichabods": [
+    {
+      "conference": "Ind",
+      "from": 1905,
+      "to": 1933
+    },
+    {
+      "conference": "MVC",
+      "from": 1934,
+      "to": 1940
+    }
+  ],
+  "Washington": [
+    {
+      "conference": "Ind",
+      "from": 1895,
+      "to": 1914
+    },
+    {
+      "conference": "PCC",
+      "from": 1915,
+      "to": 1916
+    },
+    {
+      "conference": "Ind",
+      "from": 1917,
+      "to": 1917
+    },
+    {
+      "conference": "PCC",
+      "from": 1918,
+      "to": 1958
+    },
+    {
+      "conference": "AAWU",
+      "from": 1959,
+      "to": 1967
+    },
+    {
+      "conference": "Pac-8",
+      "from": 1968,
+      "to": 1977
+    },
+    {
+      "conference": "Pac-10",
+      "from": 1978,
+      "to": 2010
+    },
+    {
+      "conference": "Pac-12",
+      "from": 2011,
+      "to": 2023
+    },
+    {
+      "conference": "Big Ten",
+      "from": 2024,
+      "to": 2025
+    }
+  ],
+  "Washington &amp; Jefferson Presidents": [
+    {
+      "conference": "Ind",
+      "from": 1912,
+      "to": 1943
+    }
+  ],
+  "Washington &amp; Lee Generals": [
+    {
+      "conference": "Ind",
+      "from": 1906,
+      "to": 1920
+    },
+    {
+      "conference": "Southern",
+      "from": 1921,
+      "to": 1957
+    },
+    {
+      "conference": "Ind",
+      "from": 1958,
+      "to": 1958
+    }
+  ],
+  "Washington (MO) Bears": [
+    {
+      "conference": "Ind",
+      "from": 1904,
+      "to": 1906
+    },
+    {
+      "conference": "MVC",
+      "from": 1907,
+      "to": 1946
+    },
+    {
+      "conference": "Ind",
+      "from": 1947,
+      "to": 1959
+    }
+  ],
+  "Washington College Shoremen": [
+    {
+      "conference": "Ind",
+      "from": 1912,
+      "to": 1924
+    }
+  ],
+  "Washington State": [
+    {
+      "conference": "Ind",
+      "from": 1901,
+      "to": 1914
+    },
+    {
+      "conference": "PCC",
+      "from": 1915,
+      "to": 1916
+    },
+    {
+      "conference": "Ind",
+      "from": 1917,
+      "to": 1917
+    },
+    {
+      "conference": "PCC",
+      "from": 1918,
+      "to": 1958
+    },
+    {
+      "conference": "Ind",
+      "from": 1959,
+      "to": 1962
+    },
+    {
+      "conference": "AAWU",
+      "from": 1963,
+      "to": 1967
+    },
+    {
+      "conference": "Pac-8",
+      "from": 1968,
+      "to": 1977
+    },
+    {
+      "conference": "Pac-10",
+      "from": 1978,
+      "to": 2010
+    },
+    {
+      "conference": "Pac-12",
+      "from": 2011,
+      "to": 2023
+    },
+    {
+      "conference": "WCC",
+      "from": 2024,
+      "to": 2025
+    }
+  ],
+  "Wayne State (MI) Warriors": [
+    {
+      "conference": "Ind",
+      "from": 1927,
+      "to": 1927
+    },
+    {
+      "conference": "MAC",
+      "from": 1946,
+      "to": 1946
+    },
+    {
+      "conference": "Ind",
+      "from": 1947,
+      "to": 1955
+    }
+  ],
+  "Weber State": [
+    {
+      "conference": "Big Sky",
+      "from": 1963,
+      "to": 2025
+    }
+  ],
+  "Wesleyan (CT) Cardinals": [
+    {
+      "conference": "Ind",
+      "from": 1895,
+      "to": 1912
+    }
+  ],
+  "West Chester Golden Rams": [
+    {
+      "conference": "Ind",
+      "from": 1898,
+      "to": 1898
+    },
+    {
+      "conference": "Mid-Atl",
+      "from": 1965,
+      "to": 1966
+    },
+    {
+      "conference": "Ind",
+      "from": 1967,
+      "to": 1967
+    },
+    {
+      "conference": "Mid-Atl",
+      "from": 1968,
+      "to": 1973
+    },
+    {
+      "conference": "ECC",
+      "from": 1974,
+      "to": 1981
+    }
+  ],
+  "West Georgia": [
+    {
+      "conference": "A-Sun",
+      "from": 2024,
+      "to": 2025
+    }
+  ],
+  "West Texas A&amp;M Buffaloes": [
+    {
+      "conference": "Ind",
+      "from": 1920,
+      "to": 1932
+    },
+    {
+      "conference": "BIAA",
+      "from": 1941,
+      "to": 1961
+    },
+    {
+      "conference": "Ind",
+      "from": 1962,
+      "to": 1969
+    },
+    {
+      "conference": "MVC",
+      "from": 1970,
+      "to": 1985
+    }
+  ],
+  "West Virginia": [
+    {
+      "conference": "Ind",
+      "from": 1903,
+      "to": 1931
+    },
+    {
+      "conference": "EIC",
+      "from": 1932,
+      "to": 1938
+    },
+    {
+      "conference": "Ind",
+      "from": 1939,
+      "to": 1949
+    },
+    {
+      "conference": "Southern",
+      "from": 1950,
+      "to": 1967
+    },
+    {
+      "conference": "Ind",
+      "from": 1968,
+      "to": 1975
+    },
+    {
+      "conference": "ECBL",
+      "from": 1976,
+      "to": 1976
+    },
+    {
+      "conference": "EAA",
+      "from": 1977,
+      "to": 1981
+    },
+    {
+      "conference": "A-10",
+      "from": 1982,
+      "to": 1994
+    },
+    {
+      "conference": "Big East",
+      "from": 1995,
+      "to": 2011
+    },
+    {
+      "conference": "Big 12",
+      "from": 2012,
+      "to": 2025
+    }
+  ],
+  "Western Carolina": [
+    {
+      "conference": "Southern",
+      "from": 1976,
+      "to": 2025
+    }
+  ],
+  "Western Colorado Mountaineers": [
+    {
+      "conference": "Ind",
+      "from": 1923,
+      "to": 1923
+    },
+    {
+      "conference": "MSAC",
+      "from": 1924,
+      "to": 1936
+    }
+  ],
+  "Western Illinois": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "Mid-Cont",
+      "from": 1982,
+      "to": 2006
+    },
+    {
+      "conference": "Summit",
+      "from": 2007,
+      "to": 2022
+    },
+    {
+      "conference": "OVC",
+      "from": 2023,
+      "to": 2025
+    }
+  ],
+  "Western Kentucky": [
+    {
+      "conference": "Ind",
+      "from": 1921,
+      "to": 1947
+    },
+    {
+      "conference": "OVC",
+      "from": 1948,
+      "to": 1981
+    },
+    {
+      "conference": "Sun Belt",
+      "from": 1982,
+      "to": 2013
+    },
+    {
+      "conference": "CUSA",
+      "from": 2014,
+      "to": 2025
+    }
+  ],
+  "Western Michigan": [
+    {
+      "conference": "Ind",
+      "from": 1913,
+      "to": 1946
+    },
+    {
+      "conference": "MAC",
+      "from": 1947,
+      "to": 2025
+    }
+  ],
+  "Westminster (MO) Blue Jays": [
+    {
+      "conference": "Ind",
+      "from": 1919,
+      "to": 1919
+    }
+  ],
+  "Westminster (PA) Titans": [
+    {
+      "conference": "Ind",
+      "from": 1897,
+      "to": 1940
+    }
+  ],
+  "Wheaton (IL) Thunder": [
+    {
+      "conference": "Ind",
+      "from": 1901,
+      "to": 1904
+    }
+  ],
+  "Whittier Poets": [
+    {
+      "conference": "Ind",
+      "from": 1908,
+      "to": 1914
+    }
+  ],
+  "Wichita State": [
+    {
+      "conference": "Ind",
+      "from": 1905,
+      "to": 1944
+    },
+    {
+      "conference": "MVC",
+      "from": 1945,
+      "to": 2016
+    },
+    {
+      "conference": "AAC",
+      "from": 2017,
+      "to": 2024
+    },
+    {
+      "conference": "American",
+      "from": 2025,
+      "to": 2025
+    }
+  ],
+  "Widener Pride": [
+    {
+      "conference": "Ind",
+      "from": 1898,
+      "to": 1908
+    }
+  ],
+  "William &amp; Mary": [
+    {
+      "conference": "Ind",
+      "from": 1905,
+      "to": 1935
+    },
+    {
+      "conference": "Southern",
+      "from": 1936,
+      "to": 1976
+    },
+    {
+      "conference": "Ind",
+      "from": 1977,
+      "to": 1978
+    },
+    {
+      "conference": "ECACS",
+      "from": 1979,
+      "to": 1984
+    },
+    {
+      "conference": "CAA",
+      "from": 1985,
+      "to": 2025
+    }
+  ],
+  "Williams Ephs": [
+    {
+      "conference": "Ind",
+      "from": 1900,
+      "to": 1954
+    }
+  ],
+  "Winthrop": [
+    {
+      "conference": "Big South",
+      "from": 1985,
+      "to": 2025
+    }
+  ],
+  "Wisconsin": [
+    {
+      "conference": "Western",
+      "from": 1898,
+      "to": 1916
+    },
+    {
+      "conference": "Big Ten",
+      "from": 1917,
+      "to": 2025
+    }
+  ],
+  "Wisconsin-Stevens Point Pointers": [
+    {
+      "conference": "Ind",
+      "from": 1897,
+      "to": 1917
+    }
+  ],
+  "Wisconsin-Superior Yellowjackets": [
+    {
+      "conference": "Ind",
+      "from": 1899,
+      "to": 1900
+    }
+  ],
+  "Wittenberg Tigers": [
+    {
+      "conference": "Ind",
+      "from": 1930,
+      "to": 1930
+    }
+  ],
+  "Wofford": [
+    {
+      "conference": "Ind",
+      "from": 1995,
+      "to": 1996
+    },
+    {
+      "conference": "Southern",
+      "from": 1997,
+      "to": 2025
+    }
+  ],
+  "Wooster Fighting Scots": [
+    {
+      "conference": "Ind",
+      "from": 1900,
+      "to": 1930
+    }
+  ],
+  "WPI Engineers": [
+    {
+      "conference": "Ind",
+      "from": 1919,
+      "to": 1919
+    }
+  ],
+  "Wright State": [
+    {
+      "conference": "Ind",
+      "from": 1987,
+      "to": 1990
+    },
+    {
+      "conference": "Mid-Cont",
+      "from": 1991,
+      "to": 1993
+    },
+    {
+      "conference": "MW Coll",
+      "from": 1994,
+      "to": 2000
+    },
+    {
+      "conference": "Horizon",
+      "from": 2001,
+      "to": 2025
+    }
+  ],
+  "Wyoming": [
+    {
+      "conference": "Ind",
+      "from": 1904,
+      "to": 1921
+    },
+    {
+      "conference": "MSAC",
+      "from": 1922,
+      "to": 1961
+    },
+    {
+      "conference": "WAC",
+      "from": 1962,
+      "to": 1998
+    },
+    {
+      "conference": "MWC",
+      "from": 1999,
+      "to": 2025
+    }
+  ],
+  "Xavier": [
+    {
+      "conference": "Ind",
+      "from": 1919,
+      "to": 1978
+    },
+    {
+      "conference": "MW City",
+      "from": 1979,
+      "to": 1984
+    },
+    {
+      "conference": "MW Coll",
+      "from": 1985,
+      "to": 1994
+    },
+    {
+      "conference": "A-10",
+      "from": 1995,
+      "to": 2012
+    },
+    {
+      "conference": "Big East",
+      "from": 2013,
+      "to": 2025
+    }
+  ],
+  "Yale": [
+    {
+      "conference": "Ind",
+      "from": 1895,
+      "to": 1900
+    },
+    {
+      "conference": "Ivy",
+      "from": 1901,
+      "to": 1907
+    },
+    {
+      "conference": "Ind",
+      "from": 1908,
+      "to": 1909
+    },
+    {
+      "conference": "Ivy",
+      "from": 1910,
+      "to": 1942
+    },
+    {
+      "conference": "Ind",
+      "from": 1943,
+      "to": 1943
+    },
+    {
+      "conference": "Ivy",
+      "from": 1944,
+      "to": 1944
+    },
+    {
+      "conference": "Ind",
+      "from": 1945,
+      "to": 1945
+    },
+    {
+      "conference": "Ivy",
+      "from": 1946,
+      "to": 2025
+    }
+  ],
+  "Youngstown State": [
+    {
+      "conference": "Ind",
+      "from": 1947,
+      "to": 1947
+    },
+    {
+      "conference": "OVC",
+      "from": 1981,
+      "to": 1987
+    },
+    {
+      "conference": "Ind",
+      "from": 1988,
+      "to": 1991
+    },
+    {
+      "conference": "Mid-Cont",
+      "from": 1992,
+      "to": 2000
+    },
+    {
+      "conference": "Horizon",
+      "from": 2001,
+      "to": 2025
+    }
+  ]
+}
