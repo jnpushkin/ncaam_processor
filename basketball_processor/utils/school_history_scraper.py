@@ -275,6 +275,145 @@ def get_conference_for_school(school: str, year: int, gender: str = 'M') -> Opti
     return None
 
 
+def _refresh_school(slug: str, gender: str, existing_history: List[Dict]) -> Optional[List[Dict]]:
+    """
+    Refresh a single school's conference history for the current season.
+
+    Returns updated history if changed, None if no update needed.
+    """
+    from datetime import datetime
+    current_year = datetime.now().year
+
+    # If season starts in fall, the "year" is the calendar year when season starts
+    # e.g., 2025-26 season is year 2025
+
+    # Check if we already have current year
+    if existing_history and existing_history[-1]['to'] >= current_year:
+        return None  # Already up to date
+
+    # Fetch latest data
+    yearly = _fetch_school_conference_history(slug, gender)
+    if not yearly:
+        return None
+
+    # Get the latest entry
+    latest = yearly[-1] if yearly else None
+    if not latest:
+        return None
+
+    latest_year = latest['year']
+    latest_conf = latest['conference']
+
+    # Update existing history
+    if existing_history:
+        last_entry = existing_history[-1]
+        if last_entry['conference'] == latest_conf:
+            # Same conference - just extend the range
+            last_entry['to'] = latest_year
+        else:
+            # Conference changed - add new entry
+            existing_history.append({
+                'conference': latest_conf,
+                'from': latest_year,
+                'to': latest_year
+            })
+    else:
+        # No existing history - compress and use full history
+        return _compress_history(yearly)
+
+    return existing_history
+
+
+def refresh_current_season(include_women: bool = True):
+    """
+    Refresh conference data for the current season only.
+
+    Much faster than full scrape - only checks latest season for each school.
+    """
+    from datetime import datetime
+
+    print("=" * 60)
+    print("Conference History Refresh (Current Season)")
+    print("=" * 60)
+    print(f"Rate limit: {REQUEST_DELAY}s between requests")
+    print()
+
+    # Load existing data
+    history = load_school_history()
+    if not history:
+        print("No existing data found. Run full scrape first.")
+        return
+
+    print(f"Loaded {len(history)} schools")
+
+    current_year = datetime.now().year
+
+    # Get school lists
+    men_schools = _fetch_school_list('men')
+    women_schools = _fetch_school_list('women') if include_women else []
+
+    print(f"Checking {len(men_schools)} men's + {len(women_schools)} women's schools")
+    print()
+
+    time.sleep(REQUEST_DELAY)
+
+    updated_count = 0
+    skipped_count = 0
+
+    # Process men's schools
+    print("Checking MEN'S schools...")
+    for i, (name, slug) in enumerate(men_schools):
+        existing = history.get(name, [])
+
+        # Skip if already current
+        if existing and existing[-1]['to'] >= current_year:
+            skipped_count += 1
+            continue
+
+        print(f"  [{i+1}/{len(men_schools)}] {name}...", end=" ", flush=True)
+
+        updated = _refresh_school(slug, 'men', existing.copy() if existing else [])
+        if updated:
+            history[name] = updated
+            updated_count += 1
+            print(f"updated (now through {updated[-1]['to']})")
+        else:
+            print("no change")
+
+        time.sleep(REQUEST_DELAY)
+
+    # Process women's schools
+    if include_women:
+        print("\nChecking WOMEN'S schools...")
+        for i, (name, slug) in enumerate(women_schools):
+            key = f"{name} (W)"
+            existing = history.get(key, [])
+
+            # Skip if already current
+            if existing and existing[-1]['to'] >= current_year:
+                skipped_count += 1
+                continue
+
+            print(f"  [{i+1}/{len(women_schools)}] {name}...", end=" ", flush=True)
+
+            updated = _refresh_school(slug, 'women', existing.copy() if existing else [])
+            if updated:
+                history[key] = updated
+                updated_count += 1
+                print(f"updated (now through {updated[-1]['to']})")
+            else:
+                print("no change")
+
+            time.sleep(REQUEST_DELAY)
+
+    # Save updated data
+    save_school_history(history)
+
+    print()
+    print(f"Summary: {updated_count} updated, {skipped_count} already current")
+    print("Done!")
+
+
 def run_scrape(gender: str = 'men', test_mode: bool = False, include_women: bool = False):
     """
     Run the full scrape and save results.
@@ -311,7 +450,12 @@ def run_scrape(gender: str = 'men', test_mode: bool = False, include_women: bool
 if __name__ == '__main__':
     import sys
 
-    test_mode = '--test' in sys.argv
-    include_women = '--women' in sys.argv
-
-    run_scrape(test_mode=test_mode, include_women=include_women)
+    if '--refresh' in sys.argv:
+        # Quick refresh for current season only
+        include_women = '--women' in sys.argv or '--all' in sys.argv
+        refresh_current_season(include_women=include_women)
+    else:
+        # Full scrape
+        test_mode = '--test' in sys.argv
+        include_women = '--women' in sys.argv
+        run_scrape(test_mode=test_mode, include_women=include_women)
