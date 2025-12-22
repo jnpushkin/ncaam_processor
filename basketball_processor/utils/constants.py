@@ -569,11 +569,12 @@ CONFERENCE_HISTORY = {
         (20230701, 'Big 12'),
     ],
 
-    # To Big East
+    # To Big East (returned 2020)
     'UConn': [
-        (19790701, 'Big East'),
-        (20130701, 'AAC'),
-        (20200701, 'Big East'),
+        (19790701, 'Independent'),  # Left Yankee Conference
+        (19910701, 'Big East'),     # Original Big East era
+        (20130701, 'AAC'),          # Conference realignment
+        (20200701, 'Big East'),     # Returned to Big East
     ],
 
     # === 2022-23 Realignment ===
