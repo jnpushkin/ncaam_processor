@@ -748,7 +748,12 @@ def get_conference_for_date(
         year = game_date.year
         game_date = game_date.year * 10000 + game_date.month * 100 + game_date.day
     elif isinstance(game_date, int):
-        year = game_date // 10000
+        # Detect if it's a bare year (1900-2100) or full YYYYMMDD date
+        if 1900 <= game_date <= 2100:
+            year = game_date
+            game_date = game_date * 10000 + 101  # Treat as Jan 1 of that year
+        else:
+            year = game_date // 10000
 
     # Check if team has manual historical conference data (for recent realignment)
     # Try both the original name and the canonical name since CONFERENCE_HISTORY
