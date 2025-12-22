@@ -667,8 +667,12 @@ def get_body(total_games: int, total_players: int, total_teams: int, total_venue
             </div>
             <div class="filters" style="margin-bottom: 1rem;">
                 <div class="filter-group">
+                    <label for="conf-progress-search">Search Team</label>
+                    <input type="text" id="conf-progress-search" class="search-box" placeholder="Search teams..." onkeyup="searchConferenceTeam()">
+                </div>
+                <div class="filter-group">
                     <label for="conf-progress-gender">Gender</label>
-                    <select id="conf-progress-gender" onchange="populateConferenceProgress()">
+                    <select id="conf-progress-gender" onchange="populateConferenceProgress(); searchConferenceTeam();">
                         <option value="">All</option>
                         <option value="M">Men's</option>
                         <option value="W">Women's</option>

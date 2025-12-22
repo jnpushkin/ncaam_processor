@@ -3257,6 +3257,40 @@ def get_javascript(json_data: str) -> str:
             document.getElementById('conference-detail-panel').style.display = 'none';
         }
 
+        function searchConferenceTeam() {
+            const query = document.getElementById('conf-progress-search').value.toLowerCase().trim();
+            const cards = document.querySelectorAll('#conference-progress-grid .conf-progress-card');
+            const checklist = DATA.conferenceChecklist || {};
+
+            if (!query) {
+                // Show all cards
+                cards.forEach(card => card.style.display = '');
+                return;
+            }
+
+            // Find which conferences have matching teams
+            const matchingConferences = new Set();
+            Object.entries(checklist).forEach(([confName, confData]) => {
+                if (confName === 'All D1' || confName === 'Historical/Other') return;
+                const teams = confData.teams || [];
+                teams.forEach(team => {
+                    if (team.team.toLowerCase().includes(query)) {
+                        matchingConferences.add(confName);
+                    }
+                });
+            });
+
+            // Show/hide cards based on matches
+            cards.forEach(card => {
+                const confName = card.dataset.conf;
+                if (matchingConferences.has(confName)) {
+                    card.style.display = '';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
         // Keep old function for modal (used elsewhere)
         function showConferenceTeams(confName) {
             showConferenceDetail(confName);
