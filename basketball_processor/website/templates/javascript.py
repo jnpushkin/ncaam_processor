@@ -32,9 +32,18 @@ def get_javascript(json_data: str) -> str:
             players: [],
         };
 
+        // Defunct teams that should map to their historical conference
+        const DEFUNCT_TEAM_CONFERENCES = {
+            'St. Francis (NY)': 'NEC'
+        };
+
         // Team to conference mapping (loaded from conferenceChecklist data)
         function getTeamConference(teamName) {
             if (!teamName) return '';
+            // Check defunct teams first
+            if (DEFUNCT_TEAM_CONFERENCES[teamName]) {
+                return DEFUNCT_TEAM_CONFERENCES[teamName];
+            }
             const checklist = DATA.conferenceChecklist || {};
             for (const [confName, confData] of Object.entries(checklist)) {
                 if (confData.teams && confData.teams.some(t => t.team === teamName || t.name === teamName)) {
