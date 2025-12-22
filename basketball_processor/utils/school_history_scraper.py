@@ -19,6 +19,10 @@ REQUEST_DELAY = 3.1
 # Data file paths
 DATA_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), 'data')
 SCHOOL_HISTORY_FILE = os.path.join(DATA_DIR, 'school_conference_history.json')
+REFRESH_TIMESTAMP_FILE = os.path.join(DATA_DIR, 'conference_refresh_timestamp.txt')
+
+# Auto-refresh settings
+REFRESH_INTERVAL_DAYS = 90  # Check for updates every 90 days
 
 # Headers for requests
 HEADERS = {
@@ -240,6 +244,112 @@ def load_school_history() -> Dict[str, List[Dict]]:
 
     with open(SCHOOL_HISTORY_FILE, 'r') as f:
         return json.load(f)
+
+
+def _get_last_refresh_time() -> Optional[float]:
+    """Get timestamp of last refresh, or None if never refreshed."""
+    if not os.path.exists(REFRESH_TIMESTAMP_FILE):
+        return None
+    try:
+        with open(REFRESH_TIMESTAMP_FILE, 'r') as f:
+            return float(f.read().strip())
+    except (ValueError, IOError):
+        return None
+
+
+def _save_refresh_timestamp():
+    """Save current time as last refresh timestamp."""
+    os.makedirs(DATA_DIR, exist_ok=True)
+    with open(REFRESH_TIMESTAMP_FILE, 'w') as f:
+        f.write(str(time.time()))
+
+
+def should_auto_refresh() -> bool:
+    """
+    Check if an automatic refresh is needed.
+
+    Returns True if:
+    - No data file exists
+    - Last refresh was more than REFRESH_INTERVAL_DAYS ago
+    - We're in a new basketball season (October-March) and data is stale
+    """
+    from datetime import datetime
+
+    # No data file - need full scrape, not refresh
+    if not os.path.exists(SCHOOL_HISTORY_FILE):
+        return False
+
+    last_refresh = _get_last_refresh_time()
+    if last_refresh is None:
+        # Never refreshed - should refresh
+        return True
+
+    # Check if enough time has passed
+    days_since_refresh = (time.time() - last_refresh) / (24 * 60 * 60)
+    if days_since_refresh >= REFRESH_INTERVAL_DAYS:
+        return True
+
+    # Check if we're in basketball season and data might be stale
+    now = datetime.now()
+    current_year = now.year
+
+    # Basketball season is roughly October-March
+    # The season year is the year it starts (e.g., 2025-26 season = 2025)
+    if now.month >= 10:
+        season_year = current_year
+    elif now.month <= 3:
+        season_year = current_year - 1
+    else:
+        # Off-season (April-September) - less urgent
+        return False
+
+    # Check if our data covers the current season
+    history = load_school_history()
+    if not history:
+        return False
+
+    # Sample a few major schools to see if data is current
+    sample_schools = ['Duke', 'North Carolina', 'Kansas', 'Kentucky', 'Connecticut']
+    for school in sample_schools:
+        if school in history and history[school]:
+            if history[school][-1]['to'] < season_year:
+                return True
+
+    return False
+
+
+def auto_refresh_if_needed(include_women: bool = True, silent: bool = False) -> bool:
+    """
+    Automatically refresh conference data if needed.
+
+    Called during website generation to ensure data is current.
+
+    Args:
+        include_women: Whether to refresh women's data too
+        silent: If True, only print if actually refreshing
+
+    Returns:
+        True if refresh was performed, False otherwise
+    """
+    from datetime import datetime
+
+    if not should_auto_refresh():
+        if not silent:
+            last_refresh = _get_last_refresh_time()
+            if last_refresh:
+                days_ago = int((time.time() - last_refresh) / (24 * 60 * 60))
+                next_in = REFRESH_INTERVAL_DAYS - days_ago
+                print(f"Conference data: Last refresh was {days_ago} days ago. Next in {next_in} days.")
+        return False
+
+    print("Conference data needs refresh. Starting automatic update...")
+    print("(This runs every ~90 days during basketball season)")
+    print()
+
+    refresh_current_season(include_women=include_women)
+    _save_refresh_timestamp()
+
+    return True
 
 
 def get_conference_for_school(school: str, year: int, gender: str = 'M') -> Optional[str]:

@@ -30,6 +30,13 @@ class DataSerializer:
         Returns:
             Dictionary ready for JSON encoding
         """
+        # Auto-refresh conference data if needed (runs every ~90 days)
+        try:
+            from ..utils.school_history_scraper import auto_refresh_if_needed
+            auto_refresh_if_needed(include_women=True, silent=False)
+        except ImportError:
+            pass
+
         # Check female players for WNBA status before serialization
         recheck_female_players_for_wnba()
 
