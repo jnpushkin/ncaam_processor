@@ -9857,5 +9857,6558 @@
       "from": 2001,
       "to": 2025
     }
+  ],
+  "Abilene Christian (W)": [
+    {
+      "conference": "Southland",
+      "from": 2013,
+      "to": 2020
+    },
+    {
+      "conference": "WAC",
+      "from": 2021,
+      "to": 2025
+    }
+  ],
+  "Air Force (W)": [
+    {
+      "conference": "IAC",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "WAC",
+      "from": 1996,
+      "to": 1998
+    },
+    {
+      "conference": "MWC",
+      "from": 1999,
+      "to": 2025
+    }
+  ],
+  "Akron (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1982
+    },
+    {
+      "conference": "OVC",
+      "from": 1983,
+      "to": 1986
+    },
+    {
+      "conference": "Ind",
+      "from": 1987,
+      "to": 1987
+    },
+    {
+      "conference": "North Star",
+      "from": 1988,
+      "to": 1991
+    },
+    {
+      "conference": "MAC",
+      "from": 1992,
+      "to": 2025
+    }
+  ],
+  "Alabama (W)": [
+    {
+      "conference": "SEC",
+      "from": 1981,
+      "to": 2025
+    }
+  ],
+  "Alabama A&amp;M (W)": [
+    {
+      "conference": "Ind",
+      "from": 1999,
+      "to": 1999
+    },
+    {
+      "conference": "SWAC",
+      "from": 2000,
+      "to": 2025
+    }
+  ],
+  "Alabama State (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "SWAC",
+      "from": 1982,
+      "to": 2025
+    }
+  ],
+  "Albany (NY) (W)": [
+    {
+      "conference": "Ind",
+      "from": 1999,
+      "to": 2000
+    },
+    {
+      "conference": "AEC",
+      "from": 2001,
+      "to": 2025
+    }
+  ],
+  "Alcorn State (W)": [
+    {
+      "conference": "SWAC",
+      "from": 1981,
+      "to": 2025
+    }
+  ],
+  "American (W)": [
+    {
+      "conference": "ECC",
+      "from": 1981,
+      "to": 1983
+    },
+    {
+      "conference": "ECACS",
+      "from": 1984,
+      "to": 1984
+    },
+    {
+      "conference": "CAA",
+      "from": 1985,
+      "to": 2000
+    },
+    {
+      "conference": "Patriot",
+      "from": 2001,
+      "to": 2025
+    }
+  ],
+  "Appalachian State (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1982
+    },
+    {
+      "conference": "Southern",
+      "from": 1983,
+      "to": 2013
+    },
+    {
+      "conference": "Sun Belt",
+      "from": 2014,
+      "to": 2025
+    }
+  ],
+  "Arizona (W)": [
+    {
+      "conference": "WCAA",
+      "from": 1981,
+      "to": 1984
+    },
+    {
+      "conference": "Pac-West",
+      "from": 1985,
+      "to": 1985
+    },
+    {
+      "conference": "Pac-10",
+      "from": 1986,
+      "to": 2010
+    },
+    {
+      "conference": "Pac-12",
+      "from": 2011,
+      "to": 2023
+    },
+    {
+      "conference": "Big 12",
+      "from": 2024,
+      "to": 2025
+    }
+  ],
+  "Arizona State (W)": [
+    {
+      "conference": "WCAA",
+      "from": 1981,
+      "to": 1984
+    },
+    {
+      "conference": "Pac-West",
+      "from": 1985,
+      "to": 1985
+    },
+    {
+      "conference": "Pac-10",
+      "from": 1986,
+      "to": 2010
+    },
+    {
+      "conference": "Pac-12",
+      "from": 2011,
+      "to": 2023
+    },
+    {
+      "conference": "Big 12",
+      "from": 2024,
+      "to": 2025
+    }
+  ],
+  "Arkansas (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "SWC",
+      "from": 1982,
+      "to": 1990
+    },
+    {
+      "conference": "SEC",
+      "from": 1991,
+      "to": 2025
+    }
+  ],
+  "Arkansas State (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "Southland",
+      "from": 1982,
+      "to": 1986
+    },
+    {
+      "conference": "ASC",
+      "from": 1987,
+      "to": 1990
+    },
+    {
+      "conference": "Sun Belt",
+      "from": 1991,
+      "to": 2025
+    }
+  ],
+  "Arkansas-Pine Bluff (W)": [
+    {
+      "conference": "Ind",
+      "from": 1998,
+      "to": 2000
+    },
+    {
+      "conference": "SWAC",
+      "from": 2001,
+      "to": 2025
+    }
+  ],
+  "Army (W)": [
+    {
+      "conference": "MAAC",
+      "from": 1981,
+      "to": 1982
+    },
+    {
+      "conference": "Patriot",
+      "from": 1990,
+      "to": 2025
+    }
+  ],
+  "Auburn (W)": [
+    {
+      "conference": "SEC",
+      "from": 1981,
+      "to": 2025
+    }
+  ],
+  "Augusta (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1984
+    },
+    {
+      "conference": "Big South",
+      "from": 1985,
+      "to": 1990
+    }
+  ],
+  "Austin Peay (W)": [
+    {
+      "conference": "OVC",
+      "from": 1981,
+      "to": 2021
+    },
+    {
+      "conference": "A-Sun",
+      "from": 2022,
+      "to": 2025
+    }
+  ],
+  "Ball State (W)": [
+    {
+      "conference": "MAC",
+      "from": 1981,
+      "to": 2025
+    }
+  ],
+  "Baylor (W)": [
+    {
+      "conference": "SWC",
+      "from": 1981,
+      "to": 1995
+    },
+    {
+      "conference": "Big 12",
+      "from": 1996,
+      "to": 2025
+    }
+  ],
+  "Bellarmine (W)": [
+    {
+      "conference": "A-Sun",
+      "from": 2020,
+      "to": 2025
+    }
+  ],
+  "Belmont (W)": [
+    {
+      "conference": "Ind",
+      "from": 1999,
+      "to": 2000
+    },
+    {
+      "conference": "A-Sun",
+      "from": 2001,
+      "to": 2011
+    },
+    {
+      "conference": "OVC",
+      "from": 2012,
+      "to": 2021
+    },
+    {
+      "conference": "MVC",
+      "from": 2022,
+      "to": 2025
+    }
+  ],
+  "Bethune-Cookman (W)": [
+    {
+      "conference": "MEAC",
+      "from": 1982,
+      "to": 2019
+    },
+    {
+      "conference": "SWAC",
+      "from": 2021,
+      "to": 2025
+    }
+  ],
+  "Binghamton (W)": [
+    {
+      "conference": "AEC",
+      "from": 2001,
+      "to": 2025
+    }
+  ],
+  "Birmingham-Southern (W)": [
+    {
+      "conference": "Big South",
+      "from": 2001,
+      "to": 2006
+    }
+  ],
+  "Boise State (W)": [
+    {
+      "conference": "MWAC",
+      "from": 1981,
+      "to": 1987
+    },
+    {
+      "conference": "Big Sky",
+      "from": 1988,
+      "to": 1995
+    },
+    {
+      "conference": "Big West",
+      "from": 1996,
+      "to": 2000
+    },
+    {
+      "conference": "WAC",
+      "from": 2001,
+      "to": 2010
+    },
+    {
+      "conference": "MWC",
+      "from": 2011,
+      "to": 2025
+    }
+  ],
+  "Boston College (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "Big East",
+      "from": 1982,
+      "to": 2004
+    },
+    {
+      "conference": "ACC",
+      "from": 2005,
+      "to": 2025
+    }
+  ],
+  "Boston University (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "ECACN",
+      "from": 1982,
+      "to": 1982
+    },
+    {
+      "conference": "Ind",
+      "from": 1983,
+      "to": 1983
+    },
+    {
+      "conference": "Seaboard",
+      "from": 1984,
+      "to": 1988
+    },
+    {
+      "conference": "NAC",
+      "from": 1989,
+      "to": 1995
+    },
+    {
+      "conference": "AEC",
+      "from": 1996,
+      "to": 2012
+    },
+    {
+      "conference": "Patriot",
+      "from": 2013,
+      "to": 2025
+    }
+  ],
+  "Bowling Green (W)": [
+    {
+      "conference": "MAC",
+      "from": 1981,
+      "to": 2025
+    }
+  ],
+  "Bradley (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "Gateway",
+      "from": 1982,
+      "to": 1991
+    },
+    {
+      "conference": "MVC",
+      "from": 1992,
+      "to": 2025
+    }
+  ],
+  "Brigham Young (W)": [
+    {
+      "conference": "IAC",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "HCAC",
+      "from": 1982,
+      "to": 1989
+    },
+    {
+      "conference": "WAC",
+      "from": 1990,
+      "to": 1998
+    },
+    {
+      "conference": "MWC",
+      "from": 1999,
+      "to": 2010
+    },
+    {
+      "conference": "WCC",
+      "from": 2011,
+      "to": 2022
+    },
+    {
+      "conference": "Big 12",
+      "from": 2023,
+      "to": 2025
+    }
+  ],
+  "Brooklyn (W)": [
+    {
+      "conference": "Ind",
+      "from": 1982,
+      "to": 1983
+    },
+    {
+      "conference": "Seaboard",
+      "from": 1984,
+      "to": 1988
+    },
+    {
+      "conference": "Ind",
+      "from": 1989,
+      "to": 1990
+    },
+    {
+      "conference": "ECC",
+      "from": 1991,
+      "to": 1991
+    }
+  ],
+  "Brown (W)": [
+    {
+      "conference": "Ivy",
+      "from": 1981,
+      "to": 2025
+    }
+  ],
+  "Bryant (W)": [
+    {
+      "conference": "Ind",
+      "from": 2008,
+      "to": 2008
+    },
+    {
+      "conference": "NEC",
+      "from": 2009,
+      "to": 2021
+    },
+    {
+      "conference": "AEC",
+      "from": 2022,
+      "to": 2025
+    }
+  ],
+  "Bucknell (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "ECC",
+      "from": 1982,
+      "to": 1989
+    },
+    {
+      "conference": "Patriot",
+      "from": 1990,
+      "to": 2025
+    }
+  ],
+  "Buffalo (W)": [
+    {
+      "conference": "ECC",
+      "from": 1991,
+      "to": 1993
+    },
+    {
+      "conference": "Mid-Cont",
+      "from": 1994,
+      "to": 1997
+    },
+    {
+      "conference": "MAC",
+      "from": 1998,
+      "to": 2025
+    }
+  ],
+  "Butler (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1983
+    },
+    {
+      "conference": "North Star",
+      "from": 1984,
+      "to": 1985
+    },
+    {
+      "conference": "MW Coll",
+      "from": 1986,
+      "to": 2000
+    },
+    {
+      "conference": "Horizon",
+      "from": 2001,
+      "to": 2011
+    },
+    {
+      "conference": "A-10",
+      "from": 2012,
+      "to": 2012
+    },
+    {
+      "conference": "Big East",
+      "from": 2013,
+      "to": 2025
+    }
+  ],
+  "Cal Poly (W)": [
+    {
+      "conference": "AWC",
+      "from": 1994,
+      "to": 1995
+    },
+    {
+      "conference": "Big West",
+      "from": 1996,
+      "to": 2025
+    }
+  ],
+  "Cal State Bakersfield (W)": [
+    {
+      "conference": "Ind",
+      "from": 2007,
+      "to": 2012
+    },
+    {
+      "conference": "WAC",
+      "from": 2013,
+      "to": 2019
+    },
+    {
+      "conference": "Big West",
+      "from": 2020,
+      "to": 2025
+    }
+  ],
+  "Cal State Fullerton (W)": [
+    {
+      "conference": "WCAA",
+      "from": 1981,
+      "to": 1984
+    },
+    {
+      "conference": "PCAA",
+      "from": 1985,
+      "to": 1987
+    },
+    {
+      "conference": "Big West",
+      "from": 1988,
+      "to": 2025
+    }
+  ],
+  "Cal State Northridge (W)": [
+    {
+      "conference": "Ind",
+      "from": 1990,
+      "to": 1993
+    },
+    {
+      "conference": "AWC",
+      "from": 1994,
+      "to": 1995
+    },
+    {
+      "conference": "Big Sky",
+      "from": 1996,
+      "to": 2000
+    },
+    {
+      "conference": "Big West",
+      "from": 2001,
+      "to": 2025
+    }
+  ],
+  "California (W)": [
+    {
+      "conference": "North CA",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "NorPac",
+      "from": 1982,
+      "to": 1985
+    },
+    {
+      "conference": "Pac-10",
+      "from": 1986,
+      "to": 2010
+    },
+    {
+      "conference": "Pac-12",
+      "from": 2011,
+      "to": 2023
+    },
+    {
+      "conference": "ACC",
+      "from": 2024,
+      "to": 2025
+    }
+  ],
+  "California Baptist (W)": [
+    {
+      "conference": "WAC",
+      "from": 2018,
+      "to": 2025
+    }
+  ],
+  "Campbell (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1985
+    },
+    {
+      "conference": "Big South",
+      "from": 1986,
+      "to": 1993
+    },
+    {
+      "conference": "TAAC",
+      "from": 1994,
+      "to": 2000
+    },
+    {
+      "conference": "A-Sun",
+      "from": 2001,
+      "to": 2010
+    },
+    {
+      "conference": "Big South",
+      "from": 2011,
+      "to": 2022
+    },
+    {
+      "conference": "CAA",
+      "from": 2023,
+      "to": 2025
+    }
+  ],
+  "Canisius (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "MECA",
+      "from": 1986,
+      "to": 1986
+    },
+    {
+      "conference": "Ind",
+      "from": 1987,
+      "to": 1988
+    },
+    {
+      "conference": "MAAC",
+      "from": 1989,
+      "to": 2025
+    }
+  ],
+  "Centenary (LA) (W)": [
+    {
+      "conference": "Ind",
+      "from": 1982,
+      "to": 2002
+    },
+    {
+      "conference": "Mid-Cont",
+      "from": 2003,
+      "to": 2006
+    },
+    {
+      "conference": "Summit",
+      "from": 2007,
+      "to": 2010
+    }
+  ],
+  "Central Arkansas (W)": [
+    {
+      "conference": "Southland",
+      "from": 2006,
+      "to": 2020
+    },
+    {
+      "conference": "A-Sun",
+      "from": 2021,
+      "to": 2025
+    }
+  ],
+  "Central Connecticut State (W)": [
+    {
+      "conference": "Seaboard",
+      "from": 1986,
+      "to": 1988
+    },
+    {
+      "conference": "ECC",
+      "from": 1989,
+      "to": 1993
+    },
+    {
+      "conference": "Mid-Cont",
+      "from": 1994,
+      "to": 1996
+    },
+    {
+      "conference": "NEC",
+      "from": 1997,
+      "to": 2025
+    }
+  ],
+  "Central Michigan (W)": [
+    {
+      "conference": "MAC",
+      "from": 1981,
+      "to": 2025
+    }
+  ],
+  "Charleston Southern (W)": [
+    {
+      "conference": "Ind",
+      "from": 1982,
+      "to": 1985
+    },
+    {
+      "conference": "Big South",
+      "from": 1986,
+      "to": 2025
+    }
+  ],
+  "Charlotte (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "Sun Belt",
+      "from": 1982,
+      "to": 1990
+    },
+    {
+      "conference": "Metro",
+      "from": 1991,
+      "to": 1994
+    },
+    {
+      "conference": "CUSA",
+      "from": 1995,
+      "to": 2004
+    },
+    {
+      "conference": "A-10",
+      "from": 2005,
+      "to": 2012
+    },
+    {
+      "conference": "CUSA",
+      "from": 2013,
+      "to": 2022
+    },
+    {
+      "conference": "AAC",
+      "from": 2023,
+      "to": 2024
+    },
+    {
+      "conference": "American",
+      "from": 2025,
+      "to": 2025
+    }
+  ],
+  "Chattanooga (W)": [
+    {
+      "conference": "Southern",
+      "from": 1981,
+      "to": 2025
+    }
+  ],
+  "Cheyney (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1987
+    }
+  ],
+  "Chicago State (W)": [
+    {
+      "conference": "Ind",
+      "from": 1984,
+      "to": 1992
+    },
+    {
+      "conference": "ECC",
+      "from": 1993,
+      "to": 1993
+    },
+    {
+      "conference": "Mid-Cont",
+      "from": 1994,
+      "to": 2005
+    },
+    {
+      "conference": "Ind",
+      "from": 2006,
+      "to": 2008
+    },
+    {
+      "conference": "GWC",
+      "from": 2009,
+      "to": 2012
+    },
+    {
+      "conference": "WAC",
+      "from": 2013,
+      "to": 2021
+    },
+    {
+      "conference": "Ind",
+      "from": 2022,
+      "to": 2023
+    },
+    {
+      "conference": "NEC",
+      "from": 2024,
+      "to": 2025
+    }
+  ],
+  "Cincinnati (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "Metro",
+      "from": 1982,
+      "to": 1990
+    },
+    {
+      "conference": "GMWC",
+      "from": 1991,
+      "to": 1994
+    },
+    {
+      "conference": "CUSA",
+      "from": 1995,
+      "to": 2004
+    },
+    {
+      "conference": "Big East",
+      "from": 2005,
+      "to": 2012
+    },
+    {
+      "conference": "AAC",
+      "from": 2013,
+      "to": 2022
+    },
+    {
+      "conference": "Big 12",
+      "from": 2023,
+      "to": 2025
+    }
+  ],
+  "Clemson (W)": [
+    {
+      "conference": "ACC",
+      "from": 1981,
+      "to": 2025
+    }
+  ],
+  "Cleveland State (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1987
+    },
+    {
+      "conference": "North Star",
+      "from": 1988,
+      "to": 1991
+    },
+    {
+      "conference": "Mid-Cont",
+      "from": 1992,
+      "to": 1993
+    },
+    {
+      "conference": "MW Coll",
+      "from": 1994,
+      "to": 1999
+    },
+    {
+      "conference": "Horizon",
+      "from": 2000,
+      "to": 2025
+    }
+  ],
+  "Coastal Carolina (W)": [
+    {
+      "conference": "Big South",
+      "from": 1986,
+      "to": 2015
+    },
+    {
+      "conference": "Sun Belt",
+      "from": 2016,
+      "to": 2025
+    }
+  ],
+  "Colgate (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "MECA",
+      "from": 1986,
+      "to": 1986
+    },
+    {
+      "conference": "Ind",
+      "from": 1987,
+      "to": 1988
+    },
+    {
+      "conference": "NAC",
+      "from": 1989,
+      "to": 1989
+    },
+    {
+      "conference": "Patriot",
+      "from": 1990,
+      "to": 2025
+    }
+  ],
+  "College of Charleston (W)": [
+    {
+      "conference": "TAAC",
+      "from": 1991,
+      "to": 1997
+    },
+    {
+      "conference": "Southern",
+      "from": 1998,
+      "to": 2012
+    },
+    {
+      "conference": "CAA",
+      "from": 2013,
+      "to": 2025
+    }
+  ],
+  "Colorado (W)": [
+    {
+      "conference": "IAC",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "Big 8",
+      "from": 1982,
+      "to": 1995
+    },
+    {
+      "conference": "Big 12",
+      "from": 1996,
+      "to": 2010
+    },
+    {
+      "conference": "Pac-12",
+      "from": 2011,
+      "to": 2023
+    },
+    {
+      "conference": "Big 12",
+      "from": 2024,
+      "to": 2025
+    }
+  ],
+  "Colorado State (W)": [
+    {
+      "conference": "IAC",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "HCAC",
+      "from": 1982,
+      "to": 1989
+    },
+    {
+      "conference": "WAC",
+      "from": 1990,
+      "to": 1998
+    },
+    {
+      "conference": "MWC",
+      "from": 1999,
+      "to": 2025
+    }
+  ],
+  "Columbia (W)": [
+    {
+      "conference": "Ivy",
+      "from": 1986,
+      "to": 2025
+    }
+  ],
+  "Connecticut (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "Big East",
+      "from": 1982,
+      "to": 2012
+    },
+    {
+      "conference": "AAC",
+      "from": 2013,
+      "to": 2019
+    },
+    {
+      "conference": "Big East",
+      "from": 2020,
+      "to": 2025
+    }
+  ],
+  "Coppin State (W)": [
+    {
+      "conference": "MEAC",
+      "from": 1985,
+      "to": 2025
+    }
+  ],
+  "Cornell (W)": [
+    {
+      "conference": "Ivy",
+      "from": 1981,
+      "to": 2025
+    }
+  ],
+  "Creighton (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1986
+    },
+    {
+      "conference": "HCAC",
+      "from": 1987,
+      "to": 1989
+    },
+    {
+      "conference": "WAC",
+      "from": 1990,
+      "to": 1991
+    },
+    {
+      "conference": "MVC",
+      "from": 1992,
+      "to": 2012
+    },
+    {
+      "conference": "Big East",
+      "from": 2013,
+      "to": 2025
+    }
+  ],
+  "Dartmouth (W)": [
+    {
+      "conference": "Ivy",
+      "from": 1981,
+      "to": 2025
+    }
+  ],
+  "Davidson (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1982
+    },
+    {
+      "conference": "Southern",
+      "from": 1983,
+      "to": 2013
+    },
+    {
+      "conference": "A-10",
+      "from": 2014,
+      "to": 2025
+    }
+  ],
+  "Delaware (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "ECC",
+      "from": 1982,
+      "to": 1990
+    },
+    {
+      "conference": "NAC",
+      "from": 1991,
+      "to": 1995
+    },
+    {
+      "conference": "AEC",
+      "from": 1996,
+      "to": 2000
+    },
+    {
+      "conference": "CAA",
+      "from": 2001,
+      "to": 2024
+    },
+    {
+      "conference": "CUSA",
+      "from": 2025,
+      "to": 2025
+    }
+  ],
+  "Delaware State (W)": [
+    {
+      "conference": "MEAC",
+      "from": 1981,
+      "to": 2025
+    }
+  ],
+  "Delta State (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1984
+    }
+  ],
+  "Denver (W)": [
+    {
+      "conference": "Ind",
+      "from": 1998,
+      "to": 1998
+    },
+    {
+      "conference": "Sun Belt",
+      "from": 1999,
+      "to": 2011
+    },
+    {
+      "conference": "WAC",
+      "from": 2012,
+      "to": 2012
+    },
+    {
+      "conference": "Summit",
+      "from": 2013,
+      "to": 2025
+    }
+  ],
+  "DePaul (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1982
+    },
+    {
+      "conference": "North Star",
+      "from": 1983,
+      "to": 1990
+    },
+    {
+      "conference": "GMWC",
+      "from": 1991,
+      "to": 1994
+    },
+    {
+      "conference": "CUSA",
+      "from": 1995,
+      "to": 2004
+    },
+    {
+      "conference": "Big East",
+      "from": 2005,
+      "to": 2025
+    }
+  ],
+  "Detroit Mercy (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1982
+    },
+    {
+      "conference": "North Star",
+      "from": 1983,
+      "to": 1985
+    },
+    {
+      "conference": "MW Coll",
+      "from": 1986,
+      "to": 2000
+    },
+    {
+      "conference": "Horizon",
+      "from": 2001,
+      "to": 2025
+    }
+  ],
+  "Drake (W)": [
+    {
+      "conference": "Gateway",
+      "from": 1981,
+      "to": 1991
+    },
+    {
+      "conference": "MVC",
+      "from": 1992,
+      "to": 2025
+    }
+  ],
+  "Drexel (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "ECC",
+      "from": 1982,
+      "to": 1990
+    },
+    {
+      "conference": "NAC",
+      "from": 1991,
+      "to": 1995
+    },
+    {
+      "conference": "AEC",
+      "from": 1996,
+      "to": 2000
+    },
+    {
+      "conference": "CAA",
+      "from": 2001,
+      "to": 2025
+    }
+  ],
+  "Duke (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "ACC",
+      "from": 1982,
+      "to": 2025
+    }
+  ],
+  "Duquesne (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1982
+    },
+    {
+      "conference": "A-10",
+      "from": 1983,
+      "to": 1991
+    },
+    {
+      "conference": "MW Coll",
+      "from": 1992,
+      "to": 1992
+    },
+    {
+      "conference": "A-10",
+      "from": 1993,
+      "to": 2025
+    }
+  ],
+  "East Carolina (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1982
+    },
+    {
+      "conference": "ECACS",
+      "from": 1983,
+      "to": 1984
+    },
+    {
+      "conference": "CAA",
+      "from": 1985,
+      "to": 2000
+    },
+    {
+      "conference": "CUSA",
+      "from": 2001,
+      "to": 2013
+    },
+    {
+      "conference": "AAC",
+      "from": 2014,
+      "to": 2024
+    },
+    {
+      "conference": "American",
+      "from": 2025,
+      "to": 2025
+    }
+  ],
+  "East Tennessee State (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "Southern",
+      "from": 1982,
+      "to": 2004
+    },
+    {
+      "conference": "A-Sun",
+      "from": 2005,
+      "to": 2013
+    },
+    {
+      "conference": "Southern",
+      "from": 2014,
+      "to": 2025
+    }
+  ],
+  "East Texas A&amp;M (W)": [
+    {
+      "conference": "Southland",
+      "from": 2022,
+      "to": 2025
+    }
+  ],
+  "Eastern Illinois (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "Gateway",
+      "from": 1982,
+      "to": 1991
+    },
+    {
+      "conference": "Mid-Cont",
+      "from": 1992,
+      "to": 1995
+    },
+    {
+      "conference": "OVC",
+      "from": 1996,
+      "to": 2025
+    }
+  ],
+  "Eastern Kentucky (W)": [
+    {
+      "conference": "OVC",
+      "from": 1981,
+      "to": 2020
+    },
+    {
+      "conference": "A-Sun",
+      "from": 2021,
+      "to": 2025
+    }
+  ],
+  "Eastern Michigan (W)": [
+    {
+      "conference": "MAC",
+      "from": 1981,
+      "to": 2025
+    }
+  ],
+  "Eastern Washington (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "MWAC",
+      "from": 1982,
+      "to": 1987
+    },
+    {
+      "conference": "Big Sky",
+      "from": 1988,
+      "to": 2025
+    }
+  ],
+  "Elon (W)": [
+    {
+      "conference": "Big South",
+      "from": 1999,
+      "to": 2002
+    },
+    {
+      "conference": "Southern",
+      "from": 2003,
+      "to": 2013
+    },
+    {
+      "conference": "CAA",
+      "from": 2014,
+      "to": 2025
+    }
+  ],
+  "Evansville (W)": [
+    {
+      "conference": "North Star",
+      "from": 1983,
+      "to": 1985
+    },
+    {
+      "conference": "MW Coll",
+      "from": 1986,
+      "to": 1993
+    },
+    {
+      "conference": "MVC",
+      "from": 1994,
+      "to": 2025
+    }
+  ],
+  "Fairfield (W)": [
+    {
+      "conference": "MAAC",
+      "from": 1981,
+      "to": 2025
+    }
+  ],
+  "FDU (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "Cosmo",
+      "from": 1982,
+      "to": 1985
+    },
+    {
+      "conference": "ECACM",
+      "from": 1986,
+      "to": 1987
+    },
+    {
+      "conference": "NEC",
+      "from": 1988,
+      "to": 2025
+    }
+  ],
+  "Florida (W)": [
+    {
+      "conference": "SEC",
+      "from": 1981,
+      "to": 2025
+    }
+  ],
+  "Florida A&amp;M (W)": [
+    {
+      "conference": "MEAC",
+      "from": 1981,
+      "to": 1983
+    },
+    {
+      "conference": "Ind",
+      "from": 1984,
+      "to": 1984
+    },
+    {
+      "conference": "NSWAC",
+      "from": 1985,
+      "to": 1990
+    },
+    {
+      "conference": "TAAC",
+      "from": 1991,
+      "to": 1991
+    },
+    {
+      "conference": "MEAC",
+      "from": 1992,
+      "to": 2019
+    },
+    {
+      "conference": "SWAC",
+      "from": 2021,
+      "to": 2025
+    }
+  ],
+  "Florida Atlantic (W)": [
+    {
+      "conference": "TAAC",
+      "from": 1993,
+      "to": 2000
+    },
+    {
+      "conference": "A-Sun",
+      "from": 2001,
+      "to": 2005
+    },
+    {
+      "conference": "Sun Belt",
+      "from": 2006,
+      "to": 2012
+    },
+    {
+      "conference": "CUSA",
+      "from": 2013,
+      "to": 2022
+    },
+    {
+      "conference": "AAC",
+      "from": 2023,
+      "to": 2024
+    },
+    {
+      "conference": "American",
+      "from": 2025,
+      "to": 2025
+    }
+  ],
+  "Florida Gulf Coast (W)": [
+    {
+      "conference": "A-Sun",
+      "from": 2007,
+      "to": 2025
+    }
+  ],
+  "Florida International (W)": [
+    {
+      "conference": "Ind",
+      "from": 1986,
+      "to": 1986
+    },
+    {
+      "conference": "NSWAC",
+      "from": 1987,
+      "to": 1990
+    },
+    {
+      "conference": "TAAC",
+      "from": 1991,
+      "to": 1997
+    },
+    {
+      "conference": "Sun Belt",
+      "from": 1998,
+      "to": 2012
+    },
+    {
+      "conference": "CUSA",
+      "from": 2013,
+      "to": 2025
+    }
+  ],
+  "Florida State (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "Metro",
+      "from": 1982,
+      "to": 1990
+    },
+    {
+      "conference": "ACC",
+      "from": 1991,
+      "to": 2025
+    }
+  ],
+  "Fordham (W)": [
+    {
+      "conference": "MAAC",
+      "from": 1981,
+      "to": 1989
+    },
+    {
+      "conference": "Patriot",
+      "from": 1990,
+      "to": 1994
+    },
+    {
+      "conference": "A-10",
+      "from": 1995,
+      "to": 2025
+    }
+  ],
+  "Fresno State (W)": [
+    {
+      "conference": "NorPac",
+      "from": 1981,
+      "to": 1985
+    },
+    {
+      "conference": "PCAA",
+      "from": 1986,
+      "to": 1987
+    },
+    {
+      "conference": "Big West",
+      "from": 1988,
+      "to": 1991
+    },
+    {
+      "conference": "WAC",
+      "from": 1992,
+      "to": 2011
+    },
+    {
+      "conference": "MWC",
+      "from": 2012,
+      "to": 2025
+    }
+  ],
+  "Furman (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1982
+    },
+    {
+      "conference": "Southern",
+      "from": 1983,
+      "to": 2025
+    }
+  ],
+  "Gardner-Webb (W)": [
+    {
+      "conference": "A-Sun",
+      "from": 2002,
+      "to": 2007
+    },
+    {
+      "conference": "Big South",
+      "from": 2008,
+      "to": 2025
+    }
+  ],
+  "George Mason (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1982
+    },
+    {
+      "conference": "ECACS",
+      "from": 1983,
+      "to": 1984
+    },
+    {
+      "conference": "CAA",
+      "from": 1985,
+      "to": 2012
+    },
+    {
+      "conference": "A-10",
+      "from": 2013,
+      "to": 2025
+    }
+  ],
+  "George Washington (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "A-10",
+      "from": 1982,
+      "to": 2025
+    }
+  ],
+  "Georgetown (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "Big East",
+      "from": 1982,
+      "to": 2025
+    }
+  ],
+  "Georgia (W)": [
+    {
+      "conference": "SEC",
+      "from": 1981,
+      "to": 2025
+    }
+  ],
+  "Georgia Southern (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1984
+    },
+    {
+      "conference": "NSWAC",
+      "from": 1985,
+      "to": 1990
+    },
+    {
+      "conference": "TAAC",
+      "from": 1991,
+      "to": 1991
+    },
+    {
+      "conference": "Southern",
+      "from": 1992,
+      "to": 2013
+    },
+    {
+      "conference": "Sun Belt",
+      "from": 2014,
+      "to": 2025
+    }
+  ],
+  "Georgia State (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1984
+    },
+    {
+      "conference": "NSWAC",
+      "from": 1985,
+      "to": 1990
+    },
+    {
+      "conference": "TAAC",
+      "from": 1991,
+      "to": 2000
+    },
+    {
+      "conference": "A-Sun",
+      "from": 2001,
+      "to": 2004
+    },
+    {
+      "conference": "CAA",
+      "from": 2005,
+      "to": 2012
+    },
+    {
+      "conference": "Sun Belt",
+      "from": 2013,
+      "to": 2025
+    }
+  ],
+  "Georgia Tech (W)": [
+    {
+      "conference": "ACC",
+      "from": 1981,
+      "to": 2025
+    }
+  ],
+  "Gonzaga (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1986
+    },
+    {
+      "conference": "WCAC",
+      "from": 1987,
+      "to": 1988
+    },
+    {
+      "conference": "WCC",
+      "from": 1989,
+      "to": 2025
+    }
+  ],
+  "Grambling (W)": [
+    {
+      "conference": "SWAC",
+      "from": 1981,
+      "to": 2025
+    }
+  ],
+  "Grand Canyon (W)": [
+    {
+      "conference": "WAC",
+      "from": 2013,
+      "to": 2024
+    },
+    {
+      "conference": "MWC",
+      "from": 2025,
+      "to": 2025
+    }
+  ],
+  "Green Bay (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1987
+    },
+    {
+      "conference": "North Star",
+      "from": 1988,
+      "to": 1991
+    },
+    {
+      "conference": "Mid-Cont",
+      "from": 1992,
+      "to": 1993
+    },
+    {
+      "conference": "MW Coll",
+      "from": 1994,
+      "to": 2000
+    },
+    {
+      "conference": "Horizon",
+      "from": 2001,
+      "to": 2025
+    }
+  ],
+  "Hampton (W)": [
+    {
+      "conference": "MEAC",
+      "from": 1995,
+      "to": 2017
+    },
+    {
+      "conference": "Big South",
+      "from": 2018,
+      "to": 2021
+    },
+    {
+      "conference": "CAA",
+      "from": 2022,
+      "to": 2025
+    }
+  ],
+  "Hardin-Simmons (W)": [
+    {
+      "conference": "Ind",
+      "from": 1982,
+      "to": 1982
+    },
+    {
+      "conference": "Oil Count.",
+      "from": 1983,
+      "to": 1984
+    },
+    {
+      "conference": "Ind",
+      "from": 1985,
+      "to": 1990
+    }
+  ],
+  "Hartford Hawks (W)": [
+    {
+      "conference": "Seaboard",
+      "from": 1984,
+      "to": 1988
+    },
+    {
+      "conference": "NAC",
+      "from": 1989,
+      "to": 1995
+    },
+    {
+      "conference": "AEC",
+      "from": 1996,
+      "to": 2021
+    },
+    {
+      "conference": "Ind",
+      "from": 2022,
+      "to": 2022
+    }
+  ],
+  "Harvard (W)": [
+    {
+      "conference": "Ivy",
+      "from": 1981,
+      "to": 2025
+    }
+  ],
+  "Hawaii (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1983
+    },
+    {
+      "conference": "PCAA",
+      "from": 1984,
+      "to": 1987
+    },
+    {
+      "conference": "Big West",
+      "from": 1988,
+      "to": 1995
+    },
+    {
+      "conference": "WAC",
+      "from": 1996,
+      "to": 2011
+    },
+    {
+      "conference": "Big West",
+      "from": 2012,
+      "to": 2025
+    }
+  ],
+  "High Point (W)": [
+    {
+      "conference": "Big South",
+      "from": 1999,
+      "to": 2025
+    }
+  ],
+  "Hofstra (W)": [
+    {
+      "conference": "ECC",
+      "from": 1981,
+      "to": 1993
+    },
+    {
+      "conference": "NAC",
+      "from": 1994,
+      "to": 1995
+    },
+    {
+      "conference": "AEC",
+      "from": 1996,
+      "to": 2000
+    },
+    {
+      "conference": "CAA",
+      "from": 2001,
+      "to": 2025
+    }
+  ],
+  "Holy Cross (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1982
+    },
+    {
+      "conference": "MAAC",
+      "from": 1983,
+      "to": 1989
+    },
+    {
+      "conference": "Patriot",
+      "from": 1990,
+      "to": 2025
+    }
+  ],
+  "Houston (W)": [
+    {
+      "conference": "SWC",
+      "from": 1981,
+      "to": 1995
+    },
+    {
+      "conference": "CUSA",
+      "from": 1996,
+      "to": 2012
+    },
+    {
+      "conference": "AAC",
+      "from": 2013,
+      "to": 2022
+    },
+    {
+      "conference": "Big 12",
+      "from": 2023,
+      "to": 2025
+    }
+  ],
+  "Houston Christian (W)": [
+    {
+      "conference": "GWC",
+      "from": 2009,
+      "to": 2012
+    },
+    {
+      "conference": "Southland",
+      "from": 2013,
+      "to": 2025
+    }
+  ],
+  "Howard (W)": [
+    {
+      "conference": "MEAC",
+      "from": 1981,
+      "to": 2025
+    }
+  ],
+  "Idaho (W)": [
+    {
+      "conference": "MWAC",
+      "from": 1982,
+      "to": 1987
+    },
+    {
+      "conference": "Big Sky",
+      "from": 1988,
+      "to": 1995
+    },
+    {
+      "conference": "Big West",
+      "from": 1996,
+      "to": 2004
+    },
+    {
+      "conference": "WAC",
+      "from": 2005,
+      "to": 2013
+    },
+    {
+      "conference": "Big Sky",
+      "from": 2014,
+      "to": 2025
+    }
+  ],
+  "Idaho State (W)": [
+    {
+      "conference": "IAC",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "MWAC",
+      "from": 1982,
+      "to": 1987
+    },
+    {
+      "conference": "Big Sky",
+      "from": 1988,
+      "to": 2025
+    }
+  ],
+  "Illinois (W)": [
+    {
+      "conference": "Big Ten",
+      "from": 1981,
+      "to": 2025
+    }
+  ],
+  "Illinois State (W)": [
+    {
+      "conference": "Gateway",
+      "from": 1981,
+      "to": 1991
+    },
+    {
+      "conference": "MVC",
+      "from": 1992,
+      "to": 2025
+    }
+  ],
+  "Illinois-Chicago (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1987
+    },
+    {
+      "conference": "North Star",
+      "from": 1988,
+      "to": 1991
+    },
+    {
+      "conference": "Mid-Cont",
+      "from": 1992,
+      "to": 2000
+    },
+    {
+      "conference": "Horizon",
+      "from": 2001,
+      "to": 2021
+    },
+    {
+      "conference": "MVC",
+      "from": 2022,
+      "to": 2025
+    }
+  ],
+  "Incarnate Word (W)": [
+    {
+      "conference": "Southland",
+      "from": 2013,
+      "to": 2025
+    }
+  ],
+  "Indiana (W)": [
+    {
+      "conference": "Big Ten",
+      "from": 1981,
+      "to": 2025
+    }
+  ],
+  "Indiana State (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "Gateway",
+      "from": 1982,
+      "to": 1991
+    },
+    {
+      "conference": "MVC",
+      "from": 1992,
+      "to": 2025
+    }
+  ],
+  "Iona (W)": [
+    {
+      "conference": "MAAC",
+      "from": 1981,
+      "to": 2025
+    }
+  ],
+  "Iowa (W)": [
+    {
+      "conference": "Big Ten",
+      "from": 1981,
+      "to": 2025
+    }
+  ],
+  "Iowa State (W)": [
+    {
+      "conference": "Big 8",
+      "from": 1981,
+      "to": 1995
+    },
+    {
+      "conference": "Big 12",
+      "from": 1996,
+      "to": 2025
+    }
+  ],
+  "IU Indy (W)": [
+    {
+      "conference": "Mid-Cont",
+      "from": 1998,
+      "to": 2006
+    },
+    {
+      "conference": "Summit",
+      "from": 2007,
+      "to": 2016
+    },
+    {
+      "conference": "Horizon",
+      "from": 2017,
+      "to": 2025
+    }
+  ],
+  "Jackson State (W)": [
+    {
+      "conference": "SWAC",
+      "from": 1981,
+      "to": 2025
+    }
+  ],
+  "Jacksonville (W)": [
+    {
+      "conference": "TAAC",
+      "from": 1999,
+      "to": 2000
+    },
+    {
+      "conference": "A-Sun",
+      "from": 2001,
+      "to": 2025
+    }
+  ],
+  "Jacksonville State (W)": [
+    {
+      "conference": "TAAC",
+      "from": 1995,
+      "to": 2000
+    },
+    {
+      "conference": "A-Sun",
+      "from": 2001,
+      "to": 2002
+    },
+    {
+      "conference": "OVC",
+      "from": 2003,
+      "to": 2020
+    },
+    {
+      "conference": "A-Sun",
+      "from": 2021,
+      "to": 2022
+    },
+    {
+      "conference": "CUSA",
+      "from": 2023,
+      "to": 2025
+    }
+  ],
+  "James Madison (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1982
+    },
+    {
+      "conference": "ECACS",
+      "from": 1983,
+      "to": 1984
+    },
+    {
+      "conference": "CAA",
+      "from": 1985,
+      "to": 2021
+    },
+    {
+      "conference": "Sun Belt",
+      "from": 2022,
+      "to": 2025
+    }
+  ],
+  "Kansas (W)": [
+    {
+      "conference": "Big 8",
+      "from": 1981,
+      "to": 1995
+    },
+    {
+      "conference": "Big 12",
+      "from": 1996,
+      "to": 2025
+    }
+  ],
+  "Kansas City (W)": [
+    {
+      "conference": "Ind",
+      "from": 1987,
+      "to": 1993
+    },
+    {
+      "conference": "Mid-Cont",
+      "from": 1994,
+      "to": 2006
+    },
+    {
+      "conference": "Summit",
+      "from": 2007,
+      "to": 2012
+    },
+    {
+      "conference": "WAC",
+      "from": 2013,
+      "to": 2019
+    },
+    {
+      "conference": "Summit",
+      "from": 2020,
+      "to": 2025
+    }
+  ],
+  "Kansas State (W)": [
+    {
+      "conference": "Big 8",
+      "from": 1981,
+      "to": 1995
+    },
+    {
+      "conference": "Big 12",
+      "from": 1996,
+      "to": 2025
+    }
+  ],
+  "Kennesaw State (W)": [
+    {
+      "conference": "A-Sun",
+      "from": 2005,
+      "to": 2023
+    },
+    {
+      "conference": "CUSA",
+      "from": 2024,
+      "to": 2025
+    }
+  ],
+  "Kent State (W)": [
+    {
+      "conference": "MAC",
+      "from": 1981,
+      "to": 2025
+    }
+  ],
+  "Kentucky (W)": [
+    {
+      "conference": "SEC",
+      "from": 1981,
+      "to": 2025
+    }
+  ],
+  "La Salle (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "ECC",
+      "from": 1982,
+      "to": 1982
+    },
+    {
+      "conference": "MAAC",
+      "from": 1983,
+      "to": 1991
+    },
+    {
+      "conference": "MW Coll",
+      "from": 1992,
+      "to": 1994
+    },
+    {
+      "conference": "A-10",
+      "from": 1995,
+      "to": 2025
+    }
+  ],
+  "Lafayette (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "ECC",
+      "from": 1982,
+      "to": 1989
+    },
+    {
+      "conference": "Patriot",
+      "from": 1990,
+      "to": 2025
+    }
+  ],
+  "Lamar (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "Southland",
+      "from": 1982,
+      "to": 1986
+    },
+    {
+      "conference": "ASC",
+      "from": 1987,
+      "to": 1990
+    },
+    {
+      "conference": "Sun Belt",
+      "from": 1991,
+      "to": 1997
+    },
+    {
+      "conference": "Southland",
+      "from": 1998,
+      "to": 2020
+    },
+    {
+      "conference": "WAC",
+      "from": 2021,
+      "to": 2021
+    },
+    {
+      "conference": "Southland",
+      "from": 2022,
+      "to": 2025
+    }
+  ],
+  "Le Moyne (W)": [
+    {
+      "conference": "NEC",
+      "from": 2023,
+      "to": 2025
+    }
+  ],
+  "Lehigh (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "ECC",
+      "from": 1982,
+      "to": 1989
+    },
+    {
+      "conference": "Patriot",
+      "from": 1990,
+      "to": 2025
+    }
+  ],
+  "Liberty (W)": [
+    {
+      "conference": "Ind",
+      "from": 1988,
+      "to": 1990
+    },
+    {
+      "conference": "Big South",
+      "from": 1991,
+      "to": 2017
+    },
+    {
+      "conference": "A-Sun",
+      "from": 2018,
+      "to": 2022
+    },
+    {
+      "conference": "CUSA",
+      "from": 2023,
+      "to": 2025
+    }
+  ],
+  "Lindenwood (W)": [
+    {
+      "conference": "OVC",
+      "from": 2022,
+      "to": 2025
+    }
+  ],
+  "Lipscomb (W)": [
+    {
+      "conference": "Ind",
+      "from": 2000,
+      "to": 2002
+    },
+    {
+      "conference": "A-Sun",
+      "from": 2003,
+      "to": 2025
+    }
+  ],
+  "Little Rock (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1987
+    },
+    {
+      "conference": "Sun Belt",
+      "from": 1999,
+      "to": 2021
+    },
+    {
+      "conference": "OVC",
+      "from": 2022,
+      "to": 2025
+    }
+  ],
+  "Long Beach State (W)": [
+    {
+      "conference": "WCAA",
+      "from": 1981,
+      "to": 1984
+    },
+    {
+      "conference": "PCAA",
+      "from": 1985,
+      "to": 1987
+    },
+    {
+      "conference": "Big West",
+      "from": 1988,
+      "to": 2025
+    }
+  ],
+  "Long Island University (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1982
+    },
+    {
+      "conference": "Cosmo",
+      "from": 1983,
+      "to": 1985
+    },
+    {
+      "conference": "ECACM",
+      "from": 1986,
+      "to": 1987
+    },
+    {
+      "conference": "NEC",
+      "from": 1988,
+      "to": 2025
+    }
+  ],
+  "Longwood (W)": [
+    {
+      "conference": "Ind",
+      "from": 2004,
+      "to": 2008
+    },
+    {
+      "conference": "Big South",
+      "from": 2012,
+      "to": 2025
+    }
+  ],
+  "Louisiana (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "Southland",
+      "from": 1982,
+      "to": 1987
+    },
+    {
+      "conference": "ASC",
+      "from": 1988,
+      "to": 1990
+    },
+    {
+      "conference": "Sun Belt",
+      "from": 1991,
+      "to": 2025
+    }
+  ],
+  "Louisiana State (W)": [
+    {
+      "conference": "SEC",
+      "from": 1981,
+      "to": 2025
+    }
+  ],
+  "Louisiana Tech (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1986
+    },
+    {
+      "conference": "ASC",
+      "from": 1987,
+      "to": 1990
+    },
+    {
+      "conference": "Sun Belt",
+      "from": 1991,
+      "to": 2000
+    },
+    {
+      "conference": "WAC",
+      "from": 2001,
+      "to": 2012
+    },
+    {
+      "conference": "CUSA",
+      "from": 2013,
+      "to": 2025
+    }
+  ],
+  "Louisiana-Monroe (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "Southland",
+      "from": 1982,
+      "to": 2005
+    },
+    {
+      "conference": "Sun Belt",
+      "from": 2006,
+      "to": 2025
+    }
+  ],
+  "Louisville (W)": [
+    {
+      "conference": "Metro",
+      "from": 1981,
+      "to": 1994
+    },
+    {
+      "conference": "CUSA",
+      "from": 1995,
+      "to": 2004
+    },
+    {
+      "conference": "Big East",
+      "from": 2005,
+      "to": 2012
+    },
+    {
+      "conference": "AAC",
+      "from": 2013,
+      "to": 2013
+    },
+    {
+      "conference": "ACC",
+      "from": 2014,
+      "to": 2025
+    }
+  ],
+  "Loyola (IL) (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1982
+    },
+    {
+      "conference": "North Star",
+      "from": 1983,
+      "to": 1985
+    },
+    {
+      "conference": "MW Coll",
+      "from": 1986,
+      "to": 2000
+    },
+    {
+      "conference": "Horizon",
+      "from": 2001,
+      "to": 2012
+    },
+    {
+      "conference": "MVC",
+      "from": 2013,
+      "to": 2021
+    },
+    {
+      "conference": "A-10",
+      "from": 2022,
+      "to": 2025
+    }
+  ],
+  "Loyola (MD) (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1984
+    },
+    {
+      "conference": "ECACM",
+      "from": 1985,
+      "to": 1988
+    },
+    {
+      "conference": "MAAC",
+      "from": 1989,
+      "to": 2012
+    },
+    {
+      "conference": "Patriot",
+      "from": 2013,
+      "to": 2025
+    }
+  ],
+  "Loyola Marymount (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1984
+    },
+    {
+      "conference": "WCAC",
+      "from": 1985,
+      "to": 1988
+    },
+    {
+      "conference": "WCC",
+      "from": 1989,
+      "to": 2025
+    }
+  ],
+  "Maine (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1983
+    },
+    {
+      "conference": "Seaboard",
+      "from": 1984,
+      "to": 1988
+    },
+    {
+      "conference": "NAC",
+      "from": 1989,
+      "to": 1995
+    },
+    {
+      "conference": "AEC",
+      "from": 1996,
+      "to": 2025
+    }
+  ],
+  "Manhattan (W)": [
+    {
+      "conference": "MAAC",
+      "from": 1981,
+      "to": 2025
+    }
+  ],
+  "Marist (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "Cosmo",
+      "from": 1982,
+      "to": 1985
+    },
+    {
+      "conference": "ECACM",
+      "from": 1986,
+      "to": 1987
+    },
+    {
+      "conference": "NEC",
+      "from": 1988,
+      "to": 1996
+    },
+    {
+      "conference": "MAAC",
+      "from": 1997,
+      "to": 2025
+    }
+  ],
+  "Marquette (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1984
+    },
+    {
+      "conference": "North Star",
+      "from": 1985,
+      "to": 1988
+    },
+    {
+      "conference": "MW Coll",
+      "from": 1989,
+      "to": 1990
+    },
+    {
+      "conference": "GMWC",
+      "from": 1991,
+      "to": 1994
+    },
+    {
+      "conference": "CUSA",
+      "from": 1995,
+      "to": 2004
+    },
+    {
+      "conference": "Big East",
+      "from": 2005,
+      "to": 2025
+    }
+  ],
+  "Marshall (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "Southern",
+      "from": 1982,
+      "to": 1996
+    },
+    {
+      "conference": "MAC",
+      "from": 1997,
+      "to": 2004
+    },
+    {
+      "conference": "CUSA",
+      "from": 2005,
+      "to": 2021
+    },
+    {
+      "conference": "Sun Belt",
+      "from": 2022,
+      "to": 2025
+    }
+  ],
+  "Maryland (W)": [
+    {
+      "conference": "ACC",
+      "from": 1981,
+      "to": 2013
+    },
+    {
+      "conference": "Big Ten",
+      "from": 2014,
+      "to": 2025
+    }
+  ],
+  "Maryland-Baltimore County (W)": [
+    {
+      "conference": "Ind",
+      "from": 1986,
+      "to": 1989
+    },
+    {
+      "conference": "ECC",
+      "from": 1990,
+      "to": 1991
+    },
+    {
+      "conference": "Big South",
+      "from": 1992,
+      "to": 1997
+    },
+    {
+      "conference": "NEC",
+      "from": 1998,
+      "to": 2002
+    },
+    {
+      "conference": "AEC",
+      "from": 2003,
+      "to": 2025
+    }
+  ],
+  "Maryland-Eastern Shore (W)": [
+    {
+      "conference": "MEAC",
+      "from": 1981,
+      "to": 2025
+    }
+  ],
+  "Massachusetts (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "A-10",
+      "from": 1982,
+      "to": 2024
+    },
+    {
+      "conference": "MAC",
+      "from": 2025,
+      "to": 2025
+    }
+  ],
+  "Massachusetts-Lowell (W)": [
+    {
+      "conference": "AEC",
+      "from": 2013,
+      "to": 2025
+    }
+  ],
+  "McNeese State (W)": [
+    {
+      "conference": "Southland",
+      "from": 1981,
+      "to": 2025
+    }
+  ],
+  "Memphis (W)": [
+    {
+      "conference": "Metro",
+      "from": 1981,
+      "to": 1990
+    },
+    {
+      "conference": "GMWC",
+      "from": 1991,
+      "to": 1994
+    },
+    {
+      "conference": "CUSA",
+      "from": 1995,
+      "to": 2012
+    },
+    {
+      "conference": "AAC",
+      "from": 2013,
+      "to": 2024
+    },
+    {
+      "conference": "American",
+      "from": 2025,
+      "to": 2025
+    }
+  ],
+  "Mercer (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1984
+    },
+    {
+      "conference": "NSWAC",
+      "from": 1985,
+      "to": 1990
+    },
+    {
+      "conference": "TAAC",
+      "from": 1991,
+      "to": 2000
+    },
+    {
+      "conference": "A-Sun",
+      "from": 2001,
+      "to": 2013
+    },
+    {
+      "conference": "Southern",
+      "from": 2014,
+      "to": 2025
+    }
+  ],
+  "Mercyhurst (W)": [
+    {
+      "conference": "NEC",
+      "from": 2024,
+      "to": 2025
+    }
+  ],
+  "Merrimack (W)": [
+    {
+      "conference": "NEC",
+      "from": 2019,
+      "to": 2023
+    },
+    {
+      "conference": "MAAC",
+      "from": 2024,
+      "to": 2025
+    }
+  ],
+  "Miami (FL) (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1989
+    },
+    {
+      "conference": "NSWAC",
+      "from": 1990,
+      "to": 1990
+    },
+    {
+      "conference": "Big East",
+      "from": 1991,
+      "to": 2003
+    },
+    {
+      "conference": "ACC",
+      "from": 2004,
+      "to": 2025
+    }
+  ],
+  "Miami (OH) (W)": [
+    {
+      "conference": "MAC",
+      "from": 1981,
+      "to": 2025
+    }
+  ],
+  "Michigan (W)": [
+    {
+      "conference": "Big Ten",
+      "from": 1981,
+      "to": 2025
+    }
+  ],
+  "Michigan State (W)": [
+    {
+      "conference": "Big Ten",
+      "from": 1981,
+      "to": 2025
+    }
+  ],
+  "Middle Tennessee (W)": [
+    {
+      "conference": "OVC",
+      "from": 1981,
+      "to": 1999
+    },
+    {
+      "conference": "Sun Belt",
+      "from": 2000,
+      "to": 2012
+    },
+    {
+      "conference": "CUSA",
+      "from": 2013,
+      "to": 2025
+    }
+  ],
+  "Milwaukee (W)": [
+    {
+      "conference": "Ind",
+      "from": 1990,
+      "to": 1992
+    },
+    {
+      "conference": "Mid-Cont",
+      "from": 1993,
+      "to": 1993
+    },
+    {
+      "conference": "MW Coll",
+      "from": 1994,
+      "to": 2000
+    },
+    {
+      "conference": "Horizon",
+      "from": 2001,
+      "to": 2025
+    }
+  ],
+  "Minnesota (W)": [
+    {
+      "conference": "Big Ten",
+      "from": 1981,
+      "to": 2025
+    }
+  ],
+  "Mississippi (W)": [
+    {
+      "conference": "SEC",
+      "from": 1981,
+      "to": 2025
+    }
+  ],
+  "Mississippi State (W)": [
+    {
+      "conference": "SEC",
+      "from": 1981,
+      "to": 2025
+    }
+  ],
+  "Mississippi Valley State (W)": [
+    {
+      "conference": "SWAC",
+      "from": 1981,
+      "to": 2025
+    }
+  ],
+  "Missouri (W)": [
+    {
+      "conference": "Big 8",
+      "from": 1981,
+      "to": 1995
+    },
+    {
+      "conference": "Big 12",
+      "from": 1996,
+      "to": 2011
+    },
+    {
+      "conference": "SEC",
+      "from": 2012,
+      "to": 2025
+    }
+  ],
+  "Missouri State (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "Gateway",
+      "from": 1982,
+      "to": 1991
+    },
+    {
+      "conference": "MVC",
+      "from": 1992,
+      "to": 2024
+    },
+    {
+      "conference": "CUSA",
+      "from": 2025,
+      "to": 2025
+    }
+  ],
+  "Monmouth (W)": [
+    {
+      "conference": "Cosmo",
+      "from": 1982,
+      "to": 1985
+    },
+    {
+      "conference": "ECACM",
+      "from": 1986,
+      "to": 1987
+    },
+    {
+      "conference": "NEC",
+      "from": 1988,
+      "to": 2012
+    },
+    {
+      "conference": "MAAC",
+      "from": 2013,
+      "to": 2021
+    },
+    {
+      "conference": "CAA",
+      "from": 2022,
+      "to": 2025
+    }
+  ],
+  "Montana (W)": [
+    {
+      "conference": "NWBL",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "MWAC",
+      "from": 1982,
+      "to": 1987
+    },
+    {
+      "conference": "Big Sky",
+      "from": 1988,
+      "to": 2025
+    }
+  ],
+  "Montana State (W)": [
+    {
+      "conference": "NWBL",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "MWAC",
+      "from": 1982,
+      "to": 1987
+    },
+    {
+      "conference": "Big Sky",
+      "from": 1988,
+      "to": 2025
+    }
+  ],
+  "Morehead State (W)": [
+    {
+      "conference": "OVC",
+      "from": 1981,
+      "to": 2025
+    }
+  ],
+  "Morgan State (W)": [
+    {
+      "conference": "MEAC",
+      "from": 1984,
+      "to": 2025
+    }
+  ],
+  "Mount St. Mary's (W)": [
+    {
+      "conference": "Ind",
+      "from": 1988,
+      "to": 1988
+    },
+    {
+      "conference": "NEC",
+      "from": 1989,
+      "to": 2021
+    },
+    {
+      "conference": "MAAC",
+      "from": 2022,
+      "to": 2025
+    }
+  ],
+  "Murray State (W)": [
+    {
+      "conference": "OVC",
+      "from": 1981,
+      "to": 2021
+    },
+    {
+      "conference": "MVC",
+      "from": 2022,
+      "to": 2025
+    }
+  ],
+  "Navy (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "Patriot",
+      "from": 1991,
+      "to": 2025
+    }
+  ],
+  "NC State (W)": [
+    {
+      "conference": "ACC",
+      "from": 1981,
+      "to": 2025
+    }
+  ],
+  "Nebraska (W)": [
+    {
+      "conference": "Big 8",
+      "from": 1981,
+      "to": 1995
+    },
+    {
+      "conference": "Big 12",
+      "from": 1996,
+      "to": 2010
+    },
+    {
+      "conference": "Big Ten",
+      "from": 2011,
+      "to": 2025
+    }
+  ],
+  "Nevada (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1984
+    },
+    {
+      "conference": "WCAC",
+      "from": 1985,
+      "to": 1986
+    },
+    {
+      "conference": "MWAC",
+      "from": 1987,
+      "to": 1987
+    },
+    {
+      "conference": "Big Sky",
+      "from": 1988,
+      "to": 1991
+    },
+    {
+      "conference": "Big West",
+      "from": 1992,
+      "to": 1999
+    },
+    {
+      "conference": "WAC",
+      "from": 2000,
+      "to": 2011
+    },
+    {
+      "conference": "MWC",
+      "from": 2012,
+      "to": 2025
+    }
+  ],
+  "Nevada-Las Vegas (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1982
+    },
+    {
+      "conference": "PCAA",
+      "from": 1983,
+      "to": 1987
+    },
+    {
+      "conference": "Big West",
+      "from": 1988,
+      "to": 1995
+    },
+    {
+      "conference": "WAC",
+      "from": 1996,
+      "to": 1998
+    },
+    {
+      "conference": "MWC",
+      "from": 1999,
+      "to": 2025
+    }
+  ],
+  "New Hampshire (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1983
+    },
+    {
+      "conference": "Seaboard",
+      "from": 1984,
+      "to": 1988
+    },
+    {
+      "conference": "NAC",
+      "from": 1989,
+      "to": 1995
+    },
+    {
+      "conference": "AEC",
+      "from": 1996,
+      "to": 2025
+    }
+  ],
+  "New Haven (W)": [
+    {
+      "conference": "NEC",
+      "from": 2025,
+      "to": 2025
+    }
+  ],
+  "New Mexico (W)": [
+    {
+      "conference": "HCAC",
+      "from": 1981,
+      "to": 1986
+    },
+    {
+      "conference": "WAC",
+      "from": 1991,
+      "to": 1998
+    },
+    {
+      "conference": "MWC",
+      "from": 1999,
+      "to": 2025
+    }
+  ],
+  "New Mexico State (W)": [
+    {
+      "conference": "IAC",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "HCAC",
+      "from": 1982,
+      "to": 1989
+    },
+    {
+      "conference": "Big West",
+      "from": 1990,
+      "to": 1999
+    },
+    {
+      "conference": "Sun Belt",
+      "from": 2000,
+      "to": 2004
+    },
+    {
+      "conference": "WAC",
+      "from": 2005,
+      "to": 2022
+    },
+    {
+      "conference": "CUSA",
+      "from": 2023,
+      "to": 2025
+    }
+  ],
+  "New Orleans (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1986
+    },
+    {
+      "conference": "ASC",
+      "from": 1987,
+      "to": 1990
+    },
+    {
+      "conference": "Sun Belt",
+      "from": 1991,
+      "to": 2009
+    },
+    {
+      "conference": "Ind",
+      "from": 2011,
+      "to": 2012
+    },
+    {
+      "conference": "Southland",
+      "from": 2013,
+      "to": 2025
+    }
+  ],
+  "Niagara (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "MECA",
+      "from": 1986,
+      "to": 1986
+    },
+    {
+      "conference": "Ind",
+      "from": 1987,
+      "to": 1988
+    },
+    {
+      "conference": "MAAC",
+      "from": 1989,
+      "to": 2025
+    }
+  ],
+  "Nicholls State (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1983
+    },
+    {
+      "conference": "GSC",
+      "from": 1984,
+      "to": 1986
+    },
+    {
+      "conference": "Ind",
+      "from": 1987,
+      "to": 1990
+    },
+    {
+      "conference": "Southland",
+      "from": 1991,
+      "to": 2025
+    }
+  ],
+  "NJIT (W)": [
+    {
+      "conference": "Ind",
+      "from": 2006,
+      "to": 2008
+    },
+    {
+      "conference": "GWC",
+      "from": 2009,
+      "to": 2012
+    },
+    {
+      "conference": "Ind",
+      "from": 2013,
+      "to": 2014
+    },
+    {
+      "conference": "A-Sun",
+      "from": 2015,
+      "to": 2019
+    },
+    {
+      "conference": "AEC",
+      "from": 2020,
+      "to": 2025
+    }
+  ],
+  "Norfolk State (W)": [
+    {
+      "conference": "MEAC",
+      "from": 1997,
+      "to": 2025
+    }
+  ],
+  "North Alabama (W)": [
+    {
+      "conference": "A-Sun",
+      "from": 2018,
+      "to": 2025
+    }
+  ],
+  "North Carolina (W)": [
+    {
+      "conference": "ACC",
+      "from": 1981,
+      "to": 2025
+    }
+  ],
+  "North Carolina A&amp;T (W)": [
+    {
+      "conference": "MEAC",
+      "from": 1982,
+      "to": 2020
+    },
+    {
+      "conference": "Big South",
+      "from": 2021,
+      "to": 2021
+    },
+    {
+      "conference": "CAA",
+      "from": 2022,
+      "to": 2025
+    }
+  ],
+  "North Carolina Central (W)": [
+    {
+      "conference": "Ind",
+      "from": 2008,
+      "to": 2009
+    },
+    {
+      "conference": "MEAC",
+      "from": 2010,
+      "to": 2025
+    }
+  ],
+  "North Dakota (W)": [
+    {
+      "conference": "Ind",
+      "from": 2008,
+      "to": 2008
+    },
+    {
+      "conference": "GWC",
+      "from": 2009,
+      "to": 2011
+    },
+    {
+      "conference": "Big Sky",
+      "from": 2012,
+      "to": 2017
+    },
+    {
+      "conference": "Summit",
+      "from": 2018,
+      "to": 2025
+    }
+  ],
+  "North Dakota State (W)": [
+    {
+      "conference": "Ind",
+      "from": 2005,
+      "to": 2006
+    },
+    {
+      "conference": "Summit",
+      "from": 2007,
+      "to": 2025
+    }
+  ],
+  "North Florida (W)": [
+    {
+      "conference": "A-Sun",
+      "from": 2005,
+      "to": 2025
+    }
+  ],
+  "North Texas (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1982
+    },
+    {
+      "conference": "Southland",
+      "from": 1983,
+      "to": 1995
+    },
+    {
+      "conference": "Big West",
+      "from": 1996,
+      "to": 1999
+    },
+    {
+      "conference": "Sun Belt",
+      "from": 2000,
+      "to": 2012
+    },
+    {
+      "conference": "CUSA",
+      "from": 2013,
+      "to": 2022
+    },
+    {
+      "conference": "AAC",
+      "from": 2023,
+      "to": 2024
+    },
+    {
+      "conference": "American",
+      "from": 2025,
+      "to": 2025
+    }
+  ],
+  "Northeastern (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1983
+    },
+    {
+      "conference": "Seaboard",
+      "from": 1984,
+      "to": 1988
+    },
+    {
+      "conference": "NAC",
+      "from": 1989,
+      "to": 1995
+    },
+    {
+      "conference": "AEC",
+      "from": 1996,
+      "to": 2004
+    },
+    {
+      "conference": "CAA",
+      "from": 2005,
+      "to": 2025
+    }
+  ],
+  "Northeastern Illinois (W)": [
+    {
+      "conference": "Ind",
+      "from": 1990,
+      "to": 1992
+    },
+    {
+      "conference": "ECC",
+      "from": 1993,
+      "to": 1993
+    },
+    {
+      "conference": "Mid-Cont",
+      "from": 1994,
+      "to": 1997
+    }
+  ],
+  "Northern Arizona (W)": [
+    {
+      "conference": "IAC",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "Ind",
+      "from": 1982,
+      "to": 1987
+    },
+    {
+      "conference": "Big Sky",
+      "from": 1988,
+      "to": 2025
+    }
+  ],
+  "Northern Colorado (W)": [
+    {
+      "conference": "Ind",
+      "from": 2004,
+      "to": 2005
+    },
+    {
+      "conference": "Big Sky",
+      "from": 2006,
+      "to": 2025
+    }
+  ],
+  "Northern Illinois (W)": [
+    {
+      "conference": "MAC",
+      "from": 1981,
+      "to": 1985
+    },
+    {
+      "conference": "Ind",
+      "from": 1986,
+      "to": 1986
+    },
+    {
+      "conference": "North Star",
+      "from": 1987,
+      "to": 1991
+    },
+    {
+      "conference": "Mid-Cont",
+      "from": 1992,
+      "to": 1993
+    },
+    {
+      "conference": "MW Coll",
+      "from": 1994,
+      "to": 1996
+    },
+    {
+      "conference": "MAC",
+      "from": 1997,
+      "to": 2025
+    }
+  ],
+  "Northern Iowa (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "Gateway",
+      "from": 1982,
+      "to": 1991
+    },
+    {
+      "conference": "MVC",
+      "from": 1992,
+      "to": 2025
+    }
+  ],
+  "Northern Kentucky (W)": [
+    {
+      "conference": "A-Sun",
+      "from": 2012,
+      "to": 2014
+    },
+    {
+      "conference": "Horizon",
+      "from": 2015,
+      "to": 2025
+    }
+  ],
+  "Northwestern (W)": [
+    {
+      "conference": "Big Ten",
+      "from": 1981,
+      "to": 2025
+    }
+  ],
+  "Northwestern State (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1983
+    },
+    {
+      "conference": "GSC",
+      "from": 1984,
+      "to": 1986
+    },
+    {
+      "conference": "Southland",
+      "from": 1987,
+      "to": 2025
+    }
+  ],
+  "Notre Dame (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1982
+    },
+    {
+      "conference": "North Star",
+      "from": 1983,
+      "to": 1987
+    },
+    {
+      "conference": "MW Coll",
+      "from": 1988,
+      "to": 1994
+    },
+    {
+      "conference": "Big East",
+      "from": 1995,
+      "to": 2012
+    },
+    {
+      "conference": "ACC",
+      "from": 2013,
+      "to": 2025
+    }
+  ],
+  "Oakland (W)": [
+    {
+      "conference": "Mid-Cont",
+      "from": 1999,
+      "to": 2006
+    },
+    {
+      "conference": "Summit",
+      "from": 2007,
+      "to": 2012
+    },
+    {
+      "conference": "Horizon",
+      "from": 2013,
+      "to": 2025
+    }
+  ],
+  "Ohio (W)": [
+    {
+      "conference": "MAC",
+      "from": 1981,
+      "to": 2025
+    }
+  ],
+  "Ohio State (W)": [
+    {
+      "conference": "Big Ten",
+      "from": 1981,
+      "to": 2025
+    }
+  ],
+  "Oklahoma (W)": [
+    {
+      "conference": "Big 8",
+      "from": 1981,
+      "to": 1995
+    },
+    {
+      "conference": "Big 12",
+      "from": 1996,
+      "to": 2023
+    },
+    {
+      "conference": "SEC",
+      "from": 2024,
+      "to": 2025
+    }
+  ],
+  "Oklahoma State (W)": [
+    {
+      "conference": "Big 8",
+      "from": 1981,
+      "to": 1995
+    },
+    {
+      "conference": "Big 12",
+      "from": 1996,
+      "to": 2025
+    }
+  ],
+  "Old Dominion (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "Sun Belt",
+      "from": 1982,
+      "to": 1990
+    },
+    {
+      "conference": "CAA",
+      "from": 1991,
+      "to": 2012
+    },
+    {
+      "conference": "CUSA",
+      "from": 2013,
+      "to": 2021
+    },
+    {
+      "conference": "Sun Belt",
+      "from": 2022,
+      "to": 2025
+    }
+  ],
+  "Omaha (W)": [
+    {
+      "conference": "Ind",
+      "from": 2011,
+      "to": 2011
+    },
+    {
+      "conference": "Summit",
+      "from": 2012,
+      "to": 2025
+    }
+  ],
+  "Oral Roberts (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1982
+    },
+    {
+      "conference": "Oil Count.",
+      "from": 1983,
+      "to": 1984
+    },
+    {
+      "conference": "Ind",
+      "from": 1985,
+      "to": 1985
+    },
+    {
+      "conference": "MW Coll",
+      "from": 1986,
+      "to": 1986
+    },
+    {
+      "conference": "Ind",
+      "from": 1987,
+      "to": 1996
+    },
+    {
+      "conference": "Mid-Cont",
+      "from": 1997,
+      "to": 2006
+    },
+    {
+      "conference": "Summit",
+      "from": 2007,
+      "to": 2011
+    },
+    {
+      "conference": "Southland",
+      "from": 2012,
+      "to": 2013
+    },
+    {
+      "conference": "Summit",
+      "from": 2014,
+      "to": 2025
+    }
+  ],
+  "Oregon (W)": [
+    {
+      "conference": "NWBL",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "NorPac",
+      "from": 1982,
+      "to": 1985
+    },
+    {
+      "conference": "Pac-10",
+      "from": 1986,
+      "to": 2010
+    },
+    {
+      "conference": "Pac-12",
+      "from": 2011,
+      "to": 2023
+    },
+    {
+      "conference": "Big Ten",
+      "from": 2024,
+      "to": 2025
+    }
+  ],
+  "Oregon State (W)": [
+    {
+      "conference": "NWBL",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "NorPac",
+      "from": 1982,
+      "to": 1985
+    },
+    {
+      "conference": "Pac-10",
+      "from": 1986,
+      "to": 2010
+    },
+    {
+      "conference": "Pac-12",
+      "from": 2011,
+      "to": 2023
+    },
+    {
+      "conference": "WCC",
+      "from": 2024,
+      "to": 2025
+    }
+  ],
+  "Pacific (W)": [
+    {
+      "conference": "North CA",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "NorPac",
+      "from": 1982,
+      "to": 1983
+    },
+    {
+      "conference": "PCAA",
+      "from": 1984,
+      "to": 1987
+    },
+    {
+      "conference": "Big West",
+      "from": 1988,
+      "to": 2012
+    },
+    {
+      "conference": "WCC",
+      "from": 2013,
+      "to": 2025
+    }
+  ],
+  "Penn State (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "A-10",
+      "from": 1982,
+      "to": 1990
+    },
+    {
+      "conference": "Ind",
+      "from": 1991,
+      "to": 1991
+    },
+    {
+      "conference": "Big Ten",
+      "from": 1992,
+      "to": 2025
+    }
+  ],
+  "Pennsylvania (W)": [
+    {
+      "conference": "Ivy",
+      "from": 1981,
+      "to": 2025
+    }
+  ],
+  "Pepperdine (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1986
+    },
+    {
+      "conference": "WCAC",
+      "from": 1987,
+      "to": 1988
+    },
+    {
+      "conference": "WCC",
+      "from": 1989,
+      "to": 2025
+    }
+  ],
+  "Pittsburgh (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "Big East",
+      "from": 1982,
+      "to": 2012
+    },
+    {
+      "conference": "ACC",
+      "from": 2013,
+      "to": 2025
+    }
+  ],
+  "Portland (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1986
+    },
+    {
+      "conference": "WCAC",
+      "from": 1987,
+      "to": 1988
+    },
+    {
+      "conference": "WCC",
+      "from": 1989,
+      "to": 2025
+    }
+  ],
+  "Portland State (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "MWAC",
+      "from": 1982,
+      "to": 1985
+    },
+    {
+      "conference": "Ind",
+      "from": 1986,
+      "to": 1990
+    },
+    {
+      "conference": "Big Sky",
+      "from": 1996,
+      "to": 2025
+    }
+  ],
+  "Prairie View (W)": [
+    {
+      "conference": "SWAC",
+      "from": 1981,
+      "to": 2025
+    }
+  ],
+  "Presbyterian (W)": [
+    {
+      "conference": "Ind",
+      "from": 2007,
+      "to": 2007
+    },
+    {
+      "conference": "Big South",
+      "from": 2008,
+      "to": 2025
+    }
+  ],
+  "Princeton (W)": [
+    {
+      "conference": "Ivy",
+      "from": 1981,
+      "to": 2025
+    }
+  ],
+  "Providence (W)": [
+    {
+      "conference": "Big East",
+      "from": 1981,
+      "to": 2025
+    }
+  ],
+  "Purdue (W)": [
+    {
+      "conference": "Big Ten",
+      "from": 1981,
+      "to": 2025
+    }
+  ],
+  "Purdue Fort Wayne (W)": [
+    {
+      "conference": "Ind",
+      "from": 2001,
+      "to": 2006
+    },
+    {
+      "conference": "Summit",
+      "from": 2007,
+      "to": 2019
+    },
+    {
+      "conference": "Horizon",
+      "from": 2020,
+      "to": 2025
+    }
+  ],
+  "Queens (NC) (W)": [
+    {
+      "conference": "A-Sun",
+      "from": 2022,
+      "to": 2025
+    }
+  ],
+  "Quinnipiac (W)": [
+    {
+      "conference": "NEC",
+      "from": 1998,
+      "to": 2012
+    },
+    {
+      "conference": "MAAC",
+      "from": 2013,
+      "to": 2025
+    }
+  ],
+  "Radford (W)": [
+    {
+      "conference": "Ind",
+      "from": 1982,
+      "to": 1985
+    },
+    {
+      "conference": "Big South",
+      "from": 1986,
+      "to": 2025
+    }
+  ],
+  "Rhode Island (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "A-10",
+      "from": 1982,
+      "to": 2025
+    }
+  ],
+  "Rice (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "SWC",
+      "from": 1982,
+      "to": 1995
+    },
+    {
+      "conference": "WAC",
+      "from": 1996,
+      "to": 2004
+    },
+    {
+      "conference": "CUSA",
+      "from": 2005,
+      "to": 2022
+    },
+    {
+      "conference": "AAC",
+      "from": 2023,
+      "to": 2024
+    },
+    {
+      "conference": "American",
+      "from": 2025,
+      "to": 2025
+    }
+  ],
+  "Richmond (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1982
+    },
+    {
+      "conference": "ECACS",
+      "from": 1983,
+      "to": 1984
+    },
+    {
+      "conference": "CAA",
+      "from": 1985,
+      "to": 2000
+    },
+    {
+      "conference": "A-10",
+      "from": 2001,
+      "to": 2025
+    }
+  ],
+  "Rider (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "ECC",
+      "from": 1982,
+      "to": 1991
+    },
+    {
+      "conference": "NEC",
+      "from": 1992,
+      "to": 1996
+    },
+    {
+      "conference": "MAAC",
+      "from": 1997,
+      "to": 2025
+    }
+  ],
+  "Robert Morris (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1984
+    },
+    {
+      "conference": "ECACM",
+      "from": 1985,
+      "to": 1987
+    },
+    {
+      "conference": "NEC",
+      "from": 1988,
+      "to": 2019
+    },
+    {
+      "conference": "Horizon",
+      "from": 2020,
+      "to": 2025
+    }
+  ],
+  "Rutgers (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "A-10",
+      "from": 1982,
+      "to": 1994
+    },
+    {
+      "conference": "Big East",
+      "from": 1995,
+      "to": 2012
+    },
+    {
+      "conference": "AAC",
+      "from": 2013,
+      "to": 2013
+    },
+    {
+      "conference": "Big Ten",
+      "from": 2014,
+      "to": 2025
+    }
+  ],
+  "Sacramento State (W)": [
+    {
+      "conference": "Ind",
+      "from": 1991,
+      "to": 1993
+    },
+    {
+      "conference": "AWC",
+      "from": 1994,
+      "to": 1995
+    },
+    {
+      "conference": "Big Sky",
+      "from": 1996,
+      "to": 2025
+    }
+  ],
+  "Sacred Heart (W)": [
+    {
+      "conference": "NEC",
+      "from": 1999,
+      "to": 2023
+    },
+    {
+      "conference": "MAAC",
+      "from": 2024,
+      "to": 2025
+    }
+  ],
+  "Saint Francis (PA) (W)": [
+    {
+      "conference": "Ind",
+      "from": 1983,
+      "to": 1985
+    },
+    {
+      "conference": "ECACM",
+      "from": 1986,
+      "to": 1987
+    },
+    {
+      "conference": "NEC",
+      "from": 1988,
+      "to": 2025
+    }
+  ],
+  "Saint Joseph's (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1982
+    },
+    {
+      "conference": "A-10",
+      "from": 1983,
+      "to": 2025
+    }
+  ],
+  "Saint Louis (W)": [
+    {
+      "conference": "Ind",
+      "from": 1983,
+      "to": 1985
+    },
+    {
+      "conference": "MW Coll",
+      "from": 1986,
+      "to": 1990
+    },
+    {
+      "conference": "GMWC",
+      "from": 1991,
+      "to": 1994
+    },
+    {
+      "conference": "CUSA",
+      "from": 1995,
+      "to": 2004
+    },
+    {
+      "conference": "A-10",
+      "from": 2005,
+      "to": 2025
+    }
+  ],
+  "Saint Mary's (CA) (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1986
+    },
+    {
+      "conference": "WCAC",
+      "from": 1987,
+      "to": 1988
+    },
+    {
+      "conference": "WCC",
+      "from": 1989,
+      "to": 2025
+    }
+  ],
+  "Saint Peter's (W)": [
+    {
+      "conference": "MAAC",
+      "from": 1981,
+      "to": 2025
+    }
+  ],
+  "Sam Houston (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1986
+    },
+    {
+      "conference": "Southland",
+      "from": 1987,
+      "to": 2020
+    },
+    {
+      "conference": "WAC",
+      "from": 2021,
+      "to": 2022
+    },
+    {
+      "conference": "CUSA",
+      "from": 2023,
+      "to": 2025
+    }
+  ],
+  "Samford (W)": [
+    {
+      "conference": "TAAC",
+      "from": 1997,
+      "to": 2000
+    },
+    {
+      "conference": "A-Sun",
+      "from": 2001,
+      "to": 2002
+    },
+    {
+      "conference": "OVC",
+      "from": 2003,
+      "to": 2007
+    },
+    {
+      "conference": "Southern",
+      "from": 2008,
+      "to": 2025
+    }
+  ],
+  "San Diego (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1984
+    },
+    {
+      "conference": "WCAC",
+      "from": 1985,
+      "to": 1988
+    },
+    {
+      "conference": "WCC",
+      "from": 1989,
+      "to": 2025
+    }
+  ],
+  "San Diego State (W)": [
+    {
+      "conference": "WCAA",
+      "from": 1981,
+      "to": 1984
+    },
+    {
+      "conference": "PCAA",
+      "from": 1985,
+      "to": 1987
+    },
+    {
+      "conference": "Big West",
+      "from": 1988,
+      "to": 1989
+    },
+    {
+      "conference": "WAC",
+      "from": 1990,
+      "to": 1998
+    },
+    {
+      "conference": "MWC",
+      "from": 1999,
+      "to": 2025
+    }
+  ],
+  "San Francisco (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "NorPac",
+      "from": 1982,
+      "to": 1984
+    },
+    {
+      "conference": "WCAC",
+      "from": 1985,
+      "to": 1988
+    },
+    {
+      "conference": "WCC",
+      "from": 1989,
+      "to": 2025
+    }
+  ],
+  "San Jose State (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "NorPac",
+      "from": 1982,
+      "to": 1985
+    },
+    {
+      "conference": "PCAA",
+      "from": 1986,
+      "to": 1987
+    },
+    {
+      "conference": "Big West",
+      "from": 1988,
+      "to": 1995
+    },
+    {
+      "conference": "WAC",
+      "from": 1996,
+      "to": 2012
+    },
+    {
+      "conference": "MWC",
+      "from": 2013,
+      "to": 2025
+    }
+  ],
+  "Santa Clara (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "NorPac",
+      "from": 1982,
+      "to": 1984
+    },
+    {
+      "conference": "WCAC",
+      "from": 1985,
+      "to": 1988
+    },
+    {
+      "conference": "WCC",
+      "from": 1989,
+      "to": 2025
+    }
+  ],
+  "Savannah State (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 2010
+    },
+    {
+      "conference": "MEAC",
+      "from": 2011,
+      "to": 2018
+    }
+  ],
+  "Seattle (W)": [
+    {
+      "conference": "Ind",
+      "from": 2008,
+      "to": 2011
+    },
+    {
+      "conference": "WAC",
+      "from": 2012,
+      "to": 2024
+    },
+    {
+      "conference": "WCC",
+      "from": 2025,
+      "to": 2025
+    }
+  ],
+  "Seton Hall (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "Big East",
+      "from": 1982,
+      "to": 2025
+    }
+  ],
+  "Siena (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1982
+    },
+    {
+      "conference": "Cosmo",
+      "from": 1983,
+      "to": 1985
+    },
+    {
+      "conference": "MECA",
+      "from": 1986,
+      "to": 1986
+    },
+    {
+      "conference": "Ind",
+      "from": 1987,
+      "to": 1988
+    },
+    {
+      "conference": "MAAC",
+      "from": 1989,
+      "to": 2025
+    }
+  ],
+  "South Alabama (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "Sun Belt",
+      "from": 1982,
+      "to": 2025
+    }
+  ],
+  "South Carolina (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1982
+    },
+    {
+      "conference": "Metro",
+      "from": 1983,
+      "to": 1990
+    },
+    {
+      "conference": "SEC",
+      "from": 1991,
+      "to": 2025
+    }
+  ],
+  "South Carolina State (W)": [
+    {
+      "conference": "MEAC",
+      "from": 1981,
+      "to": 2025
+    }
+  ],
+  "South Carolina Upstate (W)": [
+    {
+      "conference": "A-Sun",
+      "from": 2007,
+      "to": 2017
+    },
+    {
+      "conference": "Big South",
+      "from": 2018,
+      "to": 2025
+    }
+  ],
+  "South Dakota (W)": [
+    {
+      "conference": "Ind",
+      "from": 2008,
+      "to": 2008
+    },
+    {
+      "conference": "GWC",
+      "from": 2009,
+      "to": 2010
+    },
+    {
+      "conference": "Summit",
+      "from": 2011,
+      "to": 2025
+    }
+  ],
+  "South Dakota State (W)": [
+    {
+      "conference": "Ind",
+      "from": 2004,
+      "to": 2006
+    },
+    {
+      "conference": "Summit",
+      "from": 2007,
+      "to": 2025
+    }
+  ],
+  "South Florida (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1983
+    },
+    {
+      "conference": "Sun Belt",
+      "from": 1984,
+      "to": 1990
+    },
+    {
+      "conference": "Metro",
+      "from": 1991,
+      "to": 1994
+    },
+    {
+      "conference": "CUSA",
+      "from": 1995,
+      "to": 2004
+    },
+    {
+      "conference": "Big East",
+      "from": 2005,
+      "to": 2012
+    },
+    {
+      "conference": "AAC",
+      "from": 2013,
+      "to": 2024
+    },
+    {
+      "conference": "American",
+      "from": 2025,
+      "to": 2025
+    }
+  ],
+  "Southeast Missouri State (W)": [
+    {
+      "conference": "OVC",
+      "from": 1991,
+      "to": 2025
+    }
+  ],
+  "Southeastern Louisiana (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1983
+    },
+    {
+      "conference": "GSC",
+      "from": 1984,
+      "to": 1986
+    },
+    {
+      "conference": "Ind",
+      "from": 1987,
+      "to": 1990
+    },
+    {
+      "conference": "TAAC",
+      "from": 1991,
+      "to": 1996
+    },
+    {
+      "conference": "Southland",
+      "from": 1997,
+      "to": 2025
+    }
+  ],
+  "Southern (W)": [
+    {
+      "conference": "SWAC",
+      "from": 1981,
+      "to": 2025
+    }
+  ],
+  "Southern California (W)": [
+    {
+      "conference": "WCAA",
+      "from": 1981,
+      "to": 1984
+    },
+    {
+      "conference": "Pac-West",
+      "from": 1985,
+      "to": 1985
+    },
+    {
+      "conference": "Pac-10",
+      "from": 1986,
+      "to": 2010
+    },
+    {
+      "conference": "Pac-12",
+      "from": 2011,
+      "to": 2023
+    },
+    {
+      "conference": "Big Ten",
+      "from": 2024,
+      "to": 2025
+    }
+  ],
+  "Southern Illinois (W)": [
+    {
+      "conference": "Gateway",
+      "from": 1981,
+      "to": 1991
+    },
+    {
+      "conference": "MVC",
+      "from": 1992,
+      "to": 2025
+    }
+  ],
+  "Southern Illinois-Edwardsville (W)": [
+    {
+      "conference": "Ind",
+      "from": 2008,
+      "to": 2010
+    },
+    {
+      "conference": "OVC",
+      "from": 2011,
+      "to": 2025
+    }
+  ],
+  "Southern Indiana (W)": [
+    {
+      "conference": "OVC",
+      "from": 2022,
+      "to": 2025
+    }
+  ],
+  "Southern Methodist (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "SWC",
+      "from": 1982,
+      "to": 1995
+    },
+    {
+      "conference": "WAC",
+      "from": 1996,
+      "to": 2004
+    },
+    {
+      "conference": "CUSA",
+      "from": 2005,
+      "to": 2012
+    },
+    {
+      "conference": "AAC",
+      "from": 2013,
+      "to": 2023
+    },
+    {
+      "conference": "ACC",
+      "from": 2024,
+      "to": 2025
+    }
+  ],
+  "Southern Mississippi (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "Metro",
+      "from": 1982,
+      "to": 1994
+    },
+    {
+      "conference": "CUSA",
+      "from": 1995,
+      "to": 2021
+    },
+    {
+      "conference": "Sun Belt",
+      "from": 2022,
+      "to": 2025
+    }
+  ],
+  "Southern Utah (W)": [
+    {
+      "conference": "Ind",
+      "from": 1988,
+      "to": 1993
+    },
+    {
+      "conference": "AWC",
+      "from": 1994,
+      "to": 1995
+    },
+    {
+      "conference": "Ind",
+      "from": 1996,
+      "to": 1996
+    },
+    {
+      "conference": "Mid-Cont",
+      "from": 1997,
+      "to": 2006
+    },
+    {
+      "conference": "Summit",
+      "from": 2007,
+      "to": 2011
+    },
+    {
+      "conference": "Big Sky",
+      "from": 2012,
+      "to": 2021
+    },
+    {
+      "conference": "WAC",
+      "from": 2022,
+      "to": 2025
+    }
+  ],
+  "St. Bonaventure (W)": [
+    {
+      "conference": "A-10",
+      "from": 1986,
+      "to": 2025
+    }
+  ],
+  "St. Francis (NY) Terriers (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1985
+    },
+    {
+      "conference": "ECACM",
+      "from": 1986,
+      "to": 1987
+    },
+    {
+      "conference": "NEC",
+      "from": 1988,
+      "to": 2022
+    }
+  ],
+  "St. John's (NY) (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "Big East",
+      "from": 1982,
+      "to": 2025
+    }
+  ],
+  "St. Thomas (W)": [
+    {
+      "conference": "Summit",
+      "from": 2021,
+      "to": 2025
+    }
+  ],
+  "Stanford (W)": [
+    {
+      "conference": "North CA",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "WCAA",
+      "from": 1982,
+      "to": 1984
+    },
+    {
+      "conference": "Pac-West",
+      "from": 1985,
+      "to": 1985
+    },
+    {
+      "conference": "Pac-10",
+      "from": 1986,
+      "to": 2010
+    },
+    {
+      "conference": "Pac-12",
+      "from": 2011,
+      "to": 2023
+    },
+    {
+      "conference": "ACC",
+      "from": 2024,
+      "to": 2025
+    }
+  ],
+  "Stephen F. Austin (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1983
+    },
+    {
+      "conference": "GSC",
+      "from": 1984,
+      "to": 1986
+    },
+    {
+      "conference": "Southland",
+      "from": 1987,
+      "to": 2020
+    },
+    {
+      "conference": "WAC",
+      "from": 2021,
+      "to": 2023
+    },
+    {
+      "conference": "Southland",
+      "from": 2024,
+      "to": 2025
+    }
+  ],
+  "Stetson (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1984
+    },
+    {
+      "conference": "NSWAC",
+      "from": 1985,
+      "to": 1990
+    },
+    {
+      "conference": "TAAC",
+      "from": 1991,
+      "to": 2000
+    },
+    {
+      "conference": "A-Sun",
+      "from": 2001,
+      "to": 2025
+    }
+  ],
+  "Stonehill (W)": [
+    {
+      "conference": "NEC",
+      "from": 2022,
+      "to": 2025
+    }
+  ],
+  "Stony Brook (W)": [
+    {
+      "conference": "Ind",
+      "from": 1999,
+      "to": 2000
+    },
+    {
+      "conference": "AEC",
+      "from": 2001,
+      "to": 2021
+    },
+    {
+      "conference": "CAA",
+      "from": 2022,
+      "to": 2025
+    }
+  ],
+  "Syracuse (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "Big East",
+      "from": 1982,
+      "to": 2012
+    },
+    {
+      "conference": "ACC",
+      "from": 2013,
+      "to": 2025
+    }
+  ],
+  "Tarleton State (W)": [
+    {
+      "conference": "WAC",
+      "from": 2020,
+      "to": 2025
+    }
+  ],
+  "TCU (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "SWC",
+      "from": 1982,
+      "to": 1995
+    },
+    {
+      "conference": "WAC",
+      "from": 1996,
+      "to": 2000
+    },
+    {
+      "conference": "CUSA",
+      "from": 2001,
+      "to": 2004
+    },
+    {
+      "conference": "MWC",
+      "from": 2005,
+      "to": 2011
+    },
+    {
+      "conference": "Big 12",
+      "from": 2012,
+      "to": 2025
+    }
+  ],
+  "Temple (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1982
+    },
+    {
+      "conference": "A-10",
+      "from": 1983,
+      "to": 2012
+    },
+    {
+      "conference": "AAC",
+      "from": 2013,
+      "to": 2024
+    },
+    {
+      "conference": "American",
+      "from": 2025,
+      "to": 2025
+    }
+  ],
+  "Tennessee (W)": [
+    {
+      "conference": "SEC",
+      "from": 1981,
+      "to": 2025
+    }
+  ],
+  "Tennessee State (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1986
+    },
+    {
+      "conference": "OVC",
+      "from": 1987,
+      "to": 2025
+    }
+  ],
+  "Tennessee Tech (W)": [
+    {
+      "conference": "OVC",
+      "from": 1981,
+      "to": 2025
+    }
+  ],
+  "Tennessee-Martin (W)": [
+    {
+      "conference": "Ind",
+      "from": 1982,
+      "to": 1991
+    },
+    {
+      "conference": "OVC",
+      "from": 1992,
+      "to": 2025
+    }
+  ],
+  "Texas (W)": [
+    {
+      "conference": "SWC",
+      "from": 1981,
+      "to": 1995
+    },
+    {
+      "conference": "Big 12",
+      "from": 1996,
+      "to": 2023
+    },
+    {
+      "conference": "SEC",
+      "from": 2024,
+      "to": 2025
+    }
+  ],
+  "Texas A&amp;M (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "SWC",
+      "from": 1982,
+      "to": 1995
+    },
+    {
+      "conference": "Big 12",
+      "from": 1996,
+      "to": 2011
+    },
+    {
+      "conference": "SEC",
+      "from": 2012,
+      "to": 2025
+    }
+  ],
+  "Texas A&amp;M-Corpus Christi (W)": [
+    {
+      "conference": "Ind",
+      "from": 1999,
+      "to": 2005
+    },
+    {
+      "conference": "Southland",
+      "from": 2006,
+      "to": 2025
+    }
+  ],
+  "Texas Southern (W)": [
+    {
+      "conference": "SWAC",
+      "from": 1981,
+      "to": 2025
+    }
+  ],
+  "Texas State (W)": [
+    {
+      "conference": "Ind",
+      "from": 1982,
+      "to": 1983
+    },
+    {
+      "conference": "GSC",
+      "from": 1984,
+      "to": 1986
+    },
+    {
+      "conference": "Southland",
+      "from": 1987,
+      "to": 2011
+    },
+    {
+      "conference": "WAC",
+      "from": 2012,
+      "to": 2012
+    },
+    {
+      "conference": "Sun Belt",
+      "from": 2013,
+      "to": 2025
+    }
+  ],
+  "Texas Tech (W)": [
+    {
+      "conference": "SWC",
+      "from": 1981,
+      "to": 1995
+    },
+    {
+      "conference": "Big 12",
+      "from": 1996,
+      "to": 2025
+    }
+  ],
+  "Texas-Rio Grande Valley (W)": [
+    {
+      "conference": "Ind",
+      "from": 1985,
+      "to": 1986
+    },
+    {
+      "conference": "ASC",
+      "from": 1987,
+      "to": 1990
+    },
+    {
+      "conference": "Sun Belt",
+      "from": 1991,
+      "to": 1997
+    },
+    {
+      "conference": "Ind",
+      "from": 1998,
+      "to": 2008
+    },
+    {
+      "conference": "GWC",
+      "from": 2009,
+      "to": 2012
+    },
+    {
+      "conference": "WAC",
+      "from": 2013,
+      "to": 2023
+    },
+    {
+      "conference": "Southland",
+      "from": 2024,
+      "to": 2025
+    }
+  ],
+  "Toledo (W)": [
+    {
+      "conference": "MAC",
+      "from": 1981,
+      "to": 2025
+    }
+  ],
+  "Towson (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "ECC",
+      "from": 1982,
+      "to": 1991
+    },
+    {
+      "conference": "Big South",
+      "from": 1992,
+      "to": 1994
+    },
+    {
+      "conference": "NAC",
+      "from": 1995,
+      "to": 1995
+    },
+    {
+      "conference": "AEC",
+      "from": 1996,
+      "to": 2000
+    },
+    {
+      "conference": "CAA",
+      "from": 2001,
+      "to": 2025
+    }
+  ],
+  "Troy (W)": [
+    {
+      "conference": "ECC",
+      "from": 1993,
+      "to": 1993
+    },
+    {
+      "conference": "Mid-Cont",
+      "from": 1994,
+      "to": 1996
+    },
+    {
+      "conference": "TAAC",
+      "from": 1997,
+      "to": 2000
+    },
+    {
+      "conference": "A-Sun",
+      "from": 2001,
+      "to": 2004
+    },
+    {
+      "conference": "Sun Belt",
+      "from": 2005,
+      "to": 2025
+    }
+  ],
+  "Tulane (W)": [
+    {
+      "conference": "Metro",
+      "from": 1981,
+      "to": 1984
+    },
+    {
+      "conference": "Ind",
+      "from": 1985,
+      "to": 1988
+    },
+    {
+      "conference": "Metro",
+      "from": 1989,
+      "to": 1994
+    },
+    {
+      "conference": "CUSA",
+      "from": 1995,
+      "to": 2013
+    },
+    {
+      "conference": "AAC",
+      "from": 2014,
+      "to": 2024
+    },
+    {
+      "conference": "American",
+      "from": 2025,
+      "to": 2025
+    }
+  ],
+  "Tulsa (W)": [
+    {
+      "conference": "Gateway",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "Ind",
+      "from": 1982,
+      "to": 1986
+    },
+    {
+      "conference": "WAC",
+      "from": 1996,
+      "to": 2004
+    },
+    {
+      "conference": "CUSA",
+      "from": 2005,
+      "to": 2013
+    },
+    {
+      "conference": "AAC",
+      "from": 2014,
+      "to": 2024
+    },
+    {
+      "conference": "American",
+      "from": 2025,
+      "to": 2025
+    }
+  ],
+  "U.S. International (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1984
+    },
+    {
+      "conference": "WCAC",
+      "from": 1985,
+      "to": 1986
+    },
+    {
+      "conference": "Ind",
+      "from": 1987,
+      "to": 1988
+    }
+  ],
+  "UAB (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1983
+    },
+    {
+      "conference": "Sun Belt",
+      "from": 1984,
+      "to": 1990
+    },
+    {
+      "conference": "GMWC",
+      "from": 1991,
+      "to": 1994
+    },
+    {
+      "conference": "CUSA",
+      "from": 1995,
+      "to": 2022
+    },
+    {
+      "conference": "AAC",
+      "from": 2023,
+      "to": 2024
+    },
+    {
+      "conference": "American",
+      "from": 2025,
+      "to": 2025
+    }
+  ],
+  "UC Davis (W)": [
+    {
+      "conference": "Ind",
+      "from": 2004,
+      "to": 2006
+    },
+    {
+      "conference": "Big West",
+      "from": 2007,
+      "to": 2025
+    }
+  ],
+  "UC Irvine (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1986
+    },
+    {
+      "conference": "PCAA",
+      "from": 1987,
+      "to": 1987
+    },
+    {
+      "conference": "Big West",
+      "from": 1988,
+      "to": 2025
+    }
+  ],
+  "UC Riverside (W)": [
+    {
+      "conference": "Big West",
+      "from": 2001,
+      "to": 2025
+    }
+  ],
+  "UC San Diego (W)": [
+    {
+      "conference": "Big West",
+      "from": 2020,
+      "to": 2025
+    }
+  ],
+  "UC Santa Barbara (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1982
+    },
+    {
+      "conference": "PCAA",
+      "from": 1983,
+      "to": 1987
+    },
+    {
+      "conference": "Big West",
+      "from": 1988,
+      "to": 2025
+    }
+  ],
+  "UCF (W)": [
+    {
+      "conference": "Ind",
+      "from": 1984,
+      "to": 1984
+    },
+    {
+      "conference": "NSWAC",
+      "from": 1985,
+      "to": 1989
+    },
+    {
+      "conference": "ASC",
+      "from": 1990,
+      "to": 1990
+    },
+    {
+      "conference": "Sun Belt",
+      "from": 1991,
+      "to": 1991
+    },
+    {
+      "conference": "TAAC",
+      "from": 1992,
+      "to": 2000
+    },
+    {
+      "conference": "A-Sun",
+      "from": 2001,
+      "to": 2004
+    },
+    {
+      "conference": "CUSA",
+      "from": 2005,
+      "to": 2012
+    },
+    {
+      "conference": "AAC",
+      "from": 2013,
+      "to": 2022
+    },
+    {
+      "conference": "Big 12",
+      "from": 2023,
+      "to": 2025
+    }
+  ],
+  "UCLA (W)": [
+    {
+      "conference": "WCAA",
+      "from": 1981,
+      "to": 1984
+    },
+    {
+      "conference": "Pac-West",
+      "from": 1985,
+      "to": 1985
+    },
+    {
+      "conference": "Pac-10",
+      "from": 1986,
+      "to": 2010
+    },
+    {
+      "conference": "Pac-12",
+      "from": 2011,
+      "to": 2023
+    },
+    {
+      "conference": "Big Ten",
+      "from": 2024,
+      "to": 2025
+    }
+  ],
+  "UNC Asheville (W)": [
+    {
+      "conference": "Big South",
+      "from": 1986,
+      "to": 2025
+    }
+  ],
+  "UNC Greensboro (W)": [
+    {
+      "conference": "Ind",
+      "from": 1991,
+      "to": 1991
+    },
+    {
+      "conference": "Big South",
+      "from": 1992,
+      "to": 1996
+    },
+    {
+      "conference": "Southern",
+      "from": 1997,
+      "to": 2025
+    }
+  ],
+  "UNC Wilmington (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1983
+    },
+    {
+      "conference": "ECACS",
+      "from": 1984,
+      "to": 1984
+    },
+    {
+      "conference": "CAA",
+      "from": 1985,
+      "to": 2025
+    }
+  ],
+  "UT Arlington (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "Southland",
+      "from": 1982,
+      "to": 2011
+    },
+    {
+      "conference": "WAC",
+      "from": 2012,
+      "to": 2012
+    },
+    {
+      "conference": "Sun Belt",
+      "from": 2013,
+      "to": 2021
+    },
+    {
+      "conference": "WAC",
+      "from": 2022,
+      "to": 2025
+    }
+  ],
+  "Utah (W)": [
+    {
+      "conference": "IAC",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "HCAC",
+      "from": 1982,
+      "to": 1989
+    },
+    {
+      "conference": "WAC",
+      "from": 1990,
+      "to": 1998
+    },
+    {
+      "conference": "MWC",
+      "from": 1999,
+      "to": 2010
+    },
+    {
+      "conference": "Pac-12",
+      "from": 2011,
+      "to": 2023
+    },
+    {
+      "conference": "Big 12",
+      "from": 2024,
+      "to": 2025
+    }
+  ],
+  "Utah State (W)": [
+    {
+      "conference": "IAC",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "Ind",
+      "from": 1982,
+      "to": 1983
+    },
+    {
+      "conference": "HCAC",
+      "from": 1984,
+      "to": 1986
+    },
+    {
+      "conference": "Big West",
+      "from": 2003,
+      "to": 2004
+    },
+    {
+      "conference": "WAC",
+      "from": 2005,
+      "to": 2012
+    },
+    {
+      "conference": "MWC",
+      "from": 2013,
+      "to": 2025
+    }
+  ],
+  "Utah Tech (W)": [
+    {
+      "conference": "WAC",
+      "from": 2020,
+      "to": 2025
+    }
+  ],
+  "Utah Valley (W)": [
+    {
+      "conference": "Ind",
+      "from": 2003,
+      "to": 2008
+    },
+    {
+      "conference": "GWC",
+      "from": 2009,
+      "to": 2012
+    },
+    {
+      "conference": "WAC",
+      "from": 2013,
+      "to": 2025
+    }
+  ],
+  "UTEP (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1982
+    },
+    {
+      "conference": "Oil Count.",
+      "from": 1983,
+      "to": 1984
+    },
+    {
+      "conference": "Ind",
+      "from": 1985,
+      "to": 1989
+    },
+    {
+      "conference": "WAC",
+      "from": 1990,
+      "to": 2004
+    },
+    {
+      "conference": "CUSA",
+      "from": 2005,
+      "to": 2025
+    }
+  ],
+  "UTSA (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1982
+    },
+    {
+      "conference": "Oil Count.",
+      "from": 1983,
+      "to": 1984
+    },
+    {
+      "conference": "Ind",
+      "from": 1985,
+      "to": 1991
+    },
+    {
+      "conference": "Southland",
+      "from": 1992,
+      "to": 2011
+    },
+    {
+      "conference": "WAC",
+      "from": 2012,
+      "to": 2012
+    },
+    {
+      "conference": "CUSA",
+      "from": 2013,
+      "to": 2022
+    },
+    {
+      "conference": "AAC",
+      "from": 2023,
+      "to": 2024
+    },
+    {
+      "conference": "American",
+      "from": 2025,
+      "to": 2025
+    }
+  ],
+  "Valparaiso (W)": [
+    {
+      "conference": "Ind",
+      "from": 1982,
+      "to": 1986
+    },
+    {
+      "conference": "North Star",
+      "from": 1987,
+      "to": 1991
+    },
+    {
+      "conference": "Mid-Cont",
+      "from": 1992,
+      "to": 2006
+    },
+    {
+      "conference": "Horizon",
+      "from": 2007,
+      "to": 2016
+    },
+    {
+      "conference": "MVC",
+      "from": 2017,
+      "to": 2025
+    }
+  ],
+  "Vanderbilt (W)": [
+    {
+      "conference": "SEC",
+      "from": 1981,
+      "to": 2025
+    }
+  ],
+  "Vermont (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1983
+    },
+    {
+      "conference": "Seaboard",
+      "from": 1984,
+      "to": 1988
+    },
+    {
+      "conference": "NAC",
+      "from": 1989,
+      "to": 1995
+    },
+    {
+      "conference": "AEC",
+      "from": 1996,
+      "to": 2025
+    }
+  ],
+  "Villanova (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "Big East",
+      "from": 1982,
+      "to": 2025
+    }
+  ],
+  "Virginia (W)": [
+    {
+      "conference": "ACC",
+      "from": 1981,
+      "to": 2025
+    }
+  ],
+  "Virginia Commonwealth (W)": [
+    {
+      "conference": "Ind",
+      "from": 1982,
+      "to": 1982
+    },
+    {
+      "conference": "Sun Belt",
+      "from": 1983,
+      "to": 1990
+    },
+    {
+      "conference": "Metro",
+      "from": 1991,
+      "to": 1994
+    },
+    {
+      "conference": "CAA",
+      "from": 1995,
+      "to": 2011
+    },
+    {
+      "conference": "A-10",
+      "from": 2012,
+      "to": 2025
+    }
+  ],
+  "Virginia Tech (W)": [
+    {
+      "conference": "Metro",
+      "from": 1981,
+      "to": 1994
+    },
+    {
+      "conference": "A-10",
+      "from": 1995,
+      "to": 1999
+    },
+    {
+      "conference": "Big East",
+      "from": 2000,
+      "to": 2003
+    },
+    {
+      "conference": "ACC",
+      "from": 2004,
+      "to": 2025
+    }
+  ],
+  "Wagner (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "Cosmo",
+      "from": 1982,
+      "to": 1985
+    },
+    {
+      "conference": "ECACM",
+      "from": 1986,
+      "to": 1987
+    },
+    {
+      "conference": "NEC",
+      "from": 1988,
+      "to": 2025
+    }
+  ],
+  "Wake Forest (W)": [
+    {
+      "conference": "ACC",
+      "from": 1981,
+      "to": 2025
+    }
+  ],
+  "Washington (W)": [
+    {
+      "conference": "NWBL",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "NorPac",
+      "from": 1982,
+      "to": 1985
+    },
+    {
+      "conference": "Pac-10",
+      "from": 1986,
+      "to": 2010
+    },
+    {
+      "conference": "Pac-12",
+      "from": 2011,
+      "to": 2023
+    },
+    {
+      "conference": "Big Ten",
+      "from": 2024,
+      "to": 2025
+    }
+  ],
+  "Washington State (W)": [
+    {
+      "conference": "NWBL",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "NorPac",
+      "from": 1982,
+      "to": 1985
+    },
+    {
+      "conference": "Pac-10",
+      "from": 1986,
+      "to": 2010
+    },
+    {
+      "conference": "Pac-12",
+      "from": 2011,
+      "to": 2023
+    },
+    {
+      "conference": "WCC",
+      "from": 2024,
+      "to": 2025
+    }
+  ],
+  "Weber State (W)": [
+    {
+      "conference": "IAC",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "MWAC",
+      "from": 1982,
+      "to": 1987
+    },
+    {
+      "conference": "Big Sky",
+      "from": 1988,
+      "to": 2025
+    }
+  ],
+  "West Georgia (W)": [
+    {
+      "conference": "A-Sun",
+      "from": 2024,
+      "to": 2025
+    }
+  ],
+  "West Virginia (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "A-10",
+      "from": 1982,
+      "to": 1994
+    },
+    {
+      "conference": "Big East",
+      "from": 1995,
+      "to": 2011
+    },
+    {
+      "conference": "Big 12",
+      "from": 2012,
+      "to": 2025
+    }
+  ],
+  "Western Carolina (W)": [
+    {
+      "conference": "Southern",
+      "from": 1982,
+      "to": 2025
+    }
+  ],
+  "Western Illinois (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "Gateway",
+      "from": 1982,
+      "to": 1991
+    },
+    {
+      "conference": "Mid-Cont",
+      "from": 1992,
+      "to": 2006
+    },
+    {
+      "conference": "Summit",
+      "from": 2007,
+      "to": 2022
+    },
+    {
+      "conference": "OVC",
+      "from": 2023,
+      "to": 2025
+    }
+  ],
+  "Western Kentucky (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "Sun Belt",
+      "from": 1982,
+      "to": 2013
+    },
+    {
+      "conference": "CUSA",
+      "from": 2014,
+      "to": 2025
+    }
+  ],
+  "Western Michigan (W)": [
+    {
+      "conference": "MAC",
+      "from": 1981,
+      "to": 2025
+    }
+  ],
+  "Wichita State (W)": [
+    {
+      "conference": "Gateway",
+      "from": 1981,
+      "to": 1991
+    },
+    {
+      "conference": "MVC",
+      "from": 1992,
+      "to": 2016
+    },
+    {
+      "conference": "AAC",
+      "from": 2017,
+      "to": 2024
+    },
+    {
+      "conference": "American",
+      "from": 2025,
+      "to": 2025
+    }
+  ],
+  "William &amp; Mary (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "ECACS",
+      "from": 1983,
+      "to": 1984
+    },
+    {
+      "conference": "CAA",
+      "from": 1985,
+      "to": 2025
+    }
+  ],
+  "Winthrop (W)": [
+    {
+      "conference": "Ind",
+      "from": 1985,
+      "to": 1985
+    },
+    {
+      "conference": "Big South",
+      "from": 1986,
+      "to": 2025
+    }
+  ],
+  "Wisconsin (W)": [
+    {
+      "conference": "Big Ten",
+      "from": 1981,
+      "to": 2025
+    }
+  ],
+  "Wofford (W)": [
+    {
+      "conference": "Ind",
+      "from": 1995,
+      "to": 1996
+    },
+    {
+      "conference": "Southern",
+      "from": 1997,
+      "to": 2025
+    }
+  ],
+  "Wright State (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1989
+    },
+    {
+      "conference": "North Star",
+      "from": 1990,
+      "to": 1991
+    },
+    {
+      "conference": "Mid-Cont",
+      "from": 1992,
+      "to": 1993
+    },
+    {
+      "conference": "MW Coll",
+      "from": 1994,
+      "to": 2000
+    },
+    {
+      "conference": "Horizon",
+      "from": 2001,
+      "to": 2025
+    }
+  ],
+  "Wyoming (W)": [
+    {
+      "conference": "IAC",
+      "from": 1981,
+      "to": 1981
+    },
+    {
+      "conference": "HCAC",
+      "from": 1982,
+      "to": 1989
+    },
+    {
+      "conference": "WAC",
+      "from": 1990,
+      "to": 1998
+    },
+    {
+      "conference": "MWC",
+      "from": 1999,
+      "to": 2025
+    }
+  ],
+  "Xavier (W)": [
+    {
+      "conference": "Ind",
+      "from": 1981,
+      "to": 1982
+    },
+    {
+      "conference": "North Star",
+      "from": 1983,
+      "to": 1985
+    },
+    {
+      "conference": "MW Coll",
+      "from": 1986,
+      "to": 1994
+    },
+    {
+      "conference": "A-10",
+      "from": 1995,
+      "to": 2012
+    },
+    {
+      "conference": "Big East",
+      "from": 2013,
+      "to": 2025
+    }
+  ],
+  "Yale (W)": [
+    {
+      "conference": "Ivy",
+      "from": 1981,
+      "to": 2025
+    }
+  ],
+  "Youngstown State (W)": [
+    {
+      "conference": "OVC",
+      "from": 1981,
+      "to": 1987
+    },
+    {
+      "conference": "Ind",
+      "from": 1988,
+      "to": 1991
+    },
+    {
+      "conference": "Mid-Cont",
+      "from": 1992,
+      "to": 2000
+    },
+    {
+      "conference": "Horizon",
+      "from": 2001,
+      "to": 2025
+    }
   ]
 }

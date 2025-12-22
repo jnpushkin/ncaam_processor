@@ -784,29 +784,16 @@ def get_conference_for_date(
     if year:
         try:
             from .school_history_scraper import get_conference_for_school
-            historical_conf = get_conference_for_school(team_name, year)
+            historical_conf = get_conference_for_school(team_name, year, gender)
             if historical_conf:
                 return historical_conf
             # Also try canonical name
             if canonical != team_name:
-                historical_conf = get_conference_for_school(canonical, year)
+                historical_conf = get_conference_for_school(canonical, year, gender)
                 if historical_conf:
                     return historical_conf
         except ImportError:
-            pass  # Module not available, try old method
-
-        # Fall back to conference-based scrape (less accurate but more coverage)
-        try:
-            from .conference_history import get_conference_for_year
-            historical_conf = get_conference_for_year(team_name, year, gender)
-            if historical_conf:
-                return historical_conf
-            if canonical != team_name:
-                historical_conf = get_conference_for_year(canonical, year, gender)
-                if historical_conf:
-                    return historical_conf
-        except ImportError:
-            pass
+            pass  # Module not available
 
     # Fall back to current conference
     return get_conference(canonical)

@@ -242,19 +242,29 @@ def load_school_history() -> Dict[str, List[Dict]]:
         return json.load(f)
 
 
-def get_conference_for_school(school: str, year: int) -> Optional[str]:
+def get_conference_for_school(school: str, year: int, gender: str = 'M') -> Optional[str]:
     """
     Get the conference a school was in for a specific year.
 
     Args:
         school: School name
         year: Year to look up
+        gender: 'M' for men's, 'W' for women's
 
     Returns:
         Conference name or None
     """
     history = load_school_history()
 
+    # For women's, try with (W) suffix first
+    if gender == 'W':
+        key = f"{school} (W)"
+        if key in history:
+            for membership in history[key]:
+                if membership['from'] <= year <= membership['to']:
+                    return membership['conference']
+
+    # Try without suffix (men's or fallback)
     if school not in history:
         return None
 
