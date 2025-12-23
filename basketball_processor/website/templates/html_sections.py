@@ -111,6 +111,7 @@ def get_body(total_games: int, total_players: int, total_teams: int, total_venue
             <div class="sub-tabs">
                 <button class="sub-tab active" onclick="showSubSection('games', 'log')">All Games</button>
                 <button class="sub-tab" onclick="showSubSection('games', 'records')">Records</button>
+                <button class="sub-tab" onclick="showSubSection('games', 'seasons')">Season Stats</button>
             </div>
 
             <div id="games-log" class="sub-section active">
@@ -215,6 +216,32 @@ def get_body(total_games: int, total_players: int, total_teams: int, total_venue
                     <div class="records-section">
                         <h3>100+ Point Games</h3>
                         <div id="records-100pt" class="records-list"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="games-seasons" class="sub-section">
+                <p style="margin-bottom: 1rem; color: var(--text-secondary);">Compare your game attendance across seasons.</p>
+                <div class="season-stats-container">
+                    <div class="season-chart-container" style="height: 300px; margin-bottom: 2rem;">
+                        <canvas id="season-chart"></canvas>
+                    </div>
+                    <div class="season-summary" id="season-summary"></div>
+                    <div class="table-container" style="margin-top: 1rem;">
+                        <table id="season-table" aria-label="Season Statistics">
+                            <thead>
+                                <tr>
+                                    <th>Season</th>
+                                    <th>Games</th>
+                                    <th>Teams</th>
+                                    <th>Players</th>
+                                    <th>Venues</th>
+                                    <th>Avg Score</th>
+                                    <th>OT Games</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
                     </div>
                 </div>
             </div>

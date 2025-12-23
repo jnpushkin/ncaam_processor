@@ -3910,6 +3910,170 @@ def get_javascript(json_data: str) -> str:
             updateURL('compare', { p1: id1, p2: id2 });
         }
 
+        // Season stats chart
+        let seasonChart = null;
+
+        function getSeasonFromDate(dateSort) {
+            // dateSort is YYYYMMDD format
+            if (!dateSort || dateSort.length !== 8) return null;
+            const year = parseInt(dateSort.substring(0, 4));
+            const month = parseInt(dateSort.substring(4, 6));
+            // Basketball season: Nov-Apr spans two calendar years
+            // Nov-Dec = first year of season, Jan-Apr = second year
+            if (month >= 11) {
+                return `${year}-${String(year + 1).slice(-2)}`;
+            } else if (month <= 4) {
+                return `${year - 1}-${String(year).slice(-2)}`;
+            } else {
+                // May-Oct = off-season, assign to upcoming season
+                return `${year}-${String(year + 1).slice(-2)}`;
+            }
+        }
+
+        function populateSeasonStats() {
+            const games = DATA.games || [];
+            if (games.length === 0) return;
+
+            // Aggregate stats by season
+            const seasonData = {};
+
+            games.forEach(game => {
+                const season = getSeasonFromDate(game.DateSort);
+                if (!season) return;
+
+                if (!seasonData[season]) {
+                    seasonData[season] = {
+                        games: 0,
+                        teams: new Set(),
+                        players: new Set(),
+                        venues: new Set(),
+                        totalScore: 0,
+                        otGames: 0
+                    };
+                }
+
+                const s = seasonData[season];
+                s.games++;
+                if (game['Away Team']) s.teams.add(game['Away Team']);
+                if (game['Home Team']) s.teams.add(game['Home Team']);
+                if (game.Venue) s.venues.add(game.Venue);
+                s.totalScore += (game['Away Score'] || 0) + (game['Home Score'] || 0);
+                if (game.OT || (game.Linescore && Object.keys(game.Linescore).some(k => k.includes('OT')))) {
+                    s.otGames++;
+                }
+            });
+
+            // Get players per season from player games data
+            const playerGames = DATA.playerGames || [];
+            playerGames.forEach(pg => {
+                const season = getSeasonFromDate(pg.DateSort);
+                if (season && seasonData[season]) {
+                    if (pg['Player ID']) seasonData[season].players.add(pg['Player ID']);
+                }
+            });
+
+            // Convert to sorted array
+            const seasons = Object.keys(seasonData).sort();
+            const stats = seasons.map(season => ({
+                season,
+                games: seasonData[season].games,
+                teams: seasonData[season].teams.size,
+                players: seasonData[season].players.size,
+                venues: seasonData[season].venues.size,
+                avgScore: seasonData[season].games > 0
+                    ? Math.round(seasonData[season].totalScore / seasonData[season].games)
+                    : 0,
+                otGames: seasonData[season].otGames
+            }));
+
+            // Populate table
+            const tbody = document.querySelector('#season-table tbody');
+            if (tbody) {
+                tbody.innerHTML = stats.map(s => `
+                    <tr>
+                        <td><strong>${s.season}</strong></td>
+                        <td>${s.games}</td>
+                        <td>${s.teams}</td>
+                        <td>${s.players}</td>
+                        <td>${s.venues}</td>
+                        <td>${s.avgScore}</td>
+                        <td>${s.otGames}</td>
+                    </tr>
+                `).join('');
+            }
+
+            // Create chart
+            if (seasonChart) seasonChart.destroy();
+            const ctx = document.getElementById('season-chart');
+            if (!ctx) return;
+
+            seasonChart = new Chart(ctx.getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: seasons,
+                    datasets: [
+                        {
+                            label: 'Games',
+                            data: stats.map(s => s.games),
+                            backgroundColor: '#003087',
+                            yAxisID: 'y'
+                        },
+                        {
+                            label: 'Teams',
+                            data: stats.map(s => s.teams),
+                            backgroundColor: '#27ae60',
+                            yAxisID: 'y'
+                        },
+                        {
+                            label: 'Venues',
+                            data: stats.map(s => s.venues),
+                            backgroundColor: '#9b59b6',
+                            yAxisID: 'y'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: true },
+                        title: { display: true, text: 'Season-over-Season Comparison' }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: { display: true, text: 'Count' }
+                        }
+                    }
+                }
+            });
+
+            // Summary
+            const summary = document.getElementById('season-summary');
+            if (summary && stats.length > 0) {
+                const totalGames = stats.reduce((sum, s) => sum + s.games, 0);
+                const avgPerSeason = Math.round(totalGames / stats.length);
+                const bestSeason = stats.reduce((best, s) => s.games > best.games ? s : best, stats[0]);
+
+                summary.innerHTML = `
+                    <div class="summary-cards" style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                        <div class="stat-card" style="background: var(--bg-secondary); padding: 1rem; border-radius: 8px; text-align: center; min-width: 120px;">
+                            <div style="font-size: 1.5rem; font-weight: bold; color: var(--primary);">${stats.length}</div>
+                            <div style="color: var(--text-secondary);">Seasons</div>
+                        </div>
+                        <div class="stat-card" style="background: var(--bg-secondary); padding: 1rem; border-radius: 8px; text-align: center; min-width: 120px;">
+                            <div style="font-size: 1.5rem; font-weight: bold; color: var(--primary);">${avgPerSeason}</div>
+                            <div style="color: var(--text-secondary);">Avg Games/Season</div>
+                        </div>
+                        <div class="stat-card" style="background: var(--bg-secondary); padding: 1rem; border-radius: 8px; text-align: center; min-width: 120px;">
+                            <div style="font-size: 1.5rem; font-weight: bold; color: var(--primary);">${bestSeason.season}</div>
+                            <div style="color: var(--text-secondary);">Best Season (${bestSeason.games} games)</div>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
         function showChart(type) {
             document.querySelectorAll('#charts .sub-tab').forEach(t => t.classList.remove('active'));
             // Find and activate the button for this chart type
@@ -4138,6 +4302,7 @@ def get_javascript(json_data: str) -> str:
         try { initChecklist(); } catch(e) { console.error('initChecklist:', e); }
         try { initOnThisDay(); } catch(e) { console.error('initOnThisDay:', e); }
         try { populateBadges(); } catch(e) { console.error('populateBadges:', e); }
+        try { populateSeasonStats(); } catch(e) { console.error('populateSeasonStats:', e); }
         try { showChart('scoring'); } catch(e) { console.error('showChart:', e); }
 
         // Handle URL on load
