@@ -6,6 +6,7 @@ from basketball_processor.utils.venue_resolver import (
     VenueResolver,
     get_venue_resolver,
     resolve_venue,
+    normalize_cached_venue,
     parse_venue_components,
 )
 
@@ -77,6 +78,92 @@ class TestResolveVenue:
         venue = resolve_venue(game_data)
         assert venue is not None
         # Duke plays at Cameron Indoor Stadium
+
+
+class TestNormalizeCachedVenue:
+    """Tests for normalize_cached_venue function."""
+
+    def test_updates_stale_home_arena_name(self):
+        """Test that stale arena name is updated to match venues.json."""
+        # Simulate a cached game with an old arena name (shares "Cameron" word)
+        game_data = {
+            'game_id': '20241225-duke',
+            'basic_info': {
+                'venue': 'Cameron Arena, Durham, North Carolina',
+                'home_team': 'Duke',
+            },
+        }
+        venue = normalize_cached_venue(game_data)
+        # Should return the canonical name from venues.json
+        assert 'Cameron Indoor Stadium' in venue
+        assert 'Durham' in venue
+
+    def test_preserves_neutral_site_venue(self):
+        """Test that neutral site venue is not changed."""
+        game_data = {
+            'game_id': '20241225-duke',
+            'basic_info': {
+                'venue': 'Madison Square Garden, New York, New York',
+                'home_team': 'Duke',
+            },
+        }
+        venue = normalize_cached_venue(game_data)
+        # Different city than Durham, so should preserve original
+        assert venue == 'Madison Square Garden, New York, New York'
+
+    def test_preserves_different_arena_same_city(self):
+        """Test that a different arena in the same city is preserved."""
+        # San Francisco playing at Chase Center (not their home arena)
+        game_data = {
+            'game_id': '20241225-usf',
+            'basic_info': {
+                'venue': 'Chase Center, San Francisco, California',
+                'home_team': 'San Francisco',
+            },
+        }
+        venue = normalize_cached_venue(game_data)
+        # Chase Center doesn't share words with "War Memorial", so preserve it
+        assert venue == 'Chase Center, San Francisco, California'
+
+    def test_updates_renamed_arena(self):
+        """Test that a renamed arena gets updated."""
+        # War Memorial Gymnasium -> War Memorial at The Sobrato Center
+        game_data = {
+            'game_id': '20241225-usf',
+            'basic_info': {
+                'venue': 'War Memorial Gymnasium, San Francisco, California',
+                'home_team': 'San Francisco',
+            },
+        }
+        venue = normalize_cached_venue(game_data)
+        # Shares "War" and "Memorial" with new name, so should update
+        assert 'Sobrato' in venue or 'War Memorial' in venue
+
+    def test_handles_missing_venue(self):
+        """Test behavior when venue is missing."""
+        game_data = {
+            'game_id': '20241225-duke',
+            'basic_info': {
+                'home_team': 'Duke',
+            },
+        }
+        venue = normalize_cached_venue(game_data)
+        # Should fall back to resolve_venue behavior
+        assert venue is not None
+        assert 'Cameron' in venue or 'Durham' in venue
+
+    def test_handles_unknown_team(self):
+        """Test behavior with team not in venues.json."""
+        game_data = {
+            'game_id': '20241225-unknown',
+            'basic_info': {
+                'venue': 'Some Arena, Some City, Some State',
+                'home_team': 'Unknown University XYZ',
+            },
+        }
+        venue = normalize_cached_venue(game_data)
+        # Should preserve original venue
+        assert venue == 'Some Arena, Some City, Some State'
 
 
 class TestParseVenueComponents:

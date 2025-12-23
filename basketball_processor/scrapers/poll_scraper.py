@@ -236,7 +236,7 @@ def load_existing_polls(gender: str = 'M') -> Dict[str, Dict[str, Dict[str, int]
     return {}
 
 
-def save_polls(all_polls: Dict[str, Dict[str, Dict[str, int]]], gender: str = 'M'):
+def save_polls(all_polls: Dict[str, Dict[str, Dict[str, int]]], gender: str = 'M') -> None:
     """Save polls data to JSON file."""
     REFERENCES_DIR.mkdir(parents=True, exist_ok=True)
     polls_file = get_polls_file(gender)
@@ -342,7 +342,7 @@ def get_rankings_for_game(away_team: str, home_team: str, game_date: str, season
     return away_rank, home_rank
 
 
-def main():
+def main() -> None:
     """CLI entry point."""
     import argparse
 

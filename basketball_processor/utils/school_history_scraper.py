@@ -257,7 +257,7 @@ def _get_last_refresh_time() -> Optional[float]:
         return None
 
 
-def _save_refresh_timestamp():
+def _save_refresh_timestamp() -> None:
     """Save current time as last refresh timestamp."""
     os.makedirs(DATA_DIR, exist_ok=True)
     with open(REFRESH_TIMESTAMP_FILE, 'w') as f:
@@ -434,7 +434,7 @@ def _refresh_school(slug: str, gender: str, existing_history: List[Dict]) -> Opt
     return existing_history
 
 
-def refresh_current_season(include_women: bool = True):
+def refresh_current_season(include_women: bool = True) -> None:
     """
     Refresh conference data for the current season only.
 
@@ -524,7 +524,7 @@ def refresh_current_season(include_women: bool = True):
     print("Done!")
 
 
-def run_scrape(gender: str = 'men', test_mode: bool = False, include_women: bool = False):
+def run_scrape(gender: str = 'men', test_mode: bool = False, include_women: bool = False) -> None:
     """
     Run the full scrape and save results.
 

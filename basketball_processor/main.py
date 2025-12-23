@@ -8,12 +8,13 @@ import json
 import argparse
 import traceback
 import re
+import subprocess
 from pathlib import Path
 from typing import Dict, List, Any, Optional
 
 from .excel.workbook_generator import generate_excel_workbook
 from .parsers.html_parser import parse_sports_reference_boxscore, HTMLParsingError
-from .utils.constants import BASE_DIR, DEFAULT_INPUT_DIR, CACHE_DIR
+from .utils.constants import BASE_DIR, DEFAULT_INPUT_DIR, CACHE_DIR, DEFAULT_HTML_OUTPUT, SURGE_DOMAIN
 from .utils.log import info, warn, error, success, debug, set_verbosity, set_use_emoji
 from .website import generate_website_from_data
 
@@ -214,6 +215,30 @@ def process_directory_or_file(input_path: str, gender: str = 'M') -> List[Dict[s
     return all_games_data
 
 
+def _deploy_to_surge(html_path: str) -> None:
+    """Deploy the website to surge.sh."""
+    docs_dir = os.path.dirname(html_path)
+
+    info(f"\nDeploying to {SURGE_DOMAIN}...")
+    try:
+        result = subprocess.run(
+            ["/opt/homebrew/bin/npx", "surge", docs_dir, SURGE_DOMAIN],
+            capture_output=True,
+            text=True,
+            timeout=120
+        )
+        if result.returncode == 0:
+            success(f"Deployed to https://{SURGE_DOMAIN}")
+        else:
+            warn(f"Surge deployment failed: {result.stderr}")
+    except subprocess.TimeoutExpired:
+        warn("Surge deployment timed out")
+    except FileNotFoundError:
+        warn("npx not found - skipping surge deployment")
+    except Exception as e:
+        warn(f"Surge deployment error: {e}")
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(
         description="College Basketball Game Processor - Parse HTML box scores and generate statistics"
@@ -228,6 +253,11 @@ def main() -> None:
         '--output-excel',
         default=str(BASE_DIR / 'Basketball_Stats.xlsx'),
         help='Excel output filename'
+    )
+    parser.add_argument(
+        '--output-html',
+        default=str(DEFAULT_HTML_OUTPUT),
+        help='HTML website output filename'
     )
     parser.add_argument(
         '--gender',
@@ -270,6 +300,11 @@ def main() -> None:
         action='store_true',
         help='Skip NBA/WNBA player lookups (faster website generation)'
     )
+    parser.add_argument(
+        '--no-deploy',
+        action='store_true',
+        help='Skip automatic surge deployment'
+    )
 
     args = parser.parse_args()
 
@@ -296,7 +331,7 @@ def main() -> None:
     # Load game data
     if args.from_cache_only:
         info("Loading games from cache only...")
-        from .utils.venue_resolver import resolve_venue
+        from .utils.venue_resolver import normalize_cached_venue
         games_data = []
         # Skip non-game cache files
         skip_files = {'nba_lookup_cache.json', 'nba_api_cache.json'}
@@ -305,10 +340,11 @@ def main() -> None:
                 continue
             with open(file, 'r', encoding='utf-8') as f:
                 game = json.load(f)
-                # Re-apply venue resolution to pick up any overrides
-                resolved_venue = resolve_venue(game)
-                if resolved_venue:
-                    game['basic_info']['venue'] = resolved_venue
+                # Normalize venue names to match current venues.json
+                # This handles arena renames while preserving neutral site venues
+                normalized_venue = normalize_cached_venue(game)
+                if normalized_venue:
+                    game['basic_info']['venue'] = normalized_venue
                 games_data.append(game)
     else:
         games_data = process_directory_or_file(args.input_path, args.gender)
@@ -324,62 +360,40 @@ def main() -> None:
             json.dump(games_data, json_file, indent=2)
         info(f"JSON data saved to {json_output}")
 
+    # Determine what to generate
+    generate_excel = not args.website_only
+    generate_website = not args.excel_only
+
     # Generate outputs
     try:
-        if args.website_only:
-            info("\nWebsite-only mode: Processing data without writing Excel...")
+        # Remove existing Excel file if we're writing a new one
+        if generate_excel and os.path.exists(args.output_excel):
+            debug(f"Removing existing file: {args.output_excel}")
+            os.remove(args.output_excel)
 
-            processed_data = generate_excel_workbook(
-                games_data,
-                args.output_excel,
-                write_file=False
-            )
+        # Process data (always needed for both outputs)
+        info(f"\nGenerating {'Excel and website' if generate_excel and generate_website else 'Excel' if generate_excel else 'website'}...")
+        processed_data = generate_excel_workbook(
+            games_data,
+            args.output_excel,
+            write_file=generate_excel
+        )
 
-            html_path = args.output_excel.replace('.xlsx', '.html')
+        # Generate website if requested
+        if generate_website:
             processed_data['_raw_games'] = games_data
-            generate_website_from_data(processed_data, html_path, skip_nba=args.skip_nba)
+            generate_website_from_data(processed_data, args.output_html, skip_nba=args.skip_nba)
 
-            success("\nProcessing complete!")
-            info(f"Website: {os.path.abspath(html_path)}")
-
-        elif args.excel_only:
-            info("\nExcel-only mode: Skipping website generation...")
-
-            if os.path.exists(args.output_excel):
-                debug(f"Removing existing file: {args.output_excel}")
-                os.remove(args.output_excel)
-
-            processed_data = generate_excel_workbook(
-                games_data,
-                args.output_excel,
-                write_file=True
-            )
-
-            success("\nProcessing complete!")
+        # Report results
+        success("\nProcessing complete!")
+        if generate_excel:
             info(f"Excel: {os.path.abspath(args.output_excel)}")
+        if generate_website:
+            info(f"Website: {os.path.abspath(args.output_html)}")
 
-        else:
-            info("\nGenerating both Excel and website...")
-
-            if os.path.exists(args.output_excel):
-                debug(f"Removing existing file: {args.output_excel}")
-                os.remove(args.output_excel)
-
-            processed_data = generate_excel_workbook(
-                games_data,
-                args.output_excel,
-                write_file=True
-            )
-
-            info("\nExcel complete, generating website...")
-
-            html_path = args.output_excel.replace('.xlsx', '.html')
-            processed_data['_raw_games'] = games_data
-            generate_website_from_data(processed_data, html_path, skip_nba=args.skip_nba)
-
-            success("\nProcessing complete!")
-            info(f"Excel: {os.path.abspath(args.output_excel)}")
-            info(f"Website: {os.path.abspath(html_path)}")
+        # Deploy to surge if website was generated
+        if generate_website and not args.no_deploy:
+            _deploy_to_surge(args.output_html)
 
     except Exception as e:
         error(f"Error during processing: {str(e)}")

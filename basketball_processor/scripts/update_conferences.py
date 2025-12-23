@@ -159,7 +159,7 @@ def update_conferences(year: Optional[int] = None) -> Dict[str, List[str]]:
     return conferences
 
 
-def save_conferences(conferences: Dict[str, List[str]], output_path: Path):
+def save_conferences(conferences: Dict[str, List[str]], output_path: Path) -> None:
     """Save conference data to JSON file."""
     data = {
         '_metadata': {
@@ -176,7 +176,7 @@ def save_conferences(conferences: Dict[str, List[str]], output_path: Path):
     print(f"\nSaved to {output_path}")
 
 
-def main():
+def main() -> None:
     """Main entry point."""
     # Determine output path
     script_dir = Path(__file__).parent

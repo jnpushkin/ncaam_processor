@@ -39,6 +39,10 @@ CACHE_DIR = BASE_DIR / "cache"
 CACHE_DIR.mkdir(parents=True, exist_ok=True)
 REFERENCES_DIR = BASE_DIR / "basketball_references"
 DEFAULT_INPUT_DIR = BASE_DIR / "html_games"
+DEFAULT_HTML_OUTPUT = BASE_DIR / "docs" / "index.html"
+
+# === Deployment Configuration ===
+SURGE_DOMAIN = "basketball-processor.surge.sh"
 
 # === BASKETBALL STAT COLUMNS ===
 # Basic stats (matching data-stat attributes from Sports Reference)

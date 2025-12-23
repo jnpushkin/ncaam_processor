@@ -37,8 +37,8 @@ class VenueResolver:
 
         Priority:
         1. Game-specific override
-        2. Existing venue in game data
-        3. Home team's arena (only if likely a home game)
+        2. Home team's arena from venues.json (for home games)
+        3. Existing venue in game data (for neutral sites or unknown teams)
         4. Location from game data
 
         Args:
@@ -50,6 +50,7 @@ class VenueResolver:
         game_id = game_data.get('game_id', '')
         basic_info = game_data.get('basic_info', {})
         gender = game_data.get('gender', 'M')
+        location = basic_info.get('location', '')
 
         # Check for game-specific override first
         # Try full game_id, then without gender suffix (-m or -w)
@@ -67,7 +68,6 @@ class VenueResolver:
             return venue
 
         # Check location - if it's a known neutral site, don't assume home arena
-        location = basic_info.get('location', '')
         if self._is_likely_neutral_site(location, basic_info):
             return location if location else None
 
@@ -170,6 +170,89 @@ def get_venue_resolver() -> VenueResolver:
 def resolve_venue(game_data: Dict[str, Any]) -> Optional[str]:
     """Convenience function to resolve venue for a game."""
     return get_venue_resolver().resolve_venue(game_data)
+
+
+def normalize_cached_venue(game_data: Dict[str, Any]) -> Optional[str]:
+    """
+    Normalize venue name for a cached game to match current venues.json.
+
+    Use this when loading games from cache to ensure venue names stay
+    up-to-date when venues.json is edited (e.g., arena renames).
+
+    Only updates if:
+    - Game has an existing venue
+    - Home team has an entry in venues.json
+    - Existing venue appears to be the home arena (same city AND similar name)
+
+    Returns the normalized venue name, or the original if no update needed.
+    """
+    resolver = get_venue_resolver()
+    basic_info = game_data.get('basic_info', {})
+    existing_venue = basic_info.get('venue')
+    gender = game_data.get('gender', 'M')
+
+    if not existing_venue:
+        return resolve_venue(game_data)
+
+    home_team = basic_info.get('home_team', '')
+    if not home_team or home_team not in resolver.home_arenas:
+        return existing_venue
+
+    home_arena = resolver._get_arena_for_gender(home_team, gender)
+    if not home_arena:
+        return existing_venue
+
+    # Check if existing venue appears to be the same arena as home arena
+    # Must be same city AND have similar venue name (to catch renames)
+    if _is_same_arena(existing_venue, home_arena):
+        return home_arena
+
+    # Different arena (even if same city), keep original venue
+    return existing_venue
+
+
+def _is_same_arena(venue1: str, venue2: str) -> bool:
+    """
+    Check if two venue strings refer to the same arena.
+
+    Returns True if they're in the same city AND share significant words
+    in the venue name (to detect renames like "War Memorial Gymnasium" →
+    "War Memorial at The Sobrato Center").
+    """
+    if not venue1 or not venue2:
+        return False
+
+    parts1 = [p.strip() for p in venue1.split(',')]
+    parts2 = [p.strip() for p in venue2.split(',')]
+
+    # Need at least venue name and city
+    if len(parts1) < 2 or len(parts2) < 2:
+        return False
+
+    # Check if cities match (second-to-last part)
+    city1 = parts1[-2].lower() if len(parts1) >= 2 else ''
+    city2 = parts2[-2].lower() if len(parts2) >= 2 else ''
+
+    if city1 != city2:
+        return False
+
+    # Check if venue names share significant words
+    name1 = parts1[0].lower()
+    name2 = parts2[0].lower()
+
+    # Extract significant words (3+ chars, not common words)
+    common_words = {'the', 'at', 'center', 'arena', 'gymnasium', 'coliseum',
+                    'pavilion', 'fieldhouse', 'stadium', 'court', 'hall'}
+
+    words1 = {w for w in name1.split() if len(w) >= 3 and w not in common_words}
+    words2 = {w for w in name2.split() if len(w) >= 3 and w not in common_words}
+
+    # If either has no significant words, can't match by name
+    if not words1 or not words2:
+        return False
+
+    # Check for overlap - at least one significant word in common
+    return bool(words1 & words2)
 
 
 def parse_venue_components(venue_string: str) -> Dict[str, str]:

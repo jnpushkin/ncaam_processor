@@ -107,7 +107,7 @@ def generate_excel_workbook(
     return processed_data
 
 
-def _write_sheets(workbook, processed_data: Dict[str, Any]):
+def _write_sheets(workbook: xlsxwriter.Workbook, processed_data: Dict[str, Any]) -> None:
     """Write all sheets to the workbook."""
 
     # 1. Game Log
@@ -256,7 +256,7 @@ def _write_sheets(workbook, processed_data: Dict[str, Any]):
     _write_summary_sheet(workbook, processed_data)
 
 
-def _write_summary_sheet(workbook, processed_data: Dict[str, Any]):
+def _write_summary_sheet(workbook: xlsxwriter.Workbook, processed_data: Dict[str, Any]) -> None:
     """Write summary statistics sheet."""
     worksheet = workbook.add_worksheet('Summary')
 
