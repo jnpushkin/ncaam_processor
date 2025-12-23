@@ -1192,15 +1192,17 @@ def get_javascript(json_data: str) -> str:
                         // Badge for new venue
                         gameMilestones[gameId].badges.push({
                             type: 'venue',
-                            text: `${venue}${genderSuffix} (Venue #${venueNum})`,
-                            title: `${ordinal(venueNum)} different venue visited: ${venue}${genderSuffix}`
+                            text: `${venue} (Venue #${venueNum})`,
+                            title: `${ordinal(venueNum)} different venue visited: ${venue}`,
+                            gender: gender
                         });
                     } else if (MILESTONE_COUNTS.includes(venueVisitCount)) {
                         // Badge for milestone visit count to same venue
                         gameMilestones[gameId].badges.push({
                             type: 'venue',
-                            text: `${venue}${genderSuffix} #${venueVisitCount}`,
-                            title: `${ordinal(venueVisitCount)} game at ${venue}${genderSuffix}`
+                            text: `${venue} #${venueVisitCount}`,
+                            title: `${ordinal(venueVisitCount)} game at ${venue}`,
+                            gender: gender
                         });
                     }
                 }
@@ -2957,7 +2959,8 @@ def get_javascript(json_data: str) -> str:
                         date: game.Date,
                         gameId: game.GameID,
                         away: game['Away Team'],
-                        home: game['Home Team']
+                        home: game['Home Team'],
+                        gender: badge.gender || game.Gender || 'M'
                     };
 
                     allBadges.push(badgeWithContext);
@@ -3005,6 +3008,7 @@ def get_javascript(json_data: str) -> str:
             const html = sortedBadges.map(badge => {
                 const typeClass = `badge-type-${badge.type}`;
                 const iconClass = `badge-icon-${badge.type}`;
+                const genderSuffix = badge.gender === 'W' ? ' (W)' : '';
 
                 return `
                     <div class="badge-card ${typeClass}" onclick="showGameDetail('${badge.gameId}')" title="${badge.title}">
@@ -3012,7 +3016,7 @@ def get_javascript(json_data: str) -> str:
                             <div class="badge-icon ${iconClass}"></div>
                             <div>
                                 <div class="badge-title">${badge.text}</div>
-                                <div class="badge-subtitle">${badge.away} vs ${badge.home}</div>
+                                <div class="badge-subtitle">${badge.away}${genderSuffix} vs ${badge.home}${genderSuffix}</div>
                             </div>
                         </div>
                         <div class="badge-date">${badge.date}</div>
@@ -3129,6 +3133,42 @@ def get_javascript(json_data: str) -> str:
             if (!conf) return;
 
             const teams = conf.teams || [];
+            const teamCounts = window.badgeTrackingData?.teamCounts || {};
+
+            // Map official names to common abbreviations used in games
+            const teamAliases = {
+                'North Carolina': ['UNC', 'North Carolina'],
+                'Pittsburgh': ['Pitt', 'Pittsburgh'],
+                'USC': ['Southern California', 'USC'],
+                'UConn': ['Connecticut', 'UConn'],
+                'SMU': ['Southern Methodist', 'SMU'],
+                'UCF': ['Central Florida', 'UCF'],
+                'UNLV': ['Nevada-Las Vegas', 'UNLV'],
+                'VCU': ['Virginia Commonwealth', 'VCU'],
+                'LSU': ['Louisiana State', 'LSU'],
+                'Ole Miss': ['Mississippi', 'Ole Miss'],
+                'Miami (FL)': ['Miami', 'Miami (FL)'],
+                'Cal': ['California', 'Cal'],
+            };
+
+            // Helper to get team visit count (checks aliases)
+            function getTeamCount(teamName) {
+                const namesToCheck = teamAliases[teamName] || [teamName];
+
+                if (gender === 'M' || gender === 'W') {
+                    for (const name of namesToCheck) {
+                        const count = teamCounts[`${name}|${gender}`];
+                        if (count) return count;
+                    }
+                    return 0;
+                }
+                // For 'all', sum both genders across all aliases
+                let total = 0;
+                for (const name of namesToCheck) {
+                    total += (teamCounts[`${name}|M`] || 0) + (teamCounts[`${name}|W`] || 0);
+                }
+                return total;
+            }
 
             // Separate teams by seen/unseen and venues by visited/unvisited
             const seenTeams = [];
@@ -3152,6 +3192,7 @@ def get_javascript(json_data: str) -> str:
                     homeArena = team.homeArena;
                 }
                 team._homeArena = homeArena; // Store for display
+                team._visitCount = getTeamCount(team.team); // Store visit count
 
                 if (seen) {
                     seenTeams.push(team);
@@ -3178,7 +3219,7 @@ def get_javascript(json_data: str) -> str:
                 <div class="conf-team-item seen">
                     <span class="conf-team-check">✓</span>
                     <span class="conf-team-name">${t.team}</span>
-                    <span class="conf-team-count" style="margin-left: auto; color: var(--text-secondary);">${t.visitCount || 0}x</span>
+                    <span class="conf-team-count" style="margin-left: auto; color: var(--text-secondary);">${t._visitCount}x</span>
                 </div>
             `).join('') : '<p class="conf-team-empty">No teams seen yet</p>';
 

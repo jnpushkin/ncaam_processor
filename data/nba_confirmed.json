@@ -412,5 +412,370 @@
     "nba_games": 0,
     "is_active": false,
     "intl_url": "https://www.basketball-reference.com/international/players/aamir-simms-1.html"
+  },
+  "nate-laszewski-1": {
+    "sr_page_exists": true,
+    "intl_url": "https://www.basketball-reference.com/international/players/nate-laszewski-1.html"
+  },
+  "boogie-ellis-1": {
+    "sr_page_exists": true,
+    "nba_url": "https://www.basketball-reference.com/players/e/ellisbo03.html",
+    "nba_played": false,
+    "nba_games": 0,
+    "is_active": false,
+    "intl_url": "https://www.basketball-reference.com/international/players/boogie-ellis-1.html"
+  },
+  "justin-bibbs-1": {
+    "sr_page_exists": true,
+    "nba_url": "https://www.basketball-reference.com/players/b/bibbsju01.html",
+    "nba_played": false,
+    "nba_games": 0,
+    "is_active": false,
+    "intl_url": "https://www.basketball-reference.com/international/players/justin-bibbs-1.html"
+  },
+  "ebuka-izundu-1": {
+    "sr_page_exists": true,
+    "intl_url": "https://www.basketball-reference.com/international/players/ebuka-izundu-1.html"
+  },
+  "tony-bradley-1": {
+    "sr_page_exists": true,
+    "nba_url": "https://www.basketball-reference.com/players/b/bradlto01.html",
+    "nba_played": true,
+    "nba_games": 216,
+    "is_active": false
+  },
+  "marcus-santos-silva-1": {
+    "sr_page_exists": true,
+    "intl_url": "https://www.basketball-reference.com/international/players/marcus-santos-silva-1.html"
+  },
+  "kobe-johnson-1": {
+    "sr_page_exists": true,
+    "nba_url": "https://www.basketball-reference.com/players/j/johnsko01.html",
+    "nba_played": false,
+    "nba_games": 0,
+    "is_active": false
+  },
+  "prentiss-hubb-1": {
+    "sr_page_exists": true,
+    "intl_url": "https://www.basketball-reference.com/international/players/prentiss-hubb-1.html"
+  },
+  "tarik-phillip-1": {
+    "sr_page_exists": true,
+    "nba_url": "https://www.basketball-reference.com/players/p/phillta01.html",
+    "nba_played": false,
+    "nba_games": 0,
+    "is_active": false,
+    "intl_url": "https://www.basketball-reference.com/international/players/tarik-phillip-1.html"
+  },
+  "kerry-blackshearjr-1": {
+    "sr_page_exists": true,
+    "intl_url": "https://www.basketball-reference.com/international/players/kerry-blackshear-1.html"
+  },
+  "justin-jackson-4": {
+    "sr_page_exists": true,
+    "nba_url": "https://www.basketball-reference.com/players/j/jacksju01.html",
+    "nba_played": true,
+    "nba_games": 280,
+    "is_active": false
+  },
+  "vince-williams-2": {
+    "sr_page_exists": true,
+    "nba_url": "https://www.basketball-reference.com/players/w/willivi01.html",
+    "nba_played": true,
+    "nba_games": 116,
+    "is_active": false
+  },
+  "josh-okogie-1": {
+    "sr_page_exists": true,
+    "nba_url": "https://www.basketball-reference.com/players/o/okogijo01.html",
+    "nba_played": true,
+    "nba_games": 442,
+    "is_active": false,
+    "intl_url": "https://www.basketball-reference.com/international/players/josh-okogie-1.html"
+  },
+  "marcquise-reed-1": {
+    "sr_page_exists": true,
+    "intl_url": "https://www.basketball-reference.com/international/players/marcquise-reed-1.html"
+  },
+  "jaylen-hoard-1": {
+    "sr_page_exists": true,
+    "nba_url": "https://www.basketball-reference.com/players/h/hoardja01.html",
+    "nba_played": true,
+    "nba_games": 39,
+    "is_active": false,
+    "intl_url": "https://www.basketball-reference.com/international/players/jaylen-hoard-1.html"
+  },
+  "alijah-martin-1": {
+    "sr_page_exists": true,
+    "nba_url": "https://www.basketball-reference.com/players/m/martial01.html",
+    "nba_played": true,
+    "nba_games": 2,
+    "is_active": true
+  },
+  "teyvon-myers-1": {
+    "sr_page_exists": true,
+    "intl_url": "https://www.basketball-reference.com/international/players/teyvon-myers-1.html"
+  },
+  "landon-milbourne-1": {
+    "sr_page_exists": true,
+    "intl_url": "https://www.basketball-reference.com/international/players/landon-milbourne-1.html"
+  },
+  "kennedy-meeks-1": {
+    "sr_page_exists": true,
+    "nba_url": "https://www.basketball-reference.com/players/m/meekske01.html",
+    "nba_played": false,
+    "nba_games": 0,
+    "is_active": false,
+    "intl_url": "https://www.basketball-reference.com/international/players/kennedy-meeks-1.html"
+  },
+  "dwayne-sutton-1": {
+    "sr_page_exists": true,
+    "nba_url": "https://www.basketball-reference.com/players/s/suttodw01.html",
+    "nba_played": false,
+    "nba_games": 0,
+    "is_active": false
+  },
+  "matt-jones-3": {
+    "sr_page_exists": true,
+    "nba_url": "https://www.basketball-reference.com/players/j/jonesma04.html",
+    "nba_played": false,
+    "nba_games": 0,
+    "is_active": false
+  },
+  "harry-giles-1": {
+    "sr_page_exists": true,
+    "nba_url": "https://www.basketball-reference.com/players/g/gilesha01.html",
+    "nba_played": true,
+    "nba_games": 165,
+    "is_active": false,
+    "intl_url": "https://www.basketball-reference.com/international/players/harry-giles-iii-1.html"
+  },
+  "marques-bolden-1": {
+    "sr_page_exists": true,
+    "nba_url": "https://www.basketball-reference.com/players/b/boldema01.html",
+    "nba_played": true,
+    "nba_games": 18,
+    "is_active": false
+  },
+  "arnaldo-toro-1": {
+    "sr_page_exists": true,
+    "intl_url": "https://www.basketball-reference.com/international/players/arnaldo-toro-barea-1.html"
+  },
+  "anas-mahmoud-1": {
+    "sr_page_exists": true,
+    "intl_url": "https://www.basketball-reference.com/international/players/anas-mahmoud-1.html"
+  },
+  "amile-jefferson-1": {
+    "sr_page_exists": true,
+    "nba_url": "https://www.basketball-reference.com/players/j/jeffeam01.html",
+    "nba_played": true,
+    "nba_games": 30,
+    "is_active": false,
+    "intl_url": "https://www.basketball-reference.com/international/players/amile-jefferson-1.html"
+  },
+  "moussa-cisse-1": {
+    "sr_page_exists": true,
+    "nba_url": "https://www.basketball-reference.com/players/c/cissemo01.html",
+    "nba_played": true,
+    "nba_games": 19,
+    "is_active": true
+  },
+  "hassan-diarra-1": {
+    "sr_page_exists": true,
+    "intl_url": "https://www.basketball-reference.com/international/players/hassan-diarra-1.html"
+  },
+  "apostolos-roumoglou-1": {
+    "sr_page_exists": true,
+    "intl_url": "https://www.basketball-reference.com/international/players/apostolos-roumoglou-1.html"
+  },
+  "chase-fieler-1": {
+    "sr_page_exists": true,
+    "intl_url": "https://www.basketball-reference.com/international/players/chase-fieler-1.html"
+  },
+  "nayke-sanders-1": {
+    "sr_page_exists": true,
+    "intl_url": "https://www.basketball-reference.com/international/players/nakye-sanders-1.html"
+  },
+  "miye-oni-1": {
+    "sr_page_exists": true,
+    "nba_url": "https://www.basketball-reference.com/players/o/onimi01.html",
+    "nba_played": true,
+    "nba_games": 80,
+    "is_active": false,
+    "intl_url": "https://www.basketball-reference.com/international/players/miye-oni-1.html"
+  },
+  "trey-mcgowens-1": {
+    "sr_page_exists": true,
+    "nba_url": "https://www.basketball-reference.com/players/m/mcgowtr01.html",
+    "nba_played": false,
+    "nba_games": 0,
+    "is_active": false,
+    "intl_url": "https://www.basketball-reference.com/international/players/robert-mcgowens-1.html"
+  },
+  "michael-gilmore-1": {
+    "sr_page_exists": true,
+    "intl_url": "https://www.basketball-reference.com/international/players/michael-gilmore-1.html"
+  },
+  "elijah-thomas-1": {
+    "sr_page_exists": true,
+    "intl_url": "https://www.basketball-reference.com/international/players/elijah-thomas-1.html"
+  },
+  "frank-jackson-2": {
+    "sr_page_exists": true,
+    "nba_url": "https://www.basketball-reference.com/players/j/jacksfr01.html",
+    "nba_played": true,
+    "nba_games": 214,
+    "is_active": false,
+    "intl_url": "https://www.basketball-reference.com/international/players/frank-jackson-1.html"
+  },
+  "isaiah-mucius-1": {
+    "sr_page_exists": true,
+    "intl_url": "https://www.basketball-reference.com/international/players/isaiah-mucius-1.html"
+  },
+  "jack-white-1": {
+    "sr_page_exists": true,
+    "nba_url": "https://www.basketball-reference.com/players/w/whiteja03.html",
+    "nba_played": true,
+    "nba_games": 21,
+    "is_active": false,
+    "intl_url": "https://www.basketball-reference.com/international/players/jack-white-1.html"
+  },
+  "samson-johnson-1": {
+    "sr_page_exists": true,
+    "nba_url": "https://www.basketball-reference.com/players/j/johnssa01.html",
+    "nba_played": false,
+    "nba_games": 0,
+    "is_active": false
+  },
+  "anthony-lawrencejr-1": {
+    "sr_page_exists": true,
+    "nba_url": "https://www.basketball-reference.com/players/l/lawrean02.html",
+    "nba_played": false,
+    "nba_games": 0,
+    "is_active": false
+  },
+  "isaiah-hicks-1": {
+    "sr_page_exists": true,
+    "nba_url": "https://www.basketball-reference.com/players/h/hicksis01.html",
+    "nba_played": true,
+    "nba_games": 21,
+    "is_active": false
+  },
+  "luke-maye-1": {
+    "sr_page_exists": true,
+    "nba_url": "https://www.basketball-reference.com/players/m/mayelu01.html",
+    "nba_played": false,
+    "nba_games": 0,
+    "is_active": false,
+    "intl_url": "https://www.basketball-reference.com/international/players/luke-maye-1.html"
+  },
+  "taine-murray-1": {
+    "sr_page_exists": true,
+    "intl_url": "https://www.basketball-reference.com/international/players/taine-murray-1.html"
+  },
+  "nate-reuvers-1": {
+    "sr_page_exists": true,
+    "intl_url": "https://www.basketball-reference.com/international/players/nate-reuvers-1.html"
+  },
+  "adam-moussa-1": {
+    "sr_page_exists": true,
+    "intl_url": "https://www.basketball-reference.com/international/players/adam-moussa-1.html"
+  },
+  "david-skara-1": {
+    "sr_page_exists": true,
+    "intl_url": "https://www.basketball-reference.com/international/players/david-skara-1.html"
+  },
+  "malik-williams-1": {
+    "sr_page_exists": true,
+    "nba_url": "https://www.basketball-reference.com/players/w/willima11.html",
+    "nba_played": true,
+    "nba_games": 7,
+    "is_active": false
+  },
+  "darius-perry-1": {
+    "sr_page_exists": true,
+    "intl_url": "https://www.basketball-reference.com/international/players/darius-perry-1.html"
+  },
+  "yagizhan-selcuk-1": {
+    "sr_page_exists": true,
+    "intl_url": "https://www.basketball-reference.com/international/players/yagizhan-selcuk-1.html"
+  },
+  "josh-kunen-1": {
+    "sr_page_exists": true,
+    "intl_url": "https://www.basketball-reference.com/international/players/josh-kunen-1.html"
+  },
+  "nikola-djogo-1": {
+    "sr_page_exists": true,
+    "intl_url": "https://www.basketball-reference.com/international/players/nikola-djogo-1.html"
+  },
+  "dane-goodwin-1": {
+    "sr_page_exists": true,
+    "nba_url": "https://www.basketball-reference.com/players/g/goodwda02.html",
+    "nba_played": false,
+    "nba_games": 0,
+    "is_active": false
+  },
+  "chaundee-brown-1": {
+    "sr_page_exists": true,
+    "nba_url": "https://www.basketball-reference.com/players/b/brownch05.html",
+    "nba_played": true,
+    "nba_games": 5,
+    "is_active": false,
+    "intl_url": "https://www.basketball-reference.com/international/players/chaundee-brown-1.html"
+  },
+  "luka-krajnovic-1": {
+    "sr_page_exists": true,
+    "intl_url": "https://www.basketball-reference.com/international/players/luka-krajnovic-1.html"
+  },
+  "javin-delaurier-1": {
+    "sr_page_exists": true,
+    "nba_url": "https://www.basketball-reference.com/players/d/delauja01.html",
+    "nba_played": true,
+    "nba_games": 1,
+    "is_active": false,
+    "intl_url": "https://www.basketball-reference.com/international/players/javin-delaurier-1.html"
+  },
+  "ismaila-diagne-1": {
+    "sr_page_exists": true,
+    "intl_url": "https://www.basketball-reference.com/international/players/ismaila-diagne-1.html"
+  },
+  "sagaba-konate-1": {
+    "sr_page_exists": true,
+    "nba_url": "https://www.basketball-reference.com/players/k/konatsa01.html",
+    "nba_played": false,
+    "nba_games": 0,
+    "is_active": false,
+    "intl_url": "https://www.basketball-reference.com/international/players/sagaba-konate-1.html"
+  },
+  "malik-ellison-1": {
+    "sr_page_exists": true,
+    "nba_url": "https://www.basketball-reference.com/players/e/ellisma01.html",
+    "nba_played": false,
+    "nba_games": 0,
+    "is_active": false
+  },
+  "dino-gregory-1": {
+    "sr_page_exists": true,
+    "intl_url": "https://www.basketball-reference.com/international/players/dino-gregory-1.html"
+  },
+  "ahmed-hill-1": {
+    "sr_page_exists": true,
+    "nba_url": "https://www.basketball-reference.com/players/h/hillah01.html",
+    "nba_played": false,
+    "nba_games": 0,
+    "is_active": false,
+    "intl_url": "https://www.basketball-reference.com/international/players/ahmed-hill-1.html"
+  },
+  "dejan-vasiljevic-1": {
+    "sr_page_exists": true,
+    "nba_url": "https://www.basketball-reference.com/players/v/vasilde01.html",
+    "nba_played": false,
+    "nba_games": 0,
+    "is_active": false,
+    "intl_url": "https://www.basketball-reference.com/international/players/dejan-vasiljevic-1.html"
+  },
+  "khalid-moore-1": {
+    "sr_page_exists": true,
+    "intl_url": "https://www.basketball-reference.com/international/players/khalid-moore-1.html"
   }
 }

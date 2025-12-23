@@ -9,6 +9,38 @@ import json
 from ..utils.nba_players import get_nba_player_info_by_id, get_nba_status_batch, recheck_female_players_for_wnba
 
 
+# Team name normalization: map abbreviations to official names
+TEAM_NAME_MAP = {
+    'UNC': 'North Carolina',
+    'Pitt': 'Pittsburgh',
+    'UConn': 'Connecticut',
+    'USC': 'Southern California',
+    'VCU': 'Virginia Commonwealth',
+    'UCF': 'Central Florida',
+    'UNLV': 'Nevada-Las Vegas',
+    'SMU': 'Southern Methodist',
+    'LSU': 'Louisiana State',
+    'BYU': 'Brigham Young',
+    'TCU': 'Texas Christian',
+    'UTEP': 'Texas-El Paso',
+    'UTSA': 'Texas-San Antonio',
+    'UAB': 'Alabama-Birmingham',
+    'UMass': 'Massachusetts',
+    'UNH': 'New Hampshire',
+    'URI': 'Rhode Island',
+    'UCSB': 'UC Santa Barbara',
+    'UCLA': 'UCLA',  # Keep as-is (official name)
+    'Cal': 'California',
+}
+
+
+def normalize_team_name(name: str) -> str:
+    """Normalize team name abbreviations to official names."""
+    if not name:
+        return name
+    return TEAM_NAME_MAP.get(name, name)
+
+
 class DataSerializer:
     """Convert DataFrames to JSON format for website."""
 
@@ -308,6 +340,9 @@ class DataSerializer:
 
         records = df.to_dict('records')
 
+        # Columns that contain team names to normalize
+        team_columns = {'Team', 'Away Team', 'Home Team', 'Opponent'}
+
         # Clean up records
         cleaned = []
         for record in records:
@@ -319,6 +354,9 @@ class DataSerializer:
                 # Handle empty strings from fillna
                 if value == '':
                     value = None
+                # Normalize team names (UNC -> North Carolina, etc.)
+                elif key in team_columns and isinstance(value, str):
+                    value = normalize_team_name(value)
                 cleaned_record[key] = value
             cleaned.append(cleaned_record)
 
