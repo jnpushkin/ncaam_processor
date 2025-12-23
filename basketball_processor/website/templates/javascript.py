@@ -3947,7 +3947,6 @@ def get_javascript(json_data: str) -> str:
                         teams: new Set(),
                         players: new Set(),
                         venues: new Set(),
-                        totalScore: 0,
                         otGames: 0
                     };
                 }
@@ -3957,18 +3956,23 @@ def get_javascript(json_data: str) -> str:
                 if (game['Away Team']) s.teams.add(game['Away Team']);
                 if (game['Home Team']) s.teams.add(game['Home Team']);
                 if (game.Venue) s.venues.add(game.Venue);
-                s.totalScore += (game['Away Score'] || 0) + (game['Home Score'] || 0);
-                if (game.OT || (game.Linescore && Object.keys(game.Linescore).some(k => k.includes('OT')))) {
-                    s.otGames++;
+                // Check for OT in linescore
+                const linescore = game.Linescore;
+                if (linescore) {
+                    const awayOT = linescore.away?.OT || [];
+                    const homeOT = linescore.home?.OT || [];
+                    if (awayOT.length > 0 || homeOT.length > 0) {
+                        s.otGames++;
+                    }
                 }
             });
 
             // Get players per season from player games data
             const playerGames = DATA.playerGames || [];
             playerGames.forEach(pg => {
-                const season = getSeasonFromDate(pg.DateSort);
+                const season = getSeasonFromDate(pg.date_yyyymmdd);
                 if (season && seasonData[season]) {
-                    if (pg['Player ID']) seasonData[season].players.add(pg['Player ID']);
+                    if (pg.player_id) seasonData[season].players.add(pg.player_id);
                 }
             });
 
@@ -3980,9 +3984,6 @@ def get_javascript(json_data: str) -> str:
                 teams: seasonData[season].teams.size,
                 players: seasonData[season].players.size,
                 venues: seasonData[season].venues.size,
-                avgScore: seasonData[season].games > 0
-                    ? Math.round(seasonData[season].totalScore / seasonData[season].games)
-                    : 0,
                 otGames: seasonData[season].otGames
             }));
 
@@ -3996,7 +3997,6 @@ def get_javascript(json_data: str) -> str:
                         <td>${s.teams}</td>
                         <td>${s.players}</td>
                         <td>${s.venues}</td>
-                        <td>${s.avgScore}</td>
                         <td>${s.otGames}</td>
                     </tr>
                 `).join('');

@@ -236,7 +236,6 @@ def get_body(total_games: int, total_players: int, total_teams: int, total_venue
                                     <th>Teams</th>
                                     <th>Players</th>
                                     <th>Venues</th>
-                                    <th>Avg Score</th>
                                     <th>OT Games</th>
                                 </tr>
                             </thead>
