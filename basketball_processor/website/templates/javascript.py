@@ -1835,6 +1835,104 @@ def get_javascript(json_data: str) -> str:
             }).join('');
         }
 
+        // Upcoming Games section - games at unvisited venues
+        let upcomingGamesData = [];
+
+        function initUpcomingGames() {
+            const upcoming = DATA.upcomingGames || {};
+            upcomingGamesData = upcoming.games || [];
+
+            if (upcomingGamesData.length === 0) {
+                const tbody = document.querySelector('#upcoming-table tbody');
+                if (tbody) {
+                    tbody.innerHTML = '<tr><td colspan="6" class="empty-state"><h3>No upcoming games data</h3><p>Run the schedule scraper to load upcoming games.</p></td></tr>';
+                }
+                return;
+            }
+
+            // Populate state filter dropdown
+            const stateFilter = document.getElementById('upcoming-state-filter');
+            if (stateFilter && upcoming.stateBreakdown) {
+                const states = Object.entries(upcoming.stateBreakdown)
+                    .sort((a, b) => b[1] - a[1]); // Sort by game count
+
+                states.forEach(([state, count]) => {
+                    const option = document.createElement('option');
+                    option.value = state;
+                    option.textContent = `${state} (${count})`;
+                    stateFilter.appendChild(option);
+                });
+            }
+
+            // Initial filter
+            filterUpcomingGames();
+        }
+
+        function filterUpcomingGames() {
+            const stateFilter = document.getElementById('upcoming-state-filter')?.value || '';
+            const daysFilter = parseInt(document.getElementById('upcoming-days-filter')?.value) || 0;
+            const tvOnly = document.getElementById('upcoming-tv-filter')?.checked || false;
+
+            const now = new Date();
+
+            let filtered = upcomingGamesData.filter(game => {
+                // State filter
+                if (stateFilter && game.state !== stateFilter) return false;
+
+                // Days filter
+                if (daysFilter > 0) {
+                    const gameDate = new Date(game.date);
+                    const daysDiff = Math.ceil((gameDate - now) / (1000 * 60 * 60 * 24));
+                    if (daysDiff > daysFilter) return false;
+                }
+
+                // TV filter
+                if (tvOnly && (!game.tv || game.tv.length === 0)) return false;
+
+                return true;
+            });
+
+            // Group by venue to get unique venue count
+            const uniqueVenues = new Set(filtered.map(g => g.venue));
+
+            // Update summary
+            const summary = document.getElementById('upcoming-summary');
+            if (summary) {
+                summary.textContent = `${filtered.length} games at ${uniqueVenues.size} venues`;
+            }
+
+            // Populate table
+            const tbody = document.querySelector('#upcoming-table tbody');
+            if (!tbody) return;
+
+            if (filtered.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" class="empty-state"><h3>No games match filters</h3><p>Try adjusting your filters.</p></td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = filtered.slice(0, 200).map(game => {
+                const tvDisplay = game.tv && game.tv.length > 0
+                    ? game.tv.join(', ')
+                    : '<span style="color: var(--text-secondary);">—</span>';
+
+                return `
+                    <tr>
+                        <td style="white-space: nowrap;">${game.dateDisplay}</td>
+                        <td><strong>${game.awayTeamAbbrev}</strong> @ <strong>${game.homeTeamAbbrev}</strong></td>
+                        <td>${game.venue}</td>
+                        <td>${game.city}</td>
+                        <td>${game.state}</td>
+                        <td>${tvDisplay}</td>
+                    </tr>
+                `;
+            }).join('');
+
+            // Add note if truncated
+            if (filtered.length > 200) {
+                tbody.innerHTML += `<tr><td colspan="6" style="text-align: center; color: var(--text-secondary);">Showing first 200 of ${filtered.length} games. Use filters to narrow results.</td></tr>`;
+            }
+        }
+
         function populateRecords() {
             const games = DATA.games || [];
             if (games.length === 0) return;
@@ -4337,6 +4435,7 @@ def get_javascript(json_data: str) -> str:
         try { buildConferenceCrossover(); } catch(e) { console.error('buildConferenceCrossover:', e); }
         try { populateVenuesTable(); } catch(e) { console.error('populateVenuesTable:', e); }
         try { populateFutureProsTable(); } catch(e) { console.error('populateFutureProsTable:', e); }
+        try { initUpcomingGames(); } catch(e) { console.error('initUpcomingGames:', e); }
         try { populateRecords(); } catch(e) { console.error('populateRecords:', e); }
         try { populatePlayerRecords(); } catch(e) { console.error('populatePlayerRecords:', e); }
         try { initCalendar(); } catch(e) { console.error('initCalendar:', e); }

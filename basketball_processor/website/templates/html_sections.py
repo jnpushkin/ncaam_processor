@@ -99,6 +99,7 @@ def get_body(total_games: int, total_players: int, total_teams: int, total_venue
             <button class="tab" onclick="showSection('conferences')" role="tab" aria-selected="false" data-section="conferences" tabindex="-1">Conference Progress</button>
             <button class="tab" onclick="showSection('map')" role="tab" aria-selected="false" data-section="map" tabindex="-1">Map</button>
             <button class="tab" onclick="showSection('future-pros')" role="tab" aria-selected="false" data-section="future-pros" tabindex="-1">Future Pros</button>
+            <button class="tab" onclick="showSection('upcoming')" role="tab" aria-selected="false" data-section="upcoming" tabindex="-1">Upcoming</button>
         </div>
 
         <div id="games" class="section active" role="tabpanel">
@@ -767,6 +768,52 @@ def get_body(total_games: int, total_players: int, total_teams: int, total_venue
                             <th>PPG</th>
                             <th>Total Points</th>
                             <th>Pro Stats</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="upcoming" class="section" role="tabpanel">
+            <h2>Upcoming Games at New Venues</h2>
+            <p style="margin-bottom: 1rem; color: var(--text-secondary);">Plan your next trip - games at venues you haven't visited yet.</p>
+
+            <div class="filters-row" style="margin-bottom: 1rem; display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
+                <div class="filter-group">
+                    <label for="upcoming-state-filter">State:</label>
+                    <select id="upcoming-state-filter" onchange="filterUpcomingGames()">
+                        <option value="">All States</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="upcoming-days-filter">Time Range:</label>
+                    <select id="upcoming-days-filter" onchange="filterUpcomingGames()">
+                        <option value="">All Season</option>
+                        <option value="7">Next 7 Days</option>
+                        <option value="14">Next 2 Weeks</option>
+                        <option value="30" selected>Next 30 Days</option>
+                        <option value="60">Next 2 Months</option>
+                        <option value="90">Next 3 Months</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="upcoming-tv-filter">TV Only:</label>
+                    <input type="checkbox" id="upcoming-tv-filter" onchange="filterUpcomingGames()">
+                </div>
+                <div id="upcoming-summary" style="margin-left: auto; color: var(--text-secondary);"></div>
+            </div>
+
+            <div class="table-wrapper">
+                <table id="upcoming-table" class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Matchup</th>
+                            <th>Venue</th>
+                            <th>City</th>
+                            <th>State</th>
+                            <th>TV</th>
                         </tr>
                     </thead>
                     <tbody></tbody>

@@ -7,6 +7,10 @@ import pandas as pd
 import json
 
 from ..utils.nba_players import get_nba_player_info_by_id, get_nba_status_batch, recheck_female_players_for_wnba
+from ..utils.schedule_scraper import (
+    get_schedule, filter_upcoming_games, get_visited_venues_from_games,
+    SCHEDULE_CACHE_FILE, normalize_state
+)
 
 
 # Team name normalization: map abbreviations to official names
@@ -101,6 +105,7 @@ class DataSerializer:
             'homeAwaySplits': self._serialize_home_away_splits(),
             'attendanceStats': self._serialize_attendance_stats(),
             'conferenceChecklist': self._serialize_conference_checklist(),
+            'upcomingGames': self._serialize_upcoming_games(),
         }
 
     def _serialize_summary(self) -> Dict[str, Any]:
@@ -321,6 +326,65 @@ class DataSerializer:
             return []
 
         return self._df_to_records(venue_records)
+
+    def _serialize_upcoming_games(self) -> Dict[str, Any]:
+        """Serialize upcoming games at unvisited venues."""
+        # Get visited venues from games
+        games_data = self._serialize_games()
+        visited_venues = set()
+        for game in games_data:
+            venue = game.get('Venue', '')
+            city = game.get('City', '')
+            state = game.get('State', '')
+            if venue and city and state:
+                visited_venues.add(f"{venue}, {city}, {state}")
+
+        # Try to load schedule
+        if not SCHEDULE_CACHE_FILE.exists():
+            return {'games': [], 'error': 'No schedule cache. Run schedule scraper first.'}
+
+        try:
+            schedule = get_schedule(force_refresh=False)
+        except Exception as e:
+            return {'games': [], 'error': str(e)}
+
+        # Filter to upcoming games at unvisited venues
+        upcoming = filter_upcoming_games(schedule, visited_venues)
+
+        # Format for website
+        formatted_games = []
+        for game in upcoming:
+            formatted_games.append({
+                'date': game['date'],
+                'dateDisplay': game['date_display'],
+                'shortName': game['short_name'],
+                'homeTeam': game['home_team']['name'],
+                'homeTeamAbbrev': game['home_team']['abbreviation'],
+                'awayTeam': game['away_team']['name'],
+                'awayTeamAbbrev': game['away_team']['abbreviation'],
+                'venue': game['venue']['name'],
+                'city': game['venue']['city'],
+                'state': normalize_state(game['venue']['state']),
+                'tv': game.get('tv', []),
+                'neutralSite': game.get('neutral_site', False),
+                'conferenceGame': game.get('conference_game', False),
+            })
+
+        # Group by state for filtering
+        states = {}
+        for game in formatted_games:
+            state = game['state']
+            if state not in states:
+                states[state] = 0
+            states[state] += 1
+
+        return {
+            'games': formatted_games,
+            'totalGames': len(formatted_games),
+            'totalVenues': len(set(g['venue'] for g in formatted_games)),
+            'stateBreakdown': states,
+            'visitedVenueCount': len(visited_venues),
+        }
 
     def _serialize_player_games(self) -> List[Dict]:
         """Serialize per-game player stats."""
