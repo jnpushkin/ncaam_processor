@@ -2220,21 +2220,35 @@ def get_javascript(json_data: str) -> str:
 
             // Add markers for each venue
             Object.values(venueGames).forEach(v => {
-                // Try city coordinates first, then state center as fallback
-                const cityKey = `${v.city}, ${v.state}`;
-                let coords = CITY_COORDS[cityKey];
+                // Try to get coordinates from home team (most accurate), then city, then state
+                let coords = null;
                 let lat, lng;
 
+                // First: try home team from SCHOOL_COORDS (actual arena locations)
+                if (v.games.length > 0) {
+                    const homeTeam = v.games[0].homeTeam;
+                    coords = SCHOOL_COORDS[homeTeam];
+                }
+
                 if (coords) {
-                    // Use city coordinates with small offset for multiple venues in same city
-                    lat = coords[0] + (Math.random() - 0.5) * 0.02;
-                    lng = coords[1] + (Math.random() - 0.5) * 0.02;
+                    // Small offset for multiple venues at same school
+                    lat = coords[0] + (Math.random() - 0.5) * 0.01;
+                    lng = coords[1] + (Math.random() - 0.5) * 0.01;
                 } else {
-                    // Fall back to state center with larger random offset
-                    coords = STATE_COORDS[v.state];
-                    if (!coords) return;
-                    lat = coords[0] + (Math.random() - 0.5) * 2;
-                    lng = coords[1] + (Math.random() - 0.5) * 3;
+                    // Second: try city coordinates
+                    const cityKey = `${v.city}, ${v.state}`;
+                    coords = CITY_COORDS[cityKey];
+
+                    if (coords) {
+                        lat = coords[0] + (Math.random() - 0.5) * 0.02;
+                        lng = coords[1] + (Math.random() - 0.5) * 0.02;
+                    } else {
+                        // Third: fall back to state center
+                        coords = STATE_COORDS[v.state];
+                        if (!coords) return;
+                        lat = coords[0] + (Math.random() - 0.5) * 2;
+                        lng = coords[1] + (Math.random() - 0.5) * 3;
+                    }
                 }
                 v.lat = lat;
                 v.lng = lng;
