@@ -2076,6 +2076,92 @@ def get_javascript(json_data: str) -> str:
             'District of Columbia': [38.897438, -77.026817]
         };
 
+        // City coordinates for accurate venue placement
+        const CITY_COORDS = {
+            // Major cities
+            'Philadelphia, PA': [39.9526, -75.1652], 'Houston, TX': [29.7604, -95.3698],
+            'Chicago, IL': [41.8781, -87.6298], 'Nashville, TN': [36.1627, -86.7816],
+            'Washington, DC': [38.9072, -77.0369], 'Baltimore, MD': [39.2904, -76.6122],
+            'San Diego, CA': [32.7157, -117.1611], 'Los Angeles, CA': [34.0522, -118.2437],
+            'Charleston, SC': [32.7765, -79.9311], 'Atlanta, GA': [33.7490, -84.3880],
+            'Pittsburgh, PA': [40.4406, -79.9959], 'Jacksonville, FL': [30.3322, -81.6557],
+            'Richmond, VA': [37.5407, -77.4360], 'Seattle, WA': [47.6062, -122.3321],
+            'Fairfield, CT': [41.1408, -73.2637], 'Cincinnati, OH': [39.1031, -84.5120],
+            'Baton Rouge, LA': [30.4515, -91.1871], 'San Antonio, TX': [29.4241, -98.4936],
+            'Riverside, CA': [33.9533, -117.3962], 'Buffalo, NY': [42.8864, -78.8784],
+            'Spartanburg, SC': [34.9496, -81.9320], 'Portland, OR': [45.5152, -122.6784],
+            'Newark, NJ': [40.7357, -74.1724], 'Dayton, OH': [39.7589, -84.1916],
+            'Milwaukee, WI': [43.0389, -87.9065], 'Charlotte, NC': [35.2271, -80.8431],
+            'Syracuse, NY': [43.0481, -76.1474], 'Boston, MA': [42.3601, -71.0589],
+            'Tallahassee, FL': [30.4383, -84.2807], 'New Orleans, LA': [29.9511, -90.0715],
+            // California cities
+            'San Francisco, CA': [37.7749, -122.4194], 'Oakland, CA': [37.8044, -122.2712],
+            'Berkeley, CA': [37.8716, -122.2727], 'Stanford, CA': [37.4275, -122.1697],
+            'San Jose, CA': [37.3382, -121.8863], 'Sacramento, CA': [38.5816, -121.4944],
+            'Fresno, CA': [36.7378, -119.7871], 'Moraga, CA': [37.8349, -122.1297],
+            'Malibu, CA': [34.0259, -118.7798], 'Irvine, CA': [33.6846, -117.8265],
+            'Fullerton, CA': [33.8704, -117.9242], 'Long Beach, CA': [33.7701, -118.1937],
+            'Santa Barbara, CA': [34.4208, -119.6982], 'Davis, CA': [38.5449, -121.7405],
+            'Northridge, CA': [34.2381, -118.5302], 'Bakersfield, CA': [35.3733, -119.0187],
+            // Texas cities
+            'Austin, TX': [30.2672, -97.7431], 'Dallas, TX': [32.7767, -96.7970],
+            'Fort Worth, TX': [32.7555, -97.3308], 'Lubbock, TX': [33.5779, -101.8552],
+            'Waco, TX': [31.5493, -97.1467], 'College Station, TX': [30.6280, -96.3344],
+            'El Paso, TX': [31.7619, -106.4850], 'Denton, TX': [33.2148, -97.1331],
+            // Florida cities
+            'Miami, FL': [25.7617, -80.1918], 'Orlando, FL': [28.5383, -81.3792],
+            'Tampa, FL': [27.9506, -82.4572], 'Gainesville, FL': [29.6516, -82.3248],
+            'Coral Gables, FL': [25.7215, -80.2684], 'Boca Raton, FL': [26.3587, -80.0831],
+            // New York cities
+            'New York, NY': [40.7128, -74.0060], 'Brooklyn, NY': [40.6782, -73.9442],
+            'Albany, NY': [42.6526, -73.7562], 'Ithaca, NY': [42.4440, -76.5019],
+            'Rochester, NY': [43.1566, -77.6088], 'Hempstead, NY': [40.7062, -73.6187],
+            // Other major college towns
+            'Durham, NC': [35.9940, -78.8986], 'Raleigh, NC': [35.7796, -78.6382],
+            'Chapel Hill, NC': [35.9132, -79.0558], 'Greensboro, NC': [36.0726, -79.7920],
+            'Winston-Salem, NC': [36.0999, -80.2442], 'Lexington, KY': [38.0406, -84.5037],
+            'Louisville, KY': [38.2527, -85.7585], 'Indianapolis, IN': [39.7684, -86.1581],
+            'West Lafayette, IN': [40.4259, -86.9081], 'Bloomington, IN': [39.1653, -86.5264],
+            'South Bend, IN': [41.6764, -86.2520], 'Ann Arbor, MI': [42.2808, -83.7430],
+            'East Lansing, MI': [42.7369, -84.4839], 'Detroit, MI': [42.3314, -83.0458],
+            'Columbus, OH': [39.9612, -82.9988], 'Cleveland, OH': [41.4993, -81.6944],
+            'Akron, OH': [41.0814, -81.5190], 'Tucson, AZ': [32.2226, -110.9747],
+            'Tempe, AZ': [33.4255, -111.9400], 'Phoenix, AZ': [33.4484, -112.0740],
+            'Salt Lake City, UT': [40.7608, -111.8910], 'Provo, UT': [40.2338, -111.6585],
+            'Denver, CO': [39.7392, -104.9903], 'Boulder, CO': [40.0150, -105.2705],
+            'Fort Collins, CO': [40.5853, -105.0844], 'Albuquerque, NM': [35.0844, -106.6504],
+            'Las Vegas, NV': [36.1699, -115.1398], 'Reno, NV': [39.5296, -119.8138],
+            'Minneapolis, MN': [44.9778, -93.2650], 'St. Paul, MN': [44.9537, -93.0900],
+            'Madison, WI': [43.0731, -89.4012], 'Iowa City, IA': [41.6611, -91.5302],
+            'Ames, IA': [42.0308, -93.6319], 'Lawrence, KS': [38.9717, -95.2353],
+            'Manhattan, KS': [39.1836, -96.5717], 'Wichita, KS': [37.6872, -97.3301],
+            'Lincoln, NE': [40.8258, -96.6852], 'Omaha, NE': [41.2565, -95.9345],
+            'Norman, OK': [35.2226, -97.4395], 'Stillwater, OK': [36.1156, -97.0584],
+            'Tulsa, OK': [36.1540, -95.9928], 'Columbia, MO': [38.9517, -92.3341],
+            'St. Louis, MO': [38.6270, -90.1994], 'Kansas City, MO': [39.0997, -94.5786],
+            'Spokane, WA': [47.6588, -117.4260], 'Pullman, WA': [46.7298, -117.1817],
+            'Eugene, OR': [44.0521, -123.0868], 'Corvallis, OR': [44.5646, -123.2620],
+            'Boise, ID': [43.6150, -116.2023], 'Missoula, MT': [46.8721, -113.9940],
+            'Laramie, WY': [41.3114, -105.5911], 'Fayetteville, AR': [36.0626, -94.1574],
+            'Little Rock, AR': [34.7465, -92.2896], 'Auburn, AL': [32.6099, -85.4808],
+            'Tuscaloosa, AL': [33.2098, -87.5692], 'Birmingham, AL': [33.5207, -86.8025],
+            'Oxford, MS': [34.3665, -89.5192], 'Starkville, MS': [33.4504, -88.8184],
+            'Knoxville, TN': [35.9606, -83.9207], 'Memphis, TN': [35.1495, -90.0490],
+            'Athens, GA': [33.9519, -83.3576], 'Macon, GA': [32.8407, -83.6324],
+            'Clemson, SC': [34.6834, -82.8374], 'Columbia, SC': [34.0007, -81.0348],
+            'Gainesville, GA': [34.2979, -83.8241], 'Charlottesville, VA': [38.0293, -78.4767],
+            'Blacksburg, VA': [37.2296, -80.4139], 'Norfolk, VA': [36.8508, -76.2859],
+            'College Park, MD': [38.9897, -76.9378], 'Towson, MD': [39.3943, -76.6019],
+            'State College, PA': [40.7934, -77.8600], 'Villanova, PA': [40.0388, -75.3455],
+            'Providence, RI': [41.8240, -71.4128], 'Hartford, CT': [41.7658, -72.6734],
+            'Storrs, CT': [41.8084, -72.2495], 'New Haven, CT': [41.3083, -72.9279],
+            'Worcester, MA': [42.2626, -71.8023], 'Amherst, MA': [42.3732, -72.5199],
+            'Princeton, NJ': [40.3573, -74.6672], 'Piscataway, NJ': [40.4862, -74.4518],
+            'West Point, NY': [41.3915, -73.9566], 'Annapolis, MD': [38.9784, -76.4922],
+            'Colorado Springs, CO': [38.8339, -104.8214], 'Spokane, WA': [47.6588, -117.4260],
+            'Honolulu, HI': [21.3069, -157.8583], 'Anchorage, AK': [61.2181, -149.9003],
+        };
+
         let upcomingMapMarkers = [];
 
         function initUpcomingMap() {
@@ -2134,12 +2220,22 @@ def get_javascript(json_data: str) -> str:
 
             // Add markers for each venue
             Object.values(venueGames).forEach(v => {
-                const coords = STATE_COORDS[v.state];
-                if (!coords) return;
+                // Try city coordinates first, then state center as fallback
+                const cityKey = `${v.city}, ${v.state}`;
+                let coords = CITY_COORDS[cityKey];
+                let lat, lng;
 
-                // Add some randomization so venues in same state don't overlap
-                const lat = coords[0] + (Math.random() - 0.5) * 2;
-                const lng = coords[1] + (Math.random() - 0.5) * 3;
+                if (coords) {
+                    // Use city coordinates with small offset for multiple venues in same city
+                    lat = coords[0] + (Math.random() - 0.5) * 0.02;
+                    lng = coords[1] + (Math.random() - 0.5) * 0.02;
+                } else {
+                    // Fall back to state center with larger random offset
+                    coords = STATE_COORDS[v.state];
+                    if (!coords) return;
+                    lat = coords[0] + (Math.random() - 0.5) * 2;
+                    lng = coords[1] + (Math.random() - 0.5) * 3;
+                }
                 v.lat = lat;
                 v.lng = lng;
 
