@@ -417,7 +417,8 @@ def venue_matches(espn_venue: Dict[str, str], user_venue: str) -> bool:
     if _normalize_venue_name(espn_name) == _normalize_venue_name(user_name):
         return True
 
-    # Partial match - significant words overlap
+    # Partial match - require significant word overlap
+    # Must match at least one word of 5+ chars, or match 2+ words
     espn_words = set(_normalize_venue_name(espn_name).split())
     user_words = set(_normalize_venue_name(user_name).split())
 
@@ -427,7 +428,9 @@ def venue_matches(espn_venue: Dict[str, str], user_venue: str) -> bool:
 
     if espn_words and user_words:
         overlap = espn_words & user_words
-        if overlap:
+        # Require either: one 5+ char word match, or 2+ word matches
+        long_matches = [w for w in overlap if len(w) >= 5]
+        if long_matches or len(overlap) >= 2:
             return True
 
     return False

@@ -2218,6 +2218,54 @@ def get_javascript(json_data: str) -> str:
                 venueGames[key].games.push(game);
             });
 
+            // Helper to normalize ESPN team names to match SCHOOL_COORDS
+            function normalizeTeamName(name) {
+                if (!name) return name;
+
+                // Explicit ESPN -> SCHOOL_COORDS mappings
+                const explicitMappings = {
+                    'UMES': 'Maryland-Eastern Shore',
+                    'N Arizona': 'Northern Arizona',
+                    'N Colorado': 'Northern Colorado',
+                    'N Dakota': 'North Dakota',
+                    'N Dakota St': 'North Dakota State',
+                    'S Dakota': 'South Dakota',
+                    'S Dakota St': 'South Dakota State',
+                    'St Marys': "Saint Mary's (CA)",
+                    "Saint Mary's": "Saint Mary's (CA)",
+                    'Mount St Marys': "Mount St. Mary's",
+                    'App State': 'Appalachian State',
+                    'G Washington': 'George Washington',
+                    'UMass': 'Massachusetts',
+                    'UConn': 'Connecticut',
+                    'Ole Miss': 'Mississippi',
+                    'Pitt': 'Pittsburgh',
+                    'Miami': 'Miami (FL)',
+                    'FGCU': 'Florida Gulf Coast',
+                    'UNC': 'North Carolina',
+                    'VCU': 'Virginia Commonwealth',
+                    'UCF': 'Central Florida',
+                    'UNLV': 'Nevada-Las Vegas',
+                    'SMU': 'Southern Methodist',
+                    'LSU': 'Louisiana State',
+                    'BYU': 'Brigham Young',
+                    'TCU': 'Texas Christian',
+                };
+                if (explicitMappings[name]) return explicitMappings[name];
+
+                // Handle " St" suffix -> " State" (e.g., "Alabama St" -> "Alabama State")
+                if (name.endsWith(' St')) {
+                    return name.slice(0, -3) + ' State';
+                }
+
+                // Handle "St " prefix -> "Saint " (e.g., "St John's" -> "Saint John's")
+                if (name.startsWith('St ')) {
+                    return 'Saint ' + name.slice(3);
+                }
+
+                return name;
+            }
+
             // Add markers for each venue
             Object.values(venueGames).forEach(v => {
                 // Try to get coordinates from home team (most accurate), then city, then state
@@ -2227,7 +2275,8 @@ def get_javascript(json_data: str) -> str:
                 // First: try home team from SCHOOL_COORDS (actual arena locations)
                 if (v.games.length > 0) {
                     const homeTeam = v.games[0].homeTeam;
-                    coords = SCHOOL_COORDS[homeTeam];
+                    // Try direct match, then normalized name
+                    coords = SCHOOL_COORDS[homeTeam] || SCHOOL_COORDS[normalizeTeamName(homeTeam)];
                 }
 
                 if (coords) {
