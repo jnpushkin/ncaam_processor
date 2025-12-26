@@ -1837,10 +1837,14 @@ def get_javascript(json_data: str) -> str:
 
         // Upcoming Games section - games at unvisited venues
         let upcomingGamesData = [];
+        let upcomingTeamsData = {};
+        let selectedTeams = new Set();
+        let upcomingVenuesMap = null;
 
         function initUpcomingGames() {
             const upcoming = DATA.upcomingGames || {};
             upcomingGamesData = upcoming.games || [];
+            upcomingTeamsData = upcoming.teamBreakdown || {};
 
             if (upcomingGamesData.length === 0) {
                 const tbody = document.querySelector('#upcoming-table tbody');
@@ -1854,8 +1858,7 @@ def get_javascript(json_data: str) -> str:
             const stateFilter = document.getElementById('upcoming-state-filter');
             if (stateFilter && upcoming.stateBreakdown) {
                 const states = Object.entries(upcoming.stateBreakdown)
-                    .sort((a, b) => b[1] - a[1]); // Sort by game count
-
+                    .sort((a, b) => b[1] - a[1]);
                 states.forEach(([state, count]) => {
                     const option = document.createElement('option');
                     option.value = state;
@@ -1864,30 +1867,136 @@ def get_javascript(json_data: str) -> str:
                 });
             }
 
+            // Populate conference filter dropdown
+            const confFilter = document.getElementById('upcoming-conf-filter');
+            if (confFilter && upcoming.conferenceBreakdown) {
+                const confs = Object.entries(upcoming.conferenceBreakdown)
+                    .sort((a, b) => b[1] - a[1]);
+                confs.forEach(([conf, count]) => {
+                    if (conf) {
+                        const option = document.createElement('option');
+                        option.value = conf;
+                        option.textContent = `${conf} (${count})`;
+                        confFilter.appendChild(option);
+                    }
+                });
+            }
+
             // Initial filter
+            filterUpcomingGames();
+        }
+
+        function showUpcomingSubTab(tabId) {
+            document.querySelectorAll('#upcoming .sub-section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('#upcoming .sub-tab').forEach(t => t.classList.remove('active'));
+            document.getElementById(tabId)?.classList.add('active');
+            event.target.classList.add('active');
+
+            if (tabId === 'upcoming-map') {
+                setTimeout(() => initUpcomingMap(), 100);
+            }
+        }
+
+        function updateTeamSuggestions() {
+            const input = document.getElementById('upcoming-team-filter');
+            const dropdown = document.getElementById('team-suggestions');
+            const query = input.value.toLowerCase().trim();
+
+            if (query.length < 2) {
+                dropdown.style.display = 'none';
+                return;
+            }
+
+            const matches = Object.keys(upcomingTeamsData)
+                .filter(team => team.toLowerCase().includes(query) && !selectedTeams.has(team))
+                .slice(0, 10);
+
+            if (matches.length === 0) {
+                dropdown.style.display = 'none';
+                return;
+            }
+
+            dropdown.innerHTML = matches.map(team =>
+                `<div class="suggestion-item" onclick="selectTeam('${team.replace(/'/g, "\\'")}')">${team} (${upcomingTeamsData[team]} games)</div>`
+            ).join('');
+            dropdown.style.display = 'block';
+        }
+
+        function handleTeamKeydown(e) {
+            if (e.key === 'Escape') {
+                document.getElementById('team-suggestions').style.display = 'none';
+            }
+        }
+
+        function selectTeam(team) {
+            selectedTeams.add(team);
+            document.getElementById('upcoming-team-filter').value = '';
+            document.getElementById('team-suggestions').style.display = 'none';
+            renderSelectedTeams();
+            filterUpcomingGames();
+        }
+
+        function removeTeam(team) {
+            selectedTeams.delete(team);
+            renderSelectedTeams();
+            filterUpcomingGames();
+        }
+
+        function renderSelectedTeams() {
+            const container = document.getElementById('selected-teams');
+            container.innerHTML = Array.from(selectedTeams).map(team =>
+                `<span class="team-tag" style="background: var(--accent-color); color: white; padding: 0.25rem 0.5rem; border-radius: 4px; display: inline-flex; align-items: center; gap: 0.25rem;">
+                    ${team}
+                    <button onclick="removeTeam('${team.replace(/'/g, "\\'")}')" style="background: none; border: none; color: white; cursor: pointer; font-size: 1.2em; line-height: 1;">&times;</button>
+                </span>`
+            ).join('');
+        }
+
+        function clearDateFilter() {
+            document.getElementById('upcoming-start-date').value = '';
+            document.getElementById('upcoming-end-date').value = '';
             filterUpcomingGames();
         }
 
         function filterUpcomingGames() {
             const stateFilter = document.getElementById('upcoming-state-filter')?.value || '';
-            const daysFilter = parseInt(document.getElementById('upcoming-days-filter')?.value) || 0;
+            const confFilter = document.getElementById('upcoming-conf-filter')?.value || '';
+            const startDate = document.getElementById('upcoming-start-date')?.value;
+            const endDate = document.getElementById('upcoming-end-date')?.value;
             const tvOnly = document.getElementById('upcoming-tv-filter')?.checked || false;
 
             const now = new Date();
+            now.setHours(0, 0, 0, 0);
 
             let filtered = upcomingGamesData.filter(game => {
                 // State filter
                 if (stateFilter && game.state !== stateFilter) return false;
 
-                // Days filter
-                if (daysFilter > 0) {
-                    const gameDate = new Date(game.date);
-                    const daysDiff = Math.ceil((gameDate - now) / (1000 * 60 * 60 * 24));
-                    if (daysDiff > daysFilter) return false;
+                // Conference filter
+                if (confFilter && game.homeConf !== confFilter && game.awayConf !== confFilter) return false;
+
+                // Date range filter
+                const gameDate = new Date(game.date);
+                if (startDate) {
+                    const start = new Date(startDate);
+                    if (gameDate < start) return false;
                 }
+                if (endDate) {
+                    const end = new Date(endDate);
+                    end.setHours(23, 59, 59);
+                    if (gameDate > end) return false;
+                }
+
+                // Default: only future games
+                if (!startDate && !endDate && gameDate < now) return false;
 
                 // TV filter
                 if (tvOnly && (!game.tv || game.tv.length === 0)) return false;
+
+                // Team filter
+                if (selectedTeams.size > 0) {
+                    if (!selectedTeams.has(game.homeTeam) && !selectedTeams.has(game.awayTeam)) return false;
+                }
 
                 return true;
             });
@@ -1915,13 +2024,17 @@ def get_javascript(json_data: str) -> str:
                     ? game.tv.join(', ')
                     : '<span style="color: var(--text-secondary);">—</span>';
 
+                const confDisplay = game.homeConf || game.awayConf
+                    ? (game.homeConf === game.awayConf ? game.homeConf : `${game.awayConf || '?'} @ ${game.homeConf || '?'}`)
+                    : '—';
+
                 return `
                     <tr>
                         <td style="white-space: nowrap;">${game.dateDisplay}</td>
-                        <td><strong>${game.awayTeamAbbrev}</strong> @ <strong>${game.homeTeamAbbrev}</strong></td>
+                        <td><strong>${game.awayTeam}</strong> @ <strong>${game.homeTeam}</strong></td>
+                        <td>${confDisplay}</td>
                         <td>${game.venue}</td>
-                        <td>${game.city}</td>
-                        <td>${game.state}</td>
+                        <td>${game.city}, ${game.state}</td>
                         <td>${tvDisplay}</td>
                     </tr>
                 `;
@@ -1930,6 +2043,181 @@ def get_javascript(json_data: str) -> str:
             // Add note if truncated
             if (filtered.length > 200) {
                 tbody.innerHTML += `<tr><td colspan="6" style="text-align: center; color: var(--text-secondary);">Showing first 200 of ${filtered.length} games. Use filters to narrow results.</td></tr>`;
+            }
+        }
+
+        // Venue coordinates for map (US state centers as fallback)
+        const STATE_COORDS = {
+            'Alabama': [32.806671, -86.791130], 'Alaska': [61.370716, -152.404419],
+            'Arizona': [33.729759, -111.431221], 'Arkansas': [34.969704, -92.373123],
+            'California': [36.116203, -119.681564], 'Colorado': [39.059811, -105.311104],
+            'Connecticut': [41.597782, -72.755371], 'Delaware': [39.318523, -75.507141],
+            'Florida': [27.766279, -81.686783], 'Georgia': [33.040619, -83.643074],
+            'Hawaii': [21.094318, -157.498337], 'Idaho': [44.240459, -114.478828],
+            'Illinois': [40.349457, -88.986137], 'Indiana': [39.849426, -86.258278],
+            'Iowa': [42.011539, -93.210526], 'Kansas': [38.526600, -96.726486],
+            'Kentucky': [37.668140, -84.670067], 'Louisiana': [31.169546, -91.867805],
+            'Maine': [44.693947, -69.381927], 'Maryland': [39.063946, -76.802101],
+            'Massachusetts': [42.230171, -71.530106], 'Michigan': [43.326618, -84.536095],
+            'Minnesota': [45.694454, -93.900192], 'Mississippi': [32.741646, -89.678696],
+            'Missouri': [38.456085, -92.288368], 'Montana': [46.921925, -110.454353],
+            'Nebraska': [41.125370, -98.268082], 'Nevada': [38.313515, -117.055374],
+            'New Hampshire': [43.452492, -71.563896], 'New Jersey': [40.298904, -74.521011],
+            'New Mexico': [34.840515, -106.248482], 'New York': [42.165726, -74.948051],
+            'North Carolina': [35.630066, -79.806419], 'North Dakota': [47.528912, -99.784012],
+            'Ohio': [40.388783, -82.764915], 'Oklahoma': [35.565342, -96.928917],
+            'Oregon': [44.572021, -122.070938], 'Pennsylvania': [40.590752, -77.209755],
+            'Rhode Island': [41.680893, -71.511780], 'South Carolina': [33.856892, -80.945007],
+            'South Dakota': [44.299782, -99.438828], 'Tennessee': [35.747845, -86.692345],
+            'Texas': [31.054487, -97.563461], 'Utah': [40.150032, -111.862434],
+            'Vermont': [44.045876, -72.710686], 'Virginia': [37.769337, -78.169968],
+            'Washington': [47.400902, -121.490494], 'West Virginia': [38.491226, -80.954453],
+            'Wisconsin': [44.268543, -89.616508], 'Wyoming': [42.755966, -107.302490],
+            'District of Columbia': [38.897438, -77.026817]
+        };
+
+        let mapMarkers = [];
+
+        function initUpcomingMap() {
+            const mapEl = document.getElementById('upcoming-venues-map');
+            if (!mapEl || upcomingVenuesMap) return;
+
+            upcomingVenuesMap = L.map('upcoming-venues-map').setView([39.8283, -98.5795], 4);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(upcomingVenuesMap);
+
+            // Set default date range (next 30 days)
+            const today = new Date();
+            const thirtyDays = new Date(today.getTime() + 30 * 24 * 60 * 60 * 1000);
+            document.getElementById('upcoming-map-start-date').value = today.toISOString().split('T')[0];
+            document.getElementById('upcoming-map-end-date').value = thirtyDays.toISOString().split('T')[0];
+
+            // Update on map move
+            upcomingVenuesMap.on('moveend', updateMapGamesList);
+
+            updateUpcomingMap();
+        }
+
+        function updateUpcomingMap() {
+            if (!upcomingVenuesMap) return;
+
+            const startDate = document.getElementById('upcoming-map-start-date')?.value;
+            const endDate = document.getElementById('upcoming-map-end-date')?.value;
+            const now = new Date();
+            now.setHours(0, 0, 0, 0);
+
+            // Clear existing markers
+            mapMarkers.forEach(m => upcomingVenuesMap.removeLayer(m));
+            mapMarkers = [];
+
+            // Group games by venue
+            const venueGames = {};
+            upcomingGamesData.forEach(game => {
+                const gameDate = new Date(game.date);
+
+                // Date filter
+                if (startDate && gameDate < new Date(startDate)) return;
+                if (endDate) {
+                    const end = new Date(endDate);
+                    end.setHours(23, 59, 59);
+                    if (gameDate > end) return;
+                }
+                if (!startDate && !endDate && gameDate < now) return;
+
+                const key = `${game.venue}|${game.city}|${game.state}`;
+                if (!venueGames[key]) {
+                    venueGames[key] = { venue: game.venue, city: game.city, state: game.state, games: [] };
+                }
+                venueGames[key].games.push(game);
+            });
+
+            // Add markers for each venue
+            Object.values(venueGames).forEach(v => {
+                const coords = STATE_COORDS[v.state];
+                if (!coords) return;
+
+                // Add some randomization so venues in same state don't overlap
+                const lat = coords[0] + (Math.random() - 0.5) * 2;
+                const lng = coords[1] + (Math.random() - 0.5) * 3;
+                v.lat = lat;
+                v.lng = lng;
+
+                const gameCount = v.games.length;
+                const color = gameCount >= 6 ? '#22c55e' : gameCount >= 3 ? '#f97316' : '#ef4444';
+                const radius = Math.min(5 + gameCount, 15);
+
+                const gameList = v.games.slice(0, 5).map(g =>
+                    `${g.dateDisplay}: ${g.awayTeam} @ ${g.homeTeam}`
+                ).join('<br>');
+                const moreText = v.games.length > 5 ? `<br>...and ${v.games.length - 5} more` : '';
+
+                const marker = L.circleMarker([lat, lng], {
+                    radius: radius,
+                    fillColor: color,
+                    color: '#fff',
+                    weight: 2,
+                    opacity: 1,
+                    fillOpacity: 0.8
+                }).addTo(upcomingVenuesMap)
+                  .bindPopup(`<strong>${v.venue}</strong><br>${v.city}, ${v.state}<br><br>${gameCount} games:<br>${gameList}${moreText}`);
+
+                marker.venueData = v;
+                mapMarkers.push(marker);
+            });
+
+            updateMapGamesList();
+        }
+
+        function updateMapGamesList() {
+            if (!upcomingVenuesMap) return;
+
+            const filterVisible = document.getElementById('upcoming-map-filter-visible')?.checked || false;
+            const bounds = upcomingVenuesMap.getBounds();
+
+            // Get all games from visible markers
+            let visibleGames = [];
+            let visibleVenues = 0;
+
+            mapMarkers.forEach(marker => {
+                const v = marker.venueData;
+                const inBounds = !filterVisible || bounds.contains([v.lat, v.lng]);
+
+                if (inBounds) {
+                    visibleVenues++;
+                    visibleGames = visibleGames.concat(v.games);
+                }
+            });
+
+            // Sort by date
+            visibleGames.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+            // Update summary
+            const summary = document.getElementById('upcoming-map-summary');
+            if (summary) {
+                summary.textContent = `${visibleGames.length} games at ${visibleVenues} venues${filterVisible ? ' in view' : ''}`;
+            }
+
+            // Update table
+            const tbody = document.querySelector('#upcoming-map-table tbody');
+            if (!tbody) return;
+
+            if (visibleGames.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="4" class="empty-state">No games in this area/date range</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = visibleGames.slice(0, 100).map(game => `
+                <tr>
+                    <td style="white-space: nowrap;">${game.dateDisplay}</td>
+                    <td><strong>${game.awayTeam}</strong> @ <strong>${game.homeTeam}</strong></td>
+                    <td>${game.venue}</td>
+                    <td>${game.city}, ${game.state}</td>
+                </tr>
+            `).join('');
+
+            if (visibleGames.length > 100) {
+                tbody.innerHTML += `<tr><td colspan="4" style="text-align: center; color: var(--text-secondary);">Showing first 100 of ${visibleGames.length} games</td></tr>`;
             }
         }
 

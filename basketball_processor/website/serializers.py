@@ -329,6 +329,8 @@ class DataSerializer:
 
     def _serialize_upcoming_games(self) -> Dict[str, Any]:
         """Serialize upcoming games at unvisited venues."""
+        from ..utils.constants import get_conference_for_date
+
         # Get visited venues from games
         games_data = self._serialize_games()
         visited_venues = set()
@@ -353,22 +355,48 @@ class DataSerializer:
 
         # Format for website
         formatted_games = []
+        conferences = {}
+        teams = {}
+
         for game in upcoming:
+            # Get team short names (cleaner than full names with mascots)
+            home_name = game['home_team'].get('short_name') or game['home_team']['name']
+            away_name = game['away_team'].get('short_name') or game['away_team']['name']
+
+            # Look up conferences using our data
+            home_conf = self._lookup_conference(home_name)
+            away_conf = self._lookup_conference(away_name)
+
+            state = normalize_state(game['venue']['state'])
+
             formatted_games.append({
                 'date': game['date'],
                 'dateDisplay': game['date_display'],
-                'shortName': game['short_name'],
-                'homeTeam': game['home_team']['name'],
+                'homeTeam': home_name,
+                'homeTeamFull': game['home_team']['name'],
                 'homeTeamAbbrev': game['home_team']['abbreviation'],
-                'awayTeam': game['away_team']['name'],
+                'homeConf': home_conf,
+                'awayTeam': away_name,
+                'awayTeamFull': game['away_team']['name'],
                 'awayTeamAbbrev': game['away_team']['abbreviation'],
+                'awayConf': away_conf,
                 'venue': game['venue']['name'],
                 'city': game['venue']['city'],
-                'state': normalize_state(game['venue']['state']),
+                'state': state,
                 'tv': game.get('tv', []),
                 'neutralSite': game.get('neutral_site', False),
                 'conferenceGame': game.get('conference_game', False),
             })
+
+            # Track conferences
+            if home_conf:
+                conferences[home_conf] = conferences.get(home_conf, 0) + 1
+            if away_conf and away_conf != home_conf:
+                conferences[away_conf] = conferences.get(away_conf, 0) + 1
+
+            # Track teams
+            teams[home_name] = teams.get(home_name, 0) + 1
+            teams[away_name] = teams.get(away_name, 0) + 1
 
         # Group by state for filtering
         states = {}
@@ -383,8 +411,93 @@ class DataSerializer:
             'totalGames': len(formatted_games),
             'totalVenues': len(set(g['venue'] for g in formatted_games)),
             'stateBreakdown': states,
+            'conferenceBreakdown': conferences,
+            'teamBreakdown': teams,
             'visitedVenueCount': len(visited_venues),
         }
+
+    def _lookup_conference(self, team_name: str) -> str:
+        """Look up conference for a team."""
+        from ..utils.constants import get_conference_for_date, CONFERENCES
+        import datetime
+
+        if not team_name:
+            return ''
+
+        # Normalize Unicode characters (ESPN uses special quotes and accents)
+        team_name = team_name.replace(''', "'")  # Right single quotation -> apostrophe
+        team_name = team_name.replace(''', "'")  # Left single quotation -> apostrophe
+        team_name = team_name.replace('é', 'e')  # accented e -> e
+        team_name = team_name.replace('ñ', 'n')  # tilde n -> n
+
+        # ESPN name normalization map (ESPN format -> our format)
+        # These are applied in order, so more specific patterns should come first
+        espn_name_fixes = [
+            ('CSU Northridge', 'Cal State Northridge'),
+            ('CSU Bakersfield', 'Cal State Bakersfield'),
+            ('CSU Fullerton', 'Cal State Fullerton'),
+            ('St Thomas (MN)', 'St. Thomas'),  # Summit League
+            ('N Central', 'North Central'),
+            (' St', ' State'),  # "Morehead St" -> "Morehead State"
+            ('(MN)', ''),
+            ('(SC)', ''),
+            ('(FL)', ''),
+            ('(PA)', ''),
+            ('(TX)', ''),
+            ('(OH)', ''),
+        ]
+
+        def try_lookup(name: str) -> str:
+            """Try to look up conference for a name."""
+            conf = get_conference_for_date(name, datetime.datetime.now().strftime('%Y%m%d'), 'M')
+            if conf and conf not in ('Historical/Other', 'D3', 'D2', 'NAIA', 'Non-D1'):
+                return conf
+            return ''
+
+        # Try direct lookup first
+        conf = try_lookup(team_name)
+        if conf:
+            return conf
+
+        # Apply ESPN name fixes
+        normalized = team_name
+        for espn_fmt, our_fmt in espn_name_fixes:
+            normalized = normalized.replace(espn_fmt, our_fmt)
+        normalized = normalized.strip()
+
+        if normalized != team_name:
+            conf = try_lookup(normalized)
+            if conf:
+                return conf
+
+        # Try partial match against all teams in CONFERENCES
+        # First try with normalized name, then original
+        for name_to_check in [normalized, team_name]:
+            name_lower = name_to_check.lower()
+            for conf_name, teams in CONFERENCES.items():
+                for t in teams:
+                    t_lower = t.lower()
+                    # Check if ESPN name contains our team name or vice versa
+                    if t_lower in name_lower or name_lower in t_lower:
+                        return conf_name
+
+            # Also try word-based matching for tricky cases like "CSU Northridge"
+            # vs "Cal State Northridge"
+            name_words = set(name_lower.split())
+            # Remove common words that cause false positives
+            common_words = {'state', 'university', 'college', 'of', 'the', 'cal', 'north',
+                           'south', 'east', 'west', 'central', 'st', 'st.', 'a&m'}
+            name_words -= common_words
+            if name_words and len(name_words) > 0:
+                for conf_name, teams in CONFERENCES.items():
+                    for t in teams:
+                        t_words = set(t.lower().split()) - common_words
+                        # If significant words overlap (and at least one meaningful word)
+                        overlap = name_words & t_words
+                        if overlap and any(len(w) >= 4 for w in overlap):
+                            return conf_name
+
+        return ''
 
     def _serialize_player_games(self) -> List[Dict]:
         """Serialize per-game player stats."""

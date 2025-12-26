@@ -779,45 +779,114 @@ def get_body(total_games: int, total_players: int, total_teams: int, total_venue
             <h2>Upcoming Games at New Venues</h2>
             <p style="margin-bottom: 1rem; color: var(--text-secondary);">Plan your next trip - games at venues you haven't visited yet.</p>
 
-            <div class="filters-row" style="margin-bottom: 1rem; display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
-                <div class="filter-group">
-                    <label for="upcoming-state-filter">State:</label>
-                    <select id="upcoming-state-filter" onchange="filterUpcomingGames()">
-                        <option value="">All States</option>
-                    </select>
-                </div>
-                <div class="filter-group">
-                    <label for="upcoming-days-filter">Time Range:</label>
-                    <select id="upcoming-days-filter" onchange="filterUpcomingGames()">
-                        <option value="">All Season</option>
-                        <option value="7">Next 7 Days</option>
-                        <option value="14">Next 2 Weeks</option>
-                        <option value="30" selected>Next 30 Days</option>
-                        <option value="60">Next 2 Months</option>
-                        <option value="90">Next 3 Months</option>
-                    </select>
-                </div>
-                <div class="filter-group">
-                    <label for="upcoming-tv-filter">TV Only:</label>
-                    <input type="checkbox" id="upcoming-tv-filter" onchange="filterUpcomingGames()">
-                </div>
-                <div id="upcoming-summary" style="margin-left: auto; color: var(--text-secondary);"></div>
+            <div class="sub-tabs">
+                <button class="sub-tab active" onclick="showUpcomingSubTab('upcoming-list')">Game List</button>
+                <button class="sub-tab" onclick="showUpcomingSubTab('upcoming-map')">Map View</button>
             </div>
 
-            <div class="table-wrapper">
-                <table id="upcoming-table" class="data-table">
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Matchup</th>
-                            <th>Venue</th>
-                            <th>City</th>
-                            <th>State</th>
-                            <th>TV</th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
+            <div id="upcoming-list" class="sub-section active">
+                <div class="filters-row" style="margin-bottom: 1rem; display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
+                    <div class="filter-group">
+                        <label for="upcoming-state-filter">State:</label>
+                        <select id="upcoming-state-filter" onchange="filterUpcomingGames()">
+                            <option value="">All States</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="upcoming-conf-filter">Conference:</label>
+                        <select id="upcoming-conf-filter" onchange="filterUpcomingGames()">
+                            <option value="">All Conferences</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Date Range:</label>
+                        <div style="display: flex; gap: 0.5rem; align-items: center;">
+                            <input type="date" id="upcoming-start-date" onchange="filterUpcomingGames()"
+                                   style="padding: 0.25rem; border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-primary); color: var(--text-primary);">
+                            <span>to</span>
+                            <input type="date" id="upcoming-end-date" onchange="filterUpcomingGames()"
+                                   style="padding: 0.25rem; border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-primary); color: var(--text-primary);">
+                            <button onclick="clearDateFilter()" style="padding: 0.25rem 0.5rem; border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-secondary); cursor: pointer;">Clear</button>
+                        </div>
+                    </div>
+                    <div class="filter-group">
+                        <label for="upcoming-tv-filter">TV Only:</label>
+                        <input type="checkbox" id="upcoming-tv-filter" onchange="filterUpcomingGames()">
+                    </div>
+                </div>
+
+                <div class="filters-row" style="margin-bottom: 1rem; display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
+                    <div class="filter-group" style="flex: 1; min-width: 250px;">
+                        <label for="upcoming-team-filter">Teams:</label>
+                        <input type="text" id="upcoming-team-filter" placeholder="Type to search teams..."
+                               oninput="updateTeamSuggestions()" onkeydown="handleTeamKeydown(event)"
+                               style="width: 100%; padding: 0.5rem; border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-primary); color: var(--text-primary);">
+                        <div id="team-suggestions" class="suggestions-dropdown" style="display: none;"></div>
+                    </div>
+                    <div id="selected-teams" style="display: flex; gap: 0.5rem; flex-wrap: wrap;"></div>
+                    <div id="upcoming-summary" style="margin-left: auto; color: var(--text-secondary);"></div>
+                </div>
+
+                <div class="table-wrapper">
+                    <table id="upcoming-table" class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Matchup</th>
+                                <th>Conference</th>
+                                <th>Venue</th>
+                                <th>Location</th>
+                                <th>TV</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="upcoming-map" class="sub-section">
+                <div class="filters-row" style="margin-bottom: 1rem; display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
+                    <div class="filter-group">
+                        <label>Date Range:</label>
+                        <div style="display: flex; gap: 0.5rem; align-items: center;">
+                            <input type="date" id="upcoming-map-start-date" onchange="updateUpcomingMap()"
+                                   style="padding: 0.25rem; border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-primary); color: var(--text-primary);">
+                            <span>to</span>
+                            <input type="date" id="upcoming-map-end-date" onchange="updateUpcomingMap()"
+                                   style="padding: 0.25rem; border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-primary); color: var(--text-primary);">
+                        </div>
+                    </div>
+                    <div class="filter-group">
+                        <label>
+                            <input type="checkbox" id="upcoming-map-filter-visible" onchange="updateUpcomingMap()">
+                            Only show games in visible area
+                        </label>
+                    </div>
+                    <div id="upcoming-map-summary" style="margin-left: auto; color: var(--text-secondary);"></div>
+                </div>
+                <div id="upcoming-venues-map" style="height: 500px; border-radius: 8px; border: 1px solid var(--border-color);"></div>
+                <div id="upcoming-map-legend" style="margin-top: 1rem; display: flex; gap: 2rem; justify-content: center; color: var(--text-secondary);">
+                    <span>🔴 1-2 games</span>
+                    <span>🟠 3-5 games</span>
+                    <span>🟢 6+ games</span>
+                    <span style="margin-left: 2rem;">Click a marker for game details. Zoom and pan to explore regions.</span>
+                </div>
+                <div id="upcoming-map-games" style="margin-top: 1rem;">
+                    <h3 style="margin-bottom: 0.5rem;">Games in View</h3>
+                    <div class="table-wrapper">
+                        <table id="upcoming-map-table" class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Matchup</th>
+                                    <th>Venue</th>
+                                    <th>Location</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

@@ -304,6 +304,27 @@ def get_css() -> str:
         .clear-filters:hover {
             background: var(--hover-color);
         }
+        .suggestions-dropdown {
+            position: absolute;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 100;
+            width: 100%;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .suggestion-item {
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+        }
+        .suggestion-item:hover {
+            background: var(--hover-color);
+        }
+        .filter-group {
+            position: relative;
+        }
         table {
             width: 100%;
             border-collapse: collapse;
