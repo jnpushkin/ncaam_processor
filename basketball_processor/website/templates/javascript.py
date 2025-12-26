@@ -2225,6 +2225,7 @@ def get_javascript(json_data: str) -> str:
                 // Explicit ESPN -> SCHOOL_COORDS mappings
                 const explicitMappings = {
                     'UMES': 'Maryland-Eastern Shore',
+                    'MD Eastern': 'Maryland-Eastern Shore',
                     'N Arizona': 'Northern Arizona',
                     'N Colorado': 'Northern Colorado',
                     'N Dakota': 'North Dakota',
