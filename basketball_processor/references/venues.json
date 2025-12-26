@@ -444,5 +444,10 @@
     "Chase Center": "San Francisco, California",
     "T-Mobile Arena": "Las Vegas, Nevada",
     "United Center": "Chicago, Illinois"
+  },
+
+  "venue_aliases": {
+    "_comment": "Map old venue names to current names (for arena renames where names completely changed)",
+    "McKeon Pavilion": "University Credit Union Pavilion"
   }
 }

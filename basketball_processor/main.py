@@ -108,6 +108,11 @@ def process_html_file(
                     cached_data = json.load(f)
                     game_id = cached_data.get("game_id", "Unknown")
                     info(f"     Game ID: {game_id}")
+                    # Normalize venue names to match current venues.json
+                    from .utils.venue_resolver import normalize_cached_venue
+                    normalized_venue = normalize_cached_venue(cached_data)
+                    if normalized_venue:
+                        cached_data['basic_info']['venue'] = normalized_venue
                     return cached_data
             else:
                 info("  Cache outdated, re-parsing...")

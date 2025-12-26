@@ -1,0 +1,40 @@
+[2025-12-23 08:02:28] === Starting poll update for 2025-26 ===
+[2025-12-23 08:02:28] Updating men's polls...
+/Users/jeremypushkin/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/runpy.py:127: RuntimeWarning: 'basketball_processor.scrapers.poll_scraper' found in sys.modules after import of package 'basketball_processor.scrapers', but prior to execution of 'basketball_processor.scrapers.poll_scraper'; this may result in unpredictable behaviour
+  warn(RuntimeWarning(msg))
+Fetching: https://www.sports-reference.com/cbb/seasons/men/2026-polls.html
+(Waiting 3.05s to respect rate limits...)
+Parsed 7 poll weeks for 2025-26
+  2025-11-01: 25 teams ranked
+  2025-11-10: 25 teams ranked
+  2025-11-17: 25 teams ranked
+  2025-11-24: 25 teams ranked
+  2025-12-01: 25 teams ranked
+  2025-12-08: 25 teams ranked
+  2025-12-15: 25 teams ranked
+Saved polls to: /Users/jeremypushkin/ncaam_processor/basketball_processor/references/ap_polls.json
+
+Successfully updated Men's 2025-26 poll data
+[2025-12-23 08:02:33] Men's polls updated successfully
+[2025-12-23 08:02:38] Updating women's polls...
+/Users/jeremypushkin/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/runpy.py:127: RuntimeWarning: 'basketball_processor.scrapers.poll_scraper' found in sys.modules after import of package 'basketball_processor.scrapers', but prior to execution of 'basketball_processor.scrapers.poll_scraper'; this may result in unpredictable behaviour
+  warn(RuntimeWarning(msg))
+Fetching: https://www.sports-reference.com/cbb/seasons/women/2026-polls.html
+(Waiting 3.05s to respect rate limits...)
+Parsed 7 poll weeks for 2025-26
+  2025-11-01: 25 teams ranked
+  2025-11-10: 25 teams ranked
+  2025-11-17: 25 teams ranked
+  2025-11-24: 25 teams ranked
+  2025-12-01: 25 teams ranked
+  2025-12-08: 25 teams ranked
+  2025-12-15: 25 teams ranked
+Saved polls to: /Users/jeremypushkin/ncaam_processor/basketball_processor/references/ap_polls_women.json
+
+Successfully updated Women's 2025-26 poll data
+[2025-12-23 08:02:42] Women's polls updated successfully
+[2025-12-23 08:02:42] === Poll update complete ===

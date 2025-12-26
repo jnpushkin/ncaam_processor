@@ -14,6 +14,7 @@ class VenueResolver:
         self.home_arenas: Dict[str, Any] = {}  # Can be string or {"M": str, "W": str}
         self.game_overrides: Dict[str, str] = {}
         self.neutral_sites: Dict[str, str] = {}
+        self.venue_aliases: Dict[str, str] = {}  # Old venue names -> current names
         self._load_references()
 
     def _load_references(self):
@@ -30,6 +31,10 @@ class VenueResolver:
                 }
                 self.game_overrides = data.get('game_overrides', {})
                 self.neutral_sites = data.get('neutral_sites', {})
+                self.venue_aliases = {
+                    k: v for k, v in data.get('venue_aliases', {}).items()
+                    if not k.startswith('_')
+                }
 
     def resolve_venue(self, game_data: Dict[str, Any]) -> Optional[str]:
         """
@@ -155,6 +160,21 @@ class VenueResolver:
                 return True
         return False
 
+    def get_alias_replacement(self, venue: str) -> Optional[str]:
+        """Check if venue name matches an alias and return the current name."""
+        if not venue:
+            return None
+        # Extract venue name (first part before comma)
+        venue_name = venue.split(',')[0].strip()
+        for old_name, new_name in self.venue_aliases.items():
+            if old_name.lower() == venue_name.lower():
+                # Replace the venue name portion, keep city/state
+                parts = venue.split(',')
+                if len(parts) >= 2:
+                    return new_name + ',' + ','.join(parts[1:])
+                return new_name
+        return None
+
 
 # Singleton instance
 _resolver = None
@@ -179,10 +199,9 @@ def normalize_cached_venue(game_data: Dict[str, Any]) -> Optional[str]:
     Use this when loading games from cache to ensure venue names stay
     up-to-date when venues.json is edited (e.g., arena renames).
 
-    Only updates if:
-    - Game has an existing venue
-    - Home team has an entry in venues.json
-    - Existing venue appears to be the home arena (same city AND similar name)
+    Checks in order:
+    1. Explicit venue aliases (for complete rebrands like McKeon → University Credit Union)
+    2. Same city AND similar venue name (for partial renames)
 
     Returns the normalized venue name, or the original if no update needed.
     """
@@ -193,6 +212,11 @@ def normalize_cached_venue(game_data: Dict[str, Any]) -> Optional[str]:
 
     if not existing_venue:
         return resolve_venue(game_data)
+
+    # First check for explicit venue aliases (handles complete rebrands)
+    alias_replacement = resolver.get_alias_replacement(existing_venue)
+    if alias_replacement:
+        return alias_replacement
 
     home_team = basic_info.get('home_team', '')
     if not home_team or home_team not in resolver.home_arenas:
