@@ -2076,7 +2076,7 @@ def get_javascript(json_data: str) -> str:
             'District of Columbia': [38.897438, -77.026817]
         };
 
-        let mapMarkers = [];
+        let upcomingMapMarkers = [];
 
         function initUpcomingMap() {
             const mapEl = document.getElementById('upcoming-venues-map');
@@ -2108,8 +2108,8 @@ def get_javascript(json_data: str) -> str:
             now.setHours(0, 0, 0, 0);
 
             // Clear existing markers
-            mapMarkers.forEach(m => upcomingVenuesMap.removeLayer(m));
-            mapMarkers = [];
+            upcomingMapMarkers.forEach(m => upcomingVenuesMap.removeLayer(m));
+            upcomingMapMarkers = [];
 
             // Group games by venue
             const venueGames = {};
@@ -2163,7 +2163,7 @@ def get_javascript(json_data: str) -> str:
                   .bindPopup(`<strong>${v.venue}</strong><br>${v.city}, ${v.state}<br><br>${gameCount} games:<br>${gameList}${moreText}`);
 
                 marker.venueData = v;
-                mapMarkers.push(marker);
+                upcomingMapMarkers.push(marker);
             });
 
             updateMapGamesList();
@@ -2179,7 +2179,7 @@ def get_javascript(json_data: str) -> str:
             let visibleGames = [];
             let visibleVenues = 0;
 
-            mapMarkers.forEach(marker => {
+            upcomingMapMarkers.forEach(marker => {
                 const v = marker.venueData;
                 const inBounds = !filterVisible || bounds.contains([v.lat, v.lng]);
 
