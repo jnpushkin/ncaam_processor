@@ -9,7 +9,7 @@ import json
 from ..utils.nba_players import get_nba_player_info_by_id, get_nba_status_batch, recheck_female_players_for_wnba
 from ..utils.schedule_scraper import (
     get_schedule, filter_upcoming_games, get_visited_venues_from_games,
-    SCHEDULE_CACHE_FILE, normalize_state
+    SCHEDULE_CACHE_FILE, normalize_state, get_espn_team_id
 )
 
 
@@ -358,10 +358,20 @@ class DataSerializer:
         conferences = {}
         teams = {}
 
+        # Non-D1 schools to filter out entirely
+        NON_D1_SCHOOLS = {
+            'Dakota St', 'Dakota State',  # NAIA
+            'Davenport', 'Grand Canyon JV',
+        }
+
         for game in upcoming:
             # Get team short names (cleaner than full names with mascots)
             home_name = game['home_team'].get('short_name') or game['home_team']['name']
             away_name = game['away_team'].get('short_name') or game['away_team']['name']
+
+            # Skip games with non-D1 teams
+            if home_name in NON_D1_SCHOOLS or away_name in NON_D1_SCHOOLS:
+                continue
 
             # Look up conferences using our data
             home_conf = self._lookup_conference(home_name)
@@ -372,6 +382,7 @@ class DataSerializer:
             formatted_games.append({
                 'date': game['date'],
                 'dateDisplay': game['date_display'],
+                'time_detail': game.get('time_detail', ''),  # ESPN's actual game time
                 'homeTeam': home_name,
                 'homeTeamFull': game['home_team']['name'],
                 'homeTeamAbbrev': game['home_team']['abbreviation'],
@@ -406,6 +417,91 @@ class DataSerializer:
                 states[state] = 0
             states[state] += 1
 
+        # Format visited venues for map display with upcoming games
+        visited_venues_list = []
+        venues_seen = {}  # venue -> {city, state, pastGames, upcomingGames, homeTeam}
+        for game in games_data:
+            venue = game.get('Venue', '')
+            city = game.get('City', '')
+            state = game.get('State', '')
+            home_team = game.get('Home Team', '')
+            if venue and city and state:
+                key = f"{venue}, {city}"
+                if key not in venues_seen:
+                    venues_seen[key] = {
+                        'venue': venue,
+                        'city': city,
+                        'state': state,
+                        'pastGames': 0,
+                        'upcomingGames': [],
+                        'homeTeam': home_team  # Track home team for coordinates
+                    }
+                venues_seen[key]['pastGames'] += 1
+                # Update home team if we have one (prefer non-empty)
+                if home_team and not venues_seen[key]['homeTeam']:
+                    venues_seen[key]['homeTeam'] = home_team
+
+        # Find upcoming games at visited venues from schedule
+        from datetime import datetime
+        now = datetime.now()
+        for sched_game in schedule:
+            try:
+                game_date = datetime.fromisoformat(sched_game["date"].replace("Z", "+00:00"))
+                if game_date.replace(tzinfo=None) < now:
+                    continue  # Skip past games
+            except (ValueError, AttributeError):
+                continue
+
+            espn_venue = sched_game.get("venue", {})
+            venue_name = espn_venue.get("name", "")
+            venue_city = espn_venue.get("city", "")
+            venue_state = normalize_state(espn_venue.get("state", ""))
+
+            # Venue name aliases (ESPN name -> our name variations)
+            VENUE_ALIASES = {
+                'global credit union arena': ['gcu arena', 'grand canyon arena'],
+                'gcu arena': ['global credit union arena'],
+            }
+
+            # Check if this venue matches any visited venue
+            for key, data in venues_seen.items():
+                if data['city'].lower() == venue_city.lower() and data['state'].lower() == venue_state.lower():
+                    # Same city/state - check venue name similarity
+                    espn_lower = venue_name.lower()
+                    our_lower = data['venue'].lower()
+
+                    # Check aliases
+                    alias_match = False
+                    if espn_lower in VENUE_ALIASES:
+                        alias_match = any(a in our_lower or our_lower in a for a in VENUE_ALIASES[espn_lower])
+                    if our_lower in VENUE_ALIASES:
+                        alias_match = alias_match or any(a in espn_lower or espn_lower in a for a in VENUE_ALIASES[our_lower])
+
+                    if espn_lower == our_lower or alias_match or \
+                       any(w in espn_lower for w in our_lower.split() if len(w) > 4):
+                        home = sched_game['home_team'].get('short_name') or sched_game['home_team']['name']
+                        away = sched_game['away_team'].get('short_name') or sched_game['away_team']['name']
+                        data['upcomingGames'].append({
+                            'date': sched_game['date'],
+                            'time_detail': sched_game.get('time_detail', ''),
+                            'home': home,
+                            'away': away,
+                            'tv': sched_game.get('tv', [])
+                        })
+                        break
+
+        for data in venues_seen.values():
+            # Sort upcoming games by date
+            data['upcomingGames'].sort(key=lambda g: g['date'])
+            visited_venues_list.append({
+                'venue': data['venue'],
+                'city': data['city'],
+                'state': data['state'],
+                'pastGames': data['pastGames'],
+                'upcomingGames': data['upcomingGames'][:10],  # Limit to 10
+                'homeTeam': data['homeTeam']  # For coordinate lookup
+            })
+
         return {
             'games': formatted_games,
             'totalGames': len(formatted_games),
@@ -414,89 +510,242 @@ class DataSerializer:
             'conferenceBreakdown': conferences,
             'teamBreakdown': teams,
             'visitedVenueCount': len(visited_venues),
+            'visitedVenues': visited_venues_list,
         }
 
     def _lookup_conference(self, team_name: str) -> str:
-        """Look up conference for a team."""
-        from ..utils.constants import get_conference_for_date, CONFERENCES
+        """Look up conference for a team using explicit mappings only."""
+        from ..utils.constants import get_conference_for_date
         import datetime
 
         if not team_name:
             return ''
 
-        # Normalize Unicode characters (ESPN uses special quotes and accents)
-        team_name = team_name.replace(''', "'")  # Right single quotation -> apostrophe
-        team_name = team_name.replace(''', "'")  # Left single quotation -> apostrophe
-        team_name = team_name.replace('é', 'e')  # accented e -> e
-        team_name = team_name.replace('ñ', 'n')  # tilde n -> n
+        # ESPN name -> our canonical name (explicit mappings only, no fuzzy matching)
+        ESPN_TO_CANONICAL = {
+            # Abbreviations
+            'UConn': 'Connecticut',
+            'UMass': 'Massachusetts',
+            'UNLV': 'Nevada-Las Vegas',
+            'VCU': 'Virginia Commonwealth',
+            'UCF': 'Central Florida',
+            'SMU': 'Southern Methodist',
+            'LSU': 'Louisiana State',
+            'BYU': 'Brigham Young',
+            'TCU': 'Texas Christian',
+            'USC': 'Southern California',
+            'UCLA': 'UCLA',
+            'UTEP': 'UTEP',
+            'UTSA': 'Texas-San Antonio',
+            'FGCU': 'Florida Gulf Coast',
+            'FIU': 'Florida International',
+            'FAU': 'Florida Atlantic',
+            'UAB': 'UAB',
+            'UIC': 'Illinois-Chicago',
+            'IUPUI': 'IUPUI',
+            'SIU': 'Southern Illinois',
+            'NIU': 'Northern Illinois',
+            'WKU': 'Western Kentucky',
+            'ETSU': 'East Tennessee State',
+            'MTSU': 'Middle Tennessee',
+            'LIU': 'Long Island',
+            'URI': 'Rhode Island',
 
-        # ESPN name normalization map (ESPN format -> our format)
-        # These are applied in order, so more specific patterns should come first
-        espn_name_fixes = [
-            ('CSU Northridge', 'Cal State Northridge'),
-            ('CSU Bakersfield', 'Cal State Bakersfield'),
-            ('CSU Fullerton', 'Cal State Fullerton'),
-            ('St Thomas (MN)', 'St. Thomas'),  # Summit League
-            ('N Central', 'North Central'),
-            (' St', ' State'),  # "Morehead St" -> "Morehead State"
-            ('(MN)', ''),
-            ('(SC)', ''),
-            ('(FL)', ''),
-            ('(PA)', ''),
-            ('(TX)', ''),
-            ('(OH)', ''),
-        ]
+            # Direction abbreviations
+            'N Carolina': 'North Carolina',
+            'S Carolina': 'South Carolina',
+            'N Dakota': 'North Dakota',
+            'S Dakota': 'South Dakota',
+            'N Dakota St': 'North Dakota State',
+            'S Dakota St': 'South Dakota State',
+            'N Arizona': 'Northern Arizona',
+            'N Colorado': 'Northern Colorado',
+            'N Kentucky': 'Northern Kentucky',
+            'N Iowa': 'Northern Iowa',
+            'N Illinois': 'Northern Illinois',
+            'N Texas': 'North Texas',
+            'S Florida': 'South Florida',
+            'S Alabama': 'South Alabama',
+            'S Utah': 'Southern Utah',
+            'S Illinois': 'Southern Illinois',
+            'W Virginia': 'West Virginia',
+            'W Kentucky': 'Western Kentucky',
+            'W Michigan': 'Western Michigan',
+            'W Illinois': 'Western Illinois',
+            'E Kentucky': 'Eastern Kentucky',
+            'E Michigan': 'Eastern Michigan',
+            'E Illinois': 'Eastern Illinois',
+            'E Washington': 'Eastern Washington',
+            'E Tennessee St': 'East Tennessee State',
+            'SE Missouri St': 'Southeast Missouri State',
+            'SE Louisiana': 'Southeastern Louisiana',
+            'NW State': 'Northwestern State',
 
-        def try_lookup(name: str) -> str:
-            """Try to look up conference for a name."""
-            conf = get_conference_for_date(name, datetime.datetime.now().strftime('%Y%m%d'), 'M')
-            if conf and conf not in ('Historical/Other', 'D3', 'D2', 'NAIA', 'Non-D1'):
-                return conf
+            # State abbreviations
+            'Miss State': 'Mississippi State',
+            'Ariz State': 'Arizona State',
+            'Ore State': 'Oregon State',
+            'Wash State': 'Washington State',
+            'Penn State': 'Penn State',
+            'Mich State': 'Michigan State',
+            'Ohio State': 'Ohio State',
+            'Iowa State': 'Iowa State',
+            'Ball State': 'Ball State',
+            'Boise State': 'Boise State',
+            'Fresno State': 'Fresno State',
+
+            # "St" suffix -> "State"
+            'Alabama St': 'Alabama State',
+            'Alcorn St': 'Alcorn State',
+            'Appalachian St': 'Appalachian State',
+            'Arizona St': 'Arizona State',
+            'Arkansas St': 'Arkansas State',
+            'Ball St': 'Ball State',
+            'Boise St': 'Boise State',
+            'Bowling Green St': 'Bowling Green',
+            'Chicago St': 'Chicago State',
+            'Cleveland St': 'Cleveland State',
+            'Colorado St': 'Colorado State',
+            'Coppin St': 'Coppin State',
+            'Delaware St': 'Delaware State',
+            'Fresno St': 'Fresno State',
+            'Georgia St': 'Georgia State',
+            'Grambling St': 'Grambling State',
+            'Idaho St': 'Idaho State',
+            'Illinois St': 'Illinois State',
+            'Indiana St': 'Indiana State',
+            'Iowa St': 'Iowa State',
+            'Jackson St': 'Jackson State',
+            'Jacksonville St': 'Jacksonville State',
+            'Kansas St': 'Kansas State',
+            'Kennesaw St': 'Kennesaw State',
+            'Kent St': 'Kent State',
+            'McNeese St': 'McNeese State',
+            'Memphis St': 'Memphis',
+            'Michigan St': 'Michigan State',
+            'Mississippi St': 'Mississippi State',
+            'Missouri St': 'Missouri State',
+            'Montana St': 'Montana State',
+            'Morehead St': 'Morehead State',
+            'Morgan St': 'Morgan State',
+            'Murray St': 'Murray State',
+            'NC St': 'NC State',
+            'New Mexico St': 'New Mexico State',
+            'Norfolk St': 'Norfolk State',
+            'Ohio St': 'Ohio State',
+            'Oklahoma St': 'Oklahoma State',
+            'Oregon St': 'Oregon State',
+            'Penn St': 'Penn State',
+            'Pittsburgh St': 'Pittsburg State',
+            'Portland St': 'Portland State',
+            'Prairie View St': 'Prairie View A&M',
+            'Sacramento St': 'Sacramento State',
+            'Sam Houston St': 'Sam Houston State',
+            'San Diego St': 'San Diego State',
+            'San Jose St': 'San Jose State',
+            'Savannah St': 'Savannah State',
+            'South Carolina St': 'South Carolina State',
+            'Stephen F. Austin St': 'Stephen F. Austin',
+            'Tennessee St': 'Tennessee State',
+            'Texas St': 'Texas State',
+            'Texas Southern St': 'Texas Southern',
+            'Troy St': 'Troy',
+            'Utah St': 'Utah State',
+            'Valdosta St': 'Valdosta State',
+            'Washington St': 'Washington State',
+            'Weber St': 'Weber State',
+            'Wichita St': 'Wichita State',
+            'Wright St': 'Wright State',
+            'Youngstown St': 'Youngstown State',
+
+            # "St" prefix -> "Saint" or "St."
+            'St Bonaventure': 'St. Bonaventure',
+            "St John's": "St. John's",
+            "St Joseph's": "Saint Joseph's",
+            'St Louis': 'Saint Louis',
+            "St Mary's": "Saint Mary's (CA)",
+            "St Peter's": "Saint Peter's",
+            'St Thomas': 'St. Thomas',
+            'St Thomas (MN)': 'St. Thomas',
+
+            # CSU variations
+            'CSU Bakersfield': 'Cal State Bakersfield',
+            'CSU Fullerton': 'Cal State Fullerton',
+            'CSU Northridge': 'Cal State Northridge',
+            'Long Beach St': 'Long Beach State',
+            'Cal Poly': 'Cal Poly',
+            'Cal Baptist': 'California Baptist',
+
+            # Common nicknames
+            'App State': 'Appalachian State',
+            'G Washington': 'George Washington',
+            'Ole Miss': 'Mississippi',
+            'Pitt': 'Pittsburgh',
+            'Miami': 'Miami (FL)',
+            'Miami (FL)': 'Miami (FL)',
+            'Miami (OH)': 'Miami (OH)',
+            'UNC': 'North Carolina',
+            'NC A&T': 'North Carolina A&T',
+            'NC Central': 'North Carolina Central',
+            'A&M-Corpus Christi': 'Texas A&M-Corpus Christi',
+
+            # UMES/Maryland schools
+            'UMES': 'Maryland-Eastern Shore',
+            'MD Eastern': 'Maryland-Eastern Shore',
+            'UMBC': 'UMBC',
+            'Loyola MD': 'Loyola (MD)',
+            'Loyola Chi': 'Loyola Chicago',
+            'Loyola Marymount': 'Loyola Marymount',
+
+            # Hawaii
+            "Hawai'i": 'Hawaii',
+            "Hawai\u2019i": 'Hawaii',  # ESPN right single quotation
+
+            # Other ESPN variations
+            'Southern Miss': 'Southern Miss',
+            'Little Rock': 'Arkansas-Little Rock',
+            'UCSB': 'UC Santa Barbara',
+            'UCD': 'UC Davis',
+            'UCR': 'UC Riverside',
+            'UCSD': 'UC San Diego',
+            'UC Irvine': 'UC Irvine',
+            'SFA': 'Stephen F. Austin',
+            'Omaha': 'Nebraska-Omaha',
+            'UNO': 'New Orleans',
+            'UNI': 'Northern Iowa',
+            'Loyola-Chicago': 'Loyola Chicago',
+            'UL Monroe': 'Louisiana-Monroe',
+            'UL Lafayette': 'Louisiana',
+            'Purdue Fort Wayne': 'Purdue Fort Wayne',
+            'IU Indianapolis': 'Indiana-Purdue Indianapolis',
+        }
+
+        # Non-D1 schools to skip (ESPN sometimes includes these incorrectly)
+        NON_D1_SCHOOLS = {
+            'Dakota St', 'Dakota State',  # NAIA
+            'Davenport', 'Grand Canyon JV',
+        }
+
+        # Check if team should be skipped
+        if team_name in NON_D1_SCHOOLS:
             return ''
 
-        # Try direct lookup first
-        conf = try_lookup(team_name)
-        if conf:
-            return conf
+        # Normalize Unicode
+        normalized = team_name.replace(''', "'").replace(''', "'").replace('é', 'e').replace('ñ', 'n')
 
-        # Apply ESPN name fixes
-        normalized = team_name
-        for espn_fmt, our_fmt in espn_name_fixes:
-            normalized = normalized.replace(espn_fmt, our_fmt)
-        normalized = normalized.strip()
-
-        if normalized != team_name:
-            conf = try_lookup(normalized)
-            if conf:
+        # Try explicit ESPN mapping first
+        if normalized in ESPN_TO_CANONICAL:
+            canonical = ESPN_TO_CANONICAL[normalized]
+            conf = get_conference_for_date(canonical, datetime.datetime.now().strftime('%Y%m%d'), 'M')
+            if conf and conf not in ('Historical/Other', 'D3', 'D2', 'NAIA', 'Non-D1'):
                 return conf
 
-        # Try partial match against all teams in CONFERENCES
-        # First try with normalized name, then original
-        for name_to_check in [normalized, team_name]:
-            name_lower = name_to_check.lower()
-            for conf_name, teams in CONFERENCES.items():
-                for t in teams:
-                    t_lower = t.lower()
-                    # Check if ESPN name contains our team name or vice versa
-                    if t_lower in name_lower or name_lower in t_lower:
-                        return conf_name
+        # Try direct lookup with original name
+        conf = get_conference_for_date(normalized, datetime.datetime.now().strftime('%Y%m%d'), 'M')
+        if conf and conf not in ('Historical/Other', 'D3', 'D2', 'NAIA', 'Non-D1'):
+            return conf
 
-            # Also try word-based matching for tricky cases like "CSU Northridge"
-            # vs "Cal State Northridge"
-            name_words = set(name_lower.split())
-            # Remove common words that cause false positives
-            common_words = {'state', 'university', 'college', 'of', 'the', 'cal', 'north',
-                           'south', 'east', 'west', 'central', 'st', 'st.', 'a&m'}
-            name_words -= common_words
-            if name_words and len(name_words) > 0:
-                for conf_name, teams in CONFERENCES.items():
-                    for t in teams:
-                        t_words = set(t.lower().split()) - common_words
-                        # If significant words overlap (and at least one meaningful word)
-                        overlap = name_words & t_words
-                        if overlap and any(len(w) >= 4 for w in overlap):
-                            return conf_name
-
+        # No match found - return empty (don't guess)
         return ''
 
     def _serialize_player_games(self) -> List[Dict]:
@@ -649,6 +898,22 @@ class DataSerializer:
             # Check if the arena name matches any seen venue exactly
             if arena_name in seen_venues:
                 return True
+
+            # Get venue aliases from venue resolver
+            venue_aliases = venue_resolver.get_venue_aliases()
+            # Build reverse alias map (new name -> [old names])
+            reverse_venue_aliases = {}
+            for old_name, new_name in venue_aliases.items():
+                if new_name not in reverse_venue_aliases:
+                    reverse_venue_aliases[new_name] = []
+                reverse_venue_aliases[new_name].append(old_name)
+
+            # Check if any old name (alias) of this arena was visited
+            old_names = reverse_venue_aliases.get(arena_name, [])
+            for old_name in old_names:
+                if old_name in seen_venues:
+                    return True
+
             # Check for exact match (case insensitive only)
             arena_lower = arena_name.lower().strip()
             for venue in seen_venues:
@@ -656,6 +921,10 @@ class DataSerializer:
                 # Exact match (case insensitive)
                 if arena_lower == venue_lower:
                     return True
+                # Check aliases case-insensitive
+                for old_name in old_names:
+                    if old_name.lower().strip() == venue_lower:
+                        return True
             # No fuzzy matching - too many false positives
             return False
 
@@ -700,7 +969,8 @@ class DataSerializer:
                     'arenaVisited': arena_visited(home_arena_m, seen_venues_by_gender['all']),
                     'arenaVisitedM': arena_visited(home_arena_m, seen_venues_by_gender['M']),
                     'arenaVisitedW': arena_visited(home_arena_w, seen_venues_by_gender['W']),
-                    'conference': conf_name
+                    'conference': conf_name,
+                    'espnId': get_espn_team_id(team)
                 }
                 teams_data.append(team_data)
                 all_d1_teams.append(team_data)
@@ -751,7 +1021,8 @@ class DataSerializer:
                     'arenaVisited': arena_visited(home_arena, seen_venues_by_gender['all']),
                     'arenaVisitedM': arena_visited(home_arena, seen_venues_by_gender['M']),
                     'arenaVisitedW': arena_visited(home_arena, seen_venues_by_gender['W']),
-                    'conference': 'Historical/Other'
+                    'conference': 'Historical/Other',
+                    'espnId': get_espn_team_id(team)
                 })
 
         if historical_teams:

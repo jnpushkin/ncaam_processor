@@ -206,6 +206,17 @@ def get_javascript(json_data: str) -> str:
             } else if (sectionId === 'map' && schoolMap) {
                 schoolMap.invalidateSize();
             }
+
+            // Initialize upcoming map when section shown (Map View is default sub-tab)
+            if (sectionId === 'upcoming') {
+                setTimeout(() => {
+                    if (upcomingVenuesMap) {
+                        upcomingVenuesMap.invalidateSize();
+                    } else {
+                        initUpcomingMap();
+                    }
+                }, 100);
+            }
         }
 
         function showSubSection(parentId, subId) {
@@ -693,6 +704,35 @@ def get_javascript(json_data: str) -> str:
                 applyFilters('games');
                 showToast(`Showing ${conf1} games`);
             }
+        }
+
+        function filterGameLog(teamName) {
+            // Navigate to games section
+            showSection('games');
+
+            // Clear existing filters
+            clearFilters('games');
+
+            // Try to find the team in the dropdown (with any gender)
+            const teamSelect = document.getElementById('games-team');
+            let found = false;
+            for (const option of teamSelect.options) {
+                if (option.value.startsWith(teamName + '|')) {
+                    teamSelect.value = option.value;
+                    found = true;
+                    break;
+                }
+            }
+
+            // If not found in dropdown, use search box
+            if (!found) {
+                document.getElementById('games-search').value = teamName;
+            }
+
+            // Apply filters and show toast
+            applyFilters('games');
+            const count = filteredData.games.length;
+            showToast(`Showing ${count} game${count !== 1 ? 's' : ''} with ${teamName}`);
         }
 
         function applyFilters(type) {
@@ -1840,11 +1880,105 @@ def get_javascript(json_data: str) -> str:
         let upcomingTeamsData = {};
         let selectedTeams = new Set();
         let upcomingVenuesMap = null;
+        let upcomingVisitedVenues = [];
+
+        // Format game date/time from ISO to local time
+        function formatGameDateTime(isoDate, timeDetail) {
+            try {
+                // ESPN provides actual game time in timeDetail (e.g., "12/28 - 7:00 PM EST")
+                // The isoDate field is often wrong (midnight UTC, sometimes wrong day)
+                if (timeDetail && timeDetail.includes(' - ')) {
+                    // Parse "12/28 - 7:00 PM EST" or "1/16 - 7:00 PM EST" format
+                    const parts = timeDetail.split(' - ');
+                    const datePart = parts[0];  // "12/28" or "1/16"
+                    const timePart = parts[1];  // "7:00 PM EST"
+
+                    // Parse the date from datePart (MM/DD format)
+                    const dateMatch = datePart.match(/^(\\d{1,2})\\/(\\d{1,2})$/);
+                    const timeMatch = timePart.match(/^(\\d{1,2}):(\\d{2})\\s*(AM|PM)\\s*(EST|EDT|CST|CDT|MST|MDT|PST|PDT)?$/i);
+
+                    if (dateMatch && timeMatch) {
+                        const gameMonth = parseInt(dateMatch[1]) - 1;  // 0-indexed
+                        const gameDay = parseInt(dateMatch[2]);
+                        let hours = parseInt(timeMatch[1]);
+                        const minutes = parseInt(timeMatch[2]);
+                        const ampm = timeMatch[3].toUpperCase();
+                        const tz = (timeMatch[4] || 'EST').toUpperCase();
+
+                        // Convert to 24-hour format
+                        if (ampm === 'PM' && hours !== 12) hours += 12;
+                        if (ampm === 'AM' && hours === 12) hours = 0;
+
+                        // Determine year from isoDate (handles Dec->Jan transition)
+                        const baseDt = new Date(isoDate);
+                        let year = baseDt.getUTCFullYear();
+                        // If isoDate is in Dec but game month is Jan, use next year
+                        if (baseDt.getUTCMonth() === 11 && gameMonth === 0) year++;
+
+                        // Timezone offsets from UTC (negative = behind UTC)
+                        const tzOffsets = {
+                            'EST': -5, 'EDT': -4,
+                            'CST': -6, 'CDT': -5,
+                            'MST': -7, 'MDT': -6,
+                            'PST': -8, 'PDT': -7
+                        };
+                        const offset = tzOffsets[tz] || -5;
+
+                        // Create date in UTC, then adjust for the source timezone
+                        const utcMs = Date.UTC(year, gameMonth, gameDay, hours - offset, minutes);
+                        const localDt = new Date(utcMs);
+
+                        // Format in user's local timezone
+                        const dayOfWeek = localDt.toLocaleDateString('en-US', { weekday: 'short' });
+                        const monthStr = localDt.toLocaleDateString('en-US', { month: 'short' });
+                        const dayNum = localDt.getDate();
+                        const timeStr = localDt.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+
+                        return `${dayOfWeek}, ${monthStr} ${dayNum} ${timeStr}`;
+                    }
+                }
+
+                const dt = new Date(isoDate);
+                // Check if time is midnight UTC (likely no time specified)
+                const hasTime = dt.getUTCHours() !== 0 || dt.getUTCMinutes() !== 0;
+
+                const options = { weekday: 'short', month: 'short', day: 'numeric' };
+                const dateStr = dt.toLocaleDateString('en-US', options);
+
+                if (hasTime) {
+                    const timeStr = dt.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+                    return `${dateStr} ${timeStr}`;
+                }
+                return dateStr;
+            } catch (e) {
+                return isoDate;
+            }
+        }
+
+        // Get actual game date from time_detail (ESPN's date field is often wrong)
+        function getActualGameDate(isoDate, timeDetail) {
+            if (timeDetail && timeDetail.includes(' - ')) {
+                const parts = timeDetail.split(' - ');
+                const datePart = parts[0];  // "1/14" or "12/28"
+                const dateMatch = datePart.match(/^(\d{1,2})\/(\d{1,2})$/);
+                if (dateMatch) {
+                    const gameMonth = parseInt(dateMatch[1]) - 1;
+                    const gameDay = parseInt(dateMatch[2]);
+                    const baseDt = new Date(isoDate);
+                    let year = baseDt.getUTCFullYear();
+                    // Handle Dec->Jan year transition
+                    if (baseDt.getUTCMonth() === 11 && gameMonth === 0) year++;
+                    return new Date(year, gameMonth, gameDay);
+                }
+            }
+            return new Date(isoDate);
+        }
 
         function initUpcomingGames() {
             const upcoming = DATA.upcomingGames || {};
             upcomingGamesData = upcoming.games || [];
             upcomingTeamsData = upcoming.teamBreakdown || {};
+            upcomingVisitedVenues = upcoming.visitedVenues || [];
 
             if (upcomingGamesData.length === 0) {
                 const tbody = document.querySelector('#upcoming-table tbody');
@@ -1886,6 +2020,8 @@ def get_javascript(json_data: str) -> str:
             filterUpcomingGames();
         }
 
+        let tripPlannerInitialized = false;
+
         function showUpcomingSubTab(tabId) {
             document.querySelectorAll('#upcoming .sub-section').forEach(s => s.classList.remove('active'));
             document.querySelectorAll('#upcoming .sub-tab').forEach(t => t.classList.remove('active'));
@@ -1893,7 +2029,19 @@ def get_javascript(json_data: str) -> str:
             event.target.classList.add('active');
 
             if (tabId === 'upcoming-map') {
-                setTimeout(() => initUpcomingMap(), 100);
+                setTimeout(() => {
+                    if (upcomingVenuesMap) {
+                        // Fix map rendering when tab becomes visible
+                        upcomingVenuesMap.invalidateSize();
+                    } else {
+                        initUpcomingMap();
+                    }
+                }, 100);
+            } else if (tabId === 'upcoming-trips') {
+                if (!tripPlannerInitialized) {
+                    initTripPlanner();
+                    tripPlannerInitialized = true;
+                }
             }
         }
 
@@ -1975,15 +2123,17 @@ def get_javascript(json_data: str) -> str:
                 // Conference filter
                 if (confFilter && game.homeConf !== confFilter && game.awayConf !== confFilter) return false;
 
-                // Date range filter
-                const gameDate = new Date(game.date);
+                // Date range filter - use actual game date from time_detail
+                const gameDate = getActualGameDate(game.date, game.time_detail);
+                gameDate.setHours(0, 0, 0, 0);
                 if (startDate) {
-                    const start = new Date(startDate);
+                    const [y, m, d] = startDate.split('-').map(Number);
+                    const start = new Date(y, m - 1, d);
                     if (gameDate < start) return false;
                 }
                 if (endDate) {
-                    const end = new Date(endDate);
-                    end.setHours(23, 59, 59);
+                    const [y, m, d] = endDate.split('-').map(Number);
+                    const end = new Date(y, m - 1, d, 23, 59, 59);
                     if (gameDate > end) return false;
                 }
 
@@ -2030,7 +2180,7 @@ def get_javascript(json_data: str) -> str:
 
                 return `
                     <tr>
-                        <td style="white-space: nowrap;">${game.dateDisplay}</td>
+                        <td style="white-space: nowrap;">${formatGameDateTime(game.date, game.time_detail)}</td>
                         <td><strong>${game.awayTeam}</strong> @ <strong>${game.homeTeam}</strong></td>
                         <td>${confDisplay}</td>
                         <td>${game.venue}</td>
@@ -2164,6 +2314,51 @@ def get_javascript(json_data: str) -> str:
 
         let upcomingMapMarkers = [];
 
+        // Helper to normalize ESPN team names to match SCHOOL_COORDS (shared function)
+        function normalizeEspnTeamName(name) {
+            if (!name) return name;
+
+            // Normalize curly quotes to straight quotes (ESPN uses curly)
+            name = name.replace(/'/g, "'").replace(/'/g, "'").replace(/"/g, '"').replace(/"/g, '"');
+
+            // Explicit ESPN -> SCHOOL_COORDS mappings
+            const explicitMappings = {
+                'Santa Barbara': 'UC Santa Barbara', 'Davis': 'UC Davis', 'Riverside': 'UC Riverside',
+                'Irvine': 'UC Irvine', 'San Diego': 'San Diego', 'UCSB': 'UC Santa Barbara',
+                'UCD': 'UC Davis', 'UCR': 'UC Riverside', 'UCI': 'UC Irvine', 'UCSD': 'UC San Diego',
+                'Bakersfield': 'Cal State Bakersfield', 'Fullerton': 'Cal State Fullerton',
+                'Northridge': 'Cal State Northridge', 'LMU': 'Loyola Marymount',
+                'CA Baptist': 'California Baptist', 'Cal Baptist': 'California Baptist',
+                'UMES': 'Maryland-Eastern Shore', 'MD Eastern': 'Maryland-Eastern Shore',
+                'N Arizona': 'Northern Arizona', 'N Colorado': 'Northern Colorado',
+                'N Dakota': 'North Dakota', 'N Dakota St': 'North Dakota State',
+                'S Dakota': 'South Dakota', 'S Dakota St': 'South Dakota State',
+                'S Florida': 'South Florida', 'N Texas': 'North Texas', 'W Virginia': 'West Virginia',
+                'W Kentucky': 'Western Kentucky', 'E Kentucky': 'Eastern Kentucky', 'E Washington': 'Eastern Washington',
+                'St Marys': "Saint Mary's (CA)", "Saint Mary's": "Saint Mary's (CA)",
+                'Mount St Marys': "Mount St. Mary's", "St John's": "St. John's",
+                'St Bonaventure': 'St. Bonaventure', "St Peter's": "Saint Peter's", 'St Thomas': 'St. Thomas',
+                'App State': 'Appalachian State', 'G Washington': 'George Washington',
+                'UMass': 'Massachusetts', 'UConn': 'Connecticut', 'Ole Miss': 'Mississippi',
+                'Pitt': 'Pittsburgh', 'Miami': 'Miami (FL)', 'FGCU': 'Florida Gulf Coast',
+                'UNC': 'North Carolina', 'VCU': 'Virginia Commonwealth', 'UCF': 'Central Florida',
+                'UNLV': 'Nevada-Las Vegas', 'SMU': 'Southern Methodist', 'LSU': 'Louisiana State',
+                'BYU': 'Brigham Young', 'TCU': 'Texas Christian', 'USC': 'Southern California',
+                'SFA': 'Stephen F. Austin', 'UTEP': 'UTEP', 'UTSA': 'Texas-San Antonio',
+                'LIU': 'Long Island', 'FIU': 'Florida International'
+            };
+
+            if (explicitMappings[name]) return explicitMappings[name];
+
+            // Handle " St" suffix -> " State"
+            if (name.endsWith(' St')) return name.slice(0, -3) + ' State';
+
+            // Handle "St " prefix -> "Saint "
+            if (name.startsWith('St ')) return 'Saint ' + name.slice(3);
+
+            return name;
+        }
+
         function initUpcomingMap() {
             const mapEl = document.getElementById('upcoming-venues-map');
             if (!mapEl || upcomingVenuesMap) return;
@@ -2200,13 +2395,19 @@ def get_javascript(json_data: str) -> str:
             // Group games by venue
             const venueGames = {};
             upcomingGamesData.forEach(game => {
-                const gameDate = new Date(game.date);
+                // Use actual game date from time_detail (ESPN's date field is often wrong)
+                const gameDate = getActualGameDate(game.date, game.time_detail);
+                gameDate.setHours(0, 0, 0, 0);  // Normalize to midnight for date comparison
 
-                // Date filter
-                if (startDate && gameDate < new Date(startDate)) return;
+                // Date filter - parse as local dates (not UTC)
+                if (startDate) {
+                    const [y, m, d] = startDate.split('-').map(Number);
+                    const start = new Date(y, m - 1, d);
+                    if (gameDate < start) return;
+                }
                 if (endDate) {
-                    const end = new Date(endDate);
-                    end.setHours(23, 59, 59);
+                    const [y, m, d] = endDate.split('-').map(Number);
+                    const end = new Date(y, m - 1, d, 23, 59, 59);
                     if (gameDate > end) return;
                 }
                 if (!startDate && !endDate && gameDate < now) return;
@@ -2222,8 +2423,32 @@ def get_javascript(json_data: str) -> str:
             function normalizeTeamName(name) {
                 if (!name) return name;
 
+                // Normalize curly quotes to straight quotes (ESPN uses curly)
+                name = name.replace(/'/g, "'").replace(/'/g, "'").replace(/"/g, '"').replace(/"/g, '"');
+
                 // Explicit ESPN -> SCHOOL_COORDS mappings
                 const explicitMappings = {
+                    // UC schools - ESPN drops "UC" prefix
+                    'Santa Barbara': 'UC Santa Barbara',
+                    'Davis': 'UC Davis',
+                    'Riverside': 'UC Riverside',
+                    'Irvine': 'UC Irvine',
+                    'San Diego': 'San Diego',  // USD, not UCSD
+                    'UCSB': 'UC Santa Barbara',
+                    'UCD': 'UC Davis',
+                    'UCR': 'UC Riverside',
+                    'UCI': 'UC Irvine',
+                    'UCSD': 'UC San Diego',
+
+                    // Cal State / California schools - ESPN short names
+                    'Bakersfield': 'Cal State Bakersfield',
+                    'Fullerton': 'Cal State Fullerton',
+                    'Northridge': 'Cal State Northridge',
+                    'LMU': 'Loyola Marymount',
+                    'CA Baptist': 'California Baptist',
+                    'Cal Baptist': 'California Baptist',
+
+                    // Direction abbreviations
                     'UMES': 'Maryland-Eastern Shore',
                     'MD Eastern': 'Maryland-Eastern Shore',
                     'N Arizona': 'Northern Arizona',
@@ -2232,9 +2457,23 @@ def get_javascript(json_data: str) -> str:
                     'N Dakota St': 'North Dakota State',
                     'S Dakota': 'South Dakota',
                     'S Dakota St': 'South Dakota State',
+                    'S Florida': 'South Florida',
+                    'N Texas': 'North Texas',
+                    'W Virginia': 'West Virginia',
+                    'W Kentucky': 'Western Kentucky',
+                    'E Kentucky': 'Eastern Kentucky',
+                    'E Washington': 'Eastern Washington',
+
+                    // Saint/St variations
                     'St Marys': "Saint Mary's (CA)",
                     "Saint Mary's": "Saint Mary's (CA)",
                     'Mount St Marys': "Mount St. Mary's",
+                    "St John's": "St. John's",
+                    'St Bonaventure': 'St. Bonaventure',
+                    "St Peter's": "Saint Peter's",
+                    'St Thomas': 'St. Thomas',
+
+                    // Common abbreviations
                     'App State': 'Appalachian State',
                     'G Washington': 'George Washington',
                     'UMass': 'Massachusetts',
@@ -2251,6 +2490,99 @@ def get_javascript(json_data: str) -> str:
                     'LSU': 'Louisiana State',
                     'BYU': 'Brigham Young',
                     'TCU': 'Texas Christian',
+                    'USC': 'Southern California',
+                    'SFA': 'Stephen F. Austin',
+                    'UTEP': 'UTEP',
+                    'UTSA': 'Texas-San Antonio',
+                    'LIU': 'Long Island',
+                    'FIU': 'Florida International',
+                    'FAU': 'Florida Atlantic',
+                    'UAB': 'UAB',
+                    'URI': 'Rhode Island',
+                    'UNI': 'Northern Iowa',
+                    'NIU': 'Northern Illinois',
+                    'SIU': 'Southern Illinois',
+                    'WKU': 'Western Kentucky',
+                    'ETSU': 'East Tennessee State',
+                    'MTSU': 'Middle Tennessee',
+
+                    // Cal State schools
+                    'Long Beach St': 'Long Beach State',
+                    'Sacramento St': 'Sacramento State',
+                    'San Jose St': 'San Jose State',
+                    'Fresno St': 'Fresno State',
+                    'San Diego St': 'San Diego State',
+                    'CSU Fullerton': 'Cal State Fullerton',
+                    'CSU Northridge': 'Cal State Northridge',
+                    'CSU Bakersfield': 'Cal State Bakersfield',
+                    'Cal Baptist': 'California Baptist',
+
+                    // Other abbreviations
+                    'Loyola Chi': 'Loyola Chicago',
+                    'Loyola MD': 'Loyola (MD)',
+                    'Loyola Marymount': 'Loyola Marymount',
+                    'Little Rock': 'Arkansas-Little Rock',
+                    'Omaha': 'Nebraska-Omaha',
+                    'Southern Miss': 'Southern Miss',
+                    'Grand Canyon': 'Grand Canyon',
+
+                    // ESPN variations - comprehensive list
+                    'AR-Pine Bluff': 'Arkansas-Pine Bluff',
+                    'Abilene Chrstn': 'Abilene Christian',
+                    'Bethune': 'Bethune-Cookman',
+                    'Boston U': 'Boston University',
+                    'C Arkansas': 'Central Arkansas',
+                    'C Connecticut': 'Central Connecticut',
+                    'C Michigan': 'Central Michigan',
+                    'Charleston So': 'Charleston Southern',
+                    'Coastal': 'Coastal Carolina',
+                    'E Illinois': 'Eastern Illinois',
+                    'E Michigan': 'Eastern Michigan',
+                    'E Texas A&M': 'East Texas A&M',
+                    'FDU': 'Fairleigh Dickinson',
+                    'GA Southern': 'Georgia Southern',
+                    'Grambling': 'Grambling State',
+                    "Hawai'i": 'Hawaii',
+                    'Hou Christian': 'Houston Christian',
+                    'IU Indy': 'Indiana-Purdue Indianapolis',
+                    'Jax State': 'Jacksonville State',
+                    'Long Island': 'Long Island',
+                    'Miami OH': 'Miami (OH)',
+                    'Miss Valley St': 'Mississippi Valley State',
+                    'Mount St Marys': "Mount St. Mary's",
+                    'N Illinois': 'Northern Illinois',
+                    'N Kentucky': 'Northern Kentucky',
+                    "N'Western St": 'Northwestern State',
+                    "NW State": 'Northwestern State',
+                    "Hawai'i": 'Hawaii',
+                    'NC A&T': 'North Carolina A&T',
+                    'NC Central': 'North Carolina Central',
+                    'Prairie View': 'Prairie View A&M',
+                    'Purdue FW': 'Purdue Fort Wayne',
+                    'S Illinois': 'Southern Illinois',
+                    'SC State': 'South Carolina State',
+                    'SC Upstate': 'USC Upstate',
+                    'SE Louisiana': 'Southeastern Louisiana',
+                    'SE Missouri': 'Southeast Missouri State',
+                    'SF Austin': 'Stephen F. Austin',
+                    'SIUE': 'SIU Edwardsville',
+                    'Saint Francis': 'Saint Francis (PA)',
+                    "Saint Joseph's": "Saint Joseph's",
+                    "Saint Peter's": "Saint Peter's",
+                    'Seattle U': 'Seattle',
+                    'So Indiana': 'Southern Indiana',
+                    "St John's": "St. John's",
+                    'St Thomas (MN)': 'St. Thomas',
+                    'Texas A&M-CC': 'Texas A&M-Corpus Christi',
+                    'UAlbany': 'Albany',
+                    'UL Monroe': 'Louisiana-Monroe',
+                    'UNC Wilmington': 'UNC Wilmington',
+                    'UT Rio Grande': 'Texas-Rio Grande Valley',
+                    'W Carolina': 'Western Carolina',
+                    'W Illinois': 'Western Illinois',
+                    'W Michigan': 'Western Michigan',
+                    'Western KY': 'Western Kentucky',
+                    'Arizona St': 'Arizona State',
                 };
                 if (explicitMappings[name]) return explicitMappings[name];
 
@@ -2277,7 +2609,7 @@ def get_javascript(json_data: str) -> str:
                 if (v.games.length > 0) {
                     const homeTeam = v.games[0].homeTeam;
                     // Try direct match, then normalized name
-                    coords = SCHOOL_COORDS[homeTeam] || SCHOOL_COORDS[normalizeTeamName(homeTeam)];
+                    coords = SCHOOL_COORDS[homeTeam] || SCHOOL_COORDS[normalizeEspnTeamName(homeTeam)];
                 }
 
                 if (coords) {
@@ -2308,7 +2640,7 @@ def get_javascript(json_data: str) -> str:
                 const radius = Math.min(5 + gameCount, 15);
 
                 const gameList = v.games.slice(0, 5).map(g =>
-                    `${g.dateDisplay}: ${g.awayTeam} @ ${g.homeTeam}`
+                    `${formatGameDateTime(g.date, g.time_detail)}: ${g.awayTeam} @ ${g.homeTeam}`
                 ).join('<br>');
                 const moreText = v.games.length > 5 ? `<br>...and ${v.games.length - 5} more` : '';
 
@@ -2323,6 +2655,102 @@ def get_javascript(json_data: str) -> str:
                   .bindPopup(`<strong>${v.venue}</strong><br>${v.city}, ${v.state}<br><br>${gameCount} games:<br>${gameList}${moreText}`);
 
                 marker.venueData = v;
+                marker.isVisited = false;
+                upcomingMapMarkers.push(marker);
+            });
+
+            // Specific venue coordinates (for neutral sites, renamed arenas, etc.)
+            const VENUE_COORDS = {
+                'Chase Center': [37.7680, -122.3877],
+                'Barclays Center': [40.6826, -73.9754],
+                'Madison Square Garden': [40.7505, -73.9934],
+                'T-Mobile Arena': [36.1028, -115.1784],
+                'United Center': [41.8807, -87.6742],
+                'Footprint Center': [33.4457, -112.0712],
+                'Crypto.com Arena': [34.0430, -118.2673],
+                'Capital One Arena': [38.8982, -77.0208],
+            };
+
+            // Add visited venue markers (blue)
+            upcomingVisitedVenues.forEach(v => {
+                let coords = null;
+                let lat, lng;
+
+                // First check specific venue coordinates (for neutral sites)
+                coords = VENUE_COORDS[v.venue];
+
+                // Fall back to home team's coordinates
+                if (!coords && v.homeTeam) {
+                    coords = SCHOOL_COORDS[v.homeTeam] || SCHOOL_COORDS[normalizeEspnTeamName(v.homeTeam)];
+                }
+
+                if (coords) {
+                    lat = coords[0] + (Math.random() - 0.5) * 0.01;
+                    lng = coords[1] + (Math.random() - 0.5) * 0.01;
+                } else {
+                    // Fall back to city coordinates
+                    const cityKey = `${v.city}, ${v.state}`;
+                    coords = CITY_COORDS[cityKey];
+
+                    if (coords) {
+                        lat = coords[0] + (Math.random() - 0.5) * 0.02;
+                        lng = coords[1] + (Math.random() - 0.5) * 0.02;
+                    } else {
+                        // Fall back to state center
+                        coords = STATE_COORDS[v.state];
+                        if (!coords) return;
+                        lat = coords[0] + (Math.random() - 0.5) * 2;
+                        lng = coords[1] + (Math.random() - 0.5) * 3;
+                    }
+                }
+
+                const pastGames = v.pastGames || v.games || 1;
+                const allUpcomingGames = v.upcomingGames || [];
+                const radius = Math.min(5 + pastGames, 15);
+
+                // Filter upcoming games by date range (respect the map's date filter)
+                const filteredUpcoming = allUpcomingGames.filter(g => {
+                    const gameDate = getActualGameDate(g.date, g.time_detail);
+                    gameDate.setHours(0, 0, 0, 0);
+                    if (startDate) {
+                        const [y, m, d] = startDate.split('-').map(Number);
+                        const start = new Date(y, m - 1, d);
+                        if (gameDate < start) return false;
+                    }
+                    if (endDate) {
+                        const [y, m, d] = endDate.split('-').map(Number);
+                        const end = new Date(y, m - 1, d, 23, 59, 59);
+                        if (gameDate > end) return false;
+                    }
+                    return true;
+                });
+
+                // Skip visited venues with no upcoming games in the date range
+                if (filteredUpcoming.length === 0) return;
+
+                // Build popup content
+                let popupContent = `<strong>${v.venue}</strong><br>${v.city}, ${v.state}<br><span style="color: #3b82f6;">✓ Visited (${pastGames} game${pastGames > 1 ? 's' : ''})</span>`;
+
+                popupContent += `<br><br><strong>Upcoming:</strong><br>`;
+                popupContent += filteredUpcoming.slice(0, 5).map(g =>
+                    `${formatGameDateTime(g.date, g.time_detail)}: ${g.away} @ ${g.home}`
+                ).join('<br>');
+                if (filteredUpcoming.length > 5) {
+                    popupContent += `<br>...+${filteredUpcoming.length - 5} more`;
+                }
+
+                const marker = L.circleMarker([lat, lng], {
+                    radius: radius,
+                    fillColor: '#3b82f6',  // Blue for visited
+                    color: '#fff',
+                    weight: 2,
+                    opacity: 1,
+                    fillOpacity: 0.7
+                }).addTo(upcomingVenuesMap)
+                  .bindPopup(popupContent);
+
+                marker.venueData = { ...v, lat, lng, upcomingGames: filteredUpcoming };
+                marker.isVisited = true;
                 upcomingMapMarkers.push(marker);
             });
 
@@ -2335,9 +2763,10 @@ def get_javascript(json_data: str) -> str:
             const filterVisible = document.getElementById('upcoming-map-filter-visible')?.checked || false;
             const bounds = upcomingVenuesMap.getBounds();
 
-            // Get all games from visible markers
+            // Get all games from visible markers (both visited and unvisited)
             let visibleGames = [];
             let visibleVenues = 0;
+            let visitedVenueCount = 0;
 
             upcomingMapMarkers.forEach(marker => {
                 const v = marker.venueData;
@@ -2345,7 +2774,22 @@ def get_javascript(json_data: str) -> str:
 
                 if (inBounds) {
                     visibleVenues++;
-                    visibleGames = visibleGames.concat(v.games);
+                    if (marker.isVisited) {
+                        visitedVenueCount++;
+                        // Visited venues store filtered games in upcomingGames
+                        const visitedGames = (v.upcomingGames || []).map(g => ({
+                            ...g,
+                            venue: v.venue,
+                            city: v.city,
+                            state: v.state,
+                            isVisited: true
+                        }));
+                        visibleGames = visibleGames.concat(visitedGames);
+                    } else {
+                        // Unvisited venues store games directly
+                        const unvisitedGames = (v.games || []).map(g => ({ ...g, isVisited: false }));
+                        visibleGames = visibleGames.concat(unvisitedGames);
+                    }
                 }
             });
 
@@ -2355,7 +2799,8 @@ def get_javascript(json_data: str) -> str:
             // Update summary
             const summary = document.getElementById('upcoming-map-summary');
             if (summary) {
-                summary.textContent = `${visibleGames.length} games at ${visibleVenues} venues${filterVisible ? ' in view' : ''}`;
+                const visitedNote = visitedVenueCount > 0 ? ` (${visitedVenueCount} visited)` : '';
+                summary.textContent = `${visibleGames.length} games at ${visibleVenues} venues${visitedNote}${filterVisible ? ' in view' : ''}`;
             }
 
             // Update table
@@ -2367,18 +2812,365 @@ def get_javascript(json_data: str) -> str:
                 return;
             }
 
-            tbody.innerHTML = visibleGames.slice(0, 100).map(game => `
-                <tr>
-                    <td style="white-space: nowrap;">${game.dateDisplay}</td>
-                    <td><strong>${game.awayTeam}</strong> @ <strong>${game.homeTeam}</strong></td>
-                    <td>${game.venue}</td>
+            tbody.innerHTML = visibleGames.slice(0, 100).map(game => {
+                const visitedBadge = game.isVisited ? '<span style="color: #3b82f6; margin-left: 4px;" title="Visited venue">✓</span>' : '';
+                const awayTeam = game.awayTeam || game.away || '';
+                const homeTeam = game.homeTeam || game.home || '';
+                return `
+                <tr${game.isVisited ? ' style="background: rgba(59, 130, 246, 0.05);"' : ''}>
+                    <td style="white-space: nowrap;">${formatGameDateTime(game.date, game.time_detail)}</td>
+                    <td><strong>${awayTeam}</strong> @ <strong>${homeTeam}</strong></td>
+                    <td>${game.venue}${visitedBadge}</td>
                     <td>${game.city}, ${game.state}</td>
                 </tr>
-            `).join('');
+            `}).join('');
 
             if (visibleGames.length > 100) {
                 tbody.innerHTML += `<tr><td colspan="4" style="text-align: center; color: var(--text-secondary);">Showing first 100 of ${visibleGames.length} games</td></tr>`;
             }
+        }
+
+        // ============ TRIP PLANNER ============
+
+        // Haversine formula to calculate distance between two lat/lng points in miles
+        function haversineDistance(lat1, lng1, lat2, lng2) {
+            const R = 3959; // Earth's radius in miles
+            const dLat = (lat2 - lat1) * Math.PI / 180;
+            const dLng = (lng2 - lng1) * Math.PI / 180;
+            const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                      Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                      Math.sin(dLng / 2) * Math.sin(dLng / 2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            return R * c;
+        }
+
+        // Get coordinates for a game (using home team's location)
+        function getGameCoords(game) {
+            const homeTeam = game.homeTeam || '';
+            const normalizedName = normalizeEspnTeamName(homeTeam);
+
+            // Try SCHOOL_COORDS first
+            if (SCHOOL_COORDS[normalizedName]) {
+                return SCHOOL_COORDS[normalizedName];
+            }
+            if (SCHOOL_COORDS[homeTeam]) {
+                return SCHOOL_COORDS[homeTeam];
+            }
+
+            // Try CITY_COORDS
+            const cityKey = `${game.city}, ${game.state}`;
+            if (CITY_COORDS[cityKey]) {
+                return CITY_COORDS[cityKey];
+            }
+
+            // Fall back to state center
+            const stateCoords = STATE_COORDS[game.state];
+            if (stateCoords) {
+                return stateCoords;
+            }
+
+            return null;
+        }
+
+        function initTripPlanner() {
+            // Populate state filter dropdown (sorted by game count)
+            const stateFilter = document.getElementById('trip-start-location');
+            if (stateFilter && upcomingGamesData.length > 0) {
+                // Count games by state
+                const stateCounts = {};
+                upcomingGamesData.forEach(g => {
+                    if (g.state) {
+                        stateCounts[g.state] = (stateCounts[g.state] || 0) + 1;
+                    }
+                });
+
+                // Sort by game count
+                const states = Object.entries(stateCounts)
+                    .sort((a, b) => b[1] - a[1]);
+
+                // Clear existing options (keep the first "Select a state" option)
+                while (stateFilter.options.length > 1) {
+                    stateFilter.remove(1);
+                }
+
+                states.forEach(([state, count]) => {
+                    const option = document.createElement('option');
+                    option.value = state;
+                    option.textContent = `${state} (${count} games)`;
+                    stateFilter.appendChild(option);
+                });
+
+                // Auto-select the first state (most games)
+                if (states.length > 0) {
+                    stateFilter.value = states[0][0];
+                }
+            }
+
+            // Set default date range (next 60 days)
+            const today = new Date();
+            const sixtyDays = new Date(today.getTime() + 60 * 24 * 60 * 60 * 1000);
+            document.getElementById('trip-start-date').value = today.toISOString().split('T')[0];
+            document.getElementById('trip-end-date').value = sixtyDays.toISOString().split('T')[0];
+
+            // Run initial search
+            generateTrips();
+        }
+
+        function generateTrips() {
+            const startLocation = document.getElementById('trip-start-location')?.value;
+            const maxDistance = parseInt(document.getElementById('trip-max-distance')?.value) || 100;
+            const minGames = parseInt(document.getElementById('trip-min-games')?.value) || 2;
+            const maxGap = parseInt(document.getElementById('trip-max-gap')?.value) || 1;
+            const startDate = document.getElementById('trip-start-date')?.value;
+            const endDate = document.getElementById('trip-end-date')?.value;
+
+            const resultsDiv = document.getElementById('trip-results');
+            const summaryDiv = document.getElementById('trip-summary');
+
+            if (!startLocation) {
+                summaryDiv.innerHTML = 'Select a starting location to find road trip opportunities.';
+                resultsDiv.innerHTML = '';
+                return;
+            }
+
+            // Filter games by state and date range
+            const now = new Date();
+            now.setHours(0, 0, 0, 0);
+
+            let filteredGames = upcomingGamesData.filter(game => {
+                // State filter - games in the selected state
+                if (game.state !== startLocation) return false;
+
+                // Date filter
+                const gameDate = getActualGameDate(game.date, game.time_detail);
+                gameDate.setHours(0, 0, 0, 0);
+
+                if (startDate) {
+                    const [y, m, d] = startDate.split('-').map(Number);
+                    const start = new Date(y, m - 1, d);
+                    if (gameDate < start) return false;
+                }
+                if (endDate) {
+                    const [y, m, d] = endDate.split('-').map(Number);
+                    const end = new Date(y, m - 1, d, 23, 59, 59);
+                    if (gameDate > end) return false;
+                }
+
+                // Only future games
+                if (gameDate < now) return false;
+
+                return true;
+            });
+
+            // Add coordinates to each game
+            filteredGames = filteredGames.map(g => ({
+                ...g,
+                coords: getGameCoords(g),
+                gameDate: getActualGameDate(g.date, g.time_detail)
+            })).filter(g => g.coords !== null);
+
+            // Sort by date
+            filteredGames.sort((a, b) => a.gameDate - b.gameDate);
+
+            if (filteredGames.length === 0) {
+                summaryDiv.innerHTML = `No upcoming games found in ${startLocation} for the selected date range.`;
+                resultsDiv.innerHTML = '';
+                return;
+            }
+
+            // Find all possible trips
+            const trips = findTrips(filteredGames, maxDistance, minGames, maxGap);
+
+            // Sort trips by number of games (descending), then by start date
+            trips.sort((a, b) => {
+                if (b.games.length !== a.games.length) {
+                    return b.games.length - a.games.length;
+                }
+                return a.games[0].gameDate - b.games[0].gameDate;
+            });
+
+            if (trips.length === 0) {
+                summaryDiv.innerHTML = `Found ${filteredGames.length} games in ${startLocation}, but no multi-game trips matching your criteria. Try increasing the max distance or allowing more days between games.`;
+                resultsDiv.innerHTML = '';
+                return;
+            }
+
+            // Display summary
+            const totalGamesInTrips = trips.reduce((sum, t) => sum + t.games.length, 0);
+            summaryDiv.innerHTML = `Found <strong>${trips.length} road trip${trips.length > 1 ? 's' : ''}</strong> covering <strong>${totalGamesInTrips} games</strong> in ${startLocation} (from ${filteredGames.length} total games in date range)`;
+
+            // Display trips
+            resultsDiv.innerHTML = trips.slice(0, 20).map((trip, i) => renderTrip(trip, i)).join('');
+
+            if (trips.length > 20) {
+                resultsDiv.innerHTML += `<p style="text-align: center; color: var(--text-secondary); margin-top: 1rem;">Showing top 20 of ${trips.length} trips. Adjust filters to narrow results.</p>`;
+            }
+        }
+
+        function findTrips(games, maxDistance, minGames, maxGap) {
+            const trips = [];
+
+            // Group games by date
+            const gamesByDate = {};
+            games.forEach(g => {
+                const dateKey = g.gameDate.toISOString().split('T')[0];
+                if (!gamesByDate[dateKey]) {
+                    gamesByDate[dateKey] = [];
+                }
+                gamesByDate[dateKey].push(g);
+            });
+
+            // Get sorted unique dates
+            const sortedDates = Object.keys(gamesByDate).sort();
+
+            // Build trips using a sliding window approach
+            // For each game, try to extend into a trip
+            const usedGameKeys = new Set(); // Track games already in trips
+
+            games.forEach(startGame => {
+                const gameKey = `${startGame.venue}-${startGame.date}`;
+                if (usedGameKeys.has(gameKey)) return;
+
+                // Try to build a trip starting from this game
+                const trip = [startGame];
+                let currentDate = new Date(startGame.gameDate);
+                let lastGame = startGame;
+
+                // Look for games on subsequent days
+                for (let dayOffset = 1; dayOffset <= maxGap * 30; dayOffset++) { // Check up to 30 * maxGap days ahead
+                    const nextDate = new Date(currentDate);
+                    nextDate.setDate(nextDate.getDate() + dayOffset);
+                    const nextDateKey = nextDate.toISOString().split('T')[0];
+
+                    // Check if we've exceeded the max gap from the last game in our trip
+                    const lastGameDate = trip[trip.length - 1].gameDate;
+                    const daysSinceLastGame = Math.floor((nextDate - lastGameDate) / (1000 * 60 * 60 * 24));
+
+                    if (daysSinceLastGame > maxGap) {
+                        // We've exceeded the gap - stop extending this trip
+                        break;
+                    }
+
+                    if (gamesByDate[nextDateKey]) {
+                        // Find games on this date that are within distance of ANY game in current trip
+                        const nearbyGames = gamesByDate[nextDateKey].filter(candidate => {
+                            // Check distance from the last game in the trip
+                            const lastTripGame = trip[trip.length - 1];
+                            const dist = haversineDistance(
+                                lastTripGame.coords[0], lastTripGame.coords[1],
+                                candidate.coords[0], candidate.coords[1]
+                            );
+                            return dist <= maxDistance;
+                        });
+
+                        if (nearbyGames.length > 0) {
+                            // Add the closest game to the trip
+                            const lastTripGame = trip[trip.length - 1];
+                            nearbyGames.sort((a, b) => {
+                                const distA = haversineDistance(lastTripGame.coords[0], lastTripGame.coords[1], a.coords[0], a.coords[1]);
+                                const distB = haversineDistance(lastTripGame.coords[0], lastTripGame.coords[1], b.coords[0], b.coords[1]);
+                                return distA - distB;
+                            });
+
+                            trip.push(nearbyGames[0]);
+                        }
+                    }
+                }
+
+                // Only keep trips with minimum number of games
+                if (trip.length >= minGames) {
+                    // Calculate total distance and span
+                    let totalDistance = 0;
+                    for (let i = 1; i < trip.length; i++) {
+                        totalDistance += haversineDistance(
+                            trip[i-1].coords[0], trip[i-1].coords[1],
+                            trip[i].coords[0], trip[i].coords[1]
+                        );
+                    }
+
+                    const firstDate = trip[0].gameDate;
+                    const lastDate = trip[trip.length - 1].gameDate;
+                    const daySpan = Math.floor((lastDate - firstDate) / (1000 * 60 * 60 * 24)) + 1;
+
+                    // Mark these games as used
+                    trip.forEach(g => {
+                        usedGameKeys.add(`${g.venue}-${g.date}`);
+                    });
+
+                    trips.push({
+                        games: trip,
+                        totalDistance: Math.round(totalDistance),
+                        daySpan,
+                        uniqueVenues: new Set(trip.map(g => g.venue)).size
+                    });
+                }
+            });
+
+            return trips;
+        }
+
+        function renderTrip(trip, index) {
+            const firstGame = trip.games[0];
+            const lastGame = trip.games[trip.games.length - 1];
+
+            // Format date range
+            const startDateStr = firstGame.gameDate.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+            const endDateStr = lastGame.gameDate.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+            const dateRange = trip.games.length === 1 ? startDateStr :
+                (startDateStr === endDateStr ? startDateStr : `${startDateStr} - ${endDateStr}`);
+
+            // Build itinerary
+            let prevGame = null;
+            const itinerary = trip.games.map((game, i) => {
+                let distanceNote = '';
+                if (prevGame) {
+                    const dist = Math.round(haversineDistance(
+                        prevGame.coords[0], prevGame.coords[1],
+                        game.coords[0], game.coords[1]
+                    ));
+                    distanceNote = `<span class="trip-distance">↳ ${dist} mi</span>`;
+                }
+                prevGame = game;
+
+                const gameDate = game.gameDate.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+                const timeMatch = game.time_detail?.match(/(\d{1,2}:\d{2}\s*(?:AM|PM))/i);
+                const timeStr = timeMatch ? timeMatch[1] : '';
+
+                const tvBadge = game.tv && game.tv.length > 0
+                    ? `<span class="trip-tv">${game.tv[0]}</span>`
+                    : '';
+
+                return `
+                    <div class="trip-game">
+                        ${distanceNote}
+                        <div class="trip-game-info">
+                            <span class="trip-date">${gameDate}${timeStr ? ' · ' + timeStr : ''}</span>
+                            <span class="trip-matchup"><strong>${game.awayTeam}</strong> @ <strong>${game.homeTeam}</strong></span>
+                            <span class="trip-venue">${game.venue}, ${game.city}</span>
+                            ${tvBadge}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            return `
+                <div class="trip-card">
+                    <div class="trip-header">
+                        <div class="trip-title">
+                            <span class="trip-number">#${index + 1}</span>
+                            <span class="trip-games-count">${trip.games.length} Games</span>
+                            <span class="trip-venues-count">${trip.uniqueVenues} Venue${trip.uniqueVenues > 1 ? 's' : ''}</span>
+                        </div>
+                        <div class="trip-meta">
+                            <span class="trip-dates">${dateRange}</span>
+                            <span class="trip-total-distance">${trip.totalDistance} mi total</span>
+                        </div>
+                    </div>
+                    <div class="trip-itinerary">
+                        ${itinerary}
+                    </div>
+                </div>
+            `;
         }
 
         function populateRecords() {
@@ -3196,6 +3988,24 @@ def get_javascript(json_data: str) -> str:
             'UNC Asheville': [35.6138, -82.5675],
             'USC Upstate': [34.9254, -81.9826],
             'Winthrop': [34.9418, -81.0331],
+            // Additional schools
+            'Long Island': [40.8176, -73.1163],
+            "St. John's": [40.7222, -73.7949],
+            "Saint Joseph's": [40.0158, -75.2356],
+            "Saint Peter's": [40.7321, -74.0676],
+            'UNC Wilmington': [34.2257, -77.8709],
+            'Texas-Rio Grande Valley': [26.3038, -98.1784],
+            "Mount St. Mary's": [39.7031, -77.3575],
+            'Saint Francis (PA)': [40.3960, -78.5091],
+            'Indiana-Purdue Indianapolis': [39.7740, -86.1816],
+            'Seattle': [47.6097, -122.3331],
+            'Boston University': [42.3505, -71.1054],
+            'Central Arkansas': [35.0849, -92.4403],
+            'Central Connecticut': [41.5682, -72.8740],
+            'Fairleigh Dickinson': [40.9157, -74.1238],
+            'Abilene Christian': [32.4669, -99.6940],
+            'Northern Kentucky': [39.0284, -84.4621],
+            'Purdue Fort Wayne': [41.1175, -85.1045],
         };
 
         let schoolMap = null;
@@ -3257,7 +4067,7 @@ def get_javascript(json_data: str) -> str:
                 if (filter === 'seen' && !seen) return;
                 if (filter === 'unseen' && seen) return;
 
-                // Determine marker color
+                // Determine marker color for fallback/border
                 let color;
                 if (visited) {
                     color = '#2E7D32';  // Green - visited home arena
@@ -3267,32 +4077,96 @@ def get_javascript(json_data: str) -> str:
                     color = '#9E9E9E';  // Gray - not seen
                 }
 
-                // Create custom icon
-                const icon = L.divIcon({
-                    className: 'custom-marker',
-                    html: `<div style="
-                        background: ${color};
-                        width: 12px;
-                        height: 12px;
-                        border-radius: 50%;
-                        border: 2px solid white;
-                        box-shadow: 0 2px 4px rgba(0,0,0,0.3);
-                    "></div>`,
-                    iconSize: [16, 16],
-                    iconAnchor: [8, 8],
-                });
+                // Determine opacity based on status
+                const opacity = visited ? 1.0 : (seen ? 0.6 : 0.2);
+                const espnId = team.espnId;
+
+                // Create icon - use ESPN logo if available, fallback to colored circle
+                let icon;
+                if (espnId) {
+                    const logoUrl = `https://a.espncdn.com/i/teamlogos/ncaa/500/${espnId}.png`;
+                    const size = visited ? 38 : (seen ? 28 : 14);
+                    const borderWidth = visited ? 3 : (seen ? 2 : 1);
+                    icon = L.divIcon({
+                        className: 'team-logo-marker',
+                        html: `<div style="
+                            width: ${size}px;
+                            height: ${size}px;
+                            border-radius: 50%;
+                            border: ${borderWidth}px solid ${color};
+                            background: white;
+                            box-shadow: ${visited ? '0 2px 6px rgba(0,0,0,0.4)' : (seen ? '0 1px 3px rgba(0,0,0,0.3)' : 'none')};
+                            overflow: hidden;
+                            opacity: ${opacity};
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                        "><img src="${logoUrl}" style="
+                            width: ${size - 2}px;
+                            height: ${size - 2}px;
+                            object-fit: contain;
+                        " onerror="this.parentElement.innerHTML='<div style=\\'background:${color};width:100%;height:100%;border-radius:50%\\'></div>'"></div>`,
+                        iconSize: [size + borderWidth * 2, size + borderWidth * 2],
+                        iconAnchor: [(size + borderWidth * 2) / 2, (size + borderWidth * 2) / 2],
+                    });
+                } else {
+                    // Fallback to colored circle
+                    const circleSize = visited ? 14 : (seen ? 10 : 6);
+                    icon = L.divIcon({
+                        className: 'custom-marker',
+                        html: `<div style="
+                            background: ${color};
+                            width: ${circleSize}px;
+                            height: ${circleSize}px;
+                            border-radius: 50%;
+                            border: ${visited ? 2 : 1}px solid white;
+                            box-shadow: ${visited ? '0 2px 4px rgba(0,0,0,0.3)' : 'none'};
+                            opacity: ${opacity};
+                        "></div>`,
+                        iconSize: [circleSize + 4, circleSize + 4],
+                        iconAnchor: [(circleSize + 4) / 2, (circleSize + 4) / 2],
+                    });
+                }
 
                 const marker = L.marker(coords, { icon }).addTo(schoolMap);
 
-                // Add popup
+                // Add popup with games list
                 const statusText = visited ? 'Visited' : (seen ? 'Seen (Away)' : 'Not Seen');
                 const arena = team.homeArena || 'Unknown';
+
+                // Find games involving this team
+                const teamGames = (DATA.games || []).filter(g =>
+                    g['Away Team'] === team.team || g['Home Team'] === team.team
+                );
+
+                let gamesHtml = '';
+                if (teamGames.length > 0) {
+                    const gameLinks = teamGames.slice(0, 5).map(g => {
+                        const isHome = g['Home Team'] === team.team;
+                        const opponent = isHome ? g['Away Team'] : g['Home Team'];
+                        const result = isHome
+                            ? `${g['Home Score']}-${g['Away Score']}`
+                            : `${g['Away Score']}-${g['Home Score']}`;
+                        const dateStr = g.Date || '';
+                        // Shorten date like "December 22, 2025" to "Dec 22"
+                        const shortDate = dateStr.replace(/(\w{3})\w* (\d+), \d+/, '$1 $2');
+                        return `<a href="#" onclick="filterGameLog('${team.team}'); return false;" style="color: #1976D2; text-decoration: none;">
+                            ${shortDate}: ${isHome ? 'vs' : '@'} ${opponent} (${result})
+                        </a>`;
+                    }).join('<br>');
+                    gamesHtml = `<div style="margin-top: 8px; padding-top: 8px; border-top: 1px solid #ddd; font-size: 12px;">
+                        <strong>Games (${teamGames.length}):</strong><br>${gameLinks}
+                        ${teamGames.length > 5 ? `<br><a href="#" onclick="filterGameLog('${team.team}'); return false;" style="color: #1976D2;">...and ${teamGames.length - 5} more</a>` : ''}
+                    </div>`;
+                }
+
                 marker.bindPopup(`
                     <strong>${team.team}</strong><br>
                     ${team.conference ? team.conference + '<br>' : ''}
                     <em>${arena}</em><br>
                     <span style="color: ${color}; font-weight: bold;">${statusText}</span>
-                `);
+                    ${gamesHtml}
+                `, { maxWidth: 300 });
 
                 mapMarkers.push(marker);
             });
@@ -3639,6 +4513,22 @@ def get_javascript(json_data: str) -> str:
                     return `<span class="${dotClass}" title="${team.team}"></span>`;
                 }).join('');
 
+                // Venue dots (home arenas visited)
+                const venueDots = teams.map(team => {
+                    let dotClass = 'conf-venue-dot';
+                    let visited;
+                    if (gender === 'M') {
+                        visited = team.arenaVisitedM;
+                    } else if (gender === 'W') {
+                        visited = team.arenaVisitedW;
+                    } else {
+                        visited = team.arenaVisited;
+                    }
+                    if (visited) dotClass += ' visited';
+                    const arena = gender === 'W' ? (team.homeArenaW || team.homeArena) : team.homeArena;
+                    return `<span class="${dotClass}" title="${team.team}: ${arena}"></span>`;
+                }).join('');
+
                 return `
                     <div class="conf-progress-card ${isComplete ? 'complete' : ''}" data-conf="${confName}" onclick="showConferenceDetail('${confName.replace(/'/g, "\\'")}')">
                         <div class="conf-progress-header">
@@ -3651,9 +4541,10 @@ def get_javascript(json_data: str) -> str:
                             </div>
                         </div>
                         <div class="conf-progress-teams">${teamDots}</div>
-                        <div class="conf-progress-venues" style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.25rem;">
+                        <div class="conf-progress-venues" style="font-size: 0.75rem; margin-top: 0.25rem;">
                             🏟️ ${venuesVisited}/${numTeams} venues
                         </div>
+                        <div class="conf-progress-venue-dots">${venueDots}</div>
                     </div>
                 `;
             }).join('');
@@ -3695,6 +4586,11 @@ def get_javascript(json_data: str) -> str:
                 'Ole Miss': ['Mississippi', 'Ole Miss'],
                 'Miami (FL)': ['Miami', 'Miami (FL)'],
                 'Cal': ['California', 'Cal'],
+                "Saint Mary's (CA)": ["Saint Mary's", "St. Mary's", "St Mary's"],
+                'Loyola Marymount': ['LMU', 'Loyola Marymount'],
+                'Brigham Young': ['BYU', 'Brigham Young'],
+                'Texas Christian': ['TCU', 'Texas Christian'],
+                'Southern Methodist': ['SMU', 'Southern Methodist'],
             };
 
             // Helper to get team visit count (checks aliases)

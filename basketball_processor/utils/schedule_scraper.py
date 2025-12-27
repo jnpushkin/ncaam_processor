@@ -110,13 +110,16 @@ def parse_espn_event(event: Dict[str, Any]) -> Optional[Dict[str, Any]]:
             for name in broadcast.get("names", []):
                 tv_info.append(name)
 
-        # Parse date
+        # Parse date - ESPN puts the actual time in status.type.shortDetail
         game_date = event.get("date", "")
+        status_type = event.get("status", {}).get("type", {})
+        time_detail = status_type.get("shortDetail", "")  # e.g., "12/28 - 7:00 PM EST"
 
         return {
             "espn_id": event.get("id"),
             "date": game_date,
             "date_display": _format_date(game_date),
+            "time_detail": time_detail,  # Contains actual game time
             "name": event.get("name"),
             "short_name": event.get("shortName"),
             "home_team": home_team,
@@ -130,7 +133,7 @@ def parse_espn_event(event: Dict[str, Any]) -> Optional[Dict[str, Any]]:
             "neutral_site": competition.get("neutralSite", False),
             "conference_game": competition.get("conferenceCompetition", False),
             "tv": tv_info,
-            "status": event.get("status", {}).get("type", {}).get("name", "")
+            "status": status_type.get("name", "")
         }
 
     except (KeyError, IndexError) as e:
@@ -139,10 +142,15 @@ def parse_espn_event(event: Dict[str, Any]) -> Optional[Dict[str, Any]]:
 
 
 def _format_date(iso_date: str) -> str:
-    """Format ISO date string to readable format."""
+    """Format ISO date string to readable format in US Eastern time."""
     try:
         dt = datetime.fromisoformat(iso_date.replace("Z", "+00:00"))
-        return dt.strftime("%a, %b %d %Y")
+        # Convert UTC to US Eastern (UTC-5 or UTC-4 for DST)
+        # For simplicity, use -5 hours (EST) since most games are in winter
+        from datetime import timezone, timedelta
+        eastern = timezone(timedelta(hours=-5))
+        dt_eastern = dt.astimezone(eastern)
+        return dt_eastern.strftime("%a, %b %d %Y")
     except (ValueError, AttributeError):
         return iso_date
 
@@ -246,11 +254,11 @@ def get_schedule(force_refresh: bool = False) -> List[Dict[str, Any]]:
             scraped_at = datetime.fromisoformat(cache["scraped_at"])
             age_days = (datetime.now() - scraped_at).days
 
-            if age_days < 7:
+            if age_days < 1:
                 info(f"Using cached schedule (scraped {age_days} days ago, {cache['games_count']} games)")
                 return cache["games"]
             else:
-                info(f"Schedule cache is {age_days} days old, refreshing...")
+                info(f"Schedule cache is {age_days} days old, refreshing daily for accurate game times...")
 
     games = scrape_season_schedule()
     save_schedule_cache(games)
@@ -391,6 +399,12 @@ def venue_matches(espn_venue: Dict[str, str], user_venue: str) -> bool:
     Returns:
         True if venues match
     """
+    # Venue name aliases (ESPN name <-> our name)
+    VENUE_ALIASES = {
+        'global credit union arena': ['gcu arena', 'grand canyon arena'],
+        'gcu arena': ['global credit union arena', 'grand canyon arena'],
+    }
+
     # Parse user venue
     parts = [p.strip() for p in user_venue.split(',')]
     if len(parts) < 2:
@@ -412,6 +426,14 @@ def venue_matches(espn_venue: Dict[str, str], user_venue: str) -> bool:
     # Exact match
     if espn_name == user_name:
         return True
+
+    # Check aliases
+    if espn_name in VENUE_ALIASES:
+        if any(alias in user_name or user_name in alias for alias in VENUE_ALIASES[espn_name]):
+            return True
+    if user_name in VENUE_ALIASES:
+        if any(alias in espn_name or espn_name in alias for alias in VENUE_ALIASES[user_name]):
+            return True
 
     # Normalized match (removes common suffixes)
     if _normalize_venue_name(espn_name) == _normalize_venue_name(user_name):
@@ -452,6 +474,177 @@ def get_visited_venues_from_games(games_data: List[Dict]) -> Set[str]:
                 venues.add(venue)
 
     return venues
+
+
+# Cache for ESPN team ID mapping
+_espn_team_id_cache: Optional[Dict[str, str]] = None
+
+
+def _build_espn_team_id_mapping() -> Dict[str, str]:
+    """Build mapping of team names to ESPN team IDs from schedule cache."""
+    global _espn_team_id_cache
+    if _espn_team_id_cache is not None:
+        return _espn_team_id_cache
+
+    cache = load_schedule_cache()
+    if not cache:
+        _espn_team_id_cache = {}
+        return _espn_team_id_cache
+
+    teams: Dict[str, str] = {}
+    for game in cache.get('games', []):
+        for side in ['home_team', 'away_team']:
+            team = game.get(side, {})
+            tid = team.get('id')
+            if not tid:
+                continue
+            # Store all name variations
+            short_name = team.get('short_name', '')
+            full_name = team.get('name', '')
+            abbrev = team.get('abbreviation', '')
+
+            if short_name and short_name not in teams:
+                teams[short_name] = tid
+            if abbrev and abbrev not in teams:
+                teams[abbrev] = tid
+            # Clean full name (remove mascot)
+            if full_name and short_name:
+                # "Duke Blue Devils" -> "Duke"
+                clean_name = full_name
+                for suffix in [' Blue Devils', ' Wildcats', ' Bears', ' Eagles', ' Tigers',
+                               ' Bulldogs', ' Cardinals', ' Spartans', ' Bruins', ' Trojans',
+                               ' Tar Heels', ' Jayhawks', ' Wolverines', ' Buckeyes', ' Fighting Irish',
+                               ' Mountaineers', ' Huskies', ' Crimson Tide', ' Sooners', ' Longhorns',
+                               ' Gators', ' Seminoles', ' Hurricanes', ' Cavaliers', ' Hokies',
+                               ' Yellow Jackets', ' Wolfpack', ' Demon Deacons', ' Orange', ' Panthers',
+                               ' Colonels', ' Colonials', ' Owls', ' Hawks', ' Terrapins', ' Nittany Lions',
+                               ' Hoosiers', ' Boilermakers', ' Hawkeyes', ' Golden Gophers', ' Badgers',
+                               ' Cornhuskers', ' Cyclones', ' Red Raiders', ' Horned Frogs', ' Cougars',
+                               ' Ducks', ' Beavers', ' Sun Devils', ' Buffaloes', ' Utes', ' Aztecs',
+                               ' Runnin\' Rebels', ' Wolf Pack', ' Broncos', ' Aggies', ' Razorbacks',
+                               ' Rebels', ' Volunteers', ' Commodores', ' Gamecocks', ' Dawgs']:
+                    clean_name = clean_name.replace(suffix, '')
+                if clean_name and clean_name not in teams:
+                    teams[clean_name] = tid
+
+    _espn_team_id_cache = teams
+    return teams
+
+
+def get_espn_team_id(team_name: str) -> Optional[str]:
+    """
+    Get ESPN team ID for a team name.
+
+    Args:
+        team_name: Team name (e.g., "Duke", "North Carolina", "UNC")
+
+    Returns:
+        ESPN team ID or None if not found
+    """
+    from .constants import TEAM_ALIASES
+
+    # Manual mappings for teams where our name differs from ESPN's
+    MANUAL_ESPN_IDS = {
+        'Appalachian State': '2026',
+        'Arkansas-Pine Bluff': '2029',
+        'Boston University': '104',
+        'Cal State Bakersfield': '2934',
+        'Cal State Fullerton': '2239',
+        'Cal State Northridge': '2463',
+        'California Baptist': '2856',
+        'Central Michigan': '2117',
+        'Charleston Southern': '2127',
+        'Coastal Carolina': '324',
+        'East Tennessee State': '2193',
+        'East Texas A&M': '2563',
+        'Fairleigh Dickinson': '2230',
+        'George Washington': '45',
+        'Grambling State': '2755',
+        'Hawaii': '62',
+        'IU Indianapolis': '85',
+        'Louisiana-Monroe': '2433',
+        'Loyola (MD)': '2352',
+        'Loyola Marymount': '2350',
+        'Maryland-Eastern Shore': '2379',
+        'Miami (FL)': '2390',
+        'Miami (OH)': '193',
+        'Middle Tennessee': '2393',
+        'Mississippi Valley State': '2400',
+        'North Dakota State': '2449',
+        'Northern Arizona': '2464',
+        'Northern Kentucky': '94',
+        'Northwestern State': '2466',
+        'Purdue Fort Wayne': '2870',
+        'Saint Francis (PA)': '2598',
+        'Saint Joseph\'s': '2603',
+        'Saint Mary\'s (CA)': '2608',
+        'Saint Peter\'s': '2612',
+        'Sam Houston State': '2534',
+        'San Jose State': '23',
+        'Seattle': '2547',
+        'South Carolina State': '2569',
+        'South Dakota State': '2571',
+        'Southeast Missouri State': '2546',
+        'Southeastern Louisiana': '2545',
+        'Southern Illinois': '79',
+        'Southern Indiana': '88',
+        'Southern Utah': '253',
+        'St. Bonaventure': '179',
+        'St. Francis (NY)': '2597',
+        'St. Francis (PA)': '2598',
+        'St. John\'s': '2599',
+        'St. Thomas': '2900',
+        'Stephen F. Austin': '2617',
+        'Tennessee-Martin': '2630',
+        'Texas A&M-Commerce': '2564',
+        'Texas A&M-Corpus Christi': '357',
+        'Texas Southern': '2640',
+        'UC Santa Barbara': '2540',
+        'USC Upstate': '2908',
+        'UT Arlington': '250',
+        'UT Rio Grande Valley': '292',
+        'UTRGV': '292',
+        'Western Carolina': '2717',
+        'Western Illinois': '2710',
+        'Western Kentucky': '98',
+        'Albany': '399',
+    }
+
+    # Check manual mapping first
+    if team_name in MANUAL_ESPN_IDS:
+        return MANUAL_ESPN_IDS[team_name]
+
+    teams = _build_espn_team_id_mapping()
+
+    # Direct match
+    if team_name in teams:
+        return teams[team_name]
+
+    # Try canonical name via alias
+    canonical = TEAM_ALIASES.get(team_name)
+    if canonical and canonical in teams:
+        return teams[canonical]
+
+    # Try case-insensitive match
+    team_lower = team_name.lower()
+    for name, tid in teams.items():
+        if name.lower() == team_lower:
+            return tid
+
+    # Try partial match for "State" schools
+    # "Michigan State" might be stored as "Michigan St"
+    if ' State' in team_name:
+        alt_name = team_name.replace(' State', ' St')
+        if alt_name in teams:
+            return teams[alt_name]
+
+    # Try the reverse
+    if ' St' in team_name:
+        alt_name = team_name.replace(' St', ' State')
+        if alt_name in teams:
+            return teams[alt_name]
+
+    return None
 
 
 def main():
