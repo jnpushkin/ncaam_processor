@@ -780,11 +780,12 @@ def get_body(total_games: int, total_players: int, total_teams: int, total_venue
             <p style="margin-bottom: 1rem; color: var(--text-secondary);">Plan your next trip - games at venues you haven't visited yet.</p>
 
             <div class="sub-tabs">
-                <button class="sub-tab active" onclick="showUpcomingSubTab('upcoming-list')">Game List</button>
-                <button class="sub-tab" onclick="showUpcomingSubTab('upcoming-map')">Map View</button>
+                <button class="sub-tab" onclick="showUpcomingSubTab('upcoming-list')">Game List</button>
+                <button class="sub-tab active" onclick="showUpcomingSubTab('upcoming-map')">Map View</button>
+                <button class="sub-tab" onclick="showUpcomingSubTab('upcoming-trips')">Trip Planner</button>
             </div>
 
-            <div id="upcoming-list" class="sub-section active">
+            <div id="upcoming-list" class="sub-section">
                 <div class="filters-row" style="margin-bottom: 1rem; display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
                     <div class="filter-group">
                         <label for="upcoming-state-filter">State:</label>
@@ -844,7 +845,7 @@ def get_body(total_games: int, total_players: int, total_teams: int, total_venue
                 </div>
             </div>
 
-            <div id="upcoming-map" class="sub-section">
+            <div id="upcoming-map" class="sub-section active">
                 <div class="filters-row" style="margin-bottom: 1rem; display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
                     <div class="filter-group">
                         <label>Date Range:</label>
@@ -887,6 +888,59 @@ def get_body(total_games: int, total_players: int, total_teams: int, total_venue
                         </table>
                     </div>
                 </div>
+            </div>
+
+            <div id="upcoming-trips" class="sub-section">
+                <p style="margin-bottom: 1rem; color: var(--text-secondary);">Find multi-game road trips with games on consecutive days within driving distance of each other.</p>
+
+                <div class="trip-planner-controls" style="display: flex; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 1.5rem; padding: 1rem; background: var(--bg-secondary); border-radius: 8px;">
+                    <div class="filter-group">
+                        <label for="trip-start-location">Starting Location:</label>
+                        <select id="trip-start-location" onchange="generateTrips()" style="padding: 0.5rem; border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-primary); color: var(--text-primary); min-width: 200px;">
+                            <option value="">Select a state...</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="trip-max-distance">Max Distance Between Games:</label>
+                        <select id="trip-max-distance" onchange="generateTrips()" style="padding: 0.5rem; border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-primary); color: var(--text-primary);">
+                            <option value="50">50 miles (~1 hour)</option>
+                            <option value="100" selected>100 miles (~2 hours)</option>
+                            <option value="150">150 miles (~2.5 hours)</option>
+                            <option value="200">200 miles (~3.5 hours)</option>
+                            <option value="300">300 miles (~5 hours)</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="trip-min-games">Min Games per Trip:</label>
+                        <select id="trip-min-games" onchange="generateTrips()" style="padding: 0.5rem; border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-primary); color: var(--text-primary);">
+                            <option value="2" selected>2+ games</option>
+                            <option value="3">3+ games</option>
+                            <option value="4">4+ games</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="trip-max-gap">Max Days Between Games:</label>
+                        <select id="trip-max-gap" onchange="generateTrips()" style="padding: 0.5rem; border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-primary); color: var(--text-primary);">
+                            <option value="1" selected>1 day (consecutive)</option>
+                            <option value="2">2 days</option>
+                            <option value="3">3 days</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Date Range:</label>
+                        <div style="display: flex; gap: 0.5rem; align-items: center;">
+                            <input type="date" id="trip-start-date" onchange="generateTrips()"
+                                   style="padding: 0.5rem; border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-primary); color: var(--text-primary);">
+                            <span>to</span>
+                            <input type="date" id="trip-end-date" onchange="generateTrips()"
+                                   style="padding: 0.5rem; border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-primary); color: var(--text-primary);">
+                        </div>
+                    </div>
+                </div>
+
+                <div id="trip-summary" style="margin-bottom: 1rem; padding: 0.75rem; background: var(--bg-tertiary); border-radius: 4px; color: var(--text-secondary);"></div>
+
+                <div id="trip-results"></div>
             </div>
         </div>
     </div>

@@ -1848,6 +1848,24 @@ def get_css() -> str:
             background: #E91E63;
             border-color: #E91E63;
         }
+        /* Venue dots */
+        .conf-progress-venue-dots {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 3px;
+            margin-top: 0.25rem;
+        }
+        .conf-venue-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 2px;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+        }
+        .conf-venue-dot.visited {
+            background: #FF9800;
+            border-color: #FF9800;
+        }
         /* Badge type colors */
         .badge-type-team { border-left: 4px solid #2196F3; }
         .badge-type-venue { border-left: 4px solid #4CAF50; }
@@ -1868,6 +1886,125 @@ def get_css() -> str:
         .badge-icon-holiday::before { content: '🎉'; }
         .badge-icon-game-count::before { content: '🎫'; }
         .badge-icon-transfer::before { content: '✈️'; }
+
+        /* Trip Planner */
+        .trip-card {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+        .trip-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .trip-title {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .trip-number {
+            background: var(--accent-color);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 0.85rem;
+        }
+        .trip-games-count {
+            background: #4CAF50;
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+        }
+        .trip-venues-count {
+            background: #FF9800;
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+        }
+        .trip-meta {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        .trip-dates {
+            font-weight: 500;
+        }
+        .trip-total-distance {
+            color: var(--accent-color);
+        }
+        .trip-itinerary {
+            padding: 1rem;
+        }
+        .trip-game {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .trip-game:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        .trip-game:first-child {
+            padding-top: 0;
+        }
+        .trip-distance {
+            display: block;
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            margin-bottom: 0.5rem;
+            padding-left: 1rem;
+        }
+        .trip-game-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem 1rem;
+            align-items: baseline;
+        }
+        .trip-date {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            min-width: 140px;
+        }
+        .trip-matchup {
+            flex: 1;
+            min-width: 200px;
+        }
+        .trip-venue {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        .trip-tv {
+            background: #2196F3;
+            color: white;
+            padding: 0.15rem 0.4rem;
+            border-radius: 3px;
+            font-size: 0.75rem;
+        }
+        @media (max-width: 768px) {
+            .trip-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .trip-game-info {
+                flex-direction: column;
+                gap: 0.25rem;
+            }
+            .trip-date {
+                min-width: unset;
+            }
+        }
 
         /* Records grid */
         .records-grid {

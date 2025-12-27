@@ -175,6 +175,10 @@ class VenueResolver:
                 return new_name
         return None
 
+    def get_venue_aliases(self) -> Dict[str, str]:
+        """Get the venue aliases dictionary (old name -> new name)."""
+        return self.venue_aliases
+
 
 # Singleton instance
 _resolver = None
