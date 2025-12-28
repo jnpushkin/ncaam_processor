@@ -322,6 +322,82 @@ def get_css() -> str:
         .suggestion-item:hover {
             background: var(--hover-color);
         }
+        .multi-select-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        .multi-select-btn {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            cursor: pointer;
+            min-width: 150px;
+            font-size: inherit;
+        }
+        .multi-select-btn:hover {
+            border-color: var(--accent-color);
+        }
+        .dropdown-arrow {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+        }
+        .multi-select-options {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            max-height: 300px;
+            overflow-y: auto;
+            z-index: 1000;
+            min-width: 200px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        .multi-select-options.show {
+            display: block;
+        }
+        .multi-select-option {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 0.75rem;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        .multi-select-option:hover {
+            background: var(--hover-color);
+        }
+        .multi-select-option input[type="checkbox"] {
+            margin: 0;
+            cursor: pointer;
+        }
+        .multi-select-actions {
+            display: flex;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+            background: var(--bg-secondary);
+        }
+        .multi-select-actions button {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            background: var(--bg-primary);
+            cursor: pointer;
+            color: var(--text-primary);
+        }
+        .multi-select-actions button:hover {
+            background: var(--hover-color);
+        }
         .filter-group {
             position: relative;
         }

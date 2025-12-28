@@ -837,9 +837,12 @@ def get_javascript(json_data: str) -> str:
                 const text = `${player.Player} ${player.Team}`.toLowerCase();
                 if (search && !text.includes(search)) return false;
                 if (gender && player.Gender !== gender) return false;
-                // Team filter: match team name AND gender
+                // Team filter: check if player's team string contains the selected team
+                // This handles players with multiple teams like "California, Loyola (IL)"
                 if (filterTeamName) {
-                    if (player.Team !== filterTeamName) return false;
+                    // Split player's teams and check if selected team is one of them
+                    const playerTeams = player.Team ? player.Team.split(/,\s*(?![^()]*\))/).map(t => t.trim()) : [];
+                    if (!playerTeams.includes(filterTeamName)) return false;
                     if (filterTeamGender && player.Gender !== filterTeamGender) return false;
                 }
                 if (conference && getTeamConference(player.Team) !== conference) return false;
@@ -1567,11 +1570,19 @@ def get_javascript(json_data: str) -> str:
             renderPlayersTable();
 
             // Populate team filter with separate options for each gender
+            // Split combined team names (e.g., "California, Loyola (IL)") into individual teams
             const playerTeamGenders = {};
             (DATA.players || []).forEach(p => {
                 if (p.Team) {
-                    if (!playerTeamGenders[p.Team]) playerTeamGenders[p.Team] = new Set();
-                    if (p.Gender) playerTeamGenders[p.Team].add(p.Gender);
+                    // Split by comma but handle team names with parentheses like "Loyola (IL)"
+                    const teams = p.Team.split(/,\s*(?![^()]*\))/);
+                    teams.forEach(team => {
+                        const trimmedTeam = team.trim();
+                        if (trimmedTeam) {
+                            if (!playerTeamGenders[trimmedTeam]) playerTeamGenders[trimmedTeam] = new Set();
+                            if (p.Gender) playerTeamGenders[trimmedTeam].add(p.Gender);
+                        }
+                    });
                 }
             });
             const playerTeamNames = Object.keys(playerTeamGenders).sort();
@@ -1988,16 +1999,29 @@ def get_javascript(json_data: str) -> str:
                 return;
             }
 
-            // Populate state filter dropdown
-            const stateFilter = document.getElementById('upcoming-state-filter');
-            if (stateFilter && upcoming.stateBreakdown) {
+            // Populate state filter multi-select dropdown (alphabetically sorted)
+            const stateOptions = document.getElementById('upcoming-state-options');
+            if (stateOptions && upcoming.stateBreakdown) {
                 const states = Object.entries(upcoming.stateBreakdown)
-                    .sort((a, b) => b[1] - a[1]);
+                    .sort((a, b) => a[0].localeCompare(b[0]));  // Sort alphabetically
+
+                // Add select all / clear all buttons
+                const actionsDiv = document.createElement('div');
+                actionsDiv.className = 'multi-select-actions';
+                actionsDiv.innerHTML = `
+                    <button type="button" onclick="selectAllStates()">Select All</button>
+                    <button type="button" onclick="clearAllStates()">Clear All</button>
+                `;
+                stateOptions.appendChild(actionsDiv);
+
                 states.forEach(([state, count]) => {
-                    const option = document.createElement('option');
-                    option.value = state;
-                    option.textContent = `${state} (${count})`;
-                    stateFilter.appendChild(option);
+                    const label = document.createElement('label');
+                    label.className = 'multi-select-option';
+                    label.innerHTML = `
+                        <input type="checkbox" value="${state}" onchange="updateStateFilter()">
+                        <span>${state} (${count})</span>
+                    `;
+                    stateOptions.appendChild(label);
                 });
             }
 
@@ -2106,8 +2130,52 @@ def get_javascript(json_data: str) -> str:
             filterUpcomingGames();
         }
 
+        // State multi-select dropdown functions
+        function toggleStateDropdown() {
+            const options = document.getElementById('upcoming-state-options');
+            options.classList.toggle('show');
+        }
+
+        function getSelectedStates() {
+            const checkboxes = document.querySelectorAll('#upcoming-state-options input[type="checkbox"]:checked');
+            return Array.from(checkboxes).map(cb => cb.value);
+        }
+
+        function updateStateFilter() {
+            const selected = getSelectedStates();
+            const label = document.getElementById('upcoming-state-label');
+            if (selected.length === 0) {
+                label.textContent = 'All States';
+            } else if (selected.length === 1) {
+                label.textContent = selected[0];
+            } else {
+                label.textContent = `${selected.length} states`;
+            }
+            filterUpcomingGames();
+        }
+
+        function selectAllStates() {
+            document.querySelectorAll('#upcoming-state-options input[type="checkbox"]')
+                .forEach(cb => cb.checked = true);
+            updateStateFilter();
+        }
+
+        function clearAllStates() {
+            document.querySelectorAll('#upcoming-state-options input[type="checkbox"]')
+                .forEach(cb => cb.checked = false);
+            updateStateFilter();
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            const dropdown = document.getElementById('upcoming-state-dropdown');
+            if (dropdown && !dropdown.contains(e.target)) {
+                document.getElementById('upcoming-state-options')?.classList.remove('show');
+            }
+        });
+
         function filterUpcomingGames() {
-            const stateFilter = document.getElementById('upcoming-state-filter')?.value || '';
+            const selectedStates = getSelectedStates();
             const confFilter = document.getElementById('upcoming-conf-filter')?.value || '';
             const startDate = document.getElementById('upcoming-start-date')?.value;
             const endDate = document.getElementById('upcoming-end-date')?.value;
@@ -2117,8 +2185,8 @@ def get_javascript(json_data: str) -> str:
             now.setHours(0, 0, 0, 0);
 
             let filtered = upcomingGamesData.filter(game => {
-                // State filter
-                if (stateFilter && game.state !== stateFilter) return false;
+                // State filter (multi-select)
+                if (selectedStates.length > 0 && !selectedStates.includes(game.state)) return false;
 
                 // Conference filter
                 if (confFilter && game.homeConf !== confFilter && game.awayConf !== confFilter) return false;
@@ -2872,10 +2940,54 @@ def get_javascript(json_data: str) -> str:
             return null;
         }
 
+        // Trip Planner state multi-select functions
+        function toggleTripStateDropdown() {
+            const options = document.getElementById('trip-state-options');
+            options.classList.toggle('show');
+        }
+
+        function getTripSelectedStates() {
+            const checkboxes = document.querySelectorAll('#trip-state-options input[type="checkbox"]:checked');
+            return Array.from(checkboxes).map(cb => cb.value);
+        }
+
+        function updateTripStateFilter() {
+            const selected = getTripSelectedStates();
+            const label = document.getElementById('trip-state-label');
+            if (selected.length === 0) {
+                label.textContent = 'Select states...';
+            } else if (selected.length === 1) {
+                label.textContent = selected[0];
+            } else {
+                label.textContent = `${selected.length} states`;
+            }
+            generateTrips();
+        }
+
+        function selectAllTripStates() {
+            document.querySelectorAll('#trip-state-options input[type="checkbox"]')
+                .forEach(cb => cb.checked = true);
+            updateTripStateFilter();
+        }
+
+        function clearAllTripStates() {
+            document.querySelectorAll('#trip-state-options input[type="checkbox"]')
+                .forEach(cb => cb.checked = false);
+            updateTripStateFilter();
+        }
+
+        // Close trip dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            const dropdown = document.getElementById('trip-state-dropdown');
+            if (dropdown && !dropdown.contains(e.target)) {
+                document.getElementById('trip-state-options')?.classList.remove('show');
+            }
+        });
+
         function initTripPlanner() {
-            // Populate state filter dropdown (sorted by game count)
-            const stateFilter = document.getElementById('trip-start-location');
-            if (stateFilter && upcomingGamesData.length > 0) {
+            // Populate state filter multi-select dropdown (alphabetically sorted)
+            const stateOptions = document.getElementById('trip-state-options');
+            if (stateOptions && upcomingGamesData.length > 0) {
                 // Count games by state
                 const stateCounts = {};
                 upcomingGamesData.forEach(g => {
@@ -2884,26 +2996,31 @@ def get_javascript(json_data: str) -> str:
                     }
                 });
 
-                // Sort by game count
+                // Sort alphabetically
                 const states = Object.entries(stateCounts)
-                    .sort((a, b) => b[1] - a[1]);
+                    .sort((a, b) => a[0].localeCompare(b[0]));
 
-                // Clear existing options (keep the first "Select a state" option)
-                while (stateFilter.options.length > 1) {
-                    stateFilter.remove(1);
-                }
+                // Clear existing options
+                stateOptions.innerHTML = '';
+
+                // Add select all / clear all buttons
+                const actionsDiv = document.createElement('div');
+                actionsDiv.className = 'multi-select-actions';
+                actionsDiv.innerHTML = `
+                    <button type="button" onclick="selectAllTripStates()">Select All</button>
+                    <button type="button" onclick="clearAllTripStates()">Clear All</button>
+                `;
+                stateOptions.appendChild(actionsDiv);
 
                 states.forEach(([state, count]) => {
-                    const option = document.createElement('option');
-                    option.value = state;
-                    option.textContent = `${state} (${count} games)`;
-                    stateFilter.appendChild(option);
+                    const label = document.createElement('label');
+                    label.className = 'multi-select-option';
+                    label.innerHTML = `
+                        <input type="checkbox" value="${state}" onchange="updateTripStateFilter()">
+                        <span>${state} (${count})</span>
+                    `;
+                    stateOptions.appendChild(label);
                 });
-
-                // Auto-select the first state (most games)
-                if (states.length > 0) {
-                    stateFilter.value = states[0][0];
-                }
             }
 
             // Set default date range (next 60 days)
@@ -2917,7 +3034,7 @@ def get_javascript(json_data: str) -> str:
         }
 
         function generateTrips() {
-            const startLocation = document.getElementById('trip-start-location')?.value;
+            const selectedStates = getTripSelectedStates();
             const maxDistance = parseInt(document.getElementById('trip-max-distance')?.value) || 100;
             const minGames = parseInt(document.getElementById('trip-min-games')?.value) || 2;
             const maxGap = parseInt(document.getElementById('trip-max-gap')?.value) || 1;
@@ -2927,8 +3044,8 @@ def get_javascript(json_data: str) -> str:
             const resultsDiv = document.getElementById('trip-results');
             const summaryDiv = document.getElementById('trip-summary');
 
-            if (!startLocation) {
-                summaryDiv.innerHTML = 'Select a starting location to find road trip opportunities.';
+            if (selectedStates.length === 0) {
+                summaryDiv.innerHTML = 'Select one or more states to find road trip opportunities.';
                 resultsDiv.innerHTML = '';
                 return;
             }
@@ -2938,8 +3055,8 @@ def get_javascript(json_data: str) -> str:
             now.setHours(0, 0, 0, 0);
 
             let filteredGames = upcomingGamesData.filter(game => {
-                // State filter - games in the selected state
-                if (game.state !== startLocation) return false;
+                // State filter - games in any of the selected states
+                if (!selectedStates.includes(game.state)) return false;
 
                 // Date filter
                 const gameDate = getActualGameDate(game.date, game.time_detail);
@@ -4078,14 +4195,14 @@ def get_javascript(json_data: str) -> str:
                 }
 
                 // Determine opacity based on status
-                const opacity = visited ? 1.0 : (seen ? 0.6 : 0.2);
+                const opacity = visited ? 1.0 : (seen ? 0.6 : 0.4);
                 const espnId = team.espnId;
 
                 // Create icon - use ESPN logo if available, fallback to colored circle
                 let icon;
                 if (espnId) {
                     const logoUrl = `https://a.espncdn.com/i/teamlogos/ncaa/500/${espnId}.png`;
-                    const size = visited ? 38 : (seen ? 28 : 14);
+                    const size = visited ? 38 : (seen ? 28 : 20);
                     const borderWidth = visited ? 3 : (seen ? 2 : 1);
                     icon = L.divIcon({
                         className: 'team-logo-marker',
@@ -4111,7 +4228,7 @@ def get_javascript(json_data: str) -> str:
                     });
                 } else {
                     // Fallback to colored circle
-                    const circleSize = visited ? 14 : (seen ? 10 : 6);
+                    const circleSize = visited ? 14 : (seen ? 10 : 8);
                     icon = L.divIcon({
                         className: 'custom-marker',
                         html: `<div style="

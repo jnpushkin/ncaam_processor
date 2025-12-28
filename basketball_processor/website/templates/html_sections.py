@@ -788,10 +788,16 @@ def get_body(total_games: int, total_players: int, total_teams: int, total_venue
             <div id="upcoming-list" class="sub-section">
                 <div class="filters-row" style="margin-bottom: 1rem; display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
                     <div class="filter-group">
-                        <label for="upcoming-state-filter">State:</label>
-                        <select id="upcoming-state-filter" onchange="filterUpcomingGames()">
-                            <option value="">All States</option>
-                        </select>
+                        <label>State:</label>
+                        <div class="multi-select-dropdown" id="upcoming-state-dropdown">
+                            <button type="button" class="multi-select-btn" onclick="toggleStateDropdown()">
+                                <span id="upcoming-state-label">All States</span>
+                                <span class="dropdown-arrow">▼</span>
+                            </button>
+                            <div class="multi-select-options" id="upcoming-state-options">
+                                <!-- Populated by JS -->
+                            </div>
+                        </div>
                     </div>
                     <div class="filter-group">
                         <label for="upcoming-conf-filter">Conference:</label>
@@ -895,10 +901,16 @@ def get_body(total_games: int, total_players: int, total_teams: int, total_venue
 
                 <div class="trip-planner-controls" style="display: flex; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 1.5rem; padding: 1rem; background: var(--bg-secondary); border-radius: 8px;">
                     <div class="filter-group">
-                        <label for="trip-start-location">Starting Location:</label>
-                        <select id="trip-start-location" onchange="generateTrips()" style="padding: 0.5rem; border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-primary); color: var(--text-primary); min-width: 200px;">
-                            <option value="">Select a state...</option>
-                        </select>
+                        <label>States:</label>
+                        <div class="multi-select-dropdown" id="trip-state-dropdown">
+                            <button type="button" class="multi-select-btn" onclick="toggleTripStateDropdown()">
+                                <span id="trip-state-label">Select states...</span>
+                                <span class="dropdown-arrow">▼</span>
+                            </button>
+                            <div class="multi-select-options" id="trip-state-options">
+                                <!-- Populated by JS -->
+                            </div>
+                        </div>
                     </div>
                     <div class="filter-group">
                         <label for="trip-max-distance">Max Distance Between Games:</label>
