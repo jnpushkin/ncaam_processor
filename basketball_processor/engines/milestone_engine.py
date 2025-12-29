@@ -301,7 +301,9 @@ class MilestoneEngine:
         # ===================
         # EFFICIENCY MILESTONES
         # ===================
-        if is_hot_shooting(player):
+        if is_hot_shooting(player,
+                           min_fga=MILESTONE_THRESHOLDS['hot_shooting_min_fga'],
+                           min_pct=MILESTONE_THRESHOLDS['hot_shooting_pct']):
             fg_pct = round(fg / fga * 100, 1) if fga > 0 else 0
             self.milestones['hot_shooting_games'].append({
                 **milestone_base,
