@@ -1163,7 +1163,7 @@ MILESTONE_THRESHOLDS = {
     'ten_threes': 10,
 
     # Efficiency
-    'hot_shooting_pct': 0.50,
+    'hot_shooting_pct': 0.60,
     'hot_shooting_min_fga': 10,
     'perfect_ft_min': 5,
 

@@ -1,1518 +1,12 @@
 {
-  "scraped_at": "2025-12-26T14:32:41.812527",
-  "games_count": 3334,
+  "scraped_at": "2025-12-29T12:49:47.070413",
+  "games_count": 3290,
   "games": [
-    {
-      "espn_id": "401823596",
-      "date": "2025-12-27T17:00Z",
-      "date_display": "Sat, Dec 27 2025",
-      "time_detail": "12/27 - 12:00 PM EST",
-      "name": "Columbia College (SC) Fighting Koalas at UNC Wilmington Seahawks",
-      "short_name": "CCSC @ UNCW",
-      "home_team": {
-        "id": "350",
-        "name": "UNC Wilmington Seahawks",
-        "abbreviation": "UNCW",
-        "short_name": "UNC Wilmington"
-      },
-      "away_team": {
-        "id": "130401",
-        "name": "Columbia College (SC) Fighting Koalas",
-        "abbreviation": "CCSC",
-        "short_name": "Columbia (SC)"
-      },
-      "venue": {
-        "id": "2157",
-        "name": "Trask Coliseum",
-        "city": "Wilmington",
-        "state": "NC"
-      },
-      "neutral_site": false,
-      "conference_game": false,
-      "tv": [
-        "FloSports"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401813455",
-      "date": "2025-12-27T19:00Z",
-      "date_display": "Sat, Dec 27 2025",
-      "time_detail": "12/27 - 2:00 PM EST",
-      "name": "Cleary University Cougars at Duquesne Dukes",
-      "short_name": "CLRY @ DUQ",
-      "home_team": {
-        "id": "2184",
-        "name": "Duquesne Dukes",
-        "abbreviation": "DUQ",
-        "short_name": "Duquesne"
-      },
-      "away_team": {
-        "id": "128438",
-        "name": "Cleary University Cougars",
-        "abbreviation": "CLRY",
-        "short_name": "Cleary"
-      },
-      "venue": {
-        "id": "1958",
-        "name": "UPMC Cooper Fieldhouse",
-        "city": "Pittsburgh",
-        "state": "PA"
-      },
-      "neutral_site": false,
-      "conference_game": false,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401817475",
-      "date": "2025-12-28T01:00Z",
-      "date_display": "Sat, Dec 27 2025",
-      "time_detail": "12/27 - 8:00 PM EST",
-      "name": "Cal State Northridge Matadors at Stanford Cardinal",
-      "short_name": "CSUN @ STAN",
-      "home_team": {
-        "id": "24",
-        "name": "Stanford Cardinal",
-        "abbreviation": "STAN",
-        "short_name": "Stanford"
-      },
-      "away_team": {
-        "id": "2463",
-        "name": "Cal State Northridge Matadors",
-        "abbreviation": "CSUN",
-        "short_name": "CSU Northridge"
-      },
-      "venue": {
-        "id": "820",
-        "name": "Maples Pavilion",
-        "city": "Stanford",
-        "state": "CA"
-      },
-      "neutral_site": false,
-      "conference_game": false,
-      "tv": [
-        "ACC Extra"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401822733",
-      "date": "2025-12-28T17:00Z",
-      "date_display": "Sun, Dec 28 2025",
-      "time_detail": "12/28 - 12:00 PM EST",
-      "name": "Arcadia ARCADIA at Saint Joseph's Hawks",
-      "short_name": "ARCA @ JOES",
-      "home_team": {
-        "id": "2603",
-        "name": "Saint Joseph's Hawks",
-        "abbreviation": "JOES",
-        "short_name": "Saint Joseph's"
-      },
-      "away_team": {
-        "id": "407",
-        "name": "Arcadia ARCADIA",
-        "abbreviation": "ARCA",
-        "short_name": "Arcadia"
-      },
-      "venue": {
-        "id": "2150",
-        "name": "Michael J. Hagan '85 Arena",
-        "city": "Philadelphia",
-        "state": "PA"
-      },
-      "neutral_site": false,
-      "conference_game": false,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401820621",
-      "date": "2025-12-28T18:00Z",
-      "date_display": "Sun, Dec 28 2025",
-      "time_detail": "12/28 - 1:00 PM EST",
-      "name": "Worcester State Lancers at Bryant Bulldogs",
-      "short_name": "WORC @ BRY",
-      "home_team": {
-        "id": "2803",
-        "name": "Bryant Bulldogs",
-        "abbreviation": "BRY",
-        "short_name": "Bryant"
-      },
-      "away_team": {
-        "id": "402",
-        "name": "Worcester State Lancers",
-        "abbreviation": "WORC",
-        "short_name": "Worcester St"
-      },
-      "venue": {
-        "id": "2182",
-        "name": "Chace Athletic Center",
-        "city": "Smithfield",
-        "state": "RI"
-      },
-      "neutral_site": false,
-      "conference_game": false,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401819904",
-      "date": "2025-12-28T19:00Z",
-      "date_display": "Sun, Dec 28 2025",
-      "time_detail": "12/28 - 2:00 PM EST",
-      "name": "Winthrop Eagles at Texas Tech Red Raiders",
-      "short_name": "WIN @ TTU",
-      "home_team": {
-        "id": "2641",
-        "name": "Texas Tech Red Raiders",
-        "abbreviation": "TTU",
-        "short_name": "Texas Tech"
-      },
-      "away_team": {
-        "id": "2737",
-        "name": "Winthrop Eagles",
-        "abbreviation": "WIN",
-        "short_name": "Winthrop"
-      },
-      "venue": {
-        "id": "2047",
-        "name": "United Supermarkets Arena",
-        "city": "Lubbock",
-        "state": "TX"
-      },
-      "neutral_site": false,
-      "conference_game": false,
-      "tv": [
-        "TNT"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401832544",
-      "date": "2025-12-28T19:00Z",
-      "date_display": "Sun, Dec 28 2025",
-      "time_detail": "12/28 - 2:00 PM EST",
-      "name": "Baptist (Fl) Eagles at Mercer Bears",
-      "short_name": "BAP @ MER",
-      "home_team": {
-        "id": "2382",
-        "name": "Mercer Bears",
-        "abbreviation": "MER",
-        "short_name": "Mercer"
-      },
-      "away_team": {
-        "id": "132013",
-        "name": "Baptist (Fl) Eagles",
-        "abbreviation": "BAP",
-        "short_name": "Baptist (Fl)"
-      },
-      "venue": {
-        "id": "1974",
-        "name": "Hawkins Arena",
-        "city": "Macon",
-        "state": "GA"
-      },
-      "neutral_site": false,
-      "conference_game": false,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401831190",
-      "date": "2025-12-28T19:00Z",
-      "date_display": "Sun, Dec 28 2025",
-      "time_detail": "12/28 - 2:00 PM EST",
-      "name": "Alice Lloyd College Eagles at Morehead State Eagles",
-      "short_name": "AL @ MORE",
-      "home_team": {
-        "id": "2413",
-        "name": "Morehead State Eagles",
-        "abbreviation": "MORE",
-        "short_name": "Morehead St"
-      },
-      "away_team": {
-        "id": "484",
-        "name": "Alice Lloyd College Eagles",
-        "abbreviation": "AL",
-        "short_name": "Alice Lloyd"
-      },
-      "venue": {
-        "id": "2174",
-        "name": "Ellis T. Johnson Arena",
-        "city": "Morehead",
-        "state": "KY"
-      },
-      "neutral_site": false,
-      "conference_game": false,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401829481",
-      "date": "2025-12-28T19:00Z",
-      "date_display": "Sun, Dec 28 2025",
-      "time_detail": "12/28 - 2:00 PM EST",
-      "name": "North Central (MN) Rams at St. Thomas-Minnesota Tommies",
-      "short_name": "NCU @ STMN",
-      "home_team": {
-        "id": "2900",
-        "name": "St. Thomas-Minnesota Tommies",
-        "abbreviation": "STMN",
-        "short_name": "St Thomas (MN)"
-      },
-      "away_team": {
-        "id": "121894",
-        "name": "North Central (MN) Rams",
-        "abbreviation": "NCU",
-        "short_name": "N Central"
-      },
-      "venue": {
-        "id": "11629",
-        "name": "Lee & Penny Anderson Arena",
-        "city": "Saint Paul",
-        "state": "MN"
-      },
-      "neutral_site": false,
-      "conference_game": false,
-      "tv": [
-        "Summit League Network",
-        "Midco Sports Plus"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401829460",
-      "date": "2025-12-28T19:00Z",
-      "date_display": "Sun, Dec 28 2025",
-      "time_detail": "12/28 - 2:00 PM EST",
-      "name": "Dakota State Trojans at North Dakota Fighting Hawks",
-      "short_name": "DAKO @ UND",
-      "home_team": {
-        "id": "155",
-        "name": "North Dakota Fighting Hawks",
-        "abbreviation": "UND",
-        "short_name": "North Dakota"
-      },
-      "away_team": {
-        "id": "512",
-        "name": "Dakota State Trojans",
-        "abbreviation": "DAKO",
-        "short_name": "Dakota St"
-      },
-      "venue": {
-        "id": "1950",
-        "name": "Betty Engelstad Sioux Center",
-        "city": "Grand Forks",
-        "state": "ND"
-      },
-      "neutral_site": false,
-      "conference_game": false,
-      "tv": [
-        "Summit League Network",
-        "Midco Sports Plus"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401829441",
-      "date": "2025-12-28T19:00Z",
-      "date_display": "Sun, Dec 28 2025",
-      "time_detail": "12/28 - 2:00 PM EST",
-      "name": "Union (KY) Bulldogs at Wofford Terriers",
-      "short_name": "UC @ WOF",
-      "home_team": {
-        "id": "2747",
-        "name": "Wofford Terriers",
-        "abbreviation": "WOF",
-        "short_name": "Wofford"
-      },
-      "away_team": {
-        "id": "2841",
-        "name": "Union (KY) Bulldogs",
-        "abbreviation": "UC",
-        "short_name": "Union (KY)"
-      },
-      "venue": {
-        "id": "5426",
-        "name": "Jerry Richardson Indoor Stadium",
-        "city": "Spartanburg",
-        "state": "SC"
-      },
-      "neutral_site": false,
-      "conference_game": false,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401826981",
-      "date": "2025-12-28T19:00Z",
-      "date_display": "Sun, Dec 28 2025",
-      "time_detail": "12/28 - 2:00 PM EST",
-      "name": "Pfeiffer Falcons at High Point Panthers",
-      "short_name": "PFEI @ HPU",
-      "home_team": {
-        "id": "2272",
-        "name": "High Point Panthers",
-        "abbreviation": "HPU",
-        "short_name": "High Point"
-      },
-      "away_team": {
-        "id": "2945",
-        "name": "Pfeiffer Falcons",
-        "abbreviation": "PFEI",
-        "short_name": "Pfeiffer"
-      },
-      "venue": {
-        "id": "7116",
-        "name": "Qubein Center",
-        "city": "High Point",
-        "state": "NC"
-      },
-      "neutral_site": false,
-      "conference_game": false,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401823235",
-      "date": "2025-12-28T19:00Z",
-      "date_display": "Sun, Dec 28 2025",
-      "time_detail": "12/28 - 2:00 PM EST",
-      "name": "Fort Lauderdale Eagles at Florida Gulf Coast Eagles",
-      "short_name": "UFTL @ FGCU",
-      "home_team": {
-        "id": "526",
-        "name": "Florida Gulf Coast Eagles",
-        "abbreviation": "FGCU",
-        "short_name": "FGCU"
-      },
-      "away_team": {
-        "id": "123362",
-        "name": "Fort Lauderdale Eagles",
-        "abbreviation": "UFTL",
-        "short_name": "Ft Lauderdale"
-      },
-      "venue": {
-        "id": "2101",
-        "name": "Alico Arena",
-        "city": "Fort Myers",
-        "state": "FL"
-      },
-      "neutral_site": false,
-      "conference_game": false,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401819897",
-      "date": "2025-12-28T19:00Z",
-      "date_display": "Sun, Dec 28 2025",
-      "time_detail": "12/28 - 2:00 PM EST",
-      "name": "UL Monroe Warhawks at Kansas State Wildcats",
-      "short_name": "ULM @ KSU",
-      "home_team": {
-        "id": "2306",
-        "name": "Kansas State Wildcats",
-        "abbreviation": "KSU",
-        "short_name": "Kansas St"
-      },
-      "away_team": {
-        "id": "2433",
-        "name": "UL Monroe Warhawks",
-        "abbreviation": "ULM",
-        "short_name": "UL Monroe"
-      },
-      "venue": {
-        "id": "2131",
-        "name": "Bramlage Coliseum",
-        "city": "Manhattan",
-        "state": "KS"
-      },
-      "neutral_site": false,
-      "conference_game": false,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401818537",
-      "date": "2025-12-28T19:00Z",
-      "date_display": "Sun, Dec 28 2025",
-      "time_detail": "12/28 - 2:00 PM EST",
-      "name": "Columbia Lions at North Florida Ospreys",
-      "short_name": "COLU @ UNF",
-      "home_team": {
-        "id": "2454",
-        "name": "North Florida Ospreys",
-        "abbreviation": "UNF",
-        "short_name": "North Florida"
-      },
-      "away_team": {
-        "id": "171",
-        "name": "Columbia Lions",
-        "abbreviation": "COLU",
-        "short_name": "Columbia"
-      },
-      "venue": {
-        "id": "2123",
-        "name": "UNF Arena",
-        "city": "Jacksonville",
-        "state": "FL"
-      },
-      "neutral_site": false,
-      "conference_game": false,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401817217",
-      "date": "2025-12-28T19:00Z",
-      "date_display": "Sun, Dec 28 2025",
-      "time_detail": "12/28 - 2:00 PM EST",
-      "name": "Le Moyne Dolphins at Boston College Eagles",
-      "short_name": "LEM @ BC",
-      "home_team": {
-        "id": "103",
-        "name": "Boston College Eagles",
-        "abbreviation": "BC",
-        "short_name": "Boston College"
-      },
-      "away_team": {
-        "id": "2330",
-        "name": "Le Moyne Dolphins",
-        "abbreviation": "LEM",
-        "short_name": "Le Moyne"
-      },
-      "venue": {
-        "id": "135",
-        "name": "Conte Forum",
-        "city": "Chestnut Hill",
-        "state": "MA"
-      },
-      "neutral_site": false,
-      "conference_game": false,
-      "tv": [
-        "ACC Extra"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401812612",
-      "date": "2025-12-28T19:00Z",
-      "date_display": "Sun, Dec 28 2025",
-      "time_detail": "12/28 - 2:00 PM EST",
-      "name": "Harvard Crimson at Colgate Raiders",
-      "short_name": "HARV @ COLG",
-      "home_team": {
-        "id": "2142",
-        "name": "Colgate Raiders",
-        "abbreviation": "COLG",
-        "short_name": "Colgate"
-      },
-      "away_team": {
-        "id": "108",
-        "name": "Harvard Crimson",
-        "abbreviation": "HARV",
-        "short_name": "Harvard"
-      },
-      "venue": {
-        "id": "2188",
-        "name": "Cotterell Court",
-        "city": "Hamilton",
-        "state": "NY"
-      },
-      "neutral_site": false,
-      "conference_game": false,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401811115",
-      "date": "2025-12-28T19:00Z",
-      "date_display": "Sun, Dec 28 2025",
-      "time_detail": "12/28 - 2:00 PM EST",
-      "name": "Mount Marty College Lancers at South Dakota Coyotes",
-      "short_name": "MTM @ SDAK",
-      "home_team": {
-        "id": "233",
-        "name": "South Dakota Coyotes",
-        "abbreviation": "SDAK",
-        "short_name": "South Dakota"
-      },
-      "away_team": {
-        "id": "573",
-        "name": "Mount Marty College Lancers",
-        "abbreviation": "MTM",
-        "short_name": "Mount Marty"
-      },
-      "venue": {
-        "id": "5432",
-        "name": "Sanford Coyote Sports Center",
-        "city": "Vermillion",
-        "state": "SD"
-      },
-      "neutral_site": false,
-      "conference_game": false,
-      "tv": [
-        "Summit League Network",
-        "Midco Sports Plus"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401804831",
-      "date": "2025-12-28T19:00Z",
-      "date_display": "Sun, Dec 28 2025",
-      "time_detail": "12/28 - 2:00 PM EST",
-      "name": "Liberty Flames at Florida International Panthers",
-      "short_name": "LIB @ FIU",
-      "home_team": {
-        "id": "2229",
-        "name": "Florida International Panthers",
-        "abbreviation": "FIU",
-        "short_name": "FIU"
-      },
-      "away_team": {
-        "id": "2335",
-        "name": "Liberty Flames",
-        "abbreviation": "LIB",
-        "short_name": "Liberty"
-      },
-      "venue": {
-        "id": "2216",
-        "name": "Ocean Bank Convocation Center",
-        "city": "Miami",
-        "state": "FL"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401826756",
-      "date": "2025-12-28T19:30Z",
-      "date_display": "Sun, Dec 28 2025",
-      "time_detail": "12/28 - 2:30 PM EST",
-      "name": "Florida A&M Rattlers at Georgia Tech Yellow Jackets",
-      "short_name": "FAMU @ GT",
-      "home_team": {
-        "id": "59",
-        "name": "Georgia Tech Yellow Jackets",
-        "abbreviation": "GT",
-        "short_name": "Georgia Tech"
-      },
-      "away_team": {
-        "id": "50",
-        "name": "Florida A&M Rattlers",
-        "abbreviation": "FAMU",
-        "short_name": "Florida A&M"
-      },
-      "venue": {
-        "id": "2206",
-        "name": "McCamish Pavilion",
-        "city": "Atlanta",
-        "state": "GA"
-      },
-      "neutral_site": false,
-      "conference_game": false,
-      "tv": [
-        "ACC Extra"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401826075",
-      "date": "2025-12-28T19:30Z",
-      "date_display": "Sun, Dec 28 2025",
-      "time_detail": "12/28 - 2:30 PM EST",
-      "name": "Shenandoah Hornets at Radford Highlanders",
-      "short_name": "SHENAN @ RAD",
-      "home_team": {
-        "id": "2515",
-        "name": "Radford Highlanders",
-        "abbreviation": "RAD",
-        "short_name": "Radford"
-      },
-      "away_team": {
-        "id": "2828",
-        "name": "Shenandoah Hornets",
-        "abbreviation": "SHENAN",
-        "short_name": "Shenandoah"
-      },
-      "venue": {
-        "id": "1901",
-        "name": "The Dedmon Center",
-        "city": "Radford",
-        "state": "VA"
-      },
-      "neutral_site": false,
-      "conference_game": false,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401828723",
-      "date": "2025-12-28T20:00Z",
-      "date_display": "Sun, Dec 28 2025",
-      "time_detail": "12/28 - 3:00 PM EST",
-      "name": "Norfolk State Spartans at Louisiana Ragin' Cajuns",
-      "short_name": "NORF @ UL",
-      "home_team": {
-        "id": "309",
-        "name": "Louisiana Ragin' Cajuns",
-        "abbreviation": "UL",
-        "short_name": "Louisiana"
-      },
-      "away_team": {
-        "id": "2450",
-        "name": "Norfolk State Spartans",
-        "abbreviation": "NORF",
-        "short_name": "Norfolk St"
-      },
-      "venue": {
-        "id": "373",
-        "name": "Cajundome",
-        "city": "Lafayette",
-        "state": "LA"
-      },
-      "neutral_site": false,
-      "conference_game": false,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401827057",
-      "date": "2025-12-28T20:00Z",
-      "date_display": "Sun, Dec 28 2025",
-      "time_detail": "12/28 - 3:00 PM EST",
-      "name": "Averett Cougars at Longwood Lancers",
-      "short_name": "AVER @ LONG",
-      "home_team": {
-        "id": "2344",
-        "name": "Longwood Lancers",
-        "abbreviation": "LONG",
-        "short_name": "Longwood"
-      },
-      "away_team": {
-        "id": "2047",
-        "name": "Averett Cougars",
-        "abbreviation": "AVER",
-        "short_name": "Averett"
-      },
-      "venue": {
-        "id": "7511",
-        "name": "Joan Perry Brock Center",
-        "city": "Farmville",
-        "state": "VA"
-      },
-      "neutral_site": false,
-      "conference_game": false,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401819870",
-      "date": "2025-12-28T20:00Z",
-      "date_display": "Sun, Dec 28 2025",
-      "time_detail": "12/28 - 3:00 PM EST",
-      "name": "Northern Colorado Bears at Colorado Buffaloes",
-      "short_name": "UNCO @ COLO",
-      "home_team": {
-        "id": "38",
-        "name": "Colorado Buffaloes",
-        "abbreviation": "COLO",
-        "short_name": "Colorado"
-      },
-      "away_team": {
-        "id": "2458",
-        "name": "Northern Colorado Bears",
-        "abbreviation": "UNCO",
-        "short_name": "N Colorado"
-      },
-      "venue": {
-        "id": "2207",
-        "name": "CU Events Center",
-        "city": "Boulder",
-        "state": "CO"
-      },
-      "neutral_site": false,
-      "conference_game": false,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401817463",
-      "date": "2025-12-28T20:00Z",
-      "date_display": "Sun, Dec 28 2025",
-      "time_detail": "12/28 - 3:00 PM EST",
-      "name": "Cal State Fullerton Titans at SMU Mustangs",
-      "short_name": "CSUF @ SMU",
-      "home_team": {
-        "id": "2567",
-        "name": "SMU Mustangs",
-        "abbreviation": "SMU",
-        "short_name": "SMU"
-      },
-      "away_team": {
-        "id": "2239",
-        "name": "Cal State Fullerton Titans",
-        "abbreviation": "CSUF",
-        "short_name": "Fullerton"
-      },
-      "venue": {
-        "id": "1961",
-        "name": "Moody Coliseum (Dallas)",
-        "city": "Dallas",
-        "state": "TX"
-      },
-      "neutral_site": false,
-      "conference_game": false,
-      "tv": [
-        "ACC Extra"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401817193",
-      "date": "2025-12-28T20:00Z",
-      "date_display": "Sun, Dec 28 2025",
-      "time_detail": "12/28 - 3:00 PM EST",
-      "name": "Principia College PRINCIPIA at Saint Louis Billikens",
-      "short_name": "PRCP @ SLU",
-      "home_team": {
-        "id": "139",
-        "name": "Saint Louis Billikens",
-        "abbreviation": "SLU",
-        "short_name": "Saint Louis"
-      },
-      "away_team": {
-        "id": "131584",
-        "name": "Principia College PRINCIPIA",
-        "abbreviation": "PRCP",
-        "short_name": "Principia"
-      },
-      "venue": {
-        "id": "1947",
-        "name": "Chaifetz Arena",
-        "city": "St. Louis",
-        "state": "MO"
-      },
-      "neutral_site": false,
-      "conference_game": false,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401823357",
-      "date": "2025-12-28T20:30Z",
-      "date_display": "Sun, Dec 28 2025",
-      "time_detail": "12/28 - 3:30 PM EST",
-      "name": "College Of Biblical Studies Ambassadors at Sam Houston Bearkats",
-      "short_name": "CBS @ SHSU",
-      "home_team": {
-        "id": "2534",
-        "name": "Sam Houston Bearkats",
-        "abbreviation": "SHSU",
-        "short_name": "Sam Houston"
-      },
-      "away_team": {
-        "id": "128256",
-        "name": "College Of Biblical Studies Ambassadors",
-        "abbreviation": "CBS",
-        "short_name": "Biblical Stud"
-      },
-      "venue": {
-        "id": "4585",
-        "name": "Bernard G. Johnson Coliseum",
-        "city": "Huntsville",
-        "state": "TX"
-      },
-      "neutral_site": false,
-      "conference_game": false,
-      "tv": [],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401830632",
-      "date": "2025-12-28T21:00Z",
-      "date_display": "Sun, Dec 28 2025",
-      "time_detail": "12/28 - 4:00 PM EST",
-      "name": "University of The Southwest Mustangs at New Mexico State Aggies",
-      "short_name": "USW @ NMSU",
-      "home_team": {
-        "id": "166",
-        "name": "New Mexico State Aggies",
-        "abbreviation": "NMSU",
-        "short_name": "New Mexico St"
-      },
-      "away_team": {
-        "id": "3154",
-        "name": "University of The Southwest Mustangs",
-        "abbreviation": "USW",
-        "short_name": "Southwest"
-      },
-      "venue": {
-        "id": "1937",
-        "name": "Pan American Center",
-        "city": "Las Cruces",
-        "state": "NM"
-      },
-      "neutral_site": false,
-      "conference_game": false,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401826945",
-      "date": "2025-12-28T21:00Z",
-      "date_display": "Sun, Dec 28 2025",
-      "time_detail": "12/28 - 4:00 PM EST",
-      "name": "Truett-McConnell Bears at Presbyterian Blue Hose",
-      "short_name": "TMCN @ PRES",
-      "home_team": {
-        "id": "2506",
-        "name": "Presbyterian Blue Hose",
-        "abbreviation": "PRES",
-        "short_name": "Presbyterian"
-      },
-      "away_team": {
-        "id": "3245",
-        "name": "Truett-McConnell Bears",
-        "abbreviation": "TMCN",
-        "short_name": "Truett McCnnll"
-      },
-      "venue": {
-        "id": "2046",
-        "name": "Templeton Center",
-        "city": "Clinton",
-        "state": "SC"
-      },
-      "neutral_site": false,
-      "conference_game": false,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401817181",
-      "date": "2025-12-28T21:00Z",
-      "date_display": "Sun, Dec 28 2025",
-      "time_detail": "12/28 - 4:00 PM EST",
-      "name": "Charleston Southern Buccaneers at Richmond Spiders",
-      "short_name": "CHSO @ RICH",
-      "home_team": {
-        "id": "257",
-        "name": "Richmond Spiders",
-        "abbreviation": "RICH",
-        "short_name": "Richmond"
-      },
-      "away_team": {
-        "id": "2127",
-        "name": "Charleston Southern Buccaneers",
-        "abbreviation": "CHSO",
-        "short_name": "Charleston So"
-      },
-      "venue": {
-        "id": "4486",
-        "name": "Robins Center",
-        "city": "Richmond",
-        "state": "VA"
-      },
-      "neutral_site": false,
-      "conference_game": false,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401829494",
-      "date": "2025-12-28T22:00Z",
-      "date_display": "Sun, Dec 28 2025",
-      "time_detail": "12/28 - 5:00 PM EST",
-      "name": "Columbia College (SC) Fighting Koalas at Georgia State Panthers",
-      "short_name": "CCSC @ GAST",
-      "home_team": {
-        "id": "2247",
-        "name": "Georgia State Panthers",
-        "abbreviation": "GAST",
-        "short_name": "Georgia St"
-      },
-      "away_team": {
-        "id": "130401",
-        "name": "Columbia College (SC) Fighting Koalas",
-        "abbreviation": "CCSC",
-        "short_name": "Columbia (SC)"
-      },
-      "venue": {
-        "id": "7393",
-        "name": "GSU Convocation Center",
-        "city": "Atlanta",
-        "state": "GA"
-      },
-      "neutral_site": false,
-      "conference_game": false,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401829168",
-      "date": "2025-12-28T22:00Z",
-      "date_display": "Sun, Dec 28 2025",
-      "time_detail": "12/28 - 5:00 PM EST",
-      "name": "Washington State Cougars at Portland Pilots",
-      "short_name": "WSU @ PORT",
-      "home_team": {
-        "id": "2501",
-        "name": "Portland Pilots",
-        "abbreviation": "PORT",
-        "short_name": "Portland"
-      },
-      "away_team": {
-        "id": "265",
-        "name": "Washington State Cougars",
-        "abbreviation": "WSU",
-        "short_name": "Washington St"
-      },
-      "venue": {
-        "id": "2136",
-        "name": "Chiles Center",
-        "city": "Portland",
-        "state": "OR"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401826091",
-      "date": "2025-12-28T22:00Z",
-      "date_display": "Sun, Dec 28 2025",
-      "time_detail": "12/28 - 5:00 PM EST",
-      "name": "Pacific Union PACIFIC UNION at UC Davis Aggies",
-      "short_name": "PUC @ UCD",
-      "home_team": {
-        "id": "302",
-        "name": "UC Davis Aggies",
-        "abbreviation": "UCD",
-        "short_name": "UC Davis"
-      },
-      "away_team": {
-        "id": "594",
-        "name": "Pacific Union PACIFIC UNION",
-        "abbreviation": "PUC",
-        "short_name": "Pacific Union"
-      },
-      "venue": {
-        "id": "2212",
-        "name": "University Credit Union Center",
-        "city": "Davis",
-        "state": "CA"
-      },
-      "neutral_site": false,
-      "conference_game": false,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401812583",
-      "date": "2025-12-28T22:00Z",
-      "date_display": "Sun, Dec 28 2025",
-      "time_detail": "12/28 - 5:00 PM EST",
-      "name": "Pennsylvania Quakers at George Mason Patriots",
-      "short_name": "PENN @ GMU",
-      "home_team": {
-        "id": "2244",
-        "name": "George Mason Patriots",
-        "abbreviation": "GMU",
-        "short_name": "George Mason"
-      },
-      "away_team": {
-        "id": "219",
-        "name": "Pennsylvania Quakers",
-        "abbreviation": "PENN",
-        "short_name": "Penn"
-      },
-      "venue": {
-        "id": "2167",
-        "name": "EagleBank Arena",
-        "city": "Fairfax",
-        "state": "VA"
-      },
-      "neutral_site": false,
-      "conference_game": false,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401830628",
-      "date": "2025-12-28T22:30Z",
-      "date_display": "Sun, Dec 28 2025",
-      "time_detail": "12/28 - 5:30 PM EST",
-      "name": "Fisk Bulldogs at Austin Peay Governors",
-      "short_name": "FISK @ APSU",
-      "home_team": {
-        "id": "2046",
-        "name": "Austin Peay Governors",
-        "abbreviation": "APSU",
-        "short_name": "Austin Peay"
-      },
-      "away_team": {
-        "id": "2225",
-        "name": "Fisk Bulldogs",
-        "abbreviation": "FISK",
-        "short_name": "Fisk"
-      },
-      "venue": {
-        "id": "7508",
-        "name": "F&M Bank Arena",
-        "city": "Clarksville",
-        "state": "TN"
-      },
-      "neutral_site": false,
-      "conference_game": false,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401829454",
-      "date": "2025-12-28T23:00Z",
-      "date_display": "Sun, Dec 28 2025",
-      "time_detail": "12/28 - 6:00 PM EST",
-      "name": "McPherson Mcpherson at Kansas City Roos",
-      "short_name": "MCPHE @ KC",
-      "home_team": {
-        "id": "140",
-        "name": "Kansas City Roos",
-        "abbreviation": "KC",
-        "short_name": "Kansas City"
-      },
-      "away_team": {
-        "id": "562",
-        "name": "McPherson Mcpherson",
-        "abbreviation": "MCPHE",
-        "short_name": "McPherson"
-      },
-      "venue": {
-        "id": "4052",
-        "name": "Swinney Center",
-        "city": "Kansas City",
-        "state": "MO"
-      },
-      "neutral_site": false,
-      "conference_game": false,
-      "tv": [
-        "Summit League Network",
-        "Midco Sports Plus"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401829167",
-      "date": "2025-12-28T23:00Z",
-      "date_display": "Sun, Dec 28 2025",
-      "time_detail": "12/28 - 6:00 PM EST",
-      "name": "Santa Clara Broncos at Oregon State Beavers",
-      "short_name": "SCU @ ORST",
-      "home_team": {
-        "id": "204",
-        "name": "Oregon State Beavers",
-        "abbreviation": "ORST",
-        "short_name": "Oregon St"
-      },
-      "away_team": {
-        "id": "2541",
-        "name": "Santa Clara Broncos",
-        "abbreviation": "SCU",
-        "short_name": "Santa Clara"
-      },
-      "venue": {
-        "id": "506",
-        "name": "Gill Coliseum",
-        "city": "Corvallis",
-        "state": "OR"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401829164",
-      "date": "2025-12-28T23:00Z",
-      "date_display": "Sun, Dec 28 2025",
-      "time_detail": "12/28 - 6:00 PM EST",
-      "name": "Pacific Tigers at San Diego Toreros",
-      "short_name": "PAC @ USD",
-      "home_team": {
-        "id": "301",
-        "name": "San Diego Toreros",
-        "abbreviation": "USD",
-        "short_name": "San Diego"
-      },
-      "away_team": {
-        "id": "279",
-        "name": "Pacific Tigers",
-        "abbreviation": "PAC",
-        "short_name": "Pacific"
-      },
-      "venue": {
-        "id": "501",
-        "name": "Jenny Craig Pavilion",
-        "city": "San Diego",
-        "state": "CA"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401827218",
-      "date": "2025-12-28T23:00Z",
-      "date_display": "Sun, Dec 28 2025",
-      "time_detail": "12/28 - 6:00 PM EST",
-      "name": "Old Dominion Monarchs at Maryland Terrapins",
-      "short_name": "ODU @ MD",
-      "home_team": {
-        "id": "120",
-        "name": "Maryland Terrapins",
-        "abbreviation": "MD",
-        "short_name": "Maryland"
-      },
-      "away_team": {
-        "id": "295",
-        "name": "Old Dominion Monarchs",
-        "abbreviation": "ODU",
-        "short_name": "Old Dominion"
-      },
-      "venue": {
-        "id": "2133",
-        "name": "XFINITY Center",
-        "city": "College Park",
-        "state": "MD"
-      },
-      "neutral_site": false,
-      "conference_game": false,
-      "tv": [
-        "BTN"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401829165",
-      "date": "2025-12-29T00:00Z",
-      "date_display": "Sun, Dec 28 2025",
-      "time_detail": "12/28 - 7:00 PM EST",
-      "name": "Saint Mary's Gaels at Loyola Marymount Lions",
-      "short_name": "SMC @ LMU",
-      "home_team": {
-        "id": "2351",
-        "name": "Loyola Marymount Lions",
-        "abbreviation": "LMU",
-        "short_name": "LMU"
-      },
-      "away_team": {
-        "id": "2608",
-        "name": "Saint Mary's Gaels",
-        "abbreviation": "SMC",
-        "short_name": "Saint Mary's"
-      },
-      "venue": {
-        "id": "2173",
-        "name": "Gersten Pavilion",
-        "city": "Los Angeles",
-        "state": "CA"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401826910",
-      "date": "2025-12-29T00:00Z",
-      "date_display": "Sun, Dec 28 2025",
-      "time_detail": "12/28 - 7:00 PM EST",
-      "name": "Stanton Elks at UC San Diego Tritons",
-      "short_name": "STN @ UCSD",
-      "home_team": {
-        "id": "28",
-        "name": "UC San Diego Tritons",
-        "abbreviation": "UCSD",
-        "short_name": "UC San Diego"
-      },
-      "away_team": {
-        "id": "128501",
-        "name": "Stanton Elks",
-        "abbreviation": "STN",
-        "short_name": "Stanton"
-      },
-      "venue": {
-        "id": "6853",
-        "name": "LionTree Arena",
-        "city": "San Diego",
-        "state": "CA"
-      },
-      "neutral_site": false,
-      "conference_game": false,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401829163",
-      "date": "2025-12-29T01:00Z",
-      "date_display": "Sun, Dec 28 2025",
-      "time_detail": "12/28 - 8:00 PM EST",
-      "name": "Gonzaga Bulldogs at Pepperdine Waves",
-      "short_name": "GONZ @ PEPP",
-      "home_team": {
-        "id": "2492",
-        "name": "Pepperdine Waves",
-        "abbreviation": "PEPP",
-        "short_name": "Pepperdine"
-      },
-      "away_team": {
-        "id": "2250",
-        "name": "Gonzaga Bulldogs",
-        "abbreviation": "GONZ",
-        "short_name": "Gonzaga"
-      },
-      "venue": {
-        "id": "1055",
-        "name": "Firestone Fieldhouse",
-        "city": "Malibu",
-        "state": "CA"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401829166",
-      "date": "2025-12-29T01:00Z",
-      "date_display": "Sun, Dec 28 2025",
-      "time_detail": "12/28 - 8:00 PM EST",
-      "name": "San Francisco Dons at Seattle U Redhawks",
-      "short_name": "SF @ SEA",
-      "home_team": {
-        "id": "2547",
-        "name": "Seattle U Redhawks",
-        "abbreviation": "SEA",
-        "short_name": "Seattle U"
-      },
-      "away_team": {
-        "id": "2539",
-        "name": "San Francisco Dons",
-        "abbreviation": "SF",
-        "short_name": "San Francisco"
-      },
-      "venue": {
-        "id": "1965",
-        "name": "Redhawk Center",
-        "city": "Seattle",
-        "state": "WA"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401827266",
-      "date": "2025-12-29T01:00Z",
-      "date_display": "Sun, Dec 28 2025",
-      "time_detail": "12/28 - 8:00 PM EST",
-      "name": "Omaha Mavericks at Oregon Ducks",
-      "short_name": "OMA @ ORE",
-      "home_team": {
-        "id": "2483",
-        "name": "Oregon Ducks",
-        "abbreviation": "ORE",
-        "short_name": "Oregon"
-      },
-      "away_team": {
-        "id": "2437",
-        "name": "Omaha Mavericks",
-        "abbreviation": "OMA",
-        "short_name": "Omaha"
-      },
-      "venue": {
-        "id": "1977",
-        "name": "Matthew Knight Arena",
-        "city": "Eugene",
-        "state": "OR"
-      },
-      "neutral_site": false,
-      "conference_game": false,
-      "tv": [
-        "BTN"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401827279",
-      "date": "2025-12-29T18:00Z",
-      "date_display": "Mon, Dec 29 2025",
-      "time_detail": "12/29 - 1:00 PM EST",
-      "name": "North Carolina Central Eagles at Penn State Nittany Lions",
-      "short_name": "NCCU @ PSU",
-      "home_team": {
-        "id": "213",
-        "name": "Penn State Nittany Lions",
-        "abbreviation": "PSU",
-        "short_name": "Penn State"
-      },
-      "away_team": {
-        "id": "2428",
-        "name": "North Carolina Central Eagles",
-        "abbreviation": "NCCU",
-        "short_name": "NC Central"
-      },
-      "venue": {
-        "id": "1942",
-        "name": "Bryce Jordan Center",
-        "city": "University Park",
-        "state": "PA"
-      },
-      "neutral_site": false,
-      "conference_game": false,
-      "tv": [
-        "BTN"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401823731",
-      "date": "2025-12-29T19:00Z",
-      "date_display": "Mon, Dec 29 2025",
-      "time_detail": "12/29 - 2:00 PM EST",
-      "name": "Merrimack Warriors at Sacred Heart Pioneers",
-      "short_name": "MRMK @ SHU",
-      "home_team": {
-        "id": "2529",
-        "name": "Sacred Heart Pioneers",
-        "abbreviation": "SHU",
-        "short_name": "Sacred Heart"
-      },
-      "away_team": {
-        "id": "2771",
-        "name": "Merrimack Warriors",
-        "abbreviation": "MRMK",
-        "short_name": "Merrimack"
-      },
-      "venue": {
-        "id": "1916",
-        "name": "William H. Pitt Center",
-        "city": "Fairfield",
-        "state": "CT"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401804854",
-      "date": "2025-12-29T19:00Z",
-      "date_display": "Mon, Dec 29 2025",
-      "time_detail": "12/29 - 2:00 PM EST",
-      "name": "Missouri State Bears at Delaware Blue Hens",
-      "short_name": "MOST @ DEL",
-      "home_team": {
-        "id": "48",
-        "name": "Delaware Blue Hens",
-        "abbreviation": "DEL",
-        "short_name": "Delaware"
-      },
-      "away_team": {
-        "id": "2623",
-        "name": "Missouri State Bears",
-        "abbreviation": "MOST",
-        "short_name": "Missouri St"
-      },
-      "venue": {
-        "id": "2189",
-        "name": "Bob Carpenter Center",
-        "city": "Newark",
-        "state": "DE"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
     {
       "espn_id": "401827020",
       "date": "2025-12-29T20:00Z",
       "date_display": "Mon, Dec 29 2025",
-      "time_detail": "12/29 - 3:00 PM EST",
+      "time_detail": "0:00 - 1st",
       "name": "Southern Jaguars at Illinois Fighting Illini",
       "short_name": "SOU @ ILL",
       "home_team": {
@@ -1538,7 +32,103 @@
       "tv": [
         "BTN"
       ],
-      "status": "STATUS_SCHEDULED"
+      "status": "STATUS_IN_PROGRESS"
+    },
+    {
+      "espn_id": "401823731",
+      "date": "2025-12-29T19:00Z",
+      "date_display": "Mon, Dec 29 2025",
+      "time_detail": "6:33 - 2nd",
+      "name": "Merrimack Warriors at Sacred Heart Pioneers",
+      "short_name": "MRMK @ SHU",
+      "home_team": {
+        "id": "2529",
+        "name": "Sacred Heart Pioneers",
+        "abbreviation": "SHU",
+        "short_name": "Sacred Heart"
+      },
+      "away_team": {
+        "id": "2771",
+        "name": "Merrimack Warriors",
+        "abbreviation": "MRMK",
+        "short_name": "Merrimack"
+      },
+      "venue": {
+        "id": "1916",
+        "name": "William H. Pitt Center",
+        "city": "Fairfield",
+        "state": "CT"
+      },
+      "neutral_site": false,
+      "conference_game": true,
+      "tv": [
+        "ESPN+"
+      ],
+      "status": "STATUS_IN_PROGRESS"
+    },
+    {
+      "espn_id": "401804854",
+      "date": "2025-12-29T19:00Z",
+      "date_display": "Mon, Dec 29 2025",
+      "time_detail": "3:13 - 2nd",
+      "name": "Missouri State Bears at Delaware Blue Hens",
+      "short_name": "MOST @ DEL",
+      "home_team": {
+        "id": "48",
+        "name": "Delaware Blue Hens",
+        "abbreviation": "DEL",
+        "short_name": "Delaware"
+      },
+      "away_team": {
+        "id": "2623",
+        "name": "Missouri State Bears",
+        "abbreviation": "MOST",
+        "short_name": "Missouri St"
+      },
+      "venue": {
+        "id": "2189",
+        "name": "Bob Carpenter Center",
+        "city": "Newark",
+        "state": "DE"
+      },
+      "neutral_site": false,
+      "conference_game": true,
+      "tv": [
+        "ESPN+"
+      ],
+      "status": "STATUS_IN_PROGRESS"
+    },
+    {
+      "espn_id": "401827279",
+      "date": "2025-12-29T18:00Z",
+      "date_display": "Mon, Dec 29 2025",
+      "time_detail": "Final",
+      "name": "North Carolina Central Eagles at Penn State Nittany Lions",
+      "short_name": "NCCU @ PSU",
+      "home_team": {
+        "id": "213",
+        "name": "Penn State Nittany Lions",
+        "abbreviation": "PSU",
+        "short_name": "Penn State"
+      },
+      "away_team": {
+        "id": "2428",
+        "name": "North Carolina Central Eagles",
+        "abbreviation": "NCCU",
+        "short_name": "NC Central"
+      },
+      "venue": {
+        "id": "1942",
+        "name": "Bryce Jordan Center",
+        "city": "University Park",
+        "state": "PA"
+      },
+      "neutral_site": false,
+      "conference_game": false,
+      "tv": [
+        "BTN"
+      ],
+      "status": "STATUS_FINAL"
     },
     {
       "espn_id": "401830112",
@@ -1798,36 +388,6 @@
       "status": "STATUS_SCHEDULED"
     },
     {
-      "espn_id": "401828686",
-      "date": "2025-12-29T23:00Z",
-      "date_display": "Mon, Dec 29 2025",
-      "time_detail": "12/29 - 6:00 PM EST",
-      "name": "New Haven Chargers at Vanderbilt Commodores",
-      "short_name": "NHVN @ VAN",
-      "home_team": {
-        "id": "238",
-        "name": "Vanderbilt Commodores",
-        "abbreviation": "VAN",
-        "short_name": "Vanderbilt"
-      },
-      "away_team": {
-        "id": "2441",
-        "name": "New Haven Chargers",
-        "abbreviation": "NHVN",
-        "short_name": "New Haven"
-      },
-      "venue": {
-        "id": "2084",
-        "name": "Memorial Gymnasium (TN)",
-        "city": "Nashville",
-        "state": "TN"
-      },
-      "neutral_site": false,
-      "conference_game": false,
-      "tv": [],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
       "espn_id": "401829419",
       "date": "2025-12-29T23:00Z",
       "date_display": "Mon, Dec 29 2025",
@@ -2016,6 +576,38 @@
       "conference_game": false,
       "tv": [
         "FS1"
+      ],
+      "status": "STATUS_SCHEDULED"
+    },
+    {
+      "espn_id": "401828686",
+      "date": "2025-12-30T00:00Z",
+      "date_display": "Mon, Dec 29 2025",
+      "time_detail": "12/29 - 7:00 PM EST",
+      "name": "New Haven Chargers at Vanderbilt Commodores",
+      "short_name": "NHVN @ VAN",
+      "home_team": {
+        "id": "238",
+        "name": "Vanderbilt Commodores",
+        "abbreviation": "VAN",
+        "short_name": "Vanderbilt"
+      },
+      "away_team": {
+        "id": "2441",
+        "name": "New Haven Chargers",
+        "abbreviation": "NHVN",
+        "short_name": "New Haven"
+      },
+      "venue": {
+        "id": "2084",
+        "name": "Memorial Gymnasium (TN)",
+        "city": "Nashville",
+        "state": "TN"
+      },
+      "neutral_site": false,
+      "conference_game": false,
+      "tv": [
+        "SECN+"
       ],
       "status": "STATUS_SCHEDULED"
     },
@@ -3718,38 +2310,6 @@
       "status": "STATUS_SCHEDULED"
     },
     {
-      "espn_id": "401826936",
-      "date": "2025-12-30T21:00Z",
-      "date_display": "Tue, Dec 30 2025",
-      "time_detail": "12/30 - 4:00 PM EST",
-      "name": "Howard Bison at Northwestern Wildcats",
-      "short_name": "HOW @ NU",
-      "home_team": {
-        "id": "77",
-        "name": "Northwestern Wildcats",
-        "abbreviation": "NU",
-        "short_name": "Northwestern"
-      },
-      "away_team": {
-        "id": "47",
-        "name": "Howard Bison",
-        "abbreviation": "HOW",
-        "short_name": "Howard"
-      },
-      "venue": {
-        "id": "1990",
-        "name": "Welsh-Ryan Arena",
-        "city": "Evanston",
-        "state": "IL"
-      },
-      "neutral_site": false,
-      "conference_game": false,
-      "tv": [
-        "BTN"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
       "espn_id": "401820558",
       "date": "2025-12-30T21:00Z",
       "date_display": "Tue, Dec 30 2025",
@@ -3778,6 +2338,38 @@
       "conference_game": true,
       "tv": [
         "MWN"
+      ],
+      "status": "STATUS_SCHEDULED"
+    },
+    {
+      "espn_id": "401826936",
+      "date": "2025-12-30T22:00Z",
+      "date_display": "Tue, Dec 30 2025",
+      "time_detail": "12/30 - 5:00 PM EST",
+      "name": "Howard Bison at Northwestern Wildcats",
+      "short_name": "HOW @ NU",
+      "home_team": {
+        "id": "77",
+        "name": "Northwestern Wildcats",
+        "abbreviation": "NU",
+        "short_name": "Northwestern"
+      },
+      "away_team": {
+        "id": "47",
+        "name": "Howard Bison",
+        "abbreviation": "HOW",
+        "short_name": "Howard"
+      },
+      "venue": {
+        "id": "1990",
+        "name": "Welsh-Ryan Arena",
+        "city": "Evanston",
+        "state": "IL"
+      },
+      "neutral_site": false,
+      "conference_game": false,
+      "tv": [
+        "BTN"
       ],
       "status": "STATUS_SCHEDULED"
     },
@@ -6824,6 +5416,38 @@
       "status": "STATUS_SCHEDULED"
     },
     {
+      "espn_id": "401805159",
+      "date": "2026-01-01T20:00Z",
+      "date_display": "Thu, Jan 01 2026",
+      "time_detail": "1/1 - 3:00 PM EST",
+      "name": "California Baptist Lancers at UT Arlington Mavericks",
+      "short_name": "CBU @ UTA",
+      "home_team": {
+        "id": "250",
+        "name": "UT Arlington Mavericks",
+        "abbreviation": "UTA",
+        "short_name": "UT Arlington"
+      },
+      "away_team": {
+        "id": "2856",
+        "name": "California Baptist Lancers",
+        "abbreviation": "CBU",
+        "short_name": "CA Baptist"
+      },
+      "venue": {
+        "id": "3416",
+        "name": "College Park Center",
+        "city": "Arlington",
+        "state": "TX"
+      },
+      "neutral_site": false,
+      "conference_game": true,
+      "tv": [
+        "ESPN+"
+      ],
+      "status": "STATUS_SCHEDULED"
+    },
+    {
       "espn_id": "401809226",
       "date": "2026-01-01T21:00Z",
       "date_display": "Thu, Jan 01 2026",
@@ -7339,38 +5963,6 @@
       "status": "STATUS_SCHEDULED"
     },
     {
-      "espn_id": "401805159",
-      "date": "2026-01-02T01:00Z",
-      "date_display": "Thu, Jan 01 2026",
-      "time_detail": "1/1 - 8:00 PM EST",
-      "name": "California Baptist Lancers at UT Arlington Mavericks",
-      "short_name": "CBU @ UTA",
-      "home_team": {
-        "id": "250",
-        "name": "UT Arlington Mavericks",
-        "abbreviation": "UTA",
-        "short_name": "UT Arlington"
-      },
-      "away_team": {
-        "id": "2856",
-        "name": "California Baptist Lancers",
-        "abbreviation": "CBU",
-        "short_name": "CA Baptist"
-      },
-      "venue": {
-        "id": "3416",
-        "name": "College Park Center",
-        "city": "Arlington",
-        "state": "TX"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
       "espn_id": "401805158",
       "date": "2026-01-02T01:00Z",
       "date_display": "Thu, Jan 01 2026",
@@ -7436,9 +6028,9 @@
     },
     {
       "espn_id": "401806419",
-      "date": "2026-01-02T01:30Z",
+      "date": "2026-01-01T20:30Z",
       "date_display": "Thu, Jan 01 2026",
-      "time_detail": "1/1 - 8:30 PM EST",
+      "time_detail": "1/1 - 3:30 PM EST",
       "name": "Western Illinois Leathernecks at UT Martin Skyhawks",
       "short_name": "WIU @ UTM",
       "home_team": {
@@ -8713,128 +7305,6 @@
       "tv": [
         "ESPN2"
       ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401829284",
-      "date": "2026-01-03T05:00Z",
-      "date_display": "Sat, Jan 03 2026",
-      "time_detail": "TBD",
-      "name": "Howard Bison at South Carolina State Bulldogs",
-      "short_name": "HOW @ SCST",
-      "home_team": {
-        "id": "2569",
-        "name": "South Carolina State Bulldogs",
-        "abbreviation": "SCST",
-        "short_name": "SC State"
-      },
-      "away_team": {
-        "id": "47",
-        "name": "Howard Bison",
-        "abbreviation": "HOW",
-        "short_name": "Howard"
-      },
-      "venue": {
-        "id": "2077",
-        "name": "Smith-Hammond-Middleton Memorial Center",
-        "city": "Orangeburg",
-        "state": "SC"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401828925",
-      "date": "2026-01-03T05:00Z",
-      "date_display": "Sat, Jan 03 2026",
-      "time_detail": "TBD",
-      "name": "Nevada Wolf Pack at Fresno State Bulldogs",
-      "short_name": "NEV @ FRES",
-      "home_team": {
-        "id": "278",
-        "name": "Fresno State Bulldogs",
-        "abbreviation": "FRES",
-        "short_name": "Fresno St"
-      },
-      "away_team": {
-        "id": "2440",
-        "name": "Nevada Wolf Pack",
-        "abbreviation": "NEV",
-        "short_name": "Nevada"
-      },
-      "venue": {
-        "id": "914",
-        "name": "Save Mart Center",
-        "city": "Fresno",
-        "state": "CA"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "MWN"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401827136",
-      "date": "2026-01-03T05:00Z",
-      "date_display": "Sat, Jan 03 2026",
-      "time_detail": "TBD",
-      "name": "Alabama A&M Bulldogs at Arkansas-Pine Bluff Golden Lions",
-      "short_name": "AAMU @ UAPB",
-      "home_team": {
-        "id": "2029",
-        "name": "Arkansas-Pine Bluff Golden Lions",
-        "abbreviation": "UAPB",
-        "short_name": "AR-Pine Bluff"
-      },
-      "away_team": {
-        "id": "2010",
-        "name": "Alabama A&M Bulldogs",
-        "abbreviation": "AAMU",
-        "short_name": "Alabama A&M"
-      },
-      "venue": {
-        "id": "2105",
-        "name": "H.O. Clemmons Arena",
-        "city": "Pine Bluff",
-        "state": "AR"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401827021",
-      "date": "2026-01-03T05:00Z",
-      "date_display": "Sat, Jan 03 2026",
-      "time_detail": "TBD",
-      "name": "Texas Southern Tigers at Southern Jaguars",
-      "short_name": "TXSO @ SOU",
-      "home_team": {
-        "id": "2582",
-        "name": "Southern Jaguars",
-        "abbreviation": "SOU",
-        "short_name": "Southern"
-      },
-      "away_team": {
-        "id": "2640",
-        "name": "Texas Southern Tigers",
-        "abbreviation": "TXSO",
-        "short_name": "Texas Southern"
-      },
-      "venue": {
-        "id": "2210",
-        "name": "F.G. Clark Activity Center",
-        "city": "Baton Rouge",
-        "state": "LA"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -10410,35 +8880,33 @@
       "status": "STATUS_SCHEDULED"
     },
     {
-      "espn_id": "401806422",
-      "date": "2026-01-03T20:00Z",
+      "espn_id": "401827114",
+      "date": "2026-01-03T20:30Z",
       "date_display": "Sat, Jan 03 2026",
-      "time_detail": "1/3 - 3:00 PM EST",
-      "name": "Tennessee State Tigers at Little Rock Trojans",
-      "short_name": "TNST @ LR",
+      "time_detail": "1/3 - 3:30 PM EST",
+      "name": "Florida A&M Rattlers at Bethune-Cookman Wildcats",
+      "short_name": "FAMU @ BCU",
       "home_team": {
-        "id": "2031",
-        "name": "Little Rock Trojans",
-        "abbreviation": "LR",
-        "short_name": "Little Rock"
+        "id": "2065",
+        "name": "Bethune-Cookman Wildcats",
+        "abbreviation": "BCU",
+        "short_name": "Bethune"
       },
       "away_team": {
-        "id": "2634",
-        "name": "Tennessee State Tigers",
-        "abbreviation": "TNST",
-        "short_name": "Tennessee St"
+        "id": "50",
+        "name": "Florida A&M Rattlers",
+        "abbreviation": "FAMU",
+        "short_name": "Florida A&M"
       },
       "venue": {
-        "id": "2180",
-        "name": "Jack Stephens Center",
-        "city": "Little Rock",
-        "state": "AR"
+        "id": "2073",
+        "name": "Moore Gymnasium (FL)",
+        "city": "Daytona Beach",
+        "state": "FL"
       },
       "neutral_site": false,
       "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
+      "tv": [],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -10632,6 +9100,36 @@
         "Peacock",
         "NBCSN"
       ],
+      "status": "STATUS_SCHEDULED"
+    },
+    {
+      "espn_id": "401829284",
+      "date": "2026-01-03T21:00Z",
+      "date_display": "Sat, Jan 03 2026",
+      "time_detail": "1/3 - 4:00 PM EST",
+      "name": "Howard Bison at South Carolina State Bulldogs",
+      "short_name": "HOW @ SCST",
+      "home_team": {
+        "id": "2569",
+        "name": "South Carolina State Bulldogs",
+        "abbreviation": "SCST",
+        "short_name": "SC State"
+      },
+      "away_team": {
+        "id": "47",
+        "name": "Howard Bison",
+        "abbreviation": "HOW",
+        "short_name": "Howard"
+      },
+      "venue": {
+        "id": "2077",
+        "name": "Smith-Hammond-Middleton Memorial Center",
+        "city": "Orangeburg",
+        "state": "SC"
+      },
+      "neutral_site": false,
+      "conference_game": true,
+      "tv": [],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -11106,6 +9604,38 @@
         "name": "F&M Bank Arena",
         "city": "Clarksville",
         "state": "TN"
+      },
+      "neutral_site": false,
+      "conference_game": true,
+      "tv": [
+        "ESPN+"
+      ],
+      "status": "STATUS_SCHEDULED"
+    },
+    {
+      "espn_id": "401806422",
+      "date": "2026-01-03T21:00Z",
+      "date_display": "Sat, Jan 03 2026",
+      "time_detail": "1/3 - 4:00 PM EST",
+      "name": "Tennessee State Tigers at Little Rock Trojans",
+      "short_name": "TNST @ LR",
+      "home_team": {
+        "id": "2031",
+        "name": "Little Rock Trojans",
+        "abbreviation": "LR",
+        "short_name": "Little Rock"
+      },
+      "away_team": {
+        "id": "2634",
+        "name": "Tennessee State Tigers",
+        "abbreviation": "TNST",
+        "short_name": "Tennessee St"
+      },
+      "venue": {
+        "id": "2180",
+        "name": "Jack Stephens Center",
+        "city": "Little Rock",
+        "state": "AR"
       },
       "neutral_site": false,
       "conference_game": true,
@@ -11785,36 +10315,6 @@
       "status": "STATUS_SCHEDULED"
     },
     {
-      "espn_id": "401827114",
-      "date": "2026-01-03T22:30Z",
-      "date_display": "Sat, Jan 03 2026",
-      "time_detail": "1/3 - 5:30 PM EST",
-      "name": "Florida A&M Rattlers at Bethune-Cookman Wildcats",
-      "short_name": "FAMU @ BCU",
-      "home_team": {
-        "id": "2065",
-        "name": "Bethune-Cookman Wildcats",
-        "abbreviation": "BCU",
-        "short_name": "Bethune"
-      },
-      "away_team": {
-        "id": "50",
-        "name": "Florida A&M Rattlers",
-        "abbreviation": "FAMU",
-        "short_name": "Florida A&M"
-      },
-      "venue": {
-        "id": "2073",
-        "name": "Moore Gymnasium (FL)",
-        "city": "Daytona Beach",
-        "state": "FL"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
       "espn_id": "401808977",
       "date": "2026-01-03T22:30Z",
       "date_display": "Sat, Jan 03 2026",
@@ -11973,6 +10473,36 @@
       "status": "STATUS_SCHEDULED"
     },
     {
+      "espn_id": "401827021",
+      "date": "2026-01-03T23:00Z",
+      "date_display": "Sat, Jan 03 2026",
+      "time_detail": "1/3 - 6:00 PM EST",
+      "name": "Texas Southern Tigers at Southern Jaguars",
+      "short_name": "TXSO @ SOU",
+      "home_team": {
+        "id": "2582",
+        "name": "Southern Jaguars",
+        "abbreviation": "SOU",
+        "short_name": "Southern"
+      },
+      "away_team": {
+        "id": "2640",
+        "name": "Texas Southern Tigers",
+        "abbreviation": "TXSO",
+        "short_name": "Texas Southern"
+      },
+      "venue": {
+        "id": "2210",
+        "name": "F.G. Clark Activity Center",
+        "city": "Baton Rouge",
+        "state": "LA"
+      },
+      "neutral_site": false,
+      "conference_game": true,
+      "tv": [],
+      "status": "STATUS_SCHEDULED"
+    },
+    {
       "espn_id": "401811997",
       "date": "2026-01-03T23:00Z",
       "date_display": "Sat, Jan 03 2026",
@@ -12102,6 +10632,36 @@
       "status": "STATUS_SCHEDULED"
     },
     {
+      "espn_id": "401827136",
+      "date": "2026-01-03T23:30Z",
+      "date_display": "Sat, Jan 03 2026",
+      "time_detail": "1/3 - 6:30 PM EST",
+      "name": "Alabama A&M Bulldogs at Arkansas-Pine Bluff Golden Lions",
+      "short_name": "AAMU @ UAPB",
+      "home_team": {
+        "id": "2029",
+        "name": "Arkansas-Pine Bluff Golden Lions",
+        "abbreviation": "UAPB",
+        "short_name": "AR-Pine Bluff"
+      },
+      "away_team": {
+        "id": "2010",
+        "name": "Alabama A&M Bulldogs",
+        "abbreviation": "AAMU",
+        "short_name": "Alabama A&M"
+      },
+      "venue": {
+        "id": "2105",
+        "name": "H.O. Clemmons Arena",
+        "city": "Pine Bluff",
+        "state": "AR"
+      },
+      "neutral_site": false,
+      "conference_game": true,
+      "tv": [],
+      "status": "STATUS_SCHEDULED"
+    },
+    {
       "espn_id": "401825416",
       "date": "2026-01-04T00:00Z",
       "date_display": "Sat, Jan 03 2026",
@@ -12130,6 +10690,38 @@
       "conference_game": true,
       "tv": [
         "BTN"
+      ],
+      "status": "STATUS_SCHEDULED"
+    },
+    {
+      "espn_id": "401828925",
+      "date": "2026-01-04T00:00Z",
+      "date_display": "Sat, Jan 03 2026",
+      "time_detail": "1/3 - 7:00 PM EST",
+      "name": "Nevada Wolf Pack at Fresno State Bulldogs",
+      "short_name": "NEV @ FRES",
+      "home_team": {
+        "id": "278",
+        "name": "Fresno State Bulldogs",
+        "abbreviation": "FRES",
+        "short_name": "Fresno St"
+      },
+      "away_team": {
+        "id": "2440",
+        "name": "Nevada Wolf Pack",
+        "abbreviation": "NEV",
+        "short_name": "Nevada"
+      },
+      "venue": {
+        "id": "914",
+        "name": "Save Mart Center",
+        "city": "Fresno",
+        "state": "CA"
+      },
+      "neutral_site": false,
+      "conference_game": true,
+      "tv": [
+        "MWN"
       ],
       "status": "STATUS_SCHEDULED"
     },
@@ -12188,38 +10780,6 @@
         "id": "2003",
         "name": "Titan Gym",
         "city": "Fullerton",
-        "state": "CA"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401809087",
-      "date": "2026-01-04T00:00Z",
-      "date_display": "Sat, Jan 03 2026",
-      "time_detail": "1/3 - 7:00 PM EST",
-      "name": "Hawai'i Rainbow Warriors at UC San Diego Tritons",
-      "short_name": "HAW @ UCSD",
-      "home_team": {
-        "id": "28",
-        "name": "UC San Diego Tritons",
-        "abbreviation": "UCSD",
-        "short_name": "UC San Diego"
-      },
-      "away_team": {
-        "id": "62",
-        "name": "Hawai'i Rainbow Warriors",
-        "abbreviation": "HAW",
-        "short_name": "Hawai\u2019i"
-      },
-      "venue": {
-        "id": "6853",
-        "name": "LionTree Arena",
-        "city": "San Diego",
         "state": "CA"
       },
       "neutral_site": false,
@@ -12449,7 +11009,9 @@
       },
       "neutral_site": false,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "ESPN+"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -12549,34 +11111,34 @@
       "status": "STATUS_SCHEDULED"
     },
     {
-      "espn_id": "401812402",
-      "date": "2026-01-04T05:00Z",
-      "date_display": "Sun, Jan 04 2026",
-      "time_detail": "TBD",
-      "name": "Stonehill Skyhawks at Wagner Seahawks",
-      "short_name": "STO @ WAG",
+      "espn_id": "401809087",
+      "date": "2026-01-04T03:00Z",
+      "date_display": "Sat, Jan 03 2026",
+      "time_detail": "1/3 - 10:00 PM EST",
+      "name": "Hawai'i Rainbow Warriors at UC San Diego Tritons",
+      "short_name": "HAW @ UCSD",
       "home_team": {
-        "id": "2681",
-        "name": "Wagner Seahawks",
-        "abbreviation": "WAG",
-        "short_name": "Wagner"
+        "id": "28",
+        "name": "UC San Diego Tritons",
+        "abbreviation": "UCSD",
+        "short_name": "UC San Diego"
       },
       "away_team": {
-        "id": "284",
-        "name": "Stonehill Skyhawks",
-        "abbreviation": "STO",
-        "short_name": "Stonehill"
+        "id": "62",
+        "name": "Hawai'i Rainbow Warriors",
+        "abbreviation": "HAW",
+        "short_name": "Hawai\u2019i"
       },
       "venue": {
-        "id": "2085",
-        "name": "Spiro Sports Center",
-        "city": "Staten Island",
-        "state": "NY"
+        "id": "6853",
+        "name": "LionTree Arena",
+        "city": "San Diego",
+        "state": "CA"
       },
       "neutral_site": false,
       "conference_game": true,
       "tv": [
-        "NEC Front Row"
+        "ESPN+"
       ],
       "status": "STATUS_SCHEDULED"
     },
@@ -13474,6 +12036,38 @@
       "conference_game": true,
       "tv": [
         "ESPN+"
+      ],
+      "status": "STATUS_SCHEDULED"
+    },
+    {
+      "espn_id": "401812402",
+      "date": "2026-01-04T21:00Z",
+      "date_display": "Sun, Jan 04 2026",
+      "time_detail": "1/4 - 4:00 PM EST",
+      "name": "Stonehill Skyhawks at Wagner Seahawks",
+      "short_name": "STO @ WAG",
+      "home_team": {
+        "id": "2681",
+        "name": "Wagner Seahawks",
+        "abbreviation": "WAG",
+        "short_name": "Wagner"
+      },
+      "away_team": {
+        "id": "284",
+        "name": "Stonehill Skyhawks",
+        "abbreviation": "STO",
+        "short_name": "Stonehill"
+      },
+      "venue": {
+        "id": "2085",
+        "name": "Spiro Sports Center",
+        "city": "Staten Island",
+        "state": "NY"
+      },
+      "neutral_site": false,
+      "conference_game": true,
+      "tv": [
+        "NEC Front Row"
       ],
       "status": "STATUS_SCHEDULED"
     },
@@ -17604,38 +16198,6 @@
       "status": "STATUS_SCHEDULED"
     },
     {
-      "espn_id": "401809088",
-      "date": "2026-01-09T00:00Z",
-      "date_display": "Thu, Jan 08 2026",
-      "time_detail": "1/8 - 7:00 PM EST",
-      "name": "Cal State Fullerton Titans at UC San Diego Tritons",
-      "short_name": "CSUF @ UCSD",
-      "home_team": {
-        "id": "28",
-        "name": "UC San Diego Tritons",
-        "abbreviation": "UCSD",
-        "short_name": "UC San Diego"
-      },
-      "away_team": {
-        "id": "2239",
-        "name": "Cal State Fullerton Titans",
-        "abbreviation": "CSUF",
-        "short_name": "Fullerton"
-      },
-      "venue": {
-        "id": "6853",
-        "name": "LionTree Arena",
-        "city": "San Diego",
-        "state": "CA"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
       "espn_id": "401808604",
       "date": "2026-01-09T00:00Z",
       "date_display": "Thu, Jan 08 2026",
@@ -18790,6 +17352,38 @@
       "status": "STATUS_SCHEDULED"
     },
     {
+      "espn_id": "401809088",
+      "date": "2026-01-09T03:00Z",
+      "date_display": "Thu, Jan 08 2026",
+      "time_detail": "1/8 - 10:00 PM EST",
+      "name": "Cal State Fullerton Titans at UC San Diego Tritons",
+      "short_name": "CSUF @ UCSD",
+      "home_team": {
+        "id": "28",
+        "name": "UC San Diego Tritons",
+        "abbreviation": "UCSD",
+        "short_name": "UC San Diego"
+      },
+      "away_team": {
+        "id": "2239",
+        "name": "Cal State Fullerton Titans",
+        "abbreviation": "CSUF",
+        "short_name": "Fullerton"
+      },
+      "venue": {
+        "id": "6853",
+        "name": "LionTree Arena",
+        "city": "San Diego",
+        "state": "CA"
+      },
+      "neutral_site": false,
+      "conference_game": true,
+      "tv": [
+        "ESPN+"
+      ],
+      "status": "STATUS_SCHEDULED"
+    },
+    {
       "espn_id": "401805164",
       "date": "2026-01-09T03:00Z",
       "date_display": "Thu, Jan 08 2026",
@@ -18951,9 +17545,9 @@
     },
     {
       "espn_id": "401814515",
-      "date": "2026-01-09T23:30Z",
+      "date": "2026-01-09T23:00Z",
       "date_display": "Fri, Jan 09 2026",
-      "time_detail": "1/9 - 6:30 PM EST",
+      "time_detail": "1/9 - 6:00 PM EST",
       "name": "Miami (OH) RedHawks at Toledo Rockets",
       "short_name": "M-OH @ TOL",
       "home_team": {
@@ -18977,6 +17571,7 @@
       "neutral_site": false,
       "conference_game": true,
       "tv": [
+        "ESPN+",
         "CBSSN"
       ],
       "status": "STATUS_SCHEDULED"
@@ -19329,6 +17924,7 @@
       "neutral_site": false,
       "conference_game": true,
       "tv": [
+        "ESPN+",
         "CBSSN"
       ],
       "status": "STATUS_SCHEDULED"
@@ -19674,7 +18270,9 @@
       },
       "neutral_site": false,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "ESPN"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -19738,6 +18336,38 @@
       "conference_game": true,
       "tv": [
         "USA Net"
+      ],
+      "status": "STATUS_SCHEDULED"
+    },
+    {
+      "espn_id": "401820660",
+      "date": "2026-01-10T17:00Z",
+      "date_display": "Sat, Jan 10 2026",
+      "time_detail": "1/10 - 12:00 PM EST",
+      "name": "Georgia Tech Yellow Jackets at Miami Hurricanes",
+      "short_name": "GT @ MIA",
+      "home_team": {
+        "id": "2390",
+        "name": "Miami Hurricanes",
+        "abbreviation": "MIA",
+        "short_name": "Miami"
+      },
+      "away_team": {
+        "id": "59",
+        "name": "Georgia Tech Yellow Jackets",
+        "abbreviation": "GT",
+        "short_name": "Georgia Tech"
+      },
+      "venue": {
+        "id": "1985",
+        "name": "Watsco Center",
+        "city": "Coral Gables",
+        "state": "FL"
+      },
+      "neutral_site": false,
+      "conference_game": true,
+      "tv": [
+        "ESPN2"
       ],
       "status": "STATUS_SCHEDULED"
     },
@@ -20502,38 +19132,6 @@
         "name": "Petersen Events Center",
         "city": "Pittsburgh",
         "state": "PA"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ACC Network"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401820660",
-      "date": "2026-01-10T19:00Z",
-      "date_display": "Sat, Jan 10 2026",
-      "time_detail": "1/10 - 2:00 PM EST",
-      "name": "Georgia Tech Yellow Jackets at Miami Hurricanes",
-      "short_name": "GT @ MIA",
-      "home_team": {
-        "id": "2390",
-        "name": "Miami Hurricanes",
-        "abbreviation": "MIA",
-        "short_name": "Miami"
-      },
-      "away_team": {
-        "id": "59",
-        "name": "Georgia Tech Yellow Jackets",
-        "abbreviation": "GT",
-        "short_name": "Georgia Tech"
-      },
-      "venue": {
-        "id": "1985",
-        "name": "Watsco Center",
-        "city": "Coral Gables",
-        "state": "FL"
       },
       "neutral_site": false,
       "conference_game": true,
@@ -23026,7 +21624,9 @@
       },
       "neutral_site": false,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "ESPN"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -23859,9 +22459,7 @@
       },
       "neutral_site": false,
       "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
+      "tv": [],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -24148,8 +22746,7 @@
       "neutral_site": false,
       "conference_game": true,
       "tv": [
-        "ESPN+",
-        "Spectrum Sports Net"
+        "ESPN+"
       ],
       "status": "STATUS_SCHEDULED"
     },
@@ -28899,38 +27496,6 @@
       "status": "STATUS_SCHEDULED"
     },
     {
-      "espn_id": "401809090",
-      "date": "2026-01-16T00:00Z",
-      "date_display": "Thu, Jan 15 2026",
-      "time_detail": "1/15 - 7:00 PM EST",
-      "name": "Cal State Northridge Matadors at UC San Diego Tritons",
-      "short_name": "CSUN @ UCSD",
-      "home_team": {
-        "id": "28",
-        "name": "UC San Diego Tritons",
-        "abbreviation": "UCSD",
-        "short_name": "UC San Diego"
-      },
-      "away_team": {
-        "id": "2463",
-        "name": "Cal State Northridge Matadors",
-        "abbreviation": "CSUN",
-        "short_name": "CSU Northridge"
-      },
-      "venue": {
-        "id": "6853",
-        "name": "LionTree Arena",
-        "city": "San Diego",
-        "state": "CA"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
       "espn_id": "401808618",
       "date": "2026-01-16T00:00Z",
       "date_display": "Thu, Jan 15 2026",
@@ -29883,6 +28448,38 @@
         "id": "812",
         "name": "Mott Athletics Center",
         "city": "San Luis Obispo",
+        "state": "CA"
+      },
+      "neutral_site": false,
+      "conference_game": true,
+      "tv": [
+        "ESPN+"
+      ],
+      "status": "STATUS_SCHEDULED"
+    },
+    {
+      "espn_id": "401809090",
+      "date": "2026-01-16T03:00Z",
+      "date_display": "Thu, Jan 15 2026",
+      "time_detail": "1/15 - 10:00 PM EST",
+      "name": "Cal State Northridge Matadors at UC San Diego Tritons",
+      "short_name": "CSUN @ UCSD",
+      "home_team": {
+        "id": "28",
+        "name": "UC San Diego Tritons",
+        "abbreviation": "UCSD",
+        "short_name": "UC San Diego"
+      },
+      "away_team": {
+        "id": "2463",
+        "name": "Cal State Northridge Matadors",
+        "abbreviation": "CSUN",
+        "short_name": "CSU Northridge"
+      },
+      "venue": {
+        "id": "6853",
+        "name": "LionTree Arena",
+        "city": "San Diego",
         "state": "CA"
       },
       "neutral_site": false,
@@ -45525,38 +44122,6 @@
       "status": "STATUS_SCHEDULED"
     },
     {
-      "espn_id": "401809093",
-      "date": "2026-01-25T00:00Z",
-      "date_display": "Sat, Jan 24 2026",
-      "time_detail": "1/24 - 7:00 PM EST",
-      "name": "UC Irvine Anteaters at UC San Diego Tritons",
-      "short_name": "UCI @ UCSD",
-      "home_team": {
-        "id": "28",
-        "name": "UC San Diego Tritons",
-        "abbreviation": "UCSD",
-        "short_name": "UC San Diego"
-      },
-      "away_team": {
-        "id": "300",
-        "name": "UC Irvine Anteaters",
-        "abbreviation": "UCI",
-        "short_name": "UC Irvine"
-      },
-      "venue": {
-        "id": "6853",
-        "name": "LionTree Arena",
-        "city": "San Diego",
-        "state": "CA"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
       "espn_id": "401808970",
       "date": "2026-01-25T00:00Z",
       "date_display": "Sat, Jan 24 2026",
@@ -46164,6 +44729,38 @@
       "conference_game": true,
       "tv": [
         "CBSSN"
+      ],
+      "status": "STATUS_SCHEDULED"
+    },
+    {
+      "espn_id": "401809093",
+      "date": "2026-01-25T03:00Z",
+      "date_display": "Sat, Jan 24 2026",
+      "time_detail": "1/24 - 10:00 PM EST",
+      "name": "UC Irvine Anteaters at UC San Diego Tritons",
+      "short_name": "UCI @ UCSD",
+      "home_team": {
+        "id": "28",
+        "name": "UC San Diego Tritons",
+        "abbreviation": "UCSD",
+        "short_name": "UC San Diego"
+      },
+      "away_team": {
+        "id": "300",
+        "name": "UC Irvine Anteaters",
+        "abbreviation": "UCI",
+        "short_name": "UC Irvine"
+      },
+      "venue": {
+        "id": "6853",
+        "name": "LionTree Arena",
+        "city": "San Diego",
+        "state": "CA"
+      },
+      "neutral_site": false,
+      "conference_game": true,
+      "tv": [
+        "ESPN+"
       ],
       "status": "STATUS_SCHEDULED"
     },
@@ -50460,38 +49057,6 @@
       "status": "STATUS_SCHEDULED"
     },
     {
-      "espn_id": "401809094",
-      "date": "2026-01-30T00:00Z",
-      "date_display": "Thu, Jan 29 2026",
-      "time_detail": "1/29 - 7:00 PM EST",
-      "name": "UC Santa Barbara Gauchos at UC San Diego Tritons",
-      "short_name": "UCSB @ UCSD",
-      "home_team": {
-        "id": "28",
-        "name": "UC San Diego Tritons",
-        "abbreviation": "UCSD",
-        "short_name": "UC San Diego"
-      },
-      "away_team": {
-        "id": "2540",
-        "name": "UC Santa Barbara Gauchos",
-        "abbreviation": "UCSB",
-        "short_name": "Santa Barbara"
-      },
-      "venue": {
-        "id": "6853",
-        "name": "LionTree Arena",
-        "city": "San Diego",
-        "state": "CA"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
       "espn_id": "401808647",
       "date": "2026-01-30T00:00Z",
       "date_display": "Thu, Jan 29 2026",
@@ -51430,6 +49995,38 @@
         "id": "469",
         "name": "Bren Events Center",
         "city": "Irvine",
+        "state": "CA"
+      },
+      "neutral_site": false,
+      "conference_game": true,
+      "tv": [
+        "ESPN+"
+      ],
+      "status": "STATUS_SCHEDULED"
+    },
+    {
+      "espn_id": "401809094",
+      "date": "2026-01-30T03:00Z",
+      "date_display": "Thu, Jan 29 2026",
+      "time_detail": "1/29 - 10:00 PM EST",
+      "name": "UC Santa Barbara Gauchos at UC San Diego Tritons",
+      "short_name": "UCSB @ UCSD",
+      "home_team": {
+        "id": "28",
+        "name": "UC San Diego Tritons",
+        "abbreviation": "UCSD",
+        "short_name": "UC San Diego"
+      },
+      "away_team": {
+        "id": "2540",
+        "name": "UC Santa Barbara Gauchos",
+        "abbreviation": "UCSB",
+        "short_name": "Santa Barbara"
+      },
+      "venue": {
+        "id": "6853",
+        "name": "LionTree Arena",
+        "city": "San Diego",
         "state": "CA"
       },
       "neutral_site": false,

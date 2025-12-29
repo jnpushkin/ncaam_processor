@@ -3089,8 +3089,10 @@ def get_javascript(json_data: str) -> str:
             // Sort by date
             filteredGames.sort((a, b) => a.gameDate - b.gameDate);
 
+            const statesLabel = selectedStates.length === 1 ? selectedStates[0] : `${selectedStates.length} states`;
+
             if (filteredGames.length === 0) {
-                summaryDiv.innerHTML = `No upcoming games found in ${startLocation} for the selected date range.`;
+                summaryDiv.innerHTML = `No upcoming games found in ${statesLabel} for the selected date range.`;
                 resultsDiv.innerHTML = '';
                 return;
             }
@@ -3107,14 +3109,14 @@ def get_javascript(json_data: str) -> str:
             });
 
             if (trips.length === 0) {
-                summaryDiv.innerHTML = `Found ${filteredGames.length} games in ${startLocation}, but no multi-game trips matching your criteria. Try increasing the max distance or allowing more days between games.`;
+                summaryDiv.innerHTML = `Found ${filteredGames.length} games in ${statesLabel}, but no multi-game trips matching your criteria. Try increasing the max distance or allowing more days between games.`;
                 resultsDiv.innerHTML = '';
                 return;
             }
 
             // Display summary
             const totalGamesInTrips = trips.reduce((sum, t) => sum + t.games.length, 0);
-            summaryDiv.innerHTML = `Found <strong>${trips.length} road trip${trips.length > 1 ? 's' : ''}</strong> covering <strong>${totalGamesInTrips} games</strong> in ${startLocation} (from ${filteredGames.length} total games in date range)`;
+            summaryDiv.innerHTML = `Found <strong>${trips.length} road trip${trips.length > 1 ? 's' : ''}</strong> covering <strong>${totalGamesInTrips} games</strong> in ${statesLabel} (from ${filteredGames.length} total games in date range)`;
 
             // Display trips
             resultsDiv.innerHTML = trips.slice(0, 20).map((trip, i) => renderTrip(trip, i)).join('');
@@ -3805,6 +3807,7 @@ def get_javascript(json_data: str) -> str:
             'San Francisco': [37.7765, -122.4506],
             'Santa Clara': [37.3496, -121.9390],
             'Seattle': [47.6062, -122.3321],
+            'Seattle U': [47.6097, -122.3175],
             'Washington State': [46.7324, -117.1631],
             // American (AAC)
             'Charlotte': [35.3074, -80.7330],

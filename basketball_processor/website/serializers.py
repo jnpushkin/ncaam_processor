@@ -242,17 +242,27 @@ class DataSerializer:
 
         records = self._df_to_records(players)
 
-        # Batch fetch NBA/international status for all players
+        # Batch fetch NBA/international status
+        # - Male players: check cache + fetch new (up to 999)
+        # - Female players: cache-only (WNBA checked separately via recheck_female_players_for_wnba)
         skip_nba = getattr(self, '_skip_nba', False)
-        player_ids = [r.get('Player ID', '') for r in records if r.get('Player ID')]
-        # Use cache_only=-1 to skip new lookups but still use cached data
-        pro_status = get_nba_status_batch(player_ids, max_fetch=-1 if skip_nba else 999)
+        male_player_ids = [r.get('Player ID', '') for r in records if r.get('Player ID') and r.get('Gender') == 'M']
+        female_player_ids = [r.get('Player ID', '') for r in records if r.get('Player ID') and r.get('Gender') == 'W']
+
+        # Get male players (may fetch new)
+        pro_status = get_nba_status_batch(male_player_ids, max_fetch=-1 if skip_nba else 999)
+        # Get female players from cache only (no new fetches - handled by recheck_female_players_for_wnba)
+        if female_player_ids:
+            female_pro_status = get_nba_status_batch(female_player_ids, max_fetch=-1)
+            pro_status.update(female_pro_status)
 
         # Add NBA and International flags to each player
         for record in records:
             player_id = record.get('Player ID', '')
+            is_male = record.get('Gender') == 'M'
             pro_info = pro_status.get(player_id) if player_id else None
-            if not pro_info and not skip_nba:
+            # Only fetch NBA status for male players (females checked via recheck_female_players_for_wnba)
+            if not pro_info and not skip_nba and is_male:
                 pro_info = get_nba_player_info_by_id(player_id)
 
             # NBA info
