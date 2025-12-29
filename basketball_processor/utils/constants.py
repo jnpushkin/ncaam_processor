@@ -1209,11 +1209,11 @@ GID_DATE_RE = re.compile(r"^(\d{4})-?(\d{2})-?(\d{2})")
 SPORTS_REF_PLAYER_URL = "https://www.sports-reference.com/cbb/players/{player_id}.html"
 SPORTS_REF_GAME_URL = "https://www.sports-reference.com/cbb/boxscores/{game_id}.html"
 
-# === MILESTONE THRESHOLDS ===
+# === MILESTONE STAT CONFIGS ===
 # Simple single-stat thresholds for milestone detection
 # Format: (milestone_key, stat_name, min_value, max_value, detail_template)
 # max_value of None means no upper limit
-MILESTONE_THRESHOLDS: Dict[str, List[Tuple[str, str, int, Optional[int], str]]] = {
+MILESTONE_STAT_CONFIGS: Dict[str, List[Tuple[str, str, int, Optional[int], str]]] = {
     'scoring': [
         ('fifty_point_games', 'pts', 50, None, '{value} points'),
         ('forty_point_games', 'pts', 40, None, '{value} points'),

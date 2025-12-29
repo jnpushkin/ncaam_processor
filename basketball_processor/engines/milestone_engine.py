@@ -15,7 +15,7 @@ from ..utils.stat_utils import (
     calculate_four_factors,
     calculate_pace,
 )
-from ..utils.constants import MILESTONE_THRESHOLDS
+from ..utils.constants import MILESTONE_THRESHOLDS, MILESTONE_STAT_CONFIGS
 
 
 class MilestoneEngine:
@@ -157,7 +157,7 @@ class MilestoneEngine:
         milestone_base: Dict[str, Any]
     ) -> None:
         """Check all simple single-stat thresholds from config."""
-        for category, thresholds in MILESTONE_THRESHOLDS.items():
+        for category, thresholds in MILESTONE_STAT_CONFIGS.items():
             for milestone_key, stat_name, min_val, max_val, detail_template in thresholds:
                 stat_value = stats.get(stat_name, 0)
                 # Check if stat meets threshold
