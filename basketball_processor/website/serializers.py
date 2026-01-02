@@ -291,8 +291,13 @@ class DataSerializer:
             if pro_info and pro_info.get('intl_url'):
                 record['International'] = True
                 record['Intl_URL'] = pro_info.get('intl_url', '')
+                # Separate flags for pro leagues vs national team tournaments
+                record['Intl_Pro'] = pro_info.get('intl_pro', False)
+                record['Intl_National_Team'] = pro_info.get('intl_national_team', False)
             else:
                 record['International'] = False
+                record['Intl_Pro'] = False
+                record['Intl_National_Team'] = False
 
             # Sports Reference page exists (False if 404)
             if pro_info and pro_info.get('sr_page_exists') is False:

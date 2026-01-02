@@ -1422,8 +1422,10 @@ def get_javascript(json_data: str) -> str:
                         const nbaTooltip = player.NBA_Played === false
                             ? 'Signed to NBA (never played)'
                             : (nbaGames ? `NBA: ${nbaGames} games` : (player.NBA_Active ? 'Active NBA player' : 'Former NBA player'));
-                        const nbaEmoji = player.NBA_Played === false ? '📝' : '🏀';
-                        nbaTag = `<span class="nba-badge${player.NBA_Played === false ? ' signed-only' : ''}" data-tooltip="${nbaTooltip}">${nbaEmoji}</span>`;
+                        const nbaLogo = player.NBA_Played === false
+                            ? '📝'
+                            : '<img src="https://cdn.nba.com/logos/leagues/logo-nba.svg" alt="NBA" class="league-logo">';
+                        nbaTag = `<span class="nba-badge${player.NBA_Played === false ? ' signed-only' : ''}" data-tooltip="${nbaTooltip}">${nbaLogo}</span>`;
                     }
 
                     // WNBA badge with game count tooltip
@@ -1433,8 +1435,10 @@ def get_javascript(json_data: str) -> str:
                         const wnbaTooltip = player.WNBA_Played === false
                             ? 'Signed to WNBA (never played)'
                             : (wnbaGames ? `WNBA: ${wnbaGames} games` : (player.WNBA_Active ? 'Active WNBA player' : 'Former WNBA player'));
-                        const wnbaEmoji = player.WNBA_Played === false ? '📝W' : '🏀W';
-                        wnbaTag = `<span class="wnba-badge${player.WNBA_Played === false ? ' signed-only' : ''}" data-tooltip="${wnbaTooltip}">${wnbaEmoji}</span>`;
+                        const wnbaLogo = player.WNBA_Played === false
+                            ? '📝'
+                            : '<img src="https://cdn.wnba.com/logos/leagues/logo-wnba.svg" alt="WNBA" class="league-logo">';
+                        wnbaTag = `<span class="wnba-badge${player.WNBA_Played === false ? ' signed-only' : ''}" data-tooltip="${wnbaTooltip}">${wnbaLogo}</span>`;
                     }
 
                     const playerId = player['Player ID'] || '';
@@ -1832,7 +1836,8 @@ def get_javascript(json_data: str) -> str:
                     const nbaGames = player.NBA_Games;
                     const signedOnly = player.NBA_Played === false;
                     const tooltip = signedOnly ? 'Signed to NBA (never played)' : (nbaGames ? `NBA: ${nbaGames} games` : 'Former NBA player');
-                    badges += `<span class="nba-badge${signedOnly ? ' signed-only' : ''}" data-tooltip="${tooltip}">${signedOnly ? '📝' : '🏀'}</span>`;
+                    const nbaLogo = signedOnly ? '📝' : '<img src="https://cdn.nba.com/logos/leagues/logo-nba.svg" alt="NBA" class="league-logo">';
+                    badges += `<span class="nba-badge${signedOnly ? ' signed-only' : ''}" data-tooltip="${tooltip}">${nbaLogo}</span>`;
                     if (!league) {
                         league = signedOnly ? 'NBA (signed)' : 'NBA';
                         proGames = signedOnly ? '0' : (nbaGames || '?');
@@ -1846,7 +1851,8 @@ def get_javascript(json_data: str) -> str:
                     const wnbaGames = player.WNBA_Games;
                     const signedOnly = player.WNBA_Played === false;
                     const tooltip = signedOnly ? 'Signed to WNBA (never played)' : (wnbaGames ? `WNBA: ${wnbaGames} games` : 'Former WNBA player');
-                    badges += `<span class="wnba-badge${signedOnly ? ' signed-only' : ''}" data-tooltip="${tooltip}">${signedOnly ? '📝W' : '🏀W'}</span>`;
+                    const wnbaLogo = signedOnly ? '📝' : '<img src="https://cdn.wnba.com/logos/leagues/logo-wnba.svg" alt="WNBA" class="league-logo">';
+                    badges += `<span class="wnba-badge${signedOnly ? ' signed-only' : ''}" data-tooltip="${tooltip}">${wnbaLogo}</span>`;
                     if (!league || league.includes('signed')) {
                         league = signedOnly ? 'WNBA (signed)' : 'WNBA';
                         proGames = signedOnly ? '0' : (wnbaGames || '?');
@@ -1856,14 +1862,25 @@ def get_javascript(json_data: str) -> str:
                     }
                 }
 
-                if (player.International) {
-                    badges += `<span class="intl-badge" data-tooltip="Overseas Pro">🌍</span>`;
+                // International badges - can have both pro and national team
+                if (player.Intl_Pro) {
+                    badges += `<span class="intl-badge" data-tooltip="Overseas Pro League">🌍</span>`;
                     if (!league || league.includes('signed')) {
                         league = 'Overseas';
                         proGames = '—';
                         proUrl = player.Intl_URL || '#';
                         linkClass = 'intl-link';
                         rowClass = 'intl-player';
+                    }
+                }
+                if (player.Intl_National_Team) {
+                    badges += `<span class="intl-badge national-team" data-tooltip="National Team (Olympics/FIBA)">🏳️</span>`;
+                    if (!league || league.includes('signed')) {
+                        league = 'National Team';
+                        proGames = '—';
+                        proUrl = player.Intl_URL || '#';
+                        linkClass = 'natl-link';
+                        rowClass = 'national-team-player';
                     }
                 }
 

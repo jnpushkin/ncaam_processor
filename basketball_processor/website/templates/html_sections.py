@@ -760,13 +760,13 @@ def get_body(total_games: int, total_players: int, total_teams: int, total_venue
                 <table id="future-pros-table" class="data-table">
                     <thead>
                         <tr>
-                            <th>Player</th>
-                            <th>College Team</th>
-                            <th>League</th>
-                            <th>Pro Games</th>
-                            <th>Games Seen</th>
-                            <th>PPG</th>
-                            <th>Total Points</th>
+                            <th onclick="sortTable('future-pros-table', 0)">Player</th>
+                            <th onclick="sortTable('future-pros-table', 1)">College Team</th>
+                            <th onclick="sortTable('future-pros-table', 2)">League</th>
+                            <th onclick="sortTable('future-pros-table', 3)" class="tooltip" data-tooltip="Pro career games played">Pro Games</th>
+                            <th onclick="sortTable('future-pros-table', 4)" class="tooltip" data-tooltip="Games you saw them play in college">Games Seen</th>
+                            <th onclick="sortTable('future-pros-table', 5)" class="tooltip" data-tooltip="College points per game">PPG</th>
+                            <th onclick="sortTable('future-pros-table', 6)" class="tooltip" data-tooltip="Total college points">Total Points</th>
                             <th>Pro Stats</th>
                         </tr>
                     </thead>
@@ -865,7 +865,7 @@ def get_body(total_games: int, total_players: int, total_teams: int, total_venue
                     </div>
                     <div class="filter-group">
                         <label>
-                            <input type="checkbox" id="upcoming-map-filter-visible" onchange="updateUpcomingMap()">
+                            <input type="checkbox" id="upcoming-map-filter-visible" onchange="updateMapGamesList()">
                             Only show games in visible area
                         </label>
                     </div>

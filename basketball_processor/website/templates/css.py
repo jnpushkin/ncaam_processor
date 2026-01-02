@@ -477,6 +477,12 @@ def get_css() -> str:
             cursor: help;
             position: relative;
         }
+        .league-logo {
+            height: 16px;
+            width: auto;
+            vertical-align: middle;
+            margin-top: -2px;
+        }
         .nba-badge[data-tooltip]:hover::after,
         .wnba-badge[data-tooltip]:hover::after,
         .intl-badge[data-tooltip]:hover::after {
@@ -539,6 +545,24 @@ def get_css() -> str:
         }
         tr.wnba-player:hover {
             background: linear-gradient(90deg, rgba(255, 102, 0, 0.15) 0%, var(--hover-color) 30%);
+        }
+        /* National Team only (Olympics/FIBA, not professional overseas) */
+        tr.national-team-player {
+            background: linear-gradient(90deg, rgba(100, 149, 237, 0.08) 0%, transparent 30%);
+        }
+        tr.national-team-player:hover {
+            background: linear-gradient(90deg, rgba(100, 149, 237, 0.15) 0%, var(--hover-color) 30%);
+        }
+        .intl-badge.national-team {
+            opacity: 0.8;
+        }
+        .natl-link {
+            color: #6495ED;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .natl-link:hover {
+            text-decoration: underline;
         }
         .status-badge.wnba-active {
             background: #FF6600;

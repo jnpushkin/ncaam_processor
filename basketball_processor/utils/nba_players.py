@@ -43,6 +43,12 @@ SPORTS_REF_BASE = "https://www.sports-reference.com/cbb/players/"
 # We use 3.1 seconds to stay under limit (19 req/min)
 RATE_LIMIT_SECONDS = 3.1
 
+# Player ID aliases for typos/spelling differences between SR and BR
+# Maps: wrong_id -> correct_id (for Basketball Reference lookups)
+PLAYER_ID_ALIASES = {
+    # 'example-player-1': 'correct-spelling-1',  # Use when SR has typo but BR has correct spelling
+}
+
 # Manual overrides for name-based matching
 # Player IDs (e.g., 'marcus-williams-24') to EXCLUDE from NBA matching
 FALSE_POSITIVE_IDS = {
@@ -54,6 +60,7 @@ FALSE_POSITIVE_IDS = {
     'isaac-jones-2',        # Different person
     'bernard-thompson-1',   # Different person
     'jack-white-3',         # Different person
+    'junjie-wang-1',        # College player is different from BR international player
 }
 
 # Player IDs to INCLUDE (confirmed NBA players)
@@ -78,6 +85,33 @@ CONFIRMED_NBA_IDS = {
     'isaiah-collier-1': {'nba_url': 'https://www.basketball-reference.com/players/c/colliis01.html', 'is_active': True},
     'ryan-nembhard-1': {'nba_url': 'https://www.basketball-reference.com/players/n/nemhary01.html', 'is_active': True},
     'brooks-barnhizer-1': {'nba_url': 'https://www.basketball-reference.com/players/b/barnhbr01.html', 'is_active': True},
+}
+
+# Professional overseas league URL patterns on Basketball Reference
+# These appear in gamelog URLs like /gamelog/YEAR/euroleague/
+# Source: https://www.basketball-reference.com/international/
+PROFESSIONAL_LEAGUE_URLS = {
+    # Main BR leagues (from their international page)
+    'euroleague',           # EuroLeague
+    'eurocup',              # EuroCup
+    'cba-china',            # China CBA
+    'cba',                  # China CBA (alternate slug in gamelogs)
+    'greek-basket-league',  # Greek Basket League
+    'spain-liga-acb',       # Spanish Liga ACB
+    'italy-basket-serie-a', # Italian Serie A
+    'france-lnb-pro-a',     # French LNB Pro A
+    'turkey-super-league',  # Turkish Super League
+    'nbl-australia',        # Australian NBL
+    'vtb-united',           # VTB United League (Russia)
+    'israel-super-league',  # Israeli Super League
+    'aba-adriatic',         # ABA Adriatic League (Serbia/region)
+}
+
+# Tournament URL patterns (national team competitions, NOT professional leagues)
+NATIONAL_TEAM_TOURNAMENTS = {
+    'fiba-world-cup',
+    'mens-olympics',
+    'womens-olympics',
 }
 
 
@@ -123,6 +157,86 @@ def _add_to_confirmed(player_id: str, data: Dict[str, Any]) -> None:
         confirmed = _load_confirmed()
         confirmed[player_id] = data
         _save_confirmed(confirmed)
+
+
+def _check_intl_type(intl_url: str, scraper: Any = None) -> Dict[str, bool]:
+    """
+    Check what types of international play a player has.
+
+    Basketball Reference international pages have gamelog links like:
+    - Professional leagues: /gamelog/YEAR/euroleague/, /gamelog/YEAR/cba/
+    - National team: /gamelog/YEAR/mens-olympics/, /gamelog/YEAR/fiba-world-cup/
+
+    Args:
+        intl_url: Basketball Reference international player URL
+        scraper: Optional cloudscraper instance
+
+    Returns:
+        Dict with 'pro' and 'national_team' boolean flags
+        e.g., {'pro': True, 'national_team': False}
+    """
+    result = {'pro': False, 'national_team': False}
+
+    try:
+        time.sleep(RATE_LIMIT_SECONDS)
+
+        if HAS_CLOUDSCRAPER and scraper:
+            response = scraper.get(intl_url, timeout=15)
+        elif HAS_REQUESTS:
+            response = requests.get(intl_url, timeout=15)
+        else:
+            return result
+
+        if response.status_code != 200:
+            return result
+
+        html = response.text
+
+        # Method 1: Extract gamelog links (newer player pages)
+        # Pattern: /gamelog/YEAR/LEAGUE_OR_TOURNAMENT/
+        gamelog_links = re.findall(r'/gamelog/\d{4}/([^/"]+)/', html)
+
+        for league_slug in gamelog_links:
+            league_slug_lower = league_slug.lower()
+            if league_slug_lower in PROFESSIONAL_LEAGUE_URLS:
+                result['pro'] = True
+            elif league_slug_lower in NATIONAL_TEAM_TOURNAMENTS:
+                result['national_team'] = True
+
+        # Method 2: Check for league links in stats tables (older player pages)
+        # These pages link to /international/LEAGUE/ from team cells
+        if not result['pro'] and not result['national_team']:
+            for league_slug in PROFESSIONAL_LEAGUE_URLS:
+                if f'/international/{league_slug}/' in html:
+                    # Make sure it's in a data context, not just navigation
+                    # Look for it near team data or in table context
+                    if re.search(rf'<td[^>]*>.*?/international/{league_slug}/.*?</td>', html, re.DOTALL | re.IGNORECASE):
+                        result['pro'] = True
+                        break
+            for tourney_slug in NATIONAL_TEAM_TOURNAMENTS:
+                if f'/international/{tourney_slug}/' in html:
+                    if re.search(rf'<td[^>]*>.*?/international/{tourney_slug}/.*?</td>', html, re.DOTALL | re.IGNORECASE):
+                        result['national_team'] = True
+                        break
+
+        # Method 3: If still nothing, check for league names in table headers/data
+        # Common patterns: "Greek Basket League", "LNB Pro A", "Serie A", etc.
+        if not result['pro'] and not result['national_team']:
+            pro_league_names = [
+                'euroleague', 'eurocup', 'greek basket', 'liga acb', 'serie a',
+                'lnb pro', 'super league', 'nbl', 'vtb', 'cba', 'adriatic'
+            ]
+            for name in pro_league_names:
+                if name.lower() in html.lower():
+                    # Check it's in a stats table context
+                    if 'per_game' in html or 'totals' in html:
+                        result['pro'] = True
+                        break
+
+        return result
+
+    except Exception:
+        return result
 
 
 def _verify_nba_stats(nba_url: str, scraper: Any = None) -> Dict[str, Any]:
@@ -357,19 +471,45 @@ def check_player_nba_status(player_id: str) -> Optional[Dict[str, Any]]:
             if intl_match:
                 intl_url = intl_match.group(1)
                 result['intl_url'] = intl_url
+                # Check if professional league and/or national team
+                intl_types = _check_intl_type(intl_url, scraper if HAS_CLOUDSCRAPER else None)
+                result['intl_pro'] = intl_types['pro']
+                result['intl_national_team'] = intl_types['national_team']
+                # Print what was found
+                tags = []
+                if intl_types['pro']:
+                    tags.append("Pro")
+                if intl_types['national_team']:
+                    tags.append("Nat'l")
+                if tags:
+                    print(f" [{'+'.join(tags)}]", end="", flush=True)
 
         # Always check Basketball Reference international directly as fallback
         # (Works even when Sports Reference is rate limited or doesn't show the link)
         if 'intl_url' not in result:
             try:
                 time.sleep(RATE_LIMIT_SECONDS)  # Rate limit BR requests too
-                intl_check_url = f"https://www.basketball-reference.com/international/players/{player_id}.html"
+                # Use alias if player ID has a typo on SR vs BR
+                lookup_id = PLAYER_ID_ALIASES.get(player_id, player_id)
+                intl_check_url = f"https://www.basketball-reference.com/international/players/{lookup_id}.html"
                 if HAS_CLOUDSCRAPER:
                     intl_response = scraper.head(intl_check_url, timeout=10, allow_redirects=True)
                 else:
                     intl_response = requests.head(intl_check_url, timeout=10, allow_redirects=True)
                 if intl_response.status_code == 200:
                     result['intl_url'] = intl_check_url
+                    # Check type (need to fetch the page)
+                    intl_types = _check_intl_type(intl_check_url, scraper if HAS_CLOUDSCRAPER else None)
+                    result['intl_pro'] = intl_types['pro']
+                    result['intl_national_team'] = intl_types['national_team']
+                    # Print what was found
+                    tags = []
+                    if intl_types['pro']:
+                        tags.append("Pro")
+                    if intl_types['national_team']:
+                        tags.append("Nat'l")
+                    if tags:
+                        print(f" [{'+'.join(tags)}]", end="", flush=True)
             except Exception:
                 pass  # Silently ignore failures
 
@@ -690,7 +830,9 @@ def _check_nba_players_for_intl() -> int:
         time.sleep(RATE_LIMIT_SECONDS)
 
         # Check Basketball Reference international page directly
-        intl_check_url = f"https://www.basketball-reference.com/international/players/{player_id}.html"
+        # Use alias if player ID has a typo on SR vs BR
+        lookup_id = PLAYER_ID_ALIASES.get(player_id, player_id)
+        intl_check_url = f"https://www.basketball-reference.com/international/players/{lookup_id}.html"
         try:
             if HAS_CLOUDSCRAPER:
                 response = scraper.head(intl_check_url, timeout=10, allow_redirects=True)
@@ -1083,4 +1225,114 @@ def reverify_cached_pro_players() -> Dict[str, int]:
         'nba_signed_only': nba_signed_only,
         'wnba_checked': len(wnba_players),
         'wnba_signed_only': wnba_signed_only
+    }
+
+
+def recheck_intl_types(force: bool = False) -> Dict[str, int]:
+    """
+    Check international player types (pro leagues and/or national team).
+
+    Args:
+        force: If True, recheck ALL international players (even those already checked).
+               If False, only check players missing intl_pro/intl_national_team fields.
+
+    Run manually with:
+        python -c "from basketball_processor.utils.nba_players import recheck_intl_types; recheck_intl_types()"
+
+    To recheck all players (e.g., after fixing detection logic):
+        python -c "from basketball_processor.utils.nba_players import recheck_intl_types; recheck_intl_types(force=True)"
+
+    Returns:
+        Dict with counts: {'checked': N, 'pro': N, 'national_team': N, 'both': N}
+    """
+    cache = _load_lookup_cache()
+    confirmed = _load_confirmed()
+
+    # Find players with intl_url (skip false positives)
+    to_check = []
+    for pid, data in cache.items():
+        if pid in FALSE_POSITIVE_IDS:
+            continue
+        if data and data.get('intl_url'):
+            if force or 'intl_pro' not in data:
+                to_check.append((pid, data.get('intl_url')))
+    for pid, data in confirmed.items():
+        if pid in FALSE_POSITIVE_IDS:
+            continue
+        if data and data.get('intl_url'):
+            if force or 'intl_pro' not in data:
+                if pid not in [p[0] for p in to_check]:
+                    to_check.append((pid, data.get('intl_url')))
+
+    if not to_check:
+        print("No international players need type check!")
+        return {'checked': 0, 'pro': 0, 'national_team': 0, 'both': 0}
+
+    if force:
+        print(f"Force rechecking {len(to_check)} international players")
+    else:
+        print(f"Found {len(to_check)} international players to check")
+
+    # Estimate time
+    est_minutes = (len(to_check) * RATE_LIMIT_SECONDS) / 60
+    print(f"Estimated time: {est_minutes:.0f} minutes (rate limited)")
+
+    if HAS_CLOUDSCRAPER:
+        scraper = cloudscraper.create_scraper()
+    else:
+        scraper = None
+
+    pro_count = 0
+    national_team_count = 0
+    both_count = 0
+
+    for i, (player_id, intl_url) in enumerate(to_check):
+        print(f"  {i+1}/{len(to_check)} {player_id}", end="", flush=True)
+
+        # Apply player ID alias if needed (for typos in SR)
+        if player_id in PLAYER_ID_ALIASES:
+            corrected_id = PLAYER_ID_ALIASES[player_id]
+            intl_url = intl_url.replace(player_id, corrected_id)
+
+        intl_types = _check_intl_type(intl_url, scraper)
+
+        # Update cache
+        if player_id in cache and cache[player_id]:
+            cache[player_id]['intl_pro'] = intl_types['pro']
+            cache[player_id]['intl_national_team'] = intl_types['national_team']
+            # Remove old intl_type field if present
+            cache[player_id].pop('intl_type', None)
+            _save_lookup_cache(cache)
+
+        # Update confirmed
+        if player_id in confirmed and confirmed[player_id]:
+            confirmed[player_id]['intl_pro'] = intl_types['pro']
+            confirmed[player_id]['intl_national_team'] = intl_types['national_team']
+            # Remove old intl_type field if present
+            confirmed[player_id].pop('intl_type', None)
+            _save_confirmed(confirmed)
+
+        # Count results
+        if intl_types['pro'] and intl_types['national_team']:
+            both_count += 1
+            print(" → Pro + National Team")
+        elif intl_types['pro']:
+            pro_count += 1
+            print(" → Overseas Pro")
+        elif intl_types['national_team']:
+            national_team_count += 1
+            print(" → National Team only")
+        else:
+            print(" → (none found)")
+
+    print(f"\nComplete! Checked {len(to_check)} international players")
+    print(f"  Overseas Pro only: {pro_count}")
+    print(f"  National Team only: {national_team_count}")
+    print(f"  Both Pro + National Team: {both_count}")
+
+    return {
+        'checked': len(to_check),
+        'pro': pro_count,
+        'national_team': national_team_count,
+        'both': both_count
     }
