@@ -483,6 +483,10 @@ def get_css() -> str:
             vertical-align: middle;
             margin-top: -2px;
         }
+        .league-logo.fiba-logo {
+            height: 18px;
+            border-radius: 3px;
+        }
         .nba-badge[data-tooltip]:hover::after,
         .wnba-badge[data-tooltip]:hover::after,
         .intl-badge[data-tooltip]:hover::after {
