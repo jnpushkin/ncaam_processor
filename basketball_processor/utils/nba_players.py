@@ -1,7 +1,7 @@
 """
 NBA player lookup utilities.
 Uses Sports Reference links to determine if a college player went to the NBA.
-Also falls back to nba_api name matching with manual overrides.
+Also checks Proballers.com for comprehensive international league data.
 """
 
 import json
@@ -10,6 +10,18 @@ from pathlib import Path
 from typing import Dict, Any, Optional, List, Set
 from datetime import datetime
 import time
+
+# Import Proballers scraper for international league data
+try:
+    from basketball_processor.utils.proballers_scraper import (
+        find_player_by_college,
+        get_player_career,
+        get_player_pro_leagues,
+        LEAGUE_NAMES as PROBALLERS_LEAGUE_NAMES,
+    )
+    HAS_PROBALLERS = True
+except ImportError:
+    HAS_PROBALLERS = False
 
 try:
     import cloudscraper
@@ -263,6 +275,92 @@ def _check_intl_type(intl_url: str, scraper: Any = None) -> Dict[str, Any]:
 
     except Exception:
         return result
+
+
+def _check_proballers_leagues(player_name: str, college_team: str) -> List[str]:
+    """
+    Check Proballers.com for international leagues a player has played in.
+
+    Args:
+        player_name: Player's full name
+        college_team: College team name (e.g., 'Virginia')
+
+    Returns:
+        List of league names from Proballers
+    """
+    if not HAS_PROBALLERS:
+        return []
+
+    try:
+        # Convert college team name to slug format
+        college_slug = college_team.lower().replace(' ', '-').replace("'", '')
+
+        # Try variations of the college name
+        slug_variations = [
+            college_slug,
+            f"{college_slug}-cavaliers",
+            f"{college_slug}-bulldogs",
+            f"{college_slug}-wildcats",
+            f"{college_slug}-tigers",
+            f"{college_slug}-bears",
+            college_slug.replace('-university', ''),
+            college_slug.replace('university-of-', ''),
+        ]
+
+        player_id = None
+        for slug in slug_variations:
+            player_id = find_player_by_college(slug, player_name)
+            if player_id:
+                break
+
+        if player_id is None:
+            return []
+
+        # Get leagues from Proballers
+        return get_player_pro_leagues(player_id)
+
+    except Exception:
+        return []
+
+
+def _merge_leagues(br_leagues: List[str], proballers_leagues: List[str]) -> List[str]:
+    """
+    Merge leagues from Basketball Reference and Proballers, avoiding duplicates.
+
+    Args:
+        br_leagues: Leagues from Basketball Reference
+        proballers_leagues: Leagues from Proballers
+
+    Returns:
+        Combined list of unique leagues
+    """
+    # Normalize league names for comparison
+    def normalize(name: str) -> str:
+        return name.lower().replace('(', '').replace(')', '').replace(' ', '')
+
+    merged = list(br_leagues)
+    br_normalized = {normalize(l) for l in br_leagues}
+
+    for league in proballers_leagues:
+        league_norm = normalize(league)
+        # Check if we already have this league (or a variant)
+        is_duplicate = False
+        for existing_norm in br_normalized:
+            # Check for overlap (e.g., "EuroLeague" matches "euroleague")
+            if league_norm in existing_norm or existing_norm in league_norm:
+                is_duplicate = True
+                break
+            # Check for country matches (e.g., "Greek League" matches "Greece HEBA A1")
+            league_country = league_norm.split('(')[0].strip() if '(' in league else league_norm
+            existing_country = existing_norm.split('(')[0].strip() if '(' in existing_norm else existing_norm
+            if league_country and existing_country and (league_country in existing_country or existing_country in league_country):
+                is_duplicate = True
+                break
+
+        if not is_duplicate:
+            merged.append(league)
+
+    return sorted(merged)
 
 
 def _verify_nba_stats(nba_url: str, scraper: Any = None) -> Dict[str, Any]:
@@ -1367,4 +1465,105 @@ def recheck_intl_types(force: bool = False) -> Dict[str, int]:
         'pro': pro_count,
         'national_team': national_team_count,
         'both': both_count
+    }
+
+
+def check_proballers_for_all_players(
+    players: List[Dict[str, str]],
+    force: bool = False
+) -> Dict[str, int]:
+    """
+    Check Proballers.com for international league data for ALL players.
+
+    This finds players who played internationally but aren't in Basketball Reference's
+    international database. Use this to supplement BR data.
+
+    Args:
+        players: List of dicts with 'player_id', 'name', 'college_team' keys
+        force: If True, recheck even players who already have Proballers data
+
+    Run manually with:
+        from basketball_processor.utils.nba_players import check_proballers_for_all_players
+        players = [{'player_id': 'john-smith-1', 'name': 'John Smith', 'college_team': 'Virginia'}]
+        check_proballers_for_all_players(players)
+
+    Returns:
+        Dict with counts: {'checked': N, 'found': N, 'new_international': N}
+    """
+    if not HAS_PROBALLERS:
+        print("Proballers scraper not available!")
+        return {'checked': 0, 'found': 0, 'new_international': 0}
+
+    cache = _load_lookup_cache()
+    confirmed = _load_confirmed()
+
+    print(f"Checking {len(players)} players against Proballers.com...")
+
+    found_count = 0
+    new_intl_count = 0
+
+    for i, player in enumerate(players):
+        player_id = player.get('player_id', '')
+        name = player.get('name', '')
+        college = player.get('college_team', '')
+
+        if not name or not college:
+            continue
+
+        if player_id in FALSE_POSITIVE_IDS:
+            continue
+
+        # Skip if already has Proballers data (unless force)
+        cached = cache.get(player_id, {}) or {}
+        if not force and cached.get('proballers_leagues'):
+            continue
+
+        print(f"  {i+1}/{len(players)} {name} ({college})...", end='', flush=True)
+
+        # Check Proballers
+        proballers_leagues = _check_proballers_leagues(name, college)
+
+        if proballers_leagues:
+            found_count += 1
+
+            # Check if this is a NEW international player (not in BR)
+            has_br_intl = bool(cached.get('intl_url'))
+
+            # Update cache with Proballers data
+            if player_id not in cache:
+                cache[player_id] = {}
+            cache[player_id]['proballers_leagues'] = proballers_leagues
+
+            # If no BR international data, mark as international based on Proballers
+            if not has_br_intl and proballers_leagues:
+                new_intl_count += 1
+                cache[player_id]['intl_pro'] = True
+                cache[player_id]['intl_national_team'] = False
+                # Merge with any existing BR leagues
+                existing_leagues = cache[player_id].get('intl_leagues', [])
+                cache[player_id]['intl_leagues'] = _merge_leagues(existing_leagues, proballers_leagues)
+                print(f" → NEW: {', '.join(proballers_leagues)}")
+            else:
+                # Merge Proballers leagues with existing BR leagues
+                existing_leagues = cache[player_id].get('intl_leagues', [])
+                merged = _merge_leagues(existing_leagues, proballers_leagues)
+                if len(merged) > len(existing_leagues):
+                    cache[player_id]['intl_leagues'] = merged
+                    print(f" → Added: {', '.join(set(merged) - set(existing_leagues))}")
+                else:
+                    print(f" → (already have)")
+        else:
+            print(" → (not found)")
+
+        _save_lookup_cache(cache)
+
+    print(f"\nComplete!")
+    print(f"  Checked: {len(players)}")
+    print(f"  Found on Proballers: {found_count}")
+    print(f"  New international players: {new_intl_count}")
+
+    return {
+        'checked': len(players),
+        'found': found_count,
+        'new_international': new_intl_count
     }
