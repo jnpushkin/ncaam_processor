@@ -54,6 +54,8 @@ python3 -m basketball_processor --from-cache-only
 | `--from-cache-only` | Load from cached JSON instead of parsing HTML |
 | `--excel-only` | Generate only Excel, skip website |
 | `--website-only` | Generate only website, skip Excel |
+| `--check-nba` | Run NBA/WNBA player lookups (skipped by default during season) |
+| `--no-deploy` | Skip automatic surge deployment |
 | `--verbose` | Enable debug output |
 | `--no-emoji` | Disable emoji in console output |
 

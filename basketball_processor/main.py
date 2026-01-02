@@ -301,9 +301,9 @@ def main() -> None:
         help='Disable emoji in console output'
     )
     parser.add_argument(
-        '--skip-nba',
+        '--check-nba',
         action='store_true',
-        help='Skip NBA/WNBA player lookups (faster website generation)'
+        help='Run NBA/WNBA player lookups (skipped by default during season)'
     )
     parser.add_argument(
         '--no-deploy',
@@ -387,7 +387,7 @@ def main() -> None:
         # Generate website if requested
         if generate_website:
             processed_data['_raw_games'] = games_data
-            generate_website_from_data(processed_data, args.output_html, skip_nba=args.skip_nba)
+            generate_website_from_data(processed_data, args.output_html, skip_nba=not args.check_nba)
 
         # Report results
         success("\nProcessing complete!")
