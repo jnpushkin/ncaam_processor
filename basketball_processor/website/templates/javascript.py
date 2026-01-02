@@ -1424,7 +1424,7 @@ def get_javascript(json_data: str) -> str:
                             : (nbaGames ? `NBA: ${nbaGames} games` : (player.NBA_Active ? 'Active NBA player' : 'Former NBA player'));
                         const nbaLogo = player.NBA_Played === false
                             ? '📝'
-                            : '<img src="https://cdn.nba.com/logos/leagues/logo-nba.svg" alt="NBA" class="league-logo">';
+                            : '<img src="https://a.espncdn.com/combiner/i?img=/i/teamlogos/leagues/500/nba.png&w=32&h=32" alt="NBA" class="league-logo">';
                         nbaTag = `<span class="nba-badge${player.NBA_Played === false ? ' signed-only' : ''}" data-tooltip="${nbaTooltip}">${nbaLogo}</span>`;
                     }
 
@@ -1437,7 +1437,7 @@ def get_javascript(json_data: str) -> str:
                             : (wnbaGames ? `WNBA: ${wnbaGames} games` : (player.WNBA_Active ? 'Active WNBA player' : 'Former WNBA player'));
                         const wnbaLogo = player.WNBA_Played === false
                             ? '📝'
-                            : '<img src="https://cdn.wnba.com/logos/leagues/logo-wnba.svg" alt="WNBA" class="league-logo">';
+                            : '<img src="https://a.espncdn.com/combiner/i?img=/i/teamlogos/leagues/500/wnba.png&w=32&h=32" alt="WNBA" class="league-logo">';
                         wnbaTag = `<span class="wnba-badge${player.WNBA_Played === false ? ' signed-only' : ''}" data-tooltip="${wnbaTooltip}">${wnbaLogo}</span>`;
                     }
 
@@ -1836,7 +1836,7 @@ def get_javascript(json_data: str) -> str:
                     const nbaGames = player.NBA_Games;
                     const signedOnly = player.NBA_Played === false;
                     const tooltip = signedOnly ? 'Signed to NBA (never played)' : (nbaGames ? `NBA: ${nbaGames} games` : 'Former NBA player');
-                    const nbaLogo = signedOnly ? '📝' : '<img src="https://cdn.nba.com/logos/leagues/logo-nba.svg" alt="NBA" class="league-logo">';
+                    const nbaLogo = signedOnly ? '📝' : '<img src="https://a.espncdn.com/combiner/i?img=/i/teamlogos/leagues/500/nba.png&w=32&h=32" alt="NBA" class="league-logo">';
                     badges += `<span class="nba-badge${signedOnly ? ' signed-only' : ''}" data-tooltip="${tooltip}">${nbaLogo}</span>`;
                     if (!league) {
                         league = signedOnly ? 'NBA (signed)' : 'NBA';
@@ -1851,7 +1851,7 @@ def get_javascript(json_data: str) -> str:
                     const wnbaGames = player.WNBA_Games;
                     const signedOnly = player.WNBA_Played === false;
                     const tooltip = signedOnly ? 'Signed to WNBA (never played)' : (wnbaGames ? `WNBA: ${wnbaGames} games` : 'Former WNBA player');
-                    const wnbaLogo = signedOnly ? '📝' : '<img src="https://cdn.wnba.com/logos/leagues/logo-wnba.svg" alt="WNBA" class="league-logo">';
+                    const wnbaLogo = signedOnly ? '📝' : '<img src="https://a.espncdn.com/combiner/i?img=/i/teamlogos/leagues/500/wnba.png&w=32&h=32" alt="WNBA" class="league-logo">';
                     badges += `<span class="wnba-badge${signedOnly ? ' signed-only' : ''}" data-tooltip="${tooltip}">${wnbaLogo}</span>`;
                     if (!league || league.includes('signed')) {
                         league = signedOnly ? 'WNBA (signed)' : 'WNBA';
@@ -1864,9 +1864,11 @@ def get_javascript(json_data: str) -> str:
 
                 // International badges - can have both pro and national team
                 if (player.Intl_Pro) {
-                    badges += `<span class="intl-badge" data-tooltip="Overseas Pro League">🌍</span>`;
+                    const intlLeagues = player.Intl_Leagues || [];
+                    const leagueTooltip = intlLeagues.length > 0 ? intlLeagues.join(', ') : 'Overseas Pro League';
+                    badges += `<span class="intl-badge" data-tooltip="${leagueTooltip}">🌍</span>`;
                     if (!league || league.includes('signed')) {
-                        league = 'Overseas';
+                        league = intlLeagues.length > 0 ? intlLeagues[0] : 'Overseas';
                         proGames = '—';
                         proUrl = player.Intl_URL || '#';
                         linkClass = 'intl-link';
@@ -1874,7 +1876,8 @@ def get_javascript(json_data: str) -> str:
                     }
                 }
                 if (player.Intl_National_Team) {
-                    badges += `<span class="intl-badge national-team" data-tooltip="National Team (Olympics/FIBA)">🏳️</span>`;
+                    const fibaLogo = '<img src="https://upload.wikimedia.org/wikipedia/en/thumb/b/b5/FIBA_logo.svg/100px-FIBA_logo.svg.png" alt="FIBA" class="league-logo fiba-logo">';
+                    badges += `<span class="intl-badge national-team" data-tooltip="National Team (Olympics/FIBA)">${fibaLogo}</span>`;
                     if (!league || league.includes('signed')) {
                         league = 'National Team';
                         proGames = '—';

@@ -294,10 +294,15 @@ class DataSerializer:
                 # Separate flags for pro leagues vs national team tournaments
                 record['Intl_Pro'] = pro_info.get('intl_pro', False)
                 record['Intl_National_Team'] = pro_info.get('intl_national_team', False)
+                # Specific league/tournament names
+                record['Intl_Leagues'] = pro_info.get('intl_leagues', [])
+                record['Intl_Tournaments'] = pro_info.get('intl_tournaments', [])
             else:
                 record['International'] = False
                 record['Intl_Pro'] = False
                 record['Intl_National_Team'] = False
+                record['Intl_Leagues'] = []
+                record['Intl_Tournaments'] = []
 
             # Sports Reference page exists (False if 404)
             if pro_info and pro_info.get('sr_page_exists') is False:

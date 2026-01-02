@@ -90,29 +90,35 @@ CONFIRMED_NBA_IDS = {
 # Professional overseas league URL patterns on Basketball Reference
 # These appear in gamelog URLs like /gamelog/YEAR/euroleague/
 # Source: https://www.basketball-reference.com/international/
-PROFESSIONAL_LEAGUE_URLS = {
-    # Main BR leagues (from their international page)
-    'euroleague',           # EuroLeague
-    'eurocup',              # EuroCup
-    'cba-china',            # China CBA
-    'cba',                  # China CBA (alternate slug in gamelogs)
-    'greek-basket-league',  # Greek Basket League
-    'spain-liga-acb',       # Spanish Liga ACB
-    'italy-basket-serie-a', # Italian Serie A
-    'france-lnb-pro-a',     # French LNB Pro A
-    'turkey-super-league',  # Turkish Super League
-    'nbl-australia',        # Australian NBL
-    'vtb-united',           # VTB United League (Russia)
-    'israel-super-league',  # Israeli Super League
-    'aba-adriatic',         # ABA Adriatic League (Serbia/region)
+# Maps URL slug to display name
+PROFESSIONAL_LEAGUE_NAMES = {
+    'euroleague': 'EuroLeague',
+    'eurocup': 'EuroCup',
+    'cba-china': 'CBA (China)',
+    'cba': 'CBA (China)',
+    'greek-basket-league': 'Greek League',
+    'spain-liga-acb': 'Liga ACB (Spain)',
+    'italy-basket-serie-a': 'Serie A (Italy)',
+    'france-lnb-pro-a': 'LNB Pro A (France)',
+    'turkey-super-league': 'BSL (Turkey)',
+    'nbl-australia': 'NBL (Australia)',
+    'vtb-united': 'VTB United League',
+    'israel-super-league': 'Israeli League',
+    'aba-adriatic': 'ABA League',
 }
 
+# Set of URL slugs for quick lookup
+PROFESSIONAL_LEAGUE_URLS = set(PROFESSIONAL_LEAGUE_NAMES.keys())
+
 # Tournament URL patterns (national team competitions, NOT professional leagues)
-NATIONAL_TEAM_TOURNAMENTS = {
-    'fiba-world-cup',
-    'mens-olympics',
-    'womens-olympics',
+# Maps URL slug to display name
+NATIONAL_TEAM_TOURNAMENT_NAMES = {
+    'fiba-world-cup': 'FIBA World Cup',
+    'mens-olympics': 'Olympics',
+    'womens-olympics': 'Olympics',
 }
+
+NATIONAL_TEAM_TOURNAMENTS = set(NATIONAL_TEAM_TOURNAMENT_NAMES.keys())
 
 
 def _load_lookup_cache() -> Dict[str, Any]:
@@ -159,7 +165,7 @@ def _add_to_confirmed(player_id: str, data: Dict[str, Any]) -> None:
         _save_confirmed(confirmed)
 
 
-def _check_intl_type(intl_url: str, scraper: Any = None) -> Dict[str, bool]:
+def _check_intl_type(intl_url: str, scraper: Any = None) -> Dict[str, Any]:
     """
     Check what types of international play a player has.
 
@@ -172,10 +178,10 @@ def _check_intl_type(intl_url: str, scraper: Any = None) -> Dict[str, bool]:
         scraper: Optional cloudscraper instance
 
     Returns:
-        Dict with 'pro' and 'national_team' boolean flags
-        e.g., {'pro': True, 'national_team': False}
+        Dict with 'pro', 'national_team' boolean flags and 'leagues'/'tournaments' lists
+        e.g., {'pro': True, 'national_team': False, 'leagues': ['EuroLeague'], 'tournaments': []}
     """
-    result = {'pro': False, 'national_team': False}
+    result = {'pro': False, 'national_team': False, 'leagues': [], 'tournaments': []}
 
     try:
         time.sleep(RATE_LIMIT_SECONDS)
@@ -191,6 +197,8 @@ def _check_intl_type(intl_url: str, scraper: Any = None) -> Dict[str, bool]:
             return result
 
         html = response.text
+        found_leagues = set()
+        found_tournaments = set()
 
         # Method 1: Extract gamelog links (newer player pages)
         # Pattern: /gamelog/YEAR/LEAGUE_OR_TOURNAMENT/
@@ -200,8 +208,12 @@ def _check_intl_type(intl_url: str, scraper: Any = None) -> Dict[str, bool]:
             league_slug_lower = league_slug.lower()
             if league_slug_lower in PROFESSIONAL_LEAGUE_URLS:
                 result['pro'] = True
+                league_name = PROFESSIONAL_LEAGUE_NAMES.get(league_slug_lower, league_slug)
+                found_leagues.add(league_name)
             elif league_slug_lower in NATIONAL_TEAM_TOURNAMENTS:
                 result['national_team'] = True
+                tourney_name = NATIONAL_TEAM_TOURNAMENT_NAMES.get(league_slug_lower, league_slug)
+                found_tournaments.add(tourney_name)
 
         # Method 2: Check for league links in stats tables (older player pages)
         # These pages link to /international/LEAGUE/ from team cells
@@ -212,27 +224,41 @@ def _check_intl_type(intl_url: str, scraper: Any = None) -> Dict[str, bool]:
                     # Look for it near team data or in table context
                     if re.search(rf'<td[^>]*>.*?/international/{league_slug}/.*?</td>', html, re.DOTALL | re.IGNORECASE):
                         result['pro'] = True
-                        break
+                        league_name = PROFESSIONAL_LEAGUE_NAMES.get(league_slug, league_slug)
+                        found_leagues.add(league_name)
             for tourney_slug in NATIONAL_TEAM_TOURNAMENTS:
                 if f'/international/{tourney_slug}/' in html:
                     if re.search(rf'<td[^>]*>.*?/international/{tourney_slug}/.*?</td>', html, re.DOTALL | re.IGNORECASE):
                         result['national_team'] = True
-                        break
+                        tourney_name = NATIONAL_TEAM_TOURNAMENT_NAMES.get(tourney_slug, tourney_slug)
+                        found_tournaments.add(tourney_name)
 
         # Method 3: If still nothing, check for league names in table headers/data
         # Common patterns: "Greek Basket League", "LNB Pro A", "Serie A", etc.
         if not result['pro'] and not result['national_team']:
-            pro_league_names = [
-                'euroleague', 'eurocup', 'greek basket', 'liga acb', 'serie a',
-                'lnb pro', 'super league', 'nbl', 'vtb', 'cba', 'adriatic'
-            ]
-            for name in pro_league_names:
-                if name.lower() in html.lower():
+            pro_league_patterns = {
+                'euroleague': 'EuroLeague',
+                'eurocup': 'EuroCup',
+                'greek basket': 'Greek League',
+                'liga acb': 'Liga ACB (Spain)',
+                'serie a': 'Serie A (Italy)',
+                'lnb pro': 'LNB Pro A (France)',
+                'super league': 'Super League',
+                'nbl': 'NBL (Australia)',
+                'vtb': 'VTB United League',
+                'cba': 'CBA (China)',
+                'adriatic': 'ABA League'
+            }
+            for pattern, name in pro_league_patterns.items():
+                if pattern.lower() in html.lower():
                     # Check it's in a stats table context
                     if 'per_game' in html or 'totals' in html:
                         result['pro'] = True
+                        found_leagues.add(name)
                         break
 
+        result['leagues'] = sorted(list(found_leagues))
+        result['tournaments'] = sorted(list(found_tournaments))
         return result
 
     except Exception:
@@ -1300,6 +1326,8 @@ def recheck_intl_types(force: bool = False) -> Dict[str, int]:
         if player_id in cache and cache[player_id]:
             cache[player_id]['intl_pro'] = intl_types['pro']
             cache[player_id]['intl_national_team'] = intl_types['national_team']
+            cache[player_id]['intl_leagues'] = intl_types.get('leagues', [])
+            cache[player_id]['intl_tournaments'] = intl_types.get('tournaments', [])
             # Remove old intl_type field if present
             cache[player_id].pop('intl_type', None)
             _save_lookup_cache(cache)
@@ -1308,20 +1336,24 @@ def recheck_intl_types(force: bool = False) -> Dict[str, int]:
         if player_id in confirmed and confirmed[player_id]:
             confirmed[player_id]['intl_pro'] = intl_types['pro']
             confirmed[player_id]['intl_national_team'] = intl_types['national_team']
+            confirmed[player_id]['intl_leagues'] = intl_types.get('leagues', [])
+            confirmed[player_id]['intl_tournaments'] = intl_types.get('tournaments', [])
             # Remove old intl_type field if present
             confirmed[player_id].pop('intl_type', None)
             _save_confirmed(confirmed)
 
-        # Count results
+        # Count results and show leagues
+        leagues_str = ', '.join(intl_types.get('leagues', []))
+        tourneys_str = ', '.join(intl_types.get('tournaments', []))
         if intl_types['pro'] and intl_types['national_team']:
             both_count += 1
-            print(" → Pro + National Team")
+            print(f" → Pro ({leagues_str}) + National Team ({tourneys_str})")
         elif intl_types['pro']:
             pro_count += 1
-            print(" → Overseas Pro")
+            print(f" → {leagues_str}" if leagues_str else " → Overseas Pro")
         elif intl_types['national_team']:
             national_team_count += 1
-            print(" → National Team only")
+            print(f" → {tourneys_str}" if tourneys_str else " → National Team only")
         else:
             print(" → (none found)")
 
