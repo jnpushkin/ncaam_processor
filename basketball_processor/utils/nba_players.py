@@ -277,13 +277,14 @@ def _check_intl_type(intl_url: str, scraper: Any = None) -> Dict[str, Any]:
         return result
 
 
-def _check_proballers_leagues(player_name: str, college_team: str) -> List[str]:
+def _check_proballers_leagues(player_name: str, college_team: str, year: Optional[int] = None) -> List[str]:
     """
     Check Proballers.com for international leagues a player has played in.
 
     Args:
         player_name: Player's full name
         college_team: College team name (e.g., 'Virginia')
+        year: Optional basketball season year (e.g., 2025 for 2024-25 season)
 
     Returns:
         List of league names from Proballers
@@ -309,7 +310,7 @@ def _check_proballers_leagues(player_name: str, college_team: str) -> List[str]:
 
         player_id = None
         for slug in slug_variations:
-            player_id = find_player_by_college(slug, player_name)
+            player_id = find_player_by_college(slug, player_name, year=year)
             if player_id:
                 break
 
@@ -1506,6 +1507,7 @@ def check_proballers_for_all_players(
         player_id = player.get('player_id', '')
         name = player.get('name', '')
         college = player.get('college_team', '')
+        year = player.get('year')  # Basketball season year (e.g., 2025 for 2024-25)
 
         if not name or not college:
             continue
@@ -1520,8 +1522,8 @@ def check_proballers_for_all_players(
 
         print(f"  {i+1}/{len(players)} {name} ({college})...", end='', flush=True)
 
-        # Check Proballers
-        proballers_leagues = _check_proballers_leagues(name, college)
+        # Check Proballers with year for disambiguation
+        proballers_leagues = _check_proballers_leagues(name, college, year=year)
 
         if proballers_leagues:
             found_count += 1

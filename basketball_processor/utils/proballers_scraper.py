@@ -29,57 +29,15 @@ import time
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
-# Rate limiting
-RATE_LIMIT_SECONDS = 2.0
+# Rate limiting (0 = no delay; network latency provides natural throttling)
+RATE_LIMIT_SECONDS = 0
 
 # Cache file
 CACHE_DIR = Path(__file__).parent.parent.parent / 'cache'
 PROBALLERS_CACHE_FILE = CACHE_DIR / 'proballers_cache.json'
 
-# College team ID mapping (Sports Reference name -> Proballers team ID)
-# Built from known teams - can be expanded
-COLLEGE_TEAM_IDS = {
-    'virginia': 307,
-    'duke': 286,
-    'north-carolina': 298,
-    'kentucky': 293,
-    'kansas': 291,
-    'gonzaga': 318,
-    'villanova': 306,
-    'michigan-state': 296,
-    'louisville': 294,
-    'ucla': 305,
-    'arizona': 275,
-    'florida': 288,
-    'syracuse': 303,
-    'connecticut': 284,
-    'indiana': 290,
-    'wisconsin': 310,
-    'purdue': 301,
-    'ohio-state': 299,
-    'michigan': 295,
-    'texas': 304,
-    'baylor': 278,
-    'oregon': 300,
-    'maryland': 372,
-    'san-diego-state': 435,
-    'san-francisco': 356,
-    'santa-clara': 455,
-    'stanford': 440,
-    'california': 320,
-    'usc': 445,
-    'saint-marys': 391,
-    'notre-dame': 381,
-    'wake-forest': 308,
-    'clemson': 283,
-    'virginia-tech': 446,
-    'nc-state': 376,
-    'miami-fl': 373,
-    'boston-college': 280,
-    'pittsburgh': 385,
-    'georgia-tech': 289,
-    # Add more as needed
-}
+# NCAA teams cache file (dynamically fetched from Proballers)
+NCAA_TEAMS_CACHE_FILE = CACHE_DIR / 'proballers_ncaa_teams.json'
 
 # League name mapping (Proballers slug -> display name)
 LEAGUE_NAMES = {
@@ -167,6 +125,176 @@ def _save_cache(cache: Dict[str, Any]) -> None:
     CACHE_DIR.mkdir(parents=True, exist_ok=True)
     with open(PROBALLERS_CACHE_FILE, 'w') as f:
         json.dump(cache, f, indent=2)
+
+
+def _load_ncaa_teams() -> Dict[str, Dict[str, Any]]:
+    """Load NCAA teams cache."""
+    if NCAA_TEAMS_CACHE_FILE.exists():
+        try:
+            with open(NCAA_TEAMS_CACHE_FILE, 'r') as f:
+                return json.load(f)
+        except Exception:
+            pass
+    return {}
+
+
+def _save_ncaa_teams(teams: Dict[str, Dict[str, Any]]) -> None:
+    """Save NCAA teams cache."""
+    CACHE_DIR.mkdir(parents=True, exist_ok=True)
+    with open(NCAA_TEAMS_CACHE_FILE, 'w') as f:
+        json.dump(teams, f, indent=2)
+
+
+def fetch_ncaa_teams(scraper=None, force_refresh: bool = False) -> Dict[str, Dict[str, Any]]:
+    """
+    Fetch all NCAA teams from Proballers and cache them.
+
+    Returns:
+        Dict mapping team slug to {'id': int, 'slug': str, 'name': str}
+    """
+    if not force_refresh:
+        cached = _load_ncaa_teams()
+        if cached:
+            return cached
+
+    if scraper is None:
+        scraper = _get_scraper()
+    if scraper is None:
+        return {}
+
+    print("Fetching NCAA teams from Proballers...")
+    time.sleep(RATE_LIMIT_SECONDS)
+
+    url = 'https://www.proballers.com/basketball/league/5/ncaa/teams'
+    try:
+        response = scraper.get(url, timeout=15)
+        if response.status_code != 200:
+            print(f"  Failed to fetch teams: {response.status_code}")
+            return {}
+
+        html = response.text
+
+        # Find all team links
+        team_matches = re.findall(
+            r'/basketball/team/(\d+)/([^/\"]+)',
+            html
+        )
+
+        teams = {}
+        for tid, slug in team_matches:
+            if slug not in teams:
+                # Extract readable name from slug
+                name = slug.replace('-', ' ').title()
+                teams[slug] = {
+                    'id': int(tid),
+                    'slug': slug,
+                    'name': name
+                }
+
+        print(f"  Found {len(teams)} NCAA teams")
+        _save_ncaa_teams(teams)
+        return teams
+
+    except Exception as e:
+        print(f"  Error fetching NCAA teams: {e}")
+        return {}
+
+
+# Manual overrides for SR slugs that need special handling
+SR_SLUG_OVERRIDES = {
+    'nc-state': 'north-carolina-state-wolfpack',
+    'saint-marys': 'saint-mary-s-gaels',
+    'saint-marys-ca': 'saint-mary-s-gaels',
+    'loyola-(il)': 'loyola-il-ramblers',
+    'loyola-(md)': 'loyola-md-greyhounds',
+    'miami-(fl)': 'miami-fl-hurricanes',
+    'miami-(oh)': 'miami-oh-redhawks',
+    'northern-iowa': 'northern-iowa-panthers',
+    'pitt': 'pittsburgh-panthers',
+    'saint-francis-(pa)': 'st-francis-pa-red-flash',
+    'st-francis-(ny)': 'st-francis-ny-terriers',
+    'uconn': 'connecticut-huskies',
+    'california': 'california-golden-bears',
+    'san-francisco': 'san-francisco-dons',
+    'drexel': 'drexel-dragons',
+    'florida-gulf-coast': 'florida-gulf-coast-eagles',
+    'notre-dame': 'notre-dame-fighting-irish',
+    'unc': 'north-carolina-tar-heels',
+}
+
+# Cache for SR slug -> Proballers slug mapping (built once from teams cache)
+_sr_to_pb_mapping: Optional[Dict[str, str]] = None
+
+
+def _build_sr_mapping(teams: Dict[str, Dict[str, Any]]) -> Dict[str, str]:
+    """Build SR slug -> Proballers slug mapping from cached teams."""
+    mapping = {}
+
+    # Group by prefix (SR-style slug)
+    prefix_groups: Dict[str, List[tuple]] = {}
+    for pb_slug, info in teams.items():
+        # Common mascot/suffix words to strip
+        parts = pb_slug.split('-')
+        # Try progressively shorter prefixes
+        for i in range(len(parts) - 1, 0, -1):
+            prefix = '-'.join(parts[:i])
+            if prefix not in prefix_groups:
+                prefix_groups[prefix] = []
+            prefix_groups[prefix].append((len(pb_slug), pb_slug, info['id']))
+
+    # For each prefix, pick the shortest slug (main school)
+    # Skip if prefix starts with regional qualifier
+    regional = ('eastern', 'western', 'northern', 'central', 'southern')
+    for prefix, candidates in prefix_groups.items():
+        if prefix.split('-')[0] in regional:
+            continue
+        # Filter out regional variants
+        filtered = [(l, s, i) for l, s, i in candidates
+                    if not s[len(prefix)+1:].split('-')[0] in regional]
+        if filtered:
+            filtered.sort()  # Shortest first
+            mapping[prefix] = filtered[0][1]
+
+    # Add manual overrides
+    mapping.update(SR_SLUG_OVERRIDES)
+
+    return mapping
+
+
+def find_team_id(sr_slug: str, scraper=None) -> Optional[int]:
+    """
+    Find Proballers team ID from a Sports Reference slug.
+
+    Args:
+        sr_slug: Sports Reference team slug (e.g., 'san-francisco')
+        scraper: Optional cloudscraper instance
+
+    Returns:
+        Proballers team ID if found, None otherwise
+    """
+    global _sr_to_pb_mapping
+
+    teams = fetch_ncaa_teams(scraper)
+    if not teams:
+        return None
+
+    # Build mapping once
+    if _sr_to_pb_mapping is None:
+        _sr_to_pb_mapping = _build_sr_mapping(teams)
+
+    sr_slug = sr_slug.lower().strip()
+
+    # Direct lookup
+    if sr_slug in _sr_to_pb_mapping:
+        pb_slug = _sr_to_pb_mapping[sr_slug]
+        if pb_slug in teams:
+            return teams[pb_slug]['id']
+
+    # Exact match on Proballers slug (caller passed full slug)
+    if sr_slug in teams:
+        return teams[sr_slug]['id']
+
+    return None
 
 
 def get_player_career(player_id: int, scraper=None, force_refresh: bool = False) -> Optional[Dict[str, Any]]:
@@ -274,8 +402,9 @@ def get_player_career(player_id: int, scraper=None, force_refresh: bool = False)
 
 def _guess_league_from_team(team_slug: str) -> str:
     """Guess league from team slug patterns."""
-    # Known college teams
-    if any(team_slug.startswith(college) for college in COLLEGE_TEAM_IDS.keys()):
+    # Check if it's an NCAA team (check cached teams)
+    ncaa_teams = _load_ncaa_teams()
+    if team_slug in ncaa_teams or any(team_slug.startswith(t.split('-')[0] + '-') for t in ncaa_teams):
         return 'ncaa'
 
     # Known patterns
@@ -315,7 +444,7 @@ def get_college_roster(college_slug: str, scraper=None) -> List[Dict[str, Any]]:
     Get all-time roster for a college team.
 
     Args:
-        college_slug: Proballers team slug (e.g., 'virginia-cavaliers')
+        college_slug: Sports Reference or Proballers team slug
         scraper: Optional cloudscraper instance
 
     Returns:
@@ -327,28 +456,27 @@ def get_college_roster(college_slug: str, scraper=None) -> List[Dict[str, Any]]:
     if cache_key in cache.get('rosters', {}):
         return cache['rosters'][cache_key]
 
-    # Get team ID from slug
-    base_slug = college_slug.split('-')[0]
-    team_id = COLLEGE_TEAM_IDS.get(base_slug)
-
-    if team_id is None:
-        # Try to find by full slug
-        for key, tid in COLLEGE_TEAM_IDS.items():
-            if key in college_slug:
-                team_id = tid
-                break
-
-    if team_id is None:
-        return []
-
     if scraper is None:
         scraper = _get_scraper()
     if scraper is None:
         return []
 
+    # Use dynamic team lookup
+    team_id = find_team_id(college_slug, scraper)
+    if team_id is None:
+        return []
+
+    # Get the actual Proballers slug from the teams cache
+    teams = _load_ncaa_teams()
+    pb_slug = college_slug  # default
+    for slug, info in teams.items():
+        if info['id'] == team_id:
+            pb_slug = slug
+            break
+
     time.sleep(RATE_LIMIT_SECONDS)
 
-    url = f'https://www.proballers.com/basketball/team/{team_id}/{college_slug}/all-time-roster'
+    url = f'https://www.proballers.com/basketball/team/{team_id}/{pb_slug}/all-time-roster'
     try:
         response = scraper.get(url, timeout=15)
         if response.status_code != 200:
@@ -356,20 +484,31 @@ def get_college_roster(college_slug: str, scraper=None) -> List[Dict[str, Any]]:
 
         html = response.text
 
-        # Extract player links
+        # Extract player links - use title attribute which has "Last First" format
         players = []
         player_matches = re.findall(
-            r'href="/basketball/player/(\d+)/([^\"]+)"[^>]*>([^<]*)',
+            r'href="/basketball/player/(\d+)/([^\"]+)"[^>]*title="([^\"]*)"',
             html
         )
 
         seen = set()
-        for pid, slug, name in player_matches:
+        for pid, slug, title_name in player_matches:
             if pid not in seen:
+                # Title is "Last First" format, convert to "First Last"
+                if title_name.strip():
+                    parts = title_name.strip().split()
+                    if len(parts) >= 2:
+                        # "Sharma Ishan" -> "Ishan Sharma"
+                        name = ' '.join(parts[1:] + [parts[0]])
+                    else:
+                        name = title_name.strip()
+                else:
+                    name = slug.replace('-', ' ').title()
+
                 players.append({
                     'id': int(pid),
                     'slug': slug,
-                    'name': name.strip() if name.strip() else slug.replace('-', ' ').title()
+                    'name': name
                 })
                 seen.add(pid)
 
@@ -386,13 +525,19 @@ def get_college_roster(college_slug: str, scraper=None) -> List[Dict[str, Any]]:
         return []
 
 
-def find_player_by_college(college_slug: str, player_name: str, scraper=None) -> Optional[int]:
+def find_player_by_college(
+    college_slug: str,
+    player_name: str,
+    year: Optional[int] = None,
+    scraper=None
+) -> Optional[int]:
     """
     Find a player's Proballers ID by their college and name.
 
     Args:
         college_slug: Proballers team slug (e.g., 'virginia-cavaliers')
         player_name: Player name to search for
+        year: Optional year to filter by (basketball season year, e.g., 2025 for 2024-25 season)
         scraper: Optional cloudscraper instance
 
     Returns:
@@ -407,23 +552,48 @@ def find_player_by_college(college_slug: str, player_name: str, scraper=None) ->
     search_name = player_name.lower().strip()
     search_parts = set(search_name.split())
 
+    # Collect all candidates that match by name
+    candidates = []
     for player in roster:
         roster_name = player['name'].lower()
         roster_parts = set(roster_name.split())
 
         # Exact match
         if search_name == roster_name:
-            return player['id']
+            candidates.append(player)
+            continue
 
         # Check slug
         if search_name.replace(' ', '-') == player['slug']:
-            return player['id']
+            candidates.append(player)
+            continue
 
         # Fuzzy match - both first and last name match
         if len(search_parts & roster_parts) >= 2:
-            return player['id']
+            candidates.append(player)
 
-    return None
+    if not candidates:
+        return None
+
+    # If only one candidate, return it
+    if len(candidates) == 1:
+        return candidates[0]['id']
+
+    # Multiple candidates - use year to disambiguate
+    if year:
+        for candidate in candidates:
+            career = get_player_career(candidate['id'], scraper)
+            if career:
+                # Check if any NCAA team year matches
+                for team in career.get('teams', []):
+                    if 'ncaa' in team.get('league', '').lower():
+                        team_year = team.get('year', 0)
+                        # Allow 1 year tolerance for season overlap
+                        if abs(team_year - year) <= 1:
+                            return candidate['id']
+
+    # No year match found, return first candidate (original behavior)
+    return candidates[0]['id']
 
 
 def get_player_pro_leagues(player_id: int, scraper=None) -> List[str]:

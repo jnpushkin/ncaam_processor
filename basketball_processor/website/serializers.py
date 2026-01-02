@@ -6,7 +6,10 @@ from typing import Dict, List, Any, Optional
 import pandas as pd
 import json
 
-from ..utils.nba_players import get_nba_player_info_by_id, get_nba_status_batch, recheck_female_players_for_wnba
+from ..utils.nba_players import (
+    get_nba_player_info_by_id, get_nba_status_batch, recheck_female_players_for_wnba,
+    check_proballers_for_all_players
+)
 from ..utils.schedule_scraper import (
     get_schedule, filter_upcoming_games, get_visited_venues_from_games,
     SCHEDULE_CACHE_FILE, normalize_state, get_espn_team_id
@@ -255,6 +258,49 @@ class DataSerializer:
         if female_player_ids:
             female_pro_status = get_nba_status_batch(female_player_ids, max_fetch=-1)
             pro_status.update(female_pro_status)
+
+        # Check Proballers for additional international league data (men only)
+        if not skip_nba and male_player_ids:
+            # Get player years from raw game data for disambiguation
+            player_years = {}
+            for game in self.raw_games:
+                date = game.get('basic_info', {}).get('date_yyyymmdd', '')
+                if date:
+                    year = int(date[:4])
+                    month = int(date[4:6])
+                    # Basketball season year: Nov-Dec = next year's season
+                    season_year = year + 1 if month >= 11 else year
+
+                    for side in ['away', 'home']:
+                        box = game.get('box_score', {}).get(side, {}).get('basic', [])
+                        for p in box:
+                            pid = p.get('player_id')
+                            if pid:
+                                if pid not in player_years:
+                                    player_years[pid] = set()
+                                player_years[pid].add(season_year)
+
+            male_records = [r for r in records if r.get('Gender') == 'M']
+            proballers_players = []
+            for r in male_records:
+                player_id = r.get('Player ID', '')
+                name = r.get('Player', '')
+                # Get first team (primary team) - Team field may have multiple comma-separated
+                team = r.get('Team', '').split(',')[0].strip()
+                # Get most recent year for this player
+                years = player_years.get(player_id, set())
+                year = max(years) if years else None
+                if player_id and name and team:
+                    proballers_players.append({
+                        'player_id': player_id,
+                        'name': name,
+                        'college_team': team,
+                        'year': year
+                    })
+            if proballers_players:
+                check_proballers_for_all_players(proballers_players)
+                # Refresh pro_status to include Proballers data
+                pro_status = get_nba_status_batch(male_player_ids, max_fetch=-1)
 
         # Add NBA and International flags to each player
         for record in records:
