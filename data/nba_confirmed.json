@@ -49,13 +49,24 @@
     "is_active": false,
     "intl_url": "https://www.basketball-reference.com/international/players/devon-hall-1.html",
     "intl_pro": true,
-    "intl_national_team": false
+    "intl_national_team": false,
+    "intl_leagues": [
+      "BSL (Turkey)",
+      "EuroLeague",
+      "NBL (Australia)",
+      "Serie A (Italy)"
+    ],
+    "intl_tournaments": []
   },
   "jack-salt-1": {
     "sr_page_exists": true,
     "intl_url": "https://www.basketball-reference.com/international/players/jack-salt-1.html",
     "intl_pro": true,
-    "intl_national_team": false
+    "intl_national_team": false,
+    "intl_leagues": [
+      "NBL (Australia)"
+    ],
+    "intl_tournaments": []
   },
   "london-perrantes-1": {
     "sr_page_exists": true,
@@ -65,7 +76,14 @@
     "is_active": false,
     "intl_url": "https://www.basketball-reference.com/international/players/london-perrantes-1.html",
     "intl_pro": true,
-    "intl_national_team": false
+    "intl_national_team": false,
+    "intl_leagues": [
+      "EuroCup",
+      "Greek League",
+      "Israeli League",
+      "LNB Pro A (France)"
+    ],
+    "intl_tournaments": []
   },
   "marial-shayok-1": {
     "sr_page_exists": true,
@@ -75,7 +93,17 @@
     "is_active": false,
     "intl_url": "https://www.basketball-reference.com/international/players/marial-shayok-1.html",
     "intl_pro": true,
-    "intl_national_team": true
+    "intl_national_team": true,
+    "intl_leagues": [
+      "BSL (Turkey)",
+      "CBA (China)",
+      "EuroLeague",
+      "Israeli League"
+    ],
+    "intl_tournaments": [
+      "FIBA World Cup",
+      "Olympics"
+    ]
   },
   "braxton-key-1": {
     "sr_page_exists": true,
@@ -85,7 +113,12 @@
     "is_active": false,
     "intl_url": "https://www.basketball-reference.com/international/players/braxton-key-1.html",
     "intl_pro": true,
-    "intl_national_team": false
+    "intl_national_team": false,
+    "intl_leagues": [
+      "EuroLeague",
+      "Liga ACB (Spain)"
+    ],
+    "intl_tournaments": []
   },
   "jay-huff-1": {
     "sr_page_exists": true,
@@ -109,7 +142,11 @@
     "is_active": false,
     "intl_url": "https://www.basketball-reference.com/international/players/isaiah-wilkins-1.html",
     "intl_pro": true,
-    "intl_national_team": false
+    "intl_national_team": false,
+    "intl_leagues": [
+      "EuroCup"
+    ],
+    "intl_tournaments": []
   },
   "junjie-wang-1": {
     "sr_page_exists": true,
@@ -121,7 +158,16 @@
     "sr_page_exists": true,
     "intl_url": "https://www.basketball-reference.com/international/players/darius-thompson-1.html",
     "intl_pro": true,
-    "intl_national_team": false
+    "intl_national_team": false,
+    "intl_leagues": [
+      "BSL (Turkey)",
+      "EuroCup",
+      "EuroLeague",
+      "Liga ACB (Spain)",
+      "Serie A (Italy)",
+      "VTB United League"
+    ],
+    "intl_tournaments": []
   },
   "jonathan-mogbo-1": {
     "sr_page_exists": true,
@@ -134,7 +180,11 @@
     "sr_page_exists": true,
     "intl_url": "https://www.basketball-reference.com/international/players/ben-gregg-1.html",
     "intl_pro": true,
-    "intl_national_team": false
+    "intl_national_team": false,
+    "intl_leagues": [
+      "LNB Pro A (France)"
+    ],
+    "intl_tournaments": []
   },
   "jaylon-tyson-1": {
     "sr_page_exists": true,
@@ -151,13 +201,22 @@
     "is_active": false,
     "intl_url": "https://www.basketball-reference.com/international/players/rj-barrett-1.html",
     "intl_pro": false,
-    "intl_national_team": true
+    "intl_national_team": true,
+    "intl_leagues": [],
+    "intl_tournaments": [
+      "FIBA World Cup",
+      "Olympics"
+    ]
   },
   "kendal-coleman-1": {
     "sr_page_exists": true,
     "intl_url": "https://www.basketball-reference.com/international/players/kendal-coleman-1.html",
     "intl_pro": true,
-    "intl_national_team": false
+    "intl_national_team": false,
+    "intl_leagues": [
+      "Greek League"
+    ],
+    "intl_tournaments": []
   },
   "maxime-raynaud-1": {
     "sr_page_exists": true,
@@ -170,7 +229,13 @@
     "sr_page_exists": true,
     "intl_url": "https://www.basketball-reference.com/international/players/terrell-stoglin-1.html",
     "intl_pro": true,
-    "intl_national_team": false
+    "intl_national_team": false,
+    "intl_leagues": [
+      "Greek League",
+      "LNB Pro A (France)",
+      "Serie A (Italy)"
+    ],
+    "intl_tournaments": []
   },
   "boo-buie-1": {
     "sr_page_exists": true,
@@ -183,7 +248,13 @@
     "sr_page_exists": true,
     "intl_url": "https://www.basketball-reference.com/international/players/ben-lammers-1.html",
     "intl_pro": true,
-    "intl_national_team": false
+    "intl_national_team": false,
+    "intl_leagues": [
+      "EuroCup",
+      "EuroLeague",
+      "Liga ACB (Spain)"
+    ],
+    "intl_tournaments": []
   },
   "isaiah-collier-2": {
     "sr_page_exists": true,
@@ -196,7 +267,11 @@
     "sr_page_exists": true,
     "intl_url": "https://www.basketball-reference.com/international/players/david-fuchs-1.html",
     "intl_pro": true,
-    "intl_national_team": false
+    "intl_national_team": false,
+    "intl_leagues": [
+      "EuroCup"
+    ],
+    "intl_tournaments": []
   },
   "augustas-marciulionis-1": {
     "sr_page_exists": true,
@@ -213,7 +288,16 @@
     "is_active": false,
     "intl_url": "https://www.basketball-reference.com/international/players/justin-robinson-3.html",
     "intl_pro": true,
-    "intl_national_team": false
+    "intl_national_team": false,
+    "intl_leagues": [
+      "EuroLeague",
+      "Greek League",
+      "LNB Pro A (France)",
+      "Liga ACB (Spain)",
+      "NBL (Australia)",
+      "Serie A (Italy)"
+    ],
+    "intl_tournaments": []
   },
   "vladislav-goldin-1": {
     "sr_page_exists": true,
@@ -254,7 +338,11 @@
     "sr_page_exists": true,
     "intl_url": "https://www.basketball-reference.com/international/players/temple-gibbs-1.html",
     "intl_pro": true,
-    "intl_national_team": false
+    "intl_national_team": false,
+    "intl_leagues": [
+      "ABA League"
+    ],
+    "intl_tournaments": []
   },
   "raymond-spalding-1": {
     "sr_page_exists": true,
@@ -264,7 +352,11 @@
     "is_active": false,
     "intl_url": "https://www.basketball-reference.com/international/players/ray-spalding-1.html",
     "intl_pro": true,
-    "intl_national_team": false
+    "intl_national_team": false,
+    "intl_leagues": [
+      "Israeli League"
+    ],
+    "intl_tournaments": []
   },
   "deng-adel-1": {
     "sr_page_exists": true,
@@ -274,19 +366,32 @@
     "is_active": false,
     "intl_url": "https://www.basketball-reference.com/international/players/deng-adel-1.html",
     "intl_pro": true,
-    "intl_national_team": false
+    "intl_national_team": false,
+    "intl_leagues": [
+      "NBL (Australia)"
+    ],
+    "intl_tournaments": []
   },
   "fardaws-aimaq-1": {
     "sr_page_exists": true,
     "intl_url": "https://www.basketball-reference.com/international/players/fardaws-aimaq-1.html",
     "intl_pro": true,
-    "intl_national_team": false
+    "intl_national_team": false,
+    "intl_leagues": [
+      "EuroCup"
+    ],
+    "intl_tournaments": []
   },
   "veniamin-abosi-1": {
     "sr_page_exists": true,
     "intl_url": "https://www.basketball-reference.com/international/players/veniamin-abosi-1.html",
     "intl_pro": true,
-    "intl_national_team": false
+    "intl_national_team": false,
+    "intl_leagues": [
+      "EuroLeague",
+      "Greek League"
+    ],
+    "intl_tournaments": []
   },
   "cam-spencer-1": {
     "sr_page_exists": true,
@@ -299,13 +404,24 @@
     "sr_page_exists": true,
     "intl_url": "https://www.basketball-reference.com/international/players/ethan-happ-1.html",
     "intl_pro": true,
-    "intl_national_team": false
+    "intl_national_team": false,
+    "intl_leagues": [
+      "EuroCup",
+      "EuroLeague",
+      "Liga ACB (Spain)",
+      "Serie A (Italy)"
+    ],
+    "intl_tournaments": []
   },
   "mitchell-saxen-1": {
     "sr_page_exists": true,
     "intl_url": "https://www.basketball-reference.com/international/players/mitchell-saxen-1.html",
     "intl_pro": true,
-    "intl_national_team": false
+    "intl_national_team": false,
+    "intl_leagues": [
+      "LNB Pro A (France)"
+    ],
+    "intl_tournaments": []
   },
   "stephon-castle-2": {
     "sr_page_exists": true,
@@ -318,13 +434,22 @@
     "sr_page_exists": true,
     "intl_url": "https://www.basketball-reference.com/international/players/khalif-battle-1.html",
     "intl_pro": true,
-    "intl_national_team": false
+    "intl_national_team": false,
+    "intl_leagues": [
+      "EuroCup",
+      "Serie A (Italy)"
+    ],
+    "intl_tournaments": []
   },
   "mady-sissoko-1": {
     "sr_page_exists": true,
     "intl_url": "https://www.basketball-reference.com/international/players/mady-sissoko-1.html",
     "intl_pro": true,
-    "intl_national_team": false
+    "intl_national_team": false,
+    "intl_leagues": [
+      "Serie A (Italy)"
+    ],
+    "intl_tournaments": []
   },
   "tristen-newton-1": {
     "sr_page_exists": true,
@@ -341,7 +466,11 @@
     "is_active": false,
     "intl_url": "https://www.basketball-reference.com/international/players/audiese-toney-1.html",
     "intl_pro": true,
-    "intl_national_team": false
+    "intl_national_team": false,
+    "intl_leagues": [
+      "Greek League"
+    ],
+    "intl_tournaments": []
   },
   "moses-wright-1": {
     "sr_page_exists": true,
@@ -351,13 +480,25 @@
     "is_active": false,
     "intl_url": "https://www.basketball-reference.com/international/players/moses-wright-1.html",
     "intl_pro": true,
-    "intl_national_team": false
+    "intl_national_team": false,
+    "intl_leagues": [
+      "BSL (Turkey)",
+      "CBA (China)",
+      "EuroLeague",
+      "Greek League"
+    ],
+    "intl_tournaments": []
   },
   "brandon-childress-1": {
     "sr_page_exists": true,
     "intl_url": "https://www.basketball-reference.com/international/players/brandon-childress-1.html",
     "intl_pro": true,
-    "intl_national_team": false
+    "intl_national_team": false,
+    "intl_leagues": [
+      "BSL (Turkey)",
+      "Greek League"
+    ],
+    "intl_tournaments": []
   },
   "joel-berry-1": {
     "sr_page_exists": true,
@@ -367,7 +508,11 @@
     "is_active": false,
     "intl_url": "https://www.basketball-reference.com/international/players/joel-berry-ii-1.html",
     "intl_pro": true,
-    "intl_national_team": false
+    "intl_national_team": false,
+    "intl_leagues": [
+      "BSL (Turkey)"
+    ],
+    "intl_tournaments": []
   },
   "jevon-carter-1": {
     "sr_page_exists": true,
@@ -384,19 +529,34 @@
     "is_active": false,
     "intl_url": "https://www.basketball-reference.com/international/players/james-banks-1.html",
     "intl_pro": true,
-    "intl_national_team": false
+    "intl_national_team": false,
+    "intl_leagues": [
+      "EuroCup",
+      "Greek League",
+      "Israeli League"
+    ],
+    "intl_tournaments": []
   },
   "kymany-houinsou-1": {
     "sr_page_exists": true,
     "intl_url": "https://www.basketball-reference.com/international/players/kymany-houinsou-1.html",
     "intl_pro": true,
-    "intl_national_team": false
+    "intl_national_team": false,
+    "intl_leagues": [
+      "EuroLeague",
+      "LNB Pro A (France)"
+    ],
+    "intl_tournaments": []
   },
   "gabe-devoe-1": {
     "sr_page_exists": true,
     "intl_url": "https://www.basketball-reference.com/international/players/gabe-devoe-1.html",
     "intl_pro": true,
-    "intl_national_team": false
+    "intl_national_team": false,
+    "intl_leagues": [
+      "LNB Pro A (France)"
+    ],
+    "intl_tournaments": []
   },
   "olivier-sarr-1": {
     "sr_page_exists": true,
@@ -409,25 +569,41 @@
     "sr_page_exists": true,
     "intl_url": "https://www.basketball-reference.com/international/players/john-mooney-1.html",
     "intl_pro": true,
-    "intl_national_team": false
+    "intl_national_team": false,
+    "intl_leagues": [
+      "NBL (Australia)"
+    ],
+    "intl_tournaments": []
   },
   "jaylen-blakes-1": {
     "sr_page_exists": true,
     "intl_url": "https://www.basketball-reference.com/international/players/jaylen-blakes-1.html",
     "intl_pro": true,
-    "intl_national_team": false
+    "intl_national_team": false,
+    "intl_leagues": [
+      "Israeli League"
+    ],
+    "intl_tournaments": []
   },
   "nathan-adrian-1": {
     "sr_page_exists": true,
     "intl_url": "https://www.basketball-reference.com/international/players/nathan-adrian-1.html",
     "intl_pro": true,
-    "intl_national_team": false
+    "intl_national_team": false,
+    "intl_leagues": [
+      "Serie A (Italy)"
+    ],
+    "intl_tournaments": []
   },
   "sam-waardenburg-1": {
     "sr_page_exists": true,
     "intl_url": "https://www.basketball-reference.com/international/players/sam-waardenburg-1.html",
     "intl_pro": true,
-    "intl_national_team": false
+    "intl_national_team": false,
+    "intl_leagues": [
+      "NBL (Australia)"
+    ],
+    "intl_tournaments": []
   },
   "michael-devoe-1": {
     "sr_page_exists": true,
@@ -437,13 +613,23 @@
     "is_active": false,
     "intl_url": "https://www.basketball-reference.com/international/players/michael-devoe-1.html",
     "intl_pro": true,
-    "intl_national_team": false
+    "intl_national_team": false,
+    "intl_leagues": [
+      "BSL (Turkey)",
+      "EuroCup",
+      "Israeli League"
+    ],
+    "intl_tournaments": []
   },
   "blake-reynolds-1": {
     "sr_page_exists": true,
     "intl_url": "https://www.basketball-reference.com/international/players/blake-reynolds-1.html",
     "intl_pro": true,
-    "intl_national_team": false
+    "intl_national_team": false,
+    "intl_leagues": [
+      "VTB United League"
+    ],
+    "intl_tournaments": []
   },
   "vj-king-1": {
     "sr_page_exists": true,
@@ -453,7 +639,11 @@
     "is_active": false,
     "intl_url": "https://www.basketball-reference.com/international/players/vj-king-1.html",
     "intl_pro": true,
-    "intl_national_team": false
+    "intl_national_team": false,
+    "intl_leagues": [
+      "EuroCup"
+    ],
+    "intl_tournaments": []
   },
   "anton-watson-1": {
     "sr_page_exists": true,
@@ -466,19 +656,32 @@
     "sr_page_exists": true,
     "intl_url": "https://www.basketball-reference.com/international/players/dmitrik-trice-1.html",
     "intl_pro": true,
-    "intl_national_team": false
+    "intl_national_team": false,
+    "intl_leagues": [
+      "EuroCup",
+      "LNB Pro A (France)"
+    ],
+    "intl_tournaments": []
   },
   "kody-stattmann-1": {
     "sr_page_exists": true,
     "intl_url": "https://www.basketball-reference.com/international/players/kody-stattmann-1.html",
     "intl_pro": true,
-    "intl_national_team": false
+    "intl_national_team": false,
+    "intl_leagues": [
+      "NBL (Australia)"
+    ],
+    "intl_tournaments": []
   },
   "brian-fobbs-1": {
     "sr_page_exists": true,
     "intl_url": "https://www.basketball-reference.com/international/players/brian-fobbs-1.html",
     "intl_pro": true,
-    "intl_national_team": false
+    "intl_national_team": false,
+    "intl_leagues": [
+      "Serie A (Italy)"
+    ],
+    "intl_tournaments": []
   },
   "tyrese-hunter-1": {
     "sr_page_exists": true,
@@ -495,13 +698,26 @@
     "is_active": false,
     "intl_url": "https://www.basketball-reference.com/international/players/aamir-simms-1.html",
     "intl_pro": true,
-    "intl_national_team": false
+    "intl_national_team": false,
+    "intl_leagues": [
+      "EuroCup",
+      "LNB Pro A (France)",
+      "Serie A (Italy)"
+    ],
+    "intl_tournaments": []
   },
   "nate-laszewski-1": {
     "sr_page_exists": true,
     "intl_url": "https://www.basketball-reference.com/international/players/nate-laszewski-1.html",
     "intl_pro": true,
-    "intl_national_team": false
+    "intl_national_team": false,
+    "intl_leagues": [
+      "EuroCup",
+      "Greek League",
+      "Israeli League",
+      "Serie A (Italy)"
+    ],
+    "intl_tournaments": []
   },
   "boogie-ellis-1": {
     "sr_page_exists": true,
@@ -511,7 +727,11 @@
     "is_active": false,
     "intl_url": "https://www.basketball-reference.com/international/players/boogie-ellis-1.html",
     "intl_pro": true,
-    "intl_national_team": false
+    "intl_national_team": false,
+    "intl_leagues": [
+      "EuroLeague"
+    ],
+    "intl_tournaments": []
   },
   "justin-bibbs-1": {
     "sr_page_exists": true,
@@ -521,13 +741,26 @@
     "is_active": false,
     "intl_url": "https://www.basketball-reference.com/international/players/justin-bibbs-1.html",
     "intl_pro": true,
-    "intl_national_team": false
+    "intl_national_team": false,
+    "intl_leagues": [
+      "EuroCup",
+      "Greek League"
+    ],
+    "intl_tournaments": []
   },
   "ebuka-izundu-1": {
     "sr_page_exists": true,
     "intl_url": "https://www.basketball-reference.com/international/players/ebuka-izundu-1.html",
     "intl_pro": true,
-    "intl_national_team": false
+    "intl_national_team": false,
+    "intl_leagues": [
+      "ABA League",
+      "BSL (Turkey)",
+      "EuroLeague",
+      "LNB Pro A (France)",
+      "Liga ACB (Spain)"
+    ],
+    "intl_tournaments": []
   },
   "tony-bradley-1": {
     "sr_page_exists": true,
@@ -540,7 +773,12 @@
     "sr_page_exists": true,
     "intl_url": "https://www.basketball-reference.com/international/players/marcus-santos-silva-1.html",
     "intl_pro": true,
-    "intl_national_team": false
+    "intl_national_team": false,
+    "intl_leagues": [
+      "Israeli League",
+      "LNB Pro A (France)"
+    ],
+    "intl_tournaments": []
   },
   "kobe-johnson-1": {
     "sr_page_exists": true,
@@ -553,7 +791,13 @@
     "sr_page_exists": true,
     "intl_url": "https://www.basketball-reference.com/international/players/prentiss-hubb-1.html",
     "intl_pro": true,
-    "intl_national_team": false
+    "intl_national_team": false,
+    "intl_leagues": [
+      "EuroCup",
+      "Greek League",
+      "Serie A (Italy)"
+    ],
+    "intl_tournaments": []
   },
   "tarik-phillip-1": {
     "sr_page_exists": true,
@@ -563,13 +807,26 @@
     "is_active": false,
     "intl_url": "https://www.basketball-reference.com/international/players/tarik-phillip-1.html",
     "intl_pro": true,
-    "intl_national_team": false
+    "intl_national_team": false,
+    "intl_leagues": [
+      "BSL (Turkey)",
+      "EuroCup",
+      "Israeli League",
+      "Liga ACB (Spain)",
+      "Serie A (Italy)"
+    ],
+    "intl_tournaments": []
   },
   "kerry-blackshearjr-1": {
     "sr_page_exists": true,
     "intl_url": "https://www.basketball-reference.com/international/players/kerry-blackshear-1.html",
     "intl_pro": true,
-    "intl_national_team": false
+    "intl_national_team": false,
+    "intl_leagues": [
+      "BSL (Turkey)",
+      "Israeli League"
+    ],
+    "intl_tournaments": []
   },
   "justin-jackson-4": {
     "sr_page_exists": true,
@@ -593,13 +850,25 @@
     "is_active": false,
     "intl_url": "https://www.basketball-reference.com/international/players/josh-okogie-1.html",
     "intl_pro": false,
-    "intl_national_team": true
+    "intl_national_team": true,
+    "intl_leagues": [],
+    "intl_tournaments": [
+      "FIBA World Cup",
+      "Olympics"
+    ]
   },
   "marcquise-reed-1": {
     "sr_page_exists": true,
     "intl_url": "https://www.basketball-reference.com/international/players/marcquise-reed-1.html",
     "intl_pro": true,
-    "intl_national_team": false
+    "intl_national_team": false,
+    "intl_leagues": [
+      "BSL (Turkey)",
+      "EuroCup",
+      "LNB Pro A (France)",
+      "Serie A (Italy)"
+    ],
+    "intl_tournaments": []
   },
   "jaylen-hoard-1": {
     "sr_page_exists": true,
@@ -609,7 +878,13 @@
     "is_active": false,
     "intl_url": "https://www.basketball-reference.com/international/players/jaylen-hoard-1.html",
     "intl_pro": true,
-    "intl_national_team": false
+    "intl_national_team": false,
+    "intl_leagues": [
+      "EuroCup",
+      "EuroLeague",
+      "Israeli League"
+    ],
+    "intl_tournaments": []
   },
   "alijah-martin-1": {
     "sr_page_exists": true,
@@ -622,13 +897,23 @@
     "sr_page_exists": true,
     "intl_url": "https://www.basketball-reference.com/international/players/teyvon-myers-1.html",
     "intl_pro": true,
-    "intl_national_team": false
+    "intl_national_team": false,
+    "intl_leagues": [
+      "ABA League",
+      "LNB Pro A (France)"
+    ],
+    "intl_tournaments": []
   },
   "landon-milbourne-1": {
     "sr_page_exists": true,
     "intl_url": "https://www.basketball-reference.com/international/players/landon-milbourne-1.html",
     "intl_pro": true,
-    "intl_national_team": false
+    "intl_national_team": false,
+    "intl_leagues": [
+      "Liga ACB (Spain)",
+      "Serie A (Italy)"
+    ],
+    "intl_tournaments": []
   },
   "kennedy-meeks-1": {
     "sr_page_exists": true,
@@ -638,7 +923,11 @@
     "is_active": false,
     "intl_url": "https://www.basketball-reference.com/international/players/kennedy-meeks-1.html",
     "intl_pro": true,
-    "intl_national_team": false
+    "intl_national_team": false,
+    "intl_leagues": [
+      "LNB Pro A (France)"
+    ],
+    "intl_tournaments": []
   },
   "dwayne-sutton-1": {
     "sr_page_exists": true,
@@ -662,7 +951,11 @@
     "is_active": false,
     "intl_url": "https://www.basketball-reference.com/international/players/harry-giles-iii-1.html",
     "intl_pro": true,
-    "intl_national_team": false
+    "intl_national_team": false,
+    "intl_leagues": [
+      "CBA (China)"
+    ],
+    "intl_tournaments": []
   },
   "marques-bolden-1": {
     "sr_page_exists": true,
@@ -675,13 +968,22 @@
     "sr_page_exists": true,
     "intl_url": "https://www.basketball-reference.com/international/players/arnaldo-toro-barea-1.html",
     "intl_pro": false,
-    "intl_national_team": true
+    "intl_national_team": true,
+    "intl_leagues": [],
+    "intl_tournaments": [
+      "FIBA World Cup",
+      "Olympics"
+    ]
   },
   "anas-mahmoud-1": {
     "sr_page_exists": true,
     "intl_url": "https://www.basketball-reference.com/international/players/anas-mahmoud-1.html",
     "intl_pro": false,
-    "intl_national_team": true
+    "intl_national_team": true,
+    "intl_leagues": [],
+    "intl_tournaments": [
+      "FIBA World Cup"
+    ]
   },
   "amile-jefferson-1": {
     "sr_page_exists": true,
@@ -691,7 +993,11 @@
     "is_active": false,
     "intl_url": "https://www.basketball-reference.com/international/players/amile-jefferson-1.html",
     "intl_pro": true,
-    "intl_national_team": false
+    "intl_national_team": false,
+    "intl_leagues": [
+      "BSL (Turkey)"
+    ],
+    "intl_tournaments": []
   },
   "moussa-cisse-1": {
     "sr_page_exists": true,
@@ -704,25 +1010,42 @@
     "sr_page_exists": true,
     "intl_url": "https://www.basketball-reference.com/international/players/hassan-diarra-1.html",
     "intl_pro": true,
-    "intl_national_team": false
+    "intl_national_team": false,
+    "intl_leagues": [
+      "Israeli League"
+    ],
+    "intl_tournaments": []
   },
   "apostolos-roumoglou-1": {
     "sr_page_exists": true,
     "intl_url": "https://www.basketball-reference.com/international/players/apostolos-roumoglou-1.html",
     "intl_pro": true,
-    "intl_national_team": false
+    "intl_national_team": false,
+    "intl_leagues": [
+      "Greek League"
+    ],
+    "intl_tournaments": []
   },
   "chase-fieler-1": {
     "sr_page_exists": true,
     "intl_url": "https://www.basketball-reference.com/international/players/chase-fieler-1.html",
     "intl_pro": true,
-    "intl_national_team": false
+    "intl_national_team": false,
+    "intl_leagues": [
+      "EuroCup",
+      "Greek League"
+    ],
+    "intl_tournaments": []
   },
   "nayke-sanders-1": {
     "sr_page_exists": true,
     "intl_url": "https://www.basketball-reference.com/international/players/nayke-sanders-1.html",
     "intl_pro": true,
-    "intl_national_team": false
+    "intl_national_team": false,
+    "intl_leagues": [
+      "LNB Pro A (France)"
+    ],
+    "intl_tournaments": []
   },
   "miye-oni-1": {
     "sr_page_exists": true,
@@ -732,7 +1055,14 @@
     "is_active": false,
     "intl_url": "https://www.basketball-reference.com/international/players/miye-oni-1.html",
     "intl_pro": true,
-    "intl_national_team": true
+    "intl_national_team": true,
+    "intl_leagues": [
+      "EuroCup",
+      "Liga ACB (Spain)"
+    ],
+    "intl_tournaments": [
+      "Olympics"
+    ]
   },
   "trey-mcgowens-1": {
     "sr_page_exists": true,
@@ -742,19 +1072,34 @@
     "is_active": false,
     "intl_url": "https://www.basketball-reference.com/international/players/robert-mcgowens-1.html",
     "intl_pro": true,
-    "intl_national_team": false
+    "intl_national_team": false,
+    "intl_leagues": [
+      "EuroCup"
+    ],
+    "intl_tournaments": []
   },
   "michael-gilmore-1": {
     "sr_page_exists": true,
     "intl_url": "https://www.basketball-reference.com/international/players/michael-gilmore-1.html",
     "intl_pro": true,
-    "intl_national_team": false
+    "intl_national_team": false,
+    "intl_leagues": [
+      "BSL (Turkey)",
+      "Greek League",
+      "Serie A (Italy)"
+    ],
+    "intl_tournaments": []
   },
   "elijah-thomas-1": {
     "sr_page_exists": true,
     "intl_url": "https://www.basketball-reference.com/international/players/elijah-thomas-1.html",
     "intl_pro": true,
-    "intl_national_team": false
+    "intl_national_team": false,
+    "intl_leagues": [
+      "Greek League",
+      "Israeli League"
+    ],
+    "intl_tournaments": []
   },
   "frank-jackson-2": {
     "sr_page_exists": true,
@@ -764,13 +1109,23 @@
     "is_active": false,
     "intl_url": "https://www.basketball-reference.com/international/players/frank-jackson-1.html",
     "intl_pro": true,
-    "intl_national_team": false
+    "intl_national_team": false,
+    "intl_leagues": [
+      "CBA (China)",
+      "EuroLeague",
+      "LNB Pro A (France)"
+    ],
+    "intl_tournaments": []
   },
   "isaiah-mucius-1": {
     "sr_page_exists": true,
     "intl_url": "https://www.basketball-reference.com/international/players/isaiah-mucius-1.html",
     "intl_pro": true,
-    "intl_national_team": false
+    "intl_national_team": false,
+    "intl_leagues": [
+      "Israeli League"
+    ],
+    "intl_tournaments": []
   },
   "jack-white-1": {
     "sr_page_exists": true,
@@ -780,7 +1135,14 @@
     "is_active": false,
     "intl_url": "https://www.basketball-reference.com/international/players/jack-white-1.html",
     "intl_pro": true,
-    "intl_national_team": true
+    "intl_national_team": true,
+    "intl_leagues": [
+      "BSL (Turkey)",
+      "NBL (Australia)"
+    ],
+    "intl_tournaments": [
+      "FIBA World Cup"
+    ]
   },
   "samson-johnson-1": {
     "sr_page_exists": true,
@@ -811,31 +1173,60 @@
     "is_active": false,
     "intl_url": "https://www.basketball-reference.com/international/players/luke-maye-1.html",
     "intl_pro": true,
-    "intl_national_team": false
+    "intl_national_team": false,
+    "intl_leagues": [
+      "BSL (Turkey)",
+      "EuroCup",
+      "Liga ACB (Spain)",
+      "Serie A (Italy)"
+    ],
+    "intl_tournaments": []
   },
   "taine-murray-1": {
     "sr_page_exists": true,
     "intl_url": "https://www.basketball-reference.com/international/players/taine-murray-1.html",
     "intl_pro": true,
-    "intl_national_team": false
+    "intl_national_team": false,
+    "intl_leagues": [
+      "NBL (Australia)"
+    ],
+    "intl_tournaments": []
   },
   "nate-reuvers-1": {
     "sr_page_exists": true,
     "intl_url": "https://www.basketball-reference.com/international/players/nate-reuvers-1.html",
     "intl_pro": true,
-    "intl_national_team": false
+    "intl_national_team": false,
+    "intl_leagues": [
+      "ABA League",
+      "EuroCup",
+      "EuroLeague",
+      "Liga ACB (Spain)",
+      "Serie A (Italy)"
+    ],
+    "intl_tournaments": []
   },
   "adam-moussa-1": {
     "sr_page_exists": true,
     "intl_url": "https://www.basketball-reference.com/international/players/adam-moussa-1.html",
     "intl_pro": false,
-    "intl_national_team": true
+    "intl_national_team": true,
+    "intl_leagues": [],
+    "intl_tournaments": [
+      "FIBA World Cup"
+    ]
   },
   "david-skara-1": {
     "sr_page_exists": true,
     "intl_url": "https://www.basketball-reference.com/international/players/david-skara-1.html",
     "intl_pro": true,
-    "intl_national_team": false
+    "intl_national_team": false,
+    "intl_leagues": [
+      "ABA League",
+      "EuroCup",
+      "LNB Pro A (France)"
+    ],
+    "intl_tournaments": []
   },
   "malik-williams-1": {
     "sr_page_exists": true,
@@ -848,25 +1239,43 @@
     "sr_page_exists": true,
     "intl_url": "https://www.basketball-reference.com/international/players/darius-perry-1.html",
     "intl_pro": true,
-    "intl_national_team": false
+    "intl_national_team": false,
+    "intl_leagues": [
+      "Greek League",
+      "Israeli League"
+    ],
+    "intl_tournaments": []
   },
   "yagizhan-selcuk-1": {
     "sr_page_exists": true,
     "intl_url": "https://www.basketball-reference.com/international/players/yagizhan-selcuk-1.html",
     "intl_pro": true,
-    "intl_national_team": false
+    "intl_national_team": false,
+    "intl_leagues": [
+      "BSL (Turkey)",
+      "EuroCup"
+    ],
+    "intl_tournaments": []
   },
   "josh-kunen-1": {
     "sr_page_exists": true,
     "intl_url": "https://www.basketball-reference.com/international/players/josh-kunen-1.html",
     "intl_pro": true,
-    "intl_national_team": false
+    "intl_national_team": false,
+    "intl_leagues": [
+      "NBL (Australia)"
+    ],
+    "intl_tournaments": []
   },
   "nikola-djogo-1": {
     "sr_page_exists": true,
     "intl_url": "https://www.basketball-reference.com/international/players/nikola-djogo-1.html",
     "intl_pro": true,
-    "intl_national_team": false
+    "intl_national_team": false,
+    "intl_leagues": [
+      "ABA League"
+    ],
+    "intl_tournaments": []
   },
   "dane-goodwin-1": {
     "sr_page_exists": true,
@@ -883,13 +1292,21 @@
     "is_active": false,
     "intl_url": "https://www.basketball-reference.com/international/players/chaundee-brown-1.html",
     "intl_pro": true,
-    "intl_national_team": false
+    "intl_national_team": false,
+    "intl_leagues": [
+      "LNB Pro A (France)"
+    ],
+    "intl_tournaments": []
   },
   "luka-krajnovic-1": {
     "sr_page_exists": true,
     "intl_url": "https://www.basketball-reference.com/international/players/luka-krajnovic-1.html",
     "intl_pro": true,
-    "intl_national_team": false
+    "intl_national_team": false,
+    "intl_leagues": [
+      "ABA League"
+    ],
+    "intl_tournaments": []
   },
   "javin-delaurier-1": {
     "sr_page_exists": true,
@@ -899,13 +1316,24 @@
     "is_active": false,
     "intl_url": "https://www.basketball-reference.com/international/players/javin-delaurier-1.html",
     "intl_pro": true,
-    "intl_national_team": false
+    "intl_national_team": false,
+    "intl_leagues": [
+      "BSL (Turkey)",
+      "Greek League",
+      "Israeli League"
+    ],
+    "intl_tournaments": []
   },
   "ismaila-diagne-1": {
     "sr_page_exists": true,
     "intl_url": "https://www.basketball-reference.com/international/players/ismaila-diagne-1.html",
     "intl_pro": true,
-    "intl_national_team": false
+    "intl_national_team": false,
+    "intl_leagues": [
+      "EuroLeague",
+      "Liga ACB (Spain)"
+    ],
+    "intl_tournaments": []
   },
   "sagaba-konate-1": {
     "sr_page_exists": true,
@@ -915,7 +1343,15 @@
     "is_active": false,
     "intl_url": "https://www.basketball-reference.com/international/players/sagaba-konate-1.html",
     "intl_pro": true,
-    "intl_national_team": false
+    "intl_national_team": false,
+    "intl_leagues": [
+      "BSL (Turkey)",
+      "EuroCup",
+      "Greek League",
+      "Liga ACB (Spain)",
+      "Serie A (Italy)"
+    ],
+    "intl_tournaments": []
   },
   "malik-ellison-1": {
     "sr_page_exists": true,
@@ -928,7 +1364,11 @@
     "sr_page_exists": true,
     "intl_url": "https://www.basketball-reference.com/international/players/dino-gregory-1.html",
     "intl_pro": true,
-    "intl_national_team": false
+    "intl_national_team": false,
+    "intl_leagues": [
+      "EuroCup"
+    ],
+    "intl_tournaments": []
   },
   "ahmed-hill-1": {
     "sr_page_exists": true,
@@ -938,7 +1378,13 @@
     "is_active": false,
     "intl_url": "https://www.basketball-reference.com/international/players/ahmed-hill-1.html",
     "intl_pro": true,
-    "intl_national_team": false
+    "intl_national_team": false,
+    "intl_leagues": [
+      "BSL (Turkey)",
+      "Greek League",
+      "Israeli League"
+    ],
+    "intl_tournaments": []
   },
   "dejan-vasiljevic-1": {
     "sr_page_exists": true,
@@ -948,12 +1394,21 @@
     "is_active": false,
     "intl_url": "https://www.basketball-reference.com/international/players/dejan-vasiljevic-1.html",
     "intl_pro": true,
-    "intl_national_team": false
+    "intl_national_team": false,
+    "intl_leagues": [
+      "NBL (Australia)"
+    ],
+    "intl_tournaments": []
   },
   "khalid-moore-1": {
     "sr_page_exists": true,
     "intl_url": "https://www.basketball-reference.com/international/players/khalid-moore-1.html",
     "intl_pro": true,
-    "intl_national_team": false
+    "intl_national_team": false,
+    "intl_leagues": [
+      "Greek League",
+      "LNB Pro A (France)"
+    ],
+    "intl_tournaments": []
   }
 }
