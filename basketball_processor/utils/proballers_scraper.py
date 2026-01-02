@@ -32,12 +32,13 @@ from typing import Any, Dict, List, Optional, Tuple
 # Rate limiting (0 = no delay; network latency provides natural throttling)
 RATE_LIMIT_SECONDS = 0
 
-# Cache file
+# Cache file (can be cleared)
 CACHE_DIR = Path(__file__).parent.parent.parent / 'cache'
 PROBALLERS_CACHE_FILE = CACHE_DIR / 'proballers_cache.json'
 
-# NCAA teams cache file (dynamically fetched from Proballers)
-NCAA_TEAMS_CACHE_FILE = CACHE_DIR / 'proballers_ncaa_teams.json'
+# Persistent data (survives cache clears)
+DATA_DIR = Path(__file__).parent.parent.parent / 'data'
+NCAA_TEAMS_FILE = DATA_DIR / 'proballers_ncaa_teams.json'
 
 # League name mapping (Proballers slug -> display name)
 LEAGUE_NAMES = {
@@ -129,9 +130,9 @@ def _save_cache(cache: Dict[str, Any]) -> None:
 
 def _load_ncaa_teams() -> Dict[str, Dict[str, Any]]:
     """Load NCAA teams cache."""
-    if NCAA_TEAMS_CACHE_FILE.exists():
+    if NCAA_TEAMS_FILE.exists():
         try:
-            with open(NCAA_TEAMS_CACHE_FILE, 'r') as f:
+            with open(NCAA_TEAMS_FILE, 'r') as f:
                 return json.load(f)
         except Exception:
             pass
@@ -141,7 +142,7 @@ def _load_ncaa_teams() -> Dict[str, Dict[str, Any]]:
 def _save_ncaa_teams(teams: Dict[str, Dict[str, Any]]) -> None:
     """Save NCAA teams cache."""
     CACHE_DIR.mkdir(parents=True, exist_ok=True)
-    with open(NCAA_TEAMS_CACHE_FILE, 'w') as f:
+    with open(NCAA_TEAMS_FILE, 'w') as f:
         json.dump(teams, f, indent=2)
 
 
