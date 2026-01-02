@@ -333,8 +333,8 @@ class DataSerializer:
             else:
                 record['WNBA'] = False
 
-            # International info
-            if pro_info and pro_info.get('intl_url'):
+            # International info - check intl_url (from BR) or intl_pro/intl_leagues (from Proballers)
+            if pro_info and (pro_info.get('intl_url') or pro_info.get('intl_pro') or pro_info.get('intl_leagues')):
                 record['International'] = True
                 record['Intl_URL'] = pro_info.get('intl_url', '')
                 # Separate flags for pro leagues vs national team tournaments

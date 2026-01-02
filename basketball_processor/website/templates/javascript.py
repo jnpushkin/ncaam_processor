@@ -1876,8 +1876,7 @@ def get_javascript(json_data: str) -> str:
                     }
                 }
                 if (player.Intl_National_Team) {
-                    const fibaLogo = '<img src="https://upload.wikimedia.org/wikipedia/en/thumb/b/b5/FIBA_logo.svg/100px-FIBA_logo.svg.png" alt="FIBA" class="league-logo fiba-logo">';
-                    badges += `<span class="intl-badge national-team" data-tooltip="National Team (Olympics/FIBA)">${fibaLogo}</span>`;
+                    badges += `<span class="intl-badge national-team" data-tooltip="National Team (Olympics/FIBA)">🌍</span>`;
                     if (!league || league.includes('signed')) {
                         league = 'National Team';
                         proGames = '—';
