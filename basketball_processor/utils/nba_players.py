@@ -7,7 +7,7 @@ Also checks Proballers.com for comprehensive international league data.
 import json
 import re
 from pathlib import Path
-from typing import Dict, Any, Optional, List, Set
+from typing import Dict, Any, Optional, List, Set, Tuple
 from datetime import datetime
 import time
 
@@ -277,7 +277,7 @@ def _check_intl_type(intl_url: str, scraper: Any = None) -> Dict[str, Any]:
         return result
 
 
-def _check_proballers_leagues(player_name: str, college_team: str, year: Optional[int] = None) -> List[str]:
+def _check_proballers_leagues(player_name: str, college_team: str, year: Optional[int] = None) -> Tuple[List[str], Optional[int]]:
     """
     Check Proballers.com for international leagues a player has played in.
 
@@ -287,10 +287,10 @@ def _check_proballers_leagues(player_name: str, college_team: str, year: Optiona
         year: Optional basketball season year (e.g., 2025 for 2024-25 season)
 
     Returns:
-        List of league names from Proballers
+        Tuple of (list of league names, Proballers player ID or None)
     """
     if not HAS_PROBALLERS:
-        return []
+        return [], None
 
     try:
         # Convert college team name to slug format
@@ -308,20 +308,21 @@ def _check_proballers_leagues(player_name: str, college_team: str, year: Optiona
             college_slug.replace('university-of-', ''),
         ]
 
-        player_id = None
+        proballers_id = None
         for slug in slug_variations:
-            player_id = find_player_by_college(slug, player_name, year=year)
-            if player_id:
+            proballers_id = find_player_by_college(slug, player_name, year=year)
+            if proballers_id:
                 break
 
-        if player_id is None:
-            return []
+        if proballers_id is None:
+            return [], None
 
         # Get leagues from Proballers
-        return get_player_pro_leagues(player_id)
+        leagues = get_player_pro_leagues(proballers_id)
+        return leagues, proballers_id
 
     except Exception:
-        return []
+        return [], None
 
 
 def _merge_leagues(br_leagues: List[str], proballers_leagues: List[str]) -> List[str]:
@@ -1523,7 +1524,7 @@ def check_proballers_for_all_players(
         print(f"  {i+1}/{len(players)} {name} ({college})...", end='', flush=True)
 
         # Check Proballers with year for disambiguation
-        proballers_leagues = _check_proballers_leagues(name, college, year=year)
+        proballers_leagues, proballers_id = _check_proballers_leagues(name, college, year=year)
 
         if proballers_leagues:
             found_count += 1
@@ -1535,6 +1536,8 @@ def check_proballers_for_all_players(
             if player_id not in cache:
                 cache[player_id] = {}
             cache[player_id]['proballers_leagues'] = proballers_leagues
+            if proballers_id:
+                cache[player_id]['proballers_id'] = proballers_id
 
             # If no BR international data, mark as international based on Proballers
             if not has_br_intl and proballers_leagues:

@@ -337,6 +337,12 @@ class DataSerializer:
             if pro_info and (pro_info.get('intl_url') or pro_info.get('intl_pro') or pro_info.get('intl_leagues')):
                 record['International'] = True
                 record['Intl_URL'] = pro_info.get('intl_url', '')
+                # Proballers URL as fallback for players not in BR
+                proballers_id = pro_info.get('proballers_id')
+                if proballers_id:
+                    record['Proballers_URL'] = f'https://www.proballers.com/basketball/player/{proballers_id}/'
+                else:
+                    record['Proballers_URL'] = ''
                 # Separate flags for pro leagues vs national team tournaments
                 record['Intl_Pro'] = pro_info.get('intl_pro', False)
                 record['Intl_National_Team'] = pro_info.get('intl_national_team', False)
@@ -349,6 +355,7 @@ class DataSerializer:
                 record['Intl_National_Team'] = False
                 record['Intl_Leagues'] = []
                 record['Intl_Tournaments'] = []
+                record['Proballers_URL'] = ''
 
             # Sports Reference page exists (False if 404)
             if pro_info and pro_info.get('sr_page_exists') is False:

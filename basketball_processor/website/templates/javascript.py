@@ -1870,7 +1870,7 @@ def get_javascript(json_data: str) -> str:
                     if (!league || league.includes('signed')) {
                         league = intlLeagues.length > 0 ? intlLeagues[0] : 'Overseas';
                         proGames = '—';
-                        proUrl = player.Intl_URL || '#';
+                        proUrl = player.Intl_URL || player.Proballers_URL || '#';
                         linkClass = 'intl-link';
                         rowClass = 'intl-player';
                     }
@@ -1881,7 +1881,7 @@ def get_javascript(json_data: str) -> str:
                     if (!league || league.includes('signed')) {
                         league = 'National Team';
                         proGames = '—';
-                        proUrl = player.Intl_URL || '#';
+                        proUrl = player.Intl_URL || player.Proballers_URL || '#';
                         linkClass = 'natl-link';
                         rowClass = 'national-team-player';
                     }
