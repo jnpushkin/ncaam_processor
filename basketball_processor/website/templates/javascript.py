@@ -1893,6 +1893,36 @@ def get_javascript(json_data: str) -> str:
             // NCAA logo for neutral sites
             const ncaaLogoUrl = 'https://a.espncdn.com/i/teamlogos/ncaa/500/ncaa.png';
 
+            // Specific venue coordinates for neutral sites and arenas
+            const VENUE_COORDS = {
+                'Chase Center': [37.7680466, -122.387715],  // 1 Warriors Way, San Francisco
+                'Barclays Center': [40.682732, -73.975876],  // 620 Atlantic Ave, Brooklyn
+                'Madison Square Garden': [40.7505, -73.9934],
+                'United Center': [41.8807, -87.6742],
+                'T-Mobile Arena': [36.1029, -115.1784],
+                'Footprint Center': [33.4457, -112.0712],
+                'Crypto.com Arena': [34.0430, -118.2673],
+                'TD Garden': [42.3662, -71.0621],
+                'Capital One Arena': [38.8981, -77.0209],
+            };
+
+            // State abbreviations for city lookup
+            const stateAbbrev = {
+                'Alabama': 'AL', 'Alaska': 'AK', 'Arizona': 'AZ', 'Arkansas': 'AR',
+                'California': 'CA', 'Colorado': 'CO', 'Connecticut': 'CT', 'Delaware': 'DE',
+                'Florida': 'FL', 'Georgia': 'GA', 'Hawaii': 'HI', 'Idaho': 'ID',
+                'Illinois': 'IL', 'Indiana': 'IN', 'Iowa': 'IA', 'Kansas': 'KS',
+                'Kentucky': 'KY', 'Louisiana': 'LA', 'Maine': 'ME', 'Maryland': 'MD',
+                'Massachusetts': 'MA', 'Michigan': 'MI', 'Minnesota': 'MN', 'Mississippi': 'MS',
+                'Missouri': 'MO', 'Montana': 'MT', 'Nebraska': 'NE', 'Nevada': 'NV',
+                'New Hampshire': 'NH', 'New Jersey': 'NJ', 'New Mexico': 'NM', 'New York': 'NY',
+                'North Carolina': 'NC', 'North Dakota': 'ND', 'Ohio': 'OH', 'Oklahoma': 'OK',
+                'Oregon': 'OR', 'Pennsylvania': 'PA', 'Rhode Island': 'RI', 'South Carolina': 'SC',
+                'South Dakota': 'SD', 'Tennessee': 'TN', 'Texas': 'TX', 'Utah': 'UT',
+                'Vermont': 'VT', 'Virginia': 'VA', 'Washington': 'WA', 'West Virginia': 'WV',
+                'Wisconsin': 'WI', 'Wyoming': 'WY', 'District of Columbia': 'DC'
+            };
+
             let stateStats = {};
             let placedVenues = 0;
             let homeVenues = 0;
@@ -1928,12 +1958,23 @@ def get_javascript(json_data: str) -> str:
                 // If more than 2 different teams were "home" here, it's likely a neutral site
                 const isNeutralSite = homeTeamsAtVenue.size > 2 || !teamInfo;
 
-                // Get coordinates - prefer SCHOOL_COORDS for home team, or use city coords
+                // Get coordinates - try venue-specific, then school, then city
                 let coords = null;
-                if (teamInfo && SCHOOL_COORDS[teamInfo.team]) {
+                // 1. Check specific venue coordinates (for neutral sites like Chase Center)
+                if (VENUE_COORDS[venueName]) {
+                    coords = VENUE_COORDS[venueName];
+                }
+                // 2. Try school coordinates for home team
+                else if (teamInfo && SCHOOL_COORDS[teamInfo.team]) {
                     coords = SCHOOL_COORDS[teamInfo.team];
-                } else if (city && CITY_COORDS[city]) {
-                    coords = CITY_COORDS[city];
+                }
+                // 3. Try city coordinates with state abbreviation (e.g., "San Francisco, CA")
+                else if (city && state) {
+                    const abbrev = stateAbbrev[state] || state;
+                    const cityKey = `${city}, ${abbrev}`;
+                    if (CITY_COORDS[cityKey]) {
+                        coords = CITY_COORDS[cityKey];
+                    }
                 }
 
                 // Skip venues we can't accurately place
