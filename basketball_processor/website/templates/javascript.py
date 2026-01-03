@@ -226,6 +226,17 @@ def get_javascript(json_data: str) -> str:
             document.getElementById(parentId + '-' + subId).classList.add('active');
             event.target.classList.add('active');
             updateURL(parentId, { sub: subId });
+
+            // Initialize venues map when first shown
+            if (parentId === 'venues' && subId === 'map') {
+                setTimeout(() => {
+                    if (venuesMap) {
+                        venuesMap.invalidateSize();
+                    } else {
+                        initVenuesMap();
+                    }
+                }, 100);
+            }
         }
 
         // Keyboard navigation
@@ -576,7 +587,18 @@ def get_javascript(json_data: str) -> str:
             if (!container) return;
 
             // Conferences to exclude (non-D1)
-            const excludeConfs = ['Historical/Other', 'D3', 'D2', 'NAIA', 'Non-D1'];
+            const excludeConfs = [
+                'Historical/Other', 'D3', 'D2', 'NAIA', 'Non-D1',
+                // D2 conferences
+                'PacWest', 'Pacific West', 'Pacific West Conference',
+                'CCAA', 'GNAC', 'Great Northwest', 'LSC', 'Lone Star',
+                'RMAC', 'Rocky Mountain', 'SIAC', 'CIAA', 'GLIAC',
+                'Great Lakes', 'G-MAC', 'GAC', 'Gulf South', 'Peach Belt',
+                'South Atlantic', 'Sunshine State', 'SSC', 'PSAC', 'NE-10',
+                'Northeast-10', 'East Coast', 'ECC', 'Central Atlantic', 'CACC',
+                // NAIA conferences
+                'Golden State', 'GSAC', 'Cascade', 'CCC', 'Frontier'
+            ];
 
             // Get all conferences from games
             const confSet = new Set();
@@ -746,6 +768,7 @@ def get_javascript(json_data: str) -> str:
         function applyGamesFilters() {
             const search = document.getElementById('games-search').value.toLowerCase();
             const gender = document.getElementById('games-gender').value;
+            const division = document.getElementById('games-division')?.value || '';
             const dateFrom = document.getElementById('games-date-from').value;
             const dateTo = document.getElementById('games-date-to').value;
             const teamFilter = document.getElementById('games-team').value;
@@ -767,6 +790,14 @@ def get_javascript(json_data: str) -> str:
                 const text = `${game['Away Team']} ${game['Home Team']} ${game.Venue || ''}`.toLowerCase();
                 if (search && !text.includes(search)) return false;
                 if (gender && game.Gender !== gender) return false;
+                // Division filter
+                if (division) {
+                    const gameDivision = game.Division || 'D1';
+                    if (division === 'D1' && gameDivision !== 'D1') return false;
+                    if (division === 'non-D1' && gameDivision === 'D1') return false;
+                    if (division === 'D2' && gameDivision !== 'D2') return false;
+                    if (division === 'D3' && gameDivision !== 'D3') return false;
+                }
                 if (dateFrom && game.Date < dateFrom) return false;
                 if (dateTo && game.Date > dateTo) return false;
                 // Team filter: match team name AND gender
@@ -860,6 +891,8 @@ def get_javascript(json_data: str) -> str:
             if (type === 'games') {
                 document.getElementById('games-search').value = '';
                 document.getElementById('games-gender').value = '';
+                const divisionFilter = document.getElementById('games-division');
+                if (divisionFilter) divisionFilter.value = '';
                 document.getElementById('games-date-from').value = '';
                 document.getElementById('games-date-to').value = '';
                 document.getElementById('games-team').value = '';
@@ -1556,10 +1589,20 @@ def get_javascript(json_data: str) -> str:
                 }
             });
 
-            // Populate matrix conference dropdown
+            // Populate matrix conference dropdown (D1 conferences only)
+            const nonD1Confs = [
+                'Historical/Other', 'D3', 'D2', 'NAIA', 'Non-D1',
+                'PacWest', 'Pacific West', 'Pacific West Conference',
+                'CCAA', 'GNAC', 'Great Northwest', 'LSC', 'Lone Star',
+                'RMAC', 'Rocky Mountain', 'SIAC', 'CIAA', 'GLIAC',
+                'Great Lakes', 'G-MAC', 'GAC', 'Gulf South', 'Peach Belt',
+                'South Atlantic', 'Sunshine State', 'SSC', 'PSAC', 'NE-10',
+                'Northeast-10', 'East Coast', 'ECC', 'Central Atlantic', 'CACC',
+                'Golden State', 'GSAC', 'Cascade', 'CCC', 'Frontier'
+            ];
             const matrixConfSelect = document.getElementById('matrix-conference');
             if (matrixConfSelect) {
-                conferences.forEach(conf => {
+                conferences.filter(conf => !nonD1Confs.includes(conf)).forEach(conf => {
                     const option = document.createElement('option');
                     option.value = conf;
                     option.textContent = conf;
@@ -1631,15 +1674,6 @@ def get_javascript(json_data: str) -> str:
                 });
             });
 
-            // Populate game log player search datalist
-            const datalist = document.getElementById('gamelog-player-list');
-            datalist.innerHTML = '';
-            players.forEach(p => {
-                const option = document.createElement('option');
-                option.value = `${p.Player} (${p.Team})`;
-                option.dataset.playerId = p['Player ID'] || p.Player;
-                datalist.appendChild(option);
-            });
         }
 
         function populateSeasonHighs() {
@@ -1796,6 +1830,186 @@ def get_javascript(json_data: str) -> str:
                     <td>${(venue['Avg Away Pts'] || 0).toFixed(1)}</td>
                 </tr>
             `).join('');
+        }
+
+        let venuesMap = null;
+        let venuesMapInitialized = false;
+
+        function initVenuesMap() {
+            if (venuesMapInitialized) return;
+
+            const container = document.getElementById('venues-map-container');
+            if (!container) return;
+
+            venuesMap = L.map('venues-map-container').setView([39.8283, -98.5795], 4);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 18,
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(venuesMap);
+
+            const venues = DATA.venues || [];
+            const games = DATA.games || [];
+
+            // State coordinates
+            const stateCoords = {
+                'Alabama': [32.806671, -86.791130], 'Alaska': [61.370716, -152.404419],
+                'Arizona': [33.729759, -111.431221], 'Arkansas': [34.969704, -92.373123],
+                'California': [36.116203, -119.681564], 'Colorado': [39.059811, -105.311104],
+                'Connecticut': [41.597782, -72.755371], 'Delaware': [39.318523, -75.507141],
+                'Florida': [27.766279, -81.686783], 'Georgia': [33.040619, -83.643074],
+                'Hawaii': [21.094318, -157.498337], 'Idaho': [44.240459, -114.478828],
+                'Illinois': [40.349457, -88.986137], 'Indiana': [39.849426, -86.258278],
+                'Iowa': [42.011539, -93.210526], 'Kansas': [38.526600, -96.726486],
+                'Kentucky': [37.668140, -84.670067], 'Louisiana': [31.169546, -91.867805],
+                'Maine': [44.693947, -69.381927], 'Maryland': [39.063946, -76.802101],
+                'Massachusetts': [42.230171, -71.530106], 'Michigan': [43.326618, -84.536095],
+                'Minnesota': [45.694454, -93.900192], 'Mississippi': [32.741646, -89.678696],
+                'Missouri': [38.456085, -92.288368], 'Montana': [46.921925, -110.454353],
+                'Nebraska': [41.125370, -98.268082], 'Nevada': [38.313515, -117.055374],
+                'New Hampshire': [43.452492, -71.563896], 'New Jersey': [40.298904, -74.521011],
+                'New Mexico': [34.840515, -106.248482], 'New York': [42.165726, -74.948051],
+                'North Carolina': [35.630066, -79.806419], 'North Dakota': [47.528912, -99.784012],
+                'Ohio': [40.388783, -82.764915], 'Oklahoma': [35.565342, -96.928917],
+                'Oregon': [44.572021, -122.070938], 'Pennsylvania': [40.590752, -77.209755],
+                'Rhode Island': [41.680893, -71.511780], 'South Carolina': [33.856892, -80.945007],
+                'South Dakota': [44.299782, -99.438828], 'Tennessee': [35.747845, -86.692345],
+                'Texas': [31.054487, -97.563461], 'Utah': [40.150032, -111.862434],
+                'Vermont': [44.045876, -72.710686], 'Virginia': [37.769337, -78.169968],
+                'Washington': [47.400902, -121.490494], 'West Virginia': [38.491226, -80.954453],
+                'Wisconsin': [44.268543, -89.616508], 'Wyoming': [42.755966, -107.302490],
+                'District of Columbia': [38.9072, -77.0369], 'DC': [38.9072, -77.0369]
+            };
+
+            // City coordinates for common basketball cities
+            const cityCoords = {
+                'San Francisco': [37.7749, -122.4194], 'Los Angeles': [34.0522, -118.2437],
+                'New York': [40.7128, -74.0060], 'Chicago': [41.8781, -87.6298],
+                'Houston': [29.7604, -95.3698], 'Phoenix': [33.4484, -112.0740],
+                'Philadelphia': [39.9526, -75.1652], 'San Antonio': [29.4241, -98.4936],
+                'San Diego': [32.7157, -117.1611], 'Dallas': [32.7767, -96.7970],
+                'Austin': [30.2672, -97.7431], 'San Jose': [37.3382, -121.8863],
+                'Seattle': [47.6062, -122.3321], 'Denver': [39.7392, -104.9903],
+                'Boston': [42.3601, -71.0589], 'Atlanta': [33.7490, -84.3880],
+                'Miami': [25.7617, -80.1918], 'Minneapolis': [44.9778, -93.2650],
+                'Portland': [45.5155, -122.6789], 'Sacramento': [38.5816, -121.4944],
+                'Las Vegas': [36.1699, -115.1398], 'Oakland': [37.8044, -122.2712],
+                'Salt Lake City': [40.7608, -111.8910], 'Indianapolis': [39.7684, -86.1581],
+                'Columbus': [39.9612, -82.9988], 'Charlotte': [35.2271, -80.8431],
+                'Detroit': [42.3314, -83.0458], 'Nashville': [36.1627, -86.7816],
+                'Memphis': [35.1495, -90.0490], 'Louisville': [38.2527, -85.7585],
+                'Milwaukee': [43.0389, -87.9065], 'Baltimore': [39.2904, -76.6122],
+                'Albuquerque': [35.0844, -106.6504], 'Tucson': [32.2226, -110.9747],
+                'Fresno': [36.7378, -119.7871], 'Mesa': [33.4152, -111.8315],
+                'Kansas City': [39.0997, -94.5786], 'Omaha': [41.2565, -95.9345],
+                'Raleigh': [35.7796, -78.6382], 'Cleveland': [41.4993, -81.6944],
+                'Pittsburgh': [40.4406, -79.9959], 'Cincinnati': [39.1031, -84.5120],
+                'Orlando': [28.5383, -81.3792], 'Tampa': [27.9506, -82.4572],
+                'New Orleans': [29.9511, -90.0715], 'St. Louis': [38.6270, -90.1994],
+                'Spokane': [47.6587, -117.4260], 'Moraga': [37.8346, -122.1297],
+                'Berkeley': [37.8716, -122.2727], 'Stanford': [37.4275, -122.1697],
+                'Palo Alto': [37.4419, -122.1430], 'Stockton': [37.9577, -121.2908],
+                'Provo': [40.2338, -111.6585], 'Spokane': [47.6587, -117.4260]
+            };
+
+            let stateStats = {};
+            let placedVenues = 0;
+
+            venues.forEach(venue => {
+                let coords = null;
+                const city = venue.City || '';
+                const state = venue.State || '';
+
+                // Try city coordinates first
+                if (city && cityCoords[city]) {
+                    coords = cityCoords[city];
+                }
+
+                // Fall back to state coordinates
+                if (!coords && state && stateCoords[state]) {
+                    coords = stateCoords[state];
+                }
+
+                if (!coords) return;
+
+                // Track stats by state
+                if (!stateStats[state]) {
+                    stateStats[state] = { count: 0, games: 0 };
+                }
+                stateStats[state].count++;
+                stateStats[state].games += venue.Games || 0;
+
+                placedVenues++;
+
+                // Find games at this venue for popup
+                const venueGames = games.filter(g =>
+                    (g.Venue || g.venue) === venue.Venue
+                );
+
+                const popupContent = `
+                    <div style="min-width: 200px;">
+                        <strong style="font-size: 14px;">${venue.Venue}</strong><br>
+                        <span style="color: #666;">${city}, ${state}</span><br>
+                        <hr style="margin: 8px 0;">
+                        <div style="font-size: 12px;">
+                            <strong>${venue.Games || 0}</strong> games<br>
+                            Home: ${venue['Home Wins'] || 0}W | Away: ${venue['Away Wins'] || 0}W
+                        </div>
+                        ${venueGames.length > 0 ? `
+                        <hr style="margin: 8px 0;">
+                        <div style="font-size: 11px; max-height: 150px; overflow-y: auto;">
+                            ${venueGames.slice(0, 5).map(g => `
+                                <div style="margin-bottom: 4px;">
+                                    ${g.Date || ''}: ${g['Away Team'] || g.away_team || ''} @ ${g['Home Team'] || g.home_team || ''}
+                                </div>
+                            `).join('')}
+                            ${venueGames.length > 5 ? `<div style="color: #888;">...and ${venueGames.length - 5} more</div>` : ''}
+                        </div>` : ''}
+                    </div>
+                `;
+
+                // Size marker by number of games
+                const radius = Math.min(Math.max((venue.Games || 1) * 3, 6), 20);
+
+                L.circleMarker(coords, {
+                    radius: radius,
+                    fillColor: '#1e3a5f',
+                    color: '#fff',
+                    weight: 2,
+                    opacity: 1,
+                    fillOpacity: 0.8
+                }).addTo(venuesMap).bindPopup(popupContent);
+            });
+
+            // Show summary
+            const summary = document.getElementById('venues-map-summary');
+            if (summary) {
+                const stateCount = Object.keys(stateStats).length;
+                const topStates = Object.entries(stateStats)
+                    .sort((a, b) => b[1].count - a[1].count)
+                    .slice(0, 5);
+
+                summary.innerHTML = `
+                    <div class="stat-box">
+                        <div class="stat-value">${placedVenues}</div>
+                        <div class="stat-label">Venues Mapped</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value">${stateCount}</div>
+                        <div class="stat-label">States</div>
+                    </div>
+                    <div style="flex: 1;">
+                        <strong>Top States:</strong>
+                        ${topStates.map(([st, data]) => `${st} (${data.count})`).join(', ')}
+                    </div>
+                `;
+            }
+
+            venuesMapInitialized = true;
+
+            // Fit bounds to markers if we have any
+            if (placedVenues > 0) {
+                setTimeout(() => venuesMap.invalidateSize(), 100);
+            }
         }
 
         function populateFutureProsTable() {
@@ -4146,6 +4360,13 @@ def get_javascript(json_data: str) -> str:
             'Abilene Christian': [32.4669, -99.6940],
             'Northern Kentucky': [39.0284, -84.4621],
             'Purdue Fort Wayne': [41.1175, -85.1045],
+            // D2/D3/NAIA Schools
+            'University of Chicago': [41.7919, -87.5997],  // Ratner Center
+            'Johns Hopkins': [39.3299, -76.6205],  // Goldfarb Gym
+            'Brandeis': [42.3654, -74.2631],  // Auerbach Arena
+            'Washington College': [39.2107, -76.0721],  // Gibson Center
+            'Academy of Art': [37.7673, -122.4545],  // Kezar Pavilion
+            'Jessup': [38.8238, -121.2422],  // Warrior Arena
         };
 
         let schoolMap = null;
@@ -5363,53 +5584,79 @@ def get_javascript(json_data: str) -> str:
             updateURL('games', { game: gameId });
         }
 
-        function searchPlayerGameLog() {
-            const searchValue = document.getElementById('gamelog-player-search').value;
-            if (!searchValue) {
-                document.getElementById('gamelog-container').innerHTML = `
-                    <div class="empty-state">
-                        <div class="empty-state-icon">&#128203;</div>
-                        <h3>Search for a player</h3>
-                        <p>Type a player name above to view their game log</p>
-                    </div>`;
-                return;
-            }
+        function updatePlayerSuggestions() {
+            const input = document.getElementById('gamelog-player-search');
+            const dropdown = document.getElementById('player-suggestions');
+            const query = input.value.toLowerCase().trim();
 
-            // Find matching player
-            const players = DATA.players || [];
-            const matchedPlayer = players.find(p => {
-                const displayName = `${p.Player} (${p.Team})`;
-                return displayName.toLowerCase() === searchValue.toLowerCase() ||
-                       p.Player.toLowerCase() === searchValue.toLowerCase();
-            });
-
-            if (!matchedPlayer) {
-                // Show partial matches hint
-                const partialMatches = players.filter(p =>
-                    p.Player.toLowerCase().includes(searchValue.toLowerCase())
-                ).slice(0, 5);
-
-                if (partialMatches.length > 0) {
+            if (query.length < 2) {
+                dropdown.style.display = 'none';
+                if (query.length === 0) {
                     document.getElementById('gamelog-container').innerHTML = `
                         <div class="empty-state">
-                            <div class="empty-state-icon">&#128269;</div>
-                            <h3>Select a player from suggestions</h3>
-                            <p>Click a suggestion or keep typing...</p>
-                        </div>`;
-                } else {
-                    document.getElementById('gamelog-container').innerHTML = `
-                        <div class="empty-state">
-                            <div class="empty-state-icon">&#128533;</div>
-                            <h3>No player found</h3>
-                            <p>Try a different search term</p>
+                            <div class="empty-state-icon">&#128203;</div>
+                            <h3>Search for a player</h3>
+                            <p>Type a player name above to view their game log</p>
                         </div>`;
                 }
                 return;
             }
 
-            const playerId = matchedPlayer['Player ID'] || matchedPlayer.Player;
+            const players = DATA.players || [];
+            const matches = players.filter(p =>
+                p.Player.toLowerCase().includes(query)
+            ).slice(0, 10);
+
+            if (matches.length === 0) {
+                dropdown.style.display = 'none';
+                document.getElementById('gamelog-container').innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">&#128533;</div>
+                        <h3>No player found</h3>
+                        <p>Try a different search term</p>
+                    </div>`;
+                return;
+            }
+
+            dropdown.innerHTML = matches.map(p => {
+                const playerId = p['Player ID'] || p.Player;
+                const displayName = `${p.Player} (${p.Team})`;
+                return `<div class="suggestion-item" onclick="selectPlayer('${playerId.replace(/'/g, "\\'")}')">${displayName}</div>`;
+            }).join('');
+            dropdown.style.display = 'block';
+        }
+
+        function handlePlayerKeydown(e) {
+            const dropdown = document.getElementById('player-suggestions');
+            if (e.key === 'Escape') {
+                dropdown.style.display = 'none';
+            } else if (e.key === 'Enter') {
+                // Select the first suggestion if visible
+                const firstItem = dropdown.querySelector('.suggestion-item');
+                if (firstItem && dropdown.style.display !== 'none') {
+                    firstItem.click();
+                    e.preventDefault();
+                }
+            }
+        }
+
+        function selectPlayer(playerId) {
+            document.getElementById('player-suggestions').style.display = 'none';
+            const players = DATA.players || [];
+            const player = players.find(p => (p['Player ID'] || p.Player) === playerId);
+            if (player) {
+                document.getElementById('gamelog-player-search').value = `${player.Player} (${player.Team})`;
+            }
             showPlayerGameLogById(playerId);
         }
+
+        // Close player suggestions when clicking outside
+        document.addEventListener('click', function(e) {
+            const container = document.querySelector('#players-gamelogs .search-container');
+            if (container && !container.contains(e.target)) {
+                document.getElementById('player-suggestions')?.style && (document.getElementById('player-suggestions').style.display = 'none');
+            }
+        });
 
         function showPlayerGameLogById(playerId) {
             if (!playerId) return;

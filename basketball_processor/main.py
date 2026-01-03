@@ -8,12 +8,14 @@ import json
 import argparse
 import traceback
 import re
+import shutil
 import subprocess
 from pathlib import Path
 from typing import Dict, List, Any, Optional
 
 from .excel.workbook_generator import generate_excel_workbook
 from .parsers.html_parser import parse_sports_reference_boxscore, HTMLParsingError
+from .parsers.sidearm_parser import parse_sidearm_boxscore, is_sidearm_format, SidearmParsingError
 from .utils.constants import BASE_DIR, DEFAULT_INPUT_DIR, CACHE_DIR, DEFAULT_HTML_OUTPUT, SURGE_DOMAIN
 from .utils.log import info, warn, error, success, debug, set_verbosity, set_use_emoji
 from .website import generate_website_from_data
@@ -131,7 +133,12 @@ def process_html_file(
         elif '(men)' in filename_lower or 'men' in filename_lower:
             detected_gender = 'M'
 
-        game_data = parse_sports_reference_boxscore(html_content, detected_gender)
+        # Auto-detect parser format
+        if is_sidearm_format(html_content):
+            info("  Detected SIDEARM Stats format")
+            game_data = parse_sidearm_boxscore(html_content, detected_gender)
+        else:
+            game_data = parse_sports_reference_boxscore(html_content, detected_gender)
         game_id = game_data.get("game_id", "UNKNOWN")
 
         info(f"  Parsed game: {game_id}")
@@ -150,9 +157,22 @@ def process_html_file(
             json.dump(game_data, f, indent=2)
         info("  Saved to cache")
 
+        # Copy HTML file to html_games directory if not already there
+        html_games_dir = os.path.join(BASE_DIR, 'html_games')
+        if not file_path.startswith(html_games_dir):
+            os.makedirs(html_games_dir, exist_ok=True)
+            dest_filename = os.path.basename(file_path)
+            # Use game_id as filename for consistency
+            if game_id and game_id != 'UNKNOWN':
+                dest_filename = f"{game_id}.html"
+            dest_path = os.path.join(html_games_dir, dest_filename)
+            if not os.path.exists(dest_path):
+                shutil.copy2(file_path, dest_path)
+                info(f"  Copied to html_games/{dest_filename}")
+
         return game_data
 
-    except HTMLParsingError as e:
+    except (HTMLParsingError, SidearmParsingError) as e:
         error_msg = str(e)
         error(f"Invalid HTML in {file_path}: {error_msg}")
         return {"_error": True, "file": file_path, "error": error_msg}
@@ -339,7 +359,7 @@ def main() -> None:
         from .utils.venue_resolver import normalize_cached_venue
         games_data = []
         # Skip non-game cache files
-        skip_files = {'nba_lookup_cache.json', 'nba_api_cache.json'}
+        skip_files = {'nba_lookup_cache.json', 'nba_api_cache.json', 'schedule_cache.json', 'proballers_cache.json'}
         for file in CACHE_DIR.glob("*.json"):
             if file.name in skip_files:
                 continue

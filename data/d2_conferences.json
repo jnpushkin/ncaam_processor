@@ -1,0 +1,1572 @@
+{
+  "division": "ncaa-dii",
+  "conferences": {
+    "California Collegiate Athletic Association": {
+      "id": 34,
+      "slug": "California-Collegiate-Athletic-Association",
+      "schools": [
+        {
+          "name": "Cal Poly - Pomona",
+          "slug": "Cal-Poly--Pomona",
+          "id": 1173
+        },
+        {
+          "name": "Cal Poly Humboldt",
+          "slug": "Cal-Poly-Humboldt",
+          "id": 1582
+        },
+        {
+          "name": "Cal State Dominguez Hills",
+          "slug": "Cal-State-Dominguez-Hills",
+          "id": 1005
+        },
+        {
+          "name": "Cal State East Bay",
+          "slug": "Cal-State-East-Bay",
+          "id": 869
+        },
+        {
+          "name": "Cal State Los Angeles",
+          "slug": "Cal-State-Los-Angeles",
+          "id": 643
+        },
+        {
+          "name": "Cal State Monterey Bay",
+          "slug": "Cal-State-Monterey-Bay",
+          "id": 644
+        },
+        {
+          "name": "Cal State San Bernardino",
+          "slug": "Cal-State-San-Bernardino",
+          "id": 642
+        },
+        {
+          "name": "Cal State San Marcos",
+          "slug": "Cal-State-San-Marcos",
+          "id": 1556
+        },
+        {
+          "name": "Chico State",
+          "slug": "Chico-State",
+          "id": 1317
+        },
+        {
+          "name": "San Francisco State",
+          "slug": "San-Francisco-State",
+          "id": 792
+        },
+        {
+          "name": "Stanislaus State",
+          "slug": "Stanislaus-State",
+          "id": 1135
+        }
+      ]
+    },
+    "Central Atlantic Collegiate Conference": {
+      "id": 35,
+      "slug": "Central-Atlantic-Collegiate-Conference",
+      "schools": [
+        {
+          "name": "Bridgeport",
+          "slug": "Bridgeport",
+          "id": 570
+        },
+        {
+          "name": "Caldwell",
+          "slug": "Caldwell",
+          "id": 645
+        },
+        {
+          "name": "Chestnut Hill",
+          "slug": "Chestnut-Hill",
+          "id": 1592
+        },
+        {
+          "name": "Dominican (NY)",
+          "slug": "Dominican-NY",
+          "id": 1181
+        },
+        {
+          "name": "Felician College",
+          "slug": "Felician-College",
+          "id": 1415
+        },
+        {
+          "name": "Georgian Court",
+          "slug": "Georgian-Court",
+          "id": 1834
+        },
+        {
+          "name": "Goldey-Beacom",
+          "slug": "Goldey-Beacom",
+          "id": 1538
+        },
+        {
+          "name": "Holy Family",
+          "slug": "Holy-Family",
+          "id": 705
+        },
+        {
+          "name": "Jefferson",
+          "slug": "Jefferson",
+          "id": 357
+        },
+        {
+          "name": "Post",
+          "slug": "Post",
+          "id": 1706
+        },
+        {
+          "name": "Wilmington (DE)",
+          "slug": "Wilmington-DE",
+          "id": 858
+        }
+      ]
+    },
+    "Central Intercollegiate Athletic Association": {
+      "id": 36,
+      "slug": "Central-Intercollegiate-Athletic-Association",
+      "schools": [
+        {
+          "name": "Bluefield State",
+          "slug": "Bluefield-State",
+          "id": 1839
+        },
+        {
+          "name": "Bowie State",
+          "slug": "Bowie-State",
+          "id": 581
+        },
+        {
+          "name": "Claflin",
+          "slug": "Claflin",
+          "id": 1051
+        },
+        {
+          "name": "Elizabeth City State",
+          "slug": "Elizabeth-City-State",
+          "id": 580
+        },
+        {
+          "name": "Fayetteville State",
+          "slug": "Fayetteville-State",
+          "id": 558
+        },
+        {
+          "name": "Johnson C. Smith",
+          "slug": "Johnson-C-Smith",
+          "id": 973
+        },
+        {
+          "name": "Lincoln (PA)",
+          "slug": "Lincoln-PA",
+          "id": 923
+        },
+        {
+          "name": "Livingstone",
+          "slug": "Livingstone",
+          "id": 1659
+        },
+        {
+          "name": "Shaw",
+          "slug": "Shaw",
+          "id": 356
+        },
+        {
+          "name": "Virginia State",
+          "slug": "Virginia-State",
+          "id": 1618
+        },
+        {
+          "name": "Virginia Union",
+          "slug": "Virginia-Union",
+          "id": 409
+        },
+        {
+          "name": "Winston-Salem State",
+          "slug": "Winston-Salem-State",
+          "id": 144
+        }
+      ]
+    },
+    "Conference Carolinas": {
+      "id": 37,
+      "slug": "Conference-Carolinas",
+      "schools": [
+        {
+          "name": "Barton",
+          "slug": "Barton",
+          "id": 364
+        },
+        {
+          "name": "Belmont Abbey",
+          "slug": "Belmont-Abbey",
+          "id": 1065
+        },
+        {
+          "name": "Chowan",
+          "slug": "Chowan",
+          "id": 485
+        },
+        {
+          "name": "Converse",
+          "slug": "Converse",
+          "id": 2396
+        },
+        {
+          "name": "Emmanuel (GA)",
+          "slug": "Emmanuel-GA",
+          "id": 1081
+        },
+        {
+          "name": "Erskine",
+          "slug": "Erskine",
+          "id": 681
+        },
+        {
+          "name": "Ferrum",
+          "slug": "Ferrum",
+          "id": 686
+        },
+        {
+          "name": "Francis Marion",
+          "slug": "Francis-Marion",
+          "id": 1392
+        },
+        {
+          "name": "King",
+          "slug": "King",
+          "id": 612
+        },
+        {
+          "name": "Lees-McRae",
+          "slug": "Lees-McRae",
+          "id": 722
+        },
+        {
+          "name": "Mount Olive",
+          "slug": "Mount-Olive",
+          "id": 1366
+        },
+        {
+          "name": "North Greenville",
+          "slug": "North-Greenville",
+          "id": 764
+        },
+        {
+          "name": "Shorter",
+          "slug": "Shorter",
+          "id": 795
+        },
+        {
+          "name": "Southern Wesleyan",
+          "slug": "Southern-Wesleyan",
+          "id": 798
+        },
+        {
+          "name": "UNC-Pembroke",
+          "slug": "UNC-Pembroke",
+          "id": 760
+        },
+        {
+          "name": "Young Harris",
+          "slug": "Young-Harris",
+          "id": 1719
+        }
+      ]
+    },
+    "Division II Independent Conference": {
+      "id": 58,
+      "slug": "Division-II-Independent-Conference",
+      "schools": [
+        {
+          "name": "Salem University",
+          "slug": "Salem-University",
+          "id": 791
+        }
+      ]
+    },
+    "East Coast Conference": {
+      "id": 38,
+      "slug": "East-Coast-Conference",
+      "schools": [
+        {
+          "name": "D'Youville",
+          "slug": "DYouville",
+          "id": 2069
+        },
+        {
+          "name": "Daemen College",
+          "slug": "Daemen-College",
+          "id": 1889
+        },
+        {
+          "name": "District of Columbia",
+          "slug": "District-of-Columbia",
+          "id": 1580
+        },
+        {
+          "name": "Mercy College",
+          "slug": "Mercy-College",
+          "id": 1166
+        },
+        {
+          "name": "Molloy",
+          "slug": "Molloy",
+          "id": 1377
+        },
+        {
+          "name": "Queens College",
+          "slug": "Queens-College",
+          "id": 577
+        },
+        {
+          "name": "Roberts Wesleyan College",
+          "slug": "Roberts-Wesleyan-College",
+          "id": 1598
+        },
+        {
+          "name": "St. Thomas Aquinas",
+          "slug": "St-Thomas-Aquinas",
+          "id": 1159
+        },
+        {
+          "name": "Staten Island",
+          "slug": "Staten-Island",
+          "id": 1529
+        }
+      ]
+    },
+    "Great American Conference": {
+      "id": 39,
+      "slug": "Great-American-Conference",
+      "schools": [
+        {
+          "name": "Arkansas Tech",
+          "slug": "Arkansas-Tech",
+          "id": 861
+        },
+        {
+          "name": "Arkansas-Monticello",
+          "slug": "Arkansas-Monticello",
+          "id": 630
+        },
+        {
+          "name": "East Central",
+          "slug": "East-Central",
+          "id": 676
+        },
+        {
+          "name": "Harding",
+          "slug": "Harding",
+          "id": 701
+        },
+        {
+          "name": "Henderson State",
+          "slug": "Henderson-State",
+          "id": 531
+        },
+        {
+          "name": "Northwestern Oklahoma State",
+          "slug": "Northwestern-Oklahoma-State",
+          "id": 460
+        },
+        {
+          "name": "Oklahoma Baptist",
+          "slug": "Oklahoma-Baptist",
+          "id": 571
+        },
+        {
+          "name": "Ouachita Baptist",
+          "slug": "Ouachita-Baptist",
+          "id": 920
+        },
+        {
+          "name": "Southeastern Oklahoma State",
+          "slug": "Southeastern-Oklahoma-State",
+          "id": 557
+        },
+        {
+          "name": "Southern Arkansas",
+          "slug": "Southern-Arkansas",
+          "id": 1024
+        },
+        {
+          "name": "Southern Nazarene",
+          "slug": "Southern-Nazarene",
+          "id": 529
+        },
+        {
+          "name": "Southwestern Oklahoma State",
+          "slug": "Southwestern-Oklahoma-State",
+          "id": 1042
+        }
+      ]
+    },
+    "Great Lakes Intercollegiate Athletic Conference": {
+      "id": 40,
+      "slug": "Great-Lakes-Intercollegiate-Athletic-Conference",
+      "schools": [
+        {
+          "name": "Davenport",
+          "slug": "Davenport",
+          "id": 671
+        },
+        {
+          "name": "Ferris State",
+          "slug": "Ferris-State",
+          "id": 685
+        },
+        {
+          "name": "Grand Valley State",
+          "slug": "Grand-Valley-State",
+          "id": 429
+        },
+        {
+          "name": "Lake Superior State",
+          "slug": "Lake-Superior-State",
+          "id": 1162
+        },
+        {
+          "name": "Michigan Tech",
+          "slug": "Michigan-Tech",
+          "id": 918
+        },
+        {
+          "name": "Northern Michigan",
+          "slug": "Northern-Michigan",
+          "id": 765
+        },
+        {
+          "name": "Purdue-Northwest",
+          "slug": "Purdue-Northwest",
+          "id": 1432
+        },
+        {
+          "name": "Saginaw Valley State",
+          "slug": "Saginaw-Valley-State",
+          "id": 1337
+        },
+        {
+          "name": "Wayne State (MI)",
+          "slug": "Wayne-State-MI",
+          "id": 845
+        },
+        {
+          "name": "Wisconsin-Parkside",
+          "slug": "Wisconsin-Parkside",
+          "id": 1341
+        }
+      ]
+    },
+    "Great Lakes Valley Conference": {
+      "id": 41,
+      "slug": "Great-Lakes-Valley-Conference",
+      "schools": [
+        {
+          "name": "Drury University",
+          "slug": "Drury-University",
+          "id": 1693
+        },
+        {
+          "name": "Illinois-Springfield",
+          "slug": "Illinois-Springfield",
+          "id": 709
+        },
+        {
+          "name": "Indianapolis",
+          "slug": "Indianapolis",
+          "id": 711
+        },
+        {
+          "name": "Lewis",
+          "slug": "Lewis",
+          "id": 1155
+        },
+        {
+          "name": "Lincoln (MO)",
+          "slug": "Lincoln-MO",
+          "id": 726
+        },
+        {
+          "name": "Maryville (MO)",
+          "slug": "Maryville-MO",
+          "id": 1185
+        },
+        {
+          "name": "McKendree",
+          "slug": "McKendree",
+          "id": 1687
+        },
+        {
+          "name": "Missouri S&T (Rolla)",
+          "slug": "Missouri-ST-Rolla",
+          "id": 1510
+        },
+        {
+          "name": "Missouri-St. Louis",
+          "slug": "Missouri-St-Louis",
+          "id": 752
+        },
+        {
+          "name": "Quincy",
+          "slug": "Quincy",
+          "id": 968
+        },
+        {
+          "name": "Rockhurst",
+          "slug": "Rockhurst",
+          "id": 790
+        },
+        {
+          "name": "Southwest Baptist",
+          "slug": "Southwest-Baptist",
+          "id": 957
+        },
+        {
+          "name": "Truman State",
+          "slug": "Truman-State",
+          "id": 828
+        },
+        {
+          "name": "Upper Iowa",
+          "slug": "Upper-Iowa",
+          "id": 978
+        },
+        {
+          "name": "William Jewell",
+          "slug": "William-Jewell",
+          "id": 1723
+        }
+      ]
+    },
+    "Great Midwest Athletic Conference": {
+      "id": 42,
+      "slug": "Great-Midwest-Athletic-Conference",
+      "schools": [
+        {
+          "name": "Ashland",
+          "slug": "Ashland",
+          "id": 1288
+        },
+        {
+          "name": "Cedarville",
+          "slug": "Cedarville",
+          "id": 1374
+        },
+        {
+          "name": "Findlay",
+          "slug": "Findlay",
+          "id": 1195
+        },
+        {
+          "name": "Hillsdale (MI)",
+          "slug": "Hillsdale-MI",
+          "id": 703
+        },
+        {
+          "name": "Kentucky Wesleyan",
+          "slug": "Kentucky-Wesleyan",
+          "id": 514
+        },
+        {
+          "name": "Lake Erie",
+          "slug": "Lake-Erie",
+          "id": 1446
+        },
+        {
+          "name": "Malone",
+          "slug": "Malone",
+          "id": 736
+        },
+        {
+          "name": "Northwood (MI)",
+          "slug": "Northwood-MI",
+          "id": 768
+        },
+        {
+          "name": "Ohio Dominican",
+          "slug": "Ohio-Dominican",
+          "id": 1368
+        },
+        {
+          "name": "Thomas More",
+          "slug": "Thomas-More",
+          "id": 394
+        },
+        {
+          "name": "Tiffin",
+          "slug": "Tiffin",
+          "id": 1160
+        },
+        {
+          "name": "Walsh",
+          "slug": "Walsh",
+          "id": 392
+        }
+      ]
+    },
+    "Great Northwest Athletic Conference": {
+      "id": 43,
+      "slug": "Great-Northwest-Athletic-Conference",
+      "schools": [
+        {
+          "name": "Alaska - Anchorage",
+          "slug": "Alaska--Anchorage",
+          "id": 621
+        },
+        {
+          "name": "Alaska - Fairbanks",
+          "slug": "Alaska--Fairbanks",
+          "id": 884
+        },
+        {
+          "name": "Central Washington",
+          "slug": "Central-Washington",
+          "id": 1660
+        },
+        {
+          "name": "Montana St.-Billings",
+          "slug": "Montana-St-Billings",
+          "id": 1153
+        },
+        {
+          "name": "Northwest Nazarene",
+          "slug": "Northwest-Nazarene",
+          "id": 767
+        },
+        {
+          "name": "Seattle Pacific",
+          "slug": "Seattle-Pacific",
+          "id": 499
+        },
+        {
+          "name": "Simon Fraser",
+          "slug": "Simon-Fraser",
+          "id": 541
+        },
+        {
+          "name": "St. Martin's",
+          "slug": "St-Martins",
+          "id": 1225
+        },
+        {
+          "name": "Western Oregon",
+          "slug": "Western-Oregon",
+          "id": 849
+        },
+        {
+          "name": "Western Washington",
+          "slug": "Western-Washington",
+          "id": 1542
+        }
+      ]
+    },
+    "Gulf South Conference": {
+      "id": 44,
+      "slug": "Gulf-South-Conference",
+      "schools": [
+        {
+          "name": "Alabama-Huntsville",
+          "slug": "Alabama-Huntsville",
+          "id": 1575
+        },
+        {
+          "name": "Auburn-Montgomery",
+          "slug": "Auburn-Montgomery",
+          "id": 492
+        },
+        {
+          "name": "Christian Brothers",
+          "slug": "Christian-Brothers",
+          "id": 1489
+        },
+        {
+          "name": "Delta State",
+          "slug": "Delta-State",
+          "id": 391
+        },
+        {
+          "name": "Lee University",
+          "slug": "Lee-University",
+          "id": 1141
+        },
+        {
+          "name": "Mississippi College",
+          "slug": "Mississippi-College",
+          "id": 1469
+        },
+        {
+          "name": "Montevallo",
+          "slug": "Montevallo",
+          "id": 487
+        },
+        {
+          "name": "Trevecca Nazarene",
+          "slug": "Trevecca-Nazarene",
+          "id": 1182
+        },
+        {
+          "name": "Union (TN)",
+          "slug": "Union-TN",
+          "id": 609
+        },
+        {
+          "name": "Valdosta State",
+          "slug": "Valdosta-State",
+          "id": 474
+        },
+        {
+          "name": "West Alabama",
+          "slug": "West-Alabama",
+          "id": 847
+        },
+        {
+          "name": "West Florida",
+          "slug": "West-Florida",
+          "id": 443
+        }
+      ]
+    },
+    "Lone Star Conference": {
+      "id": 46,
+      "slug": "Lone-Star-Conference",
+      "schools": [
+        {
+          "name": "Angelo State",
+          "slug": "Angelo-State",
+          "id": 385
+        },
+        {
+          "name": "Cameron",
+          "slug": "Cameron",
+          "id": 647
+        },
+        {
+          "name": "Dallas Baptist",
+          "slug": "Dallas-Baptist",
+          "id": 668
+        },
+        {
+          "name": "Eastern New Mexico",
+          "slug": "Eastern-New-Mexico",
+          "id": 519
+        },
+        {
+          "name": "Lubbock Christian",
+          "slug": "Lubbock-Christian",
+          "id": 1138
+        },
+        {
+          "name": "Midwestern State",
+          "slug": "Midwestern-State",
+          "id": 481
+        },
+        {
+          "name": "Oklahoma Christian",
+          "slug": "Oklahoma-Christian",
+          "id": 1551
+        },
+        {
+          "name": "St. Edward's",
+          "slug": "St-Edwards",
+          "id": 805
+        },
+        {
+          "name": "St. Mary's (TX)",
+          "slug": "St-Marys-TX",
+          "id": 809
+        },
+        {
+          "name": "Sul Ross State",
+          "slug": "Sul-Ross-State",
+          "id": 1124
+        },
+        {
+          "name": "Texas A&M-International",
+          "slug": "Texas-AM-International",
+          "id": 818
+        },
+        {
+          "name": "Texas A&M-Kingsville",
+          "slug": "Texas-AM-Kingsville",
+          "id": 944
+        },
+        {
+          "name": "Texas-Dallas",
+          "slug": "Texas-Dallas",
+          "id": 822
+        },
+        {
+          "name": "Texas-Permian Basin",
+          "slug": "Texas-Permian-Basin",
+          "id": 823
+        },
+        {
+          "name": "Texas-Tyler",
+          "slug": "Texas-Tyler",
+          "id": 1090
+        },
+        {
+          "name": "West Texas A&M",
+          "slug": "West-Texas-AM",
+          "id": 565
+        },
+        {
+          "name": "Western New Mexico",
+          "slug": "Western-New-Mexico",
+          "id": 538
+        }
+      ]
+    },
+    "Mid America Intercollegiate Athletic Association": {
+      "id": 47,
+      "slug": "Mid-America-Intercollegiate-Athletic-Association",
+      "schools": [
+        {
+          "name": "Arkansas-Fort Smith",
+          "slug": "Arkansas-Fort-Smith",
+          "id": 383
+        },
+        {
+          "name": "Central Missouri",
+          "slug": "Central-Missouri",
+          "id": 932
+        },
+        {
+          "name": "Central Oklahoma",
+          "slug": "Central-Oklahoma",
+          "id": 374
+        },
+        {
+          "name": "Emporia State",
+          "slug": "Emporia-State",
+          "id": 895
+        },
+        {
+          "name": "Fort Hays State",
+          "slug": "Fort-Hays-State",
+          "id": 518
+        },
+        {
+          "name": "Missouri Southern State",
+          "slug": "Missouri-Southern-State",
+          "id": 1555
+        },
+        {
+          "name": "Missouri Western",
+          "slug": "Missouri-Western",
+          "id": 1518
+        },
+        {
+          "name": "Nebraska-Kearney",
+          "slug": "Nebraska-Kearney",
+          "id": 889
+        },
+        {
+          "name": "Newman University",
+          "slug": "Newman-University",
+          "id": 1574
+        },
+        {
+          "name": "Northeastern State",
+          "slug": "Northeastern-State",
+          "id": 1191
+        },
+        {
+          "name": "Northwest Missouri State",
+          "slug": "Northwest-Missouri-State",
+          "id": 1571
+        },
+        {
+          "name": "Pittsburg State",
+          "slug": "Pittsburg-State",
+          "id": 780
+        },
+        {
+          "name": "Rogers State",
+          "slug": "Rogers-State",
+          "id": 567
+        },
+        {
+          "name": "Washburn",
+          "slug": "Washburn",
+          "id": 959
+        }
+      ]
+    },
+    "Mountain East Conference": {
+      "id": 60,
+      "slug": "Mountain-East-Conference",
+      "schools": [
+        {
+          "name": "Concord",
+          "slug": "Concord",
+          "id": 1117
+        },
+        {
+          "name": "Davis & Elkins",
+          "slug": "Davis-Elkins",
+          "id": 672
+        },
+        {
+          "name": "Fairmont State",
+          "slug": "Fairmont-State",
+          "id": 1692
+        },
+        {
+          "name": "Frostburg State",
+          "slug": "Frostburg-State",
+          "id": 2046
+        },
+        {
+          "name": "Glenville State",
+          "slug": "Glenville-State",
+          "id": 1429
+        },
+        {
+          "name": "University of Charleston",
+          "slug": "University-of-Charleston",
+          "id": 1632
+        },
+        {
+          "name": "West Liberty",
+          "slug": "West-Liberty",
+          "id": 1683
+        },
+        {
+          "name": "West Virginia State",
+          "slug": "West-Virginia-State",
+          "id": 444
+        },
+        {
+          "name": "Wheeling",
+          "slug": "Wheeling",
+          "id": 1716
+        },
+        {
+          "name": "WV Wesleyan",
+          "slug": "WV-Wesleyan",
+          "id": 860
+        }
+      ]
+    },
+    "Northeast 10 Conference": {
+      "id": 48,
+      "slug": "Northeast-10-Conference",
+      "schools": [
+        {
+          "name": "Adelphi",
+          "slug": "Adelphi",
+          "id": 1398
+        },
+        {
+          "name": "American International",
+          "slug": "American-International",
+          "id": 1406
+        },
+        {
+          "name": "Assumption College",
+          "slug": "Assumption-College",
+          "id": 1676
+        },
+        {
+          "name": "Bentley",
+          "slug": "Bentley",
+          "id": 1120
+        },
+        {
+          "name": "Franklin Pierce",
+          "slug": "Franklin-Pierce",
+          "id": 1151
+        },
+        {
+          "name": "Pace",
+          "slug": "Pace",
+          "id": 1485
+        },
+        {
+          "name": "Saint Anselm",
+          "slug": "Saint-Anselm",
+          "id": 1385
+        },
+        {
+          "name": "Saint Michael's",
+          "slug": "Saint-Michaels",
+          "id": 1525
+        },
+        {
+          "name": "Southern Connecticut State",
+          "slug": "Southern-Connecticut-State",
+          "id": 619
+        },
+        {
+          "name": "Southern New Hampshire",
+          "slug": "Southern-New-Hampshire",
+          "id": 868
+        }
+      ]
+    },
+    "Northern Sun Intercollegiate Conference": {
+      "id": 49,
+      "slug": "Northern-Sun-Intercollegiate-Conference",
+      "schools": [
+        {
+          "name": "Augustana College",
+          "slug": "Augustana-College",
+          "id": 486
+        },
+        {
+          "name": "Bemidji State",
+          "slug": "Bemidji-State",
+          "id": 1439
+        },
+        {
+          "name": "Concordia St. Paul",
+          "slug": "Concordia-St-Paul",
+          "id": 662
+        },
+        {
+          "name": "Minnesota Crookston",
+          "slug": "Minnesota-Crookston",
+          "id": 1343
+        },
+        {
+          "name": "Minnesota Duluth",
+          "slug": "Minnesota-Duluth",
+          "id": 599
+        },
+        {
+          "name": "Minnesota State - Moorhead",
+          "slug": "Minnesota-State--Moorhead",
+          "id": 1401
+        },
+        {
+          "name": "Minnesota State-Mankato",
+          "slug": "Minnesota-State-Mankato",
+          "id": 475
+        },
+        {
+          "name": "Minot State",
+          "slug": "Minot-State",
+          "id": 750
+        },
+        {
+          "name": "Northern State",
+          "slug": "Northern-State",
+          "id": 1313
+        },
+        {
+          "name": "Sioux Falls",
+          "slug": "Sioux-Falls",
+          "id": 1251
+        },
+        {
+          "name": "Southwest Minnesota State",
+          "slug": "Southwest-Minnesota-State",
+          "id": 801
+        },
+        {
+          "name": "St. Cloud State",
+          "slug": "St-Cloud-State",
+          "id": 1316
+        },
+        {
+          "name": "University of Mary",
+          "slug": "University-of-Mary",
+          "id": 1086
+        },
+        {
+          "name": "Wayne State (NEB)",
+          "slug": "Wayne-State-NEB",
+          "id": 1361
+        },
+        {
+          "name": "Winona State",
+          "slug": "Winona-State",
+          "id": 430
+        }
+      ]
+    },
+    "Pacific West Conference": {
+      "id": 50,
+      "slug": "Pacific-West-Conference",
+      "schools": [
+        {
+          "name": "Azusa Pacific",
+          "slug": "Azusa-Pacific",
+          "id": 986
+        },
+        {
+          "name": "Biola",
+          "slug": "Biola",
+          "id": 1543
+        },
+        {
+          "name": "Chaminade",
+          "slug": "Chaminade",
+          "id": 416
+        },
+        {
+          "name": "Concordia (CA)",
+          "slug": "Concordia-CA",
+          "id": 1302
+        },
+        {
+          "name": "Dominican (CA)",
+          "slug": "Dominican-CA",
+          "id": 675
+        },
+        {
+          "name": "Fresno Pacific",
+          "slug": "Fresno-Pacific",
+          "id": 694
+        },
+        {
+          "name": "Hawaii Pacific",
+          "slug": "Hawaii-Pacific",
+          "id": 1294
+        },
+        {
+          "name": "Hawaii-Hilo",
+          "slug": "Hawaii-Hilo",
+          "id": 1358
+        },
+        {
+          "name": "Point Loma",
+          "slug": "Point-Loma",
+          "id": 781
+        }
+      ]
+    },
+    "Peach Belt Conference": {
+      "id": 51,
+      "slug": "Peach-Belt-Conference",
+      "schools": [
+        {
+          "name": "Augusta University",
+          "slug": "Augusta-University",
+          "id": 415
+        },
+        {
+          "name": "Clayton State",
+          "slug": "Clayton-State",
+          "id": 1035
+        },
+        {
+          "name": "Columbus State",
+          "slug": "Columbus-State",
+          "id": 659
+        },
+        {
+          "name": "Flagler",
+          "slug": "Flagler",
+          "id": 1076
+        },
+        {
+          "name": "Georgia College",
+          "slug": "Georgia-College",
+          "id": 1378
+        },
+        {
+          "name": "Georgia Southwestern State",
+          "slug": "Georgia-Southwestern-State",
+          "id": 1426
+        },
+        {
+          "name": "Lander",
+          "slug": "Lander",
+          "id": 1835
+        },
+        {
+          "name": "North Georgia",
+          "slug": "North-Georgia",
+          "id": 545
+        },
+        {
+          "name": "South Carolina-Aiken",
+          "slug": "South-Carolina-Aiken",
+          "id": 1080
+        }
+      ]
+    },
+    "Pennsylvania State Athletic Conference": {
+      "id": 52,
+      "slug": "Pennsylvania-State-Athletic-Conference",
+      "schools": [
+        {
+          "name": "Bloomsburg",
+          "slug": "Bloomsburg",
+          "id": 636
+        },
+        {
+          "name": "California (PA)",
+          "slug": "California-PA",
+          "id": 917
+        },
+        {
+          "name": "Clarion",
+          "slug": "Clarion",
+          "id": 1303
+        },
+        {
+          "name": "East Stroudsburg",
+          "slug": "East-Stroudsburg",
+          "id": 1836
+        },
+        {
+          "name": "Edinboro",
+          "slug": "Edinboro",
+          "id": 1047
+        },
+        {
+          "name": "Gannon",
+          "slug": "Gannon",
+          "id": 1340
+        },
+        {
+          "name": "Indiana University of Pennsylvania",
+          "slug": "Indiana-University-of-Pennsylvania",
+          "id": 912
+        },
+        {
+          "name": "Kutztown",
+          "slug": "Kutztown",
+          "id": 1327
+        },
+        {
+          "name": "Lock Haven",
+          "slug": "Lock-Haven",
+          "id": 1060
+        },
+        {
+          "name": "Mansfield",
+          "slug": "Mansfield",
+          "id": 1186
+        },
+        {
+          "name": "Millersville University",
+          "slug": "Millersville-University",
+          "id": 1417
+        },
+        {
+          "name": "Pitt-Johnstown",
+          "slug": "Pitt-Johnstown",
+          "id": 1614
+        },
+        {
+          "name": "Seton Hill",
+          "slug": "Seton-Hill",
+          "id": 877
+        },
+        {
+          "name": "Shepherd University",
+          "slug": "Shepherd-University",
+          "id": 1403
+        },
+        {
+          "name": "Shippensburg",
+          "slug": "Shippensburg",
+          "id": 504
+        },
+        {
+          "name": "Slippery Rock",
+          "slug": "Slippery-Rock",
+          "id": 955
+        },
+        {
+          "name": "West Chester PA",
+          "slug": "West-Chester-PA",
+          "id": 1700
+        }
+      ]
+    },
+    "Rocky Mountain Athletic Conference": {
+      "id": 53,
+      "slug": "Rocky-Mountain-Athletic-Conference",
+      "schools": [
+        {
+          "name": "Adams State",
+          "slug": "Adams-State",
+          "id": 625
+        },
+        {
+          "name": "Black Hills State",
+          "slug": "Black-Hills-State",
+          "id": 1422
+        },
+        {
+          "name": "Chadron State",
+          "slug": "Chadron-State",
+          "id": 653
+        },
+        {
+          "name": "Colorado Christian",
+          "slug": "Colorado-Christian",
+          "id": 657
+        },
+        {
+          "name": "Colorado Mesa",
+          "slug": "Colorado-Mesa",
+          "id": 1142
+        },
+        {
+          "name": "Colorado Mines",
+          "slug": "Colorado-Mines",
+          "id": 1127
+        },
+        {
+          "name": "Colorado-Colorado Springs",
+          "slug": "Colorado-Colorado-Springs",
+          "id": 1126
+        },
+        {
+          "name": "CSU Pueblo",
+          "slug": "CSU-Pueblo",
+          "id": 1149
+        },
+        {
+          "name": "Fort Lewis",
+          "slug": "Fort-Lewis",
+          "id": 1037
+        },
+        {
+          "name": "Metro State",
+          "slug": "Metro-State",
+          "id": 1297
+        },
+        {
+          "name": "New Mexico Highlands",
+          "slug": "New-Mexico-Highlands",
+          "id": 1349
+        },
+        {
+          "name": "Regis (CO)",
+          "slug": "Regis-CO",
+          "id": 1321
+        },
+        {
+          "name": "South Dakota School of Mines",
+          "slug": "South-Dakota-School-of-Mines",
+          "id": 1458
+        },
+        {
+          "name": "Western Colorado",
+          "slug": "Western-Colorado",
+          "id": 1726
+        },
+        {
+          "name": "Westminster (Utah)",
+          "slug": "Westminster-Utah",
+          "id": 1898
+        }
+      ]
+    },
+    "South Atlantic Conference": {
+      "id": 54,
+      "slug": "South-Atlantic-Conference",
+      "schools": [
+        {
+          "name": "Anderson (SC)",
+          "slug": "Anderson-SC",
+          "id": 1075
+        },
+        {
+          "name": "Carson-Newman",
+          "slug": "Carson-Newman",
+          "id": 648
+        },
+        {
+          "name": "Catawba",
+          "slug": "Catawba",
+          "id": 650
+        },
+        {
+          "name": "Coker",
+          "slug": "Coker",
+          "id": 656
+        },
+        {
+          "name": "Emory & Henry",
+          "slug": "Emory-Henry",
+          "id": 1083
+        },
+        {
+          "name": "Lenoir-Rhyne",
+          "slug": "Lenoir-Rhyne",
+          "id": 1062
+        },
+        {
+          "name": "Lincoln Memorial",
+          "slug": "Lincoln-Memorial",
+          "id": 1837
+        },
+        {
+          "name": "Mars Hill",
+          "slug": "Mars-Hill",
+          "id": 1110
+        },
+        {
+          "name": "Newberry",
+          "slug": "Newberry",
+          "id": 763
+        },
+        {
+          "name": "Tusculum",
+          "slug": "Tusculum",
+          "id": 1063
+        },
+        {
+          "name": "Virginia-Wise",
+          "slug": "Virginia-Wise",
+          "id": 838
+        },
+        {
+          "name": "Wingate",
+          "slug": "Wingate",
+          "id": 403
+        }
+      ]
+    },
+    "Southern Intercollegiate Athletic Conference": {
+      "id": 55,
+      "slug": "Southern-Intercollegiate-Athletic-Conference",
+      "schools": [
+        {
+          "name": "Albany State (GA)",
+          "slug": "Albany-State-GA",
+          "id": 626
+        },
+        {
+          "name": "Benedict College",
+          "slug": "Benedict-College",
+          "id": 461
+        },
+        {
+          "name": "Central State (OH)",
+          "slug": "Central-State-OH",
+          "id": 406
+        },
+        {
+          "name": "Clark Atlanta",
+          "slug": "Clark-Atlanta",
+          "id": 473
+        },
+        {
+          "name": "Edward Waters",
+          "slug": "Edward-Waters",
+          "id": 680
+        },
+        {
+          "name": "Fort Valley State",
+          "slug": "Fort-Valley-State",
+          "id": 1078
+        },
+        {
+          "name": "Kentucky State",
+          "slug": "Kentucky-State",
+          "id": 717
+        },
+        {
+          "name": "Lane",
+          "slug": "Lane",
+          "id": 1838
+        },
+        {
+          "name": "LeMoyne-Owen College",
+          "slug": "LeMoyne-Owen-College",
+          "id": 1789
+        },
+        {
+          "name": "Miles College",
+          "slug": "Miles-College",
+          "id": 922
+        },
+        {
+          "name": "Morehouse",
+          "slug": "Morehouse",
+          "id": 480
+        },
+        {
+          "name": "Savannah State",
+          "slug": "Savannah-State",
+          "id": 138
+        },
+        {
+          "name": "Spring Hill",
+          "slug": "Spring-Hill",
+          "id": 803
+        },
+        {
+          "name": "Tuskegee",
+          "slug": "Tuskegee",
+          "id": 829
+        }
+      ]
+    },
+    "Sunshine State Conference": {
+      "id": 56,
+      "slug": "Sunshine-State-Conference",
+      "schools": [
+        {
+          "name": "Barry",
+          "slug": "Barry",
+          "id": 1467
+        },
+        {
+          "name": "Eckerd College",
+          "slug": "Eckerd-College",
+          "id": 1477
+        },
+        {
+          "name": "Embry Riddle",
+          "slug": "Embry-Riddle",
+          "id": 1306
+        },
+        {
+          "name": "Florida Southern",
+          "slug": "Florida-Southern",
+          "id": 862
+        },
+        {
+          "name": "Florida Tech",
+          "slug": "Florida-Tech",
+          "id": 690
+        },
+        {
+          "name": "Lynn",
+          "slug": "Lynn",
+          "id": 1550
+        },
+        {
+          "name": "Nova Southeastern",
+          "slug": "Nova-Southeastern",
+          "id": 769
+        },
+        {
+          "name": "Palm Beach Atlantic",
+          "slug": "Palm-Beach-Atlantic",
+          "id": 775
+        },
+        {
+          "name": "Rollins College",
+          "slug": "Rollins-College",
+          "id": 484
+        },
+        {
+          "name": "Saint Leo",
+          "slug": "Saint-Leo",
+          "id": 931
+        },
+        {
+          "name": "Tampa",
+          "slug": "Tampa",
+          "id": 885
+        }
+      ]
+    }
+  },
+  "total_schools": 284,
+  "season": "2025-26",
+  "source": "realgm.com"
+}

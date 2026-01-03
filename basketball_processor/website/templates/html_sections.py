@@ -138,6 +138,16 @@ def get_body(total_games: int, total_players: int, total_teams: int, total_venue
                     </select>
                 </div>
                 <div class="filter-group">
+                    <label for="games-division">Division</label>
+                    <select id="games-division" onchange="applyFilters('games')">
+                        <option value="">All</option>
+                        <option value="D1">D1 Only</option>
+                        <option value="non-D1">Non-D1</option>
+                        <option value="D2">D2 Only</option>
+                        <option value="D3">D3 Only</option>
+                    </select>
+                </div>
+                <div class="filter-group">
                     <label for="games-date-from">From Date</label>
                     <input type="date" id="games-date-from" onchange="applyFilters('games')">
                 </div>
@@ -352,9 +362,9 @@ def get_body(total_games: int, total_players: int, total_teams: int, total_venue
             </div>
 
             <div id="players-gamelogs" class="sub-section">
-                <div class="search-container">
-                    <input type="text" class="search-box" id="gamelog-player-search" placeholder="Search for a player..." list="gamelog-player-list" oninput="searchPlayerGameLog()" aria-label="Search for player game log">
-                    <datalist id="gamelog-player-list"></datalist>
+                <div class="search-container" style="position: relative;">
+                    <input type="text" class="search-box" id="gamelog-player-search" placeholder="Search for a player..." oninput="updatePlayerSuggestions()" onkeydown="handlePlayerKeydown(event)" aria-label="Search for player game log">
+                    <div id="player-suggestions" class="suggestions-dropdown" style="display: none;"></div>
                 </div>
                 <div class="table-container" id="gamelog-container">
                     <div class="empty-state">
@@ -624,23 +634,36 @@ def get_body(total_games: int, total_players: int, total_teams: int, total_venue
                     <button class="btn btn-secondary" onclick="downloadCSV('venues')">Download CSV</button>
                 </div>
             </h2>
-            <input type="text" class="search-box" placeholder="Search venues..." onkeyup="filterTable('venues-table', this.value)">
-            <div class="table-container">
-                <table id="venues-table" aria-label="Venue Statistics">
-                    <thead>
-                        <tr>
-                            <th onclick="sortTable('venues-table', 0)">Venue</th>
-                            <th onclick="sortTable('venues-table', 1)">City</th>
-                            <th onclick="sortTable('venues-table', 2)">State</th>
-                            <th onclick="sortTable('venues-table', 3)" class="tooltip" data-tooltip="Games played at venue">Games</th>
-                            <th onclick="sortTable('venues-table', 4)" class="tooltip" data-tooltip="Home team wins">Home W</th>
-                            <th onclick="sortTable('venues-table', 5)" class="tooltip" data-tooltip="Away team wins">Away W</th>
-                            <th onclick="sortTable('venues-table', 6)" class="tooltip" data-tooltip="Avg home team points">Avg Home</th>
-                            <th onclick="sortTable('venues-table', 7)" class="tooltip" data-tooltip="Avg away team points">Avg Away</th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
+            <div class="sub-tabs">
+                <button class="sub-tab active" onclick="showSubSection('venues', 'list')">List</button>
+                <button class="sub-tab" onclick="showSubSection('venues', 'map')">Map</button>
+            </div>
+
+            <div id="venues-list" class="sub-section active">
+                <input type="text" class="search-box" placeholder="Search venues..." onkeyup="filterTable('venues-table', this.value)">
+                <div class="table-container">
+                    <table id="venues-table" aria-label="Venue Statistics">
+                        <thead>
+                            <tr>
+                                <th onclick="sortTable('venues-table', 0)">Venue</th>
+                                <th onclick="sortTable('venues-table', 1)">City</th>
+                                <th onclick="sortTable('venues-table', 2)">State</th>
+                                <th onclick="sortTable('venues-table', 3)" class="tooltip" data-tooltip="Games played at venue">Games</th>
+                                <th onclick="sortTable('venues-table', 4)" class="tooltip" data-tooltip="Home team wins">Home W</th>
+                                <th onclick="sortTable('venues-table', 5)" class="tooltip" data-tooltip="Away team wins">Away W</th>
+                                <th onclick="sortTable('venues-table', 6)" class="tooltip" data-tooltip="Avg home team points">Avg Home</th>
+                                <th onclick="sortTable('venues-table', 7)" class="tooltip" data-tooltip="Avg away team points">Avg Away</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="venues-map" class="sub-section">
+                <p style="margin-bottom: 1rem; color: var(--text-secondary);">Map of all venues you've visited.</p>
+                <div id="venues-map-container" style="height: 500px; border-radius: 8px; overflow: hidden;"></div>
+                <div id="venues-map-summary" style="margin-top: 1rem; display: flex; gap: 2rem; flex-wrap: wrap;"></div>
             </div>
         </div>
 

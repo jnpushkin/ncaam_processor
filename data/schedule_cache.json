@@ -1,2321 +1,12 @@
 {
-  "scraped_at": "2026-01-01T16:44:20.396253",
-  "games_count": 3134,
+  "scraped_at": "2026-01-03T08:11:37.799076",
+  "games_count": 3062,
   "games": [
-    {
-      "espn_id": "401808501",
-      "date": "2026-01-01T23:00Z",
-      "date_display": "Thu, Jan 01 2026",
-      "time_detail": "6:18 - 2nd",
-      "name": "Northern Arizona Lumberjacks at Montana Grizzlies",
-      "short_name": "NAU @ MONT",
-      "home_team": {
-        "id": "149",
-        "name": "Montana Grizzlies",
-        "abbreviation": "MONT",
-        "short_name": "Montana"
-      },
-      "away_team": {
-        "id": "2464",
-        "name": "Northern Arizona Lumberjacks",
-        "abbreviation": "NAU",
-        "short_name": "N Arizona"
-      },
-      "venue": {
-        "id": "1995",
-        "name": "Dahlberg Arena",
-        "city": "Missoula",
-        "state": "MT"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_IN_PROGRESS"
-    },
-    {
-      "espn_id": "401806417",
-      "date": "2026-01-01T23:00Z",
-      "date_display": "Thu, Jan 01 2026",
-      "time_detail": "15:45 - 2nd",
-      "name": "Tennessee Tech Golden Eagles at Little Rock Trojans",
-      "short_name": "TNTC @ LR",
-      "home_team": {
-        "id": "2031",
-        "name": "Little Rock Trojans",
-        "abbreviation": "LR",
-        "short_name": "Little Rock"
-      },
-      "away_team": {
-        "id": "2635",
-        "name": "Tennessee Tech Golden Eagles",
-        "abbreviation": "TNTC",
-        "short_name": "Tennessee Tech"
-      },
-      "venue": {
-        "id": "2180",
-        "name": "Jack Stephens Center",
-        "city": "Little Rock",
-        "state": "AR"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_IN_PROGRESS"
-    },
-    {
-      "espn_id": "401830201",
-      "date": "2026-01-02T00:00Z",
-      "date_display": "Thu, Jan 01 2026",
-      "time_detail": "4:07 - 1st",
-      "name": "Bradley Braves at Belmont Bruins",
-      "short_name": "BRAD @ BEL",
-      "home_team": {
-        "id": "2057",
-        "name": "Belmont Bruins",
-        "abbreviation": "BEL",
-        "short_name": "Belmont"
-      },
-      "away_team": {
-        "id": "71",
-        "name": "Bradley Braves",
-        "abbreviation": "BRAD",
-        "short_name": "Bradley"
-      },
-      "venue": {
-        "id": "2098",
-        "name": "Curb Event Center Arena",
-        "city": "Nashville",
-        "state": "TN"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+",
-        "MVC"
-      ],
-      "status": "STATUS_IN_PROGRESS"
-    },
-    {
-      "espn_id": "401807662",
-      "date": "2026-01-02T00:00Z",
-      "date_display": "Thu, Jan 01 2026",
-      "time_detail": "3:59 - 1st",
-      "name": "Eastern Kentucky Colonels at Queens University Royals",
-      "short_name": "EKU @ QUC",
-      "home_team": {
-        "id": "2511",
-        "name": "Queens University Royals",
-        "abbreviation": "QUC",
-        "short_name": "Queens"
-      },
-      "away_team": {
-        "id": "2198",
-        "name": "Eastern Kentucky Colonels",
-        "abbreviation": "EKU",
-        "short_name": "E Kentucky"
-      },
-      "venue": {
-        "id": "7342",
-        "name": "Curry Arena",
-        "city": "Charlotte",
-        "state": "NC"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_IN_PROGRESS"
-    },
-    {
-      "espn_id": "401807661",
-      "date": "2026-01-02T00:00Z",
-      "date_display": "Thu, Jan 01 2026",
-      "time_detail": "4:42 - 1st",
-      "name": "Bellarmine Knights at West Georgia Wolves",
-      "short_name": "BELL @ WGA",
-      "home_team": {
-        "id": "2698",
-        "name": "West Georgia Wolves",
-        "abbreviation": "WGA",
-        "short_name": "West Georgia"
-      },
-      "away_team": {
-        "id": "91",
-        "name": "Bellarmine Knights",
-        "abbreviation": "BELL",
-        "short_name": "Bellarmine"
-      },
-      "venue": {
-        "id": "9548",
-        "name": "The Coliseum",
-        "city": "Carrollton",
-        "state": "GA"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_IN_PROGRESS"
-    },
-    {
-      "espn_id": "401831278",
-      "date": "2026-01-01T18:00Z",
-      "date_display": "Thu, Jan 01 2026",
-      "time_detail": "Final",
-      "name": "Elms College Blazers at Dartmouth Big Green",
-      "short_name": "ELMS @ DART",
-      "home_team": {
-        "id": "159",
-        "name": "Dartmouth Big Green",
-        "abbreviation": "DART",
-        "short_name": "Dartmouth"
-      },
-      "away_team": {
-        "id": "111948",
-        "name": "Elms College Blazers",
-        "abbreviation": "ELMS",
-        "short_name": "Elms"
-      },
-      "venue": {
-        "id": "2004",
-        "name": "Leede Arena",
-        "city": "Hanover",
-        "state": "NH"
-      },
-      "neutral_site": false,
-      "conference_game": false,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_FINAL"
-    },
-    {
-      "espn_id": "401817604",
-      "date": "2026-01-01T18:00Z",
-      "date_display": "Thu, Jan 01 2026",
-      "time_detail": "Final",
-      "name": "Oakland Golden Grizzlies at Youngstown State Penguins",
-      "short_name": "OAK @ YSU",
-      "home_team": {
-        "id": "2754",
-        "name": "Youngstown State Penguins",
-        "abbreviation": "YSU",
-        "short_name": "Youngstown St"
-      },
-      "away_team": {
-        "id": "2473",
-        "name": "Oakland Golden Grizzlies",
-        "abbreviation": "OAK",
-        "short_name": "Oakland"
-      },
-      "venue": {
-        "id": "2054",
-        "name": "Beeghly Center",
-        "city": "Youngstown",
-        "state": "OH"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_FINAL"
-    },
-    {
-      "espn_id": "401809227",
-      "date": "2026-01-01T18:00Z",
-      "date_display": "Thu, Jan 01 2026",
-      "time_detail": "Final",
-      "name": "Samford Bulldogs at VMI Keydets",
-      "short_name": "SAM @ VMI",
-      "home_team": {
-        "id": "2678",
-        "name": "VMI Keydets",
-        "abbreviation": "VMI",
-        "short_name": "VMI"
-      },
-      "away_team": {
-        "id": "2535",
-        "name": "Samford Bulldogs",
-        "abbreviation": "SAM",
-        "short_name": "Samford"
-      },
-      "venue": {
-        "id": "1970",
-        "name": "Cameron Hall",
-        "city": "Lexington",
-        "state": "VA"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_FINAL"
-    },
-    {
-      "espn_id": "401808592",
-      "date": "2026-01-01T18:00Z",
-      "date_display": "Thu, Jan 01 2026",
-      "time_detail": "Final/OT",
-      "name": "Georgia Southern Eagles at Coastal Carolina Chanticleers",
-      "short_name": "GASO @ CCU",
-      "home_team": {
-        "id": "324",
-        "name": "Coastal Carolina Chanticleers",
-        "abbreviation": "CCU",
-        "short_name": "Coastal"
-      },
-      "away_team": {
-        "id": "290",
-        "name": "Georgia Southern Eagles",
-        "abbreviation": "GASO",
-        "short_name": "GA Southern"
-      },
-      "venue": {
-        "id": "4308",
-        "name": "The HTC Center",
-        "city": "Conway",
-        "state": "SC"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_FINAL"
-    },
-    {
-      "espn_id": "401807666",
-      "date": "2026-01-01T18:00Z",
-      "date_display": "Thu, Jan 01 2026",
-      "time_detail": "Final",
-      "name": "Stetson Hatters at North Alabama Lions",
-      "short_name": "STET @ UNA",
-      "home_team": {
-        "id": "2453",
-        "name": "North Alabama Lions",
-        "abbreviation": "UNA",
-        "short_name": "North Alabama"
-      },
-      "away_team": {
-        "id": "56",
-        "name": "Stetson Hatters",
-        "abbreviation": "STET",
-        "short_name": "Stetson"
-      },
-      "venue": {
-        "id": "5995",
-        "name": "Flowers Hall",
-        "city": "Florence",
-        "state": "AL"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_FINAL"
-    },
-    {
-      "espn_id": "401818331",
-      "date": "2026-01-01T19:00Z",
-      "date_display": "Thu, Jan 01 2026",
-      "time_detail": "Final",
-      "name": "Oral Roberts Golden Eagles at North Dakota Fighting Hawks",
-      "short_name": "ORU @ UND",
-      "home_team": {
-        "id": "155",
-        "name": "North Dakota Fighting Hawks",
-        "abbreviation": "UND",
-        "short_name": "North Dakota"
-      },
-      "away_team": {
-        "id": "198",
-        "name": "Oral Roberts Golden Eagles",
-        "abbreviation": "ORU",
-        "short_name": "Oral Roberts"
-      },
-      "venue": {
-        "id": "1950",
-        "name": "Betty Engelstad Sioux Center",
-        "city": "Grand Forks",
-        "state": "ND"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "Summit League Network",
-        "Midco Sports Plus"
-      ],
-      "status": "STATUS_FINAL"
-    },
-    {
-      "espn_id": "401817603",
-      "date": "2026-01-01T19:00Z",
-      "date_display": "Thu, Jan 01 2026",
-      "time_detail": "Final",
-      "name": "IU Indianapolis Jaguars at Northern Kentucky Norse",
-      "short_name": "IUIN @ NKU",
-      "home_team": {
-        "id": "94",
-        "name": "Northern Kentucky Norse",
-        "abbreviation": "NKU",
-        "short_name": "N Kentucky"
-      },
-      "away_team": {
-        "id": "85",
-        "name": "IU Indianapolis Jaguars",
-        "abbreviation": "IUIN",
-        "short_name": "IU Indy"
-      },
-      "venue": {
-        "id": "1920",
-        "name": "Truist Arena",
-        "city": "Highland Heights",
-        "state": "KY"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_FINAL"
-    },
-    {
-      "espn_id": "401817602",
-      "date": "2026-01-01T19:00Z",
-      "date_display": "Thu, Jan 01 2026",
-      "time_detail": "Final",
-      "name": "Milwaukee Panthers at Wright State Raiders",
-      "short_name": "MILW @ WRST",
-      "home_team": {
-        "id": "2750",
-        "name": "Wright State Raiders",
-        "abbreviation": "WRST",
-        "short_name": "Wright St"
-      },
-      "away_team": {
-        "id": "270",
-        "name": "Milwaukee Panthers",
-        "abbreviation": "MILW",
-        "short_name": "Milwaukee"
-      },
-      "venue": {
-        "id": "192",
-        "name": "Nutter Center",
-        "city": "Dayton",
-        "state": "OH"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_FINAL"
-    },
-    {
-      "espn_id": "401817601",
-      "date": "2026-01-01T19:00Z",
-      "date_display": "Thu, Jan 01 2026",
-      "time_detail": "Final",
-      "name": "Green Bay Phoenix at Purdue Fort Wayne Mastodons",
-      "short_name": "GB @ PFW",
-      "home_team": {
-        "id": "2870",
-        "name": "Purdue Fort Wayne Mastodons",
-        "abbreviation": "PFW",
-        "short_name": "Purdue FW"
-      },
-      "away_team": {
-        "id": "2739",
-        "name": "Green Bay Phoenix",
-        "abbreviation": "GB",
-        "short_name": "Green Bay"
-      },
-      "venue": {
-        "id": "684",
-        "name": "Memorial Coliseum (IN)",
-        "city": "Fort Wayne",
-        "state": "IN"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_FINAL"
-    },
-    {
-      "espn_id": "401807664",
-      "date": "2026-01-01T19:00Z",
-      "date_display": "Thu, Jan 01 2026",
-      "time_detail": "Final",
-      "name": "Jacksonville Dolphins at Lipscomb Bisons",
-      "short_name": "JAX @ LIP",
-      "home_team": {
-        "id": "288",
-        "name": "Lipscomb Bisons",
-        "abbreviation": "LIP",
-        "short_name": "Lipscomb"
-      },
-      "away_team": {
-        "id": "294",
-        "name": "Jacksonville Dolphins",
-        "abbreviation": "JAX",
-        "short_name": "Jacksonville"
-      },
-      "venue": {
-        "id": "2038",
-        "name": "Allen Arena",
-        "city": "Nashville",
-        "state": "TN"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_FINAL"
-    },
-    {
-      "espn_id": "401807663",
-      "date": "2026-01-01T19:00Z",
-      "date_display": "Thu, Jan 01 2026",
-      "time_detail": "Final",
-      "name": "Florida Gulf Coast Eagles at Central Arkansas Bears",
-      "short_name": "FGCU @ CARK",
-      "home_team": {
-        "id": "2110",
-        "name": "Central Arkansas Bears",
-        "abbreviation": "CARK",
-        "short_name": "C Arkansas"
-      },
-      "away_team": {
-        "id": "526",
-        "name": "Florida Gulf Coast Eagles",
-        "abbreviation": "FGCU",
-        "short_name": "FGCU"
-      },
-      "venue": {
-        "id": "1908",
-        "name": "Farris Center",
-        "city": "Conway",
-        "state": "AR"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_FINAL"
-    },
-    {
-      "espn_id": "401830258",
-      "date": "2026-01-01T20:00Z",
-      "date_display": "Thu, Jan 01 2026",
-      "time_detail": "Final",
-      "name": "Valparaiso Beacons at Southern Illinois Salukis",
-      "short_name": "VAL @ SIU",
-      "home_team": {
-        "id": "79",
-        "name": "Southern Illinois Salukis",
-        "abbreviation": "SIU",
-        "short_name": "S Illinois"
-      },
-      "away_team": {
-        "id": "2674",
-        "name": "Valparaiso Beacons",
-        "abbreviation": "VAL",
-        "short_name": "Valparaiso"
-      },
-      "venue": {
-        "id": "2190",
-        "name": "Banterra Center",
-        "city": "Carbondale",
-        "state": "IL"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_FINAL"
-    },
-    {
-      "espn_id": "401830255",
-      "date": "2026-01-01T20:00Z",
-      "date_display": "Thu, Jan 01 2026",
-      "time_detail": "Final",
-      "name": "Evansville Purple Aces at Illinois State Redbirds",
-      "short_name": "EVAN @ ILST",
-      "home_team": {
-        "id": "2287",
-        "name": "Illinois State Redbirds",
-        "abbreviation": "ILST",
-        "short_name": "Illinois St"
-      },
-      "away_team": {
-        "id": "339",
-        "name": "Evansville Purple Aces",
-        "abbreviation": "EVAN",
-        "short_name": "Evansville"
-      },
-      "venue": {
-        "id": "1932",
-        "name": "CEFCU Arena",
-        "city": "Normal",
-        "state": "IL"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_FINAL"
-    },
-    {
-      "espn_id": "401805159",
-      "date": "2026-01-01T20:00Z",
-      "date_display": "Thu, Jan 01 2026",
-      "time_detail": "Final",
-      "name": "California Baptist Lancers at UT Arlington Mavericks",
-      "short_name": "CBU @ UTA",
-      "home_team": {
-        "id": "250",
-        "name": "UT Arlington Mavericks",
-        "abbreviation": "UTA",
-        "short_name": "UT Arlington"
-      },
-      "away_team": {
-        "id": "2856",
-        "name": "California Baptist Lancers",
-        "abbreviation": "CBU",
-        "short_name": "CA Baptist"
-      },
-      "venue": {
-        "id": "3416",
-        "name": "College Park Center",
-        "city": "Arlington",
-        "state": "TX"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_FINAL"
-    },
-    {
-      "espn_id": "401809226",
-      "date": "2026-01-01T21:00Z",
-      "date_display": "Thu, Jan 01 2026",
-      "time_detail": "Final",
-      "name": "Chattanooga Mocs at UNC Greensboro Spartans",
-      "short_name": "UTC @ UNCG",
-      "home_team": {
-        "id": "2430",
-        "name": "UNC Greensboro Spartans",
-        "abbreviation": "UNCG",
-        "short_name": "UNC Greensboro"
-      },
-      "away_team": {
-        "id": "236",
-        "name": "Chattanooga Mocs",
-        "abbreviation": "UTC",
-        "short_name": "Chattanooga"
-      },
-      "venue": {
-        "id": "349",
-        "name": "First Horizon Coliseum",
-        "city": "Greensboro",
-        "state": "NC"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_FINAL"
-    },
-    {
-      "espn_id": "401808537",
-      "date": "2026-01-01T21:00Z",
-      "date_display": "Thu, Jan 01 2026",
-      "time_detail": "Final/OT",
-      "name": "Portland State Vikings at Weber State Wildcats",
-      "short_name": "PRST @ WEB",
-      "home_team": {
-        "id": "2692",
-        "name": "Weber State Wildcats",
-        "abbreviation": "WEB",
-        "short_name": "Weber St"
-      },
-      "away_team": {
-        "id": "2502",
-        "name": "Portland State Vikings",
-        "abbreviation": "PRST",
-        "short_name": "Portland St"
-      },
-      "venue": {
-        "id": "2198",
-        "name": "Dee Events Center",
-        "city": "Ogden",
-        "state": "UT"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_FINAL"
-    },
-    {
-      "espn_id": "401806419",
-      "date": "2026-01-01T21:30Z",
-      "date_display": "Thu, Jan 01 2026",
-      "time_detail": "Final",
-      "name": "Western Illinois Leathernecks at UT Martin Skyhawks",
-      "short_name": "WIU @ UTM",
-      "home_team": {
-        "id": "2630",
-        "name": "UT Martin Skyhawks",
-        "abbreviation": "UTM",
-        "short_name": "UT Martin"
-      },
-      "away_team": {
-        "id": "2710",
-        "name": "Western Illinois Leathernecks",
-        "abbreviation": "WIU",
-        "short_name": "W Illinois"
-      },
-      "venue": {
-        "id": "7229",
-        "name": "Kathleen and Tom Elam Center",
-        "city": "Martin",
-        "state": "TN"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_FINAL"
-    },
-    {
-      "espn_id": "401806418",
-      "date": "2026-01-01T21:30Z",
-      "date_display": "Thu, Jan 01 2026",
-      "time_detail": "Final",
-      "name": "Southern Indiana Screaming Eagles at SIU Edwardsville Cougars",
-      "short_name": "USI @ SIUE",
-      "home_team": {
-        "id": "2565",
-        "name": "SIU Edwardsville Cougars",
-        "abbreviation": "SIUE",
-        "short_name": "SIUE"
-      },
-      "away_team": {
-        "id": "88",
-        "name": "Southern Indiana Screaming Eagles",
-        "abbreviation": "USI",
-        "short_name": "So Indiana"
-      },
-      "venue": {
-        "id": "1919",
-        "name": "First Community Arena",
-        "city": "Edwardsville",
-        "state": "IL"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_FINAL"
-    },
-    {
-      "espn_id": "401806416",
-      "date": "2026-01-01T21:30Z",
-      "date_display": "Thu, Jan 01 2026",
-      "time_detail": "Final",
-      "name": "Morehead State Eagles at Lindenwood Lions",
-      "short_name": "MORE @ LIN",
-      "home_team": {
-        "id": "2815",
-        "name": "Lindenwood Lions",
-        "abbreviation": "LIN",
-        "short_name": "Lindenwood"
-      },
-      "away_team": {
-        "id": "2413",
-        "name": "Morehead State Eagles",
-        "abbreviation": "MORE",
-        "short_name": "Morehead St"
-      },
-      "venue": {
-        "id": "6839",
-        "name": "Hyland Arena",
-        "city": "Saint Charles",
-        "state": "MO"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_FINAL"
-    },
-    {
-      "espn_id": "401809124",
-      "date": "2026-01-01T22:00Z",
-      "date_display": "Thu, Jan 01 2026",
-      "time_detail": "Final",
-      "name": "Cal State Northridge Matadors at UC Davis Aggies",
-      "short_name": "CSUN @ UCD",
-      "home_team": {
-        "id": "302",
-        "name": "UC Davis Aggies",
-        "abbreviation": "UCD",
-        "short_name": "UC Davis"
-      },
-      "away_team": {
-        "id": "2463",
-        "name": "Cal State Northridge Matadors",
-        "abbreviation": "CSUN",
-        "short_name": "CSU Northridge"
-      },
-      "venue": {
-        "id": "2212",
-        "name": "University Credit Union Center",
-        "city": "Davis",
-        "state": "CA"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_FINAL"
-    },
-    {
-      "espn_id": "401809107",
-      "date": "2026-01-01T22:00Z",
-      "date_display": "Thu, Jan 01 2026",
-      "time_detail": "Final",
-      "name": "UC Irvine Anteaters at Cal State Bakersfield Roadrunners",
-      "short_name": "UCI @ CSUB",
-      "home_team": {
-        "id": "2934",
-        "name": "Cal State Bakersfield Roadrunners",
-        "abbreviation": "CSUB",
-        "short_name": "Bakersfield"
-      },
-      "away_team": {
-        "id": "300",
-        "name": "UC Irvine Anteaters",
-        "abbreviation": "UCI",
-        "short_name": "UC Irvine"
-      },
-      "venue": {
-        "id": "2112",
-        "name": "Icardo Center",
-        "city": "Bakersfield",
-        "state": "CA"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_FINAL"
-    },
-    {
-      "espn_id": "401808593",
-      "date": "2026-01-01T22:00Z",
-      "date_display": "Thu, Jan 01 2026",
-      "time_detail": "Final",
-      "name": "Southern Miss Golden Eagles at UL Monroe Warhawks",
-      "short_name": "USM @ ULM",
-      "home_team": {
-        "id": "2433",
-        "name": "UL Monroe Warhawks",
-        "abbreviation": "ULM",
-        "short_name": "UL Monroe"
-      },
-      "away_team": {
-        "id": "2572",
-        "name": "Southern Miss Golden Eagles",
-        "abbreviation": "USM",
-        "short_name": "Southern Miss"
-      },
-      "venue": {
-        "id": "2061",
-        "name": "Fant-Ewing Coliseum",
-        "city": "Monroe",
-        "state": "LA"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_FINAL"
-    },
-    {
-      "espn_id": "401818332",
-      "date": "2026-01-01T22:15Z",
-      "date_display": "Thu, Jan 01 2026",
-      "time_detail": "Final",
-      "name": "Omaha Mavericks at South Dakota State Jackrabbits",
-      "short_name": "OMA @ SDST",
-      "home_team": {
-        "id": "2571",
-        "name": "South Dakota State Jackrabbits",
-        "abbreviation": "SDST",
-        "short_name": "S Dakota St"
-      },
-      "away_team": {
-        "id": "2437",
-        "name": "Omaha Mavericks",
-        "abbreviation": "OMA",
-        "short_name": "Omaha"
-      },
-      "venue": {
-        "id": "10796",
-        "name": "First Bank & Trust Arena",
-        "city": "Brookings",
-        "state": "SD"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "Summit League Network",
-        "Midco Sports Plus"
-      ],
-      "status": "STATUS_FINAL"
-    },
-    {
-      "espn_id": "401830257",
-      "date": "2026-01-02T01:00Z",
-      "date_display": "Thu, Jan 01 2026",
-      "time_detail": "1/1 - 8:00 PM EST",
-      "name": "Indiana State Sycamores at Northern Iowa Panthers",
-      "short_name": "INST @ UNI",
-      "home_team": {
-        "id": "2460",
-        "name": "Northern Iowa Panthers",
-        "abbreviation": "UNI",
-        "short_name": "Northern Iowa"
-      },
-      "away_team": {
-        "id": "282",
-        "name": "Indiana State Sycamores",
-        "abbreviation": "INST",
-        "short_name": "Indiana St"
-      },
-      "venue": {
-        "id": "1948",
-        "name": "McLeod Center",
-        "city": "Cedar Falls",
-        "state": "IA"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401809140",
-      "date": "2026-01-02T01:00Z",
-      "date_display": "Thu, Jan 01 2026",
-      "time_detail": "1/1 - 8:00 PM EST",
-      "name": "Hawai'i Rainbow Warriors at UC Riverside Highlanders",
-      "short_name": "HAW @ UCR",
-      "home_team": {
-        "id": "27",
-        "name": "UC Riverside Highlanders",
-        "abbreviation": "UCR",
-        "short_name": "UC Riverside"
-      },
-      "away_team": {
-        "id": "62",
-        "name": "Hawai'i Rainbow Warriors",
-        "abbreviation": "HAW",
-        "short_name": "Hawai\u2019i"
-      },
-      "venue": {
-        "id": "2082",
-        "name": "SRC Arena",
-        "city": "Riverside",
-        "state": "CA"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+",
-        "Spectrum Sports Net"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401807665",
-      "date": "2026-01-02T01:00Z",
-      "date_display": "Thu, Jan 01 2026",
-      "time_detail": "1/1 - 8:00 PM EST",
-      "name": "North Florida Ospreys at Austin Peay Governors",
-      "short_name": "UNF @ APSU",
-      "home_team": {
-        "id": "2046",
-        "name": "Austin Peay Governors",
-        "abbreviation": "APSU",
-        "short_name": "Austin Peay"
-      },
-      "away_team": {
-        "id": "2454",
-        "name": "North Florida Ospreys",
-        "abbreviation": "UNF",
-        "short_name": "North Florida"
-      },
-      "venue": {
-        "id": "7508",
-        "name": "F&M Bank Arena",
-        "city": "Clarksville",
-        "state": "TN"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401805158",
-      "date": "2026-01-02T01:00Z",
-      "date_display": "Thu, Jan 01 2026",
-      "time_detail": "1/1 - 8:00 PM EST",
-      "name": "Utah Valley Wolverines at Tarleton State Texans",
-      "short_name": "UVU @ TAR",
-      "home_team": {
-        "id": "2627",
-        "name": "Tarleton State Texans",
-        "abbreviation": "TAR",
-        "short_name": "Tarleton St"
-      },
-      "away_team": {
-        "id": "3084",
-        "name": "Utah Valley Wolverines",
-        "abbreviation": "UVU",
-        "short_name": "Utah Valley"
-      },
-      "venue": {
-        "id": "7094",
-        "name": "Wisdom Gym",
-        "city": "Stephenville",
-        "state": "TX"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401805157",
-      "date": "2026-01-02T01:00Z",
-      "date_display": "Thu, Jan 01 2026",
-      "time_detail": "1/1 - 8:00 PM EST",
-      "name": "Utah Tech Trailblazers at Abilene Christian Wildcats",
-      "short_name": "UTU @ ACU",
-      "home_team": {
-        "id": "2000",
-        "name": "Abilene Christian Wildcats",
-        "abbreviation": "ACU",
-        "short_name": "Abilene Chrstn"
-      },
-      "away_team": {
-        "id": "3101",
-        "name": "Utah Tech Trailblazers",
-        "abbreviation": "UTU",
-        "short_name": "Utah Tech"
-      },
-      "venue": {
-        "id": "4531",
-        "name": "Moody Coliseum (Abilene)",
-        "city": "Abilene",
-        "state": "TX"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401806415",
-      "date": "2026-01-02T01:30Z",
-      "date_display": "Thu, Jan 01 2026",
-      "time_detail": "1/1 - 8:30 PM EST",
-      "name": "Eastern Illinois Panthers at Southeast Missouri State Redhawks",
-      "short_name": "EIU @ SEMO",
-      "home_team": {
-        "id": "2546",
-        "name": "Southeast Missouri State Redhawks",
-        "abbreviation": "SEMO",
-        "short_name": "SE Missouri"
-      },
-      "away_team": {
-        "id": "2197",
-        "name": "Eastern Illinois Panthers",
-        "abbreviation": "EIU",
-        "short_name": "E Illinois"
-      },
-      "venue": {
-        "id": "1917",
-        "name": "Show Me Center",
-        "city": "Cape Girardeau",
-        "state": "MO"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401830256",
-      "date": "2026-01-02T02:00Z",
-      "date_display": "Thu, Jan 01 2026",
-      "time_detail": "1/1 - 9:00 PM EST",
-      "name": "Murray State Racers at UIC Flames",
-      "short_name": "MUR @ UIC",
-      "home_team": {
-        "id": "82",
-        "name": "UIC Flames",
-        "abbreviation": "UIC",
-        "short_name": "UIC"
-      },
-      "away_team": {
-        "id": "93",
-        "name": "Murray State Racers",
-        "abbreviation": "MUR",
-        "short_name": "Murray St"
-      },
-      "venue": {
-        "id": "1895",
-        "name": "Credit Union 1 Arena",
-        "city": "Chicago",
-        "state": "IL"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+",
-        "MVC"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401808513",
-      "date": "2026-01-02T02:00Z",
-      "date_display": "Thu, Jan 01 2026",
-      "time_detail": "1/1 - 9:00 PM EST",
-      "name": "Northern Colorado Bears at Montana State Bobcats",
-      "short_name": "UNCO @ MTST",
-      "home_team": {
-        "id": "147",
-        "name": "Montana State Bobcats",
-        "abbreviation": "MTST",
-        "short_name": "Montana St"
-      },
-      "away_team": {
-        "id": "2458",
-        "name": "Northern Colorado Bears",
-        "abbreviation": "UNCO",
-        "short_name": "N Colorado"
-      },
-      "venue": {
-        "id": "2065",
-        "name": "Worthington Arena",
-        "city": "Bozeman",
-        "state": "MT"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401808487",
-      "date": "2026-01-02T02:00Z",
-      "date_display": "Thu, Jan 01 2026",
-      "time_detail": "1/1 - 9:00 PM EST",
-      "name": "Sacramento State Hornets at Idaho State Bengals",
-      "short_name": "SAC @ IDST",
-      "home_team": {
-        "id": "304",
-        "name": "Idaho State Bengals",
-        "abbreviation": "IDST",
-        "short_name": "Idaho St"
-      },
-      "away_team": {
-        "id": "16",
-        "name": "Sacramento State Hornets",
-        "abbreviation": "SAC",
-        "short_name": "Sacramento St"
-      },
-      "venue": {
-        "id": "1904",
-        "name": "Reed Gym",
-        "city": "Pocatello",
-        "state": "ID"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401823177",
-      "date": "2026-01-02T03:00Z",
-      "date_display": "Thu, Jan 01 2026",
-      "time_detail": "1/1 - 10:00 PM EST",
-      "name": "UC Santa Barbara Gauchos at Cal State Fullerton Titans",
-      "short_name": "UCSB @ CSUF",
-      "home_team": {
-        "id": "2239",
-        "name": "Cal State Fullerton Titans",
-        "abbreviation": "CSUF",
-        "short_name": "Fullerton"
-      },
-      "away_team": {
-        "id": "2540",
-        "name": "UC Santa Barbara Gauchos",
-        "abbreviation": "UCSB",
-        "short_name": "Santa Barbara"
-      },
-      "venue": {
-        "id": "2003",
-        "name": "Titan Gym",
-        "city": "Fullerton",
-        "state": "CA"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401809086",
-      "date": "2026-01-02T03:00Z",
-      "date_display": "Thu, Jan 01 2026",
-      "time_detail": "1/1 - 10:00 PM EST",
-      "name": "UC San Diego Tritons at Cal Poly Mustangs",
-      "short_name": "UCSD @ CP",
-      "home_team": {
-        "id": "13",
-        "name": "Cal Poly Mustangs",
-        "abbreviation": "CP",
-        "short_name": "Cal Poly"
-      },
-      "away_team": {
-        "id": "28",
-        "name": "UC San Diego Tritons",
-        "abbreviation": "UCSD",
-        "short_name": "UC San Diego"
-      },
-      "venue": {
-        "id": "812",
-        "name": "Mott Athletics Center",
-        "city": "San Luis Obispo",
-        "state": "CA"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401804855",
-      "date": "2026-01-02T17:00Z",
-      "date_display": "Fri, Jan 02 2026",
-      "time_detail": "1/2 - 12:00 PM EST",
-      "name": "New Mexico State Aggies at Florida International Panthers",
-      "short_name": "NMSU @ FIU",
-      "home_team": {
-        "id": "2229",
-        "name": "Florida International Panthers",
-        "abbreviation": "FIU",
-        "short_name": "FIU"
-      },
-      "away_team": {
-        "id": "166",
-        "name": "New Mexico State Aggies",
-        "abbreviation": "NMSU",
-        "short_name": "New Mexico St"
-      },
-      "venue": {
-        "id": "2216",
-        "name": "Ocean Bank Convocation Center",
-        "city": "Miami",
-        "state": "FL"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401830010",
-      "date": "2026-01-02T19:00Z",
-      "date_display": "Fri, Jan 02 2026",
-      "time_detail": "1/2 - 2:00 PM EST",
-      "name": "Alfred State Pioneers at Cornell Big Red",
-      "short_name": "AFST @ COR",
-      "home_team": {
-        "id": "172",
-        "name": "Cornell Big Red",
-        "abbreviation": "COR",
-        "short_name": "Cornell"
-      },
-      "away_team": {
-        "id": "108820",
-        "name": "Alfred State Pioneers",
-        "abbreviation": "AFST",
-        "short_name": "Alfred St"
-      },
-      "venue": {
-        "id": "1913",
-        "name": "Newman Arena",
-        "city": "Ithaca",
-        "state": "NY"
-      },
-      "neutral_site": false,
-      "conference_game": false,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401813408",
-      "date": "2026-01-02T20:00Z",
-      "date_display": "Fri, Jan 02 2026",
-      "time_detail": "1/2 - 3:00 PM EST",
-      "name": "Mount St. Mary's Mountaineers at Merrimack Warriors",
-      "short_name": "MSM @ MRMK",
-      "home_team": {
-        "id": "2771",
-        "name": "Merrimack Warriors",
-        "abbreviation": "MRMK",
-        "short_name": "Merrimack"
-      },
-      "away_team": {
-        "id": "116",
-        "name": "Mount St. Mary's Mountaineers",
-        "abbreviation": "MSM",
-        "short_name": "Mount St Marys"
-      },
-      "venue": {
-        "id": "1218",
-        "name": "Lawler Arena",
-        "city": "North Andover",
-        "state": "MA"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401813384",
-      "date": "2026-01-02T21:00Z",
-      "date_display": "Fri, Jan 02 2026",
-      "time_detail": "1/2 - 4:00 PM EST",
-      "name": "Sacred Heart Pioneers at Niagara Purple Eagles",
-      "short_name": "SHU @ NIA",
-      "home_team": {
-        "id": "315",
-        "name": "Niagara Purple Eagles",
-        "abbreviation": "NIA",
-        "short_name": "Niagara"
-      },
-      "away_team": {
-        "id": "2529",
-        "name": "Sacred Heart Pioneers",
-        "abbreviation": "SHU",
-        "short_name": "Sacred Heart"
-      },
-      "venue": {
-        "id": "2177",
-        "name": "Gallagher Center",
-        "city": "Niagara Falls",
-        "state": "NY"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401813358",
-      "date": "2026-01-02T21:00Z",
-      "date_display": "Fri, Jan 02 2026",
-      "time_detail": "1/2 - 4:00 PM EST",
-      "name": "Fairfield Stags at Canisius Golden Griffins",
-      "short_name": "FAIR @ CAN",
-      "home_team": {
-        "id": "2099",
-        "name": "Canisius Golden Griffins",
-        "abbreviation": "CAN",
-        "short_name": "Canisius"
-      },
-      "away_team": {
-        "id": "2217",
-        "name": "Fairfield Stags",
-        "abbreviation": "FAIR",
-        "short_name": "Fairfield"
-      },
-      "venue": {
-        "id": "2037",
-        "name": "Koessler Athletic Center",
-        "city": "Buffalo",
-        "state": "NY"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401804857",
-      "date": "2026-01-02T22:00Z",
-      "date_display": "Fri, Jan 02 2026",
-      "time_detail": "1/2 - 5:00 PM EST",
-      "name": "Sam Houston Bearkats at Western Kentucky Hilltoppers",
-      "short_name": "SHSU @ WKU",
-      "home_team": {
-        "id": "98",
-        "name": "Western Kentucky Hilltoppers",
-        "abbreviation": "WKU",
-        "short_name": "Western KY"
-      },
-      "away_team": {
-        "id": "2534",
-        "name": "Sam Houston Bearkats",
-        "abbreviation": "SHSU",
-        "short_name": "Sam Houston"
-      },
-      "venue": {
-        "id": "1971",
-        "name": "E.A. Diddle Arena",
-        "city": "Bowling Green",
-        "state": "KY"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401825411",
-      "date": "2026-01-03T00:00Z",
-      "date_display": "Fri, Jan 02 2026",
-      "time_detail": "1/2 - 7:00 PM EST",
-      "name": "USC Trojans at Michigan Wolverines",
-      "short_name": "USC @ MICH",
-      "home_team": {
-        "id": "130",
-        "name": "Michigan Wolverines",
-        "abbreviation": "MICH",
-        "short_name": "Michigan"
-      },
-      "away_team": {
-        "id": "30",
-        "name": "USC Trojans",
-        "abbreviation": "USC",
-        "short_name": "USC"
-      },
-      "venue": {
-        "id": "1986",
-        "name": "Crisler Center",
-        "city": "Ann Arbor",
-        "state": "MI"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "Peacock"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401817605",
-      "date": "2026-01-03T00:00Z",
-      "date_display": "Fri, Jan 02 2026",
-      "time_detail": "1/2 - 7:00 PM EST",
-      "name": "Robert Morris Colonials at Detroit Mercy Titans",
-      "short_name": "RMU @ DETM",
-      "home_team": {
-        "id": "2174",
-        "name": "Detroit Mercy Titans",
-        "abbreviation": "DETM",
-        "short_name": "Detroit Mercy"
-      },
-      "away_team": {
-        "id": "2523",
-        "name": "Robert Morris Colonials",
-        "abbreviation": "RMU",
-        "short_name": "Robert Morris"
-      },
-      "venue": {
-        "id": "2005",
-        "name": "Calihan Hall",
-        "city": "Detroit",
-        "state": "MI"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401813422",
-      "date": "2026-01-03T00:00Z",
-      "date_display": "Fri, Jan 02 2026",
-      "time_detail": "1/2 - 7:00 PM EST",
-      "name": "Siena Saints at Iona Gaels",
-      "short_name": "SIE @ IONA",
-      "home_team": {
-        "id": "314",
-        "name": "Iona Gaels",
-        "abbreviation": "IONA",
-        "short_name": "Iona"
-      },
-      "away_team": {
-        "id": "2561",
-        "name": "Siena Saints",
-        "abbreviation": "SIE",
-        "short_name": "Siena"
-      },
-      "venue": {
-        "id": "2001",
-        "name": "Hynes Athletics Center",
-        "city": "New Rochelle",
-        "state": "NY"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401813329",
-      "date": "2026-01-03T00:00Z",
-      "date_display": "Fri, Jan 02 2026",
-      "time_detail": "1/2 - 7:00 PM EST",
-      "name": "Marist Red Foxes at Saint Peter's Peacocks",
-      "short_name": "MRST @ SPU",
-      "home_team": {
-        "id": "2612",
-        "name": "Saint Peter's Peacocks",
-        "abbreviation": "SPU",
-        "short_name": "Saint Peter's"
-      },
-      "away_team": {
-        "id": "2368",
-        "name": "Marist Red Foxes",
-        "abbreviation": "MRST",
-        "short_name": "Marist"
-      },
-      "venue": {
-        "id": "1963",
-        "name": "Yanitelli Center",
-        "city": "Jersey City",
-        "state": "NJ"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401813300",
-      "date": "2026-01-03T00:00Z",
-      "date_display": "Fri, Jan 02 2026",
-      "time_detail": "1/2 - 7:00 PM EST",
-      "name": "Quinnipiac Bobcats at Manhattan Jaspers",
-      "short_name": "QUIN @ MAN",
-      "home_team": {
-        "id": "2363",
-        "name": "Manhattan Jaspers",
-        "abbreviation": "MAN",
-        "short_name": "Manhattan"
-      },
-      "away_team": {
-        "id": "2514",
-        "name": "Quinnipiac Bobcats",
-        "abbreviation": "QUIN",
-        "short_name": "Quinnipiac"
-      },
-      "venue": {
-        "id": "2062",
-        "name": "Draddy Gymnasium",
-        "city": "Riverdale",
-        "state": "NY"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401812411",
-      "date": "2026-01-03T00:00Z",
-      "date_display": "Fri, Jan 02 2026",
-      "time_detail": "1/2 - 7:00 PM EST",
-      "name": "Wagner Seahawks at Chicago State Cougars",
-      "short_name": "WAG @ CHST",
-      "home_team": {
-        "id": "2130",
-        "name": "Chicago State Cougars",
-        "abbreviation": "CHST",
-        "short_name": "Chicago St"
-      },
-      "away_team": {
-        "id": "2681",
-        "name": "Wagner Seahawks",
-        "abbreviation": "WAG",
-        "short_name": "Wagner"
-      },
-      "venue": {
-        "id": "1951",
-        "name": "Jones Convocation Center",
-        "city": "Chicago",
-        "state": "IL"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "NEC Front Row"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401812401",
-      "date": "2026-01-03T00:00Z",
-      "date_display": "Fri, Jan 02 2026",
-      "time_detail": "1/2 - 7:00 PM EST",
-      "name": "New Haven Chargers at Stonehill Skyhawks",
-      "short_name": "NHVN @ STO",
-      "home_team": {
-        "id": "284",
-        "name": "Stonehill Skyhawks",
-        "abbreviation": "STO",
-        "short_name": "Stonehill"
-      },
-      "away_team": {
-        "id": "2441",
-        "name": "New Haven Chargers",
-        "abbreviation": "NHVN",
-        "short_name": "New Haven"
-      },
-      "venue": {
-        "id": "7341",
-        "name": "Merkert Gymnasium",
-        "city": "South Easton",
-        "state": "MA"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "NEC Front Row"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401812365",
-      "date": "2026-01-03T00:00Z",
-      "date_display": "Fri, Jan 02 2026",
-      "time_detail": "1/2 - 7:00 PM EST",
-      "name": "Central Connecticut Blue Devils at Long Island University Sharks",
-      "short_name": "CCSU @ LIU",
-      "home_team": {
-        "id": "112358",
-        "name": "Long Island University Sharks",
-        "abbreviation": "LIU",
-        "short_name": "Long Island"
-      },
-      "away_team": {
-        "id": "2115",
-        "name": "Central Connecticut Blue Devils",
-        "abbreviation": "CCSU",
-        "short_name": "C Connecticut"
-      },
-      "venue": {
-        "id": "2140",
-        "name": "Steinberg Wellness Center",
-        "city": "Brooklyn",
-        "state": "NY"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "NEC Front Row"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401812334",
-      "date": "2026-01-03T00:00Z",
-      "date_display": "Fri, Jan 02 2026",
-      "time_detail": "1/2 - 7:00 PM EST",
-      "name": "Le Moyne Dolphins at Saint Francis Red Flash",
-      "short_name": "LEM @ SFPA",
-      "home_team": {
-        "id": "2598",
-        "name": "Saint Francis Red Flash",
-        "abbreviation": "SFPA",
-        "short_name": "Saint Francis"
-      },
-      "away_team": {
-        "id": "2330",
-        "name": "Le Moyne Dolphins",
-        "abbreviation": "LEM",
-        "short_name": "Le Moyne"
-      },
-      "venue": {
-        "id": "2149",
-        "name": "DeGol Arena",
-        "city": "Loretto",
-        "state": "PA"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "NEC Front Row"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401808873",
-      "date": "2026-01-03T00:00Z",
-      "date_display": "Fri, Jan 02 2026",
-      "time_detail": "1/2 - 7:00 PM EST",
-      "name": "Lamar Cardinals at McNeese Cowboys",
-      "short_name": "LAM @ MCN",
-      "home_team": {
-        "id": "2377",
-        "name": "McNeese Cowboys",
-        "abbreviation": "MCN",
-        "short_name": "McNeese"
-      },
-      "away_team": {
-        "id": "2320",
-        "name": "Lamar Cardinals",
-        "abbreviation": "LAM",
-        "short_name": "Lamar"
-      },
-      "venue": {
-        "id": "6007",
-        "name": "Townsley Law Arena",
-        "city": "Lake Charles",
-        "state": "LA"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "CBSSN"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401804860",
-      "date": "2026-01-03T00:00Z",
-      "date_display": "Fri, Jan 02 2026",
-      "time_detail": "1/2 - 7:00 PM EST",
-      "name": "Kennesaw State Owls at Liberty Flames",
-      "short_name": "KENN @ LIB",
-      "home_team": {
-        "id": "2335",
-        "name": "Liberty Flames",
-        "abbreviation": "LIB",
-        "short_name": "Liberty"
-      },
-      "away_team": {
-        "id": "338",
-        "name": "Kennesaw State Owls",
-        "abbreviation": "KENN",
-        "short_name": "Kennesaw St"
-      },
-      "venue": {
-        "id": "7117",
-        "name": "Liberty Arena (VA)",
-        "city": "Lynchburg",
-        "state": "VA"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPNU"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401804859",
-      "date": "2026-01-03T00:00Z",
-      "date_display": "Fri, Jan 02 2026",
-      "time_detail": "1/2 - 7:00 PM EST",
-      "name": "Jacksonville State Gamecocks at Delaware Blue Hens",
-      "short_name": "JXST @ DEL",
-      "home_team": {
-        "id": "48",
-        "name": "Delaware Blue Hens",
-        "abbreviation": "DEL",
-        "short_name": "Delaware"
-      },
-      "away_team": {
-        "id": "55",
-        "name": "Jacksonville State Gamecocks",
-        "abbreviation": "JXST",
-        "short_name": "Jax State"
-      },
-      "venue": {
-        "id": "2189",
-        "name": "Bob Carpenter Center",
-        "city": "Newark",
-        "state": "DE"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401825410",
-      "date": "2026-01-03T00:30Z",
-      "date_display": "Fri, Jan 02 2026",
-      "time_detail": "1/2 - 7:30 PM EST",
-      "name": "Oregon Ducks at Maryland Terrapins",
-      "short_name": "ORE @ MD",
-      "home_team": {
-        "id": "120",
-        "name": "Maryland Terrapins",
-        "abbreviation": "MD",
-        "short_name": "Maryland"
-      },
-      "away_team": {
-        "id": "2483",
-        "name": "Oregon Ducks",
-        "abbreviation": "ORE",
-        "short_name": "Oregon"
-      },
-      "venue": {
-        "id": "2133",
-        "name": "XFINITY Center",
-        "city": "College Park",
-        "state": "MD"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "Peacock"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401812315",
-      "date": "2026-01-03T00:30Z",
-      "date_display": "Fri, Jan 02 2026",
-      "time_detail": "1/2 - 7:30 PM EST",
-      "name": "Fairleigh Dickinson Knights at Mercyhurst Lakers",
-      "short_name": "FDU @ MERC",
-      "home_team": {
-        "id": "2385",
-        "name": "Mercyhurst Lakers",
-        "abbreviation": "MERC",
-        "short_name": "Mercyhurst"
-      },
-      "away_team": {
-        "id": "161",
-        "name": "Fairleigh Dickinson Knights",
-        "abbreviation": "FDU",
-        "short_name": "FDU"
-      },
-      "venue": {
-        "id": "9639",
-        "name": "Mercyhurst Athletic Center",
-        "city": "Erie",
-        "state": "PA"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "NEC Front Row"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401804858",
-      "date": "2026-01-03T00:30Z",
-      "date_display": "Fri, Jan 02 2026",
-      "time_detail": "1/2 - 7:30 PM EST",
-      "name": "Louisiana Tech Bulldogs at Middle Tennessee Blue Raiders",
-      "short_name": "LT @ MTSU",
-      "home_team": {
-        "id": "2393",
-        "name": "Middle Tennessee Blue Raiders",
-        "abbreviation": "MTSU",
-        "short_name": "MTSU"
-      },
-      "away_team": {
-        "id": "2348",
-        "name": "Louisiana Tech Bulldogs",
-        "abbreviation": "LT",
-        "short_name": "Louisiana Tech"
-      },
-      "venue": {
-        "id": "1897",
-        "name": "Murphy Center",
-        "city": "Murfreesboro",
-        "state": "TN"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401820643",
-      "date": "2026-01-03T01:00Z",
-      "date_display": "Fri, Jan 02 2026",
-      "time_detail": "1/2 - 8:00 PM EST",
-      "name": "Louisville Cardinals at Stanford Cardinal",
-      "short_name": "LOU @ STAN",
-      "home_team": {
-        "id": "24",
-        "name": "Stanford Cardinal",
-        "abbreviation": "STAN",
-        "short_name": "Stanford"
-      },
-      "away_team": {
-        "id": "97",
-        "name": "Louisville Cardinals",
-        "abbreviation": "LOU",
-        "short_name": "Louisville"
-      },
-      "venue": {
-        "id": "820",
-        "name": "Maples Pavilion",
-        "city": "Stanford",
-        "state": "CA"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ACC Network"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401825413",
-      "date": "2026-01-03T01:00Z",
-      "date_display": "Fri, Jan 02 2026",
-      "time_detail": "1/2 - 8:00 PM EST",
-      "name": "Ohio State Buckeyes at Rutgers Scarlet Knights",
-      "short_name": "OSU @ RUTG",
-      "home_team": {
-        "id": "164",
-        "name": "Rutgers Scarlet Knights",
-        "abbreviation": "RUTG",
-        "short_name": "Rutgers"
-      },
-      "away_team": {
-        "id": "194",
-        "name": "Ohio State Buckeyes",
-        "abbreviation": "OSU",
-        "short_name": "Ohio State"
-      },
-      "venue": {
-        "id": "2008",
-        "name": "Jersey Mike\u2019s Arena",
-        "city": "Piscataway",
-        "state": "NJ"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "Peacock"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401804856",
-      "date": "2026-01-03T01:00Z",
-      "date_display": "Fri, Jan 02 2026",
-      "time_detail": "1/2 - 8:00 PM EST",
-      "name": "UTEP Miners at Missouri State Bears",
-      "short_name": "UTEP @ MOST",
-      "home_team": {
-        "id": "2623",
-        "name": "Missouri State Bears",
-        "abbreviation": "MOST",
-        "short_name": "Missouri St"
-      },
-      "away_team": {
-        "id": "2638",
-        "name": "UTEP Miners",
-        "abbreviation": "UTEP",
-        "short_name": "UTEP"
-      },
-      "venue": {
-        "id": "1966",
-        "name": "Great Southern Bank Arena",
-        "city": "Springfield",
-        "state": "MO"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401827592",
-      "date": "2026-01-03T02:00Z",
-      "date_display": "Fri, Jan 02 2026",
-      "time_detail": "1/2 - 9:00 PM EST",
-      "name": "West Virginia Mountaineers at Iowa State Cyclones",
-      "short_name": "WVU @ ISU",
-      "home_team": {
-        "id": "66",
-        "name": "Iowa State Cyclones",
-        "abbreviation": "ISU",
-        "short_name": "Iowa State"
-      },
-      "away_team": {
-        "id": "277",
-        "name": "West Virginia Mountaineers",
-        "abbreviation": "WVU",
-        "short_name": "West Virginia"
-      },
-      "venue": {
-        "id": "432",
-        "name": "Hilton Coliseum",
-        "city": "Ames",
-        "state": "IA"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN2"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401829180",
-      "date": "2026-01-03T02:00Z",
-      "date_display": "Fri, Jan 02 2026",
-      "time_detail": "1/2 - 9:00 PM EST",
-      "name": "Seattle U Redhawks at Gonzaga Bulldogs",
-      "short_name": "SEA @ GONZ",
-      "home_team": {
-        "id": "2250",
-        "name": "Gonzaga Bulldogs",
-        "abbreviation": "GONZ",
-        "short_name": "Gonzaga"
-      },
-      "away_team": {
-        "id": "2547",
-        "name": "Seattle U Redhawks",
-        "abbreviation": "SEA",
-        "short_name": "Seattle U"
-      },
-      "venue": {
-        "id": "1979",
-        "name": "McCarthey Athletic Center",
-        "city": "Spokane",
-        "state": "WA"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401825412",
-      "date": "2026-01-03T02:00Z",
-      "date_display": "Fri, Jan 02 2026",
-      "time_detail": "1/2 - 9:00 PM EST",
-      "name": "Michigan State Spartans at Nebraska Cornhuskers",
-      "short_name": "MSU @ NEB",
-      "home_team": {
-        "id": "158",
-        "name": "Nebraska Cornhuskers",
-        "abbreviation": "NEB",
-        "short_name": "Nebraska"
-      },
-      "away_team": {
-        "id": "127",
-        "name": "Michigan State Spartans",
-        "abbreviation": "MSU",
-        "short_name": "Michigan St"
-      },
-      "venue": {
-        "id": "4569",
-        "name": "Pinnacle Bank Arena",
-        "city": "Lincoln",
-        "state": "NE"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "Peacock"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401829175",
-      "date": "2026-01-03T02:30Z",
-      "date_display": "Fri, Jan 02 2026",
-      "time_detail": "1/2 - 9:30 PM EST",
-      "name": "Loyola Marymount Lions at Washington State Cougars",
-      "short_name": "LMU @ WSU",
-      "home_team": {
-        "id": "265",
-        "name": "Washington State Cougars",
-        "abbreviation": "WSU",
-        "short_name": "Washington St"
-      },
-      "away_team": {
-        "id": "2351",
-        "name": "Loyola Marymount Lions",
-        "abbreviation": "LMU",
-        "short_name": "LMU"
-      },
-      "venue": {
-        "id": "2052",
-        "name": "Beasley Coliseum",
-        "city": "Pullman",
-        "state": "WA"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401829179",
-      "date": "2026-01-03T03:00Z",
-      "date_display": "Fri, Jan 02 2026",
-      "time_detail": "1/2 - 10:00 PM EST",
-      "name": "San Diego Toreros at San Francisco Dons",
-      "short_name": "USD @ SF",
-      "home_team": {
-        "id": "2539",
-        "name": "San Francisco Dons",
-        "abbreviation": "SF",
-        "short_name": "San Francisco"
-      },
-      "away_team": {
-        "id": "301",
-        "name": "San Diego Toreros",
-        "abbreviation": "USD",
-        "short_name": "San Diego"
-      },
-      "venue": {
-        "id": "789",
-        "name": "The Sobrato Center",
-        "city": "San Francisco",
-        "state": "CA"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401829178",
-      "date": "2026-01-03T03:00Z",
-      "date_display": "Fri, Jan 02 2026",
-      "time_detail": "1/2 - 10:00 PM EST",
-      "name": "Portland Pilots at Saint Mary's Gaels",
-      "short_name": "PORT @ SMC",
-      "home_team": {
-        "id": "2608",
-        "name": "Saint Mary's Gaels",
-        "abbreviation": "SMC",
-        "short_name": "Saint Mary's"
-      },
-      "away_team": {
-        "id": "2501",
-        "name": "Portland Pilots",
-        "abbreviation": "PORT",
-        "short_name": "Portland"
-      },
-      "venue": {
-        "id": "488",
-        "name": "University Credit Union Pavilion",
-        "city": "Moraga",
-        "state": "CA"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401829177",
-      "date": "2026-01-03T03:00Z",
-      "date_display": "Fri, Jan 02 2026",
-      "time_detail": "1/2 - 10:00 PM EST",
-      "name": "Pepperdine Waves at Santa Clara Broncos",
-      "short_name": "PEPP @ SCU",
-      "home_team": {
-        "id": "2541",
-        "name": "Santa Clara Broncos",
-        "abbreviation": "SCU",
-        "short_name": "Santa Clara"
-      },
-      "away_team": {
-        "id": "2492",
-        "name": "Pepperdine Waves",
-        "abbreviation": "PEPP",
-        "short_name": "Pepperdine"
-      },
-      "venue": {
-        "id": "544",
-        "name": "Leavey Center",
-        "city": "Santa Clara",
-        "state": "CA"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401829176",
-      "date": "2026-01-03T03:00Z",
-      "date_display": "Fri, Jan 02 2026",
-      "time_detail": "1/2 - 10:00 PM EST",
-      "name": "Oregon State Beavers at Pacific Tigers",
-      "short_name": "ORST @ PAC",
-      "home_team": {
-        "id": "279",
-        "name": "Pacific Tigers",
-        "abbreviation": "PAC",
-        "short_name": "Pacific"
-      },
-      "away_team": {
-        "id": "204",
-        "name": "Oregon State Beavers",
-        "abbreviation": "ORST",
-        "short_name": "Oregon St"
-      },
-      "venue": {
-        "id": "553",
-        "name": "Alex G. Spanos Center",
-        "city": "Stockton",
-        "state": "CA"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401820642",
-      "date": "2026-01-03T04:00Z",
-      "date_display": "Fri, Jan 02 2026",
-      "time_detail": "1/2 - 11:00 PM EST",
-      "name": "Notre Dame Fighting Irish at California Golden Bears",
-      "short_name": "ND @ CAL",
-      "home_team": {
-        "id": "25",
-        "name": "California Golden Bears",
-        "abbreviation": "CAL",
-        "short_name": "California"
-      },
-      "away_team": {
-        "id": "87",
-        "name": "Notre Dame Fighting Irish",
-        "abbreviation": "ND",
-        "short_name": "Notre Dame"
-      },
-      "venue": {
-        "id": "496",
-        "name": "Haas Pavilion",
-        "city": "Berkeley",
-        "state": "CA"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN2"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
     {
       "espn_id": "401820646",
       "date": "2026-01-03T16:00Z",
       "date_display": "Sat, Jan 03 2026",
-      "time_detail": "1/3 - 11:00 AM EST",
+      "time_detail": "15:29 - 1st",
       "name": "Virginia Cavaliers at NC State Wolfpack",
       "short_name": "UVA @ NCSU",
       "home_team": {
@@ -2341,7 +32,7 @@
       "tv": [
         "ESPN2"
       ],
-      "status": "STATUS_SCHEDULED"
+      "status": "STATUS_IN_PROGRESS"
     },
     {
       "espn_id": "401808152",
@@ -2435,8 +126,7 @@
       "neutral_site": false,
       "conference_game": true,
       "tv": [
-        "ESPNU",
-        "ESPN+"
+        "ESPNU"
       ],
       "status": "STATUS_SCHEDULED"
     },
@@ -8056,9 +5746,7 @@
       },
       "neutral_site": false,
       "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
+      "tv": [],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -8990,6 +6678,38 @@
       "status": "STATUS_SCHEDULED"
     },
     {
+      "espn_id": "401824385",
+      "date": "2026-01-07T23:00Z",
+      "date_display": "Wed, Jan 07 2026",
+      "time_detail": "1/7 - 6:00 PM EST",
+      "name": "Holy Cross Crusaders at Lehigh Mountain Hawks",
+      "short_name": "HC @ LEH",
+      "home_team": {
+        "id": "2329",
+        "name": "Lehigh Mountain Hawks",
+        "abbreviation": "LEH",
+        "short_name": "Lehigh"
+      },
+      "away_team": {
+        "id": "107",
+        "name": "Holy Cross Crusaders",
+        "abbreviation": "HC",
+        "short_name": "Holy Cross"
+      },
+      "venue": {
+        "id": "2141",
+        "name": "Stabler Arena",
+        "city": "Bethlehem",
+        "state": "PA"
+      },
+      "neutral_site": false,
+      "conference_game": true,
+      "tv": [
+        "ESPN+"
+      ],
+      "status": "STATUS_SCHEDULED"
+    },
+    {
       "espn_id": "401820195",
       "date": "2026-01-07T23:00Z",
       "date_display": "Wed, Jan 07 2026",
@@ -9430,38 +7150,6 @@
         "id": "2011",
         "name": "Liacouras Center",
         "city": "Philadelphia",
-        "state": "PA"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401824385",
-      "date": "2026-01-07T23:00Z",
-      "date_display": "Wed, Jan 07 2026",
-      "time_detail": "1/7 - 6:00 PM EST",
-      "name": "Holy Cross Crusaders at Lehigh Mountain Hawks",
-      "short_name": "HC @ LEH",
-      "home_team": {
-        "id": "2329",
-        "name": "Lehigh Mountain Hawks",
-        "abbreviation": "LEH",
-        "short_name": "Lehigh"
-      },
-      "away_team": {
-        "id": "107",
-        "name": "Holy Cross Crusaders",
-        "abbreviation": "HC",
-        "short_name": "Holy Cross"
-      },
-      "venue": {
-        "id": "2141",
-        "name": "Stabler Arena",
-        "city": "Bethlehem",
         "state": "PA"
       },
       "neutral_site": false,
@@ -17150,7 +14838,7 @@
       "neutral_site": false,
       "conference_game": true,
       "tv": [
-        "ESPN+",
+        "ESPNU",
         "MVC"
       ],
       "status": "STATUS_SCHEDULED"
@@ -18300,7 +15988,7 @@
       "neutral_site": false,
       "conference_game": true,
       "tv": [
-        "ESPN+"
+        "ESPN2"
       ],
       "status": "STATUS_SCHEDULED"
     },
@@ -22795,7 +20483,7 @@
       "neutral_site": false,
       "conference_game": true,
       "tv": [
-        "ESPN+"
+        "ESPNU"
       ],
       "status": "STATUS_SCHEDULED"
     },
@@ -23115,7 +20803,7 @@
       "neutral_site": false,
       "conference_game": true,
       "tv": [
-        "ESPN+"
+        "ESPNU"
       ],
       "status": "STATUS_SCHEDULED"
     },
@@ -29421,7 +27109,7 @@
       "neutral_site": false,
       "conference_game": true,
       "tv": [
-        "ESPN+"
+        "ESPNU"
       ],
       "status": "STATUS_SCHEDULED"
     },
@@ -51918,7 +49606,9 @@
       },
       "neutral_site": false,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "CBSSN"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -52236,7 +49926,9 @@
       },
       "neutral_site": false,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "Peacock"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -52362,7 +50054,9 @@
       },
       "neutral_site": false,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "CBSSN"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -52666,7 +50360,9 @@
       },
       "neutral_site": false,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "Peacock"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -53142,7 +50838,9 @@
       },
       "neutral_site": false,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "Peacock"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -53236,7 +50934,9 @@
       },
       "neutral_site": false,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "CBSSN"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -53714,7 +51414,9 @@
       },
       "neutral_site": false,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "Peacock"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -54471,7 +52173,8 @@
       "neutral_site": false,
       "conference_game": true,
       "tv": [
-        "ESPN+"
+        "ESPN+",
+        "NESN"
       ],
       "status": "STATUS_SCHEDULED"
     },
@@ -55034,7 +52737,10 @@
       },
       "neutral_site": false,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "SNY",
+        "FloSports"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -55346,7 +53052,9 @@
       },
       "neutral_site": false,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "WDAY"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -55376,7 +53084,9 @@
       },
       "neutral_site": false,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "Summit League Network"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -56168,7 +53878,9 @@
       },
       "neutral_site": false,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "FOX"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -56698,7 +54410,10 @@
       },
       "neutral_site": false,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "TNT",
+        "truTV"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -57008,7 +54723,9 @@
       },
       "neutral_site": false,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "The CW Network"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -57196,7 +54913,10 @@
       },
       "neutral_site": false,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "TNT",
+        "truTV"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -57354,7 +55074,9 @@
       },
       "neutral_site": false,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "FS1"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -57448,7 +55170,9 @@
       },
       "neutral_site": false,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "Summit League Network"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -57478,7 +55202,9 @@
       },
       "neutral_site": false,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "WDAY"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -57953,7 +55679,9 @@
       },
       "neutral_site": false,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "MNMT"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -58173,7 +55901,9 @@
       },
       "neutral_site": false,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "The CW Network"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -58611,7 +56341,9 @@
       },
       "neutral_site": false,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "SNY"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -59465,7 +57197,9 @@
       },
       "neutral_site": false,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "Peacock"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -61227,7 +58961,9 @@
       },
       "neutral_site": false,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "CBSSN"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -61257,7 +58993,9 @@
       },
       "neutral_site": false,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "FS1"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -61887,7 +59625,9 @@
       },
       "neutral_site": false,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "CBSSN"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -62229,7 +59969,10 @@
       },
       "neutral_site": false,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "TNT",
+        "truTV"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -63391,7 +61134,10 @@
       },
       "neutral_site": false,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "TNT",
+        "truTV"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -63485,7 +61231,9 @@
       },
       "neutral_site": false,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "Peacock"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -63675,7 +61423,9 @@
       },
       "neutral_site": false,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "Summit League Network"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -63925,7 +61675,9 @@
       },
       "neutral_site": false,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "Peacock"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -71160,7 +68912,8 @@
       "neutral_site": false,
       "conference_game": true,
       "tv": [
-        "ESPN+"
+        "ESPN+",
+        "NESN"
       ],
       "status": "STATUS_SCHEDULED"
     },

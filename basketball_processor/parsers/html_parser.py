@@ -135,6 +135,7 @@ def parse_sports_reference_boxscore(html_content: str, gender: str = 'M') -> Dic
     # Extract basic game info
     game_data['basic_info'] = extract_basic_info(soup)
     game_data['basic_info']['gender'] = gender  # Copy gender to basic_info for easy access
+    game_data['basic_info']['division'] = 'D1'  # Sports Reference only covers D1
 
     # Extract linescore (pass gender to correctly handle women's 4-quarter format)
     game_data['linescore'] = extract_linescore(soup, gender)

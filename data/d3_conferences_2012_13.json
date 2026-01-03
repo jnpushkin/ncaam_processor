@@ -1,0 +1,264 @@
+{
+  "division": "D3",
+  "source": "d3hoops.com",
+  "season": "2012-13",
+  "conferences": {
+    "American East Conference": {
+      "code": "AEC",
+      "slug": "AEC",
+      "schools": []
+    },
+    "Allegheny Mountain Collegiate Conference": {
+      "code": "AMCC",
+      "slug": "AMCC",
+      "schools": []
+    },
+    "American Rivers Conference": {
+      "code": "ARC",
+      "slug": "ARC",
+      "schools": []
+    },
+    "American Southwest Conference": {
+      "code": "ASC",
+      "slug": "ASC",
+      "schools": [
+        {
+          "name": "Mary Hardin-Baylor",
+          "slug": "mary-hardin-baylor",
+          "id": null
+        },
+        {
+          "name": "Concordia (Texas)",
+          "slug": "concordia-(texas)",
+          "id": null
+        },
+        {
+          "name": "Hardin-Simmons",
+          "slug": "hardin-simmons",
+          "id": null
+        },
+        {
+          "name": "Schreiner",
+          "slug": "schreiner",
+          "id": null
+        },
+        {
+          "name": "Howard Payne",
+          "slug": "howard-payne",
+          "id": null
+        },
+        {
+          "name": "Texas Lutheran",
+          "slug": "texas-lutheran",
+          "id": null
+        },
+        {
+          "name": "Sul Ross State",
+          "slug": "sul-ross-state",
+          "id": null
+        }
+      ]
+    },
+    "Coast-to-Coast Athletic Conference": {
+      "code": "C2C",
+      "slug": "C2C",
+      "schools": []
+    },
+    "Centennial Conference": {
+      "code": "CC",
+      "slug": "CC",
+      "schools": []
+    },
+    "College Conference of Illinois and Wisconsin": {
+      "code": "CCIW",
+      "slug": "CCIW",
+      "schools": []
+    },
+    "Colonial Coast South": {
+      "code": "CCS",
+      "slug": "CCS",
+      "schools": []
+    },
+    "Commonwealth Coast Conference": {
+      "code": "CNE",
+      "slug": "CNE",
+      "schools": []
+    },
+    "City University of New York Athletic Conference": {
+      "code": "CUNYAC",
+      "slug": "CUNYAC",
+      "schools": []
+    },
+    "Empire 8": {
+      "code": "E8",
+      "slug": "E8",
+      "schools": []
+    },
+    "Great Northeast Athletic Conference": {
+      "code": "GNAC",
+      "slug": "GNAC",
+      "schools": []
+    },
+    "Heartland Collegiate Athletic Conference": {
+      "code": "HCAC",
+      "slug": "HCAC",
+      "schools": []
+    },
+    "Independent": {
+      "code": "IND",
+      "slug": "IND",
+      "schools": []
+    },
+    "Landmark Conference": {
+      "code": "LAND",
+      "slug": "LAND",
+      "schools": []
+    },
+    "Little East Conference": {
+      "code": "LEC",
+      "slug": "LEC",
+      "schools": []
+    },
+    "Liberty League": {
+      "code": "LL",
+      "slug": "LL",
+      "schools": []
+    },
+    "Middle Atlantic Conference Commonwealth": {
+      "code": "MACC",
+      "slug": "MACC",
+      "schools": []
+    },
+    "Middle Atlantic Conference Freedom": {
+      "code": "MACF",
+      "slug": "MACF",
+      "schools": []
+    },
+    "Massachusetts State Collegiate Athletic Conference": {
+      "code": "MASCAC",
+      "slug": "MASCAC",
+      "schools": []
+    },
+    "Michigan Intercollegiate Athletic Association": {
+      "code": "MIAA",
+      "slug": "MIAA",
+      "schools": []
+    },
+    "Minnesota Intercollegiate Athletic Conference": {
+      "code": "MIAC",
+      "slug": "MIAC",
+      "schools": []
+    },
+    "Midwest Conference": {
+      "code": "MWC",
+      "slug": "MWC",
+      "schools": []
+    },
+    "North Atlantic Conference": {
+      "code": "NAC",
+      "slug": "NAC",
+      "schools": []
+    },
+    "Northern Athletics Collegiate Conference": {
+      "code": "NACC",
+      "slug": "NACC",
+      "schools": []
+    },
+    "North Coast Athletic Conference": {
+      "code": "NCAC",
+      "slug": "NCAC",
+      "schools": []
+    },
+    "New England Small College Athletic Conference": {
+      "code": "NESCAC",
+      "slug": "NESCAC",
+      "schools": []
+    },
+    "New England Women's and Men's Athletic Conference": {
+      "code": "NEWMAC",
+      "slug": "NEWMAC",
+      "schools": []
+    },
+    "New Jersey Athletic Conference": {
+      "code": "NJAC",
+      "slug": "NJAC",
+      "schools": []
+    },
+    "Northwest Conference": {
+      "code": "NWC",
+      "slug": "NWC",
+      "schools": []
+    },
+    "Ohio Athletic Conference": {
+      "code": "OAC",
+      "slug": "OAC",
+      "schools": []
+    },
+    "Old Dominion Athletic Conference": {
+      "code": "ODAC",
+      "slug": "ODAC",
+      "schools": []
+    },
+    "Presidents' Athletic Conference": {
+      "code": "PAC",
+      "slug": "PAC",
+      "schools": []
+    },
+    "Southern Athletic Association": {
+      "code": "SAA",
+      "slug": "SAA",
+      "schools": []
+    },
+    "Southern Collegiate Athletic Conference": {
+      "code": "SCAC",
+      "slug": "SCAC",
+      "schools": []
+    },
+    "Southern California Intercollegiate Athletic Conference": {
+      "code": "SCIAC",
+      "slug": "SCIAC",
+      "schools": []
+    },
+    "Skyline Conference": {
+      "code": "SKY",
+      "slug": "SKY",
+      "schools": []
+    },
+    "St. Louis Intercollegiate Athletic Conference": {
+      "code": "SLIAC",
+      "slug": "SLIAC",
+      "schools": []
+    },
+    "State University of New York Athletic Conference": {
+      "code": "SUNYAC",
+      "slug": "SUNYAC",
+      "schools": []
+    },
+    "University Athletic Association": {
+      "code": "UAA",
+      "slug": "UAA",
+      "schools": []
+    },
+    "USA East Conference": {
+      "code": "UEC",
+      "slug": "UEC",
+      "schools": []
+    },
+    "Upper Midwest Athletic Conference": {
+      "code": "UMAC",
+      "slug": "UMAC",
+      "schools": []
+    },
+    "USA South Athletic Conference": {
+      "code": "USAC",
+      "slug": "USAC",
+      "schools": []
+    },
+    "Wisconsin Intercollegiate Athletic Conference": {
+      "code": "WIAC",
+      "slug": "WIAC",
+      "schools": []
+    }
+  },
+  "total_schools": 7
+}

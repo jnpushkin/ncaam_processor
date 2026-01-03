@@ -1,0 +1,2206 @@
+{
+  "division": "D3",
+  "source": "d3hoops.com",
+  "conferences": {
+    "American East Conference": {
+      "code": "AEC",
+      "slug": "AEC",
+      "schools": [
+        {
+          "name": "Neumann",
+          "slug": "neumann",
+          "id": null
+        },
+        {
+          "name": "Marywood",
+          "slug": "marywood",
+          "id": null
+        },
+        {
+          "name": "Pratt",
+          "slug": "pratt",
+          "id": null
+        },
+        {
+          "name": "Gwynedd Mercy",
+          "slug": "gwynedd-mercy",
+          "id": null
+        },
+        {
+          "name": "St. Elizabeth",
+          "slug": "st.-elizabeth",
+          "id": null
+        },
+        {
+          "name": "Marymount",
+          "slug": "marymount",
+          "id": null
+        },
+        {
+          "name": "Centenary (N.J.)",
+          "slug": "centenary-(n.j.)",
+          "id": null
+        },
+        {
+          "name": "Immaculata",
+          "slug": "immaculata",
+          "id": null
+        }
+      ]
+    },
+    "Allegheny Mountain Collegiate Conference": {
+      "code": "AMCC",
+      "slug": "AMCC",
+      "schools": [
+        {
+          "name": "Penn State-Behrend",
+          "slug": "penn-state-behrend",
+          "id": null
+        },
+        {
+          "name": "Pitt-Greensburg",
+          "slug": "pitt-greensburg",
+          "id": null
+        },
+        {
+          "name": "Hilbert",
+          "slug": "hilbert",
+          "id": null
+        },
+        {
+          "name": "La Roche",
+          "slug": "la-roche",
+          "id": null
+        },
+        {
+          "name": "Pitt-Bradford",
+          "slug": "pitt-bradford",
+          "id": null
+        },
+        {
+          "name": "Penn State-Altoona",
+          "slug": "penn-state-altoona",
+          "id": null
+        },
+        {
+          "name": "Mount Aloysius",
+          "slug": "mount-aloysius",
+          "id": null
+        },
+        {
+          "name": "Alfred State",
+          "slug": "alfred-state",
+          "id": null
+        }
+      ]
+    },
+    "American Rivers Conference": {
+      "code": "ARC",
+      "slug": "ARC",
+      "schools": [
+        {
+          "name": "Loras",
+          "slug": "loras",
+          "id": null
+        },
+        {
+          "name": "Nebraska Wesleyan",
+          "slug": "nebraska-wesleyan",
+          "id": null
+        },
+        {
+          "name": "Wartburg",
+          "slug": "wartburg",
+          "id": null
+        },
+        {
+          "name": "Dubuque",
+          "slug": "dubuque",
+          "id": null
+        },
+        {
+          "name": "Simpson",
+          "slug": "simpson",
+          "id": null
+        },
+        {
+          "name": "Coe",
+          "slug": "coe",
+          "id": null
+        },
+        {
+          "name": "Buena Vista",
+          "slug": "buena-vista",
+          "id": null
+        },
+        {
+          "name": "Luther",
+          "slug": "luther",
+          "id": null
+        },
+        {
+          "name": "Central",
+          "slug": "central",
+          "id": null
+        }
+      ]
+    },
+    "American Southwest Conference": {
+      "code": "ASC",
+      "slug": "ASC",
+      "schools": [
+        {
+          "name": "Howard Payne",
+          "slug": "howard-payne",
+          "id": null
+        },
+        {
+          "name": "Mary Hardin-Baylor",
+          "slug": "mary-hardin-baylor",
+          "id": null
+        },
+        {
+          "name": "Hardin-Simmons",
+          "slug": "hardin-simmons",
+          "id": null
+        },
+        {
+          "name": "East Texas Baptist",
+          "slug": "east-texas-baptist",
+          "id": null
+        }
+      ]
+    },
+    "Coast-to-Coast Athletic Conference": {
+      "code": "C2C",
+      "slug": "C2C",
+      "schools": [
+        {
+          "name": "Mary Washington",
+          "slug": "mary-washington",
+          "id": null
+        },
+        {
+          "name": "Christopher Newport",
+          "slug": "christopher-newport",
+          "id": null
+        },
+        {
+          "name": "UC Santa Cruz",
+          "slug": "uc-santa-cruz",
+          "id": null
+        },
+        {
+          "name": "Salisbury",
+          "slug": "salisbury",
+          "id": null
+        },
+        {
+          "name": "Warren Wilson",
+          "slug": "warren-wilson",
+          "id": null
+        }
+      ]
+    },
+    "Centennial Conference": {
+      "code": "CC",
+      "slug": "CC",
+      "schools": [
+        {
+          "name": "Washington College",
+          "slug": "washington-college",
+          "id": null
+        },
+        {
+          "name": "Franklin and Marshall",
+          "slug": "franklin-and-marshall",
+          "id": null
+        },
+        {
+          "name": "Johns Hopkins",
+          "slug": "johns-hopkins",
+          "id": null
+        },
+        {
+          "name": "McDaniel",
+          "slug": "mcdaniel",
+          "id": null
+        },
+        {
+          "name": "Ursinus",
+          "slug": "ursinus",
+          "id": null
+        },
+        {
+          "name": "Swarthmore",
+          "slug": "swarthmore",
+          "id": null
+        },
+        {
+          "name": "Muhlenberg",
+          "slug": "muhlenberg",
+          "id": null
+        },
+        {
+          "name": "Haverford",
+          "slug": "haverford",
+          "id": null
+        },
+        {
+          "name": "Gettysburg",
+          "slug": "gettysburg",
+          "id": null
+        },
+        {
+          "name": "Dickinson",
+          "slug": "dickinson",
+          "id": null
+        }
+      ]
+    },
+    "College Conference of Illinois and Wisconsin": {
+      "code": "CCIW",
+      "slug": "CCIW",
+      "schools": [
+        {
+          "name": "Millikin",
+          "slug": "millikin",
+          "id": null
+        },
+        {
+          "name": "North Park",
+          "slug": "north-park",
+          "id": null
+        },
+        {
+          "name": "Carthage",
+          "slug": "carthage",
+          "id": null
+        },
+        {
+          "name": "Elmhurst",
+          "slug": "elmhurst",
+          "id": null
+        },
+        {
+          "name": "Augustana",
+          "slug": "augustana",
+          "id": null
+        },
+        {
+          "name": "Carroll",
+          "slug": "carroll",
+          "id": null
+        },
+        {
+          "name": "Illinois Wesleyan",
+          "slug": "illinois-wesleyan",
+          "id": null
+        },
+        {
+          "name": "Wheaton (Ill.)",
+          "slug": "wheaton-(ill.)",
+          "id": null
+        },
+        {
+          "name": "North Central (Ill.)",
+          "slug": "north-central-(ill.)",
+          "id": null
+        }
+      ]
+    },
+    "Colonial Coast South": {
+      "code": "CCS",
+      "slug": "CCS",
+      "schools": [
+        {
+          "name": "Maryville (Tenn.)",
+          "slug": "maryville-(tenn.)",
+          "id": null
+        },
+        {
+          "name": "LaGrange",
+          "slug": "lagrange",
+          "id": null
+        },
+        {
+          "name": "Piedmont",
+          "slug": "piedmont",
+          "id": null
+        },
+        {
+          "name": "Belhaven",
+          "slug": "belhaven",
+          "id": null
+        },
+        {
+          "name": "Asbury",
+          "slug": "asbury",
+          "id": null
+        },
+        {
+          "name": "Huntingdon",
+          "slug": "huntingdon",
+          "id": null
+        },
+        {
+          "name": "Covenant",
+          "slug": "covenant",
+          "id": null
+        }
+      ]
+    },
+    "Commonwealth Coast Conference": {
+      "code": "CNE",
+      "slug": "CNE",
+      "schools": [
+        {
+          "name": "Roger Williams",
+          "slug": "roger-williams",
+          "id": null
+        },
+        {
+          "name": "Endicott",
+          "slug": "endicott",
+          "id": null
+        },
+        {
+          "name": "Suffolk",
+          "slug": "suffolk",
+          "id": null
+        },
+        {
+          "name": "Nichols",
+          "slug": "nichols",
+          "id": null
+        },
+        {
+          "name": "Gordon",
+          "slug": "gordon",
+          "id": null
+        },
+        {
+          "name": "Western New England",
+          "slug": "western-new-england",
+          "id": null
+        },
+        {
+          "name": "Hartford",
+          "slug": "hartford",
+          "id": null
+        },
+        {
+          "name": "University of New England",
+          "slug": "university-of-new-england",
+          "id": null
+        },
+        {
+          "name": "Curry",
+          "slug": "curry",
+          "id": null
+        },
+        {
+          "name": "Johnson and Wales",
+          "slug": "johnson-and-wales",
+          "id": null
+        },
+        {
+          "name": "Wentworth",
+          "slug": "wentworth",
+          "id": null
+        }
+      ]
+    },
+    "City University of New York Athletic Conference": {
+      "code": "CUNYAC",
+      "slug": "CUNYAC",
+      "schools": [
+        {
+          "name": "Lehman",
+          "slug": "lehman",
+          "id": null
+        },
+        {
+          "name": "Baruch",
+          "slug": "baruch",
+          "id": null
+        },
+        {
+          "name": "York (N.Y.)",
+          "slug": "york-(n.y.)",
+          "id": null
+        },
+        {
+          "name": "Brooklyn",
+          "slug": "brooklyn",
+          "id": null
+        },
+        {
+          "name": "CCNY",
+          "slug": "ccny",
+          "id": null
+        },
+        {
+          "name": "Hunter",
+          "slug": "hunter",
+          "id": null
+        },
+        {
+          "name": "John Jay",
+          "slug": "john-jay",
+          "id": null
+        },
+        {
+          "name": "Medgar Evers",
+          "slug": "medgar-evers",
+          "id": null
+        }
+      ]
+    },
+    "Empire 8": {
+      "code": "E8",
+      "slug": "E8",
+      "schools": [
+        {
+          "name": "Nazareth",
+          "slug": "nazareth",
+          "id": null
+        },
+        {
+          "name": "SUNY Geneseo",
+          "slug": "suny-geneseo",
+          "id": null
+        },
+        {
+          "name": "Sage",
+          "slug": "sage",
+          "id": null
+        },
+        {
+          "name": "SUNYIT",
+          "slug": "sunyit",
+          "id": null
+        },
+        {
+          "name": "Utica",
+          "slug": "utica",
+          "id": null
+        },
+        {
+          "name": "Hartwick",
+          "slug": "hartwick",
+          "id": null
+        },
+        {
+          "name": "Elmira",
+          "slug": "elmira",
+          "id": null
+        },
+        {
+          "name": "St. John Fisher",
+          "slug": "st.-john-fisher",
+          "id": null
+        },
+        {
+          "name": "Houghton",
+          "slug": "houghton",
+          "id": null
+        },
+        {
+          "name": "Brockport",
+          "slug": "brockport",
+          "id": null
+        },
+        {
+          "name": "Alfred",
+          "slug": "alfred",
+          "id": null
+        },
+        {
+          "name": "Keuka",
+          "slug": "keuka",
+          "id": null
+        }
+      ]
+    },
+    "Great Northeast Athletic Conference": {
+      "code": "GNAC",
+      "slug": "GNAC",
+      "schools": [
+        {
+          "name": "Dean",
+          "slug": "dean",
+          "id": null
+        },
+        {
+          "name": "Albertus Magnus",
+          "slug": "albertus-magnus",
+          "id": null
+        },
+        {
+          "name": "Regis (Mass.)",
+          "slug": "regis-(mass.)",
+          "id": null
+        },
+        {
+          "name": "New England College",
+          "slug": "new-england-college",
+          "id": null
+        },
+        {
+          "name": "Elms",
+          "slug": "elms",
+          "id": null
+        },
+        {
+          "name": "Emmanuel",
+          "slug": "emmanuel",
+          "id": null
+        },
+        {
+          "name": "Rivier",
+          "slug": "rivier",
+          "id": null
+        },
+        {
+          "name": "St. Joseph (Conn.)",
+          "slug": "st.-joseph-(conn.)",
+          "id": null
+        },
+        {
+          "name": "Lasell",
+          "slug": "lasell",
+          "id": null
+        },
+        {
+          "name": "Mitchell",
+          "slug": "mitchell",
+          "id": null
+        },
+        {
+          "name": "Norwich",
+          "slug": "norwich",
+          "id": null
+        },
+        {
+          "name": "St. Joseph's (Maine)",
+          "slug": "st.-joseph's-(maine)",
+          "id": null
+        },
+        {
+          "name": "Colby-Sawyer",
+          "slug": "colby-sawyer",
+          "id": null
+        }
+      ]
+    },
+    "Heartland Collegiate Athletic Conference": {
+      "code": "HCAC",
+      "slug": "HCAC",
+      "schools": [
+        {
+          "name": "Rose-Hulman",
+          "slug": "rose-hulman",
+          "id": null
+        },
+        {
+          "name": "Hanover",
+          "slug": "hanover",
+          "id": null
+        },
+        {
+          "name": "Transylvania",
+          "slug": "transylvania",
+          "id": null
+        },
+        {
+          "name": "Franklin",
+          "slug": "franklin",
+          "id": null
+        },
+        {
+          "name": "Anderson",
+          "slug": "anderson",
+          "id": null
+        },
+        {
+          "name": "Mount St. Joseph",
+          "slug": "mount-st.-joseph",
+          "id": null
+        },
+        {
+          "name": "Manchester",
+          "slug": "manchester",
+          "id": null
+        },
+        {
+          "name": "Berea",
+          "slug": "berea",
+          "id": null
+        },
+        {
+          "name": "Bluffton",
+          "slug": "bluffton",
+          "id": null
+        },
+        {
+          "name": "Earlham",
+          "slug": "earlham",
+          "id": null
+        }
+      ]
+    },
+    "Independent": {
+      "code": "IND",
+      "slug": "IND",
+      "schools": [
+        {
+          "name": "Maranatha Baptist",
+          "slug": "maranatha-baptist",
+          "id": null
+        }
+      ]
+    },
+    "Landmark Conference": {
+      "code": "LAND",
+      "slug": "LAND",
+      "schools": [
+        {
+          "name": "Catholic",
+          "slug": "catholic",
+          "id": null
+        },
+        {
+          "name": "Elizabethtown",
+          "slug": "elizabethtown",
+          "id": null
+        },
+        {
+          "name": "Scranton",
+          "slug": "scranton",
+          "id": null
+        },
+        {
+          "name": "Drew",
+          "slug": "drew",
+          "id": null
+        },
+        {
+          "name": "Susquehanna",
+          "slug": "susquehanna",
+          "id": null
+        },
+        {
+          "name": "Moravian",
+          "slug": "moravian",
+          "id": null
+        },
+        {
+          "name": "Wilkes",
+          "slug": "wilkes",
+          "id": null
+        },
+        {
+          "name": "Goucher",
+          "slug": "goucher",
+          "id": null
+        },
+        {
+          "name": "Juniata",
+          "slug": "juniata",
+          "id": null
+        },
+        {
+          "name": "Lycoming",
+          "slug": "lycoming",
+          "id": null
+        }
+      ]
+    },
+    "Little East Conference": {
+      "code": "LEC",
+      "slug": "LEC",
+      "schools": [
+        {
+          "name": "Rhode Island College",
+          "slug": "rhode-island-college",
+          "id": null
+        },
+        {
+          "name": "Mass-Boston",
+          "slug": "mass-boston",
+          "id": null
+        },
+        {
+          "name": "Eastern Connecticut",
+          "slug": "eastern-connecticut",
+          "id": null
+        },
+        {
+          "name": "Mass-Dartmouth",
+          "slug": "mass-dartmouth",
+          "id": null
+        },
+        {
+          "name": "Southern Maine",
+          "slug": "southern-maine",
+          "id": null
+        },
+        {
+          "name": "Keene State",
+          "slug": "keene-state",
+          "id": null
+        },
+        {
+          "name": "Western Connecticut",
+          "slug": "western-connecticut",
+          "id": null
+        },
+        {
+          "name": "Plymouth State",
+          "slug": "plymouth-state",
+          "id": null
+        },
+        {
+          "name": "Vermont State Castleton",
+          "slug": "vermont-state-castleton",
+          "id": null
+        }
+      ]
+    },
+    "Liberty League": {
+      "code": "LL",
+      "slug": "LL",
+      "schools": [
+        {
+          "name": "RPI",
+          "slug": "rpi",
+          "id": null
+        },
+        {
+          "name": "Union",
+          "slug": "union",
+          "id": null
+        },
+        {
+          "name": "Vassar",
+          "slug": "vassar",
+          "id": null
+        },
+        {
+          "name": "Hobart",
+          "slug": "hobart",
+          "id": null
+        },
+        {
+          "name": "Skidmore",
+          "slug": "skidmore",
+          "id": null
+        },
+        {
+          "name": "Rochester Tech",
+          "slug": "rochester-tech",
+          "id": null
+        },
+        {
+          "name": "St. Lawrence",
+          "slug": "st.-lawrence",
+          "id": null
+        },
+        {
+          "name": "Ithaca",
+          "slug": "ithaca",
+          "id": null
+        },
+        {
+          "name": "Clarkson",
+          "slug": "clarkson",
+          "id": null
+        },
+        {
+          "name": "Bard",
+          "slug": "bard",
+          "id": null
+        }
+      ]
+    },
+    "Middle Atlantic Conference Commonwealth": {
+      "code": "MACC",
+      "slug": "MACC",
+      "schools": [
+        {
+          "name": "York (Pa.)",
+          "slug": "york-(pa.)",
+          "id": null
+        },
+        {
+          "name": "Hood",
+          "slug": "hood",
+          "id": null
+        },
+        {
+          "name": "Stevenson",
+          "slug": "stevenson",
+          "id": null
+        },
+        {
+          "name": "Alvernia",
+          "slug": "alvernia",
+          "id": null
+        },
+        {
+          "name": "Albright",
+          "slug": "albright",
+          "id": null
+        },
+        {
+          "name": "Messiah",
+          "slug": "messiah",
+          "id": null
+        },
+        {
+          "name": "Eastern",
+          "slug": "eastern",
+          "id": null
+        },
+        {
+          "name": "Widener",
+          "slug": "widener",
+          "id": null
+        }
+      ]
+    },
+    "Middle Atlantic Conference Freedom": {
+      "code": "MACF",
+      "slug": "MACF",
+      "schools": [
+        {
+          "name": "Misericordia",
+          "slug": "misericordia",
+          "id": null
+        },
+        {
+          "name": "Arcadia",
+          "slug": "arcadia",
+          "id": null
+        },
+        {
+          "name": "Delaware Valley",
+          "slug": "delaware-valley",
+          "id": null
+        },
+        {
+          "name": "Stevens",
+          "slug": "stevens",
+          "id": null
+        },
+        {
+          "name": "DeSales",
+          "slug": "desales",
+          "id": null
+        },
+        {
+          "name": "FDU-Florham",
+          "slug": "fdu-florham",
+          "id": null
+        },
+        {
+          "name": "King's",
+          "slug": "king's",
+          "id": null
+        },
+        {
+          "name": "Lebanon Valley",
+          "slug": "lebanon-valley",
+          "id": null
+        }
+      ]
+    },
+    "Massachusetts State Collegiate Athletic Conference": {
+      "code": "MASCAC",
+      "slug": "MASCAC",
+      "schools": [
+        {
+          "name": "Westfield State",
+          "slug": "westfield-state",
+          "id": null
+        },
+        {
+          "name": "Framingham State",
+          "slug": "framingham-state",
+          "id": null
+        },
+        {
+          "name": "Salem State",
+          "slug": "salem-state",
+          "id": null
+        },
+        {
+          "name": "Fitchburg State",
+          "slug": "fitchburg-state",
+          "id": null
+        },
+        {
+          "name": "Anna Maria",
+          "slug": "anna-maria",
+          "id": null
+        },
+        {
+          "name": "Massachusetts College",
+          "slug": "massachusetts-college",
+          "id": null
+        },
+        {
+          "name": "Worcester State",
+          "slug": "worcester-state",
+          "id": null
+        },
+        {
+          "name": "Bridgewater State",
+          "slug": "bridgewater-state",
+          "id": null
+        }
+      ]
+    },
+    "Michigan Intercollegiate Athletic Association": {
+      "code": "MIAA",
+      "slug": "MIAA",
+      "schools": [
+        {
+          "name": "Calvin",
+          "slug": "calvin",
+          "id": null
+        },
+        {
+          "name": "Trine",
+          "slug": "trine",
+          "id": null
+        },
+        {
+          "name": "Albion",
+          "slug": "albion",
+          "id": null
+        },
+        {
+          "name": "Hope",
+          "slug": "hope",
+          "id": null
+        },
+        {
+          "name": "Kalamazoo",
+          "slug": "kalamazoo",
+          "id": null
+        },
+        {
+          "name": "Olivet",
+          "slug": "olivet",
+          "id": null
+        },
+        {
+          "name": "Adrian",
+          "slug": "adrian",
+          "id": null
+        },
+        {
+          "name": "Alma",
+          "slug": "alma",
+          "id": null
+        }
+      ]
+    },
+    "Minnesota Intercollegiate Athletic Conference": {
+      "code": "MIAC",
+      "slug": "MIAC",
+      "schools": [
+        {
+          "name": "Gustavus Adolphus",
+          "slug": "gustavus-adolphus",
+          "id": null
+        },
+        {
+          "name": "Augsburg",
+          "slug": "augsburg",
+          "id": null
+        },
+        {
+          "name": "Carleton",
+          "slug": "carleton",
+          "id": null
+        },
+        {
+          "name": "Hamline",
+          "slug": "hamline",
+          "id": null
+        },
+        {
+          "name": "St. Olaf",
+          "slug": "st.-olaf",
+          "id": null
+        },
+        {
+          "name": "Bethel",
+          "slug": "bethel",
+          "id": null
+        },
+        {
+          "name": "St. John's",
+          "slug": "st.-john's",
+          "id": null
+        },
+        {
+          "name": "Concordia-Moorhead",
+          "slug": "concordia-moorhead",
+          "id": null
+        },
+        {
+          "name": "St. Scholastica",
+          "slug": "st.-scholastica",
+          "id": null
+        },
+        {
+          "name": "Macalester",
+          "slug": "macalester",
+          "id": null
+        },
+        {
+          "name": "St. Mary's (Minn.)",
+          "slug": "st.-mary's-(minn.)",
+          "id": null
+        }
+      ]
+    },
+    "Midwest Conference": {
+      "code": "MWC",
+      "slug": "MWC",
+      "schools": [
+        {
+          "name": "Grinnell",
+          "slug": "grinnell",
+          "id": null
+        },
+        {
+          "name": "Monmouth",
+          "slug": "monmouth",
+          "id": null
+        },
+        {
+          "name": "Lake Forest",
+          "slug": "lake-forest",
+          "id": null
+        },
+        {
+          "name": "Ripon",
+          "slug": "ripon",
+          "id": null
+        },
+        {
+          "name": "Lawrence",
+          "slug": "lawrence",
+          "id": null
+        },
+        {
+          "name": "Knox",
+          "slug": "knox",
+          "id": null
+        },
+        {
+          "name": "Illinois College",
+          "slug": "illinois-college",
+          "id": null
+        },
+        {
+          "name": "Beloit",
+          "slug": "beloit",
+          "id": null
+        },
+        {
+          "name": "Cornell",
+          "slug": "cornell",
+          "id": null
+        }
+      ]
+    },
+    "North Atlantic Conference": {
+      "code": "NAC",
+      "slug": "NAC",
+      "schools": [
+        {
+          "name": "Maine-Farmington",
+          "slug": "maine-farmington",
+          "id": null
+        },
+        {
+          "name": "Husson",
+          "slug": "husson",
+          "id": null
+        },
+        {
+          "name": "Maine Maritime",
+          "slug": "maine-maritime",
+          "id": null
+        },
+        {
+          "name": "Thomas",
+          "slug": "thomas",
+          "id": null
+        },
+        {
+          "name": "Maine-Presque Isle",
+          "slug": "maine-presque-isle",
+          "id": null
+        }
+      ]
+    },
+    "Northern Athletics Collegiate Conference": {
+      "code": "NACC",
+      "slug": "NACC",
+      "schools": [
+        {
+          "name": "St. Norbert",
+          "slug": "st.-norbert",
+          "id": null
+        },
+        {
+          "name": "Aurora",
+          "slug": "aurora",
+          "id": null
+        },
+        {
+          "name": "Marian",
+          "slug": "marian",
+          "id": null
+        },
+        {
+          "name": "MSOE",
+          "slug": "msoe",
+          "id": null
+        },
+        {
+          "name": "Concordia-Chicago",
+          "slug": "concordia-chicago",
+          "id": null
+        },
+        {
+          "name": "Concordia (Wis.)",
+          "slug": "concordia-(wis.)",
+          "id": null
+        },
+        {
+          "name": "Illinois Tech",
+          "slug": "illinois-tech",
+          "id": null
+        },
+        {
+          "name": "Edgewood",
+          "slug": "edgewood",
+          "id": null
+        },
+        {
+          "name": "Rockford",
+          "slug": "rockford",
+          "id": null
+        },
+        {
+          "name": "Wisconsin Lutheran",
+          "slug": "wisconsin-lutheran",
+          "id": null
+        },
+        {
+          "name": "Benedictine",
+          "slug": "benedictine",
+          "id": null
+        },
+        {
+          "name": "Dominican",
+          "slug": "dominican",
+          "id": null
+        },
+        {
+          "name": "Lakeland",
+          "slug": "lakeland",
+          "id": null
+        }
+      ]
+    },
+    "North Coast Athletic Conference": {
+      "code": "NCAC",
+      "slug": "NCAC",
+      "schools": [
+        {
+          "name": "DePauw",
+          "slug": "depauw",
+          "id": null
+        },
+        {
+          "name": "Wittenberg",
+          "slug": "wittenberg",
+          "id": null
+        },
+        {
+          "name": "Denison",
+          "slug": "denison",
+          "id": null
+        },
+        {
+          "name": "John Carroll",
+          "slug": "john-carroll",
+          "id": null
+        },
+        {
+          "name": "Wabash",
+          "slug": "wabash",
+          "id": null
+        },
+        {
+          "name": "Kenyon",
+          "slug": "kenyon",
+          "id": null
+        },
+        {
+          "name": "Wooster",
+          "slug": "wooster",
+          "id": null
+        },
+        {
+          "name": "Oberlin",
+          "slug": "oberlin",
+          "id": null
+        },
+        {
+          "name": "Ohio Wesleyan",
+          "slug": "ohio-wesleyan",
+          "id": null
+        }
+      ]
+    },
+    "New England Small College Athletic Conference": {
+      "code": "NESCAC",
+      "slug": "NESCAC",
+      "schools": [
+        {
+          "name": "Trinity (Conn.)",
+          "slug": "trinity-(conn.)",
+          "id": null
+        },
+        {
+          "name": "Bates",
+          "slug": "bates",
+          "id": null
+        },
+        {
+          "name": "Colby",
+          "slug": "colby",
+          "id": null
+        },
+        {
+          "name": "Connecticut College",
+          "slug": "connecticut-college",
+          "id": null
+        },
+        {
+          "name": "Tufts",
+          "slug": "tufts",
+          "id": null
+        },
+        {
+          "name": "Williams",
+          "slug": "williams",
+          "id": null
+        },
+        {
+          "name": "Amherst",
+          "slug": "amherst",
+          "id": null
+        },
+        {
+          "name": "Wesleyan",
+          "slug": "wesleyan",
+          "id": null
+        },
+        {
+          "name": "Bowdoin",
+          "slug": "bowdoin",
+          "id": null
+        },
+        {
+          "name": "Middlebury",
+          "slug": "middlebury",
+          "id": null
+        },
+        {
+          "name": "Hamilton",
+          "slug": "hamilton",
+          "id": null
+        }
+      ]
+    },
+    "New England Women's and Men's Athletic Conference": {
+      "code": "NEWMAC",
+      "slug": "NEWMAC",
+      "schools": [
+        {
+          "name": "WPI",
+          "slug": "wpi",
+          "id": null
+        },
+        {
+          "name": "Wheaton (Mass.)",
+          "slug": "wheaton-(mass.)",
+          "id": null
+        },
+        {
+          "name": "Salve Regina",
+          "slug": "salve-regina",
+          "id": null
+        },
+        {
+          "name": "Clark",
+          "slug": "clark",
+          "id": null
+        },
+        {
+          "name": "Emerson",
+          "slug": "emerson",
+          "id": null
+        },
+        {
+          "name": "Springfield",
+          "slug": "springfield",
+          "id": null
+        },
+        {
+          "name": "Babson",
+          "slug": "babson",
+          "id": null
+        },
+        {
+          "name": "MIT",
+          "slug": "mit",
+          "id": null
+        },
+        {
+          "name": "Coast Guard",
+          "slug": "coast-guard",
+          "id": null
+        }
+      ]
+    },
+    "New Jersey Athletic Conference": {
+      "code": "NJAC",
+      "slug": "NJAC",
+      "schools": [
+        {
+          "name": "Montclair State",
+          "slug": "montclair-state",
+          "id": null
+        },
+        {
+          "name": "New Jersey City",
+          "slug": "new-jersey-city",
+          "id": null
+        },
+        {
+          "name": "TCNJ",
+          "slug": "tcnj",
+          "id": null
+        },
+        {
+          "name": "Kean",
+          "slug": "kean",
+          "id": null
+        },
+        {
+          "name": "Stockton",
+          "slug": "stockton",
+          "id": null
+        },
+        {
+          "name": "Rutgers-Camden",
+          "slug": "rutgers-camden",
+          "id": null
+        },
+        {
+          "name": "Rowan",
+          "slug": "rowan",
+          "id": null
+        },
+        {
+          "name": "William Paterson",
+          "slug": "william-paterson",
+          "id": null
+        },
+        {
+          "name": "Ramapo",
+          "slug": "ramapo",
+          "id": null
+        },
+        {
+          "name": "Rutgers-Newark",
+          "slug": "rutgers-newark",
+          "id": null
+        }
+      ]
+    },
+    "Northwest Conference": {
+      "code": "NWC",
+      "slug": "NWC",
+      "schools": [
+        {
+          "name": "Pacific Lutheran",
+          "slug": "pacific-lutheran",
+          "id": null
+        },
+        {
+          "name": "Whitworth",
+          "slug": "whitworth",
+          "id": null
+        },
+        {
+          "name": "Puget Sound",
+          "slug": "puget-sound",
+          "id": null
+        },
+        {
+          "name": "Whitman",
+          "slug": "whitman",
+          "id": null
+        },
+        {
+          "name": "Willamette",
+          "slug": "willamette",
+          "id": null
+        },
+        {
+          "name": "Pacific",
+          "slug": "pacific",
+          "id": null
+        },
+        {
+          "name": "Lewis and Clark",
+          "slug": "lewis-and-clark",
+          "id": null
+        },
+        {
+          "name": "Linfield",
+          "slug": "linfield",
+          "id": null
+        },
+        {
+          "name": "George Fox",
+          "slug": "george-fox",
+          "id": null
+        }
+      ]
+    },
+    "Ohio Athletic Conference": {
+      "code": "OAC",
+      "slug": "OAC",
+      "schools": [
+        {
+          "name": "Mount Union",
+          "slug": "mount-union",
+          "id": null
+        },
+        {
+          "name": "Muskingum",
+          "slug": "muskingum",
+          "id": null
+        },
+        {
+          "name": "Otterbein",
+          "slug": "otterbein",
+          "id": null
+        },
+        {
+          "name": "Wilmington",
+          "slug": "wilmington",
+          "id": null
+        },
+        {
+          "name": "Heidelberg",
+          "slug": "heidelberg",
+          "id": null
+        },
+        {
+          "name": "Marietta",
+          "slug": "marietta",
+          "id": null
+        },
+        {
+          "name": "Ohio Northern",
+          "slug": "ohio-northern",
+          "id": null
+        },
+        {
+          "name": "Capital",
+          "slug": "capital",
+          "id": null
+        },
+        {
+          "name": "Baldwin Wallace",
+          "slug": "baldwin-wallace",
+          "id": null
+        }
+      ]
+    },
+    "Old Dominion Athletic Conference": {
+      "code": "ODAC",
+      "slug": "ODAC",
+      "schools": [
+        {
+          "name": "Randolph-Macon",
+          "slug": "randolph-macon",
+          "id": null
+        },
+        {
+          "name": "Virginia Wesleyan",
+          "slug": "virginia-wesleyan",
+          "id": null
+        },
+        {
+          "name": "Lynchburg",
+          "slug": "lynchburg",
+          "id": null
+        },
+        {
+          "name": "Washington and Lee",
+          "slug": "washington-and-lee",
+          "id": null
+        },
+        {
+          "name": "Averett",
+          "slug": "averett",
+          "id": null
+        },
+        {
+          "name": "Roanoke",
+          "slug": "roanoke",
+          "id": null
+        },
+        {
+          "name": "Hampden-Sydney",
+          "slug": "hampden-sydney",
+          "id": null
+        },
+        {
+          "name": "Bridgewater (Va.)",
+          "slug": "bridgewater-(va.)",
+          "id": null
+        },
+        {
+          "name": "Guilford",
+          "slug": "guilford",
+          "id": null
+        },
+        {
+          "name": "Shenandoah",
+          "slug": "shenandoah",
+          "id": null
+        },
+        {
+          "name": "Randolph",
+          "slug": "randolph",
+          "id": null
+        },
+        {
+          "name": "Eastern Mennonite",
+          "slug": "eastern-mennonite",
+          "id": null
+        }
+      ]
+    },
+    "Presidents' Athletic Conference": {
+      "code": "PAC",
+      "slug": "PAC",
+      "schools": [
+        {
+          "name": "Washington and Jefferson",
+          "slug": "washington-and-jefferson",
+          "id": null
+        },
+        {
+          "name": "St. Vincent",
+          "slug": "st.-vincent",
+          "id": null
+        },
+        {
+          "name": "Geneva",
+          "slug": "geneva",
+          "id": null
+        },
+        {
+          "name": "Franciscan (Ohio)",
+          "slug": "franciscan-(ohio)",
+          "id": null
+        },
+        {
+          "name": "Chatham",
+          "slug": "chatham",
+          "id": null
+        },
+        {
+          "name": "Westminster (Pa.)",
+          "slug": "westminster-(pa.)",
+          "id": null
+        },
+        {
+          "name": "Thiel",
+          "slug": "thiel",
+          "id": null
+        },
+        {
+          "name": "Allegheny",
+          "slug": "allegheny",
+          "id": null
+        },
+        {
+          "name": "Hiram",
+          "slug": "hiram",
+          "id": null
+        },
+        {
+          "name": "Grove City",
+          "slug": "grove-city",
+          "id": null
+        },
+        {
+          "name": "Bethany",
+          "slug": "bethany",
+          "id": null
+        },
+        {
+          "name": "Waynesburg",
+          "slug": "waynesburg",
+          "id": null
+        }
+      ]
+    },
+    "Southern Athletic Association": {
+      "code": "SAA",
+      "slug": "SAA",
+      "schools": [
+        {
+          "name": "Oglethorpe",
+          "slug": "oglethorpe",
+          "id": null
+        },
+        {
+          "name": "Millsaps",
+          "slug": "millsaps",
+          "id": null
+        },
+        {
+          "name": "Rhodes",
+          "slug": "rhodes",
+          "id": null
+        },
+        {
+          "name": "Trinity (Texas)",
+          "slug": "trinity-(texas)",
+          "id": null
+        },
+        {
+          "name": "Centre",
+          "slug": "centre",
+          "id": null
+        },
+        {
+          "name": "Southwestern",
+          "slug": "southwestern",
+          "id": null
+        },
+        {
+          "name": "Sewanee",
+          "slug": "sewanee",
+          "id": null
+        },
+        {
+          "name": "Berry",
+          "slug": "berry",
+          "id": null
+        }
+      ]
+    },
+    "Southern Collegiate Athletic Conference": {
+      "code": "SCAC",
+      "slug": "SCAC",
+      "schools": [
+        {
+          "name": "LeTourneau",
+          "slug": "letourneau",
+          "id": null
+        },
+        {
+          "name": "University of Dallas",
+          "slug": "university-of-dallas",
+          "id": null
+        },
+        {
+          "name": "Hendrix",
+          "slug": "hendrix",
+          "id": null
+        },
+        {
+          "name": "University of the Ozarks",
+          "slug": "university-of-the-ozarks",
+          "id": null
+        },
+        {
+          "name": "Austin",
+          "slug": "austin",
+          "id": null
+        },
+        {
+          "name": "Centenary (La.)",
+          "slug": "centenary-(la.)",
+          "id": null
+        }
+      ]
+    },
+    "Southern California Intercollegiate Athletic Conference": {
+      "code": "SCIAC",
+      "slug": "SCIAC",
+      "schools": [
+        {
+          "name": "Claremont-Mudd-Scripps",
+          "slug": "claremont-mudd-scripps",
+          "id": null
+        },
+        {
+          "name": "Chapman",
+          "slug": "chapman",
+          "id": null
+        },
+        {
+          "name": "Occidental",
+          "slug": "occidental",
+          "id": null
+        },
+        {
+          "name": "Whittier",
+          "slug": "whittier",
+          "id": null
+        },
+        {
+          "name": "Pomona-Pitzer",
+          "slug": "pomona-pitzer",
+          "id": null
+        },
+        {
+          "name": "Cal Lutheran",
+          "slug": "cal-lutheran",
+          "id": null
+        },
+        {
+          "name": "Redlands",
+          "slug": "redlands",
+          "id": null
+        },
+        {
+          "name": "Caltech",
+          "slug": "caltech",
+          "id": null
+        },
+        {
+          "name": "La Verne",
+          "slug": "la-verne",
+          "id": null
+        }
+      ]
+    },
+    "Skyline Conference": {
+      "code": "SKY",
+      "slug": "SKY",
+      "schools": [
+        {
+          "name": "Farmingdale State",
+          "slug": "farmingdale-state",
+          "id": null
+        },
+        {
+          "name": "St. Joseph's (L.I.)",
+          "slug": "st.-joseph's-(l.i.)",
+          "id": null
+        },
+        {
+          "name": "SUNY-Maritime",
+          "slug": "suny-maritime",
+          "id": null
+        },
+        {
+          "name": "Merchant Marine",
+          "slug": "merchant-marine",
+          "id": null
+        },
+        {
+          "name": "St. Joseph's (Bklyn.)",
+          "slug": "st.-joseph's-(bklyn.)",
+          "id": null
+        },
+        {
+          "name": "SUNY-Old Westbury",
+          "slug": "suny-old-westbury",
+          "id": null
+        }
+      ]
+    },
+    "St. Louis Intercollegiate Athletic Conference": {
+      "code": "SLIAC",
+      "slug": "SLIAC",
+      "schools": [
+        {
+          "name": "Lyon",
+          "slug": "lyon",
+          "id": null
+        },
+        {
+          "name": "Webster",
+          "slug": "webster",
+          "id": null
+        },
+        {
+          "name": "MUW",
+          "slug": "muw",
+          "id": null
+        },
+        {
+          "name": "Westminster (Mo.)",
+          "slug": "westminster-(mo.)",
+          "id": null
+        },
+        {
+          "name": "Eureka",
+          "slug": "eureka",
+          "id": null
+        },
+        {
+          "name": "Spalding",
+          "slug": "spalding",
+          "id": null
+        },
+        {
+          "name": "Blackburn",
+          "slug": "blackburn",
+          "id": null
+        },
+        {
+          "name": "Principia",
+          "slug": "principia",
+          "id": null
+        },
+        {
+          "name": "Greenville",
+          "slug": "greenville",
+          "id": null
+        }
+      ]
+    },
+    "State University of New York Athletic Conference": {
+      "code": "SUNYAC",
+      "slug": "SUNYAC",
+      "schools": [
+        {
+          "name": "Cortland",
+          "slug": "cortland",
+          "id": null
+        },
+        {
+          "name": "Plattsburgh State",
+          "slug": "plattsburgh-state",
+          "id": null
+        },
+        {
+          "name": "SUNY Oneonta",
+          "slug": "suny-oneonta",
+          "id": null
+        },
+        {
+          "name": "Oswego State",
+          "slug": "oswego-state",
+          "id": null
+        },
+        {
+          "name": "Morrisville State",
+          "slug": "morrisville-state",
+          "id": null
+        },
+        {
+          "name": "Fredonia",
+          "slug": "fredonia",
+          "id": null
+        },
+        {
+          "name": "SUNY Potsdam",
+          "slug": "suny-potsdam",
+          "id": null
+        },
+        {
+          "name": "SUNY New Paltz",
+          "slug": "suny-new-paltz",
+          "id": null
+        },
+        {
+          "name": "Buffalo State",
+          "slug": "buffalo-state",
+          "id": null
+        },
+        {
+          "name": "SUNY-Canton",
+          "slug": "suny-canton",
+          "id": null
+        }
+      ]
+    },
+    "University Athletic Association": {
+      "code": "UAA",
+      "slug": "UAA",
+      "schools": [
+        {
+          "name": "Washington U.",
+          "slug": "washington-u.",
+          "id": null
+        },
+        {
+          "name": "Chicago",
+          "slug": "chicago",
+          "id": null
+        },
+        {
+          "name": "Emory",
+          "slug": "emory",
+          "id": null
+        },
+        {
+          "name": "New York University",
+          "slug": "new-york-university",
+          "id": null
+        },
+        {
+          "name": "Rochester",
+          "slug": "rochester",
+          "id": null
+        },
+        {
+          "name": "Carnegie Mellon",
+          "slug": "carnegie-mellon",
+          "id": null
+        },
+        {
+          "name": "Case Western Reserve",
+          "slug": "case-western-reserve",
+          "id": null
+        },
+        {
+          "name": "Brandeis",
+          "slug": "brandeis",
+          "id": null
+        }
+      ]
+    },
+    "USA East Conference": {
+      "code": "UEC",
+      "slug": "UEC",
+      "schools": [
+        {
+          "name": "Cairn",
+          "slug": "cairn",
+          "id": null
+        },
+        {
+          "name": "Notre Dame (Md.)",
+          "slug": "notre-dame-(md.)",
+          "id": null
+        },
+        {
+          "name": "Penn State-Harrisburg",
+          "slug": "penn-state-harrisburg",
+          "id": null
+        },
+        {
+          "name": "Lancaster Bible",
+          "slug": "lancaster-bible",
+          "id": null
+        },
+        {
+          "name": "St. Mary's (Md.)",
+          "slug": "st.-mary's-(md.)",
+          "id": null
+        },
+        {
+          "name": "Rosemont",
+          "slug": "rosemont",
+          "id": null
+        },
+        {
+          "name": "Penn State-Berks",
+          "slug": "penn-state-berks",
+          "id": null
+        },
+        {
+          "name": "Penn State-Abington",
+          "slug": "penn-state-abington",
+          "id": null
+        },
+        {
+          "name": "Penn College",
+          "slug": "penn-college",
+          "id": null
+        },
+        {
+          "name": "Valley Forge",
+          "slug": "valley-forge",
+          "id": null
+        },
+        {
+          "name": "Wilson",
+          "slug": "wilson",
+          "id": null
+        },
+        {
+          "name": "Keystone",
+          "slug": "keystone",
+          "id": null
+        },
+        {
+          "name": "Gallaudet",
+          "slug": "gallaudet",
+          "id": null
+        }
+      ]
+    },
+    "Upper Midwest Athletic Conference": {
+      "code": "UMAC",
+      "slug": "UMAC",
+      "schools": [
+        {
+          "name": "Bethany Lutheran",
+          "slug": "bethany-lutheran",
+          "id": null
+        },
+        {
+          "name": "Crown",
+          "slug": "crown",
+          "id": null
+        },
+        {
+          "name": "Martin Luther",
+          "slug": "martin-luther",
+          "id": null
+        },
+        {
+          "name": "Minnesota-Morris",
+          "slug": "minnesota-morris",
+          "id": null
+        },
+        {
+          "name": "UW-Superior",
+          "slug": "uw-superior",
+          "id": null
+        },
+        {
+          "name": "Northwestern (Minn.)",
+          "slug": "northwestern-(minn.)",
+          "id": null
+        },
+        {
+          "name": "North Central (Minn.)",
+          "slug": "north-central-(minn.)",
+          "id": null
+        }
+      ]
+    },
+    "USA South Athletic Conference": {
+      "code": "USAC",
+      "slug": "USAC",
+      "schools": [
+        {
+          "name": "N.C. Wesleyan",
+          "slug": "n.c.-wesleyan",
+          "id": null
+        },
+        {
+          "name": "Mary Baldwin",
+          "slug": "mary-baldwin",
+          "id": null
+        },
+        {
+          "name": "Brevard",
+          "slug": "brevard",
+          "id": null
+        },
+        {
+          "name": "William Peace",
+          "slug": "william-peace",
+          "id": null
+        },
+        {
+          "name": "Methodist",
+          "slug": "methodist",
+          "id": null
+        },
+        {
+          "name": "Pfeiffer",
+          "slug": "pfeiffer",
+          "id": null
+        },
+        {
+          "name": "Southern Virginia",
+          "slug": "southern-virginia",
+          "id": null
+        },
+        {
+          "name": "Greensboro",
+          "slug": "greensboro",
+          "id": null
+        }
+      ]
+    },
+    "Wisconsin Intercollegiate Athletic Conference": {
+      "code": "WIAC",
+      "slug": "WIAC",
+      "schools": [
+        {
+          "name": "UW-Eau Claire",
+          "slug": "uw-eau-claire",
+          "id": null
+        },
+        {
+          "name": "UW-La Crosse",
+          "slug": "uw-la-crosse",
+          "id": null
+        },
+        {
+          "name": "UW-Stevens Point",
+          "slug": "uw-stevens-point",
+          "id": null
+        },
+        {
+          "name": "UW-Oshkosh",
+          "slug": "uw-oshkosh",
+          "id": null
+        },
+        {
+          "name": "UW-Whitewater",
+          "slug": "uw-whitewater",
+          "id": null
+        },
+        {
+          "name": "UW-Platteville",
+          "slug": "uw-platteville",
+          "id": null
+        },
+        {
+          "name": "UW-River Falls",
+          "slug": "uw-river-falls",
+          "id": null
+        },
+        {
+          "name": "UW-Stout",
+          "slug": "uw-stout",
+          "id": null
+        }
+      ]
+    }
+  },
+  "total_schools": 387
+}
