@@ -76,7 +76,7 @@ class PlayerStatsProcessor(BaseProcessor):
             game_id = self.get_game_id(game)
             date = basic_info.get('date', '')
             date_yyyymmdd = basic_info.get('date_yyyymmdd', '')
-            gender = game.get('gender', 'M')
+            gender = basic_info.get('gender', 'M')
 
             for side in ['away', 'home']:
                 team = basic_info.get(f'{side}_team', '')

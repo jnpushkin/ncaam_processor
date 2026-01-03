@@ -1857,79 +1857,38 @@ def get_javascript(json_data: str) -> str:
             const games = DATA.games || [];
             const checklist = DATA.conferenceChecklist || {};
 
-            // Build arena -> team lookup from conferenceChecklist (separate for M/W)
-            const arenaToTeam = {};
+            // Build venue -> home team lookup from actual game data
+            // This handles D1, D2, D3, NAIA schools correctly
+            const venueHomeTeams = {};  // venue -> {team, gender, count, espnId}
+            games.forEach(g => {
+                const venueName = g.Venue || g.venue;
+                const homeTeam = g['Home Team'] || g.home_team;
+                const gender = g.Gender || 'M';
+                if (venueName && homeTeam) {
+                    const key = `${venueName}|${gender}`;
+                    if (!venueHomeTeams[key]) {
+                        venueHomeTeams[key] = { team: homeTeam, gender, count: 0, espnId: null };
+                    }
+                    venueHomeTeams[key].count++;
+                }
+            });
+
+            // Build team -> espnId lookup from conferenceChecklist (for D1 logos)
+            const teamToEspnId = {};
             Object.values(checklist).forEach(conf => {
                 (conf.teams || []).forEach(team => {
-                    // Normalize arena names for matching (remove parenthetical info, trim)
-                    const normalize = (name) => {
-                        if (!name || name === 'Unknown') return null;
-                        return name.replace(/\s*\([^)]*\)\s*/g, '').trim().toLowerCase();
-                    };
-                    // Track men's arena
-                    const mArena = team.homeArenaM || team.homeArena;
-                    if (mArena && mArena !== 'Unknown') {
-                        const key = normalize(mArena) + '|M';
-                        arenaToTeam[key] = {
-                            team: team.team,
-                            espnId: team.espnId,
-                            conference: team.conference,
-                            gender: 'M'
-                        };
-                        // Also add without gender for fallback matching
-                        const keyNoGender = normalize(mArena);
-                        if (!arenaToTeam[keyNoGender]) {
-                            arenaToTeam[keyNoGender] = {
-                                team: team.team,
-                                espnId: team.espnId,
-                                conference: team.conference,
-                                gender: 'M'
-                            };
-                        }
-                    }
-                    // Track women's arena (may be same or different)
-                    const wArena = team.homeArenaW || team.homeArena;
-                    if (wArena && wArena !== 'Unknown') {
-                        const key = normalize(wArena) + '|W';
-                        arenaToTeam[key] = {
-                            team: team.team,
-                            espnId: team.espnId,
-                            conference: team.conference,
-                            gender: 'W'
-                        };
+                    if (team.espnId) {
+                        teamToEspnId[team.team] = team.espnId;
                     }
                 });
             });
 
-            // State coordinates for fallback
-            const stateCoords = {
-                'Alabama': [32.806671, -86.791130], 'Alaska': [61.370716, -152.404419],
-                'Arizona': [33.729759, -111.431221], 'Arkansas': [34.969704, -92.373123],
-                'California': [36.116203, -119.681564], 'Colorado': [39.059811, -105.311104],
-                'Connecticut': [41.597782, -72.755371], 'Delaware': [39.318523, -75.507141],
-                'Florida': [27.766279, -81.686783], 'Georgia': [33.040619, -83.643074],
-                'Hawaii': [21.094318, -157.498337], 'Idaho': [44.240459, -114.478828],
-                'Illinois': [40.349457, -88.986137], 'Indiana': [39.849426, -86.258278],
-                'Iowa': [42.011539, -93.210526], 'Kansas': [38.526600, -96.726486],
-                'Kentucky': [37.668140, -84.670067], 'Louisiana': [31.169546, -91.867805],
-                'Maine': [44.693947, -69.381927], 'Maryland': [39.063946, -76.802101],
-                'Massachusetts': [42.230171, -71.530106], 'Michigan': [43.326618, -84.536095],
-                'Minnesota': [45.694454, -93.900192], 'Mississippi': [32.741646, -89.678696],
-                'Missouri': [38.456085, -92.288368], 'Montana': [46.921925, -110.454353],
-                'Nebraska': [41.125370, -98.268082], 'Nevada': [38.313515, -117.055374],
-                'New Hampshire': [43.452492, -71.563896], 'New Jersey': [40.298904, -74.521011],
-                'New Mexico': [34.840515, -106.248482], 'New York': [42.165726, -74.948051],
-                'North Carolina': [35.630066, -79.806419], 'North Dakota': [47.528912, -99.784012],
-                'Ohio': [40.388783, -82.764915], 'Oklahoma': [35.565342, -96.928917],
-                'Oregon': [44.572021, -122.070938], 'Pennsylvania': [40.590752, -77.209755],
-                'Rhode Island': [41.680893, -71.511780], 'South Carolina': [33.856892, -80.945007],
-                'South Dakota': [44.299782, -99.438828], 'Tennessee': [35.747845, -86.692345],
-                'Texas': [31.054487, -97.563461], 'Utah': [40.150032, -111.862434],
-                'Vermont': [44.045876, -72.710686], 'Virginia': [37.769337, -78.169968],
-                'Washington': [47.400902, -121.490494], 'West Virginia': [38.491226, -80.954453],
-                'Wisconsin': [44.268543, -89.616508], 'Wyoming': [42.755966, -107.302490],
-                'District of Columbia': [38.9072, -77.0369], 'DC': [38.9072, -77.0369]
-            };
+            // Add espnId to venue home teams where available
+            Object.values(venueHomeTeams).forEach(info => {
+                if (teamToEspnId[info.team]) {
+                    info.espnId = teamToEspnId[info.team];
+                }
+            });
 
             // NCAA logo for neutral sites
             const ncaaLogoUrl = 'https://a.espncdn.com/i/teamlogos/ncaa/500/ncaa.png';
@@ -1953,47 +1912,31 @@ def get_javascript(json_data: str) -> str:
                 const wGames = venueGames.filter(g => g.Gender === 'W').length;
                 const predominantGender = wGames > mGames ? 'W' : 'M';
 
-                // Normalize venue name for lookup
-                const normalizedVenue = venueName.replace(/\s*\([^)]*\)\s*/g, '').trim().toLowerCase();
+                // Look up home team from game data
+                const venueKey = `${venueName}|${predominantGender}`;
+                let teamInfo = venueHomeTeams[venueKey];
 
-                // Try to find team whose home arena matches this venue (prefer gender-specific)
-                let teamInfo = arenaToTeam[normalizedVenue + '|' + predominantGender] || arenaToTeam[normalizedVenue];
-
-                // Also try partial matching if exact match fails
+                // If no match for predominant gender, try other gender
                 if (!teamInfo) {
-                    for (const [arenaKey, info] of Object.entries(arenaToTeam)) {
-                        const baseKey = arenaKey.replace(/\|[MW]$/, '');
-                        // Check if venue contains arena name or vice versa (for variations)
-                        if (normalizedVenue.includes(baseKey) || baseKey.includes(normalizedVenue)) {
-                            // Prefer matching gender
-                            if (arenaKey.endsWith('|' + predominantGender) || !arenaKey.includes('|')) {
-                                teamInfo = info;
-                                break;
-                            } else if (!teamInfo) {
-                                teamInfo = info;  // Fallback to any match
-                            }
-                        }
-                    }
+                    const altGender = predominantGender === 'M' ? 'W' : 'M';
+                    teamInfo = venueHomeTeams[`${venueName}|${altGender}`];
                 }
 
-                // Override gender with predominant if we have both M/W games
-                if (teamInfo && wGames > 0 && mGames === 0) {
-                    teamInfo = { ...teamInfo, gender: 'W' };
-                } else if (teamInfo && mGames > 0 && wGames === 0) {
-                    teamInfo = { ...teamInfo, gender: 'M' };
-                }
+                // Determine if this is a home venue vs neutral site
+                // Count how many different "home" teams played at this venue
+                const homeTeamsAtVenue = new Set(venueGames.map(g => g['Home Team']));
+                // If more than 2 different teams were "home" here, it's likely a neutral site
+                const isNeutralSite = homeTeamsAtVenue.size > 2 || !teamInfo;
 
-                // Get coordinates - prefer SCHOOL_COORDS for accuracy
+                // Get coordinates - prefer SCHOOL_COORDS for home team, or use city coords
                 let coords = null;
                 if (teamInfo && SCHOOL_COORDS[teamInfo.team]) {
                     coords = SCHOOL_COORDS[teamInfo.team];
-                } else if (state && stateCoords[state]) {
-                    // Fallback to state center with slight offset to avoid overlap
-                    const base = stateCoords[state];
-                    const offset = (Math.random() - 0.5) * 2; // Small random offset
-                    coords = [base[0] + offset, base[1] + offset];
+                } else if (city && CITY_COORDS[city]) {
+                    coords = CITY_COORDS[city];
                 }
 
+                // Skip venues we can't accurately place
                 if (!coords) return;
 
                 // Track stats by state
@@ -2005,13 +1948,8 @@ def get_javascript(json_data: str) -> str:
 
                 placedVenues++;
 
-                // Find games at this venue for popup
-                const venueGames = games.filter(g =>
-                    (g.Venue || g.venue) === venue.Venue
-                );
-
-                // Determine marker type
-                const isHomeVenue = !!teamInfo;
+                // Track home vs neutral venues
+                const isHomeVenue = !isNeutralSite;
                 if (isHomeVenue) {
                     homeVenues++;
                 } else {

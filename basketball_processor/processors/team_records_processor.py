@@ -75,7 +75,7 @@ class TeamRecordsProcessor(BaseProcessor):
             game_id = self.get_game_id(game)
             date = basic_info.get('date', '')
             date_yyyymmdd = basic_info.get('date_yyyymmdd', '')
-            gender = game.get('gender', 'M')
+            gender = basic_info.get('gender', 'M')
 
             # Use team|gender as key to separate men's and women's teams
             away_team_raw = basic_info.get('away_team', '')
@@ -574,7 +574,7 @@ class GameLogProcessor(BaseProcessor):
                 'GameID': self.get_game_id(game),
                 'HomeTeamSlug': basic_info.get('home_team_slug', ''),
                 'SportsRefURL': basic_info.get('sports_ref_url', ''),
-                'Gender': game.get('gender', 'M'),
+                'Gender': basic_info.get('gender', 'M'),
                 'Division': basic_info.get('division', 'D1'),  # D1, D2, D3, NAIA
             })
 
