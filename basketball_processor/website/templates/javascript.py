@@ -217,6 +217,17 @@ def get_javascript(json_data: str) -> str:
                     }
                 }, 100);
             }
+
+            // Initialize venues map when venues section is shown
+            if (sectionId === 'venues') {
+                setTimeout(() => {
+                    if (venuesMap) {
+                        venuesMap.invalidateSize();
+                    } else {
+                        initVenuesMap();
+                    }
+                }, 100);
+            }
         }
 
         function showSubSection(parentId, subId) {
@@ -226,17 +237,6 @@ def get_javascript(json_data: str) -> str:
             document.getElementById(parentId + '-' + subId).classList.add('active');
             event.target.classList.add('active');
             updateURL(parentId, { sub: subId });
-
-            // Initialize venues map when first shown
-            if (parentId === 'venues' && subId === 'map') {
-                setTimeout(() => {
-                    if (venuesMap) {
-                        venuesMap.invalidateSize();
-                    } else {
-                        initVenuesMap();
-                    }
-                }, 100);
-            }
         }
 
         // Keyboard navigation
@@ -654,22 +654,28 @@ def get_javascript(json_data: str) -> str:
                     (<strong>${completionPct}%</strong> complete)
                 </span>
             </div>`;
+            // Helper to display "Non-D1" instead of "Historical/Other"
+            const displayConf = (c) => c === 'Historical/Other' ? 'Non-D1' : c;
+
             html += '<table class="conf-crossover"><thead><tr><th></th>';
             conferences.forEach(c => {
-                const abbrev = c.length > 10 ? c.substring(0, 8) + '..' : c;
-                html += `<th title="${c}">${abbrev}</th>`;
+                const display = displayConf(c);
+                const abbrev = display.length > 10 ? display.substring(0, 8) + '..' : display;
+                html += `<th title="${display}">${abbrev}</th>`;
             });
             html += '</tr></thead><tbody>';
 
             conferences.forEach(rowConf => {
-                html += `<tr><th>${rowConf}</th>`;
+                const rowDisplay = displayConf(rowConf);
+                html += `<tr><th>${rowDisplay}</th>`;
                 conferences.forEach(colConf => {
+                    const colDisplay = displayConf(colConf);
                     if (rowConf === colConf) {
                         // Same conference
                         const key = `${rowConf}|${rowConf}`;
                         const data = crossoverData[key];
                         const count = data ? data.games : 0;
-                        html += `<td class="diagonal" onclick="filterGamesByConferences('${rowConf}', '${colConf}')" title="${rowConf} intra-conference: ${count} games">${count || '-'}</td>`;
+                        html += `<td class="diagonal" onclick="filterGamesByConferences('${rowConf}', '${colConf}')" title="${rowDisplay} intra-conference: ${count} games">${count || '-'}</td>`;
                     } else {
                         const key1 = rowConf < colConf ? rowConf : colConf;
                         const key2 = rowConf < colConf ? colConf : rowConf;
@@ -678,9 +684,9 @@ def get_javascript(json_data: str) -> str:
                         const count = data ? data.games : 0;
 
                         if (count > 0) {
-                            html += `<td class="has-games" onclick="filterGamesByConferences('${rowConf}', '${colConf}')" title="${rowConf} vs ${colConf}: ${count} games">${count}</td>`;
+                            html += `<td class="has-games" onclick="filterGamesByConferences('${rowConf}', '${colConf}')" title="${rowDisplay} vs ${colDisplay}: ${count} games">${count}</td>`;
                         } else {
-                            html += `<td class="no-games" title="${rowConf} vs ${colConf}: 0 games">-</td>`;
+                            html += `<td class="no-games" title="${rowDisplay} vs ${colDisplay}: 0 games">-</td>`;
                         }
                     }
                 });
@@ -1849,8 +1855,53 @@ def get_javascript(json_data: str) -> str:
 
             const venues = DATA.venues || [];
             const games = DATA.games || [];
+            const checklist = DATA.conferenceChecklist || {};
 
-            // State coordinates
+            // Build arena -> team lookup from conferenceChecklist (separate for M/W)
+            const arenaToTeam = {};
+            Object.values(checklist).forEach(conf => {
+                (conf.teams || []).forEach(team => {
+                    // Normalize arena names for matching (remove parenthetical info, trim)
+                    const normalize = (name) => {
+                        if (!name || name === 'Unknown') return null;
+                        return name.replace(/\s*\([^)]*\)\s*/g, '').trim().toLowerCase();
+                    };
+                    // Track men's arena
+                    const mArena = team.homeArenaM || team.homeArena;
+                    if (mArena && mArena !== 'Unknown') {
+                        const key = normalize(mArena) + '|M';
+                        arenaToTeam[key] = {
+                            team: team.team,
+                            espnId: team.espnId,
+                            conference: team.conference,
+                            gender: 'M'
+                        };
+                        // Also add without gender for fallback matching
+                        const keyNoGender = normalize(mArena);
+                        if (!arenaToTeam[keyNoGender]) {
+                            arenaToTeam[keyNoGender] = {
+                                team: team.team,
+                                espnId: team.espnId,
+                                conference: team.conference,
+                                gender: 'M'
+                            };
+                        }
+                    }
+                    // Track women's arena (may be same or different)
+                    const wArena = team.homeArenaW || team.homeArena;
+                    if (wArena && wArena !== 'Unknown') {
+                        const key = normalize(wArena) + '|W';
+                        arenaToTeam[key] = {
+                            team: team.team,
+                            espnId: team.espnId,
+                            conference: team.conference,
+                            gender: 'W'
+                        };
+                    }
+                });
+            });
+
+            // State coordinates for fallback
             const stateCoords = {
                 'Alabama': [32.806671, -86.791130], 'Alaska': [61.370716, -152.404419],
                 'Arizona': [33.729759, -111.431221], 'Arkansas': [34.969704, -92.373123],
@@ -1880,53 +1931,67 @@ def get_javascript(json_data: str) -> str:
                 'District of Columbia': [38.9072, -77.0369], 'DC': [38.9072, -77.0369]
             };
 
-            // City coordinates for common basketball cities
-            const cityCoords = {
-                'San Francisco': [37.7749, -122.4194], 'Los Angeles': [34.0522, -118.2437],
-                'New York': [40.7128, -74.0060], 'Chicago': [41.8781, -87.6298],
-                'Houston': [29.7604, -95.3698], 'Phoenix': [33.4484, -112.0740],
-                'Philadelphia': [39.9526, -75.1652], 'San Antonio': [29.4241, -98.4936],
-                'San Diego': [32.7157, -117.1611], 'Dallas': [32.7767, -96.7970],
-                'Austin': [30.2672, -97.7431], 'San Jose': [37.3382, -121.8863],
-                'Seattle': [47.6062, -122.3321], 'Denver': [39.7392, -104.9903],
-                'Boston': [42.3601, -71.0589], 'Atlanta': [33.7490, -84.3880],
-                'Miami': [25.7617, -80.1918], 'Minneapolis': [44.9778, -93.2650],
-                'Portland': [45.5155, -122.6789], 'Sacramento': [38.5816, -121.4944],
-                'Las Vegas': [36.1699, -115.1398], 'Oakland': [37.8044, -122.2712],
-                'Salt Lake City': [40.7608, -111.8910], 'Indianapolis': [39.7684, -86.1581],
-                'Columbus': [39.9612, -82.9988], 'Charlotte': [35.2271, -80.8431],
-                'Detroit': [42.3314, -83.0458], 'Nashville': [36.1627, -86.7816],
-                'Memphis': [35.1495, -90.0490], 'Louisville': [38.2527, -85.7585],
-                'Milwaukee': [43.0389, -87.9065], 'Baltimore': [39.2904, -76.6122],
-                'Albuquerque': [35.0844, -106.6504], 'Tucson': [32.2226, -110.9747],
-                'Fresno': [36.7378, -119.7871], 'Mesa': [33.4152, -111.8315],
-                'Kansas City': [39.0997, -94.5786], 'Omaha': [41.2565, -95.9345],
-                'Raleigh': [35.7796, -78.6382], 'Cleveland': [41.4993, -81.6944],
-                'Pittsburgh': [40.4406, -79.9959], 'Cincinnati': [39.1031, -84.5120],
-                'Orlando': [28.5383, -81.3792], 'Tampa': [27.9506, -82.4572],
-                'New Orleans': [29.9511, -90.0715], 'St. Louis': [38.6270, -90.1994],
-                'Spokane': [47.6587, -117.4260], 'Moraga': [37.8346, -122.1297],
-                'Berkeley': [37.8716, -122.2727], 'Stanford': [37.4275, -122.1697],
-                'Palo Alto': [37.4419, -122.1430], 'Stockton': [37.9577, -121.2908],
-                'Provo': [40.2338, -111.6585], 'Spokane': [47.6587, -117.4260]
-            };
+            // NCAA logo for neutral sites
+            const ncaaLogoUrl = 'https://a.espncdn.com/i/teamlogos/ncaa/500/ncaa.png';
 
             let stateStats = {};
             let placedVenues = 0;
+            let homeVenues = 0;
+            let neutralVenues = 0;
+            const markers = [];
 
             venues.forEach(venue => {
-                let coords = null;
                 const city = venue.City || '';
                 const state = venue.State || '';
+                const venueName = venue.Venue || '';
 
-                // Try city coordinates first
-                if (city && cityCoords[city]) {
-                    coords = cityCoords[city];
+                // Find games at this venue to determine predominant gender
+                const venueGames = games.filter(g =>
+                    (g.Venue || g.venue) === venue.Venue
+                );
+                const mGames = venueGames.filter(g => g.Gender === 'M').length;
+                const wGames = venueGames.filter(g => g.Gender === 'W').length;
+                const predominantGender = wGames > mGames ? 'W' : 'M';
+
+                // Normalize venue name for lookup
+                const normalizedVenue = venueName.replace(/\s*\([^)]*\)\s*/g, '').trim().toLowerCase();
+
+                // Try to find team whose home arena matches this venue (prefer gender-specific)
+                let teamInfo = arenaToTeam[normalizedVenue + '|' + predominantGender] || arenaToTeam[normalizedVenue];
+
+                // Also try partial matching if exact match fails
+                if (!teamInfo) {
+                    for (const [arenaKey, info] of Object.entries(arenaToTeam)) {
+                        const baseKey = arenaKey.replace(/\|[MW]$/, '');
+                        // Check if venue contains arena name or vice versa (for variations)
+                        if (normalizedVenue.includes(baseKey) || baseKey.includes(normalizedVenue)) {
+                            // Prefer matching gender
+                            if (arenaKey.endsWith('|' + predominantGender) || !arenaKey.includes('|')) {
+                                teamInfo = info;
+                                break;
+                            } else if (!teamInfo) {
+                                teamInfo = info;  // Fallback to any match
+                            }
+                        }
+                    }
                 }
 
-                // Fall back to state coordinates
-                if (!coords && state && stateCoords[state]) {
-                    coords = stateCoords[state];
+                // Override gender with predominant if we have both M/W games
+                if (teamInfo && wGames > 0 && mGames === 0) {
+                    teamInfo = { ...teamInfo, gender: 'W' };
+                } else if (teamInfo && mGames > 0 && wGames === 0) {
+                    teamInfo = { ...teamInfo, gender: 'M' };
+                }
+
+                // Get coordinates - prefer SCHOOL_COORDS for accuracy
+                let coords = null;
+                if (teamInfo && SCHOOL_COORDS[teamInfo.team]) {
+                    coords = SCHOOL_COORDS[teamInfo.team];
+                } else if (state && stateCoords[state]) {
+                    // Fallback to state center with slight offset to avoid overlap
+                    const base = stateCoords[state];
+                    const offset = (Math.random() - 0.5) * 2; // Small random offset
+                    coords = [base[0] + offset, base[1] + offset];
                 }
 
                 if (!coords) return;
@@ -1945,13 +2010,25 @@ def get_javascript(json_data: str) -> str:
                     (g.Venue || g.venue) === venue.Venue
                 );
 
+                // Determine marker type
+                const isHomeVenue = !!teamInfo;
+                if (isHomeVenue) {
+                    homeVenues++;
+                } else {
+                    neutralVenues++;
+                }
+
+                // Create popup content - show gender indicator for women's teams
+                const genderSuffix = teamInfo && teamInfo.gender === 'W' ? ' (W)' : '';
+                const teamLabel = teamInfo ? `<strong>${teamInfo.team}${genderSuffix}</strong> Home Arena<br>` : '<em>Neutral Site</em><br>';
                 const popupContent = `
-                    <div style="min-width: 200px;">
-                        <strong style="font-size: 14px;">${venue.Venue}</strong><br>
-                        <span style="color: #666;">${city}, ${state}</span><br>
+                    <div style="min-width: 220px;">
+                        ${teamLabel}
+                        <strong style="font-size: 14px;">${venueName}</strong><br>
+                        <span style="color: #666;">${city}, ${state}</span>
                         <hr style="margin: 8px 0;">
                         <div style="font-size: 12px;">
-                            <strong>${venue.Games || 0}</strong> games<br>
+                            <strong>${venue.Games || 0}</strong> games attended<br>
                             Home: ${venue['Home Wins'] || 0}W | Away: ${venue['Away Wins'] || 0}W
                         </div>
                         ${venueGames.length > 0 ? `
@@ -1959,7 +2036,7 @@ def get_javascript(json_data: str) -> str:
                         <div style="font-size: 11px; max-height: 150px; overflow-y: auto;">
                             ${venueGames.slice(0, 5).map(g => `
                                 <div style="margin-bottom: 4px;">
-                                    ${g.Date || ''}: ${g['Away Team'] || g.away_team || ''} @ ${g['Home Team'] || g.home_team || ''}
+                                    ${g.Date || ''}: ${g['Away Team'] || ''} @ ${g['Home Team'] || ''}
                                 </div>
                             `).join('')}
                             ${venueGames.length > 5 ? `<div style="color: #888;">...and ${venueGames.length - 5} more</div>` : ''}
@@ -1967,17 +2044,38 @@ def get_javascript(json_data: str) -> str:
                     </div>
                 `;
 
-                // Size marker by number of games
-                const radius = Math.min(Math.max((venue.Games || 1) * 3, 6), 20);
+                // Create marker with logo
+                const logoUrl = teamInfo && teamInfo.espnId
+                    ? `https://a.espncdn.com/i/teamlogos/ncaa/500/${teamInfo.espnId}.png`
+                    : ncaaLogoUrl;
 
-                L.circleMarker(coords, {
-                    radius: radius,
-                    fillColor: '#1e3a5f',
-                    color: '#fff',
-                    weight: 2,
-                    opacity: 1,
-                    fillOpacity: 0.8
-                }).addTo(venuesMap).bindPopup(popupContent);
+                const size = Math.min(Math.max(28 + (venue.Games || 1) * 2, 28), 44);
+                const borderColor = isHomeVenue ? '#2E7D32' : '#1565C0';  // Green for home, blue for neutral
+
+                const icon = L.divIcon({
+                    className: 'venue-logo-marker',
+                    html: `<div style="
+                        width: ${size}px;
+                        height: ${size}px;
+                        border-radius: 50%;
+                        border: 3px solid ${borderColor};
+                        background: white;
+                        box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+                        overflow: hidden;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                    "><img src="${logoUrl}" style="
+                        width: ${size - 4}px;
+                        height: ${size - 4}px;
+                        object-fit: contain;
+                    " onerror="this.src='${ncaaLogoUrl}'"></div>`,
+                    iconSize: [size + 6, size + 6],
+                    iconAnchor: [(size + 6) / 2, (size + 6) / 2],
+                });
+
+                const marker = L.marker(coords, { icon }).addTo(venuesMap).bindPopup(popupContent);
+                markers.push(marker);
             });
 
             // Show summary
@@ -1991,13 +2089,21 @@ def get_javascript(json_data: str) -> str:
                 summary.innerHTML = `
                     <div class="stat-box">
                         <div class="stat-value">${placedVenues}</div>
-                        <div class="stat-label">Venues Mapped</div>
+                        <div class="stat-label">Venues</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value">${homeVenues}</div>
+                        <div class="stat-label">Home Arenas</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value">${neutralVenues}</div>
+                        <div class="stat-label">Neutral Sites</div>
                     </div>
                     <div class="stat-box">
                         <div class="stat-value">${stateCount}</div>
                         <div class="stat-label">States</div>
                     </div>
-                    <div style="flex: 1;">
+                    <div style="flex: 1; font-size: 0.9rem;">
                         <strong>Top States:</strong>
                         ${topStates.map(([st, data]) => `${st} (${data.count})`).join(', ')}
                     </div>
@@ -2007,8 +2113,9 @@ def get_javascript(json_data: str) -> str:
             venuesMapInitialized = true;
 
             // Fit bounds to markers if we have any
-            if (placedVenues > 0) {
-                setTimeout(() => venuesMap.invalidateSize(), 100);
+            if (markers.length > 0) {
+                const group = L.featureGroup(markers);
+                venuesMap.fitBounds(group.getBounds().pad(0.1));
             }
         }
 
@@ -3826,7 +3933,9 @@ def get_javascript(json_data: str) -> str:
                 const option = document.createElement('option');
                 option.value = conf;
                 const data = checklist[conf];
-                option.textContent = `${conf} (${data.teamsSeen}/${data.totalTeams})`;
+                // Display "Non-D1" instead of "Historical/Other"
+                const displayName = conf === 'Historical/Other' ? 'Non-D1' : conf;
+                option.textContent = `${displayName} (${data.teamsSeen}/${data.totalTeams})`;
                 select.appendChild(option);
             });
 
@@ -5362,25 +5471,42 @@ def get_javascript(json_data: str) -> str:
             const city = games[0]?.City || venueInfo.City || '';
             const state = games[0]?.State || venueInfo.State || '';
 
-            // Compute teams seen at this venue
-            const teamSet = new Set();
+            // Compute teams seen at this venue (with gender tracking)
             const confSet = new Set();
+            // Track team+gender combinations
+            const teamGenderSet = new Map();  // key: "team|gender", value: {team, gender, conf}
             games.forEach(g => {
-                teamSet.add(g['Away Team']);
-                teamSet.add(g['Home Team']);
+                const gender = g.Gender || 'M';
                 const awayConf = getGameConference(g, 'away');
                 const homeConf = getGameConference(g, 'home');
+                const awayKey = `${g['Away Team']}|${gender}`;
+                const homeKey = `${g['Home Team']}|${gender}`;
+                if (!teamGenderSet.has(awayKey)) {
+                    teamGenderSet.set(awayKey, { team: g['Away Team'], gender, conf: awayConf });
+                }
+                if (!teamGenderSet.has(homeKey)) {
+                    teamGenderSet.set(homeKey, { team: g['Home Team'], gender, conf: homeConf });
+                }
                 if (awayConf) confSet.add(awayConf);
                 if (homeConf) confSet.add(homeConf);
             });
 
-            const teamsList = [...teamSet].sort();
+            const teamsList = [...teamGenderSet.values()].sort((a, b) => {
+                const teamCompare = a.team.localeCompare(b.team);
+                if (teamCompare !== 0) return teamCompare;
+                return a.gender === 'W' ? 1 : -1;  // Men first, then women
+            });
             const confsList = [...confSet].sort();
 
-            // Build teams list HTML with conference labels
-            const teamsHtml = teamsList.map(team => {
-                const conf = getTeamConference(team);
-                return `<span class="venue-team-tag">${team}${conf ? `<span class="conf-label">${conf}</span>` : ''}</span>`;
+            // Build teams list HTML with conference labels and gender indicators
+            const teamsHtml = teamsList.map(({team, gender, conf}) => {
+                const genderSuffix = gender === 'W' ? ' (W)' : '';
+                // For non-D1 conferences, show with division indicator
+                let confLabel = conf || '';
+                if (conf === 'Historical/Other') {
+                    confLabel = 'Non-D1';
+                }
+                return `<span class="venue-team-tag">${team}${genderSuffix}${confLabel ? `<span class="conf-label">${confLabel}</span>` : ''}</span>`;
             }).join('');
 
             const gamesHtml = games.map(g => {
