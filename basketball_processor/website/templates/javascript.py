@@ -1893,6 +1893,16 @@ def get_javascript(json_data: str) -> str:
             // NCAA logo for neutral sites
             const ncaaLogoUrl = 'https://a.espncdn.com/i/teamlogos/ncaa/500/ncaa.png';
 
+            // Known neutral site venues (tournament/showcase venues)
+            const NEUTRAL_SITES = new Set([
+                'Chase Center', 'Barclays Center', 'Madison Square Garden',
+                'United Center', 'T-Mobile Arena', 'Footprint Center',
+                'Crypto.com Arena', 'TD Garden', 'Capital One Arena',
+                'Smoothie King Center', 'State Farm Arena', 'Little Caesars Arena',
+                'Rocket Mortgage FieldHouse', 'Spectrum Center', 'Ball Arena',
+                'Climate Pledge Arena', 'Intuit Dome', 'Kia Center',
+            ]);
+
             // Specific venue coordinates for neutral sites and arenas
             const VENUE_COORDS = {
                 'Chase Center': [37.7680466, -122.387715],  // 1 Warriors Way, San Francisco
@@ -1953,10 +1963,11 @@ def get_javascript(json_data: str) -> str:
                 }
 
                 // Determine if this is a home venue vs neutral site
-                // Count how many different "home" teams played at this venue
+                // Check known neutral sites first, then heuristics
+                const isKnownNeutralSite = NEUTRAL_SITES.has(venueName);
                 const homeTeamsAtVenue = new Set(venueGames.map(g => g['Home Team']));
-                // If more than 2 different teams were "home" here, it's likely a neutral site
-                const isNeutralSite = homeTeamsAtVenue.size > 2 || !teamInfo;
+                // Neutral if: in known list, or multiple "home" teams, or no team info
+                const isNeutralSite = isKnownNeutralSite || homeTeamsAtVenue.size > 2 || !teamInfo;
 
                 // Get coordinates - try venue-specific, then school, then city
                 let coords = null;
