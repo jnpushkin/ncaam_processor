@@ -1891,7 +1891,7 @@ def get_javascript(json_data: str) -> str:
             });
 
             // NCAA logo for neutral sites
-            const ncaaLogoUrl = 'https://a.espncdn.com/i/teamlogos/ncaa/500/ncaa.png';
+            const ncaaLogoUrl = 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/NCAA_logo.svg/200px-NCAA_logo.svg.png';
 
             // Custom logos for non-D1 teams (from athletic department websites)
             const CUSTOM_LOGOS = {
