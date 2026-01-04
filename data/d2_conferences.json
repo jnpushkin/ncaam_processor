@@ -1093,6 +1093,16 @@
       "slug": "Pacific-West-Conference",
       "schools": [
         {
+          "name": "Academy of Art",
+          "slug": "Academy-of-Art",
+          "id": null
+        },
+        {
+          "name": "Jessup",
+          "slug": "Jessup",
+          "id": null
+        },
+        {
           "name": "Azusa Pacific",
           "slug": "Azusa-Pacific",
           "id": 986

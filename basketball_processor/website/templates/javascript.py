@@ -1879,6 +1879,12 @@ def get_javascript(json_data: str) -> str:
                 (conf.teams || []).forEach(team => {
                     if (team.espnId) {
                         teamToEspnId[team.team] = team.espnId;
+                        // Also add without parenthetical qualifier for matching
+                        // e.g., "Saint Mary's (CA)" -> also add "Saint Mary's"
+                        const parenMatch = team.team.match(/^(.+?)\\s*\\([^)]+\\)$/);
+                        if (parenMatch) {
+                            teamToEspnId[parenMatch[1]] = team.espnId;
+                        }
                     }
                 });
             });
@@ -5379,7 +5385,7 @@ def get_javascript(json_data: str) -> str:
                             ${seen ? '✓' : ''}
                         </div>
                         <div class="checklist-details">
-                            <div class="checklist-team">${t.team}${genderIndicators ? ' ' + genderIndicators : ''}${showConference && t.conference ? ` <span class="checklist-conf">(${t.conference})</span>` : ''}</div>
+                            <div class="checklist-team">${t.team}${genderIndicators ? ' ' + genderIndicators : ''}${showConference && t.conference ? ` <span class="checklist-conf">${t.conference.includes('(Division') ? t.conference : '(' + t.conference + ')'}</span>` : ''}</div>
                             <div class="checklist-venue ${arenaVisited ? 'visited' : ''}">
                                 ${arenaIndicators}${homeArena}
                             </div>

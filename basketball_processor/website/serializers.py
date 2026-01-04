@@ -1074,13 +1074,16 @@ class DataSerializer:
             'totalVenues': sum(1 for t in all_d1_teams_sorted if t['homeArenaM'] != 'Unknown')
         }
 
-        # Find historical/other teams (seen but not in any current conference)
+        # Find historical/other teams (seen but not in any current D1 conference)
+        # These include D2/D3 teams which should get their actual conference name
+        from ..utils.constants import get_conference
         historical_teams = []
         for team in seen_teams_by_gender['all']:
-            # Check if this team is in any conference (directly or via alias)
+            # Check if this team is in any D1 conference (directly or via alias)
             in_conference = team in all_conference_teams
             if not in_conference:
-                # Not in a conference - it's historical/other
+                # Not in a D1 conference - check D2/D3 conferences or mark as historical
+                actual_conf = get_conference(team, format_division=True)
                 home_arena = venue_resolver.get_home_arena(team)
                 arena_name = parse_venue_components(home_arena)['name'] if home_arena else 'Unknown'
                 historical_teams.append({
@@ -1094,7 +1097,7 @@ class DataSerializer:
                     'arenaVisited': arena_visited(home_arena, seen_venues_by_gender['all']),
                     'arenaVisitedM': arena_visited(home_arena, seen_venues_by_gender['M']),
                     'arenaVisitedW': arena_visited(home_arena, seen_venues_by_gender['W']),
-                    'conference': 'Historical/Other',
+                    'conference': actual_conf or 'Historical/Other',
                     'espnId': get_espn_team_id(team)
                 })
 

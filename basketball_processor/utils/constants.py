@@ -432,10 +432,6 @@ _DEFAULT_CONFERENCES = {
         'Charleston Southern', 'Gardner-Webb', 'High Point', 'Longwood',
         'Presbyterian', 'Radford', 'UNC Asheville', 'USC Upstate', 'Winthrop'
     ],
-    # Non-D1 schools
-    'D3': [
-        'Sarah Lawrence',
-    ],
 }
 
 
@@ -457,8 +453,52 @@ def _load_conferences() -> Dict[str, List[str]]:
     return _DEFAULT_CONFERENCES
 
 
+def _load_d2_conferences() -> Dict[str, str]:
+    """Load D2 conferences from JSON file and create team->conference mapping."""
+    import json
+    conf_file = BASE_DIR / 'data' / 'd2_conferences.json'
+    team_to_conf: Dict[str, str] = {}
+
+    if conf_file.exists():
+        try:
+            with open(conf_file, 'r') as f:
+                data = json.load(f)
+                for conf_name, conf_data in data.get('conferences', {}).items():
+                    for school in conf_data.get('schools', []):
+                        school_name = school.get('name', '')
+                        if school_name:
+                            team_to_conf[school_name] = conf_name
+        except (json.JSONDecodeError, IOError):
+            pass
+
+    return team_to_conf
+
+
+def _load_d3_conferences() -> Dict[str, str]:
+    """Load D3 conferences from JSON file and create team->conference mapping."""
+    import json
+    conf_file = BASE_DIR / 'data' / 'd3_conferences.json'
+    team_to_conf: Dict[str, str] = {}
+
+    if conf_file.exists():
+        try:
+            with open(conf_file, 'r') as f:
+                data = json.load(f)
+                for conf_name, conf_data in data.get('conferences', {}).items():
+                    for school in conf_data.get('schools', []):
+                        school_name = school.get('name', '')
+                        if school_name:
+                            team_to_conf[school_name] = conf_name
+        except (json.JSONDecodeError, IOError):
+            pass
+
+    return team_to_conf
+
+
 # Load conferences (from JSON if available, else defaults)
 CONFERENCES = _load_conferences()
+D2_CONFERENCES = _load_d2_conferences()
+D3_CONFERENCES = _load_d3_conferences()
 
 # === DEFUNCT TEAMS ===
 # Teams that no longer have active programs - included in conferences for historical
@@ -1005,6 +1045,9 @@ TEAM_ALIASES = {
     'UNCA': 'UNC Asheville',
     'UNC Asheville': 'UNC Asheville',
 
+    # === D3 School Variations ===
+    'University of Chicago': 'Chicago',
+
     # === Ivy League ===
     'Penn': 'Penn',  # Pennsylvania
     'Pennsylvania': 'Penn',
@@ -1113,26 +1156,60 @@ TEAM_ALIASES = {
 }
 
 # Get conference for a team
-def get_conference(team_name: str) -> Optional[str]:
-    """Get conference name for a team."""
-    # Try direct match first
+def get_conference(team_name: str, format_division: bool = True) -> Optional[str]:
+    """Get conference name for a team.
+
+    Args:
+        team_name: The team name to look up
+        format_division: If True, append "(Division 2)" or "(Division 3)" for non-D1 teams
+
+    Returns:
+        Conference name, optionally with division suffix for non-D1
+    """
+    # Try direct match first for D1
     for conf, teams in CONFERENCES.items():
         if team_name in teams:
+            # Don't format D1 conferences, and skip the generic 'D3' placeholder
+            if conf == 'D3':
+                break  # Fall through to D3 lookup below
             return conf
 
-    # Try alias
+    # Try alias for D1
     canonical = TEAM_ALIASES.get(team_name)
     if canonical:
         for conf, teams in CONFERENCES.items():
             if canonical in teams:
+                if conf == 'D3':
+                    break  # Fall through to D3 lookup below
                 return conf
 
-    # Try reverse alias (in case canonical name is in CONFERENCES)
-    for alias, canonical in TEAM_ALIASES.items():
-        if canonical == team_name:
+    # Try reverse alias for D1 (in case canonical name is in CONFERENCES)
+    for alias, canon in TEAM_ALIASES.items():
+        if canon == team_name:
             for conf, teams in CONFERENCES.items():
                 if alias in teams:
+                    if conf == 'D3':
+                        break  # Fall through to D3 lookup below
                     return conf
+
+    # Check D2 conferences
+    if team_name in D2_CONFERENCES:
+        conf = D2_CONFERENCES[team_name]
+        return f"{conf} (Division 2)" if format_division else conf
+
+    # Check D3 conferences
+    if team_name in D3_CONFERENCES:
+        conf = D3_CONFERENCES[team_name]
+        return f"{conf} (Division 3)" if format_division else conf
+
+    # Try aliases for D2/D3
+    if canonical:
+        if canonical in D2_CONFERENCES:
+            conf = D2_CONFERENCES[canonical]
+            return f"{conf} (Division 2)" if format_division else conf
+        if canonical in D3_CONFERENCES:
+            conf = D3_CONFERENCES[canonical]
+            return f"{conf} (Division 3)" if format_division else conf
 
     return None
 

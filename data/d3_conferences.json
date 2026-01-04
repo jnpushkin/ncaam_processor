@@ -1813,6 +1813,11 @@
       "slug": "SKY",
       "schools": [
         {
+          "name": "Sarah Lawrence",
+          "slug": "sarah-lawrence",
+          "id": null
+        },
+        {
           "name": "Farmingdale State",
           "slug": "farmingdale-state",
           "id": null
