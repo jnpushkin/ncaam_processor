@@ -878,7 +878,7 @@ def get_javascript(json_data: str) -> str:
                 // This handles players with multiple teams like "California, Loyola (IL)"
                 if (filterTeamName) {
                     // Split player's teams and check if selected team is one of them
-                    const playerTeams = player.Team ? player.Team.split(/,\s*(?![^()]*\))/).map(t => t.trim()) : [];
+                    const playerTeams = player.Team ? player.Team.split(/,\\s*(?![^()]*\\))/).map(t => t.trim()) : [];
                     if (!playerTeams.includes(filterTeamName)) return false;
                     if (filterTeamGender && player.Gender !== filterTeamGender) return false;
                 }
@@ -1628,7 +1628,7 @@ def get_javascript(json_data: str) -> str:
             (DATA.players || []).forEach(p => {
                 if (p.Team) {
                     // Split by comma but handle team names with parentheses like "Loyola (IL)"
-                    const teams = p.Team.split(/,\s*(?![^()]*\))/);
+                    const teams = p.Team.split(/,\\s*(?![^()]*\\))/);
                     teams.forEach(team => {
                         const trimmedTeam = team.trim();
                         if (trimmedTeam) {
