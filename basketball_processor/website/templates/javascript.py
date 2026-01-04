@@ -1893,6 +1893,16 @@ def get_javascript(json_data: str) -> str:
             // NCAA logo for neutral sites
             const ncaaLogoUrl = 'https://a.espncdn.com/i/teamlogos/ncaa/500/ncaa.png';
 
+            // Custom logos for non-D1 teams (from athletic department websites)
+            const CUSTOM_LOGOS = {
+                'Academy of Art': 'https://artuathletics.com/images/responsive/cal_logo.png',
+                'Johns Hopkins': 'https://dxbhsrqyrr690.cloudfront.net/sidearm.nextgen.sites/hopkinssports.com/images/responsive_2025/logos/logo_main.svg',
+                'University of Chicago': 'https://dbukjj6eu5tsf.cloudfront.net/sidearm.sites/chgo.sidearmsports.com/images/responsive_2023/main_logo.png',
+                'Washington College': 'https://dxbhsrqyrr690.cloudfront.net/sidearm.nextgen.sites/washingtoncollegesports.com/images/responsive_2022/svgs/on-light-theme.svg',
+                'Brandeis': 'https://dbukjj6eu5tsf.cloudfront.net/sidearm.sites/brandeisu.sidearmsports.com/images/responsive_2023/logo_main_new.svg',
+                'Jessup': 'https://dxbhsrqyrr690.cloudfront.net/sidearm.nextgen.sites/jessup.sidearmsports.com/images/responsive_2024/logo_main.svg',
+            };
+
             // Known neutral site venues (tournament/showcase venues)
             const NEUTRAL_SITES = new Set([
                 'Chase Center', 'Barclays Center', 'Madison Square Garden',
@@ -1905,6 +1915,7 @@ def get_javascript(json_data: str) -> str:
 
             // Specific venue coordinates for neutral sites and arenas
             const VENUE_COORDS = {
+                // Neutral sites
                 'Chase Center': [37.7680466, -122.387715],  // 1 Warriors Way, San Francisco
                 'Barclays Center': [40.682732, -73.975876],  // 620 Atlantic Ave, Brooklyn
                 'Madison Square Garden': [40.7505, -73.9934],
@@ -1914,6 +1925,10 @@ def get_javascript(json_data: str) -> str:
                 'Crypto.com Arena': [34.0430, -118.2673],
                 'TD Garden': [42.3662, -71.0621],
                 'Capital One Arena': [38.8981, -77.0209],
+                // D3/D2 venues
+                'Kezar Pavilion': [37.7670, -122.4535],  // Academy of Art, San Francisco
+                'Ratner Center': [41.7942, -87.6019],  // University of Chicago
+                'Goldfarb Gym': [39.3299, -76.6205],  // Johns Hopkins, Baltimore
             };
 
             // State abbreviations for city lookup
@@ -1981,10 +1996,15 @@ def get_javascript(json_data: str) -> str:
                 }
                 // 3. Try city coordinates with state abbreviation (e.g., "San Francisco, CA")
                 else if (city && state) {
+                    // Handle both full state names and abbreviations
                     const abbrev = stateAbbrev[state] || state;
                     const cityKey = `${city}, ${abbrev}`;
                     if (CITY_COORDS[cityKey]) {
                         coords = CITY_COORDS[cityKey];
+                    }
+                    // Also try just the city name if state lookup failed
+                    else if (CITY_COORDS[city]) {
+                        coords = CITY_COORDS[city];
                     }
                 }
 
@@ -2034,10 +2054,15 @@ def get_javascript(json_data: str) -> str:
                     </div>
                 `;
 
-                // Create marker with logo
-                const logoUrl = teamInfo && teamInfo.espnId
-                    ? `https://a.espncdn.com/i/teamlogos/ncaa/500/${teamInfo.espnId}.png`
-                    : ncaaLogoUrl;
+                // Create marker with logo - check custom logos first, then ESPN, then NCAA
+                let logoUrl = ncaaLogoUrl;  // default fallback
+                if (isNeutralSite) {
+                    logoUrl = ncaaLogoUrl;  // Always NCAA logo for neutral sites
+                } else if (teamInfo && CUSTOM_LOGOS[teamInfo.team]) {
+                    logoUrl = CUSTOM_LOGOS[teamInfo.team];  // Non-D1 custom logo
+                } else if (teamInfo && teamInfo.espnId) {
+                    logoUrl = `https://a.espncdn.com/i/teamlogos/ncaa/500/${teamInfo.espnId}.png`;  // D1 ESPN logo
+                }
 
                 const size = Math.min(Math.max(28 + (venue.Games || 1) * 2, 28), 44);
                 const borderColor = isHomeVenue ? '#2E7D32' : '#1565C0';  // Green for home, blue for neutral
