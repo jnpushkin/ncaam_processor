@@ -877,6 +877,12 @@ def get_body(total_games: int, total_players: int, total_teams: int, total_venue
                                    style="padding: 0.25rem; border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-primary); color: var(--text-primary);">
                         </div>
                     </div>
+                    <div class="filter-group">
+                        <label>
+                            <input type="checkbox" id="upcoming-map-hide-visited" onchange="updateUpcomingMap()">
+                            Hide visited venues
+                        </label>
+                    </div>
                     <div id="upcoming-map-summary" style="margin-left: auto; color: var(--text-secondary);"></div>
                 </div>
                 <div id="upcoming-venues-map" style="height: 500px; border-radius: 8px; border: 1px solid var(--border-color);"></div>

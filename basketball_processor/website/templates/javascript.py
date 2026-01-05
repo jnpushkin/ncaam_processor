@@ -2815,6 +2815,7 @@ def get_javascript(json_data: str) -> str:
 
             const startDate = document.getElementById('upcoming-map-start-date')?.value;
             const endDate = document.getElementById('upcoming-map-end-date')?.value;
+            const hideVisited = document.getElementById('upcoming-map-hide-visited')?.checked || false;
             const now = new Date();
             now.setHours(0, 0, 0, 0);
 
@@ -3101,8 +3102,8 @@ def get_javascript(json_data: str) -> str:
                 'Capital One Arena': [38.8982, -77.0208],
             };
 
-            // Add visited venue markers (blue)
-            upcomingVisitedVenues.forEach(v => {
+            // Add visited venue markers (blue) unless hidden by filter
+            if (!hideVisited) upcomingVisitedVenues.forEach(v => {
                 let coords = null;
                 let lat, lng;
 
