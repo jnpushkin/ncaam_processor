@@ -5,6 +5,9 @@ Fetches box scores from team athletic websites to get:
 - Attendance
 - Officials
 - Other data not available in Sports Reference
+
+Also supports WMT Sports sites (Stanford, Virginia, Virginia Tech, Nebraska)
+as a fallback for schools that use Nuxt.js instead of SIDEARM.
 """
 
 import json
@@ -15,6 +18,16 @@ from typing import Dict, List, Optional, Tuple, Any
 from datetime import datetime
 import requests
 from bs4 import BeautifulSoup
+
+# Import WMT scraper for Nuxt.js sites
+from .wmt_scraper import (
+    is_wmt_site,
+    supplement_game_data as wmt_supplement_game_data,
+    PLAYWRIGHT_AVAILABLE as WMT_PLAYWRIGHT_AVAILABLE
+)
+
+# Import ESPN scraper as fallback
+from .espn_scraper import get_espn_attendance
 
 # Rate limiting
 RATE_LIMIT_DELAY = 1.5  # seconds between requests
@@ -245,6 +258,55 @@ def get_athletic_site(team_name: str) -> Optional[Tuple[str, str]]:
     return ATHLETIC_SITES.get(team_name)
 
 
+def _parse_nuxt_data(html: str) -> Optional[List[Any]]:
+    """
+    Parse __NUXT_DATA__ JSON array from page HTML.
+
+    NUXT_DATA is a serialized format where values are stored as index references
+    into a flat array. For example: {"attendance": 3815} means the attendance
+    value is at array[3815].
+    """
+    match = re.search(r'<script[^>]*id="__NUXT_DATA__"[^>]*>([^<]+)</script>', html)
+    if not match:
+        return None
+    try:
+        return json.loads(match.group(1))
+    except json.JSONDecodeError:
+        return None
+
+
+def _get_nuxt_value(data: List[Any], key: str) -> Optional[Any]:
+    """
+    Get a value from NUXT_DATA by dereferencing the index.
+
+    NUXT_DATA stores data as a flat array where objects contain index references.
+    This searches both:
+    1. Direct key-value pairs in the array (key at index i, value at i+1)
+    2. Keys inside dict objects that reference other indices
+    """
+    # Method 1: Search for direct key in array
+    for i, item in enumerate(data):
+        if item == key and i + 1 < len(data):
+            ref = data[i + 1]
+            if isinstance(ref, int) and ref < len(data):
+                return data[ref]
+            return ref
+
+    # Method 2: Search inside dict objects for the key
+    for item in data:
+        if isinstance(item, dict) and key in item:
+            ref = item[key]
+            if isinstance(ref, int) and ref < len(data):
+                val = data[ref]
+                # Handle string numbers
+                if isinstance(val, str) and val.replace(',', '').isdigit():
+                    return int(val.replace(',', ''))
+                return val
+            return ref
+
+    return None
+
+
 def slugify(text: str) -> str:
     """Convert text to URL slug format."""
     # Remove rankings like "#7" or "(RV)"
@@ -307,6 +369,8 @@ def find_game_in_schedule(html: str, opponent: str, game_date: str, domain: str,
             dt.strftime('%B %d'),  # "February 01"
             dt.strftime('%-m/%-d'),  # "2/1"
             dt.strftime('%m/%d'),  # "02/01"
+            dt.strftime('%b ') + str(dt.day),  # "Feb 1" (no leading zero)
+            dt.strftime('%B ') + str(dt.day),  # "February 1" (no leading zero)
         ]
     except ValueError:
         date_patterns = []
@@ -330,8 +394,11 @@ def find_game_in_schedule(html: str, opponent: str, game_date: str, domain: str,
         href = link.get('href', '')
         full_url = f"https://{domain}{href}" if href.startswith('/') else href
 
-        # Find the game container (li.sidearm-schedule-game or similar)
-        # Need to find the li with exact class 'sidearm-schedule-game', not 'sidearm-schedule-game-links-boxscore'
+        # Find the game container
+        # Supports multiple SIDEARM formats:
+        # - Classic: li.sidearm-schedule-game
+        # - Newer: div.schedule-game
+        # - Newest (Nuxt): div.s-game-card
         game_container = None
         for parent in link.parents:
             if parent.name == 'li':
@@ -340,10 +407,14 @@ def find_game_in_schedule(html: str, opponent: str, game_date: str, domain: str,
                 if 'sidearm-schedule-game' in classes and 'sidearm-schedule-game-links' not in ' '.join(classes):
                     game_container = parent
                     break
-            # Also try div with schedule-game as exact class (not substring like sidearm-schedule-game-links)
             elif parent.name == 'div':
                 classes = parent.get('class', [])
-                if 'schedule-game' in classes:  # Exact class match, not substring
+                # Exact class match for schedule-game
+                if 'schedule-game' in classes:
+                    game_container = parent
+                    break
+                # New Nuxt format: s-game-card (but not s-game-card__* subcomponents)
+                if 's-game-card' in classes:
                     game_container = parent
                     break
         if not game_container:
@@ -431,38 +502,49 @@ def fetch_boxscore(url: str) -> Optional[Dict[str, Any]]:
             elif label == 'site' or label == 'location' or label == 'arena' or label == 'venue':
                 result['arena'] = value
 
-        # Second try: Parse Nuxt.js format (newer SIDEARM sites)
-        # The data appears in serialized form with indexed references
-        if not result['attendance'] or not result['officials']:
+        # Second try: Parse Nuxt.js __NUXT_DATA__ format (newer SIDEARM sites)
+        # The data is stored as a JSON array with index references
+        if not result['attendance']:
             html = response.text
+            nuxt_data = _parse_nuxt_data(html)
+            if nuxt_data:
+                # Find attendance value using index reference
+                attendance = _get_nuxt_value(nuxt_data, 'attendance')
+                if attendance and isinstance(attendance, int) and attendance >= 100:
+                    result['attendance'] = attendance
 
-            # Look for venue, attendance, officials pattern in Nuxt data
-            # Format: "venue","attendance","officials_string"
-            nuxt_match = re.search(
-                r'"([^"]+(?:Arena|Center|Gym|Coliseum|Pavilion|Field House|Stadium|Complex)[^"]*,\s*[A-Z]{2})"\s*,\s*"(\d+)"\s*,\s*"([^"]+,[^"]+,[^"]+)"',
-                html,
-                re.IGNORECASE
-            )
-            if nuxt_match:
-                if not result['arena']:
-                    result['arena'] = nuxt_match.group(1)
-                if not result['attendance']:
-                    try:
-                        result['attendance'] = int(nuxt_match.group(2))
-                    except ValueError:
-                        pass
+                # Try to get officials
                 if not result['officials']:
-                    officials_str = nuxt_match.group(3)
-                    result['officials'] = [o.strip() for o in officials_str.split(',') if o.strip()]
+                    officials = _get_nuxt_value(nuxt_data, 'officials')
+                    if officials and isinstance(officials, str):
+                        result['officials'] = [o.strip() for o in officials.split(',') if o.strip()]
 
-            # Alternative pattern: attendance and officials on separate lines
+                # Try to get arena/venue
+                if not result['arena']:
+                    venue = _get_nuxt_value(nuxt_data, 'venue')
+                    if venue and isinstance(venue, str):
+                        result['arena'] = venue
+
+            # Fallback: regex patterns for older Nuxt format
             if not result['attendance']:
-                att_match = re.search(r'"attendance":\d+[^}]*}\s*,\s*"[^"]+"\s*,\s*"(\d+)"', html)
-                if att_match:
-                    try:
-                        result['attendance'] = int(att_match.group(1))
-                    except ValueError:
-                        pass
+                # Look for venue, attendance, officials pattern in Nuxt data
+                # Format: "venue","attendance","officials_string"
+                nuxt_match = re.search(
+                    r'"([^"]+(?:Arena|Center|Gym|Coliseum|Pavilion|Field House|Stadium|Complex)[^"]*,\s*[A-Z]{2})"\s*,\s*"(\d+)"\s*,\s*"([^"]+,[^"]+,[^"]+)"',
+                    html,
+                    re.IGNORECASE
+                )
+                if nuxt_match:
+                    if not result['arena']:
+                        result['arena'] = nuxt_match.group(1)
+                    if not result['attendance']:
+                        try:
+                            result['attendance'] = int(nuxt_match.group(2))
+                        except ValueError:
+                            pass
+                    if not result['officials']:
+                        officials_str = nuxt_match.group(3)
+                        result['officials'] = [o.strip() for o in officials_str.split(',') if o.strip()]
 
             if not result['officials']:
                 # Look for comma-separated names pattern (3+ names)
@@ -579,15 +661,59 @@ def supplement_game_data(
     # Try home team's site first
     data = _fetch_from_team_site(home_team, away_team, game_date, gender, verbose)
 
-    # If not found, try away team's site
-    if not data:
+    # Try away team's site if:
+    # 1. Home team site didn't have the game, OR
+    # 2. Home team site had the game but no attendance
+    if not data or not data.get('attendance'):
         if verbose:
-            print(f"  Not found on home team site, trying away team...")
-        data = _fetch_from_team_site(away_team, home_team, game_date, gender, verbose)
+            reason = "Not found on home team site" if not data else "No attendance on home team site"
+            print(f"  {reason}, trying away team...")
+        away_data = _fetch_from_team_site(away_team, home_team, game_date, gender, verbose)
+
+        if away_data:
+            if not data:
+                # Home team had nothing, use away data
+                data = away_data
+            elif away_data.get('attendance') and not data.get('attendance'):
+                # Away team has attendance, merge it in
+                data['attendance'] = away_data['attendance']
+                if not data.get('sidearm_url'):
+                    data['sidearm_url'] = away_data.get('sidearm_url')
+
+    # If SIDEARM failed, try WMT Sports (Nuxt.js sites)
+    if not data:
+        if is_wmt_site(home_team) or is_wmt_site(away_team):
+            if verbose:
+                print(f"  Trying WMT Sports scraper...")
+            wmt_data = wmt_supplement_game_data(
+                home_team, away_team, game_date, gender,
+                verbose=verbose, fetch_attendance=WMT_PLAYWRIGHT_AVAILABLE
+            )
+            if wmt_data:
+                # Convert WMT format to SIDEARM format
+                data = {
+                    'attendance': wmt_data.get('attendance'),
+                    'officials': wmt_data.get('officials', []),
+                    'arena': wmt_data.get('location'),
+                    'game_time': wmt_data.get('game_time'),
+                    'wmt_url': wmt_data.get('wmt_url'),
+                }
+
+    # If still no attendance, try ESPN as fallback (men's basketball only)
+    if (not data or not data.get('attendance')) and gender == 'M':
+        if verbose:
+            print(f"  Trying ESPN as fallback...")
+        espn_attendance = get_espn_attendance(home_team, away_team, game_date, verbose=verbose)
+        if espn_attendance:
+            if not data:
+                data = {'attendance': espn_attendance, 'source': 'espn'}
+            else:
+                data['attendance'] = espn_attendance
+                data['source'] = 'espn'
 
     if not data:
         if verbose:
-            print(f"  Could not find game on either team's site")
+            print(f"  Could not find game on any team site")
         return None
 
     # Validate venue if expected_venue provided
