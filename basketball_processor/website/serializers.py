@@ -536,6 +536,13 @@ class DataSerializer:
                 'gcu arena': ['global credit union arena'],
             }
 
+            # Common venue words to exclude from matching (too generic)
+            GENERIC_VENUE_WORDS = {
+                'arena', 'center', 'stadium', 'pavilion', 'gymnasium', 'gym',
+                'coliseum', 'fieldhouse', 'field', 'house', 'complex', 'court',
+                'hall', 'memorial', 'sports', 'athletic', 'events', 'event'
+            }
+
             # Check if this venue matches any visited venue
             for key, data in venues_seen.items():
                 if data['city'].lower() == venue_city.lower() and data['state'].lower() == venue_state.lower():
@@ -550,8 +557,11 @@ class DataSerializer:
                     if our_lower in VENUE_ALIASES:
                         alias_match = alias_match or any(a in espn_lower or espn_lower in a for a in VENUE_ALIASES[our_lower])
 
-                    if espn_lower == our_lower or alias_match or \
-                       any(w in espn_lower for w in our_lower.split() if len(w) > 4):
+                    # Check for significant word match (exclude generic venue words)
+                    our_words = [w for w in our_lower.split() if len(w) > 4 and w not in GENERIC_VENUE_WORDS]
+                    significant_match = any(w in espn_lower for w in our_words)
+
+                    if espn_lower == our_lower or alias_match or significant_match:
                         home = sched_game['home_team'].get('short_name') or sched_game['home_team']['name']
                         away = sched_game['away_team'].get('short_name') or sched_game['away_team']['name']
                         data['upcomingGames'].append({

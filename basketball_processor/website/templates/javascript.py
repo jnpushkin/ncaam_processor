@@ -3190,17 +3190,17 @@ def get_javascript(json_data: str) -> str:
         function updateMapGamesList() {
             if (!upcomingVenuesMap) return;
 
-            const filterVisible = document.getElementById('upcoming-map-filter-visible')?.checked || false;
             const bounds = upcomingVenuesMap.getBounds();
 
             // Get all games from visible markers (both visited and unvisited)
+            // Always filter by visible area
             let visibleGames = [];
             let visibleVenues = 0;
             let visitedVenueCount = 0;
 
             upcomingMapMarkers.forEach(marker => {
                 const v = marker.venueData;
-                const inBounds = !filterVisible || bounds.contains([v.lat, v.lng]);
+                const inBounds = bounds.contains([v.lat, v.lng]);
 
                 if (inBounds) {
                     visibleVenues++;
@@ -3230,7 +3230,7 @@ def get_javascript(json_data: str) -> str:
             const summary = document.getElementById('upcoming-map-summary');
             if (summary) {
                 const visitedNote = visitedVenueCount > 0 ? ` (${visitedVenueCount} visited)` : '';
-                summary.textContent = `${visibleGames.length} games at ${visibleVenues} venues${visitedNote}${filterVisible ? ' in view' : ''}`;
+                summary.textContent = `${visibleGames.length} games at ${visibleVenues} venues${visitedNote} in view`;
             }
 
             // Update table
