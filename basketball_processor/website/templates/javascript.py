@@ -1935,6 +1935,8 @@ def get_javascript(json_data: str) -> str:
                 'Kezar Pavilion': [37.7670, -122.4535],  // Academy of Art, San Francisco
                 'Ratner Center': [41.7942, -87.6019],  // University of Chicago
                 'Goldfarb Gym': [39.3299, -76.6205],  // Johns Hopkins, Baltimore
+                // Historical venues
+                'Towson Center': [39.3935, -76.6100],  // 7500 Osler Drive, Towson - Towson's arena before SECU Arena (pre-2013)
             };
 
             // State abbreviations for city lookup
@@ -3100,6 +3102,8 @@ def get_javascript(json_data: str) -> str:
                 'Footprint Center': [33.4457, -112.0712],
                 'Crypto.com Arena': [34.0430, -118.2673],
                 'Capital One Arena': [38.8982, -77.0208],
+                // Historical venues
+                'Towson Center': [39.3935, -76.6100],  // Towson's arena before SECU Arena (pre-2013)
             };
 
             // Add visited venue markers (blue) unless hidden by filter

@@ -204,8 +204,9 @@ def normalize_cached_venue(game_data: Dict[str, Any]) -> Optional[str]:
     up-to-date when venues.json is edited (e.g., arena renames).
 
     Checks in order:
-    1. Explicit venue aliases (for complete rebrands like McKeon → University Credit Union)
-    2. Same city AND similar venue name (for partial renames)
+    1. Game-specific overrides (for historical venues like Towson Center)
+    2. Explicit venue aliases (for complete rebrands like McKeon → University Credit Union)
+    3. Same city AND similar venue name (for partial renames)
 
     Returns the normalized venue name, or the original if no update needed.
     """
@@ -213,6 +214,16 @@ def normalize_cached_venue(game_data: Dict[str, Any]) -> Optional[str]:
     basic_info = game_data.get('basic_info', {})
     existing_venue = basic_info.get('venue')
     gender = game_data.get('gender', 'M')
+    game_id = game_data.get('game_id', '')
+
+    # Check for game-specific override first (for historical venues)
+    if game_id:
+        if game_id in resolver.game_overrides:
+            return resolver.game_overrides[game_id]
+        # Try without gender suffix
+        base_id = game_id.rsplit('-', 1)[0] if game_id.endswith('-m') or game_id.endswith('-w') else game_id
+        if base_id != game_id and base_id in resolver.game_overrides:
+            return resolver.game_overrides[base_id]
 
     if not existing_venue:
         return resolve_venue(game_data)

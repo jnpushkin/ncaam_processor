@@ -435,7 +435,10 @@
     "20241121-usf": "Chase Center, San Francisco, California",
     "20241121-usf-w": "Chase Center, San Francisco, California",
     "20250301-usf": "Chase Center, San Francisco, California",
-    "20171116-uva": "John Paul Jones Arena, Charlottesville, Virginia"
+    "20171116-uva": "John Paul Jones Arena, Charlottesville, Virginia",
+
+    "_comment_historical_towson": "Towson played at Towson Center (7500 Osler Drive) before SECU Arena opened in 2013",
+    "20090131-tows": "Towson Center, Towson, Maryland"
   },
 
   "neutral_sites": {
