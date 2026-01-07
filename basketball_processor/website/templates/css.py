@@ -1711,6 +1711,34 @@ def get_css() -> str:
         .badges-hidden.expanded {
             display: inline;
         }
+        /* Division badges for venues */
+        .division-badge, .status-badge {
+            padding: 0.15rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        .division-badge.division-d1 {
+            background: var(--accent-color);
+            color: white;
+        }
+        .division-badge.division-d2 {
+            background: #6c757d;
+            color: white;
+        }
+        .division-badge.division-d3 {
+            background: #868e96;
+            color: white;
+        }
+        .status-badge.status-current {
+            background: var(--success);
+            color: white;
+        }
+        .status-badge.status-historic {
+            background: var(--warning);
+            color: white;
+        }
         /* Quick filters */
         .quick-filters {
             display: flex;

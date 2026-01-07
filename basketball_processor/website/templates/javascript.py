@@ -1820,22 +1820,29 @@ def get_javascript(json_data: str) -> str:
             const data = DATA.venues || [];
 
             if (data.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="8" class="empty-state"><h3>No venue data</h3></td></tr>';
+                tbody.innerHTML = '<tr><td colspan="10" class="empty-state"><h3>No venue data</h3></td></tr>';
                 return;
             }
 
-            tbody.innerHTML = data.map(venue => `
-                <tr>
+            tbody.innerHTML = data.map(venue => {
+                const division = venue.Division || 'D1';
+                const status = venue.Status || 'Current';
+                const divClass = division === 'D1' ? '' : (division === 'D2' ? 'division-d2' : 'division-d3');
+                const statusClass = status === 'Historic' ? 'status-historic' : '';
+                return `
+                <tr class="${divClass} ${statusClass}">
                     <td><span class="venue-link" onclick="showVenueDetail('${venue.Venue || ''}')">${venue.Venue || 'Unknown'}</span></td>
                     <td>${venue.City || ''}</td>
                     <td>${venue.State || ''}</td>
+                    <td><span class="division-badge division-${division.toLowerCase()}">${division}</span></td>
+                    <td><span class="status-badge status-${status.toLowerCase()}">${status}</span></td>
                     <td>${venue.Games || 0}</td>
                     <td>${venue['Home Wins'] || 0}</td>
                     <td>${venue['Away Wins'] || 0}</td>
                     <td>${(venue['Avg Home Pts'] || 0).toFixed(1)}</td>
                     <td>${(venue['Avg Away Pts'] || 0).toFixed(1)}</td>
                 </tr>
-            `).join('');
+            `}).join('');
         }
 
         let venuesMap = null;
@@ -2039,10 +2046,14 @@ def get_javascript(json_data: str) -> str:
                 // Create popup content - show gender indicator for women's teams
                 const genderSuffix = teamInfo && teamInfo.gender === 'W' ? ' (W)' : '';
                 const teamLabel = teamInfo ? `<strong>${teamInfo.team}${genderSuffix}</strong> Home Arena<br>` : '<em>Neutral Site</em><br>';
+                const venueDivision = venue.Division || 'D1';
+                const venueStatus = venue.Status || 'Current';
+                const divisionBadge = venueDivision !== 'D1' ? `<span style="background: ${venueDivision === 'D2' ? '#F57C00' : '#757575'}; color: white; padding: 1px 6px; border-radius: 3px; font-size: 10px; margin-left: 4px;">${venueDivision}</span>` : '';
+                const historicBadge = venueStatus === 'Historic' ? '<span style="background: #F57C00; color: white; padding: 1px 6px; border-radius: 3px; font-size: 10px; margin-left: 4px;">Historic</span>' : '';
                 const popupContent = `
                     <div style="min-width: 220px;">
                         ${teamLabel}
-                        <strong style="font-size: 14px;">${venueName}</strong><br>
+                        <strong style="font-size: 14px;">${venueName}</strong>${divisionBadge}${historicBadge}<br>
                         <span style="color: #666;">${city}, ${state}</span>
                         <hr style="margin: 8px 0;">
                         <div style="font-size: 12px;">
@@ -2073,18 +2084,36 @@ def get_javascript(json_data: str) -> str:
                 }
 
                 const size = Math.min(Math.max(28 + (venue.Games || 1) * 2, 28), 44);
-                const borderColor = isHomeVenue ? '#2E7D32' : '#1565C0';  // Green for home, blue for neutral
+
+                // Border color based on division: D1=green/blue, D2=orange, D3=gray
+                const division = venue.Division || 'D1';
+                const isHistoric = venue.Status === 'Historic';
+                let borderColor;
+                if (isNeutralSite) {
+                    borderColor = '#1565C0';  // Blue for neutral
+                } else if (division === 'D2') {
+                    borderColor = '#F57C00';  // Orange for D2
+                } else if (division === 'D3') {
+                    borderColor = '#757575';  // Gray for D3
+                } else {
+                    borderColor = '#2E7D32';  // Green for D1 home
+                }
+
+                // Historic venues get dashed border
+                const borderStyle = isHistoric ? 'dashed' : 'solid';
+                const historicIndicator = isHistoric ? '<div style="position: absolute; top: -2px; right: -2px; background: #F57C00; color: white; border-radius: 50%; width: 14px; height: 14px; font-size: 9px; display: flex; align-items: center; justify-content: center; font-weight: bold;" title="Historic venue">H</div>' : '';
 
                 const icon = L.divIcon({
                     className: 'venue-logo-marker',
                     html: `<div style="
+                        position: relative;
                         width: ${size}px;
                         height: ${size}px;
                         border-radius: 50%;
-                        border: 3px solid ${borderColor};
+                        border: 3px ${borderStyle} ${borderColor};
                         background: white;
                         box-shadow: 0 2px 6px rgba(0,0,0,0.4);
-                        overflow: hidden;
+                        overflow: visible;
                         display: flex;
                         align-items: center;
                         justify-content: center;
@@ -2092,7 +2121,8 @@ def get_javascript(json_data: str) -> str:
                         width: ${size - 4}px;
                         height: ${size - 4}px;
                         object-fit: contain;
-                    " onerror="this.src='${ncaaLogoUrl}'"></div>`,
+                        border-radius: 50%;
+                    " onerror="this.src='${ncaaLogoUrl}'">${historicIndicator}</div>`,
                     iconSize: [size + 6, size + 6],
                     iconAnchor: [(size + 6) / 2, (size + 6) / 2],
                 });
@@ -2108,6 +2138,11 @@ def get_javascript(json_data: str) -> str:
                 const topStates = Object.entries(stateStats)
                     .sort((a, b) => b[1].count - a[1].count)
                     .slice(0, 5);
+
+                // Count D2/D3/Historic venues
+                const d2Venues = venues.filter(v => v.Division === 'D2').length;
+                const d3Venues = venues.filter(v => v.Division === 'D3').length;
+                const historicVenues = venues.filter(v => v.Status === 'Historic').length;
 
                 summary.innerHTML = `
                     <div class="stat-box">
@@ -2126,9 +2161,23 @@ def get_javascript(json_data: str) -> str:
                         <div class="stat-value">${stateCount}</div>
                         <div class="stat-label">States</div>
                     </div>
-                    <div style="flex: 1; font-size: 0.9rem;">
-                        <strong>Top States:</strong>
-                        ${topStates.map(([st, data]) => `${st} (${data.count})`).join(', ')}
+                    <div style="flex: 1; font-size: 0.85rem;">
+                        <strong>Legend:</strong>
+                        <span style="display: inline-flex; align-items: center; margin-left: 8px;">
+                            <span style="width: 12px; height: 12px; border: 2px solid #2E7D32; border-radius: 50%; display: inline-block; margin-right: 3px;"></span>D1
+                        </span>
+                        ${d2Venues > 0 ? `<span style="display: inline-flex; align-items: center; margin-left: 8px;">
+                            <span style="width: 12px; height: 12px; border: 2px solid #F57C00; border-radius: 50%; display: inline-block; margin-right: 3px;"></span>D2
+                        </span>` : ''}
+                        ${d3Venues > 0 ? `<span style="display: inline-flex; align-items: center; margin-left: 8px;">
+                            <span style="width: 12px; height: 12px; border: 2px solid #757575; border-radius: 50%; display: inline-block; margin-right: 3px;"></span>D3
+                        </span>` : ''}
+                        <span style="display: inline-flex; align-items: center; margin-left: 8px;">
+                            <span style="width: 12px; height: 12px; border: 2px solid #1565C0; border-radius: 50%; display: inline-block; margin-right: 3px;"></span>Neutral
+                        </span>
+                        ${historicVenues > 0 ? `<span style="display: inline-flex; align-items: center; margin-left: 8px;">
+                            <span style="width: 12px; height: 12px; border: 2px dashed #2E7D32; border-radius: 50%; display: inline-block; margin-right: 3px;"></span>Historic
+                        </span>` : ''}
                     </div>
                 `;
             }

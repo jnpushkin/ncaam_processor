@@ -284,12 +284,20 @@ class TeamRecordsProcessor(BaseProcessor):
         """Create records by venue."""
         from ..utils.venue_resolver import parse_venue_components
 
+        # Historic/defunct venues (no longer in use)
+        HISTORIC_VENUES = {
+            'Towson Center',  # Towson's arena before SECU Arena (pre-2013)
+            'Kezar Pavilion',  # Academy of Art's former venue
+        }
+
         venue_stats = defaultdict(lambda: {
             'games': 0,
             'home_points': 0,
             'away_points': 0,
             'home_wins': 0,
             'away_wins': 0,
+            'divisions': set(),  # Track divisions of games played here
+            'home_team': None,  # Track primary home team
         })
 
         for game in self.games:
@@ -300,10 +308,15 @@ class TeamRecordsProcessor(BaseProcessor):
 
             away_score = safe_int(basic_info.get('away_score', 0))
             home_score = safe_int(basic_info.get('home_score', 0))
+            division = basic_info.get('division', 'D1')
+            home_team = basic_info.get('home_team', '')
 
             venue_stats[venue]['games'] += 1
             venue_stats[venue]['home_points'] += home_score
             venue_stats[venue]['away_points'] += away_score
+            venue_stats[venue]['divisions'].add(division)
+            if home_team and not venue_stats[venue]['home_team']:
+                venue_stats[venue]['home_team'] = home_team
 
             if home_score > away_score:
                 venue_stats[venue]['home_wins'] += 1
@@ -318,9 +331,24 @@ class TeamRecordsProcessor(BaseProcessor):
 
             # Parse venue into components
             venue_parts = parse_venue_components(venue)
+            venue_name = venue_parts['name'] or venue
+
+            # Determine division (use most common, or D1 if mixed)
+            divisions = stats['divisions']
+            if len(divisions) == 1:
+                division = list(divisions)[0]
+            elif 'D1' in divisions:
+                division = 'D1'
+            elif 'D2' in divisions:
+                division = 'D2'
+            else:
+                division = list(divisions)[0] if divisions else 'D1'
+
+            # Determine if historic or current
+            status = 'Historic' if venue_name in HISTORIC_VENUES else 'Current'
 
             rows.append({
-                'Venue': venue_parts['name'] or venue,
+                'Venue': venue_name,
                 'City': venue_parts['city'],
                 'State': venue_parts['state'],
                 'Games': games,
@@ -328,6 +356,9 @@ class TeamRecordsProcessor(BaseProcessor):
                 'Away Wins': stats['away_wins'],
                 'Avg Home Pts': avg_home,
                 'Avg Away Pts': avg_away,
+                'Division': division,
+                'Status': status,
+                'Home Team': stats['home_team'] or '',
             })
 
         rows.sort(key=lambda x: x['Games'], reverse=True)

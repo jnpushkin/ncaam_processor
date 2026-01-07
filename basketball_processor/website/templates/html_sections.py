@@ -646,11 +646,13 @@ def get_body(total_games: int, total_players: int, total_teams: int, total_venue
                             <th onclick="sortTable('venues-table', 0)">Venue</th>
                             <th onclick="sortTable('venues-table', 1)">City</th>
                             <th onclick="sortTable('venues-table', 2)">State</th>
-                            <th onclick="sortTable('venues-table', 3)" class="tooltip" data-tooltip="Games played at venue">Games</th>
-                            <th onclick="sortTable('venues-table', 4)" class="tooltip" data-tooltip="Home team wins">Home W</th>
-                            <th onclick="sortTable('venues-table', 5)" class="tooltip" data-tooltip="Away team wins">Away W</th>
-                            <th onclick="sortTable('venues-table', 6)" class="tooltip" data-tooltip="Avg home team points">Avg Home</th>
-                            <th onclick="sortTable('venues-table', 7)" class="tooltip" data-tooltip="Avg away team points">Avg Away</th>
+                            <th onclick="sortTable('venues-table', 3)" class="tooltip" data-tooltip="Division level">Div</th>
+                            <th onclick="sortTable('venues-table', 4)" class="tooltip" data-tooltip="Current or Historic venue">Status</th>
+                            <th onclick="sortTable('venues-table', 5)" class="tooltip" data-tooltip="Games played at venue">Games</th>
+                            <th onclick="sortTable('venues-table', 6)" class="tooltip" data-tooltip="Home team wins">Home W</th>
+                            <th onclick="sortTable('venues-table', 7)" class="tooltip" data-tooltip="Away team wins">Away W</th>
+                            <th onclick="sortTable('venues-table', 8)" class="tooltip" data-tooltip="Avg home team points">Avg Home</th>
+                            <th onclick="sortTable('venues-table', 9)" class="tooltip" data-tooltip="Avg away team points">Avg Away</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
