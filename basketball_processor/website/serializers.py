@@ -373,7 +373,7 @@ class DataSerializer:
         for key, df in milestones.items():
             if isinstance(df, pd.DataFrame) and not df.empty:
                 # Select display columns
-                display_cols = ['Date', 'Player', 'Player ID', 'Team', 'Opponent', 'Score', 'Detail', 'GameID']
+                display_cols = ['Date', 'Player', 'Player ID', 'Team', 'Opponent', 'Score', 'Detail', 'GameID', 'Gender']
                 display_cols = [c for c in display_cols if c in df.columns]
                 if display_cols:
                     result[key] = self._df_to_records(df[display_cols])

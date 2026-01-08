@@ -48,6 +48,7 @@ class MilestonesProcessor(BaseProcessor):
             basic_info = self.get_basic_info(game)
             game_id = self.get_game_id(game)
             date = basic_info.get('date', '')
+            gender = game.get('gender', 'M')
             away_score = safe_int(basic_info.get('away_score', 0))
             home_score = safe_int(basic_info.get('home_score', 0))
 
@@ -76,6 +77,7 @@ class MilestonesProcessor(BaseProcessor):
                         'Score': score,
                         'Detail': entry.get('detail', ''),
                         'GameID': game_id,
+                        'Gender': gender,
                         **entry.get('stats', {}),
                     })
 

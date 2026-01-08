@@ -1769,15 +1769,11 @@ def get_javascript(json_data: str) -> str:
             });
 
             const tbody = document.querySelector('#milestones-table tbody');
-            // Build game lookup for gender
-            const gameGender = {};
-            (DATA.games || []).forEach(g => { gameGender[g.GameID] = g.Gender; });
 
             tbody.innerHTML = entries.map(entry => {
                 const playerId = entry['Player ID'] || '';
                 const sportsRefLink = getPlayerSportsRefLink(entry);
-                const gender = gameGender[entry.GameID] || '';
-                const genderTag = gender === 'W' ? ' <span class="gender-tag">(W)</span>' : '';
+                const genderTag = entry.Gender === 'W' ? ' <span class="gender-tag">(W)</span>' : '';
                 return `
                 <tr>
                     <td>${formatDate(entry.Date)}</td>
