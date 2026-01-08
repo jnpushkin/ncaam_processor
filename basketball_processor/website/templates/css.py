@@ -533,6 +533,17 @@ def get_css() -> str:
         .nba-link:hover, .intl-link:hover {
             text-decoration: underline;
         }
+        .proballers-link {
+            color: #6B7280;
+            text-decoration: none;
+            font-size: 0.85rem;
+            margin-left: 0.5rem;
+            opacity: 0.7;
+        }
+        .proballers-link:hover {
+            text-decoration: underline;
+            opacity: 1;
+        }
         .intl-badge {
             font-size: 0.85rem;
             margin-left: 0.35rem;

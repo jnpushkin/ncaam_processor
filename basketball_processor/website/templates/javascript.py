@@ -2288,6 +2288,13 @@ def get_javascript(json_data: str) -> str:
                     }
                 }
 
+                // Build Proballers link if available and different from main link
+                const proballersUrl = player.Proballers_URL || '';
+                const showProballers = proballersUrl && proballersUrl !== proUrl && proballersUrl !== '#';
+                const proballersLink = showProballers
+                    ? ` <a href="${proballersUrl}" target="_blank" class="proballers-link" data-tooltip="View on Proballers">PB &#8599;</a>`
+                    : '';
+
                 return `
                     <tr class="${rowClass}">
                         <td>
@@ -2301,7 +2308,7 @@ def get_javascript(json_data: str) -> str:
                         <td>${player.Games || 0}</td>
                         <td>${(player.PPG || 0).toFixed(1)}</td>
                         <td>${player['Total PTS'] || 0}</td>
-                        <td><a href="${proUrl}" target="_blank" class="${linkClass}">View Stats &#8599;</a></td>
+                        <td><a href="${proUrl}" target="_blank" class="${linkClass}">View Stats &#8599;</a>${proballersLink}</td>
                     </tr>
                 `;
             }).join('');
