@@ -45,4 +45,4 @@ all_games_data.json
 Thumbs.db
 
 # Input HTML files (user-specific)
-# html_games/
+html_games/
