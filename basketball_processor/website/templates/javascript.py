@@ -1112,6 +1112,12 @@ def get_javascript(json_data: str) -> str:
             const GAME_MILESTONES = [1, 10, 25, 50, 75, 100, 150, 200, 250, 500];
             let gameCount = 0;
 
+            // D1 game and venue tracking
+            const D1_MILESTONES = [1, 10, 25, 50, 75, 100, 150, 200, 250, 500];
+            let d1GameCount = 0;
+            let d1VenueCount = 0;
+            const d1VenuesSeen = new Set();
+
             // Holiday detection helper (basketball season: Nov - April)
             function getHoliday(dateStr) {
                 if (!dateStr) return null;
@@ -1182,6 +1188,32 @@ def get_javascript(json_data: str) -> str:
                         text: holiday,
                         title: `${holiday} game`
                     });
+                }
+
+                // D1 game and venue milestones
+                const isD1Game = (game.Division || 'D1') === 'D1';
+                if (isD1Game) {
+                    d1GameCount++;
+                    if (D1_MILESTONES.includes(d1GameCount)) {
+                        gameMilestones[gameId].badges.push({
+                            type: 'd1-game',
+                            text: `D1 Game #${d1GameCount}`,
+                            title: `${ordinal(d1GameCount)} Division 1 game attended`
+                        });
+                    }
+
+                    // Track D1 venues
+                    if (venue && !d1VenuesSeen.has(venue)) {
+                        d1VenuesSeen.add(venue);
+                        d1VenueCount++;
+                        if (D1_MILESTONES.includes(d1VenueCount)) {
+                            gameMilestones[gameId].badges.push({
+                                type: 'd1-venue',
+                                text: `D1 Venue #${d1VenueCount}`,
+                                title: `${ordinal(d1VenueCount)} Division 1 venue visited: ${venue}`
+                            });
+                        }
+                    }
                 }
 
                 // Track first team from each conference (by gender)

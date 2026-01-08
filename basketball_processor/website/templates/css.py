@@ -2019,6 +2019,8 @@ def get_css() -> str:
         .badge-type-holiday { border-left: 4px solid #E91E63; }
         .badge-type-game-count { border-left: 4px solid #00BCD4; }
         .badge-type-transfer { border-left: 4px solid #795548; }
+        .badge-type-d1-game { border-left: 4px solid #1565C0; }
+        .badge-type-d1-venue { border-left: 4px solid #2E7D32; }
         /* Badge icons by type */
         .badge-icon-team::before { content: '🏀'; }
         .badge-icon-venue::before { content: '🏟️'; }
@@ -2029,6 +2031,8 @@ def get_css() -> str:
         .badge-icon-holiday::before { content: '🎉'; }
         .badge-icon-game-count::before { content: '🎫'; }
         .badge-icon-transfer::before { content: '✈️'; }
+        .badge-icon-d1-game::before { content: '🎯'; }
+        .badge-icon-d1-venue::before { content: '🏛️'; }
 
         /* Trip Planner */
         .trip-card {
