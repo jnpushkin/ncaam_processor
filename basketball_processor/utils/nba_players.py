@@ -75,30 +75,6 @@ FALSE_POSITIVE_IDS = {
     'junjie-wang-1',        # College player is different from BR international player
 }
 
-# Player IDs to INCLUDE (confirmed NBA players)
-CONFIRMED_NBA_IDS = {
-    'jayson-tatum-1': {'nba_url': 'https://www.basketball-reference.com/players/t/tatumja01.html', 'is_active': True},
-    'zion-williamson-1': {'nba_url': 'https://www.basketball-reference.com/players/w/willizi01.html', 'is_active': True},
-    'kyle-guy-1': {'nba_url': 'https://www.basketball-reference.com/players/g/guuky01.html', 'is_active': False},
-    'ty-jerome-1': {'nba_url': 'https://www.basketball-reference.com/players/j/jeromty01.html', 'is_active': True},
-    'greivis-vasquez-1': {'nba_url': 'https://www.basketball-reference.com/players/v/vasqugr01.html', 'is_active': False},
-    'deandre-hunter-1': {'nba_url': 'https://www.basketball-reference.com/players/h/huntede01.html', 'is_active': True},
-    'cam-reddish-1': {'nba_url': 'https://www.basketball-reference.com/players/r/reddica01.html', 'is_active': True},
-    'grayson-allen-1': {'nba_url': 'https://www.basketball-reference.com/players/a/allengr01.html', 'is_active': True},
-    'luke-kennard-1': {'nba_url': 'https://www.basketball-reference.com/players/k/kennalu01.html', 'is_active': True},
-    'bronny-james-1': {'nba_url': 'https://www.basketball-reference.com/players/j/jamesbr02.html', 'is_active': True},
-    'stephon-castle-1': {'nba_url': 'https://www.basketball-reference.com/players/c/castlst01.html', 'is_active': True},
-    'donovan-clingan-1': {'nba_url': 'https://www.basketball-reference.com/players/c/clingdo01.html', 'is_active': True},
-    'tre-jones-1': {'nba_url': 'https://www.basketball-reference.com/players/j/jonestr01.html', 'is_active': True},
-    'theo-pinson-1': {'nba_url': 'https://www.basketball-reference.com/players/p/pinsoth01.html', 'is_active': False},
-    'jose-alvarado-1': {'nba_url': 'https://www.basketball-reference.com/players/a/alvarjo01.html', 'is_active': True},
-    'nickeil-alexander-walker-1': {'nba_url': 'https://www.basketball-reference.com/players/a/alexani01.html', 'is_active': True},
-    'mamadi-diakite-1': {'nba_url': 'https://www.basketball-reference.com/players/d/diakima01.html', 'is_active': False},
-    'isaiah-collier-1': {'nba_url': 'https://www.basketball-reference.com/players/c/colliis01.html', 'is_active': True},
-    'ryan-nembhard-1': {'nba_url': 'https://www.basketball-reference.com/players/n/nemhary01.html', 'is_active': True},
-    'brooks-barnhizer-1': {'nba_url': 'https://www.basketball-reference.com/players/b/barnhbr01.html', 'is_active': True},
-}
-
 # Professional overseas league URL patterns on Basketball Reference
 # These appear in gamelog URLs like /gamelog/YEAR/euroleague/
 # Source: https://www.basketball-reference.com/international/
@@ -488,11 +464,7 @@ def check_player_nba_status(player_id: str) -> Optional[Dict[str, Any]]:
     if player_id in FALSE_POSITIVE_IDS:
         return None
 
-    # Check hardcoded confirmed NBA players
-    if player_id in CONFIRMED_NBA_IDS:
-        return CONFIRMED_NBA_IDS[player_id]
-
-    # Check persistent confirmed file (survives cache clears)
+    # Check persistent confirmed file (survives cache clears, auto-updated by reverify)
     confirmed = _load_confirmed()
     if player_id in confirmed:
         return confirmed[player_id]
@@ -678,11 +650,6 @@ def get_nba_status_batch(player_ids: List[str], use_api_fallback: bool = True, m
             results[player_id] = None
             continue
 
-        # Check hardcoded confirmed list
-        if player_id in CONFIRMED_NBA_IDS:
-            results[player_id] = CONFIRMED_NBA_IDS[player_id]
-            continue
-
         # Check persistent confirmed file
         if player_id in confirmed:
             results[player_id] = confirmed[player_id]
@@ -725,7 +692,9 @@ def is_nba_player_by_id(player_id: str) -> bool:
     """Check if a player went to the NBA by their Sports Reference ID."""
     if player_id in FALSE_POSITIVE_IDS:
         return False
-    if player_id in CONFIRMED_NBA_IDS:
+
+    confirmed = _load_confirmed()
+    if player_id in confirmed and confirmed[player_id].get('nba_url'):
         return True
 
     cache = _load_lookup_cache()
@@ -754,8 +723,10 @@ def get_nba_player_info_by_id(player_id: str) -> Optional[Dict[str, Any]]:
     """Get NBA info for a player by their Sports Reference ID."""
     if player_id in FALSE_POSITIVE_IDS:
         return None
-    if player_id in CONFIRMED_NBA_IDS:
-        return CONFIRMED_NBA_IDS[player_id]
+
+    confirmed = _load_confirmed()
+    if player_id in confirmed and confirmed[player_id].get('nba_url'):
+        return confirmed[player_id]
 
     cache = _load_lookup_cache()
     cached = cache.get(player_id)
@@ -769,6 +740,10 @@ def get_intl_player_info_by_id(player_id: str) -> Optional[Dict[str, Any]]:
     if player_id in FALSE_POSITIVE_IDS:
         return None
 
+    confirmed = _load_confirmed()
+    if player_id in confirmed and confirmed[player_id].get('intl_url'):
+        return confirmed[player_id]
+
     cache = _load_lookup_cache()
     cached = cache.get(player_id)
     if cached and 'intl_url' in cached:
@@ -780,8 +755,10 @@ def get_player_pro_info_by_id(player_id: str) -> Optional[Dict[str, Any]]:
     """Get combined NBA and international info for a player."""
     if player_id in FALSE_POSITIVE_IDS:
         return None
-    if player_id in CONFIRMED_NBA_IDS:
-        return CONFIRMED_NBA_IDS[player_id]
+
+    confirmed = _load_confirmed()
+    if player_id in confirmed:
+        return confirmed[player_id]
 
     cache = _load_lookup_cache()
     return cache.get(player_id)
@@ -833,11 +810,12 @@ def check_all_players_from_cache() -> Dict[str, int]:
 
     # Filter out already checked players
     cache = _load_lookup_cache()
+    confirmed = _load_confirmed()
     to_check = []
     for pid in player_ids:
         if pid in FALSE_POSITIVE_IDS:
             continue
-        if pid in CONFIRMED_NBA_IDS:
+        if pid in confirmed:
             continue
         if pid in cache:
             continue
@@ -880,10 +858,12 @@ def check_all_players_from_cache() -> Dict[str, int]:
 
     print(f"\nComplete! Checked {len(to_check)} players, found {nba_found} new NBA players")
 
-    # Count total NBA players in cache
+    # Count total NBA players in cache and confirmed
     cache = _load_lookup_cache()
-    total_nba = sum(1 for v in cache.values() if v is not None) + len(CONFIRMED_NBA_IDS)
-    print(f"Total NBA players: {total_nba} (cache: {sum(1 for v in cache.values() if v is not None)}, confirmed: {len(CONFIRMED_NBA_IDS)})")
+    confirmed = _load_confirmed()
+    cache_nba = sum(1 for v in cache.values() if v is not None and v.get('nba_url'))
+    confirmed_nba = sum(1 for v in confirmed.values() if v and v.get('nba_url'))
+    print(f"Total NBA players: {cache_nba + confirmed_nba} (cache: {cache_nba}, confirmed: {confirmed_nba})")
 
     return {'total': len(player_ids), 'checked': len(to_check), 'nba_found': nba_found, 'skipped': len(player_ids) - len(to_check)}
 

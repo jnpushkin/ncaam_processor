@@ -932,6 +932,14 @@ def get_javascript(json_data: str) -> str:
             return null;
         }
 
+        function formatDate(dateStr) {
+            // Normalize dates to "Month DD, YYYY" format
+            if (!dateStr) return '';
+            const d = parseDate(dateStr);
+            if (!d) return dateStr;
+            return d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+        }
+
         function sortTable(tableId, colIndex) {
             const table = document.getElementById(tableId);
             const tbody = table.querySelector('tbody');
@@ -1772,7 +1780,7 @@ def get_javascript(json_data: str) -> str:
                 const genderTag = gender === 'W' ? ' <span class="gender-tag">(W)</span>' : '';
                 return `
                 <tr>
-                    <td>${entry.Date || ''}</td>
+                    <td>${formatDate(entry.Date)}</td>
                     <td><span class="player-link" onclick="showPlayerDetail('${playerId || entry.Player}')">${entry.Player || ''}</span>${sportsRefLink}</td>
                     <td>${entry.Team || ''}${genderTag}</td>
                     <td>${entry.Opponent || ''}${genderTag}</td>

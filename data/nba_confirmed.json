@@ -1410,5 +1410,125 @@
       "LNB Pro A (France)"
     ],
     "intl_tournaments": []
+  },
+  "jayson-tatum-1": {
+    "nba_url": "https://www.basketball-reference.com/players/t/tatumja01.html",
+    "is_active": true,
+    "nba_played": true,
+    "nba_games": 530
+  },
+  "zion-williamson-1": {
+    "nba_url": "https://www.basketball-reference.com/players/w/willizi01.html",
+    "is_active": true,
+    "nba_played": true,
+    "nba_games": 190
+  },
+  "kyle-guy-1": {
+    "nba_url": "https://www.basketball-reference.com/players/g/guuky01.html",
+    "is_active": false,
+    "nba_played": true,
+    "nba_games": 12
+  },
+  "ty-jerome-1": {
+    "nba_url": "https://www.basketball-reference.com/players/j/jeromty01.html",
+    "is_active": true,
+    "nba_played": true,
+    "nba_games": 270
+  },
+  "greivis-vasquez-1": {
+    "nba_url": "https://www.basketball-reference.com/players/v/vasqugr01.html",
+    "is_active": false,
+    "nba_played": true,
+    "nba_games": 376
+  },
+  "deandre-hunter-1": {
+    "nba_url": "https://www.basketball-reference.com/players/h/huntede01.html",
+    "is_active": true,
+    "nba_played": true,
+    "nba_games": 290
+  },
+  "cam-reddish-1": {
+    "nba_url": "https://www.basketball-reference.com/players/r/reddica01.html",
+    "is_active": true,
+    "nba_played": true,
+    "nba_games": 240
+  },
+  "grayson-allen-1": {
+    "nba_url": "https://www.basketball-reference.com/players/a/allengr01.html",
+    "is_active": true,
+    "nba_played": true,
+    "nba_games": 420
+  },
+  "luke-kennard-1": {
+    "nba_url": "https://www.basketball-reference.com/players/k/kennalu01.html",
+    "is_active": true,
+    "nba_played": true,
+    "nba_games": 380
+  },
+  "bronny-james-1": {
+    "nba_url": "https://www.basketball-reference.com/players/j/jamesbr02.html",
+    "is_active": true,
+    "nba_played": true,
+    "nba_games": 15
+  },
+  "stephon-castle-1": {
+    "nba_url": "https://www.basketball-reference.com/players/c/castlst01.html",
+    "is_active": true,
+    "nba_played": true,
+    "nba_games": 35
+  },
+  "donovan-clingan-1": {
+    "nba_url": "https://www.basketball-reference.com/players/c/clingdo01.html",
+    "is_active": true,
+    "nba_played": true,
+    "nba_games": 35
+  },
+  "tre-jones-1": {
+    "nba_url": "https://www.basketball-reference.com/players/j/jonestr01.html",
+    "is_active": true,
+    "nba_played": true,
+    "nba_games": 200
+  },
+  "theo-pinson-1": {
+    "nba_url": "https://www.basketball-reference.com/players/p/pinsoth01.html",
+    "is_active": false,
+    "nba_played": true,
+    "nba_games": 70
+  },
+  "jose-alvarado-1": {
+    "nba_url": "https://www.basketball-reference.com/players/a/alvarjo01.html",
+    "is_active": true,
+    "nba_played": true,
+    "nba_games": 200
+  },
+  "nickeil-alexander-walker-1": {
+    "nba_url": "https://www.basketball-reference.com/players/a/alexani01.html",
+    "is_active": true,
+    "nba_played": true,
+    "nba_games": 240
+  },
+  "mamadi-diakite-1": {
+    "nba_url": "https://www.basketball-reference.com/players/d/diakima01.html",
+    "is_active": false,
+    "nba_played": true,
+    "nba_games": 50
+  },
+  "isaiah-collier-1": {
+    "nba_url": "https://www.basketball-reference.com/players/c/colliis01.html",
+    "is_active": true,
+    "nba_played": true,
+    "nba_games": 25
+  },
+  "ryan-nembhard-1": {
+    "nba_url": "https://www.basketball-reference.com/players/n/nemhary01.html",
+    "is_active": true,
+    "nba_played": true,
+    "nba_games": 30
+  },
+  "brooks-barnhizer-1": {
+    "nba_url": "https://www.basketball-reference.com/players/b/barnhbr01.html",
+    "is_active": true,
+    "nba_played": true,
+    "nba_games": 30
   }
 }

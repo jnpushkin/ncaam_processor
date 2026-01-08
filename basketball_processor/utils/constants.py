@@ -507,6 +507,32 @@ DEFUNCT_TEAMS = {
     'St. Francis (NY)',  # Program discontinued after 2022-23 season
 }
 
+# === TEAMS LEAVING D1 ===
+# Teams transitioning out of Division I - tracks when they leave and where they go
+# Format: 'Team': (exit_date_YYYYMMDD, 'New Division/Conference')
+# These teams are included in D1 conferences for historical games but excluded from
+# current D1 checklists after their exit date
+D1_EXIT_TEAMS = {
+    'St. Francis (PA)': (20260701, 'Presidents Athletic Conference (Division 3)'),  # Moving to D3 after 2025-26
+}
+
+# === TEAMS ENTERING D1 ===
+# Teams transitioning into Division I - ensures they appear in conference checklists
+# Format: 'Team': (entry_date_YYYYMMDD, 'D1 Conference')
+# These teams are added to their D1 conference starting from their entry date
+# Note: Teams in 4-year transition period are still D1 eligible
+D1_ENTRY_TEAMS = {
+    # Recent D1 transitions
+    'Bellarmine': (20200701, 'Atlantic Sun'),  # Completed transition 2024
+    'Lindenwood': (20220701, 'OVC'),  # Completed transition 2026
+    'Queens (NC)': (20220701, 'Atlantic Sun'),  # Completed transition 2026
+    'Southern Indiana': (20220701, 'OVC'),  # Completed transition 2026
+    'Stonehill': (20220701, 'NEC'),  # Completed transition 2026
+    'Texas A&M-Commerce': (20220701, 'Southland'),  # Completed transition 2026
+    'West Georgia': (20240701, 'Sun Belt'),  # Started transition 2024
+    'Utah Tech': (20200701, 'WAC'),  # Completed transition 2024
+}
+
 # === HISTORICAL CONFERENCE TRACKING ===
 # Tracks conference changes over time for accurate historical game attribution
 # Format: 'Team': [(effective_date_YYYYMMDD, 'Conference'), ...]

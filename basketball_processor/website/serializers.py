@@ -850,7 +850,7 @@ class DataSerializer:
         records = df.to_dict('records')
 
         # Columns that contain team names to normalize
-        team_columns = {'Team', 'Away Team', 'Home Team', 'Opponent'}
+        team_columns = {'Team', 'Away Team', 'Home Team', 'Opponent', 'team', 'opponent'}
 
         # Clean up records
         cleaned = []
@@ -922,8 +922,9 @@ class DataSerializer:
 
     def _serialize_conference_checklist(self) -> Dict[str, Any]:
         """Serialize conference checklist data - teams and venues seen per conference."""
-        from ..utils.constants import CONFERENCES, TEAM_ALIASES, DEFUNCT_TEAMS
+        from ..utils.constants import CONFERENCES, TEAM_ALIASES, DEFUNCT_TEAMS, D1_EXIT_TEAMS, D1_ENTRY_TEAMS
         from ..utils.venue_resolver import get_venue_resolver, parse_venue_components
+        import datetime
 
         game_log = self.processed_data.get('game_log', pd.DataFrame())
         venue_resolver = get_venue_resolver()
@@ -1019,6 +1020,9 @@ class DataSerializer:
         # Skip non-D1 conferences
         skip_conferences = {'D3', 'D2', 'NAIA', 'Non-D1'}
 
+        # Get current date for checking D1 exit status
+        today = int(datetime.datetime.now().strftime('%Y%m%d'))
+
         for conf_name, conf_teams in CONFERENCES.items():
             if conf_name in skip_conferences:
                 continue
@@ -1027,6 +1031,11 @@ class DataSerializer:
                 # Skip defunct teams - they count for badges but not checklist
                 if team in DEFUNCT_TEAMS:
                     continue
+                # Skip teams that have exited D1 (after their exit date)
+                if team in D1_EXIT_TEAMS:
+                    exit_date, _ = D1_EXIT_TEAMS[team]
+                    if today >= exit_date:
+                        continue
                 all_conference_teams.add(team)
                 # Also add aliases to the set
                 aliases = reverse_aliases.get(team, [])
@@ -1057,6 +1066,35 @@ class DataSerializer:
                 }
                 teams_data.append(team_data)
                 all_d1_teams.append(team_data)
+
+            # Add D1 entry teams to their conference if after entry date and not already included
+            for entry_team, (entry_date, target_conf) in D1_ENTRY_TEAMS.items():
+                if target_conf == conf_name and today >= entry_date and entry_team not in conf_teams:
+                    all_conference_teams.add(entry_team)
+                    home_arena_m = venue_resolver.get_home_arena(entry_team, 'M')
+                    home_arena_w = venue_resolver.get_home_arena(entry_team, 'W')
+                    arena_name_m = parse_venue_components(home_arena_m)['name'] if home_arena_m else 'Unknown'
+                    arena_name_w = parse_venue_components(home_arena_w)['name'] if home_arena_w else 'Unknown'
+                    entry_team_data = {
+                        'team': entry_team,
+                        'seen': team_seen(entry_team, seen_teams_by_gender['all']),
+                        'seenM': team_seen(entry_team, seen_teams_by_gender['M']),
+                        'seenW': team_seen(entry_team, seen_teams_by_gender['W']),
+                        'homeArena': arena_name_m,
+                        'homeArenaM': arena_name_m,
+                        'homeArenaW': arena_name_w,
+                        'arenaVisited': arena_visited(home_arena_m, seen_venues_by_gender['all']),
+                        'arenaVisitedM': arena_visited(home_arena_m, seen_venues_by_gender['M']),
+                        'arenaVisitedW': arena_visited(home_arena_w, seen_venues_by_gender['W']),
+                        'conference': conf_name,
+                        'espnId': get_espn_team_id(entry_team),
+                        'isTransition': True  # Mark as transitioning team
+                    }
+                    teams_data.append(entry_team_data)
+                    all_d1_teams.append(entry_team_data)
+
+            # Re-sort teams_data to include entry teams in alphabetical order
+            teams_data = sorted(teams_data, key=lambda x: x['team'])
 
             checklist[conf_name] = {
                 'teams': teams_data,
