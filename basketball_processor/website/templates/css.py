@@ -1750,6 +1750,17 @@ def get_css() -> str:
             background: var(--warning);
             color: white;
         }
+        .neutral-badge {
+            display: inline-block;
+            padding: 0.15rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            background: #9333ea;
+            color: white;
+            margin-left: 0.4rem;
+            vertical-align: middle;
+        }
         /* Quick filters */
         .quick-filters {
             display: flex;

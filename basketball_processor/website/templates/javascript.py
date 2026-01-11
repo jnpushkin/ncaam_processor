@@ -844,6 +844,27 @@ def get_javascript(json_data: str) -> str:
                 return true;
             });
 
+            // Sort by date descending, then by time (if available) for same-day games
+            filteredData.games.sort((a, b) => {
+                const dateCompare = (b.DateSort || '').localeCompare(a.DateSort || '');
+                if (dateCompare !== 0) return dateCompare;
+                // For same day, sort by TimeSort (ISO datetime) descending if available
+                const timeA = a.TimeSort || '';
+                const timeB = b.TimeSort || '';
+                if (timeA && timeB && timeA !== timeB) {
+                    return timeB.localeCompare(timeA);  // Later time first
+                }
+                // When times are equal/unknown, sort by gender (M before W in descending)
+                // This puts women's games lower since they typically play first in doubleheaders
+                const genderA = a.Gender || 'M';
+                const genderB = b.Gender || 'M';
+                if (genderA !== genderB) {
+                    return genderA === 'M' ? -1 : 1;  // M games appear higher (more recent)
+                }
+                // Final fallback to GameID descending
+                return (b.GameID || '').localeCompare(a.GameID || '');
+            });
+
             pagination.games.page = 1;
             pagination.games.total = filteredData.games.length;
             renderGamesTable();
@@ -1078,10 +1099,26 @@ def get_javascript(json_data: str) -> str:
 
         function computeGameMilestones() {
             // Sort by DateSort (YYYYMMDD format) ascending - oldest first
+            // For same day, use TimeSort then gender (W before M since women's games typically first)
             const allGames = (DATA.games || []).slice().sort((a, b) => {
                 const dateA = a.DateSort || '';
                 const dateB = b.DateSort || '';
-                return dateA.localeCompare(dateB);
+                const dateCompare = dateA.localeCompare(dateB);
+                if (dateCompare !== 0) return dateCompare;
+                // Same day - sort by time ascending (earlier first)
+                const timeA = a.TimeSort || '';
+                const timeB = b.TimeSort || '';
+                if (timeA && timeB && timeA !== timeB) {
+                    return timeA.localeCompare(timeB);  // Earlier time first
+                }
+                // When times equal, women's games typically first in doubleheaders
+                const genderA = a.Gender || 'M';
+                const genderB = b.Gender || 'M';
+                if (genderA !== genderB) {
+                    return genderA === 'W' ? -1 : 1;  // W games first (earlier)
+                }
+                // Final fallback to GameID ascending
+                return (a.GameID || '').localeCompare(b.GameID || '');
             });
 
             const teamCounts = {};         // track times each team seen (by gender)
@@ -1093,6 +1130,14 @@ def get_javascript(json_data: str) -> str:
             let venueOrder = [];           // track order venues were first visited
             const confTeamsSeen = {};      // track teams seen per conference per gender
             const confCompleted = {};      // track which conferences have been completed
+            const statesSeen = new Set();  // track visited states
+            let stateOrder = [];           // track order states were first visited
+
+            // Streak tracking (consecutive days with games)
+            let currentStreak = 0;
+            let lastGameDate = null;
+            let maxStreak = 0;
+            const streakHistory = [];  // track all streaks for display
 
             gameMilestones = {};
 
@@ -1113,6 +1158,54 @@ def get_javascript(json_data: str) -> str:
             let d1GameCount = 0;
             let d1VenueCount = 0;
             const d1VenuesSeen = new Set();
+
+            // D1 team tracking (by gender) - badge every 5 teams
+            const D1_TEAM_MILESTONES = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100];
+            const d1TeamsSeen = { M: new Set(), W: new Set() };
+
+            // Build set of actual D1 teams from conference checklist data
+            // Use team aliases from constants (single source of truth)
+            const actualD1Teams = new Set();
+            const teamAliases = DATA.teamAliases || {};
+
+            // Build reverse alias map (canonical -> all variations)
+            const reverseAliases = {};
+            for (const [alias, canonical] of Object.entries(teamAliases)) {
+                if (!reverseAliases[canonical]) reverseAliases[canonical] = new Set();
+                reverseAliases[canonical].add(alias);
+                reverseAliases[canonical].add(canonical);
+            }
+
+            // Reuse checklist from above to build D1 team set
+            for (const [confName, confData] of Object.entries(checklist)) {
+                // Skip non-conference entries (All D1 is combined list, Historical/Other has non-D1)
+                if (confName === 'All D1' || confName === 'Historical/Other') continue;
+
+                (confData.teams || []).forEach(t => {
+                    if (t.team) {
+                        actualD1Teams.add(t.team);
+                        // Add canonical name if this team IS an alias (e.g., "VCU" -> "Virginia Commonwealth")
+                        const canonical = teamAliases[t.team];
+                        if (canonical) {
+                            actualD1Teams.add(canonical);
+                        }
+                        // Also add all aliases that map TO this team
+                        const aliases = reverseAliases[t.team];
+                        if (aliases) {
+                            aliases.forEach(a => actualD1Teams.add(a));
+                        }
+                    }
+                });
+            }
+
+            // Helper to check if a team is D1 (handles aliases)
+            function isD1Team(teamName) {
+                if (actualD1Teams.has(teamName)) return true;
+                // Check if alias maps to a D1 team
+                const canonical = teamAliases[teamName];
+                if (canonical && actualD1Teams.has(canonical)) return true;
+                return false;
+            }
 
             // Holiday detection helper (basketball season: Nov - April)
             function getHoliday(dateStr) {
@@ -1175,6 +1268,44 @@ def get_javascript(json_data: str) -> str:
                     });
                 }
 
+                // Streak tracking (consecutive days with games)
+                const gameDateStr = game.DateSort || '';
+                if (gameDateStr) {
+                    // Parse YYYYMMDD format
+                    const gameDate = new Date(
+                        parseInt(gameDateStr.substring(0, 4)),
+                        parseInt(gameDateStr.substring(4, 6)) - 1,
+                        parseInt(gameDateStr.substring(6, 8))
+                    );
+
+                    if (lastGameDate) {
+                        const dayDiff = Math.floor((gameDate - lastGameDate) / (1000 * 60 * 60 * 24));
+                        if (dayDiff === 0) {
+                            // Same day - streak continues but don't increment day count
+                        } else if (dayDiff === 1) {
+                            // Next day - extend streak
+                            currentStreak++;
+                            if (currentStreak >= 2) {
+                                gameMilestones[gameId].badges.push({
+                                    type: 'streak',
+                                    text: `${currentStreak}-Day Streak`,
+                                    title: `${currentStreak} consecutive days attending games!`
+                                });
+                            }
+                        } else {
+                            // Streak broken - record it and reset
+                            if (currentStreak >= 2) {
+                                streakHistory.push(currentStreak);
+                            }
+                            maxStreak = Math.max(maxStreak, currentStreak);
+                            currentStreak = 1;
+                        }
+                    } else {
+                        currentStreak = 1;
+                    }
+                    lastGameDate = gameDate;
+                }
+
                 // Holiday game badge
                 const dateForHoliday = game.DateSort || game.Date;
                 const holiday = getHoliday(dateForHoliday);
@@ -1186,8 +1317,21 @@ def get_javascript(json_data: str) -> str:
                     });
                 }
 
+                // State visit milestones (badge for each new state)
+                const gameState = game.State;
+                if (gameState && !statesSeen.has(gameState)) {
+                    statesSeen.add(gameState);
+                    stateOrder.push(gameState);
+                    const stateNum = stateOrder.length;
+                    gameMilestones[gameId].badges.push({
+                        type: 'state',
+                        text: `${gameState} (State #${stateNum})`,
+                        title: `${ordinal(stateNum)} state visited: ${gameState}`
+                    });
+                }
+
                 // D1 game and venue milestones
-                const isD1Game = (game.Division || 'D1') === 'D1';
+                const isD1Game = game.Division === 'D1';
                 if (isD1Game) {
                     d1GameCount++;
                     if (D1_MILESTONES.includes(d1GameCount)) {
@@ -1210,6 +1354,30 @@ def get_javascript(json_data: str) -> str:
                             });
                         }
                     }
+
+                    // Track D1 teams seen (by gender) - badge every 5 teams
+                    function trackD1Team(team, gender) {
+                        // Only count teams that are actually D1
+                        if (!isD1Team(team)) return;
+
+                        const genderSet = d1TeamsSeen[gender];
+                        const genderSuffix = gender === 'W' ? ' (W)' : ' (M)';
+
+                        // Track gender-specific D1 teams - badge every 5 teams
+                        if (genderSet && !genderSet.has(team)) {
+                            genderSet.add(team);
+                            const genderCount = genderSet.size;
+                            if (D1_TEAM_MILESTONES.includes(genderCount)) {
+                                gameMilestones[gameId].badges.push({
+                                    type: 'd1-team',
+                                    text: `D1${genderSuffix} #${genderCount}`,
+                                    title: `${ordinal(genderCount)} D1${genderSuffix} team seen: ${team}`
+                                });
+                            }
+                        }
+                    }
+                    trackD1Team(away, gender);
+                    trackD1Team(home, gender);
                 }
 
                 // Track first team from each conference (by gender)
@@ -1362,6 +1530,12 @@ def get_javascript(json_data: str) -> str:
                 });
             });
 
+            // Finalize streak tracking
+            if (currentStreak >= 2) {
+                streakHistory.push(currentStreak);
+            }
+            maxStreak = Math.max(maxStreak, currentStreak);
+
             // Store tracking data globally for badges display
             window.badgeTrackingData = {
                 confTeamsSeen: confTeamsSeen,
@@ -1369,7 +1543,12 @@ def get_javascript(json_data: str) -> str:
                 conferenceTeamCounts: conferenceTeamCounts,
                 venueOrder: venueOrder,
                 teamCounts: teamCounts,
-                matchupsSeen: matchupsSeen
+                matchupsSeen: matchupsSeen,
+                statesSeen: statesSeen,
+                stateOrder: stateOrder,
+                maxStreak: maxStreak,
+                streakHistory: streakHistory,
+                d1TeamsSeen: d1TeamsSeen
             };
         }
 
@@ -1848,6 +2027,16 @@ def get_javascript(json_data: str) -> str:
             const tbody = document.querySelector('#venues-table tbody');
             const data = DATA.venues || [];
 
+            // Known neutral site venues
+            const NEUTRAL_SITES = new Set([
+                'Chase Center', 'Barclays Center', 'Madison Square Garden',
+                'United Center', 'T-Mobile Arena', 'Footprint Center',
+                'Crypto.com Arena', 'TD Garden', 'Capital One Arena',
+                'Smoothie King Center', 'State Farm Arena', 'Little Caesars Arena',
+                'Rocket Mortgage FieldHouse', 'Spectrum Center', 'Ball Arena',
+                'Climate Pledge Arena', 'Intuit Dome', 'Kia Center',
+            ]);
+
             if (data.length === 0) {
                 tbody.innerHTML = '<tr><td colspan="10" class="empty-state"><h3>No venue data</h3></td></tr>';
                 return;
@@ -1858,9 +2047,11 @@ def get_javascript(json_data: str) -> str:
                 const status = venue.Status || 'Current';
                 const divClass = division === 'D1' ? '' : (division === 'D2' ? 'division-d2' : 'division-d3');
                 const statusClass = status === 'Historic' ? 'status-historic' : '';
+                const isNeutralSite = NEUTRAL_SITES.has(venue.Venue);
+                const neutralBadge = isNeutralSite ? ' <span class="neutral-badge">Neutral</span>' : '';
                 return `
                 <tr class="${divClass} ${statusClass}">
-                    <td><span class="venue-link" onclick="showVenueDetail('${venue.Venue || ''}')">${venue.Venue || 'Unknown'}</span></td>
+                    <td><span class="venue-link" onclick="showVenueDetail('${venue.Venue || ''}')">${venue.Venue || 'Unknown'}</span>${neutralBadge}</td>
                     <td>${venue.City || ''}</td>
                     <td>${venue.State || ''}</td>
                     <td><span class="division-badge division-${division.toLowerCase()}">${division}</span></td>
@@ -3018,6 +3209,19 @@ def get_javascript(json_data: str) -> str:
                 const color = gameCount >= 6 ? '#22c55e' : gameCount >= 3 ? '#f97316' : '#ef4444';
                 const radius = Math.min(5 + gameCount, 15);
 
+                // Known neutral site venues
+                const NEUTRAL_SITES = new Set([
+                    'Chase Center', 'Barclays Center', 'Madison Square Garden',
+                    'United Center', 'T-Mobile Arena', 'Footprint Center',
+                    'Crypto.com Arena', 'TD Garden', 'Capital One Arena',
+                    'Smoothie King Center', 'State Farm Arena', 'Little Caesars Arena',
+                    'Rocket Mortgage FieldHouse', 'Spectrum Center', 'Ball Arena',
+                    'Climate Pledge Arena', 'Intuit Dome', 'Kia Center',
+                ]);
+
+                const isNeutralSite = NEUTRAL_SITES.has(v.venue);
+                const neutralTag = isNeutralSite ? '<br><span style="color: #9333ea;">📍 Neutral Site</span>' : '';
+
                 const gameList = v.games.slice(0, 5).map(g =>
                     `${formatGameDateTime(g.date, g.time_detail)}: ${g.awayTeam} @ ${g.homeTeam}`
                 ).join('<br>');
@@ -3025,13 +3229,13 @@ def get_javascript(json_data: str) -> str:
 
                 const marker = L.circleMarker([lat, lng], {
                     radius: radius,
-                    fillColor: color,
+                    fillColor: isNeutralSite ? '#9333ea' : color,  // Purple for neutral sites
                     color: '#fff',
                     weight: 2,
                     opacity: 1,
                     fillOpacity: 0.8
                 }).addTo(upcomingVenuesMap)
-                  .bindPopup(`<strong>${v.venue}</strong><br>${v.city}, ${v.state}<br><br>${gameCount} games:<br>${gameList}${moreText}`);
+                  .bindPopup(`<strong>${v.venue}</strong><br>${v.city}, ${v.state}${neutralTag}<br><br>${gameCount} games:<br>${gameList}${moreText}`);
 
                 marker.venueData = v;
                 marker.isVisited = false;
@@ -4978,6 +5182,10 @@ def get_javascript(json_data: str) -> str:
                     return `<span class="${dotClass}" title="${team.team}: ${arena}"></span>`;
                 }).join('');
 
+                const teamsRemaining = numTeams - teamsSeen;
+                const remainingText = isComplete ? '<span style="color: var(--success);">✓ Complete!</span>' :
+                    `<span style="color: var(--warning);">${teamsRemaining} team${teamsRemaining !== 1 ? 's' : ''} remaining</span>`;
+
                 return `
                     <div class="conf-progress-card ${isComplete ? 'complete' : ''}" data-conf="${confName}" onclick="showConferenceDetail('${confName.replace(/'/g, "\\'")}')">
                         <div class="conf-progress-header">
@@ -4988,6 +5196,9 @@ def get_javascript(json_data: str) -> str:
                             <div class="badge-progress-bar">
                                 <div class="badge-progress-fill ${isComplete ? 'complete' : ''}" style="width: ${progressPct}%"></div>
                             </div>
+                        </div>
+                        <div style="font-size: 0.75rem; margin-top: 0.25rem; text-align: center;">
+                            ${remainingText}
                         </div>
                         <div class="conf-progress-teams">${teamDots}</div>
                         <div class="conf-progress-venues" style="font-size: 0.75rem; margin-top: 0.25rem;">
@@ -5138,6 +5349,10 @@ def get_javascript(json_data: str) -> str:
                 </div>
             `).join('') : '<p class="conf-team-empty">All venues visited!</p>';
 
+            const teamsRemaining = unseenTeams.length;
+            const venuesRemaining = unvisitedVenues.length;
+            const isComplete = teamsRemaining === 0;
+
             const detailHtml = `
                 <div class="conf-detail-summary" style="display: flex; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap;">
                     <div class="stat-box">
@@ -5145,8 +5360,16 @@ def get_javascript(json_data: str) -> str:
                         <div class="label">Teams Seen</div>
                     </div>
                     <div class="stat-box">
+                        <div class="number" style="color: ${isComplete ? 'var(--success)' : 'var(--warning)'};">${teamsRemaining}</div>
+                        <div class="label">Teams Remaining</div>
+                    </div>
+                    <div class="stat-box">
                         <div class="number">${visitedVenues.length}/${teams.length}</div>
                         <div class="label">Venues Visited</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="number" style="color: ${venuesRemaining === 0 ? 'var(--success)' : 'var(--warning)'};">${venuesRemaining}</div>
+                        <div class="label">Venues Remaining</div>
                     </div>
                 </div>
                 <div class="conf-detail-sections" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">

@@ -92,6 +92,9 @@ class DataSerializer:
         future_pros_count = sum(1 for p in players if p.get('NBA') or p.get('WNBA') or p.get('International'))
         summary['futurePros'] = future_pros_count
 
+        # Import TEAM_ALIASES for JavaScript use
+        from ..utils.constants import TEAM_ALIASES
+
         return {
             'summary': summary,
             'games': self._serialize_games(),
@@ -109,6 +112,7 @@ class DataSerializer:
             'attendanceStats': self._serialize_attendance_stats(),
             'conferenceChecklist': self._serialize_conference_checklist(),
             'upcomingGames': self._serialize_upcoming_games(),
+            'teamAliases': TEAM_ALIASES,
         }
 
     def _serialize_summary(self) -> Dict[str, Any]:
@@ -235,7 +239,184 @@ class DataSerializer:
                 if home_conf:
                     game['HomeConf'] = home_conf
 
+        # Fetch game times from ESPN for dates with multiple games
+        self._add_game_times_from_espn(games)
+
         return games
+
+    def _add_game_times_from_espn(self, games: List[Dict]) -> None:
+        """Add game times from ESPN for dates with multiple games."""
+        from ..utils.schedule_scraper import get_game_times_for_date
+        from collections import defaultdict
+
+        # Group games by date
+        games_by_date = defaultdict(list)
+        for game in games:
+            date_sort = game.get('DateSort', '')
+            if date_sort:
+                games_by_date[date_sort].append(game)
+
+        # Only fetch times for dates with multiple games
+        dates_needing_times = [d for d, g in games_by_date.items() if len(g) > 1]
+
+        if not dates_needing_times:
+            return
+
+        print(f"  Fetching game times from ESPN for {len(dates_needing_times)} dates with multiple games...")
+
+        for date_str in dates_needing_times:
+            # Fetch men's and women's times separately to avoid cross-matching
+            espn_times_m = get_game_times_for_date(date_str, gender='M')
+            espn_times_w = get_game_times_for_date(date_str, gender='W')
+
+            # Match games to ESPN times based on game gender
+            for game in games_by_date[date_str]:
+                away_team = game.get('Away Team', '')
+                home_team = game.get('Home Team', '')
+                game_gender = game.get('Gender', 'M')
+
+                # Use the appropriate ESPN times based on game gender
+                espn_times = espn_times_w if game_gender == 'W' else espn_times_m
+                if not espn_times:
+                    continue
+
+                # Try to find matching ESPN game
+                for espn_key, espn_time in espn_times.items():
+                    espn_away, espn_home = espn_key.split('|')
+
+                    # Fuzzy match team names
+                    away_match = self._teams_match(away_team, espn_away)
+                    home_match = self._teams_match(home_team, espn_home)
+
+                    if away_match and home_match:
+                        game['TimeSort'] = espn_time
+                        break
+
+    def _teams_match(self, team1: str, team2: str) -> bool:
+        """Check if two team names likely refer to the same team."""
+        from ..utils.constants import TEAM_ALIASES
+
+        def normalize(name: str) -> str:
+            # Remove common suffixes like Bulldogs, Bears, etc.
+            n = name.lower().replace("'", "").replace(".", "").replace("-", " ").replace("(", "").replace(")", "").strip()
+            # Remove team nickname suffixes (common ESPN format)
+            # Try to strip any "Lady X" or common nickname pattern
+            import re
+            # First try to remove "Lady <nickname>" pattern
+            lady_match = re.match(r'^(.+?)\s+lady\s+\w+$', n)
+            if lady_match:
+                return lady_match.group(1).strip()
+
+            # Comprehensive list of D1 college basketball team nicknames
+            # Includes men's and women's variants (cowboys/cowgirls, etc.)
+            suffixes = [
+                # A
+                'aces', 'aggies', 'anteaters', 'antelopes', 'aztecs',
+                # B
+                'badgers', 'banana slugs', 'battlin bears', 'beach', 'bearcats', 'bears',
+                'beavers', 'bengals', 'bighornz', 'billikens', 'bison', 'black bears',
+                'black knights', 'blazers', 'blue demons', 'blue devils', 'blue hens',
+                'blue jays', 'blue raiders', 'bluejays', 'bobcats', 'boilermakers',
+                'bonnies', 'braves', 'broncos', 'bruins', 'buckeyes', 'buffaloes',
+                'buffs', 'bulldogs', 'bulls',
+                # C
+                'camels', 'cardinals', 'catamounts', 'cavaliers', 'chanticleers',
+                'chippewas', 'citadel', 'clan', 'cobras', 'colonels', 'commodores',
+                'cornhuskers', 'cougars', 'cowboys', 'cowgirls', 'coyotes', 'crimson',
+                'crimson tide', 'crusaders', 'cyclones',
+                # D
+                'darters', 'demon deacons', 'demons', 'dolphins', 'dons', 'dragons',
+                'ducks', 'dukes', 'dustdevils',
+                # E
+                'eagles', 'engineers', 'explorers',
+                # F
+                'falcons', 'fighting camels', 'fighting hawks', 'fighting illini',
+                'fighting irish', 'flames', 'flashes', 'flyers', 'friars',
+                # G
+                'gaels', 'gators', 'golden bears', 'golden eagles', 'golden flashes',
+                'golden gophers', 'golden griffins', 'golden grizzlies', 'golden hurricane',
+                'golden knights', 'golden panthers', 'gophers', 'gorillas', 'governors',
+                'govs', 'great danes', 'green wave', 'greyhounds', 'griffins', 'grizzlies',
+                # H
+                'hatters', 'hawkeyes', 'hawks', 'highlanders', 'hilltoppers', 'hokies',
+                'hoosiers', 'hornets', 'horned frogs', 'hoyas', 'huskies', 'hurricanes',
+                # I
+                'ichabods', 'illini', 'indians',
+                # J
+                'jackrabbits', 'jacks', 'jaguars', 'jaspers', 'javelinas', 'jayhawks', 'jets',
+                # K
+                'kangaroos', 'keydets', 'kingsmen', 'knights',
+                # L
+                'lancers', 'leathernecks', 'leopards', 'lions', 'lobos', 'longhorns', 'lopes', 'lumberjacks',
+                # M
+                'mad ants', 'mavericks', 'mean green', 'midshipmen', 'miners', 'mocs',
+                'mocassins', 'monarchs', 'mountaineers', 'musketeers', 'mustangs',
+                # N
+                'nittany lions',
+                # O
+                'ospreys', 'orange', 'orangemen', 'owls',
+                # P
+                'paladins', 'panthers', 'patriots', 'peacocks', 'pelicans', 'penguins',
+                'phoenix', 'pilots', 'pioneers', 'pirates', 'privateers', 'purple aces',
+                'purple eagles',
+                # Q-R
+                'quakers', 'racers', 'ragin cajuns', 'raiders', 'rainbow wahine',
+                'rainbow warriors', 'rams', 'rattlers', 'razorbacks', 'rebels',
+                'red flash', 'red foxes', 'red hawks', 'red raiders', 'red storm',
+                'red wolves', 'redhawks', 'redbirds', 'retrievers', 'riverhawks',
+                'roadrunners', 'rockets', 'runnin bulldogs', 'running rebels',
+                # S
+                'saints', 'salukis', 'samurai', 'scarlet knights', 'scots', 'seahawks',
+                'seawolves', 'seminoles', 'shockers', 'skyhawks', 'sooners', 'spartans',
+                'spiders', 'stags', 'statesmen', 'stormy petrels', 'sun devils',
+                'sycamores',
+                # T
+                'tar heels', 'terrapins', 'terriers', 'thunderbirds', 'thundering herd',
+                'tides', 'tigers', 'titans', 'tomcats', 'toppers', 'toreadors', 'toreros',
+                'tribe', 'tritons', 'trojans', 'tritons',
+                # U-V
+                'utes', 'vandals', 'vikings', 'vixens', 'vols', 'volunteers',
+                # W
+                'wahoos', 'war hawks', 'warhawks', 'warriors', 'wasps', 'wave',
+                'westerners', 'wildcats', 'wolf pack', 'wolfpack', 'wolverines', 'wolves',
+                # Y-Z
+                'yellow jackets', 'zags', 'zips',
+            ]
+            for suffix in suffixes:
+                if n.endswith(' ' + suffix):
+                    n = n[:-len(suffix)-1].strip()
+                    break
+            return n
+
+        t1 = normalize(team1)
+        t2 = normalize(team2)
+
+        # Direct match after normalization (this handles ESPN suffix removal)
+        if t1 == t2:
+            return True
+
+        # Check exact alias matches
+        # Build equivalence sets from aliases
+        t1_equivalents = {t1}
+        t2_equivalents = {t2}
+
+        for alias, target in TEAM_ALIASES.items():
+            alias_norm = normalize(alias)
+            target_norm = normalize(target)
+            # If t1 matches alias or target exactly, add both to equivalents
+            if t1 == alias_norm or t1 == target_norm:
+                t1_equivalents.add(alias_norm)
+                t1_equivalents.add(target_norm)
+            # Same for t2
+            if t2 == alias_norm or t2 == target_norm:
+                t2_equivalents.add(alias_norm)
+                t2_equivalents.add(target_norm)
+
+        # Check if equivalence sets overlap
+        if t1_equivalents & t2_equivalents:
+            return True
+
+        return False
 
     def _serialize_players(self) -> List[Dict]:
         """Serialize player statistics with NBA and international info."""

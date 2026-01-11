@@ -14,8 +14,9 @@ from typing import Dict, List, Any, Optional, Set
 from .log import info, warn, success
 
 
-# ESPN API endpoint for college basketball scoreboard
+# ESPN API endpoints for college basketball scoreboard
 ESPN_API_URL = "https://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/scoreboard"
+ESPN_API_URL_WOMENS = "https://site.api.espn.com/apis/site/v2/sports/basketball/womens-college-basketball/scoreboard"
 
 # Cache file for schedule data
 DATA_DIR = Path(__file__).parent.parent.parent / "data"
@@ -678,6 +679,124 @@ def main():
     info("\nTop 10 venues by game count:")
     for venue, count in top_venues:
         info(f"  {venue}: {count} games")
+
+
+def fetch_game_time_from_espn(date_str: str, away_team: str, home_team: str) -> Optional[str]:
+    """
+    Fetch the game time from ESPN for a historical game.
+
+    Args:
+        date_str: Date in YYYYMMDD format
+        away_team: Away team name
+        home_team: Home team name
+
+    Returns:
+        ISO datetime string if found, None otherwise
+    """
+    try:
+        response = requests.get(
+            ESPN_API_URL,
+            params={
+                "dates": date_str,
+                "groups": "50",
+                "limit": "400"
+            },
+            timeout=10
+        )
+        response.raise_for_status()
+        data = response.json()
+
+        # Normalize team names for matching
+        def normalize(name: str) -> str:
+            return name.lower().replace("'", "").replace(".", "").replace("-", " ")
+
+        away_norm = normalize(away_team)
+        home_norm = normalize(home_team)
+
+        for event in data.get("events", []):
+            name = event.get("name", "")
+            # ESPN format: "Away Team at Home Team"
+            if " at " in name:
+                parts = name.split(" at ")
+                if len(parts) == 2:
+                    espn_away = normalize(parts[0])
+                    espn_home = normalize(parts[1])
+
+                    # Check if teams match (partial match for flexibility)
+                    away_match = away_norm in espn_away or espn_away in away_norm
+                    home_match = home_norm in espn_home or espn_home in home_norm
+
+                    # Also try shortened names
+                    if not away_match:
+                        away_match = any(w in espn_away for w in away_norm.split() if len(w) > 3)
+                    if not home_match:
+                        home_match = any(w in espn_home for w in home_norm.split() if len(w) > 3)
+
+                    if away_match and home_match:
+                        return event.get("date", "")
+
+        return None
+
+    except requests.RequestException as e:
+        warn(f"Failed to fetch game time for {date_str}: {e}")
+        return None
+
+
+def get_game_times_for_date(date_str: str, gender: str = None) -> Dict[str, str]:
+    """
+    Fetch all game times for a date from ESPN.
+
+    Args:
+        date_str: Date in YYYYMMDD format
+        gender: 'M' for men's, 'W' for women's, or None for both
+
+    Returns:
+        Dict mapping "away_team|home_team" to ISO datetime
+    """
+    game_times = {}
+
+    # Determine which APIs to fetch from
+    apis_to_fetch = []
+    if gender is None or gender == 'M':
+        apis_to_fetch.append(ESPN_API_URL)
+    if gender is None or gender == 'W':
+        apis_to_fetch.append(ESPN_API_URL_WOMENS)
+
+    for api_url in apis_to_fetch:
+        try:
+            response = requests.get(
+                api_url,
+                params={
+                    "dates": date_str,
+                    "groups": "50",
+                    "limit": "400"
+                },
+                timeout=10
+            )
+            response.raise_for_status()
+            data = response.json()
+
+            for event in data.get("events", []):
+                competition = event.get("competitions", [{}])[0]
+                competitors = competition.get("competitors", [])
+
+                home_team = None
+                away_team = None
+                for comp in competitors:
+                    team = comp.get("team", {})
+                    if comp.get("homeAway") == "home":
+                        home_team = team.get("displayName", "")
+                    else:
+                        away_team = team.get("displayName", "")
+
+                if home_team and away_team:
+                    key = f"{away_team}|{home_team}"
+                    game_times[key] = event.get("date", "")
+
+        except requests.RequestException as e:
+            warn(f"Failed to fetch game times for {date_str} from {api_url}: {e}")
+
+    return game_times
 
 
 if __name__ == "__main__":
