@@ -2840,29 +2840,70 @@ def get_javascript(json_data: str) -> str:
 
             // Explicit ESPN -> SCHOOL_COORDS mappings
             const explicitMappings = {
+                // UC schools
                 'Santa Barbara': 'UC Santa Barbara', 'Davis': 'UC Davis', 'Riverside': 'UC Riverside',
                 'Irvine': 'UC Irvine', 'San Diego': 'San Diego', 'UCSB': 'UC Santa Barbara',
                 'UCD': 'UC Davis', 'UCR': 'UC Riverside', 'UCI': 'UC Irvine', 'UCSD': 'UC San Diego',
+                // Cal State schools
                 'Bakersfield': 'Cal State Bakersfield', 'Fullerton': 'Cal State Fullerton',
                 'Northridge': 'Cal State Northridge', 'LMU': 'Loyola Marymount',
+                'CSU Bakersfield': 'Cal State Bakersfield', 'CSU Fullerton': 'Cal State Fullerton',
+                'CSU Northridge': 'Cal State Northridge',
+                'Long Beach St': 'Long Beach State', 'Sacramento St': 'Sacramento State',
+                'San Jose St': 'San Jose State', 'San José St': 'San Jose State',
+                'Fresno St': 'Fresno State', 'San Diego St': 'San Diego State',
                 'CA Baptist': 'California Baptist', 'Cal Baptist': 'California Baptist',
+                // Direction abbreviations
                 'UMES': 'Maryland-Eastern Shore', 'MD Eastern': 'Maryland-Eastern Shore',
                 'N Arizona': 'Northern Arizona', 'N Colorado': 'Northern Colorado',
                 'N Dakota': 'North Dakota', 'N Dakota St': 'North Dakota State',
                 'S Dakota': 'South Dakota', 'S Dakota St': 'South Dakota State',
                 'S Florida': 'South Florida', 'N Texas': 'North Texas', 'W Virginia': 'West Virginia',
                 'W Kentucky': 'Western Kentucky', 'E Kentucky': 'Eastern Kentucky', 'E Washington': 'Eastern Washington',
+                'N Illinois': 'Northern Illinois', 'N Kentucky': 'Northern Kentucky',
+                'E Illinois': 'Eastern Illinois', 'E Michigan': 'Eastern Michigan',
+                'W Carolina': 'Western Carolina', 'W Illinois': 'Western Illinois', 'W Michigan': 'Western Michigan',
+                'S Illinois': 'Southern Illinois', 'C Arkansas': 'Central Arkansas',
+                'C Connecticut': 'Central Connecticut', 'C Michigan': 'Central Michigan',
+                // Saint/St variations
                 'St Marys': "Saint Mary's (CA)", "Saint Mary's": "Saint Mary's (CA)",
                 'Mount St Marys': "Mount St. Mary's", "St John's": "St. John's",
-                'St Bonaventure': 'St. Bonaventure', "St Peter's": "Saint Peter's", 'St Thomas': 'St. Thomas',
+                'St Bonaventure': 'St. Bonaventure', "St Peter's": "Saint Peter's",
+                'St Thomas': 'St. Thomas', 'St Thomas (MN)': 'St. Thomas',
+                // Common abbreviations
                 'App State': 'Appalachian State', 'G Washington': 'George Washington',
                 'UMass': 'Massachusetts', 'UConn': 'Connecticut', 'Ole Miss': 'Mississippi',
-                'Pitt': 'Pittsburgh', 'Miami': 'Miami (FL)', 'FGCU': 'Florida Gulf Coast',
+                'Pitt': 'Pittsburgh', 'Miami': 'Miami (FL)', 'Miami OH': 'Miami (OH)',
+                'FGCU': 'Florida Gulf Coast', 'FAU': 'Florida Atlantic', 'FIU': 'Florida International',
                 'UNC': 'North Carolina', 'VCU': 'Virginia Commonwealth', 'UCF': 'Central Florida',
                 'UNLV': 'Nevada-Las Vegas', 'SMU': 'Southern Methodist', 'LSU': 'Louisiana State',
                 'BYU': 'Brigham Young', 'TCU': 'Texas Christian', 'USC': 'Southern California',
                 'SFA': 'Stephen F. Austin', 'UTEP': 'UTEP', 'UTSA': 'Texas-San Antonio',
-                'LIU': 'Long Island', 'FIU': 'Florida International'
+                'LIU': 'Long Island', 'UAB': 'UAB', 'URI': 'Rhode Island', 'UNI': 'Northern Iowa',
+                'NIU': 'Northern Illinois', 'SIU': 'Southern Illinois', 'SIUE': 'SIU Edwardsville',
+                'WKU': 'Western Kentucky', 'ETSU': 'East Tennessee State', 'MTSU': 'Middle Tennessee',
+                // ESPN variations
+                'Loyola Chi': 'Loyola Chicago', 'Loyola MD': 'Loyola (MD)',
+                'Little Rock': 'Arkansas-Little Rock', 'Omaha': 'Nebraska-Omaha',
+                'AR-Pine Bluff': 'Arkansas-Pine Bluff', 'Abilene Chrstn': 'Abilene Christian',
+                'Bethune': 'Bethune-Cookman', 'Boston U': 'Boston University',
+                'Charleston So': 'Charleston Southern', 'Coastal': 'Coastal Carolina',
+                'E Texas A&M': 'East Texas A&M', 'FDU': 'Fairleigh Dickinson',
+                'GA Southern': 'Georgia Southern', 'Grambling': 'Grambling State',
+                "Hawai'i": 'Hawaii', 'Hou Christian': 'Houston Christian',
+                'IU Indy': 'Indiana-Purdue Indianapolis', 'Jax State': 'Jacksonville State',
+                'Miss Valley St': 'Mississippi Valley State', 'NC A&T': 'North Carolina A&T',
+                'NC Central': 'North Carolina Central', "N'Western St": 'Northwestern State',
+                'NW State': 'Northwestern State', 'Prairie View': 'Prairie View A&M',
+                'Purdue FW': 'Purdue Fort Wayne', 'SC State': 'South Carolina State',
+                'SC Upstate': 'USC Upstate', 'SE Louisiana': 'Southeastern Louisiana',
+                'SE Missouri': 'Southeast Missouri State', 'SF Austin': 'Stephen F. Austin',
+                'Saint Francis': 'Saint Francis (PA)', 'Seattle U': 'Seattle',
+                'So Indiana': 'Southern Indiana', 'Texas A&M-CC': 'Texas A&M-Corpus Christi',
+                'UAlbany': 'Albany', 'UL Monroe': 'Louisiana-Monroe',
+                'UT Rio Grande': 'Texas-Rio Grande Valley', 'Arizona St': 'Arizona State',
+                'Western KY': 'Western Kentucky', 'Grand Canyon': 'Grand Canyon',
+                'Southern Miss': 'Southern Miss', 'UNC Wilmington': 'UNC Wilmington'
             };
 
             if (explicitMappings[name]) return explicitMappings[name];
@@ -2937,186 +2978,6 @@ def get_javascript(json_data: str) -> str:
                 venueGames[key].games.push(game);
             });
 
-            // Helper to normalize ESPN team names to match SCHOOL_COORDS
-            function normalizeTeamName(name) {
-                if (!name) return name;
-
-                // Normalize curly quotes to straight quotes (ESPN uses curly)
-                name = name.replace(/'/g, "'").replace(/'/g, "'").replace(/"/g, '"').replace(/"/g, '"');
-
-                // Explicit ESPN -> SCHOOL_COORDS mappings
-                const explicitMappings = {
-                    // UC schools - ESPN drops "UC" prefix
-                    'Santa Barbara': 'UC Santa Barbara',
-                    'Davis': 'UC Davis',
-                    'Riverside': 'UC Riverside',
-                    'Irvine': 'UC Irvine',
-                    'San Diego': 'San Diego',  // USD, not UCSD
-                    'UCSB': 'UC Santa Barbara',
-                    'UCD': 'UC Davis',
-                    'UCR': 'UC Riverside',
-                    'UCI': 'UC Irvine',
-                    'UCSD': 'UC San Diego',
-
-                    // Cal State / California schools - ESPN short names
-                    'Bakersfield': 'Cal State Bakersfield',
-                    'Fullerton': 'Cal State Fullerton',
-                    'Northridge': 'Cal State Northridge',
-                    'LMU': 'Loyola Marymount',
-                    'CA Baptist': 'California Baptist',
-                    'Cal Baptist': 'California Baptist',
-
-                    // Direction abbreviations
-                    'UMES': 'Maryland-Eastern Shore',
-                    'MD Eastern': 'Maryland-Eastern Shore',
-                    'N Arizona': 'Northern Arizona',
-                    'N Colorado': 'Northern Colorado',
-                    'N Dakota': 'North Dakota',
-                    'N Dakota St': 'North Dakota State',
-                    'S Dakota': 'South Dakota',
-                    'S Dakota St': 'South Dakota State',
-                    'S Florida': 'South Florida',
-                    'N Texas': 'North Texas',
-                    'W Virginia': 'West Virginia',
-                    'W Kentucky': 'Western Kentucky',
-                    'E Kentucky': 'Eastern Kentucky',
-                    'E Washington': 'Eastern Washington',
-
-                    // Saint/St variations
-                    'St Marys': "Saint Mary's (CA)",
-                    "Saint Mary's": "Saint Mary's (CA)",
-                    'Mount St Marys': "Mount St. Mary's",
-                    "St John's": "St. John's",
-                    'St Bonaventure': 'St. Bonaventure',
-                    "St Peter's": "Saint Peter's",
-                    'St Thomas': 'St. Thomas',
-
-                    // Common abbreviations
-                    'App State': 'Appalachian State',
-                    'G Washington': 'George Washington',
-                    'UMass': 'Massachusetts',
-                    'UConn': 'Connecticut',
-                    'Ole Miss': 'Mississippi',
-                    'Pitt': 'Pittsburgh',
-                    'Miami': 'Miami (FL)',
-                    'FGCU': 'Florida Gulf Coast',
-                    'UNC': 'North Carolina',
-                    'VCU': 'Virginia Commonwealth',
-                    'UCF': 'Central Florida',
-                    'UNLV': 'Nevada-Las Vegas',
-                    'SMU': 'Southern Methodist',
-                    'LSU': 'Louisiana State',
-                    'BYU': 'Brigham Young',
-                    'TCU': 'Texas Christian',
-                    'USC': 'Southern California',
-                    'SFA': 'Stephen F. Austin',
-                    'UTEP': 'UTEP',
-                    'UTSA': 'Texas-San Antonio',
-                    'LIU': 'Long Island',
-                    'FIU': 'Florida International',
-                    'FAU': 'Florida Atlantic',
-                    'UAB': 'UAB',
-                    'URI': 'Rhode Island',
-                    'UNI': 'Northern Iowa',
-                    'NIU': 'Northern Illinois',
-                    'SIU': 'Southern Illinois',
-                    'WKU': 'Western Kentucky',
-                    'ETSU': 'East Tennessee State',
-                    'MTSU': 'Middle Tennessee',
-
-                    // Cal State schools
-                    'Long Beach St': 'Long Beach State',
-                    'Sacramento St': 'Sacramento State',
-                    'San Jose St': 'San Jose State',
-                    'Fresno St': 'Fresno State',
-                    'San Diego St': 'San Diego State',
-                    'CSU Fullerton': 'Cal State Fullerton',
-                    'CSU Northridge': 'Cal State Northridge',
-                    'CSU Bakersfield': 'Cal State Bakersfield',
-                    'Cal Baptist': 'California Baptist',
-
-                    // Other abbreviations
-                    'Loyola Chi': 'Loyola Chicago',
-                    'Loyola MD': 'Loyola (MD)',
-                    'Loyola Marymount': 'Loyola Marymount',
-                    'Little Rock': 'Arkansas-Little Rock',
-                    'Omaha': 'Nebraska-Omaha',
-                    'Southern Miss': 'Southern Miss',
-                    'Grand Canyon': 'Grand Canyon',
-
-                    // ESPN variations - comprehensive list
-                    'AR-Pine Bluff': 'Arkansas-Pine Bluff',
-                    'Abilene Chrstn': 'Abilene Christian',
-                    'Bethune': 'Bethune-Cookman',
-                    'Boston U': 'Boston University',
-                    'C Arkansas': 'Central Arkansas',
-                    'C Connecticut': 'Central Connecticut',
-                    'C Michigan': 'Central Michigan',
-                    'Charleston So': 'Charleston Southern',
-                    'Coastal': 'Coastal Carolina',
-                    'E Illinois': 'Eastern Illinois',
-                    'E Michigan': 'Eastern Michigan',
-                    'E Texas A&M': 'East Texas A&M',
-                    'FDU': 'Fairleigh Dickinson',
-                    'GA Southern': 'Georgia Southern',
-                    'Grambling': 'Grambling State',
-                    "Hawai'i": 'Hawaii',
-                    'Hou Christian': 'Houston Christian',
-                    'IU Indy': 'Indiana-Purdue Indianapolis',
-                    'Jax State': 'Jacksonville State',
-                    'Long Island': 'Long Island',
-                    'Miami OH': 'Miami (OH)',
-                    'Miss Valley St': 'Mississippi Valley State',
-                    'Mount St Marys': "Mount St. Mary's",
-                    'N Illinois': 'Northern Illinois',
-                    'N Kentucky': 'Northern Kentucky',
-                    "N'Western St": 'Northwestern State',
-                    "NW State": 'Northwestern State',
-                    "Hawai'i": 'Hawaii',
-                    'NC A&T': 'North Carolina A&T',
-                    'NC Central': 'North Carolina Central',
-                    'Prairie View': 'Prairie View A&M',
-                    'Purdue FW': 'Purdue Fort Wayne',
-                    'S Illinois': 'Southern Illinois',
-                    'SC State': 'South Carolina State',
-                    'SC Upstate': 'USC Upstate',
-                    'SE Louisiana': 'Southeastern Louisiana',
-                    'SE Missouri': 'Southeast Missouri State',
-                    'SF Austin': 'Stephen F. Austin',
-                    'SIUE': 'SIU Edwardsville',
-                    'Saint Francis': 'Saint Francis (PA)',
-                    "Saint Joseph's": "Saint Joseph's",
-                    "Saint Peter's": "Saint Peter's",
-                    'Seattle U': 'Seattle',
-                    'So Indiana': 'Southern Indiana',
-                    "St John's": "St. John's",
-                    'St Thomas (MN)': 'St. Thomas',
-                    'Texas A&M-CC': 'Texas A&M-Corpus Christi',
-                    'UAlbany': 'Albany',
-                    'UL Monroe': 'Louisiana-Monroe',
-                    'UNC Wilmington': 'UNC Wilmington',
-                    'UT Rio Grande': 'Texas-Rio Grande Valley',
-                    'W Carolina': 'Western Carolina',
-                    'W Illinois': 'Western Illinois',
-                    'W Michigan': 'Western Michigan',
-                    'Western KY': 'Western Kentucky',
-                    'Arizona St': 'Arizona State',
-                };
-                if (explicitMappings[name]) return explicitMappings[name];
-
-                // Handle " St" suffix -> " State" (e.g., "Alabama St" -> "Alabama State")
-                if (name.endsWith(' St')) {
-                    return name.slice(0, -3) + ' State';
-                }
-
-                // Handle "St " prefix -> "Saint " (e.g., "St John's" -> "Saint John's")
-                if (name.startsWith('St ')) {
-                    return 'Saint ' + name.slice(3);
-                }
-
-                return name;
-            }
-
             // Add markers for each venue
             Object.values(venueGames).forEach(v => {
                 // Try to get coordinates from home team (most accurate), then city, then state
@@ -3126,7 +2987,7 @@ def get_javascript(json_data: str) -> str:
                 // First: try home team from SCHOOL_COORDS (actual arena locations)
                 if (v.games.length > 0) {
                     const homeTeam = v.games[0].homeTeam;
-                    // Try direct match, then normalized name
+                    // Try direct match, then normalized name (using shared normalizeEspnTeamName)
                     coords = SCHOOL_COORDS[homeTeam] || SCHOOL_COORDS[normalizeEspnTeamName(homeTeam)];
                 }
 
