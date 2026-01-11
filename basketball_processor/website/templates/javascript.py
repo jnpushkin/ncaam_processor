@@ -3001,10 +3001,16 @@ def get_javascript(json_data: str) -> str:
                     ? (game.homeConf === game.awayConf ? game.homeConf : `${game.awayConf || '?'} @ ${game.homeConf || '?'}`)
                     : '—';
 
+                // Format team names with rankings
+                const awayRankDisplay = game.awayRank ? `<span class="team-rank">#${game.awayRank}</span> ` : '';
+                const homeRankDisplay = game.homeRank ? `<span class="team-rank">#${game.homeRank}</span> ` : '';
+                const awayTeamDisplay = `${awayRankDisplay}<strong>${game.awayTeam}</strong>`;
+                const homeTeamDisplay = `${homeRankDisplay}<strong>${game.homeTeam}</strong>`;
+
                 return `
                     <tr>
                         <td style="white-space: nowrap;">${formatGameDateTime(game.date, game.time_detail)}</td>
-                        <td><strong>${game.awayTeam}</strong> @ <strong>${game.homeTeam}</strong></td>
+                        <td>${awayTeamDisplay} @ ${homeTeamDisplay}</td>
                         <td>${confDisplay}</td>
                         <td>${game.venue}</td>
                         <td>${game.city}, ${game.state}</td>

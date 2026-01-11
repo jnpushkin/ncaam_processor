@@ -81,6 +81,13 @@ class DataSerializer:
         except ImportError:
             pass
 
+        # Auto-refresh AP polls if needed (weekly during season)
+        try:
+            from ..scrapers.poll_scraper import auto_refresh_polls_if_needed
+            auto_refresh_polls_if_needed(silent=False)
+        except ImportError:
+            pass
+
         # Check female players for WNBA status before serialization (unless skipped)
         if not skip_nba:
             recheck_female_players_for_wnba()
@@ -584,6 +591,7 @@ class DataSerializer:
     def _serialize_upcoming_games(self) -> Dict[str, Any]:
         """Serialize upcoming games at unvisited venues."""
         from ..utils.constants import get_conference_for_date
+        from ..scrapers.poll_scraper import get_team_current_rank
 
         # Get visited venues from games
         games_data = self._serialize_games()
@@ -631,6 +639,10 @@ class DataSerializer:
             home_conf = self._lookup_conference(home_name)
             away_conf = self._lookup_conference(away_name)
 
+            # Look up current AP rankings (men's basketball)
+            home_rank = get_team_current_rank(home_name, gender='M')
+            away_rank = get_team_current_rank(away_name, gender='M')
+
             state = normalize_state(game['venue']['state'])
 
             formatted_games.append({
@@ -641,10 +653,12 @@ class DataSerializer:
                 'homeTeamFull': game['home_team']['name'],
                 'homeTeamAbbrev': game['home_team']['abbreviation'],
                 'homeConf': home_conf,
+                'homeRank': home_rank,
                 'awayTeam': away_name,
                 'awayTeamFull': game['away_team']['name'],
                 'awayTeamAbbrev': game['away_team']['abbreviation'],
                 'awayConf': away_conf,
+                'awayRank': away_rank,
                 'venue': game['venue']['name'],
                 'city': game['venue']['city'],
                 'state': state,

@@ -342,6 +342,148 @@ def get_rankings_for_game(away_team: str, home_team: str, game_date: str, season
     return away_rank, home_rank
 
 
+def get_current_season() -> str:
+    """Get the current basketball season string.
+
+    Season runs Nov-April, so:
+    - Nov 2025 - April 2026 = '2025-26'
+    - May 2026 - Oct 2026 = off-season (still '2025-26' for lookups)
+    """
+    today = datetime.now()
+    year = today.year
+    month = today.month
+
+    # If Nov-Dec, season is current year to next year
+    # If Jan-April, season is previous year to current year
+    # If May-Oct (off-season), use the season that just ended
+    if month >= 11:
+        return f"{year}-{str(year + 1)[-2:]}"
+    elif month <= 4:
+        return f"{year - 1}-{str(year)[-2:]}"
+    else:
+        # Off-season: use the season that just ended
+        return f"{year - 1}-{str(year)[-2:]}"
+
+
+def is_basketball_season() -> bool:
+    """Check if we're in basketball season (Nov 1 - April 15)."""
+    today = datetime.now()
+    month, day = today.month, today.day
+
+    # Season: Nov 1 - April 15
+    if month >= 11 or month <= 3:
+        return True
+    if month == 4 and day <= 15:
+        return True
+    return False
+
+
+def get_latest_poll_date(gender: str = 'M') -> Optional[str]:
+    """Get the most recent poll date in the cache for current season."""
+    all_polls = load_existing_polls(gender)
+    current_season = get_current_season()
+
+    if current_season not in all_polls:
+        return None
+
+    season_polls = all_polls[current_season]
+    if not season_polls:
+        return None
+
+    return max(season_polls.keys())
+
+
+def should_refresh_polls(gender: str = 'M') -> bool:
+    """Check if AP polls should be refreshed.
+
+    Refresh if:
+    - It's basketball season (Nov-April)
+    - It's Tuesday (AP polls released Monday, SR updates Tuesday)
+    - Latest cached poll is more than 6 days old
+    """
+    if not is_basketball_season():
+        return False
+
+    today = datetime.now()
+
+    # Check if it's Tuesday (weekday 1)
+    # Actually, let's be more flexible - refresh if polls are stale
+    # regardless of day, but only during season
+
+    latest_poll = get_latest_poll_date(gender)
+    if not latest_poll:
+        # No polls cached for current season
+        return True
+
+    # Parse the latest poll date
+    try:
+        latest_date = datetime.strptime(latest_poll, '%Y-%m-%d')
+        days_old = (today - latest_date).days
+
+        # Refresh if latest poll is more than 6 days old
+        # (new polls come out weekly)
+        if days_old > 6:
+            return True
+    except ValueError:
+        return True
+
+    return False
+
+
+def auto_refresh_polls_if_needed(silent: bool = False) -> bool:
+    """Auto-refresh AP polls if needed (called during website generation).
+
+    Args:
+        silent: If True, suppress output messages
+
+    Returns:
+        True if polls were refreshed, False otherwise
+    """
+    refreshed = False
+    current_season = get_current_season()
+
+    for gender in ['M', 'W']:
+        if should_refresh_polls(gender):
+            gender_label = "Women's" if gender == 'W' else "Men's"
+            if not silent:
+                print(f"  Refreshing {gender_label} AP polls for {current_season}...")
+
+            try:
+                all_polls = load_existing_polls(gender)
+                season_polls = scrape_season_polls(current_season, gender=gender)
+
+                if season_polls:
+                    all_polls[current_season] = season_polls
+                    save_polls(all_polls, gender)
+                    refreshed = True
+                    if not silent:
+                        print(f"  Updated {gender_label} polls: {len(season_polls)} weeks")
+            except Exception as e:
+                if not silent:
+                    print(f"  Warning: Could not refresh {gender_label} polls: {e}")
+
+    return refreshed
+
+
+def get_team_current_rank(team_name: str, gender: str = 'M') -> Optional[int]:
+    """Get a team's current AP ranking (most recent poll).
+
+    Args:
+        team_name: Team name to look up
+        gender: 'M' for men's, 'W' for women's
+
+    Returns:
+        Current rank (1-25) or None if unranked
+    """
+    current_season = get_current_season()
+    latest_poll = get_latest_poll_date(gender)
+
+    if not latest_poll:
+        return None
+
+    return get_team_rank(team_name, latest_poll, current_season, gender)
+
+
 def main() -> None:
     """CLI entry point."""
     import argparse

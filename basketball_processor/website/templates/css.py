@@ -346,6 +346,16 @@ def get_css() -> str:
             background: var(--hover-color);
             color: var(--text-primary);
         }
+        .team-rank {
+            display: inline-block;
+            background: var(--accent-color);
+            color: white;
+            padding: 0.1rem 0.4rem;
+            border-radius: 3px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-right: 0.25rem;
+        }
         .suggestions-dropdown {
             position: absolute;
             background: var(--bg-primary);
