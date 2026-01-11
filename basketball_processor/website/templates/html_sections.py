@@ -855,6 +855,10 @@ def get_body(total_games: int, total_players: int, total_teams: int, total_venue
                         <label for="upcoming-tv-filter">TV Only:</label>
                         <input type="checkbox" id="upcoming-tv-filter" onchange="filterUpcomingGames()">
                     </div>
+                    <div class="filter-group">
+                        <label for="upcoming-ranked-filter">Ranked Only:</label>
+                        <input type="checkbox" id="upcoming-ranked-filter" onchange="filterUpcomingGames()">
+                    </div>
                 </div>
 
                 <div class="filters-row" style="margin-bottom: 1rem; display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">

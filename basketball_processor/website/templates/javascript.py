@@ -2935,6 +2935,7 @@ def get_javascript(json_data: str) -> str:
             const startDate = document.getElementById('upcoming-start-date')?.value;
             const endDate = document.getElementById('upcoming-end-date')?.value;
             const tvOnly = document.getElementById('upcoming-tv-filter')?.checked || false;
+            const rankedOnly = document.getElementById('upcoming-ranked-filter')?.checked || false;
 
             const now = new Date();
             now.setHours(0, 0, 0, 0);
@@ -2966,6 +2967,9 @@ def get_javascript(json_data: str) -> str:
                 // TV filter
                 if (tvOnly && (!game.tv || game.tv.length === 0)) return false;
 
+                // Ranked filter
+                if (rankedOnly && !game.homeRank && !game.awayRank) return false;
+
                 // Team filter
                 if (selectedTeams.size > 0) {
                     if (!selectedTeams.has(game.homeTeam) && !selectedTeams.has(game.awayTeam)) return false;
@@ -2976,11 +2980,13 @@ def get_javascript(json_data: str) -> str:
 
             // Group by venue to get unique venue count
             const uniqueVenues = new Set(filtered.map(g => g.venue));
+            const rankedGames = filtered.filter(g => g.homeRank || g.awayRank).length;
 
             // Update summary
             const summary = document.getElementById('upcoming-summary');
             if (summary) {
-                summary.textContent = `${filtered.length} games at ${uniqueVenues.size} venues`;
+                const rankedText = rankedGames > 0 ? ` (${rankedGames} with ranked teams)` : '';
+                summary.textContent = `${filtered.length} games at ${uniqueVenues.size} venues${rankedText}`;
             }
 
             // Populate table
