@@ -771,8 +771,11 @@ def get_javascript(json_data: str) -> str:
             const search = document.getElementById('games-search').value.toLowerCase();
             const gender = document.getElementById('games-gender').value;
             const division = document.getElementById('games-division')?.value || '';
-            const dateFrom = document.getElementById('games-date-from').value;
-            const dateTo = document.getElementById('games-date-to').value;
+            const dateFromRaw = document.getElementById('games-date-from').value;
+            const dateToRaw = document.getElementById('games-date-to').value;
+            // Convert YYYY-MM-DD to YYYYMMDD for comparison with DateSort
+            const dateFrom = dateFromRaw ? dateFromRaw.replace(/-/g, '') : '';
+            const dateTo = dateToRaw ? dateToRaw.replace(/-/g, '') : '';
             const teamFilter = document.getElementById('games-team').value;
             const conference = document.getElementById('games-conference').value;
             const minMargin = parseInt(document.getElementById('games-margin').value) || 0;
@@ -800,8 +803,9 @@ def get_javascript(json_data: str) -> str:
                     if (division === 'D2' && gameDivision !== 'D2') return false;
                     if (division === 'D3' && gameDivision !== 'D3') return false;
                 }
-                if (dateFrom && game.Date < dateFrom) return false;
-                if (dateTo && game.Date > dateTo) return false;
+                const gameDateSort = game.DateSort || '';
+                if (dateFrom && gameDateSort < dateFrom) return false;
+                if (dateTo && gameDateSort > dateTo) return false;
                 // Team filter: match team name AND gender
                 if (filterTeamName) {
                     const teamMatch = game['Away Team'] === filterTeamName || game['Home Team'] === filterTeamName;
