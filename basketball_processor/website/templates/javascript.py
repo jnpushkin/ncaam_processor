@@ -971,7 +971,7 @@ def get_javascript(json_data: str) -> str:
                     if (filterTeamGender && player.Gender !== filterTeamGender) return false;
                 }
                 if (conference && getTeamConference(player.Team) !== conference) return false;
-                if (player.Games < minGames) return false;
+                if ((player.Games || 0) < minGames) return false;
                 if ((player.PPG || 0) < minPPG) return false;
                 return true;
             });
@@ -979,6 +979,51 @@ def get_javascript(json_data: str) -> str:
             pagination.players.page = 1;
             pagination.players.total = filteredData.players.length;
             renderPlayersTable();
+
+            // Update filter summary
+            updatePlayersFilterSummary({
+                search, gender, filterTeamName, filterTeamGender, conference, minGames, minPPG
+            });
+        }
+
+        function updatePlayersFilterSummary(filters) {
+            const summary = document.getElementById('players-filter-summary');
+            const textSpan = summary?.querySelector('.filter-summary-text');
+            if (!summary || !textSpan) return;
+
+            const chips = [];
+            const totalPlayers = (DATA.players || []).length;
+            const filteredCount = filteredData.players.length;
+
+            if (filters.search) {
+                chips.push(`<span class="filter-chip">Search: "${filters.search}"</span>`);
+            }
+            if (filters.gender) {
+                chips.push(`<span class="filter-chip">${filters.gender === 'M' ? "Men's" : "Women's"}</span>`);
+            }
+            if (filters.filterTeamName) {
+                const teamLabel = filters.filterTeamGender ? `${filters.filterTeamName} (${filters.filterTeamGender})` : filters.filterTeamName;
+                chips.push(`<span class="filter-chip">${teamLabel}</span>`);
+            }
+            if (filters.conference) {
+                chips.push(`<span class="filter-chip">${filters.conference}</span>`);
+            }
+            if (filters.minGames > 0) {
+                chips.push(`<span class="filter-chip">Min ${filters.minGames} GP</span>`);
+            }
+            if (filters.minPPG > 0) {
+                chips.push(`<span class="filter-chip">Min ${filters.minPPG} PPG</span>`);
+            }
+
+            if (chips.length > 0) {
+                const countText = filteredCount === totalPlayers
+                    ? `<strong>${filteredCount}</strong> players`
+                    : `<strong>${filteredCount}</strong> of ${totalPlayers} players`;
+                textSpan.innerHTML = `Showing ${countText} ${chips.join(' ')}`;
+                summary.style.display = 'flex';
+            } else {
+                summary.style.display = 'none';
+            }
         }
 
         function clearFilters(type) {
