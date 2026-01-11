@@ -177,6 +177,10 @@ def get_body(total_games: int, total_players: int, total_teams: int, total_venue
                 </div>
                 <button class="clear-filters" onclick="clearFilters('games')">Clear Filters</button>
             </div>
+            <div id="games-filter-summary" class="filter-summary" style="display:none;">
+                <span class="filter-summary-text"></span>
+                <button class="filter-summary-clear" onclick="clearFilters('games')">Clear All</button>
+            </div>
             <div class="table-container">
                 <table id="games-table" aria-label="Game Log">
                     <thead>

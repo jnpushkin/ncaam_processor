@@ -872,6 +872,73 @@ def get_javascript(json_data: str) -> str:
             pagination.games.page = 1;
             pagination.games.total = filteredData.games.length;
             renderGamesTable();
+
+            // Update filter summary
+            updateGamesFilterSummary({
+                search, gender, division, dateFromRaw, dateToRaw,
+                filterTeamName, filterTeamGender, conference, minMargin, otOnly, quickFilter
+            });
+        }
+
+        function updateGamesFilterSummary(filters) {
+            const summary = document.getElementById('games-filter-summary');
+            const textSpan = summary?.querySelector('.filter-summary-text');
+            if (!summary || !textSpan) return;
+
+            const chips = [];
+            const totalGames = (DATA.games || []).length;
+            const filteredCount = filteredData.games.length;
+
+            // Format date for display
+            function formatDate(dateStr) {
+                if (!dateStr) return '';
+                const [year, month, day] = dateStr.split('-');
+                const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+                return `${months[parseInt(month) - 1]} ${parseInt(day)}, ${year}`;
+            }
+
+            if (filters.search) {
+                chips.push(`<span class="filter-chip">Search: "${filters.search}"</span>`);
+            }
+            if (filters.gender) {
+                chips.push(`<span class="filter-chip">${filters.gender === 'M' ? "Men's" : "Women's"}</span>`);
+            }
+            if (filters.division) {
+                const divLabels = { 'D1': 'D1 Only', 'non-D1': 'Non-D1', 'D2': 'D2', 'D3': 'D3' };
+                chips.push(`<span class="filter-chip">${divLabels[filters.division] || filters.division}</span>`);
+            }
+            if (filters.dateFromRaw || filters.dateToRaw) {
+                const from = filters.dateFromRaw ? formatDate(filters.dateFromRaw) : 'Start';
+                const to = filters.dateToRaw ? formatDate(filters.dateToRaw) : 'Now';
+                chips.push(`<span class="filter-chip">${from} - ${to}</span>`);
+            }
+            if (filters.filterTeamName) {
+                const teamLabel = filters.filterTeamGender ? `${filters.filterTeamName} (${filters.filterTeamGender})` : filters.filterTeamName;
+                chips.push(`<span class="filter-chip">${teamLabel}</span>`);
+            }
+            if (filters.conference) {
+                chips.push(`<span class="filter-chip">${filters.conference}</span>`);
+            }
+            if (filters.minMargin > 0) {
+                chips.push(`<span class="filter-chip">Margin ${filters.minMargin}+</span>`);
+            }
+            if (filters.otOnly) {
+                chips.push(`<span class="filter-chip">OT Only</span>`);
+            }
+            if (filters.quickFilter && filters.quickFilter !== 'all') {
+                const qfLabels = { 'recent': 'Recent', 'home': 'Home', 'away': 'Away', 'neutral': 'Neutral', 'mens': "Men's", 'womens': "Women's" };
+                chips.push(`<span class="filter-chip">${qfLabels[filters.quickFilter] || filters.quickFilter}</span>`);
+            }
+
+            if (chips.length > 0) {
+                const countText = filteredCount === totalGames
+                    ? `<strong>${filteredCount}</strong> games`
+                    : `<strong>${filteredCount}</strong> of ${totalGames} games`;
+                textSpan.innerHTML = `Showing ${countText} ${chips.join(' ')}`;
+                summary.style.display = 'flex';
+            } else {
+                summary.style.display = 'none';
+            }
         }
 
         function applyPlayersFilters() {

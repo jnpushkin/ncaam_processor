@@ -304,6 +304,48 @@ def get_css() -> str:
         .clear-filters:hover {
             background: var(--hover-color);
         }
+        .filter-summary {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem 1rem;
+            margin-bottom: 1rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+        .filter-summary-text {
+            flex: 1;
+            color: var(--text-secondary);
+        }
+        .filter-summary-text strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+        .filter-summary-text .filter-chip {
+            display: inline-block;
+            background: var(--accent-color);
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            margin: 0 0.25rem;
+            font-size: 0.85rem;
+        }
+        .filter-summary-clear {
+            padding: 0.4rem 0.8rem;
+            background: transparent;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            cursor: pointer;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            white-space: nowrap;
+        }
+        .filter-summary-clear:hover {
+            background: var(--hover-color);
+            color: var(--text-primary);
+        }
         .suggestions-dropdown {
             position: absolute;
             background: var(--bg-primary);
