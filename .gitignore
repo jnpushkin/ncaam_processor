@@ -38,6 +38,7 @@ env/
 cache/
 *.xlsx
 *.html
+!html_games/*.html
 all_games_data.json
 
 # OS files
