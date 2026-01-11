@@ -1244,7 +1244,7 @@ def get_javascript(json_data: str) -> str:
                 const home = game['Home Team'];
                 const venue = game.Venue || '';
                 const gender = game.Gender || 'M';
-                const genderSuffix = gender === 'W' ? ' (W)' : '';
+                const genderSuffix = gender === 'W' ? ' (W)' : ' (M)';
 
                 // Get conferences (using historical data from game)
                 const awayConf = getGameConference(game, 'away');
@@ -1438,7 +1438,7 @@ def get_javascript(json_data: str) -> str:
                         const totalTeams = conferenceTeamCounts[conf] || 0;
                         if (totalTeams > 0 && confTeamsSeen[confGenderKey].size >= totalTeams) {
                             confCompleted[confGenderKey] = true;
-                            const genderLabel = gender === 'W' ? " (W)" : "";
+                            const genderLabel = gender === 'W' ? " (W)" : " (M)";
                             gameMilestones[gameId].badges.push({
                                 type: 'conf-complete',
                                 text: `${conf} Complete${genderLabel}`,
@@ -5080,14 +5080,13 @@ def get_javascript(json_data: str) -> str:
             const html = sortedBadges.map(badge => {
                 const typeClass = `badge-type-${badge.type}`;
                 const iconClass = `badge-icon-${badge.type}`;
-                const genderSuffix = badge.gender === 'W' ? ' (W)' : ' (M)';
 
                 return `
                     <div class="badge-card ${typeClass}" onclick="showGameDetail('${badge.gameId}')" title="${badge.title}">
                         <div class="badge-card-header">
                             <div class="badge-icon ${iconClass}"></div>
                             <div>
-                                <div class="badge-title">${badge.text}${genderSuffix}</div>
+                                <div class="badge-title">${badge.text}</div>
                                 <div class="badge-subtitle">${badge.away} vs ${badge.home}</div>
                             </div>
                         </div>
