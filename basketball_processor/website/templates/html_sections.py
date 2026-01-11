@@ -429,6 +429,17 @@ def get_body(total_games: int, total_players: int, total_teams: int, total_venue
                 </div>
             </div>
 
+            <div class="filters" style="margin-bottom: 1rem;">
+                <div class="filter-group">
+                    <label for="badges-gender">Gender</label>
+                    <select id="badges-gender" onchange="populateBadges();">
+                        <option value="">All</option>
+                        <option value="M">Men's</option>
+                        <option value="W">Women's</option>
+                    </select>
+                </div>
+            </div>
+
             <div class="sub-tabs">
                 <button class="sub-tab active" onclick="showSubSection('milestones', 'badges-all')">All Badges</button>
                 <button class="sub-tab" onclick="showSubSection('milestones', 'player-milestones')">Player Milestones</button>
@@ -715,7 +726,7 @@ def get_body(total_games: int, total_players: int, total_teams: int, total_venue
                 </div>
                 <div class="filter-group">
                     <label for="conf-progress-gender">Gender</label>
-                    <select id="conf-progress-gender" onchange="populateConferenceProgress(); searchConferenceTeam();">
+                    <select id="conf-progress-gender" onchange="populateConferenceProgress(); searchConferenceTeam(); refreshConferenceDetailIfOpen();">
                         <option value="">All</option>
                         <option value="M">Men's</option>
                         <option value="W">Women's</option>

@@ -19,6 +19,7 @@ def get_javascript(json_data: str) -> str:
         let compareChart = null;
         let currentMilestoneType = null;
         let currentMilestoneData = [];
+        let currentConfDetailName = null;  // Track selected conference in detail view
 
         // Pagination state
         const pagination = {
@@ -586,18 +587,13 @@ def get_javascript(json_data: str) -> str:
             const container = document.getElementById('conf-crossover-matrix');
             if (!container) return;
 
-            // Conferences to exclude (non-D1)
-            const excludeConfs = [
-                'Historical/Other', 'D3', 'D2', 'NAIA', 'Non-D1',
-                // D2 conferences
-                'PacWest', 'Pacific West', 'Pacific West Conference',
-                'CCAA', 'GNAC', 'Great Northwest', 'LSC', 'Lone Star',
-                'RMAC', 'Rocky Mountain', 'SIAC', 'CIAA', 'GLIAC',
-                'Great Lakes', 'G-MAC', 'GAC', 'Gulf South', 'Peach Belt',
-                'South Atlantic', 'Sunshine State', 'SSC', 'PSAC', 'NE-10',
-                'Northeast-10', 'East Coast', 'ECC', 'Central Atlantic', 'CACC',
-                // NAIA conferences
-                'Golden State', 'GSAC', 'Cascade', 'CCC', 'Frontier'
+            // D1 conferences allowlist
+            const d1Conferences = [
+                'A-10', 'A-Sun', 'AAC', 'ACC', 'AEC', 'Big 12', 'Big East', 'Big Sky',
+                'Big South', 'Big Ten', 'Big West', 'CAA', 'CUSA', 'Horizon', 'Ind',
+                'Ivy', 'MAAC', 'MAC', 'MEAC', 'MVC', 'MWC', 'NEC', 'OVC', 'Pac-12',
+                'Patriot', 'SEC', 'Southern', 'Southland', 'Summit', 'Sun Belt', 'SWAC',
+                'WAC', 'WCC'
             ];
 
             // Get all conferences from games
@@ -608,10 +604,10 @@ def get_javascript(json_data: str) -> str:
                 const awayConf = getGameConference(g, 'away');
                 const homeConf = getGameConference(g, 'home');
 
-                if (awayConf && !excludeConfs.includes(awayConf)) confSet.add(awayConf);
-                if (homeConf && !excludeConfs.includes(homeConf)) confSet.add(homeConf);
+                if (awayConf && d1Conferences.includes(awayConf)) confSet.add(awayConf);
+                if (homeConf && d1Conferences.includes(homeConf)) confSet.add(homeConf);
 
-                if (awayConf && homeConf && !excludeConfs.includes(awayConf) && !excludeConfs.includes(homeConf)) {
+                if (awayConf && homeConf && d1Conferences.includes(awayConf) && d1Conferences.includes(homeConf)) {
                     // Normalize key (alphabetical)
                     const key1 = awayConf < homeConf ? awayConf : homeConf;
                     const key2 = awayConf < homeConf ? homeConf : awayConf;
@@ -1636,19 +1632,16 @@ def get_javascript(json_data: str) -> str:
             });
 
             // Populate matrix conference dropdown (D1 conferences only)
-            const nonD1Confs = [
-                'Historical/Other', 'D3', 'D2', 'NAIA', 'Non-D1',
-                'PacWest', 'Pacific West', 'Pacific West Conference',
-                'CCAA', 'GNAC', 'Great Northwest', 'LSC', 'Lone Star',
-                'RMAC', 'Rocky Mountain', 'SIAC', 'CIAA', 'GLIAC',
-                'Great Lakes', 'G-MAC', 'GAC', 'Gulf South', 'Peach Belt',
-                'South Atlantic', 'Sunshine State', 'SSC', 'PSAC', 'NE-10',
-                'Northeast-10', 'East Coast', 'ECC', 'Central Atlantic', 'CACC',
-                'Golden State', 'GSAC', 'Cascade', 'CCC', 'Frontier'
+            const d1Conferences = [
+                'A-10', 'A-Sun', 'AAC', 'ACC', 'AEC', 'Big 12', 'Big East', 'Big Sky',
+                'Big South', 'Big Ten', 'Big West', 'CAA', 'CUSA', 'Horizon', 'Ind',
+                'Ivy', 'MAAC', 'MAC', 'MEAC', 'MVC', 'MWC', 'NEC', 'OVC', 'Pac-12',
+                'Patriot', 'SEC', 'Southern', 'Southland', 'Summit', 'Sun Belt', 'SWAC',
+                'WAC', 'WCC'
             ];
             const matrixConfSelect = document.getElementById('matrix-conference');
             if (matrixConfSelect) {
-                conferences.filter(conf => !nonD1Confs.includes(conf)).forEach(conf => {
+                conferences.filter(conf => d1Conferences.includes(conf)).forEach(conf => {
                     const option = document.createElement('option');
                     option.value = conf;
                     option.textContent = conf;
@@ -4944,6 +4937,8 @@ def get_javascript(json_data: str) -> str:
 
         // Badges section functions
         function populateBadges() {
+            const genderFilter = document.getElementById('badges-gender')?.value || '';
+
             // Collect all badges from gameMilestones
             const allBadges = [];
             const teamBadges = [];
@@ -4961,6 +4956,11 @@ def get_javascript(json_data: str) -> str:
                 const milestones = gameMilestones[game.GameID];
                 if (!milestones || !milestones.badges) return;
 
+                const gameGender = game.Gender || 'M';
+
+                // Skip if gender filter doesn't match
+                if (genderFilter && gameGender !== genderFilter) return;
+
                 milestones.badges.forEach(badge => {
                     const badgeWithContext = {
                         ...badge,
@@ -4968,7 +4968,7 @@ def get_javascript(json_data: str) -> str:
                         gameId: game.GameID,
                         away: game['Away Team'],
                         home: game['Home Team'],
-                        gender: badge.gender || game.Gender || 'M'
+                        gender: badge.gender || gameGender
                     };
 
                     allBadges.push(badgeWithContext);
@@ -5016,15 +5016,15 @@ def get_javascript(json_data: str) -> str:
             const html = sortedBadges.map(badge => {
                 const typeClass = `badge-type-${badge.type}`;
                 const iconClass = `badge-icon-${badge.type}`;
-                const genderSuffix = badge.gender === 'W' ? ' (W)' : '';
+                const genderSuffix = badge.gender === 'W' ? ' (W)' : ' (M)';
 
                 return `
                     <div class="badge-card ${typeClass}" onclick="showGameDetail('${badge.gameId}')" title="${badge.title}">
                         <div class="badge-card-header">
                             <div class="badge-icon ${iconClass}"></div>
                             <div>
-                                <div class="badge-title">${badge.text}</div>
-                                <div class="badge-subtitle">${badge.away}${genderSuffix} vs ${badge.home}${genderSuffix}</div>
+                                <div class="badge-title">${badge.text}${genderSuffix}</div>
+                                <div class="badge-subtitle">${badge.away} vs ${badge.home}</div>
                             </div>
                         </div>
                         <div class="badge-date">${badge.date}</div>
@@ -5151,6 +5151,7 @@ def get_javascript(json_data: str) -> str:
         }
 
         function showConferenceDetail(confName) {
+            currentConfDetailName = confName;  // Track for gender filter refresh
             const gender = document.getElementById('conf-progress-gender')?.value || '';
             const checklist = DATA.conferenceChecklist || {};
             const conf = checklist[confName];
@@ -5324,8 +5325,16 @@ def get_javascript(json_data: str) -> str:
         }
 
         function hideConferenceDetail() {
+            currentConfDetailName = null;  // Clear tracking
             document.getElementById('conference-progress-grid').style.display = '';
             document.getElementById('conference-detail-panel').style.display = 'none';
+        }
+
+        function refreshConferenceDetailIfOpen() {
+            // Refresh detail view if it's currently open (for gender filter changes)
+            if (currentConfDetailName) {
+                showConferenceDetail(currentConfDetailName);
+            }
         }
 
         function searchConferenceTeam() {

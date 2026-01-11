@@ -277,14 +277,6 @@ TEAM_CODES = {
     'Penn': 'PENN',
     'Princeton': 'PRIN',
     'Yale': 'YALE',
-
-    # Other notable programs
-    'Gonzaga': 'GONZ',
-    'Saint Marys': 'SMC',
-    'San Diego State': 'SDSU',
-    'Creighton': 'CREI',
-    'Xavier': 'XAV',
-    'Marquette': 'MARQ',
 }
 
 # Reverse lookup: code to full name
@@ -517,20 +509,11 @@ D1_EXIT_TEAMS = {
 }
 
 # === TEAMS ENTERING D1 ===
-# Teams transitioning into Division I - ensures they appear in conference checklists
+# Teams transitioning into Division I that aren't yet in CONFERENCES
 # Format: 'Team': (entry_date_YYYYMMDD, 'D1 Conference')
-# These teams are added to their D1 conference starting from their entry date
-# Note: Teams in 4-year transition period are still D1 eligible
+# Note: Most recent D1 transition teams are already in CONFERENCES directly
 D1_ENTRY_TEAMS = {
-    # Recent D1 transitions
-    'Bellarmine': (20200701, 'Atlantic Sun'),  # Completed transition 2024
-    'Lindenwood': (20220701, 'OVC'),  # Completed transition 2026
-    'Queens (NC)': (20220701, 'Atlantic Sun'),  # Completed transition 2026
-    'Southern Indiana': (20220701, 'OVC'),  # Completed transition 2026
-    'Stonehill': (20220701, 'NEC'),  # Completed transition 2026
-    'Texas A&M-Commerce': (20220701, 'Southland'),  # Completed transition 2026
-    'West Georgia': (20240701, 'Sun Belt'),  # Started transition 2024
-    'Utah Tech': (20200701, 'WAC'),  # Completed transition 2024
+    # Add future D1 transition teams here as needed
 }
 
 # === HISTORICAL CONFERENCE TRACKING ===
@@ -897,7 +880,6 @@ TEAM_ALIASES = {
     'UNC': 'North Carolina',
     'NC State': 'North Carolina State',
     'NCSU': 'North Carolina State',
-    'OSU': 'Ohio State',  # Context-dependent, but Ohio State most common
     'MSU': 'Michigan State',  # Context-dependent
     'LSU': 'Louisiana State',
     'FSU': 'Florida State',
@@ -911,7 +893,7 @@ TEAM_ALIASES = {
     'UK': 'Kentucky',
     'UT': 'Texas',
     'OU': 'Oklahoma',
-    'OSU': 'Oklahoma State',
+    'OSU': 'Oklahoma State',  # Note: Ohio State uses 'Ohio St' alias
     'TTU': 'Texas Tech',
     'TCU': 'Texas Christian',
     'WVU': 'West Virginia',
@@ -959,9 +941,6 @@ TEAM_ALIASES = {
     'Cal': 'California',
     'Berkeley': 'California',
     'UC Berkeley': 'California',
-    'UCLA': 'UCLA',  # Already canonical
-    'UTEP': 'UTEP',  # Already canonical
-    'UTSA': 'UTSA',  # Already canonical
     'UTA': 'UT Arlington',
     'UTM': 'UT Martin',
     'MTSU': 'Middle Tennessee',
@@ -1023,7 +1002,6 @@ TEAM_ALIASES = {
     'Loyola (IL)': 'Loyola Chicago',
     'Loyola Illinois': 'Loyola Chicago',
     'Loyola-Chicago': 'Loyola Chicago',
-    'Loyola (MD)': 'Loyola (MD)',  # Keep as-is
     'Loyola Maryland': 'Loyola (MD)',
     'Loyola-Maryland': 'Loyola (MD)',
     'Loyola (LA)': 'Loyola New Orleans',
@@ -1038,16 +1016,12 @@ TEAM_ALIASES = {
     'Miami-Ohio': 'Miami (OH)',
 
     # === A&M/Tech Variations ===
-    'Texas A&M': 'Texas A&M',  # Canonical
     'TAMU': 'Texas A&M',
     'A&M': 'Texas A&M',
-    'Georgia Tech': 'Georgia Tech',  # Canonical
     'GT': 'Georgia Tech',
     'GaTech': 'Georgia Tech',
-    'Virginia Tech': 'Virginia Tech',  # Canonical
     'VT': 'Virginia Tech',
     'VaTech': 'Virginia Tech',
-    'Texas Tech': 'Texas Tech',  # Canonical
     'LA Tech': 'Louisiana Tech',
     'LATech': 'Louisiana Tech',
 
@@ -1057,25 +1031,19 @@ TEAM_ALIASES = {
     'SIUE': 'SIU Edwardsville',
     'SIU': 'Southern Illinois',
     'SIUC': 'Southern Illinois',
-    'UIC': 'UIC',  # Illinois-Chicago
     'Illinois-Chicago': 'UIC',
-    'UMBC': 'UMBC',  # Maryland-Baltimore County
     'Maryland-Baltimore County': 'UMBC',
     'UMKC': 'Kansas City',
     'Missouri-Kansas City': 'Kansas City',
     'UNO': 'New Orleans',
-    'UNCW': 'UNCW',  # UNC Wilmington
     'UNC Wilmington': 'UNCW',
     'UNCG': 'UNC Greensboro',
-    'UNC Greensboro': 'UNC Greensboro',
     'UNCA': 'UNC Asheville',
-    'UNC Asheville': 'UNC Asheville',
 
     # === D3 School Variations ===
     'University of Chicago': 'Chicago',
 
     # === Ivy League ===
-    'Penn': 'Penn',  # Pennsylvania
     'Pennsylvania': 'Penn',
 
     # === Service Academies ===
