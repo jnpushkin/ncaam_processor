@@ -1733,9 +1733,8 @@ def get_javascript(json_data: str) -> str:
         }
 
         function populateGamesTable() {
-            filteredData.games = DATA.games || [];
-            pagination.games.total = filteredData.games.length;
-            renderGamesTable();
+            // Apply filters (which includes sorting) instead of just setting data
+            applyGamesFilters();
 
             // Populate team filter with separate options for each gender
             const teamGenders = {};
