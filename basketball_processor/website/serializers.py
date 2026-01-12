@@ -971,6 +971,33 @@ class DataSerializer:
             'NC Central': 'North Carolina Central',
             'A&M-Corpus Christi': 'Texas A&M-Corpus Christi',
 
+            # SWAC schools
+            'Bethune': 'Bethune-Cookman',
+            'Bethune-Cookman': 'Bethune-Cookman',
+            'Miss Valley St': 'Mississippi Valley State',
+            'Mississippi Valley St': 'Mississippi Valley State',
+            'Prairie View': 'Prairie View A&M',
+            'Prairie View A&M': 'Prairie View A&M',
+            'AR-Pine Bluff': 'Arkansas-Pine Bluff',
+            'Ark-Pine Bluff': 'Arkansas-Pine Bluff',
+            'Alabama A&M': 'Alabama A&M',
+            'Alabama St': 'Alabama State',
+            'Alcorn St': 'Alcorn State',
+            'Grambling St': 'Grambling State',
+            'Grambling': 'Grambling State',
+            'Jackson St': 'Jackson State',
+            'Florida A&M': 'Florida A&M',
+            'Texas Southern': 'Texas Southern',
+            'Southern U': 'Southern',
+
+            # MEAC schools
+            'Coppin St': 'Coppin State',
+            'Delaware St': 'Delaware State',
+            'Morgan St': 'Morgan State',
+            'Norfolk St': 'Norfolk State',
+            'SC State': 'South Carolina State',
+            'Howard': 'Howard',
+
             # UMES/Maryland schools
             'UMES': 'Maryland-Eastern Shore',
             'MD Eastern': 'Maryland-Eastern Shore',
