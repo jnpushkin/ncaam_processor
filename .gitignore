@@ -39,6 +39,7 @@ cache/
 *.xlsx
 *.html
 !html_games/*.html
+!docs/index.html
 all_games_data.json
 
 # OS files
