@@ -861,6 +861,10 @@ def get_body(total_games: int, total_players: int, total_teams: int, total_venue
                         <label for="upcoming-ranked-filter">Ranked Only:</label>
                         <input type="checkbox" id="upcoming-ranked-filter" onchange="filterUpcomingGames()">
                     </div>
+                    <div class="filter-group">
+                        <label for="upcoming-unvisited-filter">Unvisited Venues:</label>
+                        <input type="checkbox" id="upcoming-unvisited-filter" onchange="filterUpcomingGames()">
+                    </div>
                 </div>
 
                 <div class="filters-row" style="margin-bottom: 1rem; display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
@@ -904,6 +908,14 @@ def get_body(total_games: int, total_players: int, total_teams: int, total_venue
                                    style="padding: 0.25rem; border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-primary); color: var(--text-primary);">
                         </div>
                     </div>
+                    <div class="filter-group" style="flex: 1; min-width: 200px; max-width: 300px;">
+                        <label for="upcoming-map-team-filter">Teams:</label>
+                        <input type="text" id="upcoming-map-team-filter" placeholder="Type to search teams..."
+                               oninput="updateMapTeamSuggestions()" onkeydown="handleMapTeamKeydown(event)"
+                               style="width: 100%; padding: 0.5rem; border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-primary); color: var(--text-primary);">
+                        <div id="map-team-suggestions" class="suggestions-dropdown" style="display: none;"></div>
+                    </div>
+                    <div id="selected-map-teams" style="display: flex; gap: 0.5rem; flex-wrap: wrap;"></div>
                     <div class="filter-group">
                         <label>
                             <input type="checkbox" id="upcoming-map-hide-visited" onchange="updateUpcomingMap()">
@@ -953,6 +965,14 @@ def get_body(total_games: int, total_players: int, total_teams: int, total_venue
                             </div>
                         </div>
                     </div>
+                    <div class="filter-group" style="min-width: 200px; max-width: 300px;">
+                        <label for="trip-team-filter">Teams:</label>
+                        <input type="text" id="trip-team-filter" placeholder="Type to search teams..."
+                               oninput="updateTripTeamSuggestions()" onkeydown="handleTripTeamKeydown(event)"
+                               style="width: 100%; padding: 0.5rem; border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-primary); color: var(--text-primary);">
+                        <div id="trip-team-suggestions" class="suggestions-dropdown" style="display: none;"></div>
+                    </div>
+                    <div id="selected-trip-teams" style="display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center;"></div>
                     <div class="filter-group">
                         <label for="trip-max-distance">Max Distance Between Games:</label>
                         <select id="trip-max-distance" onchange="generateTrips()" style="padding: 0.5rem; border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-primary); color: var(--text-primary);">

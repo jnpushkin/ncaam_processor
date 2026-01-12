@@ -763,11 +763,16 @@ class DataSerializer:
                     if espn_lower == our_lower or alias_match or significant_match:
                         home = sched_game['home_team'].get('short_name') or sched_game['home_team']['name']
                         away = sched_game['away_team'].get('short_name') or sched_game['away_team']['name']
+                        # Get current rankings
+                        home_rank = get_team_current_rank(home, gender='M')
+                        away_rank = get_team_current_rank(away, gender='M')
                         data['upcomingGames'].append({
                             'date': sched_game['date'],
                             'time_detail': sched_game.get('time_detail', ''),
                             'home': home,
                             'away': away,
+                            'homeRank': home_rank,
+                            'awayRank': away_rank,
                             'tv': sched_game.get('tv', [])
                         })
                         break

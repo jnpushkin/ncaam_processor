@@ -2744,11 +2744,39 @@ def get_javascript(json_data: str) -> str:
             return new Date(isoDate);
         }
 
+        // Format team name with ranking badge for display
+        function formatTeamWithRank(teamName, rank) {
+            if (rank) {
+                return `<span class="team-rank">#${rank}</span> ${teamName}`;
+            }
+            return teamName;
+        }
+
+        // Format matchup with rankings for popup/list display (plain text version)
+        function formatMatchupWithRanks(game) {
+            const awayRank = game.awayRank ? `#${game.awayRank} ` : '';
+            const homeRank = game.homeRank ? `#${game.homeRank} ` : '';
+            const awayName = game.awayTeam || game.away || '';
+            const homeName = game.homeTeam || game.home || '';
+            return `${awayRank}${awayName} @ ${homeRank}${homeName}`;
+        }
+
+        // Set of visited venue keys for filtering
+        let visitedVenueKeys = new Set();
+
         function initUpcomingGames() {
             const upcoming = DATA.upcomingGames || {};
             upcomingGamesData = upcoming.games || [];
             upcomingTeamsData = upcoming.teamBreakdown || {};
             upcomingVisitedVenues = upcoming.visitedVenues || [];
+
+            // Build set of visited venue keys for filtering
+            visitedVenueKeys = new Set();
+            upcomingVisitedVenues.forEach(v => {
+                // Create a key that can match against upcoming games
+                const key = `${v.venue.toLowerCase()}|${v.city.toLowerCase()}|${v.state.toLowerCase()}`;
+                visitedVenueKeys.add(key);
+            });
 
             if (upcomingGamesData.length === 0) {
                 const tbody = document.querySelector('#upcoming-table tbody');
@@ -2883,6 +2911,122 @@ def get_javascript(json_data: str) -> str:
             ).join('');
         }
 
+        // ============ MAP TAB TEAM SEARCH ============
+        let selectedMapTeams = new Set();
+
+        function updateMapTeamSuggestions() {
+            const input = document.getElementById('upcoming-map-team-filter');
+            const dropdown = document.getElementById('map-team-suggestions');
+            const query = input.value.toLowerCase().trim();
+
+            if (query.length < 2) {
+                dropdown.style.display = 'none';
+                return;
+            }
+
+            const matches = Object.keys(upcomingTeamsData)
+                .filter(team => team.toLowerCase().includes(query) && !selectedMapTeams.has(team))
+                .slice(0, 10);
+
+            if (matches.length === 0) {
+                dropdown.style.display = 'none';
+                return;
+            }
+
+            dropdown.innerHTML = matches.map(team =>
+                `<div class="suggestion-item" onclick="selectMapTeam('${team.replace(/'/g, "\\'")}')">${team} (${upcomingTeamsData[team]} games)</div>`
+            ).join('');
+            dropdown.style.display = 'block';
+        }
+
+        function handleMapTeamKeydown(e) {
+            if (e.key === 'Escape') {
+                document.getElementById('map-team-suggestions').style.display = 'none';
+            }
+        }
+
+        function selectMapTeam(team) {
+            selectedMapTeams.add(team);
+            document.getElementById('upcoming-map-team-filter').value = '';
+            document.getElementById('map-team-suggestions').style.display = 'none';
+            renderSelectedMapTeams();
+            updateUpcomingMap();
+        }
+
+        function removeMapTeam(team) {
+            selectedMapTeams.delete(team);
+            renderSelectedMapTeams();
+            updateUpcomingMap();
+        }
+
+        function renderSelectedMapTeams() {
+            const container = document.getElementById('selected-map-teams');
+            container.innerHTML = Array.from(selectedMapTeams).map(team =>
+                `<span class="team-tag" style="background: var(--accent-color); color: white; padding: 0.25rem 0.5rem; border-radius: 4px; display: inline-flex; align-items: center; gap: 0.25rem;">
+                    ${team}
+                    <button onclick="removeMapTeam('${team.replace(/'/g, "\\'")}')" style="background: none; border: none; color: white; cursor: pointer; font-size: 1.2em; line-height: 1;">&times;</button>
+                </span>`
+            ).join('');
+        }
+
+        // ============ TRIP PLANNER TEAM SEARCH ============
+        let selectedTripTeams = new Set();
+
+        function updateTripTeamSuggestions() {
+            const input = document.getElementById('trip-team-filter');
+            const dropdown = document.getElementById('trip-team-suggestions');
+            const query = input.value.toLowerCase().trim();
+
+            if (query.length < 2) {
+                dropdown.style.display = 'none';
+                return;
+            }
+
+            const matches = Object.keys(upcomingTeamsData)
+                .filter(team => team.toLowerCase().includes(query) && !selectedTripTeams.has(team))
+                .slice(0, 10);
+
+            if (matches.length === 0) {
+                dropdown.style.display = 'none';
+                return;
+            }
+
+            dropdown.innerHTML = matches.map(team =>
+                `<div class="suggestion-item" onclick="selectTripTeam('${team.replace(/'/g, "\\'")}')">${team} (${upcomingTeamsData[team]} games)</div>`
+            ).join('');
+            dropdown.style.display = 'block';
+        }
+
+        function handleTripTeamKeydown(e) {
+            if (e.key === 'Escape') {
+                document.getElementById('trip-team-suggestions').style.display = 'none';
+            }
+        }
+
+        function selectTripTeam(team) {
+            selectedTripTeams.add(team);
+            document.getElementById('trip-team-filter').value = '';
+            document.getElementById('trip-team-suggestions').style.display = 'none';
+            renderSelectedTripTeams();
+            generateTrips();
+        }
+
+        function removeTripTeam(team) {
+            selectedTripTeams.delete(team);
+            renderSelectedTripTeams();
+            generateTrips();
+        }
+
+        function renderSelectedTripTeams() {
+            const container = document.getElementById('selected-trip-teams');
+            container.innerHTML = Array.from(selectedTripTeams).map(team =>
+                `<span class="team-tag" style="background: var(--accent-color); color: white; padding: 0.25rem 0.5rem; border-radius: 4px; display: inline-flex; align-items: center; gap: 0.25rem;">
+                    ${team}
+                    <button onclick="removeTripTeam('${team.replace(/'/g, "\\'")}')" style="background: none; border: none; color: white; cursor: pointer; font-size: 1.2em; line-height: 1;">&times;</button>
+                </span>`
+            ).join('');
+        }
+
         function clearDateFilter() {
             document.getElementById('upcoming-start-date').value = '';
             document.getElementById('upcoming-end-date').value = '';
@@ -2940,6 +3084,7 @@ def get_javascript(json_data: str) -> str:
             const endDate = document.getElementById('upcoming-end-date')?.value;
             const tvOnly = document.getElementById('upcoming-tv-filter')?.checked || false;
             const rankedOnly = document.getElementById('upcoming-ranked-filter')?.checked || false;
+            const unvisitedOnly = document.getElementById('upcoming-unvisited-filter')?.checked || false;
 
             const now = new Date();
             now.setHours(0, 0, 0, 0);
@@ -2977,6 +3122,12 @@ def get_javascript(json_data: str) -> str:
                 // Team filter
                 if (selectedTeams.size > 0) {
                     if (!selectedTeams.has(game.homeTeam) && !selectedTeams.has(game.awayTeam)) return false;
+                }
+
+                // Unvisited venues filter
+                if (unvisitedOnly) {
+                    const venueKey = `${(game.venue || '').toLowerCase()}|${(game.city || '').toLowerCase()}|${(game.state || '').toLowerCase()}`;
+                    if (visitedVenueKeys.has(venueKey)) return false;
                 }
 
                 return true;
@@ -3293,6 +3444,17 @@ def get_javascript(json_data: str) -> str:
                 }
                 if (!startDate && !endDate && gameDate < now) return;
 
+                // Team filter - if teams are selected, only show games involving those teams
+                if (selectedMapTeams.size > 0) {
+                    const awayTeam = game.awayTeam || '';
+                    const homeTeam = game.homeTeam || '';
+                    const matchesTeam = Array.from(selectedMapTeams).some(team =>
+                        awayTeam.toLowerCase().includes(team.toLowerCase()) ||
+                        homeTeam.toLowerCase().includes(team.toLowerCase())
+                    );
+                    if (!matchesTeam) return;
+                }
+
                 const key = `${game.venue}|${game.city}|${game.state}`;
                 if (!venueGames[key]) {
                     venueGames[key] = { venue: game.venue, city: game.city, state: game.state, games: [] };
@@ -3354,7 +3516,7 @@ def get_javascript(json_data: str) -> str:
                 const neutralTag = isNeutralSite ? '<br><span style="color: #9333ea;">📍 Neutral Site</span>' : '';
 
                 const gameList = v.games.slice(0, 5).map(g =>
-                    `${formatGameDateTime(g.date, g.time_detail)}: ${g.awayTeam} @ ${g.homeTeam}`
+                    `${formatGameDateTime(g.date, g.time_detail)}: ${formatMatchupWithRanks(g)}`
                 ).join('<br>');
                 const moreText = v.games.length > 5 ? `<br>...and ${v.games.length - 5} more` : '';
 
@@ -3424,7 +3586,7 @@ def get_javascript(json_data: str) -> str:
                 const allUpcomingGames = v.upcomingGames || [];
                 const radius = Math.min(5 + pastGames, 15);
 
-                // Filter upcoming games by date range (respect the map's date filter)
+                // Filter upcoming games by date range AND team filter
                 const filteredUpcoming = allUpcomingGames.filter(g => {
                     const gameDate = getActualGameDate(g.date, g.time_detail);
                     gameDate.setHours(0, 0, 0, 0);
@@ -3438,10 +3600,20 @@ def get_javascript(json_data: str) -> str:
                         const end = new Date(y, m - 1, d, 23, 59, 59);
                         if (gameDate > end) return false;
                     }
+                    // Team filter - if teams are selected, only show games involving those teams
+                    if (selectedMapTeams.size > 0) {
+                        const awayTeam = g.away || g.awayTeam || '';
+                        const homeTeam = g.home || g.homeTeam || '';
+                        const matchesTeam = Array.from(selectedMapTeams).some(team =>
+                            awayTeam.toLowerCase().includes(team.toLowerCase()) ||
+                            homeTeam.toLowerCase().includes(team.toLowerCase())
+                        );
+                        if (!matchesTeam) return false;
+                    }
                     return true;
                 });
 
-                // Skip visited venues with no upcoming games in the date range
+                // Skip visited venues with no upcoming games matching filters
                 if (filteredUpcoming.length === 0) return;
 
                 // Build popup content
@@ -3449,7 +3621,7 @@ def get_javascript(json_data: str) -> str:
 
                 popupContent += `<br><br><strong>Upcoming:</strong><br>`;
                 popupContent += filteredUpcoming.slice(0, 5).map(g =>
-                    `${formatGameDateTime(g.date, g.time_detail)}: ${g.away} @ ${g.home}`
+                    `${formatGameDateTime(g.date, g.time_detail)}: ${formatMatchupWithRanks(g)}`
                 ).join('<br>');
                 if (filteredUpcoming.length > 5) {
                     popupContent += `<br>...+${filteredUpcoming.length - 5} more`;
@@ -3530,12 +3702,10 @@ def get_javascript(json_data: str) -> str:
 
             tbody.innerHTML = visibleGames.slice(0, 100).map(game => {
                 const visitedBadge = game.isVisited ? '<span style="color: #3b82f6; margin-left: 4px;" title="Visited venue">✓</span>' : '';
-                const awayTeam = game.awayTeam || game.away || '';
-                const homeTeam = game.homeTeam || game.home || '';
                 return `
                 <tr${game.isVisited ? ' style="background: rgba(59, 130, 246, 0.05);"' : ''}>
                     <td style="white-space: nowrap;">${formatGameDateTime(game.date, game.time_detail)}</td>
-                    <td><strong>${awayTeam}</strong> @ <strong>${homeTeam}</strong></td>
+                    <td>${formatMatchupWithRanks(game)}</td>
                     <td>${game.venue}${visitedBadge}</td>
                     <td>${game.city}, ${game.state}</td>
                 </tr>
@@ -3723,6 +3893,17 @@ def get_javascript(json_data: str) -> str:
 
                 // Only future games
                 if (gameDate < now) return false;
+
+                // Team filter - if teams are selected, only show games involving those teams
+                if (selectedTripTeams.size > 0) {
+                    const awayTeam = game.awayTeam || '';
+                    const homeTeam = game.homeTeam || '';
+                    const matchesTeam = Array.from(selectedTripTeams).some(team =>
+                        awayTeam.toLowerCase().includes(team.toLowerCase()) ||
+                        homeTeam.toLowerCase().includes(team.toLowerCase())
+                    );
+                    if (!matchesTeam) return false;
+                }
 
                 return true;
             });
@@ -3912,7 +4093,7 @@ def get_javascript(json_data: str) -> str:
                         ${distanceNote}
                         <div class="trip-game-info">
                             <span class="trip-date">${gameDate}${timeStr ? ' · ' + timeStr : ''}</span>
-                            <span class="trip-matchup"><strong>${game.awayTeam}</strong> @ <strong>${game.homeTeam}</strong></span>
+                            <span class="trip-matchup">${formatMatchupWithRanks(game)}</span>
                             <span class="trip-venue">${game.venue}, ${game.city}</span>
                             ${tvBadge}
                         </div>
