@@ -177,10 +177,9 @@ def process_html_file(
         error(f"Invalid HTML in {file_path}: {error_msg}")
         return {"_error": True, "file": file_path, "error": error_msg}
     except Exception as e:
-        error_msg = str(e)
-        error(f"Error processing {file_path}: {error_msg}")
-        traceback.print_exc()
-        return {"_error": True, "file": file_path, "error": error_msg}
+        from .utils.log import exception
+        exception(f"Error processing {file_path}", e)
+        return {"_error": True, "file": file_path, "error": str(e)}
 
 
 def process_directory_or_file(input_path: str, gender: str = 'M') -> List[Dict[str, Any]]:
@@ -330,12 +329,38 @@ def main() -> None:
         action='store_true',
         help='Skip automatic surge deployment'
     )
+    parser.add_argument(
+        '--log-file',
+        type=str,
+        default=None,
+        help='Write logs to file (includes timestamps and full context)'
+    )
+    parser.add_argument(
+        '--show-caller',
+        action='store_true',
+        help='Show file:line:function context in log messages'
+    )
+    parser.add_argument(
+        '--timestamps',
+        action='store_true',
+        help='Show timestamps in console log output'
+    )
 
     args = parser.parse_args()
 
     # Configure logging
     set_verbosity(args.verbose)
     set_use_emoji(not args.no_emoji)
+    if args.log_file:
+        from .utils.log import set_log_file
+        set_log_file(args.log_file)
+        info(f"Logging to file: {args.log_file}")
+    if args.show_caller:
+        from .utils.log import set_show_caller
+        set_show_caller(True)
+    if args.timestamps:
+        from .utils.log import set_show_timestamp
+        set_show_timestamp(True)
 
     # Validate flags
     if args.excel_only and args.website_only:
@@ -358,19 +383,45 @@ def main() -> None:
         info("Loading games from cache only...")
         from .utils.venue_resolver import normalize_cached_venue
         games_data = []
-        # Skip non-game cache files
-        skip_files = {'nba_lookup_cache.json', 'nba_api_cache.json', 'schedule_cache.json', 'proballers_cache.json'}
+        skipped_files = 0
+        error_files = []
+        # Skip non-game cache files (metadata caches that don't contain game data)
+        skip_files = {
+            'nba_lookup_cache.json', 'nba_api_cache.json', 'schedule_cache.json',
+            'proballers_cache.json', 'poll_cache.json', 'conferences_cache.json'
+        }
         for file in CACHE_DIR.glob("*.json"):
             if file.name in skip_files:
+                skipped_files += 1
                 continue
-            with open(file, 'r', encoding='utf-8') as f:
-                game = json.load(f)
+            try:
+                with open(file, 'r', encoding='utf-8') as f:
+                    game = json.load(f)
+                # Validate this looks like a game file (has basic_info with required fields)
+                basic_info = game.get('basic_info')
+                if not basic_info or not isinstance(basic_info, dict):
+                    skipped_files += 1
+                    continue
+                # Skip if missing essential game fields
+                if not basic_info.get('home_team') or not basic_info.get('away_team'):
+                    skipped_files += 1
+                    continue
                 # Normalize venue names to match current venues.json
                 # This handles arena renames while preserving neutral site venues
                 normalized_venue = normalize_cached_venue(game)
                 if normalized_venue:
-                    game['basic_info']['venue'] = normalized_venue
+                    basic_info['venue'] = normalized_venue
                 games_data.append(game)
+            except json.JSONDecodeError as e:
+                error_files.append(f"{file.name}: JSON parse error - {e}")
+            except Exception as e:
+                error_files.append(f"{file.name}: {e}")
+        if error_files:
+            warn(f"Failed to load {len(error_files)} cache file(s):")
+            for err in error_files[:5]:  # Show first 5 errors
+                warn(f"  - {err}")
+            if len(error_files) > 5:
+                warn(f"  ... and {len(error_files) - 5} more")
     else:
         games_data = process_directory_or_file(args.input_path, args.gender)
 
@@ -421,8 +472,8 @@ def main() -> None:
             _deploy_to_surge(args.output_html)
 
     except Exception as e:
-        error(f"Error during processing: {str(e)}")
-        traceback.print_exc()
+        from .utils.log import exception
+        exception("Error during processing", e)
 
 
 if __name__ == '__main__':

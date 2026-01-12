@@ -121,6 +121,8 @@ def get_body(total_games: int, total_players: int, total_teams: int, total_venue
                 <button class="quick-filter" onclick="quickFilterGames('ranked')">Ranked</button>
                 <button class="quick-filter" onclick="quickFilterGames('upsets')">Upsets</button>
                 <button class="quick-filter" onclick="quickFilterGames('ot')">OT</button>
+                <button class="quick-filter" onclick="quickFilterGames('d1')">D1</button>
+                <button class="quick-filter" onclick="quickFilterGames('neutral')">Neutral</button>
                 <button class="quick-filter" onclick="quickFilterGames('mens')">Men's</button>
                 <button class="quick-filter" onclick="quickFilterGames('womens')">Women's</button>
             </div>

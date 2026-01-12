@@ -1240,6 +1240,36 @@ def get_css() -> str:
             margin-bottom: 0.5rem;
             color: var(--accent-color);
         }
+        /* Game Detail Badges and Info */
+        .game-badge {
+            display: inline-block;
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin: 0 0.25rem;
+            text-transform: uppercase;
+        }
+        .neutral-badge {
+            background: #9c27b0;
+            color: white;
+        }
+        .division-badge {
+            background: #ff9800;
+            color: white;
+        }
+        .game-info-item {
+            display: inline-block;
+            margin: 0 0.75rem;
+        }
+        .game-info-item strong {
+            color: var(--text-primary);
+        }
+        .game-officials {
+            border-top: 1px solid var(--border-color);
+            padding-top: 0.75rem;
+            margin-top: 0.5rem;
+        }
         .compare-select {
             padding: 0.5rem;
             border: 1px solid var(--border-color);

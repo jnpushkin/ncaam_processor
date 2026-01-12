@@ -111,12 +111,15 @@ NATIONAL_TEAM_TOURNAMENTS = set(NATIONAL_TEAM_TOURNAMENT_NAMES.keys())
 
 def _load_lookup_cache() -> Dict[str, Any]:
     """Load cached NBA lookup results."""
+    from .log import warn_once
     if NBA_LOOKUP_CACHE_FILE.exists():
         try:
             with open(NBA_LOOKUP_CACHE_FILE, 'r') as f:
                 return json.load(f)
-        except Exception:
-            pass
+        except json.JSONDecodeError as e:
+            warn_once(f"NBA lookup cache corrupted ({NBA_LOOKUP_CACHE_FILE}): {e}", key='nba_lookup_cache_corrupt')
+        except Exception as e:
+            warn_once(f"Failed to load NBA lookup cache: {e}", key='nba_lookup_cache_error')
     return {}
 
 
@@ -129,12 +132,15 @@ def _save_lookup_cache(cache: Dict[str, Any]) -> None:
 
 def _load_confirmed() -> Dict[str, Any]:
     """Load persistent confirmed NBA/Intl players (survives cache clears)."""
+    from .log import warn_once
     if NBA_CONFIRMED_FILE.exists():
         try:
             with open(NBA_CONFIRMED_FILE, 'r') as f:
                 return json.load(f)
-        except Exception:
-            pass
+        except json.JSONDecodeError as e:
+            warn_once(f"NBA confirmed cache corrupted ({NBA_CONFIRMED_FILE}): {e}", key='nba_confirmed_cache_corrupt')
+        except Exception as e:
+            warn_once(f"Failed to load NBA confirmed cache: {e}", key='nba_confirmed_cache_error')
     return {}
 
 

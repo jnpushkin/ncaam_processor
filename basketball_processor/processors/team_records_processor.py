@@ -607,6 +607,8 @@ class GameLogProcessor(BaseProcessor):
                 'SportsRefURL': basic_info.get('sports_ref_url', ''),
                 'Gender': basic_info.get('gender', 'M'),
                 'Division': basic_info.get('division', 'D1'),  # D1, D2, D3, NAIA
+                'Neutral': basic_info.get('neutral_site', False),
+                'Attendance': basic_info.get('attendance'),
             })
 
         # Sort by date descending (using YYYYMMDD format for proper chronological order)
@@ -614,7 +616,7 @@ class GameLogProcessor(BaseProcessor):
 
         columns = [
             'Date', 'DateSort', 'Away Team', 'Away Score', 'Home Team', 'Home Score',
-            'Venue', 'City', 'State', 'Notes', 'GameID', 'HomeTeamSlug', 'SportsRefURL', 'Gender', 'Division'
+            'Venue', 'City', 'State', 'Notes', 'GameID', 'HomeTeamSlug', 'SportsRefURL', 'Gender', 'Division', 'Neutral', 'Attendance'
         ]
 
         return self.create_dataframe(rows, columns)

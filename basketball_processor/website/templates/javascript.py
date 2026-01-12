@@ -840,6 +840,10 @@ def get_javascript(json_data: str) -> str:
                     const linescore = game.Linescore || {};
                     const otPeriods = (linescore.away || {}).OT || [];
                     if (otPeriods.length === 0) return false;
+                } else if (quickFilter === 'd1') {
+                    if ((game.Division || 'D1') !== 'D1') return false;
+                } else if (quickFilter === 'neutral') {
+                    if (!game.Neutral) return false;
                 } else if (quickFilter === 'mens') {
                     if (game.Gender !== 'M') return false;
                 } else if (quickFilter === 'womens') {
@@ -6016,22 +6020,50 @@ def get_javascript(json_data: str) -> str:
                 `;
             }
 
+            // Build game info section with attendance, officials, etc.
+            const awayRankDisplay = game.AwayRank ? `<span class="team-rank">#${game.AwayRank}</span> ` : '';
+            const homeRankDisplay = game.HomeRank ? `<span class="team-rank">#${game.HomeRank}</span> ` : '';
+            const neutralBadge = game.Neutral ? '<span class="game-badge neutral-badge">Neutral Site</span>' : '';
+            const divisionBadge = game.Division && game.Division !== 'D1' ? `<span class="game-badge division-badge">${game.Division}</span>` : '';
+
+            // Format attendance with commas
+            const attendanceDisplay = game.Attendance ? `<span class="game-info-item"><strong>Attendance:</strong> ${game.Attendance.toLocaleString()}</span>` : '';
+
+            // Format officials list
+            const officials = game.Officials || [];
+            const officialsDisplay = officials.length > 0
+                ? `<span class="game-info-item"><strong>Officials:</strong> ${officials.join(', ')}</span>`
+                : '';
+
+            // Conference info
+            const confDisplay = game.AwayConf || game.HomeConf
+                ? `<span class="game-info-item"><strong>Conference:</strong> ${game.AwayConf === game.HomeConf ? game.AwayConf : `${game.AwayConf || '?'} vs ${game.HomeConf || '?'}`}</span>`
+                : '';
+
             document.getElementById('game-detail').innerHTML = `
                 ${backButtonHtml}
                 <div class="box-score-header">
                     <div class="box-score-team">
-                        <h3>${game['Away Team']}</h3>
+                        <h3>${awayRankDisplay}${game['Away Team']}</h3>
                         <div class="box-score-score">${game['Away Score'] || 0}</div>
                     </div>
-                    <div class="box-score-vs">vs</div>
+                    <div class="box-score-vs">@</div>
                     <div class="box-score-team">
-                        <h3>${game['Home Team']}</h3>
+                        <h3>${homeRankDisplay}${game['Home Team']}</h3>
                         <div class="box-score-score">${game['Home Score'] || 0}</div>
                     </div>
                 </div>
-                <p style="text-align:center;margin-bottom:1rem;color:var(--text-secondary)">
-                    ${game.Date} | ${game.Venue || 'Unknown Venue'}
+                <div class="game-badges" style="text-align:center;margin-bottom:0.5rem;">
+                    ${neutralBadge}${divisionBadge}
+                </div>
+                <p style="text-align:center;margin-bottom:0.5rem;color:var(--text-secondary)">
+                    ${game.Date} | ${game.Venue || 'Unknown Venue'}${game.City ? `, ${game.City}` : ''}${game.State ? `, ${game.State}` : ''}
                 </p>
+                <div class="game-info-row" style="text-align:center;margin-bottom:1rem;color:var(--text-secondary);font-size:0.9rem;">
+                    ${attendanceDisplay}
+                    ${confDisplay}
+                </div>
+                ${officialsDisplay ? `<div class="game-officials" style="text-align:center;margin-bottom:1rem;color:var(--text-secondary);font-size:0.85rem;">${officialsDisplay}</div>` : ''}
                 ${linescoreHtml}
                 <div class="box-score-section">
                     <h4>${game['Away Team']}</h4>

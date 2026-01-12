@@ -209,7 +209,7 @@ class DataSerializer:
 
         games = self._df_to_records(game_log)
 
-        # Add linescore, DateSort, conferences, and rankings from raw games
+        # Add linescore, officials, DateSort, conferences, and rankings from raw games
         raw_games_by_id = {g.get('game_id'): g for g in self.raw_games}
         for game in games:
             game_id = game.get('GameID')
@@ -218,6 +218,10 @@ class DataSerializer:
                 linescore = raw_game.get('linescore', {})
                 if linescore:
                     game['Linescore'] = linescore
+                # Add officials/referees
+                officials = raw_game.get('officials', [])
+                if officials:
+                    game['Officials'] = officials
                 # Add sortable date (YYYYMMDD format)
                 basic_info = raw_game.get('basic_info', {})
                 date_sort = basic_info.get('date_yyyymmdd', '')
@@ -1039,9 +1043,6 @@ class DataSerializer:
         if df.empty:
             return []
 
-        # Replace NaN with None for JSON serialization
-        df = df.fillna('')
-
         records = df.to_dict('records')
 
         # Columns that contain team names to normalize
@@ -1055,8 +1056,8 @@ class DataSerializer:
                 # Convert numpy types to Python types
                 if hasattr(value, 'item'):
                     value = value.item()
-                # Handle empty strings from fillna
-                if value == '':
+                # Handle NaN/None values - convert to None for JSON serialization
+                if pd.isna(value):
                     value = None
                 # Normalize team names (UNC -> North Carolina, etc.)
                 elif key in team_columns and isinstance(value, str):

@@ -112,12 +112,15 @@ def _get_scraper():
 
 def _load_cache() -> Dict[str, Any]:
     """Load Proballers cache."""
+    from .log import warn_once
     if PROBALLERS_CACHE_FILE.exists():
         try:
             with open(PROBALLERS_CACHE_FILE, 'r') as f:
                 return json.load(f)
-        except Exception:
-            pass
+        except json.JSONDecodeError as e:
+            warn_once(f"Proballers cache corrupted ({PROBALLERS_CACHE_FILE}): {e}", key='proballers_cache_corrupt')
+        except Exception as e:
+            warn_once(f"Failed to load Proballers cache: {e}", key='proballers_cache_error')
     return {'players': {}, 'rosters': {}}
 
 
@@ -130,12 +133,15 @@ def _save_cache(cache: Dict[str, Any]) -> None:
 
 def _load_ncaa_teams() -> Dict[str, Dict[str, Any]]:
     """Load NCAA teams cache."""
+    from .log import warn_once
     if NCAA_TEAMS_FILE.exists():
         try:
             with open(NCAA_TEAMS_FILE, 'r') as f:
                 return json.load(f)
-        except Exception:
-            pass
+        except json.JSONDecodeError as e:
+            warn_once(f"NCAA teams cache corrupted ({NCAA_TEAMS_FILE}): {e}", key='ncaa_teams_cache_corrupt')
+        except Exception as e:
+            warn_once(f"Failed to load NCAA teams cache: {e}", key='ncaa_teams_cache_error')
     return {}
 
 
