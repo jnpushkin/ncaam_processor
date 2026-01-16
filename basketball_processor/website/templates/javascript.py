@@ -843,7 +843,7 @@ def get_javascript(json_data: str) -> str:
                 } else if (quickFilter === 'd1') {
                     if ((game.Division || 'D1') !== 'D1') return false;
                 } else if (quickFilter === 'neutral') {
-                    if (!game.Neutral) return false;
+                    if (!game.NeutralSite) return false;
                 } else if (quickFilter === 'mens') {
                     if (game.Gender !== 'M') return false;
                 } else if (quickFilter === 'womens') {
@@ -902,36 +902,36 @@ def get_javascript(json_data: str) -> str:
             }
 
             if (filters.search) {
-                chips.push(`<span class="filter-chip">Search: "${filters.search}"</span>`);
+                chips.push(`<span class="filter-chip" onclick="clearSingleFilter('games', 'search')" title="Click to remove">Search: "${filters.search}" ×</span>`);
             }
             if (filters.gender) {
-                chips.push(`<span class="filter-chip">${filters.gender === 'M' ? "Men's" : "Women's"}</span>`);
+                chips.push(`<span class="filter-chip" onclick="clearSingleFilter('games', 'gender')" title="Click to remove">${filters.gender === 'M' ? "Men's" : "Women's"} ×</span>`);
             }
             if (filters.division) {
                 const divLabels = { 'D1': 'D1 Only', 'non-D1': 'Non-D1', 'D2': 'D2', 'D3': 'D3' };
-                chips.push(`<span class="filter-chip">${divLabels[filters.division] || filters.division}</span>`);
+                chips.push(`<span class="filter-chip" onclick="clearSingleFilter('games', 'division')" title="Click to remove">${divLabels[filters.division] || filters.division} ×</span>`);
             }
             if (filters.dateFromRaw || filters.dateToRaw) {
                 const from = filters.dateFromRaw ? formatDate(filters.dateFromRaw) : 'Start';
                 const to = filters.dateToRaw ? formatDate(filters.dateToRaw) : 'Now';
-                chips.push(`<span class="filter-chip">${from} - ${to}</span>`);
+                chips.push(`<span class="filter-chip" onclick="clearSingleFilter('games', 'date')" title="Click to remove">${from} - ${to} ×</span>`);
             }
             if (filters.filterTeamName) {
                 const teamLabel = filters.filterTeamGender ? `${filters.filterTeamName} (${filters.filterTeamGender})` : filters.filterTeamName;
-                chips.push(`<span class="filter-chip">${teamLabel}</span>`);
+                chips.push(`<span class="filter-chip" onclick="clearSingleFilter('games', 'team')" title="Click to remove">${teamLabel} ×</span>`);
             }
             if (filters.conference) {
-                chips.push(`<span class="filter-chip">${filters.conference}</span>`);
+                chips.push(`<span class="filter-chip" onclick="clearSingleFilter('games', 'conference')" title="Click to remove">${filters.conference} ×</span>`);
             }
             if (filters.minMargin > 0) {
-                chips.push(`<span class="filter-chip">Margin ${filters.minMargin}+</span>`);
+                chips.push(`<span class="filter-chip" onclick="clearSingleFilter('games', 'margin')" title="Click to remove">Margin ${filters.minMargin}+ ×</span>`);
             }
             if (filters.otOnly) {
-                chips.push(`<span class="filter-chip">OT Only</span>`);
+                chips.push(`<span class="filter-chip" onclick="clearSingleFilter('games', 'ot')" title="Click to remove">OT Only ×</span>`);
             }
             if (filters.quickFilter && filters.quickFilter !== 'all') {
                 const qfLabels = { 'recent': 'Recent', 'home': 'Home', 'away': 'Away', 'neutral': 'Neutral', 'mens': "Men's", 'womens': "Women's" };
-                chips.push(`<span class="filter-chip">${qfLabels[filters.quickFilter] || filters.quickFilter}</span>`);
+                chips.push(`<span class="filter-chip" onclick="clearSingleFilter('games', 'quickFilter')" title="Click to remove">${qfLabels[filters.quickFilter] || filters.quickFilter} ×</span>`);
             }
 
             if (chips.length > 0) {
@@ -1042,6 +1042,11 @@ def get_javascript(json_data: str) -> str:
                 document.getElementById('games-conference').value = '';
                 document.getElementById('games-margin').value = '';
                 document.getElementById('games-ot').checked = false;
+                // Reset quick filter
+                window.currentQuickFilter = 'all';
+                document.querySelectorAll('.quick-filter').forEach(btn => btn.classList.remove('active'));
+                const allBtn = document.querySelector('.quick-filter');
+                if (allBtn) allBtn.classList.add('active');
                 applyGamesFilters();
             } else if (type === 'players') {
                 document.getElementById('players-search').value = '';
@@ -1050,6 +1055,69 @@ def get_javascript(json_data: str) -> str:
                 document.getElementById('players-conference').value = '';
                 document.getElementById('players-min-games').value = '';
                 document.getElementById('players-min-ppg').value = '';
+                applyPlayersFilters();
+            }
+        }
+
+        function clearSingleFilter(type, filterName) {
+            if (type === 'games') {
+                switch (filterName) {
+                    case 'search':
+                        document.getElementById('games-search').value = '';
+                        break;
+                    case 'gender':
+                        document.getElementById('games-gender').value = '';
+                        break;
+                    case 'division':
+                        const divisionFilter = document.getElementById('games-division');
+                        if (divisionFilter) divisionFilter.value = '';
+                        break;
+                    case 'date':
+                        document.getElementById('games-date-from').value = '';
+                        document.getElementById('games-date-to').value = '';
+                        break;
+                    case 'team':
+                        document.getElementById('games-team').value = '';
+                        break;
+                    case 'conference':
+                        document.getElementById('games-conference').value = '';
+                        break;
+                    case 'margin':
+                        document.getElementById('games-margin').value = '';
+                        break;
+                    case 'ot':
+                        document.getElementById('games-ot').checked = false;
+                        break;
+                    case 'quickFilter':
+                        // Reset quick filter buttons
+                        window.currentQuickFilter = 'all';
+                        document.querySelectorAll('.quick-filter').forEach(btn => btn.classList.remove('active'));
+                        const qfAllBtn = document.querySelector('.quick-filter');
+                        if (qfAllBtn) qfAllBtn.classList.add('active');
+                        break;
+                }
+                applyGamesFilters();
+            } else if (type === 'players') {
+                switch (filterName) {
+                    case 'search':
+                        document.getElementById('players-search').value = '';
+                        break;
+                    case 'gender':
+                        document.getElementById('players-gender').value = '';
+                        break;
+                    case 'team':
+                        document.getElementById('players-team').value = '';
+                        break;
+                    case 'conference':
+                        document.getElementById('players-conference').value = '';
+                        break;
+                    case 'minGames':
+                        document.getElementById('players-min-games').value = '';
+                        break;
+                    case 'minPpg':
+                        document.getElementById('players-min-ppg').value = '';
+                        break;
+                }
                 applyPlayersFilters();
             }
         }
@@ -1742,7 +1810,7 @@ def get_javascript(json_data: str) -> str:
                         <td>${awayRank}<span class="team-link" onclick="filterByTeam('${game['Away Team'] || ''}', '${game.Gender || 'M'}')">${game['Away Team'] || ''}</span>${genderTag}</td>
                         <td><span class="game-link" onclick="showGameDetail('${game.GameID || ''}')">${game['Away Score'] || 0}-${game['Home Score'] || 0}${otText}</span></td>
                         <td>${homeRank}<span class="team-link" onclick="filterByTeam('${game['Home Team'] || ''}', '${game.Gender || 'M'}')">${game['Home Team'] || ''}</span>${genderTag}</td>
-                        <td><span class="venue-link" onclick="showVenueDetail('${game.Venue || ''}')">${game.Venue || ''}</span></td>
+                        <td><span class="venue-link" onclick="showVenueDetail('${game.Venue || ''}')">${game.Venue || ''}</span>${game.NeutralSite ? ' <span class="neutral-badge" title="Neutral Site">N</span>' : ''}</td>
                         <td>${game.City || ''}</td>
                         <td>${game.State || ''}</td>
                         <td class="badges-cell">${badgeHtml}</td>
@@ -4271,6 +4339,289 @@ def get_javascript(json_data: str) -> str:
                     section.style.display = 'none';
                 }
             }
+
+            // Biggest Comebacks - from ESPN PBP data
+            const comebacks = [];
+            games.forEach(g => {
+                const espnPbp = g.ESPNPBPAnalysis || {};
+                if (espnPbp.biggestComeback && espnPbp.biggestComeback.deficit >= 5) {
+                    const cb = espnPbp.biggestComeback;
+                    const wTag = g.Gender === 'W' ? ' (W)' : '';
+                    comebacks.push({
+                        team: cb.team,
+                        deficit: cb.deficit,
+                        won: cb.won,
+                        gameId: g.GameID,
+                        awayTeam: g['Away Team'],
+                        homeTeam: g['Home Team'],
+                        wTag
+                    });
+                }
+            });
+            comebacks.sort((a, b) => b.deficit - a.deficit);
+            const comebacksContainer = document.getElementById('records-comebacks');
+            if (comebacksContainer) {
+                const section = comebacksContainer.closest('.records-section');
+                if (comebacks.length > 0) {
+                    section.style.display = '';
+                    comebacksContainer.innerHTML = comebacks.slice(0, 10).map((c, i) => `
+                        <div class="record-item player-record" onclick="showGameDetail('${c.gameId || ''}')">
+                            <span class="rank">${i + 1}.</span>
+                            <div class="record-details">
+                                <div class="record-main">
+                                    <span class="player-name">${c.team}${c.wTag}</span>
+                                    <span class="stat-value">${c.deficit}-pt deficit</span>
+                                </div>
+                                <div class="record-sub">${c.awayTeam} @ ${c.homeTeam} | ${c.won ? 'Won' : 'Lost'}</div>
+                            </div>
+                        </div>
+                    `).join('');
+                } else {
+                    section.style.display = 'none';
+                }
+            }
+
+            // Largest Scoring Runs - from ESPN PBP data
+            const runs = [];
+            games.forEach(g => {
+                const espnPbp = g.ESPNPBPAnalysis || {};
+                if (espnPbp.teamScoringRuns && espnPbp.teamScoringRuns.length > 0) {
+                    const wTag = g.Gender === 'W' ? ' (W)' : '';
+                    espnPbp.teamScoringRuns.forEach(r => {
+                        if (r.points >= 8) {
+                            runs.push({
+                                team: r.team,
+                                points: r.points,
+                                startScore: r.startScore,
+                                endScore: r.endScore,
+                                startTime: r.startTime,
+                                endTime: r.endTime,
+                                period: r.endPeriod,
+                                gameId: g.GameID,
+                                wTag
+                            });
+                        }
+                    });
+                }
+            });
+            runs.sort((a, b) => b.points - a.points);
+            const runsContainer = document.getElementById('records-runs');
+            if (runsContainer) {
+                const section = runsContainer.closest('.records-section');
+                if (runs.length > 0) {
+                    section.style.display = '';
+                    const periodLabel = (p) => p === 1 ? '1st' : p === 2 ? '2nd' : `OT${p - 2 || ''}`;
+                    // Helper to calculate time duration between two clock times
+                    const calcDuration = (startTime, endTime) => {
+                        if (!startTime || !endTime) return '';
+                        const parseTime = (t) => {
+                            const match = t.match(/(\d+):(\d+)/);
+                            return match ? parseInt(match[1]) * 60 + parseInt(match[2]) : null;
+                        };
+                        const startSec = parseTime(startTime);
+                        const endSec = parseTime(endTime);
+                        if (startSec === null || endSec === null) return '';
+                        const durationSec = startSec - endSec;  // Clock counts down
+                        if (durationSec <= 0) return '';
+                        const mins = Math.floor(durationSec / 60);
+                        const secs = durationSec % 60;
+                        return mins > 0 ? `${mins}:${secs.toString().padStart(2, '0')}` : `${secs}s`;
+                    };
+                    runsContainer.innerHTML = runs.slice(0, 10).map((r, i) => {
+                        const duration = calcDuration(r.startTime, r.endTime);
+                        const durationText = duration ? ` (${duration})` : '';
+                        return `
+                            <div class="record-item player-record" onclick="showGameDetail('${r.gameId || ''}')">
+                                <span class="rank">${i + 1}.</span>
+                                <div class="record-details">
+                                    <div class="record-main">
+                                        <span class="player-name">${r.team}${r.wTag}</span>
+                                        <span class="stat-value">${r.points}-0 run</span>
+                                    </div>
+                                    <div class="record-sub">${r.startScore} → ${r.endScore} | ${r.startTime}-${r.endTime}${durationText} ${periodLabel(r.period)}</div>
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+                } else {
+                    section.style.display = 'none';
+                }
+            }
+
+            // Longest Player Streaks - from ESPN PBP data
+            const streaks = [];
+            games.forEach(g => {
+                const espnPbp = g.ESPNPBPAnalysis || {};
+                if (espnPbp.playerPointStreaks && espnPbp.playerPointStreaks.length > 0) {
+                    const wTag = g.Gender === 'W' ? ' (W)' : '';
+                    espnPbp.playerPointStreaks.forEach(s => {
+                        if (s.points >= 6) {
+                            streaks.push({
+                                player: s.player,
+                                team: s.team,
+                                points: s.points,
+                                startTime: s.startTime,
+                                endTime: s.endTime,
+                                startScore: s.startScore,
+                                endScore: s.endScore,
+                                period: s.endPeriod,
+                                gameId: g.GameID,
+                                wTag
+                            });
+                        }
+                    });
+                }
+            });
+            streaks.sort((a, b) => b.points - a.points);
+            const streaksContainer = document.getElementById('records-streaks');
+            if (streaksContainer) {
+                const section = streaksContainer.closest('.records-section');
+                if (streaks.length > 0) {
+                    section.style.display = '';
+                    const periodLabel = (p) => p === 1 ? '1st' : p === 2 ? '2nd' : `OT${p - 2 || ''}`;
+                    streaksContainer.innerHTML = streaks.slice(0, 10).map((s, i) => {
+                        const scoreChange = s.startScore && s.endScore ? `${s.startScore} → ${s.endScore}` : '';
+                        const timeInfo = s.startTime && s.endTime ? `${s.startTime}-${s.endTime}` : '';
+                        const details = [scoreChange, timeInfo, periodLabel(s.period)].filter(x => x).join(' | ');
+                        return `
+                            <div class="record-item player-record" onclick="showGameDetail('${s.gameId || ''}')">
+                                <span class="rank">${i + 1}.</span>
+                                <div class="record-details">
+                                    <div class="record-main">
+                                        <span class="player-name">${s.player}${s.wTag}</span>
+                                        <span class="stat-value">${s.points} straight pts</span>
+                                    </div>
+                                    <div class="record-sub">${s.team}${details ? ' | ' + details : ''}</div>
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+                } else {
+                    section.style.display = 'none';
+                }
+            }
+
+            // Earliest/Latest Decisive Shots - from ESPN PBP data
+            const decisiveShots = [];
+            games.forEach(g => {
+                const espnPbp = g.ESPNPBPAnalysis || {};
+                if (espnPbp.decisiveShot) {
+                    const ds = espnPbp.decisiveShot;
+                    const gender = g.Gender || 'M';
+                    const wTag = gender === 'W' ? ' (W)' : '';
+                    // Parse time to minutes for sorting
+                    const timeMatch = (ds.time || '').match(/(\d+):(\d+)/);
+                    const timeMinutes = timeMatch ? parseInt(timeMatch[1]) + parseInt(timeMatch[2])/60 : 0;
+
+                    // Normalize period for sorting - women's Q4 = men's 2nd half (regulation end)
+                    const isRegulation = gender === 'W' ? ds.period <= 4 : ds.period <= 2;
+                    const isOT = gender === 'W' ? ds.period > 4 : ds.period > 2;
+                    const otNumber = gender === 'W' ? ds.period - 4 : ds.period - 2;
+
+                    decisiveShots.push({
+                        player: ds.player,
+                        team: ds.team || '',
+                        time: ds.time || '',
+                        period: ds.period || 2,
+                        timeMinutes,
+                        gameId: g.GameID,
+                        awayTeam: g['Away Team'],
+                        homeTeam: g['Home Team'],
+                        wTag,
+                        gender,
+                        isRegulation,
+                        isOT,
+                        otNumber,
+                        score: ds.score || '',
+                    });
+                }
+            });
+
+            // Helper to get period label
+            const getPeriodLabel = (d) => {
+                if (d.gender === 'W') {
+                    if (d.period <= 4) return `Q${d.period}`;
+                    return `OT${d.period - 4 || ''}`;
+                } else {
+                    if (d.period === 1) return '1st half';
+                    if (d.period === 2) return '2nd half';
+                    return `OT${d.period - 2 || ''}`;
+                }
+            };
+
+            // Earliest decisive shots (most time remaining in regulation)
+            const earliestContainer = document.getElementById('records-earliest-decisive');
+            if (earliestContainer) {
+                const section = earliestContainer.closest('.records-section');
+                // Include all regulation shots (1st half, 2nd half for men; Q1-Q4 for women)
+                const regulationShots = decisiveShots.filter(d => d.isRegulation);
+                if (regulationShots.length > 0) {
+                    section.style.display = '';
+                    // Sort by period asc (earlier periods first), then timeMinutes desc (more time remaining)
+                    regulationShots.sort((a, b) => {
+                        if (a.period !== b.period) return a.period - b.period;
+                        return b.timeMinutes - a.timeMinutes;
+                    });
+                    earliestContainer.innerHTML = regulationShots.slice(0, 10).map((d, i) => {
+                        const displayName = d.player ? `${d.player} (${d.team})` : d.team;
+                        return `
+                            <div class="record-item player-record" onclick="showGameDetail('${d.gameId || ''}')">
+                                <span class="rank">${i + 1}.</span>
+                                <div class="record-details">
+                                    <div class="record-main">
+                                        <span class="player-name">${displayName}${d.wTag}</span>
+                                        <span class="stat-value">${d.time} ${getPeriodLabel(d)}</span>
+                                    </div>
+                                    <div class="record-sub">${d.awayTeam} @ ${d.homeTeam}${d.score ? ' → ' + d.score : ''}</div>
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+                } else {
+                    section.style.display = 'none';
+                }
+            }
+
+            // Latest decisive shots (least time remaining - OT first, then end of regulation)
+            const latestContainer = document.getElementById('records-latest-decisive');
+            if (latestContainer) {
+                const section = latestContainer.closest('.records-section');
+                if (decisiveShots.length > 0) {
+                    section.style.display = '';
+                    // Sort: OT shots first (by OT number desc, then time asc), then regulation (by period desc, time asc)
+                    decisiveShots.sort((a, b) => {
+                        // OT shots come first
+                        if (a.isOT && !b.isOT) return -1;
+                        if (!a.isOT && b.isOT) return 1;
+                        // Both OT: higher OT number first, then lower time
+                        if (a.isOT && b.isOT) {
+                            if (a.otNumber !== b.otNumber) return b.otNumber - a.otNumber;
+                            return a.timeMinutes - b.timeMinutes;
+                        }
+                        // Both regulation: later period first, then lower time
+                        if (a.period !== b.period) return b.period - a.period;
+                        return a.timeMinutes - b.timeMinutes;
+                    });
+                    latestContainer.innerHTML = decisiveShots.slice(0, 10).map((d, i) => {
+                        const displayName = d.player ? `${d.player} (${d.team})` : d.team;
+                        return `
+                            <div class="record-item player-record" onclick="showGameDetail('${d.gameId || ''}')">
+                                <span class="rank">${i + 1}.</span>
+                                <div class="record-details">
+                                    <div class="record-main">
+                                        <span class="player-name">${displayName}${d.wTag}</span>
+                                        <span class="stat-value">${d.time} ${getPeriodLabel(d)}</span>
+                                    </div>
+                                    <div class="record-sub">${d.awayTeam} @ ${d.homeTeam}${d.score ? ' → ' + d.score : ''}</div>
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+                } else {
+                    section.style.display = 'none';
+                }
+            }
+
         }
 
         function populatePlayerRecords() {
@@ -6204,7 +6555,7 @@ def get_javascript(json_data: str) -> str:
             // Build game info section with attendance, officials, etc.
             const awayRankDisplay = game.AwayRank ? `<span class="team-rank">#${game.AwayRank}</span> ` : '';
             const homeRankDisplay = game.HomeRank ? `<span class="team-rank">#${game.HomeRank}</span> ` : '';
-            const neutralBadge = game.Neutral ? '<span class="game-badge neutral-badge">Neutral Site</span>' : '';
+            const neutralBadge = game.NeutralSite ? '<span class="game-badge neutral-badge">Neutral Site</span>' : '';
             const divisionBadge = game.Division && game.Division !== 'D1' ? `<span class="game-badge division-badge">${game.Division}</span>` : '';
 
             // Format attendance with commas
@@ -6215,6 +6566,155 @@ def get_javascript(json_data: str) -> str:
             const officialsDisplay = officials.length > 0
                 ? `<span class="game-info-item"><strong>Officials:</strong> ${officials.join(', ')}</span>`
                 : '';
+
+            // Play-by-play analysis section
+            const pbp = game.PlayByPlay || {};
+            let pbpHtml = '';
+            if (pbp.totalPlays > 0) {
+                const largestLeads = pbp.largestLeads || {};
+                const awayLead = largestLeads.away || {};
+                const homeLead = largestLeads.home || {};
+                const scoringRuns = pbp.scoringRuns || [];
+
+                let runsHtml = '';
+                if (scoringRuns.length > 0) {
+                    runsHtml = scoringRuns.map(run => {
+                        const teamLabel = run.team === 'away' ? game['Away Team'] : game['Home Team'];
+                        return `<span class="scoring-run">${teamLabel} ${run.points}-0 run (${run.start_time})</span>`;
+                    }).join(' ');
+                }
+
+                pbpHtml = `
+                    <div class="pbp-analysis" style="background:var(--bg-secondary);padding:0.75rem 1rem;border-radius:8px;margin-bottom:1rem;">
+                        <div style="display:flex;justify-content:space-around;flex-wrap:wrap;gap:1rem;text-align:center;">
+                            <div>
+                                <div style="font-size:1.5rem;font-weight:bold;color:var(--accent)">${pbp.leadChanges || 0}</div>
+                                <div style="font-size:0.8rem;color:var(--text-secondary)">Lead Changes</div>
+                            </div>
+                            ${awayLead.lead > 0 ? `
+                            <div>
+                                <div style="font-size:1.5rem;font-weight:bold;">+${awayLead.lead}</div>
+                                <div style="font-size:0.8rem;color:var(--text-secondary)">${game['Away Team']} Largest Lead</div>
+                            </div>
+                            ` : ''}
+                            ${homeLead.lead > 0 ? `
+                            <div>
+                                <div style="font-size:1.5rem;font-weight:bold;">+${homeLead.lead}</div>
+                                <div style="font-size:0.8rem;color:var(--text-secondary)">${game['Home Team']} Largest Lead</div>
+                            </div>
+                            ` : ''}
+                        </div>
+                        ${runsHtml ? `<div style="margin-top:0.75rem;font-size:0.85rem;color:var(--text-secondary)"><strong>Scoring Runs:</strong> ${runsHtml}</div>` : ''}
+                    </div>
+                `;
+            }
+
+            // ESPN Play-by-Play Analysis section
+            const espnPbp = game.ESPNPBPAnalysis || {};
+            let espnPbpHtml = '';
+
+            // Check if we have any ESPN PBP data to display
+            const hasTeamRuns = (espnPbp.teamScoringRuns || []).length > 0;
+            const hasPlayerStreaks = (espnPbp.playerPointStreaks || []).length > 0;
+            const hasComeback = espnPbp.biggestComeback && espnPbp.biggestComeback.deficit >= 5;
+            const hasClutchGoAhead = espnPbp.clutchGoAhead;
+            const hasDecisiveShot = espnPbp.decisiveShot;
+
+            if (hasTeamRuns || hasPlayerStreaks || hasComeback || hasClutchGoAhead || hasDecisiveShot) {
+                let espnSections = [];
+
+                // Biggest comeback (most prominent)
+                if (hasComeback) {
+                    const cb = espnPbp.biggestComeback;
+                    const wonText = cb.won ? 'overcame' : 'nearly overcame';
+                    espnSections.push(`
+                        <div class="espn-pbp-item comeback-item" style="text-align:center;padding:0.5rem;background:var(--bg-primary);border-radius:6px;">
+                            <div style="font-size:1.2rem;font-weight:bold;color:var(--accent);">${cb.team} ${wonText} ${cb.deficit}-pt deficit</div>
+                            <div style="font-size:0.8rem;color:var(--text-secondary);">Down ${cb.deficit} at ${cb.deficitTime} in ${cb.deficitPeriod === 1 ? '1st half' : cb.deficitPeriod === 2 ? '2nd half' : 'OT'}</div>
+                        </div>
+                    `);
+                }
+
+                // Team scoring runs
+                if (hasTeamRuns) {
+                    const runsText = espnPbp.teamScoringRuns.map(r => {
+                        const periodLabel = r.endPeriod === 1 ? '1st' : r.endPeriod === 2 ? '2nd' : `OT${r.endPeriod - 2 || ''}`;
+                        const scoreChange = r.startScore && r.endScore ? ` (${r.startScore} → ${r.endScore})` : '';
+                        const timeRange = r.startTime && r.endTime ? ` ${r.startTime}-${r.endTime}` : '';
+                        return `<span class="espn-run-badge">${r.team} ${r.points}-0 run${scoreChange}${timeRange} ${periodLabel}</span>`;
+                    }).join(' ');
+                    espnSections.push(`
+                        <div class="espn-pbp-item">
+                            <strong>Scoring Runs:</strong> ${runsText}
+                        </div>
+                    `);
+                }
+
+                // Player point streaks
+                if (hasPlayerStreaks) {
+                    const streaksText = espnPbp.playerPointStreaks.map(s => {
+                        const periodLabel = s.endPeriod === 1 ? '1st' : s.endPeriod === 2 ? '2nd' : `OT${s.endPeriod - 2 || ''}`;
+                        const timeRange = s.startTime && s.endTime ? ` ${s.startTime}-${s.endTime}` : '';
+                        const scoreChange = s.startScore && s.endScore ? ` (${s.startScore} → ${s.endScore})` : '';
+                        return `<span class="espn-streak-badge">${s.player} (${s.team}) ${s.points} consecutive pts${scoreChange}${timeRange} ${periodLabel}</span>`;
+                    }).join(' ');
+                    espnSections.push(`
+                        <div class="espn-pbp-item">
+                            <strong>Individual Streaks:</strong> ${streaksText}
+                        </div>
+                    `);
+                }
+
+                // Decisive shots
+                if (hasClutchGoAhead || hasDecisiveShot) {
+                    let gwsText = '';
+                    // Helper to get period label - handles both men's (2 halves) and women's (4 quarters)
+                    const getPeriodLabel = (period, gender) => {
+                        if (gender === 'W') {
+                            // Women's basketball: 4 quarters
+                            if (period <= 4) return `Q${period}`;
+                            return `OT${period - 4 || ''}`;
+                        } else {
+                            // Men's basketball: 2 halves
+                            if (period === 1) return '1st half';
+                            if (period === 2) return '2nd half';
+                            return `OT${period - 2 || ''}`;
+                        }
+                    };
+                    const gameGender = game.Gender || 'M';
+
+                    if (hasClutchGoAhead) {
+                        const cga = espnPbp.clutchGoAhead;
+                        const playerInfo = cga.player ? `${cga.player} (${cga.team})` : cga.team;
+                        const scoreInfo = cga.score ? ` → ${cga.score}` : '';
+                        gwsText = `<span class="espn-gws-badge">${playerInfo} go-ahead ${cga.points === 1 ? 'FT' : cga.points === 2 ? 'bucket' : 'three'} at ${cga.time}${scoreInfo}</span>`;
+                    }
+                    // Show decisive shot if different from clutch go-ahead
+                    if (hasDecisiveShot && (!hasClutchGoAhead || espnPbp.decisiveShot.time !== espnPbp.clutchGoAhead.time)) {
+                        const ds = espnPbp.decisiveShot;
+                        const playerInfo = ds.player ? `${ds.player} (${ds.team})` : ds.team;
+                        const periodLabel = getPeriodLabel(ds.period, gameGender);
+                        const scoreInfo = ds.score ? ` → ${ds.score}` : '';
+                        gwsText += `<span class="espn-gws-badge">${playerInfo} decisive shot at ${ds.time} ${periodLabel}${scoreInfo}</span>`;
+                    }
+                    if (gwsText) {
+                        espnSections.push(`
+                            <div class="espn-pbp-item">
+                                <strong>Decisive Shots:</strong> ${gwsText}
+                            </div>
+                        `);
+                    }
+                }
+
+                espnPbpHtml = `
+                    <div class="espn-pbp-analysis" style="background:var(--bg-secondary);padding:0.75rem 1rem;border-radius:8px;margin-bottom:1rem;border-left:3px solid var(--accent);">
+                        <div style="font-size:0.9rem;font-weight:bold;margin-bottom:0.5rem;color:var(--text-secondary);">Advanced Game Analysis</div>
+                        <div style="display:flex;flex-direction:column;gap:0.5rem;font-size:0.85rem;">
+                            ${espnSections.join('')}
+                        </div>
+                    </div>
+                `;
+            }
 
             // Conference info
             const confDisplay = game.AwayConf || game.HomeConf
@@ -6246,6 +6746,8 @@ def get_javascript(json_data: str) -> str:
                 </div>
                 ${officialsDisplay ? `<div class="game-officials" style="text-align:center;margin-bottom:1rem;color:var(--text-secondary);font-size:0.85rem;">${officialsDisplay}</div>` : ''}
                 ${linescoreHtml}
+                ${pbpHtml}
+                ${espnPbpHtml}
                 <div class="box-score-section">
                     <h4>${game['Away Team']}</h4>
                     <div class="table-container">${renderBoxScore(awayPlayers, game['Away Team'])}</div>

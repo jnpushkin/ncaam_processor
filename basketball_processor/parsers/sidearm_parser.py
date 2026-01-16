@@ -16,6 +16,7 @@ from ..utils.helpers import (
 )
 from ..engines.milestone_engine import MilestoneEngine
 from ..engines.special_events_engine import SpecialEventsEngine
+from ..engines.espn_pbp_engine import ESPNPlayByPlayEngine
 from ..utils.venue_resolver import resolve_venue
 
 
@@ -48,6 +49,165 @@ def is_sidearm_format(html_content: str) -> bool:
 
     content_lower = html_content.lower()
     return any(ind in content_lower for ind in indicators)
+
+
+def _extract_play_by_play(soup: BeautifulSoup, away_team: str, home_team: str) -> Optional[Dict[str, Any]]:
+    """
+    Extract play-by-play data from a SIDEARM box score page.
+
+    Args:
+        soup: Parsed HTML BeautifulSoup object
+        away_team: Away team name
+        home_team: Home team name
+
+    Returns:
+        Dict with 'plays' list in standardized format, or None if not found
+    """
+    # Find play-by-play section
+    pbp_section = soup.find(id='play-by-play')
+    if not pbp_section:
+        return None
+
+    tables = pbp_section.find_all('table')
+    if not tables:
+        return None
+
+    plays = []
+    away_score = 0
+    home_score = 0
+
+    for period_idx, table in enumerate(tables):
+        period = period_idx + 1  # 1 = first half, 2 = second half, 3+ = OT
+        rows = table.find_all('tr')
+
+        if not rows:
+            continue
+
+        header_cells = rows[0].find_all(['th', 'td'])
+        headers_text = [c.get_text(strip=True).lower() for c in header_cells]
+
+        # Find relevant column indices
+        time_idx = next((i for i, h in enumerate(headers_text) if 'time' in h), 0)
+        play_idx = next((i for i, h in enumerate(headers_text) if h == 'play'), -1)
+        away_score_idx = next((i for i, h in enumerate(headers_text) if 'away' in h and 'score' in h), -1)
+        home_score_idx = next((i for i, h in enumerate(headers_text) if 'home' in h and 'score' in h), -1)
+
+        for row in rows[1:]:
+            cells = row.find_all('td')
+            if len(cells) < max(time_idx + 1, play_idx + 1 if play_idx >= 0 else 1):
+                continue
+
+            time_str = cells[time_idx].get_text(strip=True) if time_idx < len(cells) else ''
+            play_text = cells[play_idx].get_text(strip=True) if play_idx >= 0 and play_idx < len(cells) else ''
+
+            if not play_text or play_text == '--' or not time_str or time_str == '--':
+                continue
+
+            # Parse score updates (format can be "50" or "50 (+2)")
+            if away_score_idx >= 0 and away_score_idx < len(cells):
+                score_text = cells[away_score_idx].get_text(strip=True)
+                score_match = re.match(r'(\d+)', score_text)
+                if score_match:
+                    away_score = int(score_match.group(1))
+            if home_score_idx >= 0 and home_score_idx < len(cells):
+                score_text = cells[home_score_idx].get_text(strip=True)
+                score_match = re.match(r'(\d+)', score_text)
+                if score_match:
+                    home_score = int(score_match.group(1))
+
+            # Determine team side
+            play_lower = play_text.lower()
+            team_side = 'unknown'
+            team_name = ''
+
+            for idx, cell in enumerate(cells):
+                cell_text = cell.get_text(strip=True)
+                if cell_text == play_text and idx > 0:
+                    if idx <= len(headers_text) // 2:
+                        team_side = 'away'
+                        team_name = away_team
+                    else:
+                        team_side = 'home'
+                        team_name = home_team
+                    break
+
+            # Determine play type
+            play_type = 'other'
+            scoring_play = False
+            score_value = 0
+
+            if 'good' in play_lower or 'made' in play_lower:
+                scoring_play = True
+                if '3ptr' in play_lower or '3pt' in play_lower or 'three' in play_lower:
+                    play_type = 'made_three'
+                    score_value = 3
+                elif 'ft' in play_lower or 'free throw' in play_lower:
+                    play_type = 'made_ft'
+                    score_value = 1
+                else:
+                    play_type = 'made_shot'
+                    score_value = 2
+            elif 'miss' in play_lower:
+                if '3ptr' in play_lower or '3pt' in play_lower:
+                    play_type = 'missed_three'
+                elif 'ft' in play_lower or 'free throw' in play_lower:
+                    play_type = 'missed_ft'
+                else:
+                    play_type = 'missed_shot'
+            elif 'rebound' in play_lower:
+                play_type = 'rebound'
+            elif 'turnover' in play_lower:
+                play_type = 'turnover'
+            elif 'steal' in play_lower:
+                play_type = 'steal'
+            elif 'block' in play_lower:
+                play_type = 'block'
+            elif 'foul' in play_lower:
+                play_type = 'foul'
+            elif 'sub' in play_lower:
+                play_type = 'substitution'
+            elif 'timeout' in play_lower:
+                play_type = 'timeout'
+
+            # Extract player name
+            player = ''
+            player_match = re.search(r'by\s+([A-Z][A-Z\s,\']+)', play_text)
+            if player_match:
+                player = player_match.group(1).strip()
+                if ',' in player:
+                    parts = player.split(',')
+                    if len(parts) == 2:
+                        player = f"{parts[1].strip().title()} {parts[0].strip().title()}"
+
+            plays.append({
+                'time': time_str,
+                'period': period,
+                'team': team_name,
+                'team_side': team_side,
+                'player': player,
+                'text': play_text,
+                'play_type': play_type,
+                'scoring_play': scoring_play,
+                'score_value': score_value,
+                'away_score': away_score,
+                'home_score': home_score,
+            })
+
+    if not plays:
+        return None
+
+    # Get final scores from last play
+    final_away = plays[-1].get('away_score', 0)
+    final_home = plays[-1].get('home_score', 0)
+
+    return {
+        'plays': plays,
+        'source': 'sidearm_embedded',
+        'away_team': away_team,
+        'home_team': home_team,
+        'away_score': final_away,
+        'home_score': final_home,
+    }
 
 
 def _parse_made_attempted(value: str) -> Tuple[int, int]:
@@ -663,6 +823,17 @@ def parse_sidearm_boxscore(html_content: str, gender: str = 'M', url: str = '') 
     resolved_venue = resolve_venue(game_data)
     if resolved_venue:
         game_data['basic_info']['venue'] = resolved_venue
+
+    # Extract and analyze play-by-play data from embedded HTML
+    try:
+        pbp_data = _extract_play_by_play(soup, away_team, home_team)
+        if pbp_data and pbp_data.get('plays'):
+            # Store raw PBP data for potential re-analysis
+            game_data['espn_pbp'] = pbp_data
+            engine = ESPNPlayByPlayEngine(pbp_data, game_data)
+            game_data['espn_pbp_analysis'] = engine.analyze()
+    except Exception:
+        pass  # Don't fail parsing if PBP analysis fails
 
     # Calculate milestones
     milestone_engine = MilestoneEngine(game_data)

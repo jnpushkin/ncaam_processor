@@ -236,6 +236,33 @@ ATHLETIC_SITES: Dict[str, Tuple[str, str]] = {
     'Boston University': ('goterriers.com', 'new'),
     'Holy Cross': ('goholycross.com', 'new'),
 
+    # D3 Schools
+    'Washington College': ('washcollsports.com', 'new'),
+    'Johns Hopkins': ('hopkinssports.com', 'new'),
+    'Brandeis': ('brandeisjudges.com', 'new'),
+    'University of Chicago': ('uchicagoathletics.com', 'new'),
+    'Chicago': ('uchicagoathletics.com', 'new'),
+
+    # NAIA Schools
+    'Jessup': ('jessupathletics.com', 'new'),
+    'William Jessup': ('jessupathletics.com', 'new'),
+    'Academy of Art': ('artugalleons.com', 'new'),
+
+    # Atlantic Sun / ASUN
+    'FGCU': ('fgcuathletics.com', 'new'),
+    'Florida Gulf Coast': ('fgcuathletics.com', 'new'),
+    'Kennesaw State': ('ksuowls.com', 'new'),
+    'Jacksonville': ('judolphins.com', 'new'),
+    'North Florida': ('unfospreys.com', 'new'),
+    'Stetson': ('gohatters.com', 'new'),
+    'Lipscomb': ('lipscombsports.com', 'new'),
+    'Bellarmine': ('bellarmineknights.com', 'new'),
+    'Eastern Kentucky': ('ekusports.com', 'new'),
+    'Central Arkansas': ('ucasports.com', 'new'),
+    'Austin Peay': ('letsgopeay.com', 'new'),
+    'Queens University': ('queensathletics.com', 'new'),
+    'North Alabama': ('roarlions.com', 'new'),
+
     # Atlantic 10
     'Dayton': ('daytonflyers.com', 'new'),
     'VCU': ('vcuathletics.com', 'new'),
@@ -572,6 +599,259 @@ def fetch_boxscore(url: str) -> Optional[Dict[str, Any]]:
         return None
 
 
+def fetch_play_by_play(url: str, away_team: str = '', home_team: str = '') -> Optional[Dict[str, Any]]:
+    """
+    Fetch and parse play-by-play data from a SIDEARM box score page.
+
+    Args:
+        url: SIDEARM box score URL
+        away_team: Away team name (for standardization)
+        home_team: Home team name (for standardization)
+
+    Returns:
+        Dict with 'plays' list in standardized format, or None if not found
+    """
+    try:
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36'
+        }
+        response = requests.get(url, headers=headers, timeout=15)
+        if response.status_code != 200:
+            return None
+
+        soup = BeautifulSoup(response.text, 'html.parser')
+
+        # Find play-by-play section
+        pbp_section = soup.find(id='play-by-play')
+        if not pbp_section:
+            return None
+
+        tables = pbp_section.find_all('table')
+        if not tables:
+            return None
+
+        plays = []
+        away_score = 0
+        home_score = 0
+
+        for period_idx, table in enumerate(tables):
+            period = period_idx + 1  # 1 = first half, 2 = second half, 3+ = OT
+            rows = table.find_all('tr')
+
+            # Parse header to find column indices
+            if not rows:
+                continue
+
+            header_cells = rows[0].find_all(['th', 'td'])
+            headers_text = [c.get_text(strip=True).lower() for c in header_cells]
+
+            # Find relevant column indices
+            time_idx = next((i for i, h in enumerate(headers_text) if 'time' in h), 0)
+            play_idx = next((i for i, h in enumerate(headers_text) if h == 'play'), -1)
+            away_score_idx = next((i for i, h in enumerate(headers_text) if 'away' in h and 'score' in h), -1)
+            home_score_idx = next((i for i, h in enumerate(headers_text) if 'home' in h and 'score' in h), -1)
+
+            # Parse data rows
+            for row in rows[1:]:
+                cells = row.find_all('td')
+                if len(cells) < max(time_idx + 1, play_idx + 1 if play_idx >= 0 else 1):
+                    continue
+
+                time_str = cells[time_idx].get_text(strip=True) if time_idx < len(cells) else ''
+                play_text = cells[play_idx].get_text(strip=True) if play_idx >= 0 and play_idx < len(cells) else ''
+
+                # Skip empty plays or time markers
+                if not play_text or play_text == '--' or not time_str or time_str == '--':
+                    continue
+
+                # Parse score updates
+                if away_score_idx >= 0 and away_score_idx < len(cells):
+                    score_text = cells[away_score_idx].get_text(strip=True)
+                    if score_text and score_text.isdigit():
+                        away_score = int(score_text)
+                if home_score_idx >= 0 and home_score_idx < len(cells):
+                    score_text = cells[home_score_idx].get_text(strip=True)
+                    # Handle format like "3(+3)"
+                    score_match = re.match(r'(\d+)', score_text)
+                    if score_match:
+                        home_score = int(score_match.group(1))
+
+                # Determine team and play type
+                play_lower = play_text.lower()
+                team_side = 'unknown'
+                team_name = ''
+
+                # Determine which team based on play text patterns
+                # SIDEARM often puts team abbreviation in play or uses columns
+                for idx, cell in enumerate(cells):
+                    cell_text = cell.get_text(strip=True)
+                    if cell_text == play_text and idx > 0:
+                        # Check which column the play is in
+                        if idx <= len(headers_text) // 2:
+                            team_side = 'away'
+                            team_name = away_team
+                        else:
+                            team_side = 'home'
+                            team_name = home_team
+                        break
+
+                # Determine play type
+                play_type = 'other'
+                scoring_play = False
+                score_value = 0
+
+                if 'good' in play_lower or 'made' in play_lower:
+                    scoring_play = True
+                    if '3ptr' in play_lower or '3pt' in play_lower or 'three' in play_lower:
+                        play_type = 'made_three'
+                        score_value = 3
+                    elif 'ft' in play_lower or 'free throw' in play_lower:
+                        play_type = 'made_ft'
+                        score_value = 1
+                    else:
+                        play_type = 'made_shot'
+                        score_value = 2
+                elif 'miss' in play_lower:
+                    if '3ptr' in play_lower or '3pt' in play_lower:
+                        play_type = 'missed_three'
+                    elif 'ft' in play_lower or 'free throw' in play_lower:
+                        play_type = 'missed_ft'
+                    else:
+                        play_type = 'missed_shot'
+                elif 'rebound' in play_lower:
+                    play_type = 'rebound'
+                elif 'turnover' in play_lower:
+                    play_type = 'turnover'
+                elif 'steal' in play_lower:
+                    play_type = 'steal'
+                elif 'block' in play_lower:
+                    play_type = 'block'
+                elif 'foul' in play_lower:
+                    play_type = 'foul'
+                elif 'sub' in play_lower:
+                    play_type = 'substitution'
+                elif 'timeout' in play_lower:
+                    play_type = 'timeout'
+
+                # Extract player name if present
+                player = ''
+                player_match = re.search(r'by\s+([A-Z][A-Z\s,\']+)', play_text)
+                if player_match:
+                    player = player_match.group(1).strip()
+                    # Clean up format like "RILEY IV,TYRONE" -> "Tyrone Riley IV"
+                    if ',' in player:
+                        parts = player.split(',')
+                        if len(parts) == 2:
+                            player = f"{parts[1].strip().title()} {parts[0].strip().title()}"
+
+                plays.append({
+                    'time': time_str,
+                    'period': period,
+                    'team': team_name,
+                    'team_side': team_side,
+                    'player': player,
+                    'text': play_text,
+                    'play_type': play_type,
+                    'scoring_play': scoring_play,
+                    'score_value': score_value,
+                    'away_score': away_score,
+                    'home_score': home_score,
+                })
+
+        if not plays:
+            return None
+
+        # Get final scores from the last play
+        final_away = plays[-1].get('away_score', 0)
+        final_home = plays[-1].get('home_score', 0)
+
+        return {
+            'plays': plays,
+            'source': 'sidearm',
+            'url': url,
+            'away_team': away_team,
+            'home_team': home_team,
+            'away_score': final_away,
+            'home_score': final_home,
+        }
+
+    except Exception as e:
+        print(f"  Error fetching SIDEARM PBP: {e}")
+        return None
+
+
+def get_sidearm_pbp_for_game(
+    home_team: str,
+    away_team: str,
+    game_date: str,
+    gender: str = 'M',
+    verbose: bool = False
+) -> Optional[Dict[str, Any]]:
+    """
+    Get play-by-play data from SIDEARM for a specific game.
+
+    Args:
+        home_team: Home team name
+        away_team: Away team name
+        game_date: Date in YYYYMMDD format
+        gender: 'M' or 'W'
+        verbose: Print status messages
+
+    Returns:
+        Dict with 'plays' list or None if not found
+    """
+    if verbose:
+        print(f"  Looking for SIDEARM PBP: {away_team} @ {home_team} ({game_date})...")
+
+    # Try home team's site first
+    site_info = get_athletic_site(home_team)
+    if site_info:
+        domain, sidearm_format = site_info
+        season = get_season_string(game_date)
+
+        if verbose:
+            print(f"  Checking {domain}...")
+
+        schedule_html = fetch_schedule_page(domain, 'basketball', season, gender)
+        if schedule_html:
+            time.sleep(RATE_LIMIT_DELAY)
+            boxscore_url = find_game_in_schedule(schedule_html, away_team, game_date, domain, sidearm_format)
+            if boxscore_url:
+                if verbose:
+                    print(f"  Found boxscore: {boxscore_url}")
+                pbp_data = fetch_play_by_play(boxscore_url, away_team, home_team)
+                if pbp_data and pbp_data.get('plays'):
+                    if verbose:
+                        print(f"  Got {len(pbp_data['plays'])} plays from SIDEARM")
+                    return pbp_data
+
+    # Try away team's site
+    site_info = get_athletic_site(away_team)
+    if site_info:
+        domain, sidearm_format = site_info
+        season = get_season_string(game_date)
+
+        if verbose:
+            print(f"  Checking {domain}...")
+
+        schedule_html = fetch_schedule_page(domain, 'basketball', season, gender)
+        if schedule_html:
+            time.sleep(RATE_LIMIT_DELAY)
+            boxscore_url = find_game_in_schedule(schedule_html, home_team, game_date, domain, sidearm_format)
+            if boxscore_url:
+                if verbose:
+                    print(f"  Found boxscore: {boxscore_url}")
+                pbp_data = fetch_play_by_play(boxscore_url, away_team, home_team)
+                if pbp_data and pbp_data.get('plays'):
+                    if verbose:
+                        print(f"  Got {len(pbp_data['plays'])} plays from SIDEARM")
+                    return pbp_data
+
+    if verbose:
+        print(f"  No SIDEARM PBP found")
+    return None
+
+
 def get_season_string(date_yyyymmdd: str) -> str:
     """Convert a date to season string (e.g., '2024-25')."""
     try:
@@ -597,6 +877,13 @@ def _fetch_from_team_site(
 ) -> Optional[Dict[str, Any]]:
     """
     Fetch game data from a team's SIDEARM site.
+
+    Args:
+        team: Team whose site to check
+        opponent: Opponent team name
+        game_date: Date in YYYYMMDD format
+        gender: 'M' or 'W'
+        verbose: Print status messages
 
     Returns dict with game data or None if not found.
     """
@@ -661,12 +948,13 @@ def supplement_game_data(
     # Try home team's site first
     data = _fetch_from_team_site(home_team, away_team, game_date, gender, verbose)
 
-    # Try away team's site if:
-    # 1. Home team site didn't have the game, OR
-    # 2. Home team site had the game but no attendance
+    # Try away team's site if home team site didn't have the game or attendance
     if not data or not data.get('attendance'):
         if verbose:
-            reason = "Not found on home team site" if not data else "No attendance on home team site"
+            if not data:
+                reason = "Not found on home team site"
+            else:
+                reason = "No attendance on home team site"
             print(f"  {reason}, trying away team...")
         away_data = _fetch_from_team_site(away_team, home_team, game_date, gender, verbose)
 
@@ -674,11 +962,12 @@ def supplement_game_data(
             if not data:
                 # Home team had nothing, use away data
                 data = away_data
-            elif away_data.get('attendance') and not data.get('attendance'):
-                # Away team has attendance, merge it in
-                data['attendance'] = away_data['attendance']
-                if not data.get('sidearm_url'):
-                    data['sidearm_url'] = away_data.get('sidearm_url')
+            else:
+                # Merge attendance if missing
+                if away_data.get('attendance') and not data.get('attendance'):
+                    data['attendance'] = away_data['attendance']
+                    if not data.get('sidearm_url'):
+                        data['sidearm_url'] = away_data.get('sidearm_url')
 
     # If SIDEARM failed, try WMT Sports (Nuxt.js sites)
     if not data:

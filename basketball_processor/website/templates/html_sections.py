@@ -234,6 +234,26 @@ def get_body(total_games: int, total_players: int, total_teams: int, total_venue
                         <h3>100+ Point Games</h3>
                         <div id="records-100pt" class="records-list"></div>
                     </div>
+                    <div class="records-section">
+                        <h3>Biggest Comebacks</h3>
+                        <div id="records-comebacks" class="records-list"></div>
+                    </div>
+                    <div class="records-section">
+                        <h3>Largest Scoring Runs</h3>
+                        <div id="records-runs" class="records-list"></div>
+                    </div>
+                    <div class="records-section">
+                        <h3>Longest Player Streaks</h3>
+                        <div id="records-streaks" class="records-list"></div>
+                    </div>
+                    <div class="records-section">
+                        <h3>Earliest Decisive Shots</h3>
+                        <div id="records-earliest-decisive" class="records-list"></div>
+                    </div>
+                    <div class="records-section">
+                        <h3>Latest Decisive Shots</h3>
+                        <div id="records-latest-decisive" class="records-list"></div>
+                    </div>
                 </div>
             </div>
 

@@ -106,9 +106,14 @@ def fetch_attendance_playwright(school_slug: str, game_id: str, verbose: bool = 
                 print("  Attendance not found in page content")
             return None
 
-    except Exception as e:
+    except (TimeoutError, ConnectionError) as e:
         if verbose:
-            print(f"  Error fetching attendance: {e}")
+            print(f"  Network error fetching attendance: {e}")
+        return None
+    except Exception as e:
+        # Playwright-specific errors
+        if verbose:
+            print(f"  Browser error fetching attendance: {e}")
         return None
 
 
@@ -158,9 +163,14 @@ def fetch_attendance_from_stats_iframe(stats_url: str, verbose: bool = True) -> 
                 print("  Attendance not found in stats page")
             return None
 
-    except Exception as e:
+    except (TimeoutError, ConnectionError) as e:
         if verbose:
-            print(f"  Error fetching attendance from stats iframe: {e}")
+            print(f"  Network error fetching attendance from stats iframe: {e}")
+        return None
+    except Exception as e:
+        # Playwright-specific errors
+        if verbose:
+            print(f"  Browser error fetching attendance from stats iframe: {e}")
         return None
 
 
@@ -232,9 +242,12 @@ def fetch_schedule_page(
                 html = page.content()
                 browser.close()
                 return html
-        except Exception as e:
-            print(f"  Playwright error fetching schedule: {e}")
+        except (TimeoutError, ConnectionError) as e:
+            print(f"  Network error fetching schedule: {e}")
             # Fall through to HTTP fetch
+        except Exception as e:
+            # Playwright-specific browser errors
+            print(f"  Browser error fetching schedule: {e}")
 
     # Fallback to HTTP (won't have full schedule data)
     try:
@@ -245,8 +258,10 @@ def fetch_schedule_page(
         if response.status_code == 200:
             return response.text
         print(f"  WMT schedule page returned {response.status_code}: {url}")
-    except Exception as e:
-        print(f"  Error fetching WMT schedule: {e}")
+    except requests.RequestException as e:
+        print(f"  Network error fetching WMT schedule: {e}")
+    except (TimeoutError, ConnectionError) as e:
+        print(f"  Connection error fetching WMT schedule: {e}")
 
     return None
 
@@ -398,8 +413,11 @@ def fetch_boxscore(
 
         return result
 
-    except Exception as e:
-        print(f"  Error fetching WMT boxscore: {e}")
+    except requests.RequestException as e:
+        print(f"  Network error fetching WMT boxscore: {e}")
+        return None
+    except (json.JSONDecodeError, ValueError) as e:
+        print(f"  Parse error for WMT boxscore: {e}")
         return None
 
 

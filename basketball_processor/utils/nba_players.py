@@ -118,7 +118,7 @@ def _load_lookup_cache() -> Dict[str, Any]:
                 return json.load(f)
         except json.JSONDecodeError as e:
             warn_once(f"NBA lookup cache corrupted ({NBA_LOOKUP_CACHE_FILE}): {e}", key='nba_lookup_cache_corrupt')
-        except Exception as e:
+        except (IOError, OSError, PermissionError) as e:
             warn_once(f"Failed to load NBA lookup cache: {e}", key='nba_lookup_cache_error')
     return {}
 
@@ -139,7 +139,7 @@ def _load_confirmed() -> Dict[str, Any]:
                 return json.load(f)
         except json.JSONDecodeError as e:
             warn_once(f"NBA confirmed cache corrupted ({NBA_CONFIRMED_FILE}): {e}", key='nba_confirmed_cache_corrupt')
-        except Exception as e:
+        except (IOError, OSError, PermissionError) as e:
             warn_once(f"Failed to load NBA confirmed cache: {e}", key='nba_confirmed_cache_error')
     return {}
 
@@ -255,7 +255,8 @@ def _check_intl_type(intl_url: str, scraper: Any = None) -> Dict[str, Any]:
         result['tournaments'] = sorted(list(found_tournaments))
         return result
 
-    except Exception:
+    except (requests.RequestException, ConnectionError, TimeoutError, ValueError) as e:
+        # Network errors or HTML parsing issues - return empty result
         return result
 
 
@@ -303,7 +304,8 @@ def _check_proballers_leagues(player_name: str, college_team: str, year: Optiona
         leagues = get_player_pro_leagues(proballers_id)
         return leagues, proballers_id
 
-    except Exception:
+    except (requests.RequestException, ConnectionError, TimeoutError, AttributeError) as e:
+        # Network errors or Proballers lookup issues
         return [], None
 
 
@@ -400,8 +402,8 @@ def _verify_nba_stats(nba_url: str, scraper: Any = None) -> Dict[str, Any]:
         # No NBA per_game_stats rows = never played NBA
         return {'played': False, 'games': 0}
 
-    except Exception as e:
-        return {'verified': False, 'error': str(e)}  # Can't verify
+    except (requests.RequestException, ConnectionError, TimeoutError) as e:
+        return {'verified': False, 'error': str(e)}  # Can't verify - network error
 
 
 def _verify_wnba_stats(wnba_url: str, scraper: Any = None) -> Dict[str, Any]:
@@ -452,8 +454,8 @@ def _verify_wnba_stats(wnba_url: str, scraper: Any = None) -> Dict[str, Any]:
         # No WNBA per_game0 rows = never played WNBA
         return {'played': False, 'games': 0}
 
-    except Exception as e:
-        return {'verified': False, 'error': str(e)}  # Can't verify
+    except (requests.RequestException, ConnectionError, TimeoutError) as e:
+        return {'verified': False, 'error': str(e)}  # Can't verify - network error
 
 
 def check_player_nba_status(player_id: str) -> Optional[Dict[str, Any]]:
@@ -614,8 +616,8 @@ def check_player_nba_status(player_id: str) -> Optional[Dict[str, Any]]:
                         tags.append("Nat'l")
                     if tags:
                         print(f" [{'+'.join(tags)}]", end="", flush=True)
-            except Exception:
-                pass  # Silently ignore failures
+            except (requests.RequestException, ConnectionError, TimeoutError):
+                pass  # Network errors are expected for players without intl pages
 
         if result:
             cache[player_id] = result
@@ -627,8 +629,11 @@ def check_player_nba_status(player_id: str) -> Optional[Dict[str, Any]]:
             _save_lookup_cache(cache)
             return None
 
-    except Exception as e:
-        print(f"Warning: Could not fetch {url}: {e}")
+    except (requests.RequestException, ConnectionError, TimeoutError) as e:
+        print(f"Warning: Network error fetching {url}: {e}")
+        return None
+    except (ValueError, AttributeError) as e:
+        print(f"Warning: Parse error for {url}: {e}")
         return None
 
 
@@ -809,7 +814,7 @@ def check_all_players_from_cache() -> Dict[str, int]:
                     pid = player.get('player_id')
                     if pid:
                         player_ids.add(pid)
-        except Exception:
+        except (json.JSONDecodeError, IOError, OSError, KeyError):
             continue
 
     print(f"Found {len(player_ids)} unique players in {len(game_files)} cached games")
@@ -880,7 +885,7 @@ def _get_last_recheck_time() -> Optional[datetime]:
         try:
             ts = NBA_RECHECK_TIMESTAMP_FILE.read_text().strip()
             return datetime.fromisoformat(ts)
-        except Exception:
+        except (IOError, OSError, ValueError):
             pass
     return None
 
@@ -964,7 +969,7 @@ def _check_nba_players_for_intl() -> int:
                 print(" → +Intl")
             else:
                 print()
-        except Exception:
+        except (requests.RequestException, ConnectionError, TimeoutError):
             print()
 
     return intl_found
@@ -1059,7 +1064,7 @@ def _get_last_wnba_recheck_time() -> Optional[datetime]:
         try:
             ts = WNBA_RECHECK_TIMESTAMP_FILE.read_text().strip()
             return datetime.fromisoformat(ts)
-        except Exception:
+        except (IOError, OSError, ValueError):
             pass
     return None
 
@@ -1133,7 +1138,7 @@ def recheck_female_players_for_wnba(force: bool = False) -> Dict[str, int]:
                     pid = player.get('player_id')
                     if pid:
                         female_player_ids.add(pid)
-        except Exception:
+        except (json.JSONDecodeError, IOError, OSError, KeyError):
             continue
 
     print(f"Found {len(female_player_ids)} unique female players in cached women's games")

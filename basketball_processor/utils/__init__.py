@@ -30,6 +30,7 @@ from .constants import (
     GID_DATE_RE,
     SPORTS_REF_PLAYER_URL,
     SPORTS_REF_GAME_URL,
+    ESPN_PBP_MILESTONE_CONFIGS,
     get_conference,
     get_conference_for_date,
 )
@@ -106,6 +107,7 @@ __all__ = [
     'GID_DATE_RE',
     'SPORTS_REF_PLAYER_URL',
     'SPORTS_REF_GAME_URL',
+    'ESPN_PBP_MILESTONE_CONFIGS',
     'get_conference',
     'get_conference_for_date',
     # Helpers

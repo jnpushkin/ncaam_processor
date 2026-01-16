@@ -234,6 +234,69 @@ class DataSerializer:
                 if basic_info.get('home_rank'):
                     game['HomeRank'] = basic_info['home_rank']
 
+                # Add play-by-play analysis if available
+                pbp_data = raw_game.get('play_by_play', {})
+                if pbp_data:
+                    # Include summary stats, not the full play list (too large)
+                    game['PlayByPlay'] = {
+                        'leadChanges': pbp_data.get('lead_changes', 0),
+                        'largestLeads': pbp_data.get('largest_leads', {}),
+                        'scoringRuns': pbp_data.get('scoring_runs', []),
+                        'totalPlays': len(pbp_data.get('plays', [])),
+                    }
+
+                # Add ESPN play-by-play analysis if available
+                espn_pbp = raw_game.get('espn_pbp_analysis', {})
+                if espn_pbp:
+                    away_team = game.get('Away Team', '')
+                    home_team = game.get('Home Team', '')
+                    game['ESPNPBPAnalysis'] = self._serialize_espn_pbp_analysis(
+                        espn_pbp, away_team=away_team, home_team=home_team
+                    )
+
+                # Add neutral site flag if available
+                if basic_info.get('neutral_site'):
+                    game['NeutralSite'] = True
+
+            # Known neutral site venues - always mark as neutral regardless of ESPN data
+            KNOWN_NEUTRAL_VENUES = {
+                # NBA arenas commonly used for college games
+                'chase center',
+                'barclays center',
+                'madison square garden',
+                'united center',
+                't-mobile arena',
+                'mgm grand garden arena',
+                'staples center',
+                'crypto.com arena',
+                'footprint center',
+                'state farm arena',
+                'spectrum center',
+                'smoothie king center',
+                'capital one arena',
+                'little caesars arena',
+                'wells fargo center',
+                'prudential center',
+                'mohegan sun arena',
+                'td garden',
+                'american airlines center',
+                'toyota center',
+                'ball arena',
+                'golden 1 center',
+                'kia center',
+                'amway center',
+                'paycom center',
+                'frost bank center',
+                'kaseya center',
+                'gainbridge fieldhouse',
+                'target center',
+                'delta center',
+                'moda center',
+            }
+            venue = game.get('Venue', '').lower().strip()
+            if venue and any(nv in venue for nv in KNOWN_NEUTRAL_VENUES):
+                game['NeutralSite'] = True
+
             # Add historical conference for each team based on game date
             date_sort = game.get('DateSort', '')
             gender = game.get('Gender', 'M')
@@ -556,6 +619,92 @@ class DataSerializer:
                 record['HasSportsRefPage'] = True  # Default to true if unknown
 
         return records
+
+    def _serialize_espn_pbp_analysis(
+        self, espn_pbp: Dict[str, Any], away_team: str = '', home_team: str = ''
+    ) -> Dict[str, Any]:
+        """
+        Serialize ESPN play-by-play analysis for a single game.
+
+        Args:
+            espn_pbp: ESPN PBP analysis dictionary from ESPNPlayByPlayEngine
+            away_team: Away team name for mapping 'away' side to team name
+            home_team: Home team name for mapping 'home' side to team name
+
+        Returns:
+            Serialized analysis for website display
+        """
+        result = {}
+
+        # Team scoring runs - include top 3
+        runs = espn_pbp.get('team_scoring_runs', [])
+        if runs:
+            result['teamScoringRuns'] = [
+                {
+                    'team': r.get('team', ''),
+                    'points': r.get('points', 0),
+                    'startTime': r.get('start_time', ''),
+                    'endTime': r.get('end_time', ''),
+                    'startPeriod': r.get('start_period', 1),
+                    'endPeriod': r.get('end_period', 1),
+                    'startScore': r.get('start_score', ''),
+                    'endScore': r.get('end_score', ''),
+                }
+                for r in runs[:3]
+            ]
+
+        # Player point streaks - include top 3
+        streaks = espn_pbp.get('player_point_streaks', [])
+        if streaks:
+            result['playerPointStreaks'] = [
+                {
+                    'player': s.get('player', ''),
+                    'team': s.get('team', ''),
+                    'points': s.get('points', 0),
+                    'startTime': s.get('start_time', ''),
+                    'endTime': s.get('end_time', ''),
+                    'startPeriod': s.get('start_period', 1),
+                    'endPeriod': s.get('end_period', 1),
+                    'startScore': s.get('start_score', ''),
+                    'endScore': s.get('end_score', ''),
+                }
+                for s in streaks[:3]
+            ]
+
+        # Biggest comeback
+        comeback = espn_pbp.get('biggest_comeback')
+        if comeback and comeback.get('deficit', 0) >= 5:
+            result['biggestComeback'] = {
+                'team': comeback.get('team', ''),
+                'deficit': comeback.get('deficit', 0),
+                'deficitTime': comeback.get('deficit_time', ''),
+                'deficitPeriod': comeback.get('deficit_period', 0),
+                'won': comeback.get('won', False),
+            }
+
+        # Game-winning shots
+        gws = espn_pbp.get('game_winning_shots', {})
+        if gws.get('clutch_go_ahead'):
+            cga = gws['clutch_go_ahead']
+            result['clutchGoAhead'] = {
+                'player': cga.get('player', ''),
+                'team': cga.get('team', ''),
+                'time': cga.get('time', ''),
+                'points': cga.get('points', 0),
+                'score': cga.get('score', ''),
+            }
+        if gws.get('decisive_shot'):
+            ds = gws['decisive_shot']
+            result['decisiveShot'] = {
+                'player': ds.get('player', ''),
+                'team': ds.get('team', ''),
+                'time': ds.get('time', ''),
+                'period': ds.get('period', 0),
+                'points': ds.get('points', 0),
+                'score': ds.get('score', ''),
+            }
+
+        return result
 
     def _serialize_milestones(self) -> Dict[str, List[Dict]]:
         """Serialize all milestones."""

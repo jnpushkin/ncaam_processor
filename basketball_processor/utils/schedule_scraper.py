@@ -21,26 +21,29 @@ ESPN_API_URL_WOMENS = "https://site.api.espn.com/apis/site/v2/sports/basketball/
 # Cache file for schedule data
 DATA_DIR = Path(__file__).parent.parent.parent / "data"
 SCHEDULE_CACHE_FILE = DATA_DIR / "schedule_cache.json"
+SCHEDULE_CACHE_FILE_WOMENS = DATA_DIR / "schedule_cache_womens.json"
 
 # Rate limiting - be respectful to ESPN's servers
 REQUEST_DELAY = 0.5  # seconds between requests
 
 
-def fetch_games_for_date(date: datetime) -> List[Dict[str, Any]]:
+def fetch_games_for_date(date: datetime, gender: str = 'M') -> List[Dict[str, Any]]:
     """
-    Fetch all D1 men's basketball games for a specific date.
+    Fetch all D1 basketball games for a specific date.
 
     Args:
         date: The date to fetch games for
+        gender: 'M' for men's, 'W' for women's
 
     Returns:
         List of game dictionaries with venue and team info
     """
     date_str = date.strftime("%Y%m%d")
+    api_url = ESPN_API_URL_WOMENS if gender == 'W' else ESPN_API_URL
 
     try:
         response = requests.get(
-            ESPN_API_URL,
+            api_url,
             params={
                 "dates": date_str,
                 "groups": "50",  # D1
@@ -60,7 +63,7 @@ def fetch_games_for_date(date: datetime) -> List[Dict[str, Any]]:
         return games
 
     except requests.RequestException as e:
-        warn(f"Failed to fetch games for {date_str}: {e}")
+        warn(f"Failed to fetch {gender} games for {date_str}: {e}")
         return []
 
 
@@ -159,6 +162,7 @@ def _format_date(iso_date: str) -> str:
 def scrape_season_schedule(
     start_date: Optional[datetime] = None,
     end_date: Optional[datetime] = None,
+    gender: str = 'M',
     show_progress: bool = True
 ) -> List[Dict[str, Any]]:
     """
@@ -167,6 +171,7 @@ def scrape_season_schedule(
     Args:
         start_date: Start date (defaults to today)
         end_date: End date (defaults to April 15 for end of season)
+        gender: 'M' for men's, 'W' for women's
         show_progress: Whether to show progress messages
 
     Returns:
@@ -187,9 +192,10 @@ def scrape_season_schedule(
     all_games = []
     current_date = start_date
     total_days = (end_date - start_date).days
+    gender_label = "Women's" if gender == 'W' else "Men's"
 
     if show_progress:
-        info(f"Scraping schedule from {start_date.strftime('%Y-%m-%d')} to {end_date.strftime('%Y-%m-%d')} ({total_days} days)")
+        info(f"Scraping {gender_label} schedule from {start_date.strftime('%Y-%m-%d')} to {end_date.strftime('%Y-%m-%d')} ({total_days} days)")
 
     day_count = 0
     while current_date <= end_date:
@@ -198,71 +204,81 @@ def scrape_season_schedule(
         if show_progress and day_count % 10 == 0:
             info(f"  Day {day_count}/{total_days}: {current_date.strftime('%Y-%m-%d')}")
 
-        games = fetch_games_for_date(current_date)
+        games = fetch_games_for_date(current_date, gender=gender)
         all_games.extend(games)
 
         current_date += timedelta(days=1)
         time.sleep(REQUEST_DELAY)
 
     if show_progress:
-        success(f"Scraped {len(all_games)} games across {total_days} days")
+        success(f"Scraped {len(all_games)} {gender_label} games across {total_days} days")
 
     return all_games
 
 
-def save_schedule_cache(games: List[Dict[str, Any]]) -> None:
+def save_schedule_cache(games: List[Dict[str, Any]], gender: str = 'M') -> None:
     """Save scraped schedule to cache file."""
     DATA_DIR.mkdir(parents=True, exist_ok=True)
+
+    cache_file = SCHEDULE_CACHE_FILE_WOMENS if gender == 'W' else SCHEDULE_CACHE_FILE
 
     cache_data = {
         "scraped_at": datetime.now().isoformat(),
         "games_count": len(games),
+        "gender": gender,
         "games": games
     }
 
-    with open(SCHEDULE_CACHE_FILE, 'w', encoding='utf-8') as f:
+    with open(cache_file, 'w', encoding='utf-8') as f:
         json.dump(cache_data, f, indent=2)
 
-    info(f"Saved {len(games)} games to {SCHEDULE_CACHE_FILE}")
+    gender_label = "Women's" if gender == 'W' else "Men's"
+    info(f"Saved {len(games)} {gender_label} games to {cache_file}")
 
 
-def load_schedule_cache() -> Optional[Dict[str, Any]]:
+def load_schedule_cache(gender: str = 'M') -> Optional[Dict[str, Any]]:
     """Load schedule from cache file."""
-    if not SCHEDULE_CACHE_FILE.exists():
+    cache_file = SCHEDULE_CACHE_FILE_WOMENS if gender == 'W' else SCHEDULE_CACHE_FILE
+
+    if not cache_file.exists():
         return None
 
     try:
-        with open(SCHEDULE_CACHE_FILE, 'r', encoding='utf-8') as f:
+        with open(cache_file, 'r', encoding='utf-8') as f:
             return json.load(f)
     except (json.JSONDecodeError, IOError) as e:
-        warn(f"Failed to load schedule cache: {e}")
+        gender_label = "Women's" if gender == 'W' else "Men's"
+        warn(f"Failed to load {gender_label} schedule cache: {e}")
         return None
 
 
-def get_schedule(force_refresh: bool = False) -> List[Dict[str, Any]]:
+def get_schedule(force_refresh: bool = False, gender: str = 'M') -> List[Dict[str, Any]]:
     """
     Get the schedule, using cache if available and recent.
 
     Args:
         force_refresh: If True, always scrape fresh data
+        gender: 'M' for men's, 'W' for women's
 
     Returns:
         List of games
     """
+    gender_label = "Women's" if gender == 'W' else "Men's"
+
     if not force_refresh:
-        cache = load_schedule_cache()
+        cache = load_schedule_cache(gender=gender)
         if cache:
             scraped_at = datetime.fromisoformat(cache["scraped_at"])
             age_days = (datetime.now() - scraped_at).days
 
             if age_days < 1:
-                info(f"Using cached schedule (scraped {age_days} days ago, {cache['games_count']} games)")
+                info(f"Using cached {gender_label} schedule (scraped {age_days} days ago, {cache['games_count']} games)")
                 return cache["games"]
             else:
-                info(f"Schedule cache is {age_days} days old, refreshing daily for accurate game times...")
+                info(f"{gender_label} schedule cache is {age_days} days old, refreshing daily for accurate game times...")
 
-    games = scrape_season_schedule()
-    save_schedule_cache(games)
+    games = scrape_season_schedule(gender=gender)
+    save_schedule_cache(games, gender=gender)
     return games
 
 

@@ -12,6 +12,12 @@ from .stats_parser import (
     merge_basic_and_advanced_stats,
     find_box_score_tables,
 )
+from .play_by_play_parser import (
+    extract_play_by_play,
+    extract_scoring_runs,
+    count_lead_changes,
+    get_largest_lead,
+)
 from ..utils.helpers import (
     get_team_code,
     parse_date,
@@ -207,6 +213,61 @@ def parse_sports_reference_boxscore(html_content: str, gender: str = 'M') -> Dic
 
     # Extract officials if available
     game_data['officials'] = extract_officials(soup)
+
+    # Extract play-by-play data and analysis
+    away_team = game_data['basic_info'].get('away_team', '')
+    home_team = game_data['basic_info'].get('home_team', '')
+    plays = extract_play_by_play(soup, away_team, home_team)
+
+    if plays:
+        game_data['play_by_play'] = {
+            'plays': plays,
+            'scoring_runs': extract_scoring_runs(plays, min_run=8),
+            'lead_changes': count_lead_changes(plays),
+            'largest_leads': get_largest_lead(plays),
+        }
+
+    # Fetch ESPN play-by-play for advanced analysis
+    date_yyyymmdd = game_data['basic_info'].get('date_yyyymmdd', '')
+    if away_team and home_team and date_yyyymmdd:
+        pbp_data = None
+
+        # Try ESPN first
+        try:
+            from ..utils.espn_pbp_scraper import get_espn_pbp_for_game
+            from ..engines.espn_pbp_engine import ESPNPlayByPlayEngine
+
+            pbp_data = get_espn_pbp_for_game(
+                away_team, home_team, date_yyyymmdd,
+                gender=gender, verbose=False
+            )
+        except ImportError:
+            pass  # ESPN PBP scraper not available
+        except Exception:
+            pass  # Don't fail if ESPN PBP fails
+
+        # Fall back to SIDEARM if ESPN didn't have data
+        if not pbp_data or not pbp_data.get('plays'):
+            try:
+                from ..utils.sidearm_scraper import get_sidearm_pbp_for_game
+
+                pbp_data = get_sidearm_pbp_for_game(
+                    home_team, away_team, date_yyyymmdd,
+                    gender=gender, verbose=False
+                )
+            except ImportError:
+                pass  # SIDEARM scraper not available
+            except Exception:
+                pass  # Don't fail if SIDEARM PBP fails
+
+        # Run analysis if we have play-by-play data
+        if pbp_data and pbp_data.get('plays'):
+            try:
+                from ..engines.espn_pbp_engine import ESPNPlayByPlayEngine
+                engine = ESPNPlayByPlayEngine(pbp_data, game_data)
+                game_data['espn_pbp_analysis'] = engine.analyze()
+            except Exception:
+                pass  # Don't fail parsing if analysis fails
 
     # Run milestone detection
     milestone_engine = MilestoneEngine(game_data)

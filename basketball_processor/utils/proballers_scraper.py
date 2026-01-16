@@ -119,7 +119,7 @@ def _load_cache() -> Dict[str, Any]:
                 return json.load(f)
         except json.JSONDecodeError as e:
             warn_once(f"Proballers cache corrupted ({PROBALLERS_CACHE_FILE}): {e}", key='proballers_cache_corrupt')
-        except Exception as e:
+        except (IOError, OSError, PermissionError) as e:
             warn_once(f"Failed to load Proballers cache: {e}", key='proballers_cache_error')
     return {'players': {}, 'rosters': {}}
 
@@ -140,7 +140,7 @@ def _load_ncaa_teams() -> Dict[str, Dict[str, Any]]:
                 return json.load(f)
         except json.JSONDecodeError as e:
             warn_once(f"NCAA teams cache corrupted ({NCAA_TEAMS_FILE}): {e}", key='ncaa_teams_cache_corrupt')
-        except Exception as e:
+        except (IOError, OSError, PermissionError) as e:
             warn_once(f"Failed to load NCAA teams cache: {e}", key='ncaa_teams_cache_error')
     return {}
 
@@ -202,8 +202,11 @@ def fetch_ncaa_teams(scraper=None, force_refresh: bool = False) -> Dict[str, Dic
         _save_ncaa_teams(teams)
         return teams
 
-    except Exception as e:
-        print(f"  Error fetching NCAA teams: {e}")
+    except (ConnectionError, TimeoutError) as e:
+        print(f"  Network error fetching NCAA teams: {e}")
+        return {}
+    except (AttributeError, ValueError) as e:
+        print(f"  Parse error fetching NCAA teams: {e}")
         return {}
 
 
@@ -402,8 +405,11 @@ def get_player_career(player_id: int, scraper=None, force_refresh: bool = False)
 
         return result
 
-    except Exception as e:
-        print(f"Error fetching player {player_id}: {e}")
+    except (ConnectionError, TimeoutError) as e:
+        print(f"Network error fetching player {player_id}: {e}")
+        return None
+    except (AttributeError, ValueError, KeyError) as e:
+        print(f"Parse error for player {player_id}: {e}")
         return None
 
 
@@ -527,8 +533,11 @@ def get_college_roster(college_slug: str, scraper=None) -> List[Dict[str, Any]]:
 
         return players
 
-    except Exception as e:
-        print(f"Error fetching roster for {college_slug}: {e}")
+    except (ConnectionError, TimeoutError) as e:
+        print(f"Network error fetching roster for {college_slug}: {e}")
+        return []
+    except (AttributeError, ValueError, KeyError) as e:
+        print(f"Parse error for roster {college_slug}: {e}")
         return []
 
 

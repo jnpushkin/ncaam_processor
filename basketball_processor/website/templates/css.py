@@ -331,6 +331,12 @@ def get_css() -> str:
             border-radius: 4px;
             margin: 0 0.25rem;
             font-size: 0.85rem;
+            cursor: pointer;
+            transition: opacity 0.15s, transform 0.1s;
+        }
+        .filter-summary-text .filter-chip:hover {
+            opacity: 0.85;
+            transform: scale(0.98);
         }
         .filter-summary-clear {
             padding: 0.4rem 0.8rem;
@@ -1787,6 +1793,17 @@ def get_css() -> str:
         .milestone-badge.more:hover {
             background: linear-gradient(135deg, #90a4ae, #607d8b);
         }
+        /* Neutral site badge */
+        .neutral-badge {
+            background: linear-gradient(135deg, #607d8b, #455a64);
+            color: white;
+            font-size: 0.6rem;
+            font-weight: bold;
+            padding: 1px 4px;
+            border-radius: 3px;
+            margin-left: 4px;
+            vertical-align: middle;
+        }
         /* Upset badge spacing */
         .upset-badge {
             margin: 2px 3px;
@@ -2343,4 +2360,36 @@ def get_css() -> str:
             font-size: 0.8rem;
             color: var(--text-secondary);
             margin-top: 0.25rem;
+        }
+        /* ESPN Play-by-Play Analysis badges */
+        .espn-pbp-analysis {
+            margin-top: 0.5rem;
+        }
+        .espn-pbp-item {
+            margin-bottom: 0.25rem;
+        }
+        .espn-run-badge, .espn-streak-badge, .espn-gws-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin: 2px 4px 2px 0;
+        }
+        .espn-run-badge {
+            background: rgba(33, 150, 243, 0.2);
+            border: 1px solid rgba(33, 150, 243, 0.4);
+            color: #2196F3;
+        }
+        .espn-streak-badge {
+            background: rgba(156, 39, 176, 0.2);
+            border: 1px solid rgba(156, 39, 176, 0.4);
+            color: #9C27B0;
+        }
+        .espn-gws-badge {
+            background: rgba(255, 152, 0, 0.2);
+            border: 1px solid rgba(255, 152, 0, 0.4);
+            color: #FF9800;
+        }
+        .comeback-item {
+            margin-bottom: 0.5rem;
         }"""

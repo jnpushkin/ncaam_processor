@@ -115,6 +115,54 @@ def process_html_file(
                     normalized_venue = normalize_cached_venue(cached_data)
                     if normalized_venue:
                         cached_data['basic_info']['venue'] = normalized_venue
+
+                    # Run ESPN PBP analysis if not already present
+                    if 'espn_pbp_analysis' not in cached_data:
+                        try:
+                            from .engines.espn_pbp_engine import ESPNPlayByPlayEngine
+
+                            pbp_data = None
+
+                            # First check if we have stored PBP data (from SIDEARM embedded)
+                            if cached_data.get('espn_pbp') and cached_data['espn_pbp'].get('plays'):
+                                pbp_data = cached_data['espn_pbp']
+                            else:
+                                # Try to fetch from ESPN API for D1 games
+                                from .utils.espn_pbp_scraper import fetch_espn_play_by_play, get_espn_id_from_cache
+                                from datetime import datetime
+
+                                basic_info = cached_data.get('basic_info', {})
+                                game_gender = basic_info.get('gender', 'M')
+                                date_str = basic_info.get('date', '')
+                                away_team = basic_info.get('away_team', '')
+                                home_team = basic_info.get('home_team', '')
+
+                                # Convert date from "January 11, 2025" to "20250111" format
+                                date_yyyymmdd = ''
+                                if date_str:
+                                    try:
+                                        dt = datetime.strptime(date_str, '%B %d, %Y')
+                                        date_yyyymmdd = dt.strftime('%Y%m%d')
+                                    except ValueError:
+                                        pass
+
+                                if date_yyyymmdd:
+                                    espn_id = get_espn_id_from_cache(away_team, home_team, date_yyyymmdd, game_gender)
+                                    if espn_id:
+                                        # Pass date for ncaahoopR fallback on older games
+                                        pbp_data = fetch_espn_play_by_play(
+                                            espn_id, game_gender, verbose=False, date_yyyymmdd=date_yyyymmdd
+                                        )
+
+                            if pbp_data and pbp_data.get('plays'):
+                                engine = ESPNPlayByPlayEngine(pbp_data, cached_data)
+                                cached_data['espn_pbp_analysis'] = engine.analyze()
+                                # Save updated cache
+                                with open(cache_path, 'w', encoding='utf-8') as cf:
+                                    json.dump(cached_data, cf)
+                        except Exception:
+                            pass  # Don't fail if ESPN PBP fails
+
                     return cached_data
             else:
                 info("  Cache outdated, re-parsing...")
@@ -128,9 +176,9 @@ def process_html_file(
         # Auto-detect gender from filename if not explicitly set
         detected_gender = gender
         filename_lower = os.path.basename(file_path).lower()
-        if '(women)' in filename_lower or 'women' in filename_lower:
+        if '(women)' in filename_lower or 'women' in filename_lower or '_w_' in filename_lower or '_w.' in filename_lower:
             detected_gender = 'W'
-        elif '(men)' in filename_lower or 'men' in filename_lower:
+        elif '(men)' in filename_lower or 'men' in filename_lower or '_m_' in filename_lower or '_m.' in filename_lower:
             detected_gender = 'M'
 
         # Auto-detect parser format
@@ -239,14 +287,54 @@ def process_directory_or_file(input_path: str, gender: str = 'M') -> List[Dict[s
     return all_games_data
 
 
+def _find_npx() -> str:
+    """Find npx executable cross-platform."""
+    # Try shutil.which first (works on all platforms)
+    npx_path = shutil.which('npx')
+    if npx_path:
+        return npx_path
+
+    # Common paths to check on different platforms
+    common_paths = [
+        '/opt/homebrew/bin/npx',      # macOS Homebrew (Apple Silicon)
+        '/usr/local/bin/npx',          # macOS Homebrew (Intel) / Linux
+        '/usr/bin/npx',                # Linux system install
+        os.path.expanduser('~/.nvm/current/bin/npx'),  # nvm
+        os.path.expanduser('~/.volta/bin/npx'),        # volta
+    ]
+
+    # Windows paths
+    if sys.platform == 'win32':
+        common_paths.extend([
+            os.path.expandvars(r'%APPDATA%\npm\npx.cmd'),
+            os.path.expandvars(r'%ProgramFiles%\nodejs\npx.cmd'),
+        ])
+
+    for path in common_paths:
+        if os.path.isfile(path):
+            return path
+
+    return ''
+
+
 def _deploy_to_surge(html_path: str) -> None:
-    """Deploy the website to surge.sh."""
+    """Deploy the website to surge.sh (cross-platform)."""
     docs_dir = os.path.dirname(html_path)
 
     info(f"\nDeploying to {SURGE_DOMAIN}...")
+
+    # Find npx executable
+    npx_path = _find_npx()
+    if not npx_path:
+        warn("npx not found - install Node.js to enable surge deployment")
+        warn("  macOS: brew install node")
+        warn("  Linux: sudo apt install nodejs npm")
+        warn("  Windows: https://nodejs.org/")
+        return
+
     try:
         result = subprocess.run(
-            ["/opt/homebrew/bin/npx", "surge", docs_dir, SURGE_DOMAIN],
+            [npx_path, "surge", docs_dir, SURGE_DOMAIN],
             capture_output=True,
             text=True,
             timeout=120
@@ -255,12 +343,16 @@ def _deploy_to_surge(html_path: str) -> None:
             success(f"Deployed to https://{SURGE_DOMAIN}")
         else:
             warn(f"Surge deployment failed: {result.stderr}")
+            if "not found" in result.stderr.lower():
+                warn("Try running: npx surge login")
     except subprocess.TimeoutExpired:
-        warn("Surge deployment timed out")
+        warn("Surge deployment timed out (>120s)")
     except FileNotFoundError:
-        warn("npx not found - skipping surge deployment")
-    except Exception as e:
-        warn(f"Surge deployment error: {e}")
+        warn(f"npx not found at {npx_path} - skipping surge deployment")
+    except PermissionError:
+        warn(f"Permission denied running {npx_path}")
+    except OSError as e:
+        warn(f"OS error during deployment: {e}")
 
 
 def main() -> None:
