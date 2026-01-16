@@ -48,3 +48,4 @@ Thumbs.db
 
 # Input HTML files (user-specific)
 data/schedule_cache.json
+data/game_times_cache.json

@@ -1693,9 +1693,105 @@
         .matrix-filters {
             display: flex;
             gap: 1rem;
-            margin-bottom: 1rem;
+        }
+        /* Scorigami Grid */
+        .scorigami-container {
+            overflow-x: auto;
+        }
+        .scorigami-stats {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
             flex-wrap: wrap;
-            align-items: flex-end;
+        }
+        .scorigami-stat {
+            text-align: center;
+        }
+        .scorigami-stat .number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--accent-color);
+        }
+        .scorigami-stat .label {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+        .scorigami-grid {
+            border-collapse: collapse;
+            font-size: 0.55rem;
+        }
+        .scorigami-grid th {
+            padding: 2px 3px;
+            background: var(--bg-secondary);
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            font-size: 0.6rem;
+        }
+        .scorigami-grid th.row-header {
+            position: sticky;
+            left: 0;
+            z-index: 20;
+            background: var(--bg-secondary);
+        }
+        .scorigami-grid th.corner {
+            position: sticky;
+            left: 0;
+            top: 0;
+            z-index: 30;
+            background: var(--bg-secondary);
+        }
+        .scorigami-grid td {
+            width: 18px;
+            height: 18px;
+            text-align: center;
+            cursor: pointer;
+            border: 1px solid var(--border-color);
+            transition: transform 0.1s;
+            padding: 1px;
+        }
+        .scorigami-grid td:hover {
+            transform: scale(1.5);
+            z-index: 5;
+            position: relative;
+        }
+        .scorigami-grid td.impossible {
+            background: var(--bg-primary);
+            cursor: default;
+        }
+        .scorigami-grid td.impossible:hover {
+            transform: none;
+        }
+        .scorigami-grid td.has-game {
+            background: var(--accent-color);
+            color: white;
+            font-weight: bold;
+        }
+        .scorigami-grid td.has-game.multi {
+            background: var(--excellent);
+        }
+        .scorigami-grid td.no-game {
+            background: var(--bg-secondary);
+            color: var(--text-muted);
+        }
+        .scorigami-legend {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 1rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            flex-wrap: wrap;
+        }
+        .scorigami-legend span {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .scorigami-legend .swatch {
+            width: 16px;
+            height: 16px;
+            border-radius: 3px;
         }
         @media (max-width: 768px) {
             .matchup-matrix {
@@ -2479,6 +2575,7 @@
                 <button class="sub-tab active" onclick="showSubSection('games', 'log')">All Games</button>
                 <button class="sub-tab" onclick="showSubSection('games', 'records')">Records</button>
                 <button class="sub-tab" onclick="showSubSection('games', 'seasons')">Season Stats</button>
+                <button class="sub-tab" onclick="showSubSection('games', 'scorigami')">Scorigami</button>
             </div>
 
             <div id="games-log" class="sub-section active">
@@ -2645,6 +2742,20 @@
                             <tbody></tbody>
                         </table>
                     </div>
+                </div>
+            </div>
+
+            <div id="games-scorigami" class="sub-section">
+                <p style="margin-bottom: 1rem; color: var(--text-secondary);">Unique final scores you've witnessed. Each cell shows winner score (row) vs loser score (column).</p>
+                <div class="scorigami-stats" id="scorigami-stats"></div>
+                <div class="scorigami-container">
+                    <table class="scorigami-grid" id="scorigami-grid"></table>
+                </div>
+                <div class="scorigami-legend">
+                    <span><span class="swatch" style="background: var(--accent-color);"></span> Seen once</span>
+                    <span><span class="swatch" style="background: var(--excellent);"></span> Seen multiple times</span>
+                    <span><span class="swatch" style="background: var(--bg-secondary);"></span> Not yet seen</span>
+                    <span><span class="swatch" style="background: var(--bg-primary); border: 1px solid var(--border-color);"></span> Impossible (winner ≤ loser)</span>
                 </div>
             </div>
         </div>
@@ -3441,6 +3552,14 @@
         <div class="modal-content modal-medium">
             <button class="modal-close" onclick="closeModal('conf-teams-modal')" aria-label="Close">&times;</button>
             <div id="conf-teams-detail"></div>
+        </div>
+    </div>
+
+    <!-- Scorigami Modal -->
+    <div class="modal" id="scorigami-modal" role="dialog" aria-labelledby="scorigami-modal-title" onclick="if(event.target === this) closeModal('scorigami-modal')">
+        <div class="modal-content modal-small">
+            <button class="modal-close" onclick="closeModal('scorigami-modal')" aria-label="Close">&times;</button>
+            <div id="scorigami-detail"></div>
         </div>
     </div>
 
@@ -8059,6 +8178,148 @@
 
         }
 
+        function buildScorigami() {
+            const games = DATA.games || [];
+            if (games.length === 0) return;
+
+            // Build scorigami data: map of "winnerScore-loserScore" -> array of games
+            const scorigamiMap = {};
+            let minScore = 100, maxScore = 0;
+
+            games.forEach(g => {
+                const awayScore = parseInt(g['Away Score']) || 0;
+                const homeScore = parseInt(g['Home Score']) || 0;
+                if (awayScore === 0 && homeScore === 0) return;
+
+                const winnerScore = Math.max(awayScore, homeScore);
+                const loserScore = Math.min(awayScore, homeScore);
+                const key = `${winnerScore}-${loserScore}`;
+
+                if (!scorigamiMap[key]) {
+                    scorigamiMap[key] = [];
+                }
+                scorigamiMap[key].push({
+                    gameId: g.GameID,
+                    away: g['Away Team'],
+                    home: g['Home Team'],
+                    awayScore,
+                    homeScore,
+                    date: g.Date,
+                    gender: g.Gender
+                });
+
+                minScore = Math.min(minScore, loserScore);
+                maxScore = Math.max(maxScore, winnerScore);
+            });
+
+            // Calculate stats
+            const uniqueScores = Object.keys(scorigamiMap).length;
+            const multipleGames = Object.values(scorigamiMap).filter(arr => arr.length > 1).length;
+            const mostCommon = Object.entries(scorigamiMap).sort((a, b) => b[1].length - a[1].length)[0];
+
+            // Populate stats
+            document.getElementById('scorigami-stats').innerHTML = `
+                <div class="scorigami-stat">
+                    <div class="number">${uniqueScores}</div>
+                    <div class="label">Unique Scores</div>
+                </div>
+                <div class="scorigami-stat">
+                    <div class="number">${games.length}</div>
+                    <div class="label">Total Games</div>
+                </div>
+                <div class="scorigami-stat">
+                    <div class="number">${multipleGames}</div>
+                    <div class="label">Seen 2+ Times</div>
+                </div>
+                ${mostCommon ? `
+                <div class="scorigami-stat">
+                    <div class="number">${mostCommon[0]}</div>
+                    <div class="label">Most Common (${mostCommon[1].length}x)</div>
+                </div>
+                ` : ''}
+            `;
+
+            // Build grid (rows high-to-low, cols high-to-low, so impossible cells are bottom-left)
+            let html = '<thead><tr><th class="corner">W \\ L</th>';
+            for (let l = maxScore; l >= minScore; l--) {
+                html += `<th>${l}</th>`;
+            }
+            html += '</tr></thead><tbody>';
+
+            for (let w = maxScore; w >= minScore; w--) {
+                html += `<tr><th class="row-header">${w}</th>`;
+                for (let l = maxScore; l >= minScore; l--) {
+                    if (w <= l) {
+                        // Impossible: winner must have more than loser
+                        html += '<td class="impossible"></td>';
+                    } else {
+                        const key = `${w}-${l}`;
+                        const gamesAtScore = scorigamiMap[key];
+                        if (gamesAtScore) {
+                            const count = gamesAtScore.length;
+                            const gameList = gamesAtScore.slice(0, 5).map(g => {
+                                const wTag = g.gender === 'W' ? ' (W)' : '';
+                                return `${g.away} ${g.awayScore}-${g.homeScore} ${g.home}${wTag}`;
+                            }).join('\n');
+                            const moreText = count > 5 ? `\n...and ${count - 5} more` : '';
+                            html += `<td class="has-game${count > 1 ? ' multi' : ''}" title="${gameList}${moreText}" onclick="filterGamesByScore(${w}, ${l})">${count}</td>`;
+                        } else {
+                            html += `<td class="no-game" title="${w}-${l}: Not yet seen"></td>`;
+                        }
+                    }
+                }
+                html += '</tr>';
+            }
+            html += '</tbody>';
+
+            document.getElementById('scorigami-grid').innerHTML = html;
+        }
+
+        function filterGamesByScore(winnerScore, loserScore) {
+            // Find games with this exact score
+            const matchingGames = (DATA.games || []).filter(game => {
+                const awayScore = parseInt(game['Away Score']) || 0;
+                const homeScore = parseInt(game['Home Score']) || 0;
+                const w = Math.max(awayScore, homeScore);
+                const l = Math.min(awayScore, homeScore);
+                return w === winnerScore && l === loserScore;
+            });
+
+            if (matchingGames.length === 0) return;
+
+            // Build modal content
+            const gamesList = matchingGames.map(g => {
+                const wTag = g.Gender === 'W' ? ' (W)' : '';
+                const awayScore = parseInt(g['Away Score']) || 0;
+                const homeScore = parseInt(g['Home Score']) || 0;
+                const awayWon = awayScore > homeScore;
+                return `
+                    <div class="scorigami-game-item" onclick="closeModal('scorigami-modal'); showGameDetail('${g.GameID}')" style="padding: 0.75rem; border-bottom: 1px solid var(--border-color); cursor: pointer;">
+                        <div style="font-weight: 600;">
+                            <span style="${awayWon ? 'font-weight: bold;' : ''}">${g['Away Team']} ${awayScore}</span>
+                            <span style="color: var(--text-secondary);"> @ </span>
+                            <span style="${!awayWon ? 'font-weight: bold;' : ''}">${g['Home Team']} ${homeScore}</span>
+                            ${wTag}
+                        </div>
+                        <div style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.25rem;">
+                            ${g.Date || ''} · ${g.Venue || ''}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            const html = `
+                <h3 style="margin-bottom: 1rem;">Score: ${winnerScore}-${loserScore}</h3>
+                <p style="color: var(--text-secondary); margin-bottom: 1rem;">${matchingGames.length} game${matchingGames.length !== 1 ? 's' : ''}</p>
+                <div style="max-height: 400px; overflow-y: auto; border: 1px solid var(--border-color); border-radius: 4px;">
+                    ${gamesList}
+                </div>
+            `;
+
+            document.getElementById('scorigami-detail').innerHTML = html;
+            document.getElementById('scorigami-modal').classList.add('active');
+        }
+
         function populatePlayerRecords() {
             const playerGames = DATA.playerGames || [];
             if (playerGames.length === 0) return;
@@ -10787,6 +11048,7 @@
         try { initOnThisDay(); } catch(e) { console.error('initOnThisDay:', e); }
         try { populateBadges(); } catch(e) { console.error('populateBadges:', e); }
         try { populateSeasonStats(); } catch(e) { console.error('populateSeasonStats:', e); }
+        try { buildScorigami(); } catch(e) { console.error('buildScorigami:', e); }
         try { showChart('scoring'); } catch(e) { console.error('showChart:', e); }
 
         // Handle URL on load

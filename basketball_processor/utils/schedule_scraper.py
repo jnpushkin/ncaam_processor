@@ -22,6 +22,7 @@ ESPN_API_URL_WOMENS = "https://site.api.espn.com/apis/site/v2/sports/basketball/
 DATA_DIR = Path(__file__).parent.parent.parent / "data"
 SCHEDULE_CACHE_FILE = DATA_DIR / "schedule_cache.json"
 SCHEDULE_CACHE_FILE_WOMENS = DATA_DIR / "schedule_cache_womens.json"
+GAME_TIMES_CACHE_FILE = DATA_DIR / "game_times_cache.json"
 
 # Rate limiting - be respectful to ESPN's servers
 REQUEST_DELAY = 0.5  # seconds between requests
@@ -758,9 +759,27 @@ def fetch_game_time_from_espn(date_str: str, away_team: str, home_team: str) -> 
         return None
 
 
+def _load_game_times_cache() -> Dict[str, Dict[str, str]]:
+    """Load game times cache from file."""
+    if not GAME_TIMES_CACHE_FILE.exists():
+        return {}
+    try:
+        with open(GAME_TIMES_CACHE_FILE, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    except (json.JSONDecodeError, IOError):
+        return {}
+
+
+def _save_game_times_cache(cache: Dict[str, Dict[str, str]]) -> None:
+    """Save game times cache to file."""
+    DATA_DIR.mkdir(parents=True, exist_ok=True)
+    with open(GAME_TIMES_CACHE_FILE, 'w', encoding='utf-8') as f:
+        json.dump(cache, f, indent=2)
+
+
 def get_game_times_for_date(date_str: str, gender: str = None) -> Dict[str, str]:
     """
-    Fetch all game times for a date from ESPN.
+    Fetch all game times for a date from ESPN (with caching).
 
     Args:
         date_str: Date in YYYYMMDD format
@@ -769,6 +788,14 @@ def get_game_times_for_date(date_str: str, gender: str = None) -> Dict[str, str]
     Returns:
         Dict mapping "away_team|home_team" to ISO datetime
     """
+    # Build cache key based on date and gender
+    cache_key = f"{date_str}_{gender or 'all'}"
+
+    # Check cache first
+    cache = _load_game_times_cache()
+    if cache_key in cache:
+        return cache[cache_key]
+
     game_times = {}
 
     # Determine which APIs to fetch from
@@ -811,6 +838,10 @@ def get_game_times_for_date(date_str: str, gender: str = None) -> Dict[str, str]
 
         except requests.RequestException as e:
             warn(f"Failed to fetch game times for {date_str} from {api_url}: {e}")
+
+    # Save to cache
+    cache[cache_key] = game_times
+    _save_game_times_cache(cache)
 
     return game_times
 
