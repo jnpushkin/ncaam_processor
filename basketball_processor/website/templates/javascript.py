@@ -3479,6 +3479,70 @@ def get_javascript(json_data: str) -> str:
             updateUpcomingMap();
         }
 
+        let userLocationMarker = null;
+
+        function findMyLocation() {
+            if (!upcomingVenuesMap) {
+                showToast('Map not initialized yet');
+                return;
+            }
+
+            if (!navigator.geolocation) {
+                showToast('Geolocation is not supported by your browser');
+                return;
+            }
+
+            showToast('Finding your location...');
+
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    const lat = position.coords.latitude;
+                    const lng = position.coords.longitude;
+
+                    // Remove existing user location marker if any
+                    if (userLocationMarker) {
+                        upcomingVenuesMap.removeLayer(userLocationMarker);
+                    }
+
+                    // Add a marker for user's location
+                    userLocationMarker = L.marker([lat, lng], {
+                        icon: L.divIcon({
+                            className: 'user-location-marker',
+                            html: '<div style="background: #2563eb; width: 16px; height: 16px; border-radius: 50%; border: 3px solid white; box-shadow: 0 2px 6px rgba(0,0,0,0.3);"></div>',
+                            iconSize: [22, 22],
+                            iconAnchor: [11, 11]
+                        })
+                    }).addTo(upcomingVenuesMap)
+                      .bindPopup('You are here');
+
+                    // Zoom to user's location
+                    upcomingVenuesMap.setView([lat, lng], 8);
+
+                    showToast('Location found!');
+                },
+                (error) => {
+                    let message = 'Unable to find your location';
+                    switch(error.code) {
+                        case error.PERMISSION_DENIED:
+                            message = 'Location access denied. Please enable location permissions.';
+                            break;
+                        case error.POSITION_UNAVAILABLE:
+                            message = 'Location information unavailable';
+                            break;
+                        case error.TIMEOUT:
+                            message = 'Location request timed out';
+                            break;
+                    }
+                    showToast(message);
+                },
+                {
+                    enableHighAccuracy: true,
+                    timeout: 10000,
+                    maximumAge: 300000  // Cache location for 5 minutes
+                }
+            );
+        }
+
         function updateUpcomingMap() {
             if (!upcomingVenuesMap) return;
 

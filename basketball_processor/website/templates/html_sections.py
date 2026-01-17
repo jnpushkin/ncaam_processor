@@ -919,6 +919,11 @@ def get_body(total_games: int, total_players: int, total_teams: int, total_venue
             <div id="upcoming-map" class="sub-section active">
                 <div class="filters-row" style="margin-bottom: 1rem; display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
                     <div class="filter-group">
+                        <button onclick="findMyLocation()" class="btn btn-secondary" style="display: flex; align-items: center; gap: 0.5rem;">
+                            <span style="font-size: 1.1em;">&#128205;</span> Find My Location
+                        </button>
+                    </div>
+                    <div class="filter-group">
                         <label>Date Range:</label>
                         <div style="display: flex; gap: 0.5rem; align-items: center;">
                             <input type="date" id="upcoming-map-start-date" onchange="updateUpcomingMap()"
