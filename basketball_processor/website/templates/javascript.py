@@ -2222,33 +2222,51 @@ def get_javascript(json_data: str) -> str:
             'Climate Pledge Arena', 'Intuit Dome', 'Kia Center',
         ]);
 
-        window.currentVenueFilter = 'all';
+        window.venueFilters = new Set();  // Multi-select filters: 'd1', 'neutral', 'active', 'historic'
 
         function quickFilterVenues(filterType) {
             const clickedBtn = event.target;
-            const wasActive = clickedBtn.classList.contains('active');
-
-            // If clicking an active button (not 'all'), toggle back to 'all'
-            if (wasActive && filterType !== 'all') {
-                filterType = 'all';
-            }
-
-            // Update active button in venues section
             const venuesSection = document.getElementById('venues');
-            venuesSection.querySelectorAll('.quick-filter').forEach(btn => btn.classList.remove('active'));
+
             if (filterType === 'all') {
-                venuesSection.querySelector('.quick-filter').classList.add('active');
-            } else {
+                // Clear all filters
+                window.venueFilters.clear();
+                venuesSection.querySelectorAll('.quick-filter').forEach(btn => btn.classList.remove('active'));
                 clickedBtn.classList.add('active');
+            } else {
+                // Remove 'All' active state
+                venuesSection.querySelector('.quick-filter').classList.remove('active');
+
+                // Handle mutually exclusive filters (active/historic)
+                if (filterType === 'active' && window.venueFilters.has('historic')) {
+                    window.venueFilters.delete('historic');
+                    venuesSection.querySelector('[onclick*="historic"]').classList.remove('active');
+                } else if (filterType === 'historic' && window.venueFilters.has('active')) {
+                    window.venueFilters.delete('active');
+                    venuesSection.querySelector('[onclick*="active"]').classList.remove('active');
+                }
+
+                // Toggle the clicked filter
+                if (window.venueFilters.has(filterType)) {
+                    window.venueFilters.delete(filterType);
+                    clickedBtn.classList.remove('active');
+                } else {
+                    window.venueFilters.add(filterType);
+                    clickedBtn.classList.add('active');
+                }
+
+                // If no filters active, show 'All' as active
+                if (window.venueFilters.size === 0) {
+                    venuesSection.querySelector('.quick-filter').classList.add('active');
+                }
             }
 
-            window.currentVenueFilter = filterType;
             applyVenuesFilters();
         }
 
         function applyVenuesFilters() {
             const search = (document.getElementById('venues-search')?.value || '').toLowerCase();
-            const quickFilter = window.currentVenueFilter || 'all';
+            const filters = window.venueFilters || new Set();
 
             const allVenues = DATA.venues || [];
             const filtered = allVenues.filter(venue => {
@@ -2259,10 +2277,11 @@ def get_javascript(json_data: str) -> str:
                 const status = venue.Status || 'Current';
                 const isNeutralSite = VENUE_NEUTRAL_SITES.has(venue.Venue);
 
-                if (quickFilter === 'd1' && division !== 'D1') return false;
-                if (quickFilter === 'neutral' && !isNeutralSite) return false;
-                if (quickFilter === 'active' && status !== 'Current') return false;
-                if (quickFilter === 'historic' && status !== 'Historic') return false;
+                // Apply all active filters (AND logic)
+                if (filters.has('d1') && division !== 'D1') return false;
+                if (filters.has('neutral') && !isNeutralSite) return false;
+                if (filters.has('active') && status !== 'Current') return false;
+                if (filters.has('historic') && status !== 'Historic') return false;
 
                 return true;
             });
@@ -2276,10 +2295,10 @@ def get_javascript(json_data: str) -> str:
                     let show = true;
 
                     if (search && !text.includes(search)) show = false;
-                    if (quickFilter === 'd1' && division !== 'D1') show = false;
-                    if (quickFilter === 'neutral' && !isNeutralSite) show = false;
-                    if (quickFilter === 'active' && status !== 'Current') show = false;
-                    if (quickFilter === 'historic' && status !== 'Historic') show = false;
+                    if (filters.has('d1') && division !== 'D1') show = false;
+                    if (filters.has('neutral') && !isNeutralSite) show = false;
+                    if (filters.has('active') && status !== 'Current') show = false;
+                    if (filters.has('historic') && status !== 'Historic') show = false;
 
                     if (show) {
                         if (!venuesMap.hasLayer(marker)) {
@@ -2291,6 +2310,40 @@ def get_javascript(json_data: str) -> str:
                         }
                     }
                 });
+            }
+
+            // Update summary stats based on filtered venues
+            updateVenuesSummary(filtered);
+        }
+
+        function updateVenuesSummary(filteredVenues) {
+            const summary = document.getElementById('venues-map-summary');
+            if (!summary) return;
+
+            // Count stats from filtered venues
+            let homeVenues = 0;
+            let neutralVenues = 0;
+            const statesSet = new Set();
+
+            filteredVenues.forEach(venue => {
+                const isNeutralSite = VENUE_NEUTRAL_SITES.has(venue.Venue);
+                if (isNeutralSite) {
+                    neutralVenues++;
+                } else {
+                    homeVenues++;
+                }
+                if (venue.State) {
+                    statesSet.add(venue.State);
+                }
+            });
+
+            // Update stats boxes
+            const statBoxes = summary.querySelectorAll('.stat-box');
+            if (statBoxes.length >= 4) {
+                statBoxes[0].querySelector('.stat-value').textContent = filteredVenues.length;
+                statBoxes[1].querySelector('.stat-value').textContent = homeVenues;
+                statBoxes[2].querySelector('.stat-value').textContent = neutralVenues;
+                statBoxes[3].querySelector('.stat-value').textContent = statesSet.size;
             }
         }
 
