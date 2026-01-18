@@ -777,13 +777,14 @@ def _save_game_times_cache(cache: Dict[str, Dict[str, str]]) -> None:
         json.dump(cache, f, indent=2)
 
 
-def get_game_times_for_date(date_str: str, gender: str = None) -> Dict[str, str]:
+def get_game_times_for_date(date_str: str, gender: str = None, verbose: bool = False) -> Dict[str, str]:
     """
     Fetch all game times for a date from ESPN (with caching).
 
     Args:
         date_str: Date in YYYYMMDD format
         gender: 'M' for men's, 'W' for women's, or None for both
+        verbose: If True, print when fetching from ESPN
 
     Returns:
         Dict mapping "away_team|home_team" to ISO datetime
@@ -795,6 +796,9 @@ def get_game_times_for_date(date_str: str, gender: str = None) -> Dict[str, str]
     cache = _load_game_times_cache()
     if cache_key in cache:
         return cache[cache_key]
+
+    if verbose:
+        print(f"    Fetching game times for {date_str} ({gender or 'all'}) from ESPN...")
 
     game_times = {}
 

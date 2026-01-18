@@ -62,6 +62,7 @@ class DataSerializer:
         """
         self.processed_data = processed_data
         self.raw_games = raw_games or []
+        self._games_cache = None  # Cache for serialized games
 
     def serialize_all(self, skip_nba: bool = False) -> Dict[str, Any]:
         """
@@ -202,6 +203,10 @@ class DataSerializer:
 
     def _serialize_games(self) -> List[Dict]:
         """Serialize game log with linescore data, conferences, and AP rankings."""
+        # Return cached result if available
+        if self._games_cache is not None:
+            return self._games_cache
+
         from ..utils.constants import get_conference_for_date
 
         game_log = self.processed_data.get('game_log', pd.DataFrame())
@@ -317,6 +322,8 @@ class DataSerializer:
         # Fetch game times from ESPN for dates with multiple games
         self._add_game_times_from_espn(games)
 
+        # Cache the result
+        self._games_cache = games
         return games
 
     def _add_game_times_from_espn(self, games: List[Dict]) -> None:
@@ -337,12 +344,12 @@ class DataSerializer:
         if not dates_needing_times:
             return
 
-        print(f"  Fetching game times from ESPN for {len(dates_needing_times)} dates with multiple games...")
+        print(f"  Loading game times for {len(dates_needing_times)} dates (from cache or ESPN)...")
 
         for date_str in dates_needing_times:
             # Fetch men's and women's times separately to avoid cross-matching
-            espn_times_m = get_game_times_for_date(date_str, gender='M')
-            espn_times_w = get_game_times_for_date(date_str, gender='W')
+            espn_times_m = get_game_times_for_date(date_str, gender='M', verbose=True)
+            espn_times_w = get_game_times_for_date(date_str, gender='W', verbose=True)
 
             # Match games to ESPN times based on game gender
             for game in games_by_date[date_str]:
