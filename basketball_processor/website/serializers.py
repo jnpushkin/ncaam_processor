@@ -10,6 +10,7 @@ from ..utils.nba_players import (
     get_nba_player_info_by_id, get_nba_status_batch, recheck_female_players_for_wnba,
     check_proballers_for_all_players
 )
+from ..utils.d2d3_scraper import enrich_player_with_realgm, lookup_player_transfers
 from ..utils.schedule_scraper import (
     get_schedule, filter_upcoming_games, get_visited_venues_from_games,
     SCHEDULE_CACHE_FILE, normalize_state, get_espn_team_id
@@ -612,11 +613,37 @@ class DataSerializer:
                 record['Intl_Tournaments'] = []
                 record['Proballers_URL'] = ''
 
-            # Sports Reference page exists (False if 404)
-            if pro_info and pro_info.get('sr_page_exists') is False:
+            # Sports Reference page exists (False if 404 or non-D1 only player)
+            # Sports Reference only covers D1 players
+            divisions_str = record.get('Divisions', 'D1')
+            player_divisions = {d.strip() for d in divisions_str.split(',')} if divisions_str else {'D1'}
+            # Player has no D1 games - they won't be on Sports Reference
+            has_d1_games = 'D1' in player_divisions
+            if not has_d1_games:
+                record['HasSportsRefPage'] = False
+            elif pro_info and pro_info.get('sr_page_exists') is False:
                 record['HasSportsRefPage'] = False
             else:
                 record['HasSportsRefPage'] = True  # Default to true if unknown
+
+            # RealGM data for transfer history and non-D1 players
+            player_name = record.get('Player', '')
+            current_school = record.get('Team', '').split(',')[0].strip()
+            realgm_data = enrich_player_with_realgm(player_name, current_school)
+
+            # Add RealGM URL (especially useful for non-D1 players without SR pages)
+            if realgm_data.get('realgm_url'):
+                record['RealGM_URL'] = realgm_data['realgm_url']
+            else:
+                record['RealGM_URL'] = ''
+
+            # Add transfer/school history from RealGM
+            if realgm_data.get('schools'):
+                record['RealGM_Schools'] = realgm_data['schools']
+                record['HasTransferHistory'] = realgm_data.get('has_transfer_history', False)
+            else:
+                record['RealGM_Schools'] = []
+                record['HasTransferHistory'] = False
 
         return records
 

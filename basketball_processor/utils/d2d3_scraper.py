@@ -17,6 +17,8 @@ DATA_DIR.mkdir(parents=True, exist_ok=True)
 D2_DATA_FILE = DATA_DIR / "d2_conferences.json"
 D3_DATA_FILE = DATA_DIR / "d3_conferences.json"
 D2D3_REFRESH_TIMESTAMP_FILE = DATA_DIR / "d2d3_refresh_timestamp.txt"
+REALGM_PLAYER_CACHE_FILE = DATA_DIR / "realgm_player_cache.json"
+REALGM_TRANSFER_CACHE_FILE = DATA_DIR / "realgm_transfers.json"
 
 RATE_LIMIT_DELAY = 1.5  # seconds between requests
 REFRESH_INTERVAL_DAYS = 90  # Re-scrape every 90 days during season
@@ -596,6 +598,290 @@ def _compare_division_data(old_data: Dict, new_data: Dict) -> Dict[str, Any]:
     return changes
 
 
+# ==================== PLAYER SCRAPING ====================
+
+def _load_player_cache() -> Dict[str, Any]:
+    """Load RealGM player cache."""
+    if REALGM_PLAYER_CACHE_FILE.exists():
+        try:
+            with open(REALGM_PLAYER_CACHE_FILE, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        except (json.JSONDecodeError, IOError):
+            pass
+    return {}
+
+
+def _save_player_cache(cache: Dict[str, Any]) -> None:
+    """Save RealGM player cache."""
+    with open(REALGM_PLAYER_CACHE_FILE, 'w', encoding='utf-8') as f:
+        json.dump(cache, f, indent=2)
+
+
+def _load_transfer_cache() -> Dict[str, Any]:
+    """Load transfer portal cache."""
+    if REALGM_TRANSFER_CACHE_FILE.exists():
+        try:
+            with open(REALGM_TRANSFER_CACHE_FILE, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        except (json.JSONDecodeError, IOError):
+            pass
+    return {'players': {}, 'last_updated': None}
+
+
+def _save_transfer_cache(cache: Dict[str, Any]) -> None:
+    """Save transfer portal cache."""
+    with open(REALGM_TRANSFER_CACHE_FILE, 'w', encoding='utf-8') as f:
+        json.dump(cache, f, indent=2)
+
+
+def scrape_transfer_portal() -> Dict[str, Any]:
+    """
+    Scrape the RealGM transfer portal for all transfers.
+
+    Returns:
+        Dict mapping normalized player names to their transfer history
+    """
+    scraper = _get_scraper()
+    url = 'https://basketball.realgm.com/ncaa/info/transfers'
+
+    print("Fetching transfer portal data...")
+    resp = scraper.get(url)
+    if resp.status_code != 200:
+        print(f"Failed to fetch transfer portal: {resp.status_code}")
+        return {}
+
+    soup = BeautifulSoup(resp.text, 'html.parser')
+    table = soup.find('table')
+
+    if not table:
+        print("No transfer table found")
+        return {}
+
+    players = {}
+    rows = table.find_all('tr')[1:]  # Skip header
+
+    for row in rows:
+        cells = row.find_all('td')
+        if len(cells) < 3:
+            continue
+
+        # Extract player info
+        player_link = cells[0].find('a')
+        if not player_link:
+            continue
+
+        player_name = player_link.get_text(strip=True)
+        href = player_link.get('href', '')
+
+        # Extract RealGM player ID from href: /player/Name/NCAA/123456
+        player_id = None
+        id_match = re.search(r'/player/[^/]+/[^/]+/(\d+)', href)
+        if id_match:
+            player_id = id_match.group(1)
+
+        trans_from = cells[1].get_text(strip=True)
+        trans_to = cells[2].get_text(strip=True)
+        position = cells[3].get_text(strip=True) if len(cells) > 3 else ''
+        height = cells[4].get_text(strip=True) if len(cells) > 4 else ''
+        year_class = cells[6].get_text(strip=True) if len(cells) > 6 else ''
+
+        # Normalize name for lookup
+        name_key = player_name.lower().strip()
+
+        if name_key not in players:
+            players[name_key] = {
+                'name': player_name,
+                'realgm_id': player_id,
+                'schools': [],
+                'position': position,
+                'height': height,
+            }
+
+        # Add transfer info
+        players[name_key]['schools'].append({
+            'from': trans_from,
+            'to': trans_to,
+            'class': year_class,
+        })
+
+    print(f"Found {len(players)} players with transfers")
+
+    cache = {
+        'players': players,
+        'last_updated': time.strftime('%Y-%m-%d %H:%M:%S'),
+        'total_transfers': len(rows),
+    }
+    _save_transfer_cache(cache)
+
+    return cache
+
+
+def get_realgm_player_url(player_name: str, realgm_id: str = None) -> str:
+    """
+    Get the RealGM URL for a player.
+
+    Args:
+        player_name: Player name
+        realgm_id: Optional RealGM player ID
+
+    Returns:
+        RealGM player URL or empty string if not found
+    """
+    if realgm_id:
+        name_slug = player_name.replace(' ', '-').replace('.', '').replace("'", '')
+        return f"https://basketball.realgm.com/player/{name_slug}/Summary/{realgm_id}"
+
+    # Try to find in cache
+    cache = _load_transfer_cache()
+    name_key = player_name.lower().strip()
+
+    if name_key in cache.get('players', {}):
+        player_data = cache['players'][name_key]
+        if player_data.get('realgm_id'):
+            name_slug = player_name.replace(' ', '-').replace('.', '').replace("'", '')
+            return f"https://basketball.realgm.com/player/{name_slug}/Summary/{player_data['realgm_id']}"
+
+    return ''
+
+
+def lookup_player_transfers(player_name: str) -> Dict[str, Any]:
+    """
+    Look up a player's transfer history from cache.
+
+    Args:
+        player_name: Player name to look up
+
+    Returns:
+        Dict with player info and transfer history, or empty dict if not found
+    """
+    cache = _load_transfer_cache()
+    name_key = player_name.lower().strip()
+
+    if name_key in cache.get('players', {}):
+        return cache['players'][name_key]
+
+    # Try partial matching
+    for key, data in cache.get('players', {}).items():
+        if name_key in key or key in name_key:
+            return data
+
+    return {}
+
+
+def get_player_school_history(player_name: str) -> List[str]:
+    """
+    Get list of schools a player has attended.
+
+    Args:
+        player_name: Player name
+
+    Returns:
+        List of school names
+    """
+    player_data = lookup_player_transfers(player_name)
+    if not player_data:
+        return []
+
+    schools = set()
+    for transfer in player_data.get('schools', []):
+        if transfer.get('from'):
+            schools.add(transfer['from'])
+        if transfer.get('to'):
+            schools.add(transfer['to'])
+
+    return sorted(schools)
+
+
+def search_realgm_player(player_name: str, school: str = None) -> Dict[str, Any]:
+    """
+    Search for a player on RealGM by scraping search results.
+
+    Args:
+        player_name: Player name to search
+        school: Optional school name to narrow results
+
+    Returns:
+        Dict with player info if found
+    """
+    # Check cache first
+    cached = lookup_player_transfers(player_name)
+    if cached:
+        return cached
+
+    # Scrape search
+    scraper = _get_scraper()
+    search_name = player_name.replace(' ', '+')
+    url = f'https://basketball.realgm.com/search?q={search_name}'
+
+    time.sleep(RATE_LIMIT_DELAY)
+    resp = scraper.get(url)
+
+    if resp.status_code != 200:
+        return {}
+
+    soup = BeautifulSoup(resp.text, 'html.parser')
+
+    # Look for player links in results
+    player_links = soup.find_all('a', href=re.compile(r'/player/[^/]+/[^/]+/\d+'))
+
+    for link in player_links:
+        link_text = link.get_text(strip=True)
+        href = link.get('href', '')
+
+        # Check if name matches
+        if player_name.lower() in link_text.lower():
+            # Extract ID
+            id_match = re.search(r'/player/[^/]+/[^/]+/(\d+)', href)
+            if id_match:
+                return {
+                    'name': link_text,
+                    'realgm_id': id_match.group(1),
+                    'realgm_url': f"https://basketball.realgm.com{href}",
+                }
+
+    return {}
+
+
+def enrich_player_with_realgm(player_name: str, current_school: str = None, search_if_not_cached: bool = False) -> Dict[str, Any]:
+    """
+    Enrich player data with RealGM information.
+
+    Args:
+        player_name: Player name
+        current_school: Current school (optional)
+        search_if_not_cached: If True, search RealGM if player not in cache (slow, rate-limited).
+                              Default False for batch processing.
+
+    Returns:
+        Dict with enriched player data including:
+        - realgm_url: URL to player's RealGM page
+        - schools: List of schools attended
+        - has_transfer_history: Whether player has transferred
+    """
+    result = {
+        'realgm_url': '',
+        'schools': [],
+        'has_transfer_history': False,
+    }
+
+    # Check transfer cache (no network request)
+    player_data = lookup_player_transfers(player_name)
+
+    if player_data:
+        result['realgm_url'] = get_realgm_player_url(player_name, player_data.get('realgm_id'))
+        result['schools'] = get_player_school_history(player_name)
+        result['has_transfer_history'] = len(result['schools']) > 1
+        return result
+
+    # Only search RealGM if explicitly requested (makes network request)
+    if search_if_not_cached:
+        search_result = search_realgm_player(player_name, current_school)
+        if search_result:
+            result['realgm_url'] = search_result.get('realgm_url', '')
+
+    return result
+
+
 if __name__ == '__main__':
     import argparse
 
@@ -607,8 +893,33 @@ if __name__ == '__main__':
     parser.add_argument('--check-changes', action='store_true', help='Check for conference changes')
     parser.add_argument('--refresh', action='store_true', help='Refresh if data is stale')
     parser.add_argument('--from-games', action='store_true', help='Scrape historical seasons based on D2/D3 games in cache')
+    parser.add_argument('--transfers', action='store_true', help='Scrape transfer portal data')
+    parser.add_argument('--lookup', type=str, help='Look up a player by name')
 
     args = parser.parse_args()
+
+    if args.transfers:
+        cache = scrape_transfer_portal()
+        if cache:
+            print(f"\nTransfer portal: {len(cache.get('players', {}))} unique players")
+            print(f"Total transfers: {cache.get('total_transfers', 0)}")
+            print(f"Saved to {REALGM_TRANSFER_CACHE_FILE}")
+        exit(0)
+
+    if args.lookup:
+        player_data = enrich_player_with_realgm(args.lookup)
+        if player_data.get('realgm_url') or player_data.get('schools'):
+            print(f"Player: {args.lookup}")
+            if player_data.get('realgm_url'):
+                print(f"RealGM URL: {player_data['realgm_url']}")
+            if player_data.get('schools'):
+                print(f"Schools: {', '.join(player_data['schools'])}")
+            if player_data.get('has_transfer_history'):
+                print("Has transfer history: Yes")
+        else:
+            print(f"Player '{args.lookup}' not found in transfer cache")
+            print("Try running --transfers first to refresh the cache")
+        exit(0)
 
     if args.refresh:
         refreshed = refresh_if_needed()

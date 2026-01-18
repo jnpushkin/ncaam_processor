@@ -24,6 +24,7 @@ class PlayerStatsProcessor(BaseProcessor):
         self.player_teams = defaultdict(set)
         self.player_ids = {}
         self.player_genders = defaultdict(set)  # Track gender(s) for each player
+        self.player_divisions = defaultdict(set)  # Track division(s) for each player
         # Track starters vs bench
         self.starter_totals = defaultdict(lambda: defaultdict(int))
         self.bench_totals = defaultdict(lambda: defaultdict(int))
@@ -77,6 +78,7 @@ class PlayerStatsProcessor(BaseProcessor):
             date = basic_info.get('date', '')
             date_yyyymmdd = basic_info.get('date_yyyymmdd', '')
             gender = basic_info.get('gender', 'M')
+            division = basic_info.get('division', 'D1')
 
             for side in ['away', 'home']:
                 team = basic_info.get(f'{side}_team', '')
@@ -106,6 +108,9 @@ class PlayerStatsProcessor(BaseProcessor):
 
                     # Track gender
                     self.player_genders[key].add(gender)
+
+                    # Track division
+                    self.player_divisions[key].add(division)
 
                     # Track name (use most recent)
                     self.player_totals[key]['name'] = player_name
@@ -196,6 +201,9 @@ class PlayerStatsProcessor(BaseProcessor):
             genders = self.player_genders.get(key, {'M'})
             # If player appears in both, mark as 'Both', otherwise use the single gender
             gender = 'Both' if len(genders) > 1 else list(genders)[0]
+            # Get divisions player has appeared in
+            divisions = self.player_divisions.get(key, {'D1'})
+            divisions_str = ', '.join(sorted(divisions))
 
             # Calculate per-game averages
             ppg = round(totals['pts'] / games, 1) if games > 0 else 0
@@ -215,6 +223,7 @@ class PlayerStatsProcessor(BaseProcessor):
                 'Player ID': player_id,
                 'Team': teams,
                 'Gender': gender,
+                'Divisions': divisions_str,
                 'Games': games,
                 'Wins': totals.get('wins', 0),
                 'MPG': mpg,
@@ -243,7 +252,7 @@ class PlayerStatsProcessor(BaseProcessor):
         rows.sort(key=lambda x: x['Total PTS'], reverse=True)
 
         columns = [
-            'Player', 'Player ID', 'Team', 'Gender', 'Games', 'Wins', 'MPG',
+            'Player', 'Player ID', 'Team', 'Gender', 'Divisions', 'Games', 'Wins', 'MPG',
             'PPG', 'RPG', 'APG', 'SPG', 'BPG',
             'FG%', '3P%', 'FT%',
             'Total PTS', 'Total REB', 'Total AST', 'Total STL', 'Total BLK',
