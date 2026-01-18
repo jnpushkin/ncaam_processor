@@ -2268,6 +2268,30 @@ def get_javascript(json_data: str) -> str:
             });
 
             populateVenuesTable(filtered);
+
+            // Also filter map markers
+            if (venuesMap && venueMarkers.length > 0) {
+                venueMarkers.forEach(({marker, venue, isNeutralSite, division, status}) => {
+                    const text = `${venue.Venue || ''} ${venue.City || ''} ${venue.State || ''}`.toLowerCase();
+                    let show = true;
+
+                    if (search && !text.includes(search)) show = false;
+                    if (quickFilter === 'd1' && division !== 'D1') show = false;
+                    if (quickFilter === 'neutral' && !isNeutralSite) show = false;
+                    if (quickFilter === 'active' && status !== 'Current') show = false;
+                    if (quickFilter === 'historic' && status !== 'Historic') show = false;
+
+                    if (show) {
+                        if (!venuesMap.hasLayer(marker)) {
+                            marker.addTo(venuesMap);
+                        }
+                    } else {
+                        if (venuesMap.hasLayer(marker)) {
+                            venuesMap.removeLayer(marker);
+                        }
+                    }
+                });
+            }
         }
 
         function populateVenuesTable(data = null) {
@@ -2306,6 +2330,7 @@ def get_javascript(json_data: str) -> str:
 
         let venuesMap = null;
         let venuesMapInitialized = false;
+        let venueMarkers = [];  // Store {marker, venue, isNeutralSite} for filtering
 
         function initVenuesMap() {
             if (venuesMapInitialized) return;
@@ -2588,6 +2613,14 @@ def get_javascript(json_data: str) -> str:
 
                 const marker = L.marker(coords, { icon }).addTo(venuesMap).bindPopup(popupContent);
                 markers.push(marker);
+                // Store marker with venue data for filtering
+                venueMarkers.push({
+                    marker,
+                    venue,
+                    isNeutralSite,
+                    division: venue.Division || 'D1',
+                    status: venue.Status || 'Current'
+                });
             });
 
             // Show summary
