@@ -113,6 +113,7 @@ def get_body(total_games: int, total_players: int, total_teams: int, total_venue
                 <button class="sub-tab active" onclick="showSubSection('games', 'log')">All Games</button>
                 <button class="sub-tab" onclick="showSubSection('games', 'records')">Records</button>
                 <button class="sub-tab" onclick="showSubSection('games', 'seasons')">Season Stats</button>
+                <button class="sub-tab" onclick="showSubSection('games', 'scorigami')">Scorigami</button>
             </div>
 
             <div id="games-log" class="sub-section active">
@@ -281,6 +282,55 @@ def get_body(total_games: int, total_players: int, total_teams: int, total_venue
                     </div>
                 </div>
             </div>
+
+            <div id="games-scorigami" class="sub-section">
+                <div class="scorigami-controls">
+                    <div class="filter-group">
+                        <label for="scorigami-gender">Gender</label>
+                        <select id="scorigami-gender" onchange="renderScorigami()">
+                            <option value="">All</option>
+                            <option value="M">Men's</option>
+                            <option value="W">Women's</option>
+                        </select>
+                    </div>
+                    <div class="scorigami-stats">
+                        <span id="scorigami-unique">0</span> unique scores from <span id="scorigami-total">0</span> games
+                        <span style="margin-left: 1.5rem;">Most common: <span id="scorigami-most-common">-</span></span>
+                    </div>
+                </div>
+                <div class="scorigami-wrapper">
+                    <div class="scorigami-y-label">Loser's Score</div>
+                    <div class="scorigami-main">
+                        <div class="scorigami-container">
+                            <table class="scorigami-grid" id="scorigami-grid"></table>
+                        </div>
+                        <div class="scorigami-x-label">Winner's Score</div>
+                    </div>
+                </div>
+                <div class="scorigami-legend">
+                    <div class="scorigami-legend-item">
+                        <div class="scorigami-legend-color" style="background: #1a202c;"></div>
+                        <span>Impossible</span>
+                    </div>
+                    <div class="scorigami-legend-item">
+                        <div class="scorigami-legend-color" style="background: #e2e8f0;"></div>
+                        <span>Not seen</span>
+                    </div>
+                    <div class="scorigami-legend-item">
+                        <div class="scorigami-legend-color" style="background: #86efac;"></div>
+                        <span>1 game</span>
+                    </div>
+                    <div class="scorigami-legend-item">
+                        <div class="scorigami-legend-color" style="background: #22c55e;"></div>
+                        <span>2-3 games</span>
+                    </div>
+                    <div class="scorigami-legend-item">
+                        <div class="scorigami-legend-color" style="background: #166534;"></div>
+                        <span>4+ games</span>
+                    </div>
+                </div>
+            </div>
+            <div id="scorigami-tooltip" class="scorigami-tooltip"></div>
         </div>
 
         <div id="players" class="section" role="tabpanel">

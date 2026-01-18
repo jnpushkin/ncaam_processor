@@ -2392,4 +2392,139 @@ def get_css() -> str:
         }
         .comeback-item {
             margin-bottom: 0.5rem;
+        }
+        /* Scorigami Grid */
+        .scorigami-controls {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .scorigami-stats {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+        .scorigami-stats span {
+            font-weight: 600;
+            color: var(--accent-color);
+        }
+        .scorigami-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .scorigami-y-label {
+            writing-mode: vertical-rl;
+            transform: rotate(180deg);
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            padding: 0.5rem;
+        }
+        .scorigami-main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .scorigami-x-label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            padding: 0.5rem;
+        }
+        .scorigami-container {
+            overflow-x: auto;
+            padding-bottom: 1rem;
+        }
+        .scorigami-grid {
+            border-collapse: collapse;
+            font-size: 8px;
+        }
+        .scorigami-grid td, .scorigami-grid th {
+            width: 16px;
+            height: 14px;
+            text-align: center;
+            vertical-align: middle;
+            padding: 0;
+            font-weight: 500;
+        }
+        .scorigami-grid th {
+            font-weight: 600;
+            color: var(--text-secondary);
+            background: transparent;
+        }
+        .scorigami-grid td.has-game {
+            background: #86efac;
+            color: #000;
+            cursor: pointer;
+        }
+        .scorigami-grid td.has-game:hover {
+            outline: 2px solid var(--accent-color);
+            outline-offset: -1px;
+        }
+        .scorigami-grid td.count-2 { background: #4ade80; }
+        .scorigami-grid td.count-3 { background: #22c55e; }
+        .scorigami-grid td.count-4 { background: #16a34a; color: #fff; }
+        .scorigami-grid td.count-5 { background: #15803d; color: #fff; }
+        .scorigami-grid td.count-6 { background: #166534; color: #fff; }
+        .scorigami-grid td.empty {
+            background: #e2e8f0;
+        }
+        .scorigami-grid td.impossible {
+            background: #2d3748;
+        }
+        @media (prefers-color-scheme: dark) {
+            .scorigami-grid td.empty { background: #4a5568; }
+        }
+        .scorigami-legend {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 1rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+        .scorigami-legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .scorigami-legend-color {
+            width: 16px;
+            height: 16px;
+            border-radius: 3px;
+        }
+        .scorigami-tooltip {
+            display: none;
+            position: fixed;
+            pointer-events: none;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            z-index: 1000;
+            max-width: 320px;
+            font-size: 0.9rem;
+        }
+        .scorigami-tooltip.visible {
+            display: block;
+        }
+        .scorigami-tooltip.interactive {
+            pointer-events: auto;
+        }
+        .scorigami-tooltip h4 {
+            margin: 0 0 0.5rem 0;
+            color: var(--accent-color);
+        }
+        .scorigami-tooltip .game-item {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border-color);
+            cursor: pointer;
+        }
+        .scorigami-tooltip .game-item:last-child {
+            border-bottom: none;
+        }
+        .scorigami-tooltip .game-item:hover {
+            color: var(--accent-color);
         }"""

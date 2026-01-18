@@ -4688,6 +4688,199 @@ def get_javascript(json_data: str) -> str:
 
         }
 
+        // Scorigami functions
+        function renderScorigami() {
+            const gender = document.getElementById('scorigami-gender')?.value || '';
+            const games = (DATA.games || []).filter(g => {
+                if (gender && g.Gender !== gender) return false;
+                return g['Away Score'] && g['Home Score'];
+            });
+
+            // Build score map: key = "winScore-loseScore" => array of games
+            const scoreMap = {};
+            let minLose = Infinity, maxLose = 0, minWin = Infinity, maxWin = 0;
+
+            games.forEach(g => {
+                const away = parseInt(g['Away Score']) || 0;
+                const home = parseInt(g['Home Score']) || 0;
+                const winScore = Math.max(away, home);
+                const loseScore = Math.min(away, home);
+                const key = `${winScore}-${loseScore}`;
+
+                if (!scoreMap[key]) scoreMap[key] = [];
+                scoreMap[key].push(g);
+
+                minLose = Math.min(minLose, loseScore);
+                maxLose = Math.max(maxLose, loseScore);
+                minWin = Math.min(minWin, winScore);
+                maxWin = Math.max(maxWin, winScore);
+            });
+
+            // Update stats
+            const uniqueCount = Object.keys(scoreMap).length;
+            document.getElementById('scorigami-unique').textContent = uniqueCount;
+            document.getElementById('scorigami-total').textContent = games.length;
+
+            // Find most common score
+            let mostCommonKey = null;
+            let mostCommonCount = 0;
+            for (const [key, gamesArr] of Object.entries(scoreMap)) {
+                if (gamesArr.length > mostCommonCount) {
+                    mostCommonCount = gamesArr.length;
+                    mostCommonKey = key;
+                }
+            }
+            if (mostCommonKey) {
+                const [win, lose] = mostCommonKey.split('-');
+                document.getElementById('scorigami-most-common').textContent = `${win}-${lose} (${mostCommonCount}×)`;
+            } else {
+                document.getElementById('scorigami-most-common').textContent = '-';
+            }
+
+            // Build grid - Winner score on X-axis (columns), Loser score on Y-axis (rows)
+            const grid = document.getElementById('scorigami-grid');
+            if (games.length === 0) {
+                grid.innerHTML = '<p style="padding: 1rem; color: var(--text-secondary);">No games to display</p>';
+                return;
+            }
+
+            // Use actual min/max from data
+            const startLose = minLose;
+            const endLose = maxLose;
+            const startWin = minWin;
+            const endWin = maxWin;
+
+            let html = '<thead><tr><th></th>';
+
+            // Header row: winner scores (low to high)
+            for (let win = startWin; win <= endWin; win++) {
+                html += `<th>${win}</th>`;
+            }
+            html += '</tr></thead><tbody>';
+
+            // Data rows: loser scores (low to high)
+            for (let lose = startLose; lose <= endLose; lose++) {
+                html += `<tr><th>${lose}</th>`;
+                for (let win = startWin; win <= endWin; win++) {
+                    const key = `${win}-${lose}`;
+                    const gamesAtScore = scoreMap[key] || [];
+                    const count = gamesAtScore.length;
+                    const impossible = lose >= win;
+
+                    let cellClass = '';
+                    let cellContent = '';
+                    let cellAttrs = '';
+
+                    if (impossible) {
+                        cellClass = 'impossible';
+                    } else if (count > 0) {
+                        cellClass = 'has-game';
+                        if (count >= 6) cellClass += ' count-6';
+                        else if (count >= 5) cellClass += ' count-5';
+                        else if (count >= 4) cellClass += ' count-4';
+                        else if (count >= 3) cellClass += ' count-3';
+                        else if (count >= 2) cellClass += ' count-2';
+                        cellContent = count;
+                        cellAttrs = ` onclick="showScorigamiGames(${win}, ${lose}, event)" onmouseenter="showScorigamiTooltip(event, ${win}, ${lose})" onmouseleave="hideScorigamiTooltip()"`;
+                    } else {
+                        cellClass = 'empty';
+                    }
+
+                    html += `<td class="${cellClass}"${cellAttrs}>${cellContent}</td>`;
+                }
+                html += '</tr>';
+            }
+            html += '</tbody>';
+
+            grid.innerHTML = html;
+        }
+
+        function getScorigamiGames(winScore, loseScore) {
+            const gender = document.getElementById('scorigami-gender')?.value || '';
+            return (DATA.games || []).filter(g => {
+                if (gender && g.Gender !== gender) return false;
+                const away = parseInt(g['Away Score']) || 0;
+                const home = parseInt(g['Home Score']) || 0;
+                const win = Math.max(away, home);
+                const lose = Math.min(away, home);
+                return win === winScore && lose === loseScore;
+            });
+        }
+
+        function showScorigamiTooltip(event, winScore, loseScore) {
+            const games = getScorigamiGames(winScore, loseScore);
+            if (games.length === 0) return;
+
+            const tooltip = document.getElementById('scorigami-tooltip');
+            let html = `<h4>${winScore}-${loseScore}</h4>`;
+            html += games.slice(0, 5).map(g => {
+                const away = parseInt(g['Away Score']) || 0;
+                const home = parseInt(g['Home Score']) || 0;
+                const wTag = g.Gender === 'W' ? ' (W)' : '';
+                return `<div class="game-item">${g['Away Team']}${wTag} ${away} @ ${g['Home Team']}${wTag} ${home}<br><small>${g.Date || ''}</small></div>`;
+            }).join('');
+            if (games.length > 5) {
+                html += `<div style="color: var(--text-secondary); font-size: 0.8rem; margin-top: 0.5rem;">+${games.length - 5} more</div>`;
+            }
+
+            tooltip.innerHTML = html;
+            tooltip.classList.add('visible');
+
+            const rect = event.target.getBoundingClientRect();
+            tooltip.style.left = Math.min(rect.right + 10, window.innerWidth - 320) + 'px';
+            tooltip.style.top = Math.max(10, rect.top - 50) + 'px';
+        }
+
+        function hideScorigamiTooltip(force) {
+            const tooltip = document.getElementById('scorigami-tooltip');
+            if (!force && tooltip.classList.contains('interactive')) return;
+            tooltip.classList.remove('visible', 'interactive');
+        }
+
+        function showScorigamiGames(winScore, loseScore, event) {
+            const games = getScorigamiGames(winScore, loseScore);
+            if (games.length === 1) {
+                showGameDetail(games[0].GameID);
+            } else if (games.length > 1) {
+                hideScorigamiTooltip();
+                const popup = document.getElementById('scorigami-tooltip');
+                let html = `<h4>${winScore}-${loseScore} (${games.length} games)</h4>`;
+                html += '<div style="max-height: 300px; overflow-y: auto;">';
+                html += games.map(g => {
+                    const away = parseInt(g['Away Score']) || 0;
+                    const home = parseInt(g['Home Score']) || 0;
+                    const wTag = g.Gender === 'W' ? ' (W)' : '';
+                    return `<div class="game-item" data-game-id="${g.GameID}">${g['Away Team']}${wTag} ${away} @ ${g['Home Team']}${wTag} ${home}<br><small>${g.Date || ''}</small></div>`;
+                }).join('');
+                html += '</div>';
+                popup.innerHTML = html;
+                popup.classList.add('visible', 'interactive');
+
+                if (event) {
+                    const rect = event.target.getBoundingClientRect();
+                    popup.style.left = Math.min(rect.right + 10, window.innerWidth - 340) + 'px';
+                    popup.style.top = Math.max(10, rect.top) + 'px';
+                }
+            }
+        }
+
+        // Handle clicks on scorigami popup game items
+        document.addEventListener('click', function(e) {
+            const gameItem = e.target.closest('.scorigami-tooltip .game-item');
+            if (gameItem && gameItem.dataset.gameId) {
+                e.stopPropagation();
+                hideScorigamiTooltip(true);
+                showGameDetail(gameItem.dataset.gameId);
+                return;
+            }
+
+            // Close scorigami popup when clicking outside
+            const tooltip = document.getElementById('scorigami-tooltip');
+            if (tooltip && tooltip.classList.contains('interactive') && !tooltip.contains(e.target) && !e.target.closest('.scorigami-grid')) {
+                hideScorigamiTooltip(true);
+            }
+        });
+
         function populatePlayerRecords() {
             const playerGames = DATA.playerGames || [];
             if (playerGames.length === 0) return;
@@ -7411,6 +7604,7 @@ def get_javascript(json_data: str) -> str:
         try { initUpcomingGames(); } catch(e) { console.error('initUpcomingGames:', e); }
         try { populateRecords(); } catch(e) { console.error('populateRecords:', e); }
         try { populatePlayerRecords(); } catch(e) { console.error('populatePlayerRecords:', e); }
+        try { renderScorigami(); } catch(e) { console.error('renderScorigami:', e); }
         try { initCalendar(); } catch(e) { console.error('initCalendar:', e); }
         try { initChecklist(); } catch(e) { console.error('initChecklist:', e); }
         try { initOnThisDay(); } catch(e) { console.error('initOnThisDay:', e); }

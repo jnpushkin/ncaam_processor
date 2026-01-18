@@ -1356,73 +1356,10 @@ MILESTONE_STAT_CONFIGS: Dict[str, List[Tuple[str, str, int, Optional[int], str]]
 # Milestones derived from ESPN play-by-play analysis
 # Format: milestone_key -> {threshold, description_template}
 ESPN_PBP_MILESTONE_CONFIGS = {
-    # Team scoring runs (consecutive team points, resets on opponent score)
-    'ten_point_team_run': {
-        'threshold': 10,
-        'description': '{points}-0 run',
-        'category': 'team_run',
-    },
-    'twelve_point_team_run': {
-        'threshold': 12,
-        'description': '{points}-0 run',
-        'category': 'team_run',
-    },
-    'fifteen_point_team_run': {
-        'threshold': 15,
-        'description': '{points}-0 run',
-        'category': 'team_run',
-    },
-
-    # Player point streaks (consecutive player points, resets on teammate score)
-    'eight_point_player_streak': {
-        'threshold': 8,
-        'description': '{points} consecutive points',
-        'category': 'player_streak',
-    },
-    'ten_point_player_streak': {
-        'threshold': 10,
-        'description': '{points} consecutive points',
-        'category': 'player_streak',
-    },
-
     # Comebacks (overcame deficit to win)
     'ten_point_comeback': {
         'threshold': 10,
         'description': 'Overcame {deficit}-point deficit',
         'category': 'comeback',
-    },
-    'fifteen_point_comeback': {
-        'threshold': 15,
-        'description': 'Overcame {deficit}-point deficit',
-        'category': 'comeback',
-    },
-    'twenty_point_comeback': {
-        'threshold': 20,
-        'description': 'Overcame {deficit}-point deficit',
-        'category': 'comeback',
-    },
-
-    # Clutch scoring (final 5 minutes of regulation)
-    'clutch_ten_points': {
-        'threshold': 10,
-        'description': '{points} pts in final 5 min',
-        'category': 'clutch_scoring',
-    },
-    'clutch_fifteen_points': {
-        'threshold': 15,
-        'description': '{points} pts in final 5 min',
-        'category': 'clutch_scoring',
-    },
-
-    # Game-winning shots
-    'clutch_go_ahead_shot': {
-        'threshold': 0,  # Any go-ahead shot in final 2 min
-        'description': 'Go-ahead {points}pts with {time} left',
-        'category': 'game_winning',
-    },
-    'game_winning_shot': {
-        'threshold': 0,  # Last go-ahead shot of game
-        'description': 'Game-winning shot ({score})',
-        'category': 'game_winning',
     },
 }

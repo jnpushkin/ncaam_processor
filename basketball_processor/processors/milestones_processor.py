@@ -43,18 +43,7 @@ class MilestonesProcessor(BaseProcessor):
 
         # ESPN PBP-based milestones
         espn_pbp_milestone_types = [
-            'ten_point_team_run',
-            'twelve_point_team_run',
-            'fifteen_point_team_run',
-            'eight_point_player_streak',
-            'ten_point_player_streak',
             'ten_point_comeback',
-            'fifteen_point_comeback',
-            'twenty_point_comeback',
-            'clutch_ten_points',
-            'clutch_fifteen_points',
-            'clutch_go_ahead_shot',
-            'game_winning_shot',
         ]
 
         # Combine all milestone types
@@ -151,77 +140,7 @@ class MilestonesProcessor(BaseProcessor):
         away_team = basic_info.get('away_team', '')
         home_team = basic_info.get('home_team', '')
 
-        # Process team scoring runs
-        runs = espn_pbp.get('team_scoring_runs', [])
-        for run in runs:
-            points = run.get('points', 0)
-            team = run.get('team', '')
-            team_side = run.get('team_side', '')
-            opponent = home_team if team_side == 'away' else away_team
-            period = run.get('end_period', 1)
-
-            base_entry = {
-                'Date': date,
-                'Player': '',  # Team milestones don't have a player
-                'Player ID': '',
-                'Team': team,
-                'Opponent': opponent,
-                'Score': f"{away_score}-{home_score}",
-                'GameID': game_id,
-                'Gender': gender,
-                'stats': {'points': points, 'period': period},
-            }
-
-            # Check thresholds (largest first to avoid duplicates)
-            if points >= 15:
-                self.all_milestones['fifteen_point_team_run'].append({
-                    **base_entry,
-                    'Detail': f"{points}-0 run in {'H' if period <= 2 else 'OT'}{period}",
-                })
-            elif points >= 12:
-                self.all_milestones['twelve_point_team_run'].append({
-                    **base_entry,
-                    'Detail': f"{points}-0 run in {'H' if period <= 2 else 'OT'}{period}",
-                })
-            elif points >= 10:
-                self.all_milestones['ten_point_team_run'].append({
-                    **base_entry,
-                    'Detail': f"{points}-0 run in {'H' if period <= 2 else 'OT'}{period}",
-                })
-
-        # Process player point streaks
-        streaks = espn_pbp.get('player_point_streaks', [])
-        for streak in streaks:
-            points = streak.get('points', 0)
-            player = streak.get('player', '')
-            team = streak.get('team', '')
-            team_side = streak.get('team_side', '')
-            opponent = home_team if team_side == 'away' else away_team
-
-            base_entry = {
-                'Date': date,
-                'Player': player,
-                'Player ID': '',  # ESPN doesn't provide player IDs
-                'Team': team,
-                'Opponent': opponent,
-                'Score': f"{away_score}-{home_score}",
-                'GameID': game_id,
-                'Gender': gender,
-                'stats': {'points': points},
-            }
-
-            if points >= 10:
-                self.all_milestones['ten_point_player_streak'].append({
-                    **base_entry,
-                    'Detail': f"{points} consecutive points",
-                })
-            elif points >= 8:
-                self.all_milestones['eight_point_player_streak'].append({
-                    **base_entry,
-                    'Detail': f"{points} consecutive points",
-                })
-
-        # Process comebacks
+        # Process comebacks (only 10+ point comebacks that resulted in wins)
         comeback = espn_pbp.get('biggest_comeback')
         if comeback and comeback.get('won'):
             deficit = comeback.get('deficit', 0)
@@ -229,120 +148,19 @@ class MilestonesProcessor(BaseProcessor):
             team_side = comeback.get('team_side', '')
             opponent = home_team if team_side == 'away' else away_team
 
-            base_entry = {
-                'Date': date,
-                'Player': '',  # Team milestone
-                'Player ID': '',
-                'Team': team,
-                'Opponent': opponent,
-                'Score': f"{away_score}-{home_score}",
-                'GameID': game_id,
-                'Gender': gender,
-                'stats': {'deficit': deficit},
-            }
-
-            if deficit >= 20:
-                self.all_milestones['twenty_point_comeback'].append({
-                    **base_entry,
-                    'Detail': f"Overcame {deficit}-point deficit to win",
-                })
-            elif deficit >= 15:
-                self.all_milestones['fifteen_point_comeback'].append({
-                    **base_entry,
-                    'Detail': f"Overcame {deficit}-point deficit to win",
-                })
-            elif deficit >= 10:
+            if deficit >= 10:
                 self.all_milestones['ten_point_comeback'].append({
-                    **base_entry,
-                    'Detail': f"Overcame {deficit}-point deficit to win",
-                })
-
-        # Process clutch scoring
-        clutch = espn_pbp.get('clutch_scoring', {})
-        for side in ['away', 'home']:
-            side_clutch = clutch.get(side, [])
-            for player_stats in side_clutch:
-                points = player_stats.get('points', 0)
-                player = player_stats.get('player', '')
-                team = away_team if side == 'away' else home_team
-                opponent = home_team if side == 'away' else away_team
-
-                base_entry = {
                     'Date': date,
-                    'Player': player,
+                    'Player': '',  # Team milestone
                     'Player ID': '',
                     'Team': team,
                     'Opponent': opponent,
                     'Score': f"{away_score}-{home_score}",
                     'GameID': game_id,
                     'Gender': gender,
-                    'stats': {
-                        'points': points,
-                        'fg': player_stats.get('fg', 0),
-                        'ft': player_stats.get('ft', 0),
-                        'three': player_stats.get('three', 0),
-                    },
-                }
-
-                if points >= 15:
-                    self.all_milestones['clutch_fifteen_points'].append({
-                        **base_entry,
-                        'Detail': f"{points} pts in final 5 min",
-                    })
-                elif points >= 10:
-                    self.all_milestones['clutch_ten_points'].append({
-                        **base_entry,
-                        'Detail': f"{points} pts in final 5 min",
-                    })
-
-        # Process game-winning shots
-        gws = espn_pbp.get('game_winning_shots', {})
-
-        # Clutch go-ahead (final 2 minutes)
-        clutch_go_ahead = gws.get('clutch_go_ahead')
-        if clutch_go_ahead:
-            player = clutch_go_ahead.get('player', '')
-            team = clutch_go_ahead.get('team', '')
-            team_side = clutch_go_ahead.get('team_side', '')
-            opponent = home_team if team_side == 'away' else away_team
-            shot_time = clutch_go_ahead.get('time', '')
-            points = clutch_go_ahead.get('points', 0)
-
-            self.all_milestones['clutch_go_ahead_shot'].append({
-                'Date': date,
-                'Player': player,
-                'Player ID': '',
-                'Team': team,
-                'Opponent': opponent,
-                'Score': f"{away_score}-{home_score}",
-                'Detail': f"Go-ahead {points}pts with {shot_time} left",
-                'GameID': game_id,
-                'Gender': gender,
-                'stats': {'points': points, 'time': shot_time},
-            })
-
-        # Decisive (game-winning) shot
-        decisive = gws.get('decisive_shot')
-        if decisive:
-            player = decisive.get('player', '')
-            team = decisive.get('team', '')
-            team_side = decisive.get('team_side', '')
-            opponent = home_team if team_side == 'away' else away_team
-            shot_score = decisive.get('score', '')
-            points = decisive.get('points', 0)
-
-            self.all_milestones['game_winning_shot'].append({
-                'Date': date,
-                'Player': player,
-                'Player ID': '',
-                'Team': team,
-                'Opponent': opponent,
-                'Score': f"{away_score}-{home_score}",
-                'Detail': f"Game-winning shot ({shot_score})",
-                'GameID': game_id,
-                'Gender': gender,
-                'stats': {'points': points, 'shot_score': shot_score},
-            })
+                    'Detail': f"Overcame {deficit}-point deficit to win",
+                    'stats': {'deficit': deficit},
+                })
 
     def get_milestone_summary(self) -> pd.DataFrame:
         """
