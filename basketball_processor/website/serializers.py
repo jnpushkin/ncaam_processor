@@ -637,14 +637,6 @@ class DataSerializer:
             else:
                 record['RealGM_URL'] = ''
 
-            # Add transfer/school history from RealGM
-            if realgm_data.get('schools'):
-                record['RealGM_Schools'] = realgm_data['schools']
-                record['HasTransferHistory'] = realgm_data.get('has_transfer_history', False)
-            else:
-                record['RealGM_Schools'] = []
-                record['HasTransferHistory'] = False
-
         return records
 
     def _serialize_espn_pbp_analysis(
@@ -1239,12 +1231,40 @@ class DataSerializer:
         return ''
 
     def _serialize_player_games(self) -> List[Dict]:
-        """Serialize per-game player stats."""
+        """Serialize per-game player stats with RealGM transfer data."""
         player_games = self.processed_data.get('player_games', pd.DataFrame())
         if player_games.empty:
             return []
 
-        return self._df_to_records(player_games)
+        records = self._df_to_records(player_games)
+
+        # Cache RealGM lookups to avoid repeated calls for same player
+        realgm_cache = {}
+
+        for record in records:
+            player_name = record.get('player', '')
+            if not player_name:
+                continue
+
+            # Check cache first
+            if player_name not in realgm_cache:
+                player_data = lookup_player_transfers(player_name)
+                if player_data and player_data.get('schools'):
+                    # Extract "from" schools (previous schools before transfer)
+                    previous_schools = []
+                    for transfer in player_data.get('schools', []):
+                        from_school = transfer.get('from')
+                        if from_school:
+                            previous_schools.append(from_school)
+                    realgm_cache[player_name] = previous_schools
+                else:
+                    realgm_cache[player_name] = []
+
+            # Add previous schools to record if any exist
+            if realgm_cache[player_name]:
+                record['realgm_previous_schools'] = realgm_cache[player_name]
+
+        return records
 
     def _df_to_records(self, df: pd.DataFrame) -> List[Dict]:
         """Convert DataFrame to list of records, handling NaN values."""

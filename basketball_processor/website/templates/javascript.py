@@ -107,12 +107,6 @@ def get_javascript(json_data: str) -> str:
             return ` <a href="${getPlayerSportsRefUrl(playerId)}" target="_blank" class="external-link" title="View on Sports Reference">&#8599;</a>`;
         }
 
-        function getPlayerTransferBadge(player) {
-            // Returns a badge if player has transfer history from RealGM
-            if (!player.HasTransferHistory || !player.RealGM_Schools || player.RealGM_Schools.length < 2) return '';
-            const schools = player.RealGM_Schools.join(' → ');
-            return ` <span class="transfer-badge" title="Transfer: ${schools}">🔄</span>`;
-        }
 
         // Stat thresholds for highlighting
         const STAT_THRESHOLDS = {
@@ -1710,11 +1704,29 @@ def get_javascript(json_data: str) -> str:
                     const playerId = pg.player_id || pg.player;
                     const playerName = pg.player;
                     const playerTeam = pg.team;
+                    const realgmPrevSchools = pg.realgm_previous_schools || [];
 
                     if (!playerId || !playerTeam) return;
 
                     if (!playerTeams[playerId]) {
                         playerTeams[playerId] = { name: playerName, teams: new Set() };
+
+                        // Check RealGM previous schools - if we have playerGames data for this player
+                        // at that school (by name match), pre-populate their teams set
+                        // This handles D2/D3 transfers where player IDs don't match across sources
+                        if (realgmPrevSchools.length > 0) {
+                            const playerNameLower = playerName.toLowerCase();
+                            realgmPrevSchools.forEach(prevSchool => {
+                                // Check if we actually have game data for this player at the previous school
+                                const hasPlayerAtSchool = (DATA.playerGames || []).some(pg =>
+                                    pg.player && pg.player.toLowerCase() === playerNameLower &&
+                                    pg.team === prevSchool
+                                );
+                                if (hasPlayerAtSchool) {
+                                    playerTeams[playerId].teams.add(prevSchool);
+                                }
+                            });
+                        }
                     }
 
                     // Check if this is a new team for this player
@@ -1898,12 +1910,11 @@ def get_javascript(json_data: str) -> str:
 
                     const playerId = player['Player ID'] || '';
                     const sportsRefLink = getPlayerSportsRefLink(player);
-                    const transferBadge = getPlayerTransferBadge(player);
                     // Priority: WNBA > NBA for row styling
                     const rowClass = player.WNBA ? 'wnba-player' : (player.NBA ? 'nba-player' : '');
                     return `
                         <tr class="${rowClass}">
-                            <td class="sticky-col"><span class="player-link" onclick="showPlayerDetail('${playerId || player.Player}')">${player.Player || ''}</span>${nbaTag}${wnbaTag}${transferBadge}${sportsRefLink}</td>
+                            <td class="sticky-col"><span class="player-link" onclick="showPlayerDetail('${playerId || player.Player}')">${player.Player || ''}</span>${nbaTag}${wnbaTag}${sportsRefLink}</td>
                             <td>${player.Team || ''} ${genderTag}</td>
                             <td>${gp}</td>
                             <td>${mpg.toFixed(1)}</td>
@@ -2107,10 +2118,9 @@ def get_javascript(json_data: str) -> str:
             tbody.innerHTML = data.map(player => {
                 const playerId = player['Player ID'] || '';
                 const sportsRefLink = getPlayerSportsRefLink(player);
-                const transferBadge = getPlayerTransferBadge(player);
                 return `
                 <tr>
-                    <td><span class="player-link" onclick="showPlayerDetail('${playerId || player.Player}')">${player.Player || ''}</span>${transferBadge}${sportsRefLink}</td>
+                    <td><span class="player-link" onclick="showPlayerDetail('${playerId || player.Player}')">${player.Player || ''}</span>${sportsRefLink}</td>
                     <td>${player.Team || ''}</td>
                     <td>${player['High PTS'] || 0}</td>
                     <td>${player['High REB'] || 0}</td>
@@ -2179,12 +2189,11 @@ def get_javascript(json_data: str) -> str:
             tbody.innerHTML = entries.map(entry => {
                 const playerId = entry['Player ID'] || '';
                 const sportsRefLink = getPlayerSportsRefLink(entry);
-                const transferBadge = getPlayerTransferBadge(entry);
                 const genderTag = entry.Gender === 'W' ? ' <span class="gender-tag">(W)</span>' : '';
                 return `
                 <tr>
                     <td>${formatDate(entry.Date)}</td>
-                    <td><span class="player-link" onclick="showPlayerDetail('${playerId || entry.Player}')">${entry.Player || ''}</span>${transferBadge}${sportsRefLink}</td>
+                    <td><span class="player-link" onclick="showPlayerDetail('${playerId || entry.Player}')">${entry.Player || ''}</span>${sportsRefLink}</td>
                     <td>${entry.Team || ''}${genderTag}</td>
                     <td>${entry.Opponent || ''}${genderTag}</td>
                     <td>${entry.Detail || ''}</td>
@@ -2639,7 +2648,6 @@ def get_javascript(json_data: str) -> str:
                 // Don't show (W) gender tag if player has WNBA badge - it's redundant
                 const genderTag = (player.Gender === 'W' && !player.WNBA) ? ' <span class="gender-tag">(W)</span>' : '';
                 const sportsRefLink = getPlayerSportsRefLink(player);
-                const transferBadge = getPlayerTransferBadge(player);
 
                 // Determine primary league and build badges
                 let badges = '';
@@ -2716,7 +2724,7 @@ def get_javascript(json_data: str) -> str:
                         <td>
                             <span class="player-link" onclick="showPlayerDetail('${playerId || player.Player}')">${player.Player || ''}</span>
                             ${badges}
-                            ${transferBadge}${sportsRefLink}${genderTag}
+                            ${sportsRefLink}${genderTag}
                         </td>
                         <td>${player.Team || ''}</td>
                         <td>${league}</td>
@@ -6555,15 +6563,10 @@ def get_javascript(json_data: str) -> str:
 
             const genderTag = player.Gender === 'W' ? '<span class="gender-tag">(W)</span>' : '';
             const sportsRefLink = getPlayerSportsRefLink(player);
-            const transferBadge = getPlayerTransferBadge(player);
-            const transferInfo = player.HasTransferHistory && player.RealGM_Schools && player.RealGM_Schools.length > 1
-                ? `<p class="transfer-info">📋 Transfer history: ${player.RealGM_Schools.join(' → ')}</p>`
-                : '';
 
             document.getElementById('player-detail').innerHTML = `
-                <h3 id="player-modal-title">${player.Player} ${transferBadge}${sportsRefLink}</h3>
+                <h3 id="player-modal-title">${player.Player} ${sportsRefLink}</h3>
                 <p>Team: ${player.Team} ${genderTag} | Games: ${player.Games}</p>
-                ${transferInfo}
                 <div class="compare-grid">
                     <div class="compare-card">
                         <h4>Averages</h4>

@@ -989,19 +989,6 @@ def get_css() -> str:
         .external-link:hover {
             color: var(--accent-color);
         }
-        .transfer-badge {
-            font-size: 0.8em;
-            margin-left: 4px;
-            cursor: help;
-        }
-        .transfer-info {
-            font-size: 0.9em;
-            color: var(--text-muted);
-            margin: 0.5rem 0;
-            padding: 0.5rem;
-            background: var(--hover-bg);
-            border-radius: 4px;
-        }
         .checklist-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
