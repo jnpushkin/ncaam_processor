@@ -1516,17 +1516,15 @@ def get_javascript(json_data: str) -> str:
                         });
                     }
 
-                    // Track D1 venues
+                    // Track D1 venues - badge for every new D1 venue
                     if (venue && !d1VenuesSeen.has(venue)) {
                         d1VenuesSeen.add(venue);
                         d1VenueCount++;
-                        if (D1_MILESTONES.includes(d1VenueCount)) {
-                            gameMilestones[gameId].badges.push({
-                                type: 'd1-venue',
-                                text: `D1 Venue #${d1VenueCount}`,
-                                title: `${ordinal(d1VenueCount)} Division 1 venue visited: ${venue}`
-                            });
-                        }
+                        gameMilestones[gameId].badges.push({
+                            type: 'd1-venue',
+                            text: `D1 Venue #${d1VenueCount}`,
+                            title: `${ordinal(d1VenueCount)} Division 1 venue visited: ${venue}`
+                        });
                     }
 
                     // Track D1 teams seen (by gender) - badge every 5 teams
@@ -2214,19 +2212,69 @@ def get_javascript(json_data: str) -> str:
             `}).join('');
         }
 
-        function populateVenuesTable() {
-            const tbody = document.querySelector('#venues-table tbody');
-            const data = DATA.venues || [];
+        // Known neutral site venues
+        const VENUE_NEUTRAL_SITES = new Set([
+            'Chase Center', 'Barclays Center', 'Madison Square Garden',
+            'United Center', 'T-Mobile Arena', 'Footprint Center',
+            'Crypto.com Arena', 'TD Garden', 'Capital One Arena',
+            'Smoothie King Center', 'State Farm Arena', 'Little Caesars Arena',
+            'Rocket Mortgage FieldHouse', 'Spectrum Center', 'Ball Arena',
+            'Climate Pledge Arena', 'Intuit Dome', 'Kia Center',
+        ]);
 
-            // Known neutral site venues
-            const NEUTRAL_SITES = new Set([
-                'Chase Center', 'Barclays Center', 'Madison Square Garden',
-                'United Center', 'T-Mobile Arena', 'Footprint Center',
-                'Crypto.com Arena', 'TD Garden', 'Capital One Arena',
-                'Smoothie King Center', 'State Farm Arena', 'Little Caesars Arena',
-                'Rocket Mortgage FieldHouse', 'Spectrum Center', 'Ball Arena',
-                'Climate Pledge Arena', 'Intuit Dome', 'Kia Center',
-            ]);
+        window.currentVenueFilter = 'all';
+
+        function quickFilterVenues(filterType) {
+            const clickedBtn = event.target;
+            const wasActive = clickedBtn.classList.contains('active');
+
+            // If clicking an active button (not 'all'), toggle back to 'all'
+            if (wasActive && filterType !== 'all') {
+                filterType = 'all';
+            }
+
+            // Update active button in venues section
+            const venuesSection = document.getElementById('venues');
+            venuesSection.querySelectorAll('.quick-filter').forEach(btn => btn.classList.remove('active'));
+            if (filterType === 'all') {
+                venuesSection.querySelector('.quick-filter').classList.add('active');
+            } else {
+                clickedBtn.classList.add('active');
+            }
+
+            window.currentVenueFilter = filterType;
+            applyVenuesFilters();
+        }
+
+        function applyVenuesFilters() {
+            const search = (document.getElementById('venues-search')?.value || '').toLowerCase();
+            const quickFilter = window.currentVenueFilter || 'all';
+
+            const allVenues = DATA.venues || [];
+            const filtered = allVenues.filter(venue => {
+                const text = `${venue.Venue || ''} ${venue.City || ''} ${venue.State || ''}`.toLowerCase();
+                if (search && !text.includes(search)) return false;
+
+                const division = venue.Division || 'D1';
+                const status = venue.Status || 'Current';
+                const isNeutralSite = VENUE_NEUTRAL_SITES.has(venue.Venue);
+
+                if (quickFilter === 'd1' && division !== 'D1') return false;
+                if (quickFilter === 'neutral' && !isNeutralSite) return false;
+                if (quickFilter === 'active' && status !== 'Current') return false;
+                if (quickFilter === 'historic' && status !== 'Historic') return false;
+
+                return true;
+            });
+
+            populateVenuesTable(filtered);
+        }
+
+        function populateVenuesTable(data = null) {
+            const tbody = document.querySelector('#venues-table tbody');
+            if (data === null) {
+                data = DATA.venues || [];
+            }
 
             if (data.length === 0) {
                 tbody.innerHTML = '<tr><td colspan="10" class="empty-state"><h3>No venue data</h3></td></tr>';
@@ -2238,7 +2286,7 @@ def get_javascript(json_data: str) -> str:
                 const status = venue.Status || 'Current';
                 const divClass = division === 'D1' ? '' : (division === 'D2' ? 'division-d2' : 'division-d3');
                 const statusClass = status === 'Historic' ? 'status-historic' : '';
-                const isNeutralSite = NEUTRAL_SITES.has(venue.Venue);
+                const isNeutralSite = VENUE_NEUTRAL_SITES.has(venue.Venue);
                 const neutralBadge = isNeutralSite ? ' <span class="neutral-badge">Neutral</span>' : '';
                 return `
                 <tr class="${divClass} ${statusClass}">

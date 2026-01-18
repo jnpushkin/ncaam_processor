@@ -707,7 +707,14 @@ def get_body(total_games: int, total_players: int, total_teams: int, total_venue
             <div id="venues-map-container" style="height: 450px; border-radius: 8px; overflow: hidden; margin-bottom: 1rem;"></div>
             <div id="venues-map-summary" style="margin-bottom: 1.5rem; display: flex; gap: 2rem; flex-wrap: wrap;"></div>
 
-            <input type="text" class="search-box" placeholder="Search venues..." onkeyup="filterTable('venues-table', this.value)">
+            <div class="quick-filters">
+                <button class="quick-filter active" onclick="quickFilterVenues('all')">All</button>
+                <button class="quick-filter" onclick="quickFilterVenues('d1')">D1 Only</button>
+                <button class="quick-filter" onclick="quickFilterVenues('neutral')">Neutral Sites</button>
+                <button class="quick-filter" onclick="quickFilterVenues('active')">Active</button>
+                <button class="quick-filter" onclick="quickFilterVenues('historic')">Historic</button>
+            </div>
+            <input type="text" id="venues-search" class="search-box" placeholder="Search venues..." onkeyup="applyVenuesFilters()">
             <div class="table-container">
                 <table id="venues-table" aria-label="Venue Statistics">
                     <thead>
