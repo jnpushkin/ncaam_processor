@@ -121,30 +121,16 @@ def get_body(total_games: int, total_players: int, total_teams: int, total_venue
                 <button class="quick-filter active" onclick="quickFilterGames('all')">All</button>
                 <button class="quick-filter" onclick="quickFilterGames('ranked')">Ranked</button>
                 <button class="quick-filter" onclick="quickFilterGames('upsets')">Upsets</button>
+                <button class="quick-filter" onclick="quickFilterGames('ot')">OT</button>
+                <button class="quick-filter" onclick="quickFilterGames('d1')">D1</button>
                 <button class="quick-filter" onclick="quickFilterGames('neutral')">Neutral</button>
+                <button class="quick-filter" onclick="quickFilterGames('mens')">Men's</button>
+                <button class="quick-filter" onclick="quickFilterGames('womens')">Women's</button>
             </div>
             <div class="filters" id="games-filters">
                 <div class="filter-group">
                     <label for="games-search">Search</label>
                     <input type="text" id="games-search" class="search-box" placeholder="Search games..." onkeyup="applyFilters('games')">
-                </div>
-                <div class="filter-group">
-                    <label for="games-gender">Gender</label>
-                    <select id="games-gender" onchange="applyFilters('games')">
-                        <option value="">All</option>
-                        <option value="M">Men's</option>
-                        <option value="W">Women's</option>
-                    </select>
-                </div>
-                <div class="filter-group">
-                    <label for="games-division">Division</label>
-                    <select id="games-division" onchange="applyFilters('games')">
-                        <option value="">All</option>
-                        <option value="D1">D1 Only</option>
-                        <option value="non-D1">Non-D1</option>
-                        <option value="D2">D2 Only</option>
-                        <option value="D3">D3 Only</option>
-                    </select>
                 </div>
                 <div class="filter-group">
                     <label for="games-date-from">From Date</label>
@@ -169,10 +155,6 @@ def get_body(total_games: int, total_players: int, total_teams: int, total_venue
                 <div class="filter-group">
                     <label for="games-margin">Min Margin</label>
                     <input type="number" id="games-margin" min="0" max="50" placeholder="0" onchange="applyFilters('games')">
-                </div>
-                <div class="filter-group" style="display:flex;align-items:center;gap:0.5rem;">
-                    <input type="checkbox" id="games-ot" onchange="applyFilters('games')">
-                    <label for="games-ot" style="margin:0;">OT Only</label>
                 </div>
                 <button class="clear-filters" onclick="clearFilters('games')">Clear Filters</button>
             </div>

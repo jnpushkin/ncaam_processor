@@ -289,14 +289,24 @@ def get_javascript(json_data: str) -> str:
         }
 
         function quickFilterGames(filterType) {
+            const clickedBtn = event.target;
+            const wasActive = clickedBtn.classList.contains('active');
+
+            // If clicking an active button (not 'all'), toggle back to 'all'
+            if (wasActive && filterType !== 'all') {
+                filterType = 'all';
+            }
+
             // Update active button
             document.querySelectorAll('.quick-filter').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
+            if (filterType === 'all') {
+                document.querySelector('.quick-filter').classList.add('active'); // First button is 'All'
+            } else {
+                clickedBtn.classList.add('active');
+            }
 
-            // Reset all filters first
-            const genderSelect = document.getElementById('games-gender');
+            // Reset search box
             const searchBox = document.getElementById('games-search');
-            if (genderSelect) genderSelect.value = '';
             if (searchBox) searchBox.value = '';
 
             // Store the quick filter type for applyGamesFilters to use
