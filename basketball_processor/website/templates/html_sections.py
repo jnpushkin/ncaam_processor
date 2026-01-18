@@ -710,6 +710,7 @@ def get_body(total_games: int, total_players: int, total_teams: int, total_venue
             <div class="quick-filters">
                 <button class="quick-filter active" onclick="quickFilterVenues('all')">All</button>
                 <button class="quick-filter" onclick="quickFilterVenues('d1')">D1 Only</button>
+                <button class="quick-filter" onclick="quickFilterVenues('home')">Home Arenas</button>
                 <button class="quick-filter" onclick="quickFilterVenues('neutral')">Neutral Sites</button>
                 <button class="quick-filter" onclick="quickFilterVenues('active')">Active</button>
                 <button class="quick-filter" onclick="quickFilterVenues('historic')">Historic</button>

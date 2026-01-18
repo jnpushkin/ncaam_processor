@@ -2237,13 +2237,20 @@ def get_javascript(json_data: str) -> str:
                 // Remove 'All' active state
                 venuesSection.querySelector('.quick-filter').classList.remove('active');
 
-                // Handle mutually exclusive filters (active/historic)
+                // Handle mutually exclusive filters (active/historic, home/neutral)
                 if (filterType === 'active' && window.venueFilters.has('historic')) {
                     window.venueFilters.delete('historic');
                     venuesSection.querySelector('[onclick*="historic"]').classList.remove('active');
                 } else if (filterType === 'historic' && window.venueFilters.has('active')) {
                     window.venueFilters.delete('active');
                     venuesSection.querySelector('[onclick*="active"]').classList.remove('active');
+                }
+                if (filterType === 'home' && window.venueFilters.has('neutral')) {
+                    window.venueFilters.delete('neutral');
+                    venuesSection.querySelector('[onclick*="neutral"]').classList.remove('active');
+                } else if (filterType === 'neutral' && window.venueFilters.has('home')) {
+                    window.venueFilters.delete('home');
+                    venuesSection.querySelector('[onclick*="\'home\'"]').classList.remove('active');
                 }
 
                 // Toggle the clicked filter
@@ -2279,6 +2286,7 @@ def get_javascript(json_data: str) -> str:
 
                 // Apply all active filters (AND logic)
                 if (filters.has('d1') && division !== 'D1') return false;
+                if (filters.has('home') && isNeutralSite) return false;
                 if (filters.has('neutral') && !isNeutralSite) return false;
                 if (filters.has('active') && status !== 'Current') return false;
                 if (filters.has('historic') && status !== 'Historic') return false;
@@ -2296,6 +2304,7 @@ def get_javascript(json_data: str) -> str:
 
                     if (search && !text.includes(search)) show = false;
                     if (filters.has('d1') && division !== 'D1') show = false;
+                    if (filters.has('home') && isNeutralSite) show = false;
                     if (filters.has('neutral') && !isNeutralSite) show = false;
                     if (filters.has('active') && status !== 'Current') show = false;
                     if (filters.has('historic') && status !== 'Historic') show = false;
