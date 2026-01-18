@@ -5299,7 +5299,7 @@ def get_javascript(json_data: str) -> str:
         const SCHOOL_COORDS = {
             // ACC
             'Boston College': [42.3355, -71.1685],
-            'California': [37.8716, -122.2588],
+            'California': [37.8697, -122.2619],
             'Clemson': [34.6834, -82.8374],
             'Duke': [36.0014, -78.9382],
             'Florida State': [30.4383, -84.3040],
@@ -5388,7 +5388,7 @@ def get_javascript(json_data: str) -> str:
             'Pacific': [37.9818, -121.3108],
             'Pepperdine': [34.0400, -118.7098],
             'Portland': [45.5646, -122.7225],
-            "Saint Mary's (CA)": [37.8402, -122.1118],
+            "Saint Mary's (CA)": [37.8406, -122.1081],
             'San Diego': [32.7710, -117.1878],
             'San Francisco': [37.7765, -122.4506],
             'Santa Clara': [37.3496, -121.9390],
