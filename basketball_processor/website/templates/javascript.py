@@ -786,8 +786,6 @@ def get_javascript(json_data: str) -> str:
 
         function applyGamesFilters() {
             const search = document.getElementById('games-search').value.toLowerCase();
-            const gender = document.getElementById('games-gender').value;
-            const division = document.getElementById('games-division')?.value || '';
             const dateFromRaw = document.getElementById('games-date-from').value;
             const dateToRaw = document.getElementById('games-date-to').value;
             // Convert YYYY-MM-DD to YYYYMMDD for comparison with DateSort
@@ -796,7 +794,6 @@ def get_javascript(json_data: str) -> str:
             const teamFilter = document.getElementById('games-team').value;
             const conference = document.getElementById('games-conference').value;
             const minMargin = parseInt(document.getElementById('games-margin').value) || 0;
-            const otOnly = document.getElementById('games-ot').checked;
             const quickFilter = window.currentQuickFilter || 'all';
 
             // Parse team filter (format: "TeamName|Gender" or empty)
@@ -811,15 +808,6 @@ def get_javascript(json_data: str) -> str:
             filteredData.games = (DATA.games || []).filter(game => {
                 const text = `${game['Away Team']} ${game['Home Team']} ${game.Venue || ''}`.toLowerCase();
                 if (search && !text.includes(search)) return false;
-                if (gender && game.Gender !== gender) return false;
-                // Division filter
-                if (division) {
-                    const gameDivision = game.Division || 'D1';
-                    if (division === 'D1' && gameDivision !== 'D1') return false;
-                    if (division === 'non-D1' && gameDivision === 'D1') return false;
-                    if (division === 'D2' && gameDivision !== 'D2') return false;
-                    if (division === 'D3' && gameDivision !== 'D3') return false;
-                }
                 const gameDateSort = game.DateSort || '';
                 if (dateFrom && gameDateSort < dateFrom) return false;
                 if (dateTo && gameDateSort > dateTo) return false;
@@ -837,11 +825,6 @@ def get_javascript(json_data: str) -> str:
                 if (minMargin > 0) {
                     const margin = Math.abs((game['Away Score'] || 0) - (game['Home Score'] || 0));
                     if (margin < minMargin) return false;
-                }
-                if (otOnly) {
-                    const linescore = game.Linescore || {};
-                    const otPeriods = (linescore.away || {}).OT || [];
-                    if (otPeriods.length === 0) return false;
                 }
                 // Quick filter logic
                 if (quickFilter === 'ranked') {
@@ -1050,15 +1033,11 @@ def get_javascript(json_data: str) -> str:
         function clearFilters(type) {
             if (type === 'games') {
                 document.getElementById('games-search').value = '';
-                document.getElementById('games-gender').value = '';
-                const divisionFilter = document.getElementById('games-division');
-                if (divisionFilter) divisionFilter.value = '';
                 document.getElementById('games-date-from').value = '';
                 document.getElementById('games-date-to').value = '';
                 document.getElementById('games-team').value = '';
                 document.getElementById('games-conference').value = '';
                 document.getElementById('games-margin').value = '';
-                document.getElementById('games-ot').checked = false;
                 // Reset quick filter
                 window.currentQuickFilter = 'all';
                 document.querySelectorAll('.quick-filter').forEach(btn => btn.classList.remove('active'));
@@ -1082,13 +1061,6 @@ def get_javascript(json_data: str) -> str:
                     case 'search':
                         document.getElementById('games-search').value = '';
                         break;
-                    case 'gender':
-                        document.getElementById('games-gender').value = '';
-                        break;
-                    case 'division':
-                        const divisionFilter = document.getElementById('games-division');
-                        if (divisionFilter) divisionFilter.value = '';
-                        break;
                     case 'date':
                         document.getElementById('games-date-from').value = '';
                         document.getElementById('games-date-to').value = '';
@@ -1101,9 +1073,6 @@ def get_javascript(json_data: str) -> str:
                         break;
                     case 'margin':
                         document.getElementById('games-margin').value = '';
-                        break;
-                    case 'ot':
-                        document.getElementById('games-ot').checked = false;
                         break;
                     case 'quickFilter':
                         // Reset quick filter buttons
