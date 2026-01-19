@@ -1677,10 +1677,38 @@ function computeGameMilestones() {
         }
 
         // Store achievement details for game detail view (not badges, but detailed stats)
+        // Capture D1 counts for each team individually (count at moment they were added)
+        const awayIsNewD1 = teamCounts[awayKey] === 1 && isD1Team(away);
+        const homeIsNewD1 = teamCounts[homeKey] === 1 && isD1Team(home);
+        const currentD1Count = d1TeamsSeen[gender] ? d1TeamsSeen[gender].size : 0;
+
+        // Calculate what the D1 count was when each team was added
+        // If both are new, away was added first (so count was 1 less than current for away, current for home)
+        // If only one is new, current count is for that team
+        let awayD1Count = currentD1Count;
+        let homeD1Count = currentD1Count;
+        if (awayIsNewD1 && homeIsNewD1) {
+            awayD1Count = currentD1Count - 1;  // Away was added first
+            homeD1Count = currentD1Count;       // Home was added second
+        } else if (awayIsNewD1) {
+            awayD1Count = currentD1Count;
+        } else if (homeIsNewD1) {
+            homeD1Count = currentD1Count;
+        }
+
         const awayConfTeamsTotal = awayConf && conferenceTeamCounts[awayConf] ? conferenceTeamCounts[awayConf] : 0;
         const homeConfTeamsTotal = homeConf && conferenceTeamCounts[homeConf] ? conferenceTeamCounts[homeConf] : 0;
         const awayConfGenderKey = awayConf ? `${awayConf}|${gender}` : null;
         const homeConfGenderKey = homeConf ? `${homeConf}|${gender}` : null;
+
+        // Calculate conference team counts at the moment each team was added
+        let awayConfTeamsSeen = awayConfGenderKey && confTeamsSeen[awayConfGenderKey] ? confTeamsSeen[awayConfGenderKey].size : 0;
+        let homeConfTeamsSeen = homeConfGenderKey && confTeamsSeen[homeConfGenderKey] ? confTeamsSeen[homeConfGenderKey].size : 0;
+
+        // If both teams are new AND from same conference, adjust away's count
+        if (awayIsNewD1 && homeIsNewD1 && awayConf === homeConf && awayConf) {
+            awayConfTeamsSeen = awayConfTeamsSeen - 1;
+        }
 
         gameMilestones[gameId].achievements = {
             awayTeam: {
@@ -1689,8 +1717,9 @@ function computeGameMilestones() {
                 record: { ...teamRecords[awayKey] },
                 isNewTeam: teamCounts[awayKey] === 1,
                 conf: awayConf,
-                confTeamsSeen: awayConfGenderKey && confTeamsSeen[awayConfGenderKey] ? confTeamsSeen[awayConfGenderKey].size : 0,
-                confTeamsTotal: awayConfTeamsTotal
+                confTeamsSeen: awayConfTeamsSeen,
+                confTeamsTotal: awayConfTeamsTotal,
+                d1Count: awayD1Count
             },
             homeTeam: {
                 name: home,
@@ -1698,8 +1727,9 @@ function computeGameMilestones() {
                 record: { ...teamRecords[homeKey] },
                 isNewTeam: teamCounts[homeKey] === 1,
                 conf: homeConf,
-                confTeamsSeen: homeConfGenderKey && confTeamsSeen[homeConfGenderKey] ? confTeamsSeen[homeConfGenderKey].size : 0,
-                confTeamsTotal: homeConfTeamsTotal
+                confTeamsSeen: homeConfTeamsSeen,
+                confTeamsTotal: homeConfTeamsTotal,
+                d1Count: homeD1Count
             },
             venue: {
                 name: venue,
@@ -1710,7 +1740,7 @@ function computeGameMilestones() {
                 confVenuesTotal: homeConfTeamsTotal  // Approximation: same as teams
             },
             d1Stats: {
-                d1TeamsSeen: d1TeamsSeen[gender] ? d1TeamsSeen[gender].size : 0,
+                d1TeamsSeen: currentD1Count,
                 d1TeamsTotal: 365,
                 d1VenuesSeen: d1VenuesSeen.size,
                 d1VenuesTotal: 365
@@ -7182,54 +7212,71 @@ function showGameDetail(gameId, fromCalendarDay = false) {
     const achievements = (gameMilestones[gameId] || {}).achievements;
     let achievementsHtml = '';
     if (achievements) {
-        const parts = [];
+        const lines = [];
+        const genderLabel = achievements.gender === 'W' ? ' (W)' : ' (M)';
 
         // Away team
         const awayRec = achievements.awayTeam.record;
         const awayRecordStr = `${awayRec.wins}-${awayRec.losses}`;
         if (achievements.awayTeam.isNewTeam) {
-            parts.push(`${ordinal(achievements.d1Stats.d1TeamsSeen)}/365 D1 Teams Seen (${achievements.awayTeam.name})`);
+            // For new team: show team name with D1 count and conference count
+            let awayLine = `NEW: ${achievements.awayTeam.name}${genderLabel}`;
+            const awayDetails = [];
+            // Use the per-team D1 count
+            awayDetails.push(`${achievements.awayTeam.d1Count}/365 D1 Teams${genderLabel}`);
             if (achievements.awayTeam.conf && achievements.awayTeam.confTeamsTotal > 0) {
-                parts.push(`${achievements.awayTeam.confTeamsSeen}/${achievements.awayTeam.confTeamsTotal} ${achievements.awayTeam.conf} Teams`);
+                awayDetails.push(`${achievements.awayTeam.confTeamsSeen}/${achievements.awayTeam.confTeamsTotal} ${achievements.awayTeam.conf}`);
             }
+            if (awayDetails.length > 0) {
+                awayLine += ` (${awayDetails.join(', ')})`;
+            }
+            lines.push(awayLine);
         } else {
-            parts.push(`${ordinal(achievements.awayTeam.visitNum)} time seeing ${achievements.awayTeam.name} (${awayRecordStr})`);
+            lines.push(`${ordinal(achievements.awayTeam.visitNum)} time seeing ${achievements.awayTeam.name}${genderLabel} (${awayRecordStr})`);
         }
 
         // Home team
         const homeRec = achievements.homeTeam.record;
         const homeRecordStr = `${homeRec.wins}-${homeRec.losses}`;
         if (achievements.homeTeam.isNewTeam) {
-            // Only show D1 count again if away team wasn't new (otherwise it's a duplicate number)
-            if (!achievements.awayTeam.isNewTeam) {
-                parts.push(`${ordinal(achievements.d1Stats.d1TeamsSeen)}/365 D1 Teams Seen (${achievements.homeTeam.name})`);
-            } else {
-                parts.push(`NEW: ${achievements.homeTeam.name}`);
+            let homeLine = `NEW: ${achievements.homeTeam.name}${genderLabel}`;
+            const homeDetails = [];
+            // Use the per-team D1 count
+            homeDetails.push(`${achievements.homeTeam.d1Count}/365 D1 Teams${genderLabel}`);
+            if (achievements.homeTeam.conf && achievements.homeTeam.confTeamsTotal > 0) {
+                homeDetails.push(`${achievements.homeTeam.confTeamsSeen}/${achievements.homeTeam.confTeamsTotal} ${achievements.homeTeam.conf}`);
             }
-            if (achievements.homeTeam.conf && achievements.homeTeam.confTeamsTotal > 0 && achievements.homeTeam.conf !== achievements.awayTeam.conf) {
-                parts.push(`${achievements.homeTeam.confTeamsSeen}/${achievements.homeTeam.confTeamsTotal} ${achievements.homeTeam.conf} Teams`);
+            if (homeDetails.length > 0) {
+                homeLine += ` (${homeDetails.join(', ')})`;
             }
+            lines.push(homeLine);
         } else {
-            parts.push(`${ordinal(achievements.homeTeam.visitNum)} time seeing ${achievements.homeTeam.name} (${homeRecordStr})`);
+            lines.push(`${ordinal(achievements.homeTeam.visitNum)} time seeing ${achievements.homeTeam.name}${genderLabel} (${homeRecordStr})`);
         }
 
-        // Venue
+        // Venue (no gender - venues are shared)
         if (achievements.venue.name) {
             if (achievements.venue.isNewVenue) {
-                parts.push(`${ordinal(achievements.venue.totalVenuesSeen)}/365 D1 Venues (${achievements.venue.name})`);
+                let venueLine = `NEW: ${achievements.venue.name}`;
+                const venueDetails = [];
+                venueDetails.push(`${achievements.venue.totalVenuesSeen}/365 D1 Venues`);
                 if (achievements.homeTeam.conf && achievements.venue.confVenuesTotal > 0) {
-                    parts.push(`${achievements.venue.confVenuesSeen}/${achievements.venue.confVenuesTotal} ${achievements.homeTeam.conf} Venues`);
+                    venueDetails.push(`${achievements.venue.confVenuesSeen}/${achievements.venue.confVenuesTotal} ${achievements.homeTeam.conf}`);
                 }
+                if (venueDetails.length > 0) {
+                    venueLine += ` (${venueDetails.join(', ')})`;
+                }
+                lines.push(venueLine);
             } else {
-                parts.push(`${ordinal(achievements.venue.visitNum)} time at ${achievements.venue.name}`);
+                lines.push(`${ordinal(achievements.venue.visitNum)} time at ${achievements.venue.name}`);
             }
         }
 
-        const achievementsText = parts.join(' | ');
+        const achievementsText = lines.join('\n');
         achievementsHtml = `
             <div class="achievements-section" style="background:var(--bg-primary);padding:0.75rem 1rem;border-radius:8px;margin-bottom:1rem;border-left:3px solid var(--success);">
-                <div style="font-size:0.85rem;color:var(--text-secondary);cursor:pointer;user-select:all;" onclick="navigator.clipboard.writeText(this.innerText).then(() => showToast('Copied!'))" title="Click to copy">
-                    ${achievementsText}
+                <div style="font-size:0.85rem;color:var(--text-secondary);cursor:pointer;user-select:all;white-space:pre-line;" onclick="navigator.clipboard.writeText(this.innerText).then(() => showToast('Copied!'))" title="Click to copy">
+${achievementsText}
                 </div>
             </div>
         `;
@@ -7873,11 +7920,9 @@ function init() {
 
     // Handle URL on load
     handleURLNavigation();
-    window.addEventListener('popstate', handleURLNavigation);
 
-    // Hide loading overlay
-    const overlay = document.getElementById('loading-overlay');
-    if (overlay) overlay.style.display = 'none';
+    // Handle browser back/forward
+    window.addEventListener('popstate', handleURLNavigation);
 }
 
 // Initialize when DOM is ready
