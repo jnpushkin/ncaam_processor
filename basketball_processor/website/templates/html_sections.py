@@ -37,6 +37,10 @@ def get_body(total_games: int, total_players: int, total_teams: int, total_venue
 
     <div class="header">
         <div class="header-controls">
+            <div class="global-search-container">
+                <input type="text" id="global-search" class="global-search" placeholder="Search games, players, teams..." onkeyup="handleGlobalSearch(event)" onfocus="showGlobalSearchResults()" aria-label="Global search">
+                <div id="global-search-results" class="global-search-results" style="display:none;"></div>
+            </div>
             <button class="share-btn" onclick="shareCurrentView()" title="Share this view" aria-label="Share">&#128279;</button>
             <button class="theme-toggle" onclick="toggleTheme()" title="Toggle dark mode" aria-label="Toggle theme">&#127769;</button>
         </div>
@@ -121,6 +125,7 @@ def get_body(total_games: int, total_players: int, total_teams: int, total_venue
                 <button class="quick-filter active" onclick="quickFilterGames('all')">All</button>
                 <button class="quick-filter" onclick="quickFilterGames('ranked')">Ranked</button>
                 <button class="quick-filter" onclick="quickFilterGames('upsets')">Upsets</button>
+                <button class="quick-filter" onclick="quickFilterGames('must-see')">Must-See</button>
                 <button class="quick-filter" onclick="quickFilterGames('ot')">OT</button>
                 <button class="quick-filter" onclick="quickFilterGames('d1')">D1</button>
                 <button class="quick-filter" onclick="quickFilterGames('neutral')">Neutral</button>

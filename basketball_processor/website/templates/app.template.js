@@ -102,6 +102,83 @@ const STAT_THRESHOLDS = {
     threePct: { excellent: 0.40, good: 0.35, average: 0.30 },
 };
 
+// Calculate game significance score (0-100)
+// Higher scores = more exciting/important games
+function calculateGameSignificance(game) {
+    let score = 0;
+
+    const awayRank = game.AwayRank || 999;
+    const homeRank = game.HomeRank || 999;
+    const awayScore = game['Away Score'] || 0;
+    const homeScore = game['Home Score'] || 0;
+    const margin = Math.abs(awayScore - homeScore);
+    const totalPoints = awayScore + homeScore;
+
+    // Ranking factors (up to 50 points)
+    if (awayRank <= 25 && homeRank <= 25) {
+        // Both teams ranked - very significant
+        score += 30;
+        // Bonus for close rankings (competitive matchup)
+        const rankDiff = Math.abs(awayRank - homeRank);
+        if (rankDiff <= 5) score += 15;
+        else if (rankDiff <= 10) score += 10;
+        else score += 5;
+    } else if (awayRank <= 10 || homeRank <= 10) {
+        // Top 10 team involved
+        score += 20;
+    } else if (awayRank <= 25 || homeRank <= 25) {
+        // Ranked team involved
+        score += 10;
+    }
+
+    // Upset factor (up to 25 points)
+    const awayWon = awayScore > homeScore;
+    if (awayRank <= 25 || homeRank <= 25) {
+        const higherRank = Math.min(awayRank, homeRank);
+        const lowerRank = Math.max(awayRank, homeRank);
+        const higherRankedWon = (awayRank < homeRank && awayWon) || (homeRank < awayRank && !awayWon);
+
+        if (!higherRankedWon && higherRank <= 25) {
+            // Upset occurred
+            score += 25;
+            // Bigger upset = more bonus
+            if (higherRank <= 5) score += 10;
+            else if (higherRank <= 10) score += 5;
+        }
+    }
+
+    // Game closeness (up to 20 points)
+    if (game.Linescore) {
+        // Check for overtime
+        const periods = Object.keys(game.Linescore.away || {}).length;
+        if (periods > 4) score += 15; // OT game
+    }
+    if (margin <= 3) score += 20;
+    else if (margin <= 5) score += 15;
+    else if (margin <= 10) score += 10;
+    else if (margin <= 15) score += 5;
+
+    // High scoring (up to 10 points)
+    if (totalPoints >= 180) score += 10;
+    else if (totalPoints >= 160) score += 5;
+
+    // Conference game (5 points)
+    if (game.AwayConf && game.HomeConf && game.AwayConf === game.HomeConf) {
+        score += 5;
+    }
+
+    return Math.min(100, score);
+}
+
+// Get significance label and class
+function getSignificanceLabel(score) {
+    if (score >= 80) return { label: 'Must-See', class: 'sig-must-see' };
+    if (score >= 60) return { label: 'High', class: 'sig-high' };
+    if (score >= 40) return { label: 'Notable', class: 'sig-notable' };
+    if (score >= 20) return { label: 'Average', class: 'sig-average' };
+    return { label: '', class: '' };
+}
+
 // Theme toggle
 function toggleTheme() {
     const body = document.body;
@@ -158,6 +235,211 @@ function showToast(message) {
     toast.classList.add('show');
     setTimeout(() => toast.classList.remove('show'), 3000);
 }
+
+// Global Search
+let globalSearchTimeout = null;
+function handleGlobalSearch(event) {
+    const query = event.target.value.trim().toLowerCase();
+
+    // Clear previous timeout
+    if (globalSearchTimeout) clearTimeout(globalSearchTimeout);
+
+    // Hide results if query too short
+    if (query.length < 2) {
+        hideGlobalSearchResults();
+        return;
+    }
+
+    // Enter key navigates to first result
+    if (event.key === 'Enter') {
+        const firstResult = document.querySelector('.search-result-item');
+        if (firstResult) firstResult.click();
+        return;
+    }
+
+    // Escape key closes search
+    if (event.key === 'Escape') {
+        hideGlobalSearchResults();
+        event.target.blur();
+        return;
+    }
+
+    // Debounce search
+    globalSearchTimeout = setTimeout(() => performGlobalSearch(query), 150);
+}
+
+function performGlobalSearch(query) {
+    const results = { games: [], players: [], teams: [], venues: [] };
+    const maxResults = 5; // Max per category
+
+    // Search games
+    (DATA.games || []).forEach(game => {
+        if (results.games.length >= maxResults) return;
+        const searchStr = `${game['Away Team']} ${game['Home Team']} ${game.Date} ${game.Venue}`.toLowerCase();
+        if (searchStr.includes(query)) {
+            results.games.push({
+                id: game.GameID,
+                title: `${game['Away Team']} @ ${game['Home Team']}`,
+                subtitle: `${game.Date} - ${game['Away Score']}-${game['Home Score']}`,
+                icon: '🏀'
+            });
+        }
+    });
+
+    // Search players
+    (DATA.players || []).forEach(player => {
+        if (results.players.length >= maxResults) return;
+        const name = (player.Player || '').toLowerCase();
+        const team = (player.Team || '').toLowerCase();
+        if (name.includes(query) || team.includes(query)) {
+            results.players.push({
+                id: player['Player ID'] || player.Player,
+                title: player.Player,
+                subtitle: `${player.Team} - ${player.PPG?.toFixed(1) || 0} PPG`,
+                icon: '👤'
+            });
+        }
+    });
+
+    // Search teams
+    (DATA.teams || []).forEach(team => {
+        if (results.teams.length >= maxResults) return;
+        const name = (team.Team || '').toLowerCase();
+        if (name.includes(query)) {
+            results.teams.push({
+                id: team.Team,
+                gender: team.Gender,
+                title: team.Team,
+                subtitle: `${team.Conference || 'Unknown'} - ${team.Wins || 0}W ${team.Losses || 0}L`,
+                icon: '🏆'
+            });
+        }
+    });
+
+    // Search venues
+    const venues = new Map();
+    (DATA.games || []).forEach(game => {
+        const venue = game.Venue;
+        if (!venue || venues.has(venue)) return;
+        if (venue.toLowerCase().includes(query)) {
+            venues.set(venue, {
+                id: venue,
+                title: venue,
+                subtitle: `${game.City || ''}, ${game.State || ''}`,
+                icon: '🏟️'
+            });
+        }
+    });
+    results.venues = Array.from(venues.values()).slice(0, maxResults);
+
+    renderGlobalSearchResults(results);
+}
+
+function renderGlobalSearchResults(results) {
+    const container = document.getElementById('global-search-results');
+    const hasResults = results.games.length + results.players.length + results.teams.length + results.venues.length > 0;
+
+    if (!hasResults) {
+        container.innerHTML = '<div class="search-no-results">No results found</div>';
+        container.style.display = 'block';
+        return;
+    }
+
+    let html = '';
+
+    if (results.games.length > 0) {
+        html += '<div class="search-result-section"><div class="search-result-header">Games</div>';
+        results.games.forEach(r => {
+            html += `<div class="search-result-item" onclick="selectGlobalSearchResult('game', '${r.id}')">
+                <span class="search-result-icon">${r.icon}</span>
+                <div class="search-result-text">
+                    <div class="search-result-title">${r.title}</div>
+                    <div class="search-result-subtitle">${r.subtitle}</div>
+                </div>
+            </div>`;
+        });
+        html += '</div>';
+    }
+
+    if (results.players.length > 0) {
+        html += '<div class="search-result-section"><div class="search-result-header">Players</div>';
+        results.players.forEach(r => {
+            html += `<div class="search-result-item" onclick="selectGlobalSearchResult('player', '${r.id}')">
+                <span class="search-result-icon">${r.icon}</span>
+                <div class="search-result-text">
+                    <div class="search-result-title">${r.title}</div>
+                    <div class="search-result-subtitle">${r.subtitle}</div>
+                </div>
+            </div>`;
+        });
+        html += '</div>';
+    }
+
+    if (results.teams.length > 0) {
+        html += '<div class="search-result-section"><div class="search-result-header">Teams</div>';
+        results.teams.forEach(r => {
+            html += `<div class="search-result-item" onclick="selectGlobalSearchResult('team', '${r.id}', '${r.gender || 'M'}')">
+                <span class="search-result-icon">${r.icon}</span>
+                <div class="search-result-text">
+                    <div class="search-result-title">${r.title}</div>
+                    <div class="search-result-subtitle">${r.subtitle}</div>
+                </div>
+            </div>`;
+        });
+        html += '</div>';
+    }
+
+    if (results.venues.length > 0) {
+        html += '<div class="search-result-section"><div class="search-result-header">Venues</div>';
+        results.venues.forEach(r => {
+            html += `<div class="search-result-item" onclick="selectGlobalSearchResult('venue', '${r.id}')">
+                <span class="search-result-icon">${r.icon}</span>
+                <div class="search-result-text">
+                    <div class="search-result-title">${r.title}</div>
+                    <div class="search-result-subtitle">${r.subtitle}</div>
+                </div>
+            </div>`;
+        });
+        html += '</div>';
+    }
+
+    container.innerHTML = html;
+    container.style.display = 'block';
+}
+
+function selectGlobalSearchResult(type, id, extra = '') {
+    hideGlobalSearchResults();
+    document.getElementById('global-search').value = '';
+
+    if (type === 'game') {
+        showGameDetail(id);
+    } else if (type === 'player') {
+        showPlayerDetail(id);
+    } else if (type === 'team') {
+        filterByTeam(id, extra || 'M');
+    } else if (type === 'venue') {
+        showVenueDetail(id);
+    }
+}
+
+function showGlobalSearchResults() {
+    const query = document.getElementById('global-search').value.trim();
+    if (query.length >= 2) {
+        performGlobalSearch(query.toLowerCase());
+    }
+}
+
+function hideGlobalSearchResults() {
+    document.getElementById('global-search-results').style.display = 'none';
+}
+
+// Close global search results when clicking outside
+document.addEventListener('click', (e) => {
+    const container = document.querySelector('.global-search-container');
+    if (container && !container.contains(e.target)) {
+        hideGlobalSearchResults();
+    }
+});
 
 function toggleBadges(gameId, event) {
     event.stopPropagation();
@@ -833,6 +1115,10 @@ function applyGamesFilters() {
             if (game.Gender !== 'M') return false;
         } else if (quickFilter === 'womens') {
             if (game.Gender !== 'W') return false;
+        } else if (quickFilter === 'must-see') {
+            // Must-See = significance score >= 60
+            const significance = calculateGameSignificance(game);
+            if (significance < 60) return false;
         }
         return true;
     });
@@ -1865,13 +2151,20 @@ function renderGamesTable() {
             const otPeriods = (linescore.away?.OT?.length || 0);
             const otText = otPeriods > 0 ? ` (${otPeriods > 1 ? otPeriods + 'OT' : 'OT'})` : '';
 
+            // Calculate game significance
+            const significance = calculateGameSignificance(game);
+            const sigInfo = getSignificanceLabel(significance);
+
             // Milestone badges (compact display with expandable)
             const allBadges = [...(upsetBadge ? [{text: 'UPSET', title: upsetBadge.match(/title="([^"]+)"/)?.[1] || 'Upset', type: 'upset'}] : []), ...milestones.badges];
             const visibleBadges = allBadges.slice(0, 3);
             const hiddenBadges = allBadges.slice(3);
             const gameIdSafe = (game.GameID || '').replace(/[^a-zA-Z0-9]/g, '_');
 
-            let badgeHtml = visibleBadges.map(b =>
+            // Add significance badge if notable or higher
+            const sigBadge = sigInfo.label ? `<span class="significance-badge ${sigInfo.class}" title="Game Significance: ${significance}/100">${sigInfo.label}</span>` : '';
+
+            let badgeHtml = sigBadge + visibleBadges.map(b =>
                 b.type === 'upset'
                     ? `<span class="upset-badge" title="${b.title}">UPSET</span>`
                     : `<span class="milestone-badge" title="${b.title}">${b.text}</span>`
