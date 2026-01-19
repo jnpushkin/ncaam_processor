@@ -7219,18 +7219,11 @@ function showGameDetail(gameId, fromCalendarDay = false) {
         const awayRec = achievements.awayTeam.record;
         const awayRecordStr = `${awayRec.wins}-${awayRec.losses}`;
         if (achievements.awayTeam.isNewTeam) {
-            // For new team: show team name with D1 count and conference count
-            let awayLine = `NEW: ${achievements.awayTeam.name}${genderLabel}`;
-            const awayDetails = [];
-            // Use the per-team D1 count
-            awayDetails.push(`${achievements.awayTeam.d1Count}/365 D1 Teams${genderLabel}`);
+            // For new team: separate lines for D1 count and conference count
+            lines.push(`${achievements.awayTeam.d1Count}/365 D1 teams seen${genderLabel}`);
             if (achievements.awayTeam.conf && achievements.awayTeam.confTeamsTotal > 0) {
-                awayDetails.push(`${achievements.awayTeam.confTeamsSeen}/${achievements.awayTeam.confTeamsTotal} ${achievements.awayTeam.conf}`);
+                lines.push(`${achievements.awayTeam.confTeamsSeen}/${achievements.awayTeam.confTeamsTotal} ${achievements.awayTeam.conf} teams seen`);
             }
-            if (awayDetails.length > 0) {
-                awayLine += ` (${awayDetails.join(', ')})`;
-            }
-            lines.push(awayLine);
         } else {
             lines.push(`${ordinal(achievements.awayTeam.visitNum)} time seeing ${achievements.awayTeam.name}${genderLabel} (${awayRecordStr})`);
         }
@@ -7239,17 +7232,11 @@ function showGameDetail(gameId, fromCalendarDay = false) {
         const homeRec = achievements.homeTeam.record;
         const homeRecordStr = `${homeRec.wins}-${homeRec.losses}`;
         if (achievements.homeTeam.isNewTeam) {
-            let homeLine = `NEW: ${achievements.homeTeam.name}${genderLabel}`;
-            const homeDetails = [];
-            // Use the per-team D1 count
-            homeDetails.push(`${achievements.homeTeam.d1Count}/365 D1 Teams${genderLabel}`);
+            // For new team: separate lines for D1 count and conference count
+            lines.push(`${achievements.homeTeam.d1Count}/365 D1 teams seen${genderLabel}`);
             if (achievements.homeTeam.conf && achievements.homeTeam.confTeamsTotal > 0) {
-                homeDetails.push(`${achievements.homeTeam.confTeamsSeen}/${achievements.homeTeam.confTeamsTotal} ${achievements.homeTeam.conf}`);
+                lines.push(`${achievements.homeTeam.confTeamsSeen}/${achievements.homeTeam.confTeamsTotal} ${achievements.homeTeam.conf} teams seen`);
             }
-            if (homeDetails.length > 0) {
-                homeLine += ` (${homeDetails.join(', ')})`;
-            }
-            lines.push(homeLine);
         } else {
             lines.push(`${ordinal(achievements.homeTeam.visitNum)} time seeing ${achievements.homeTeam.name}${genderLabel} (${homeRecordStr})`);
         }
@@ -7257,16 +7244,11 @@ function showGameDetail(gameId, fromCalendarDay = false) {
         // Venue (no gender - venues are shared)
         if (achievements.venue.name) {
             if (achievements.venue.isNewVenue) {
-                let venueLine = `NEW: ${achievements.venue.name}`;
-                const venueDetails = [];
-                venueDetails.push(`${achievements.venue.totalVenuesSeen}/365 D1 Venues`);
+                // For new venue: separate lines for D1 count and conference count
+                lines.push(`${achievements.venue.totalVenuesSeen}/365 D1 venues seen`);
                 if (achievements.homeTeam.conf && achievements.venue.confVenuesTotal > 0) {
-                    venueDetails.push(`${achievements.venue.confVenuesSeen}/${achievements.venue.confVenuesTotal} ${achievements.homeTeam.conf}`);
+                    lines.push(`${achievements.venue.confVenuesSeen}/${achievements.venue.confVenuesTotal} ${achievements.homeTeam.conf} venues seen`);
                 }
-                if (venueDetails.length > 0) {
-                    venueLine += ` (${venueDetails.join(', ')})`;
-                }
-                lines.push(venueLine);
             } else {
                 lines.push(`${ordinal(achievements.venue.visitNum)} time at ${achievements.venue.name}`);
             }
