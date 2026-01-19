@@ -2268,11 +2268,32 @@ function showMilestoneEntries(key, updateUrl = true) {
 function populateTeamsTable() {
     const tbody = document.querySelector('#teams-table tbody');
     const genderFilter = document.getElementById('teams-gender')?.value || '';
+    const divisionFilter = document.getElementById('teams-division')?.value || '';
+    const countEl = document.getElementById('teams-count');
     let data = DATA.teams || [];
 
     // Apply gender filter
     if (genderFilter) {
         data = data.filter(team => team.Gender === genderFilter);
+    }
+
+    // Apply D1 filter
+    if (divisionFilter === 'D1') {
+        // Build set of D1 teams from conference checklist
+        const d1Teams = new Set();
+        const checklist = DATA.conferenceChecklist || {};
+        for (const [confName, confData] of Object.entries(checklist)) {
+            if (confName === 'All D1' || confName === 'Historical/Other') continue;
+            (confData.teams || []).forEach(t => {
+                if (t.team) d1Teams.add(t.team);
+            });
+        }
+        data = data.filter(team => d1Teams.has(team.Team));
+    }
+
+    // Update count
+    if (countEl) {
+        countEl.textContent = `${data.length} teams`;
     }
 
     if (data.length === 0) {

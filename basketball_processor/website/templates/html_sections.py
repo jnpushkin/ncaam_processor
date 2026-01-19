@@ -566,7 +566,15 @@ def get_body(total_games: int, total_players: int, total_teams: int, total_venue
                             <option value="W">Women's</option>
                         </select>
                     </div>
+                    <div class="filter-group">
+                        <label for="teams-division">Division</label>
+                        <select id="teams-division" onchange="populateTeamsTable()">
+                            <option value="">All</option>
+                            <option value="D1">D1 Only</option>
+                        </select>
+                    </div>
                     <input type="text" class="search-box" placeholder="Search teams..." onkeyup="filterTable('teams-table', this.value)" style="flex: 1;">
+                    <span id="teams-count" style="color: var(--text-secondary); font-size: 0.9rem; white-space: nowrap;"></span>
                 </div>
                 <div class="table-container">
                     <table id="teams-table" aria-label="Team Records">
