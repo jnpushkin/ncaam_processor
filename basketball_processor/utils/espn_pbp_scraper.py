@@ -14,12 +14,12 @@ import json
 import re
 import time
 from datetime import datetime
-from pathlib import Path
 from typing import Optional, Dict, Any, List, Tuple
 
 import requests
 
-from .constants import BASE_DIR, TEAM_ALIASES
+from .constants import BASE_DIR
+from .team_names import normalize_team_name_for_comparison
 
 # Rate limiting
 RATE_LIMIT_DELAY = 1.0  # seconds between requests
@@ -46,20 +46,6 @@ def _rate_limit():
     if elapsed < RATE_LIMIT_DELAY:
         time.sleep(RATE_LIMIT_DELAY - elapsed)
     _last_request_time = time.time()
-
-
-def _normalize_team_name(name: str) -> str:
-    """Normalize team name for matching."""
-    if not name:
-        return ''
-    # First try direct alias lookup
-    if name in TEAM_ALIASES:
-        name = TEAM_ALIASES[name]
-    # Clean up common variations
-    name = name.replace("'", "").replace(".", "").replace("-", " ")
-    name = name.replace("(", "").replace(")", "")  # Remove parentheses
-    name = re.sub(r'\s+', ' ', name).strip().lower()
-    return name
 
 
 def get_espn_id_from_cache(
@@ -104,8 +90,8 @@ def get_espn_id_from_cache(
     except ValueError:
         return None
 
-    away_norm = _normalize_team_name(away_team)
-    home_norm = _normalize_team_name(home_team)
+    away_norm = normalize_team_name_for_comparison(away_team)
+    home_norm = normalize_team_name_for_comparison(home_team)
 
     for game in games:
         # Parse game date from ISO format
@@ -132,14 +118,14 @@ def get_espn_id_from_cache(
 
         # Try various name fields
         espn_home_names = [
-            _normalize_team_name(espn_home.get('name', '')),
-            _normalize_team_name(espn_home.get('short_name', '')),
-            _normalize_team_name(espn_home.get('abbreviation', '')),
+            normalize_team_name_for_comparison(espn_home.get('name', '')),
+            normalize_team_name_for_comparison(espn_home.get('short_name', '')),
+            normalize_team_name_for_comparison(espn_home.get('abbreviation', '')),
         ]
         espn_away_names = [
-            _normalize_team_name(espn_away.get('name', '')),
-            _normalize_team_name(espn_away.get('short_name', '')),
-            _normalize_team_name(espn_away.get('abbreviation', '')),
+            normalize_team_name_for_comparison(espn_away.get('name', '')),
+            normalize_team_name_for_comparison(espn_away.get('short_name', '')),
+            normalize_team_name_for_comparison(espn_away.get('abbreviation', '')),
         ]
 
         # Check for matches
@@ -194,8 +180,8 @@ def _lookup_espn_id_from_scoreboard(
         data = response.json()
         events = data.get('events', [])
 
-        away_norm = _normalize_team_name(away_team)
-        home_norm = _normalize_team_name(home_team)
+        away_norm = normalize_team_name_for_comparison(away_team)
+        home_norm = normalize_team_name_for_comparison(home_team)
 
         for event in events:
             # Get competitors
@@ -212,9 +198,9 @@ def _lookup_espn_id_from_scoreboard(
             for c in competitors:
                 team = c.get('team', {})
                 team_names = [
-                    _normalize_team_name(team.get('displayName', '')),
-                    _normalize_team_name(team.get('shortDisplayName', '')),
-                    _normalize_team_name(team.get('name', '')),
+                    normalize_team_name_for_comparison(team.get('displayName', '')),
+                    normalize_team_name_for_comparison(team.get('shortDisplayName', '')),
+                    normalize_team_name_for_comparison(team.get('name', '')),
                 ]
                 if c.get('homeAway') == 'home':
                     espn_home = team_names
@@ -357,7 +343,7 @@ def _lookup_espn_id_from_ncaahoopr(
         from io import StringIO
 
         reader = csv.DictReader(StringIO(response.text))
-        away_norm = _normalize_team_name(away_team)
+        away_norm = normalize_team_name_for_comparison(away_team)
 
         for row in reader:
             game_date = row.get('date', '')
@@ -366,7 +352,7 @@ def _lookup_espn_id_from_ncaahoopr(
 
             # Match date and opponent
             if game_date == date_formatted and location == 'H':
-                opp_norm = _normalize_team_name(opponent)
+                opp_norm = normalize_team_name_for_comparison(opponent)
                 if away_norm in opp_norm or opp_norm in away_norm:
                     return row.get('game_id')
 

@@ -600,23 +600,6 @@ def _compare_division_data(old_data: Dict, new_data: Dict) -> Dict[str, Any]:
 
 # ==================== PLAYER SCRAPING ====================
 
-def _load_player_cache() -> Dict[str, Any]:
-    """Load RealGM player cache."""
-    if REALGM_PLAYER_CACHE_FILE.exists():
-        try:
-            with open(REALGM_PLAYER_CACHE_FILE, 'r', encoding='utf-8') as f:
-                return json.load(f)
-        except (json.JSONDecodeError, IOError):
-            pass
-    return {}
-
-
-def _save_player_cache(cache: Dict[str, Any]) -> None:
-    """Save RealGM player cache."""
-    with open(REALGM_PLAYER_CACHE_FILE, 'w', encoding='utf-8') as f:
-        json.dump(cache, f, indent=2)
-
-
 def _load_transfer_cache() -> Dict[str, Any]:
     """Load transfer portal cache."""
     if REALGM_TRANSFER_CACHE_FILE.exists():

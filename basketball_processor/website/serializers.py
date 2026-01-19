@@ -2,7 +2,7 @@
 Data serializers for website JSON generation.
 """
 
-from typing import Dict, List, Any, Optional
+from typing import Dict, List, Any
 import pandas as pd
 import json
 
@@ -12,41 +12,60 @@ from ..utils.nba_players import (
 )
 from ..utils.d2d3_scraper import enrich_player_with_realgm, lookup_player_transfers
 from ..utils.schedule_scraper import (
-    get_schedule, filter_upcoming_games, get_visited_venues_from_games,
+    get_schedule, filter_upcoming_games,
     SCHEDULE_CACHE_FILE, normalize_state, get_espn_team_id
 )
+from ..utils.team_names import normalize_team_name
+from ..utils.constants import ESPN_TO_CANONICAL, NON_D1_SCHOOLS
 
 
-# Team name normalization: map abbreviations to official names
-TEAM_NAME_MAP = {
-    'UNC': 'North Carolina',
-    'Pitt': 'Pittsburgh',
-    'UConn': 'Connecticut',
-    'USC': 'Southern California',
-    'VCU': 'Virginia Commonwealth',
-    'UCF': 'Central Florida',
-    'UNLV': 'Nevada-Las Vegas',
-    'SMU': 'Southern Methodist',
-    'LSU': 'Louisiana State',
-    'BYU': 'Brigham Young',
-    'TCU': 'Texas Christian',
-    'UTEP': 'Texas-El Paso',
-    'UTSA': 'Texas-San Antonio',
-    'UAB': 'Alabama-Birmingham',
-    'UMass': 'Massachusetts',
-    'UNH': 'New Hampshire',
-    'URI': 'Rhode Island',
-    'UCSB': 'UC Santa Barbara',
-    'UCLA': 'UCLA',  # Keep as-is (official name)
-    'Cal': 'California',
+# Known neutral site venues - NBA arenas commonly used for college games
+KNOWN_NEUTRAL_VENUES = {
+    'chase center',
+    'barclays center',
+    'madison square garden',
+    'united center',
+    't-mobile arena',
+    'mgm grand garden arena',
+    'staples center',
+    'crypto.com arena',
+    'footprint center',
+    'state farm arena',
+    'spectrum center',
+    'smoothie king center',
+    'capital one arena',
+    'little caesars arena',
+    'wells fargo center',
+    'prudential center',
+    'mohegan sun arena',
+    'td garden',
+    'american airlines center',
+    'toyota center',
+    'ball arena',
+    'golden 1 center',
+    'kia center',
+    'amway center',
+    'paycom center',
+    'frost bank center',
+    'kaseya center',
+    'gainbridge fieldhouse',
+    'target center',
+    'delta center',
+    'moda center',
 }
 
+# Venue name aliases (ESPN name -> our name variations)
+VENUE_ALIASES = {
+    'global credit union arena': ['gcu arena', 'grand canyon arena'],
+    'gcu arena': ['global credit union arena'],
+}
 
-def normalize_team_name(name: str) -> str:
-    """Normalize team name abbreviations to official names."""
-    if not name:
-        return name
-    return TEAM_NAME_MAP.get(name, name)
+# Common venue words to exclude from matching (too generic)
+GENERIC_VENUE_WORDS = {
+    'arena', 'center', 'stadium', 'pavilion', 'gymnasium', 'gym',
+    'coliseum', 'fieldhouse', 'field', 'house', 'complex', 'court',
+    'hall', 'memorial', 'sports', 'athletic', 'events', 'event'
+}
 
 
 class DataSerializer:
@@ -264,41 +283,7 @@ class DataSerializer:
                 if basic_info.get('neutral_site'):
                     game['NeutralSite'] = True
 
-            # Known neutral site venues - always mark as neutral regardless of ESPN data
-            KNOWN_NEUTRAL_VENUES = {
-                # NBA arenas commonly used for college games
-                'chase center',
-                'barclays center',
-                'madison square garden',
-                'united center',
-                't-mobile arena',
-                'mgm grand garden arena',
-                'staples center',
-                'crypto.com arena',
-                'footprint center',
-                'state farm arena',
-                'spectrum center',
-                'smoothie king center',
-                'capital one arena',
-                'little caesars arena',
-                'wells fargo center',
-                'prudential center',
-                'mohegan sun arena',
-                'td garden',
-                'american airlines center',
-                'toyota center',
-                'ball arena',
-                'golden 1 center',
-                'kia center',
-                'amway center',
-                'paycom center',
-                'frost bank center',
-                'kaseya center',
-                'gainbridge fieldhouse',
-                'target center',
-                'delta center',
-                'moda center',
-            }
+            # Check for known neutral site venues
             venue = game.get('Venue', '').lower().strip()
             if venue and any(nv in venue for nv in KNOWN_NEUTRAL_VENUES):
                 game['NeutralSite'] = True
@@ -904,19 +889,6 @@ class DataSerializer:
             venue_city = espn_venue.get("city", "")
             venue_state = normalize_state(espn_venue.get("state", ""))
 
-            # Venue name aliases (ESPN name -> our name variations)
-            VENUE_ALIASES = {
-                'global credit union arena': ['gcu arena', 'grand canyon arena'],
-                'gcu arena': ['global credit union arena'],
-            }
-
-            # Common venue words to exclude from matching (too generic)
-            GENERIC_VENUE_WORDS = {
-                'arena', 'center', 'stadium', 'pavilion', 'gymnasium', 'gym',
-                'coliseum', 'fieldhouse', 'field', 'house', 'complex', 'court',
-                'hall', 'memorial', 'sports', 'athletic', 'events', 'event'
-            }
-
             # Check if this venue matches any visited venue
             for key, data in venues_seen.items():
                 if data['city'].lower() == venue_city.lower() and data['state'].lower() == venue_state.lower():
@@ -982,238 +954,6 @@ class DataSerializer:
 
         if not team_name:
             return ''
-
-        # ESPN name -> our canonical name (explicit mappings only, no fuzzy matching)
-        ESPN_TO_CANONICAL = {
-            # Abbreviations
-            'UConn': 'Connecticut',
-            'UMass': 'Massachusetts',
-            'UNLV': 'Nevada-Las Vegas',
-            'VCU': 'Virginia Commonwealth',
-            'UCF': 'Central Florida',
-            'SMU': 'Southern Methodist',
-            'LSU': 'Louisiana State',
-            'BYU': 'Brigham Young',
-            'TCU': 'Texas Christian',
-            'USC': 'Southern California',
-            'UCLA': 'UCLA',
-            'UTEP': 'UTEP',
-            'UTSA': 'Texas-San Antonio',
-            'FGCU': 'Florida Gulf Coast',
-            'FIU': 'Florida International',
-            'FAU': 'Florida Atlantic',
-            'UAB': 'UAB',
-            'UIC': 'Illinois-Chicago',
-            'IUPUI': 'IUPUI',
-            'SIU': 'Southern Illinois',
-            'NIU': 'Northern Illinois',
-            'WKU': 'Western Kentucky',
-            'ETSU': 'East Tennessee State',
-            'MTSU': 'Middle Tennessee',
-            'LIU': 'Long Island',
-            'URI': 'Rhode Island',
-
-            # Direction abbreviations
-            'N Carolina': 'North Carolina',
-            'S Carolina': 'South Carolina',
-            'N Dakota': 'North Dakota',
-            'S Dakota': 'South Dakota',
-            'N Dakota St': 'North Dakota State',
-            'S Dakota St': 'South Dakota State',
-            'N Arizona': 'Northern Arizona',
-            'N Colorado': 'Northern Colorado',
-            'N Kentucky': 'Northern Kentucky',
-            'N Iowa': 'Northern Iowa',
-            'N Illinois': 'Northern Illinois',
-            'N Texas': 'North Texas',
-            'S Florida': 'South Florida',
-            'S Alabama': 'South Alabama',
-            'S Utah': 'Southern Utah',
-            'S Illinois': 'Southern Illinois',
-            'W Virginia': 'West Virginia',
-            'W Kentucky': 'Western Kentucky',
-            'W Michigan': 'Western Michigan',
-            'W Illinois': 'Western Illinois',
-            'E Kentucky': 'Eastern Kentucky',
-            'E Michigan': 'Eastern Michigan',
-            'E Illinois': 'Eastern Illinois',
-            'E Washington': 'Eastern Washington',
-            'E Tennessee St': 'East Tennessee State',
-            'SE Missouri St': 'Southeast Missouri State',
-            'SE Louisiana': 'Southeastern Louisiana',
-            'NW State': 'Northwestern State',
-
-            # State abbreviations
-            'Miss State': 'Mississippi State',
-            'Ariz State': 'Arizona State',
-            'Ore State': 'Oregon State',
-            'Wash State': 'Washington State',
-            'Penn State': 'Penn State',
-            'Mich State': 'Michigan State',
-            'Ohio State': 'Ohio State',
-            'Iowa State': 'Iowa State',
-            'Ball State': 'Ball State',
-            'Boise State': 'Boise State',
-            'Fresno State': 'Fresno State',
-
-            # "St" suffix -> "State"
-            'Alabama St': 'Alabama State',
-            'Alcorn St': 'Alcorn State',
-            'Appalachian St': 'Appalachian State',
-            'Arizona St': 'Arizona State',
-            'Arkansas St': 'Arkansas State',
-            'Ball St': 'Ball State',
-            'Boise St': 'Boise State',
-            'Bowling Green St': 'Bowling Green',
-            'Chicago St': 'Chicago State',
-            'Cleveland St': 'Cleveland State',
-            'Colorado St': 'Colorado State',
-            'Coppin St': 'Coppin State',
-            'Delaware St': 'Delaware State',
-            'Fresno St': 'Fresno State',
-            'Georgia St': 'Georgia State',
-            'Grambling St': 'Grambling State',
-            'Idaho St': 'Idaho State',
-            'Illinois St': 'Illinois State',
-            'Indiana St': 'Indiana State',
-            'Iowa St': 'Iowa State',
-            'Jackson St': 'Jackson State',
-            'Jacksonville St': 'Jacksonville State',
-            'Kansas St': 'Kansas State',
-            'Kennesaw St': 'Kennesaw State',
-            'Kent St': 'Kent State',
-            'McNeese St': 'McNeese State',
-            'Memphis St': 'Memphis',
-            'Michigan St': 'Michigan State',
-            'Mississippi St': 'Mississippi State',
-            'Missouri St': 'Missouri State',
-            'Montana St': 'Montana State',
-            'Morehead St': 'Morehead State',
-            'Morgan St': 'Morgan State',
-            'Murray St': 'Murray State',
-            'NC St': 'NC State',
-            'New Mexico St': 'New Mexico State',
-            'Norfolk St': 'Norfolk State',
-            'Ohio St': 'Ohio State',
-            'Oklahoma St': 'Oklahoma State',
-            'Oregon St': 'Oregon State',
-            'Penn St': 'Penn State',
-            'Pittsburgh St': 'Pittsburg State',
-            'Portland St': 'Portland State',
-            'Prairie View St': 'Prairie View A&M',
-            'Sacramento St': 'Sacramento State',
-            'Sam Houston St': 'Sam Houston State',
-            'San Diego St': 'San Diego State',
-            'San Jose St': 'San Jose State',
-            'Savannah St': 'Savannah State',
-            'South Carolina St': 'South Carolina State',
-            'Stephen F. Austin St': 'Stephen F. Austin',
-            'Tennessee St': 'Tennessee State',
-            'Texas St': 'Texas State',
-            'Texas Southern St': 'Texas Southern',
-            'Troy St': 'Troy',
-            'Utah St': 'Utah State',
-            'Valdosta St': 'Valdosta State',
-            'Washington St': 'Washington State',
-            'Weber St': 'Weber State',
-            'Wichita St': 'Wichita State',
-            'Wright St': 'Wright State',
-            'Youngstown St': 'Youngstown State',
-
-            # "St" prefix -> "Saint" or "St."
-            'St Bonaventure': 'St. Bonaventure',
-            "St John's": "St. John's",
-            "St Joseph's": "Saint Joseph's",
-            'St Louis': 'Saint Louis',
-            "St Mary's": "Saint Mary's (CA)",
-            "St Peter's": "Saint Peter's",
-            'St Thomas': 'St. Thomas',
-            'St Thomas (MN)': 'St. Thomas',
-
-            # CSU variations
-            'CSU Bakersfield': 'Cal State Bakersfield',
-            'CSU Fullerton': 'Cal State Fullerton',
-            'CSU Northridge': 'Cal State Northridge',
-            'Long Beach St': 'Long Beach State',
-            'Cal Poly': 'Cal Poly',
-            'Cal Baptist': 'California Baptist',
-
-            # Common nicknames
-            'App State': 'Appalachian State',
-            'G Washington': 'George Washington',
-            'Ole Miss': 'Mississippi',
-            'Pitt': 'Pittsburgh',
-            'Miami': 'Miami (FL)',
-            'Miami (FL)': 'Miami (FL)',
-            'Miami (OH)': 'Miami (OH)',
-            'UNC': 'North Carolina',
-            'NC A&T': 'North Carolina A&T',
-            'NC Central': 'North Carolina Central',
-            'A&M-Corpus Christi': 'Texas A&M-Corpus Christi',
-
-            # SWAC schools
-            'Bethune': 'Bethune-Cookman',
-            'Bethune-Cookman': 'Bethune-Cookman',
-            'Miss Valley St': 'Mississippi Valley State',
-            'Mississippi Valley St': 'Mississippi Valley State',
-            'Prairie View': 'Prairie View A&M',
-            'Prairie View A&M': 'Prairie View A&M',
-            'AR-Pine Bluff': 'Arkansas-Pine Bluff',
-            'Ark-Pine Bluff': 'Arkansas-Pine Bluff',
-            'Alabama A&M': 'Alabama A&M',
-            'Alabama St': 'Alabama State',
-            'Alcorn St': 'Alcorn State',
-            'Grambling St': 'Grambling State',
-            'Grambling': 'Grambling State',
-            'Jackson St': 'Jackson State',
-            'Florida A&M': 'Florida A&M',
-            'Texas Southern': 'Texas Southern',
-            'Southern U': 'Southern',
-
-            # MEAC schools
-            'Coppin St': 'Coppin State',
-            'Delaware St': 'Delaware State',
-            'Morgan St': 'Morgan State',
-            'Norfolk St': 'Norfolk State',
-            'SC State': 'South Carolina State',
-            'Howard': 'Howard',
-
-            # UMES/Maryland schools
-            'UMES': 'Maryland-Eastern Shore',
-            'MD Eastern': 'Maryland-Eastern Shore',
-            'UMBC': 'UMBC',
-            'Loyola MD': 'Loyola (MD)',
-            'Loyola Chi': 'Loyola Chicago',
-            'Loyola Marymount': 'Loyola Marymount',
-
-            # Hawaii
-            "Hawai'i": 'Hawaii',
-            "Hawai\u2019i": 'Hawaii',  # ESPN right single quotation
-
-            # Other ESPN variations
-            'Southern Miss': 'Southern Miss',
-            'Little Rock': 'Arkansas-Little Rock',
-            'UCSB': 'UC Santa Barbara',
-            'UCD': 'UC Davis',
-            'UCR': 'UC Riverside',
-            'UCSD': 'UC San Diego',
-            'UC Irvine': 'UC Irvine',
-            'SFA': 'Stephen F. Austin',
-            'Omaha': 'Nebraska-Omaha',
-            'UNO': 'New Orleans',
-            'UNI': 'Northern Iowa',
-            'Loyola-Chicago': 'Loyola Chicago',
-            'UL Monroe': 'Louisiana-Monroe',
-            'UL Lafayette': 'Louisiana',
-            'Purdue Fort Wayne': 'Purdue Fort Wayne',
-            'IU Indianapolis': 'Indiana-Purdue Indianapolis',
-        }
-
-        # Non-D1 schools to skip (ESPN sometimes includes these incorrectly)
-        NON_D1_SCHOOLS = {
-            'Dakota St', 'Dakota State',  # NAIA
-            'Davenport', 'Grand Canyon JV',
-        }
 
         # Check if team should be skipped
         if team_name in NON_D1_SCHOOLS:

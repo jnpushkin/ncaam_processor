@@ -11,7 +11,7 @@ from datetime import datetime
 from typing import Dict, Any
 
 from .serializers import DataSerializer
-from .templates import get_css, get_javascript, get_head, get_body
+from .templates import get_css, get_body
 from ..utils.log import info
 
 
@@ -53,48 +53,6 @@ def generate_website_from_data(processed_data: Dict[str, Any], output_path: str,
     _write_separate_files(output_dir, css, json_data, summary)
 
     info(f"Website saved: {output_path}")
-
-
-def _generate_html(json_data: str, summary: Dict[str, Any]) -> str:
-    """
-    Generate the HTML content by assembling template components.
-
-    Args:
-        json_data: JSON string containing serialized game/player data
-        summary: Dictionary with totalGames, totalPlayers, totalTeams
-
-    Returns:
-        Complete HTML document as a string
-    """
-    total_games = summary.get('totalGames', 0)
-    total_players = summary.get('totalPlayers', 0)
-    total_teams = summary.get('totalTeams', 0)
-    total_venues = summary.get('totalVenues', 0)
-    total_points = summary.get('totalPoints', 0)
-    ranked_matchups = summary.get('rankedMatchups', 0)
-    upsets = summary.get('upsets', 0)
-    future_pros = summary.get('futurePros', 0)
-    generated_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-
-    # Get template components
-    css = get_css()
-    js = get_javascript(json_data)
-    head = get_head(css)
-    body = get_body(total_games, total_players, total_teams, total_venues, total_points, ranked_matchups, upsets, future_pros, generated_time)
-
-    # Assemble the final HTML
-    html = f'''<!DOCTYPE html>
-<html lang="en">
-{head}
-{body}
-
-    <script>
-{js}
-    </script>
-</body>
-</html>'''
-
-    return html
 
 
 def _write_separate_files(output_dir: str, css: str, json_data: str, summary: Dict[str, Any]) -> None:

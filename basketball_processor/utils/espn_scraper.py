@@ -4,7 +4,6 @@ ESPN scraper for attendance data.
 Fetches attendance from ESPN boxscores when SIDEARM sites don't have it.
 """
 
-import json
 import re
 import time
 from datetime import datetime
@@ -18,28 +17,8 @@ RATE_LIMIT_DELAY = 1.0  # seconds between requests
 ESPN_SCOREBOARD_URL = "https://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/scoreboard"
 ESPN_BOXSCORE_URL = "https://www.espn.com/mens-college-basketball/boxscore/_/gameId/{game_id}"
 
-# Team name mappings from our names to ESPN names
-TEAM_NAME_MAP = {
-    "Saint Mary's": "Saint Mary's",
-    "Saint Mary's (CA)": "Saint Mary's",
-    "UConn": "Connecticut",
-    "Connecticut": "Connecticut",
-    "Miami (FL)": "Miami",
-    "NC State": "NC State",
-    "UNC": "North Carolina",
-    "North Carolina": "North Carolina",
-    "Pitt": "Pittsburgh",
-    "Pittsburgh": "Pittsburgh",
-    "USC": "USC",
-    "Cal": "California",
-    "St. Francis (NY)": "St. Francis (BKN)",
-    "Saint Francis (PA)": "Saint Francis (PA)",
-}
-
-
-def normalize_team_name(name: str) -> str:
-    """Normalize team name for ESPN matching."""
-    return TEAM_NAME_MAP.get(name, name)
+# Import shared team name normalization
+from .team_names import normalize_team_name
 
 
 def _fetch_espn_scoreboard(date_str: str) -> Optional[Dict]:
@@ -139,74 +118,6 @@ ESPN_TEAM_IDS = {
     'Memphis': 235,
     'Saint Louis': 139,
 }
-
-
-def _search_team_schedule(team_name: str, opponent: str, game_date: str) -> Optional[str]:
-    """
-    Search a team's ESPN schedule for a specific game.
-
-    Args:
-        team_name: Team to search schedule for
-        opponent: Opponent team name
-        game_date: Date in YYYYMMDD format
-
-    Returns:
-        ESPN game ID or None
-    """
-    team_id = ESPN_TEAM_IDS.get(team_name)
-    if not team_id:
-        return None
-
-    # Determine season year (Nov-Dec = current year, Jan-Apr = previous year for season)
-    year = int(game_date[:4])
-    month = int(game_date[4:6])
-    if month >= 8:  # Aug-Dec
-        season = year + 1  # e.g., Nov 2016 = 2017 season
-    else:
-        season = year  # e.g., Feb 2017 = 2017 season
-
-    try:
-        url = f"https://www.espn.com/mens-college-basketball/team/schedule/_/id/{team_id}/season/{season}"
-        headers = {
-            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36'
-        }
-        response = requests.get(url, headers=headers, timeout=15)
-        if response.status_code != 200:
-            return None
-
-        html = response.text
-        opponent_norm = normalize_team_name(opponent).lower()
-
-        # Parse date for matching
-        dt = datetime.strptime(game_date, '%Y%m%d')
-        date_patterns = [
-            dt.strftime('%b %d'),  # "Feb 15"
-            dt.strftime('%B %d'),  # "February 15"
-            dt.strftime('%-m/%-d'),  # "2/15"
-        ]
-
-        # Find game links with opponent
-        # Pattern: /gameId/(\d+)
-        game_ids = re.findall(r'/gameId/(\d+)', html)
-
-        # Look for opponent name near game IDs
-        for game_id in game_ids:
-            # Get context around this game ID
-            idx = html.find(f'/gameId/{game_id}')
-            if idx > 0:
-                context = html[max(0, idx-500):idx+200].lower()
-                # Check if opponent is in context
-                if opponent_norm in context or opponent.lower() in context:
-                    # Check if date matches
-                    for pattern in date_patterns:
-                        if pattern.lower() in context:
-                            return game_id
-
-        return None
-
-    except Exception as e:
-        print(f"  ESPN schedule search error: {e}")
-        return None
 
 
 def _fetch_boxscore_attendance(game_id: str) -> Optional[int]:

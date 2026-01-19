@@ -2,11 +2,12 @@
 Basketball constants, team codes, and configuration.
 """
 
+import json
+import os
 import re
 from datetime import datetime
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple, Union
-import os
 
 
 # === Directory and File Path Configuration ===
@@ -429,7 +430,6 @@ _DEFAULT_CONFERENCES = {
 
 def _load_conferences() -> Dict[str, List[str]]:
     """Load conferences from JSON file if available, otherwise use defaults."""
-    import json
     conf_file = Path(__file__).parent.parent / 'references' / 'conferences.json'
 
     if conf_file.exists():
@@ -447,7 +447,6 @@ def _load_conferences() -> Dict[str, List[str]]:
 
 def _load_d2_conferences() -> Dict[str, str]:
     """Load D2 conferences from JSON file and create team->conference mapping."""
-    import json
     conf_file = BASE_DIR / 'data' / 'd2_conferences.json'
     team_to_conf: Dict[str, str] = {}
 
@@ -468,7 +467,6 @@ def _load_d2_conferences() -> Dict[str, str]:
 
 def _load_d3_conferences() -> Dict[str, str]:
     """Load D3 conferences from JSON file and create team->conference mapping."""
-    import json
     conf_file = BASE_DIR / 'data' / 'd3_conferences.json'
     team_to_conf: Dict[str, str] = {}
 
@@ -1183,6 +1181,230 @@ TEAM_ALIASES = {
     # MWC
     "San José St": 'San Jose State',  # ESPN uses é
     "San Jos\u00e9 St": 'San Jose State',  # Unicode version
+}
+
+# ESPN team name -> canonical name mappings (for schedule/scoreboard data)
+ESPN_TO_CANONICAL = {
+    # Abbreviations
+    'UConn': 'Connecticut',
+    'UMass': 'Massachusetts',
+    'UNLV': 'Nevada-Las Vegas',
+    'VCU': 'Virginia Commonwealth',
+    'UCF': 'Central Florida',
+    'SMU': 'Southern Methodist',
+    'LSU': 'Louisiana State',
+    'BYU': 'Brigham Young',
+    'TCU': 'Texas Christian',
+    'USC': 'Southern California',
+    'UCLA': 'UCLA',
+    'UTEP': 'UTEP',
+    'UTSA': 'Texas-San Antonio',
+    'FGCU': 'Florida Gulf Coast',
+    'FIU': 'Florida International',
+    'FAU': 'Florida Atlantic',
+    'UAB': 'UAB',
+    'UIC': 'Illinois-Chicago',
+    'IUPUI': 'IUPUI',
+    'SIU': 'Southern Illinois',
+    'NIU': 'Northern Illinois',
+    'WKU': 'Western Kentucky',
+    'ETSU': 'East Tennessee State',
+    'MTSU': 'Middle Tennessee',
+    'LIU': 'Long Island',
+    'URI': 'Rhode Island',
+
+    # Direction abbreviations
+    'N Carolina': 'North Carolina',
+    'S Carolina': 'South Carolina',
+    'N Dakota': 'North Dakota',
+    'S Dakota': 'South Dakota',
+    'N Dakota St': 'North Dakota State',
+    'S Dakota St': 'South Dakota State',
+    'N Arizona': 'Northern Arizona',
+    'N Colorado': 'Northern Colorado',
+    'N Kentucky': 'Northern Kentucky',
+    'N Iowa': 'Northern Iowa',
+    'N Illinois': 'Northern Illinois',
+    'N Texas': 'North Texas',
+    'S Florida': 'South Florida',
+    'S Alabama': 'South Alabama',
+    'S Utah': 'Southern Utah',
+    'S Illinois': 'Southern Illinois',
+    'W Virginia': 'West Virginia',
+    'W Kentucky': 'Western Kentucky',
+    'W Michigan': 'Western Michigan',
+    'W Illinois': 'Western Illinois',
+    'E Kentucky': 'Eastern Kentucky',
+    'E Michigan': 'Eastern Michigan',
+    'E Illinois': 'Eastern Illinois',
+    'E Washington': 'Eastern Washington',
+    'E Tennessee St': 'East Tennessee State',
+    'SE Missouri St': 'Southeast Missouri State',
+    'SE Louisiana': 'Southeastern Louisiana',
+    'NW State': 'Northwestern State',
+
+    # State abbreviations
+    'Miss State': 'Mississippi State',
+    'Ariz State': 'Arizona State',
+    'Ore State': 'Oregon State',
+    'Wash State': 'Washington State',
+    'Penn State': 'Penn State',
+    'Mich State': 'Michigan State',
+    'Ohio State': 'Ohio State',
+    'Iowa State': 'Iowa State',
+    'Ball State': 'Ball State',
+    'Boise State': 'Boise State',
+    'Fresno State': 'Fresno State',
+
+    # "St" suffix -> "State"
+    'Alabama St': 'Alabama State',
+    'Alcorn St': 'Alcorn State',
+    'Appalachian St': 'Appalachian State',
+    'Arizona St': 'Arizona State',
+    'Arkansas St': 'Arkansas State',
+    'Ball St': 'Ball State',
+    'Boise St': 'Boise State',
+    'Bowling Green St': 'Bowling Green',
+    'Chicago St': 'Chicago State',
+    'Cleveland St': 'Cleveland State',
+    'Colorado St': 'Colorado State',
+    'Coppin St': 'Coppin State',
+    'Delaware St': 'Delaware State',
+    'Fresno St': 'Fresno State',
+    'Georgia St': 'Georgia State',
+    'Grambling St': 'Grambling State',
+    'Idaho St': 'Idaho State',
+    'Illinois St': 'Illinois State',
+    'Indiana St': 'Indiana State',
+    'Iowa St': 'Iowa State',
+    'Jackson St': 'Jackson State',
+    'Jacksonville St': 'Jacksonville State',
+    'Kansas St': 'Kansas State',
+    'Kennesaw St': 'Kennesaw State',
+    'Kent St': 'Kent State',
+    'McNeese St': 'McNeese State',
+    'Memphis St': 'Memphis',
+    'Michigan St': 'Michigan State',
+    'Mississippi St': 'Mississippi State',
+    'Missouri St': 'Missouri State',
+    'Montana St': 'Montana State',
+    'Morehead St': 'Morehead State',
+    'Morgan St': 'Morgan State',
+    'Murray St': 'Murray State',
+    'NC St': 'NC State',
+    'New Mexico St': 'New Mexico State',
+    'Norfolk St': 'Norfolk State',
+    'Ohio St': 'Ohio State',
+    'Oklahoma St': 'Oklahoma State',
+    'Oregon St': 'Oregon State',
+    'Penn St': 'Penn State',
+    'Pittsburgh St': 'Pittsburg State',
+    'Portland St': 'Portland State',
+    'Prairie View St': 'Prairie View A&M',
+    'Sacramento St': 'Sacramento State',
+    'Sam Houston St': 'Sam Houston State',
+    'San Diego St': 'San Diego State',
+    'San Jose St': 'San Jose State',
+    'Savannah St': 'Savannah State',
+    'South Carolina St': 'South Carolina State',
+    'Stephen F. Austin St': 'Stephen F. Austin',
+    'Tennessee St': 'Tennessee State',
+    'Texas St': 'Texas State',
+    'Texas Southern St': 'Texas Southern',
+    'Troy St': 'Troy',
+    'Utah St': 'Utah State',
+    'Valdosta St': 'Valdosta State',
+    'Washington St': 'Washington State',
+    'Weber St': 'Weber State',
+    'Wichita St': 'Wichita State',
+    'Wright St': 'Wright State',
+    'Youngstown St': 'Youngstown State',
+
+    # "St" prefix -> "Saint" or "St."
+    'St Bonaventure': 'St. Bonaventure',
+    "St John's": "St. John's",
+    "St Joseph's": "Saint Joseph's",
+    'St Louis': 'Saint Louis',
+    "St Mary's": "Saint Mary's (CA)",
+    "St Peter's": "Saint Peter's",
+    'St Thomas': 'St. Thomas',
+    'St Thomas (MN)': 'St. Thomas',
+
+    # CSU variations
+    'CSU Bakersfield': 'Cal State Bakersfield',
+    'CSU Fullerton': 'Cal State Fullerton',
+    'CSU Northridge': 'Cal State Northridge',
+    'Long Beach St': 'Long Beach State',
+    'Cal Poly': 'Cal Poly',
+    'Cal Baptist': 'California Baptist',
+
+    # Common nicknames
+    'App State': 'Appalachian State',
+    'G Washington': 'George Washington',
+    'Ole Miss': 'Mississippi',
+    'Pitt': 'Pittsburgh',
+    'Miami': 'Miami (FL)',
+    'Miami (FL)': 'Miami (FL)',
+    'Miami (OH)': 'Miami (OH)',
+    'UNC': 'North Carolina',
+    'NC A&T': 'North Carolina A&T',
+    'NC Central': 'North Carolina Central',
+    'A&M-Corpus Christi': 'Texas A&M-Corpus Christi',
+
+    # SWAC schools
+    'Bethune': 'Bethune-Cookman',
+    'Bethune-Cookman': 'Bethune-Cookman',
+    'Miss Valley St': 'Mississippi Valley State',
+    'Mississippi Valley St': 'Mississippi Valley State',
+    'Prairie View': 'Prairie View A&M',
+    'Prairie View A&M': 'Prairie View A&M',
+    'AR-Pine Bluff': 'Arkansas-Pine Bluff',
+    'Ark-Pine Bluff': 'Arkansas-Pine Bluff',
+    'Alabama A&M': 'Alabama A&M',
+    'Grambling': 'Grambling State',
+    'Florida A&M': 'Florida A&M',
+    'Texas Southern': 'Texas Southern',
+    'Southern U': 'Southern',
+
+    # MEAC schools
+    'SC State': 'South Carolina State',
+    'Howard': 'Howard',
+
+    # UMES/Maryland schools
+    'UMES': 'Maryland-Eastern Shore',
+    'MD Eastern': 'Maryland-Eastern Shore',
+    'UMBC': 'UMBC',
+    'Loyola MD': 'Loyola (MD)',
+    'Loyola Chi': 'Loyola Chicago',
+    'Loyola Marymount': 'Loyola Marymount',
+
+    # Hawaii
+    "Hawai'i": 'Hawaii',
+    "Hawai\u2019i": 'Hawaii',  # ESPN right single quotation
+
+    # Other ESPN variations
+    'Southern Miss': 'Southern Miss',
+    'Little Rock': 'Arkansas-Little Rock',
+    'UCSB': 'UC Santa Barbara',
+    'UCD': 'UC Davis',
+    'UCR': 'UC Riverside',
+    'UCSD': 'UC San Diego',
+    'UC Irvine': 'UC Irvine',
+    'SFA': 'Stephen F. Austin',
+    'Omaha': 'Nebraska-Omaha',
+    'UNO': 'New Orleans',
+    'UNI': 'Northern Iowa',
+    'Loyola-Chicago': 'Loyola Chicago',
+    'UL Monroe': 'Louisiana-Monroe',
+    'UL Lafayette': 'Louisiana',
+    'Purdue Fort Wayne': 'Purdue Fort Wayne',
+    'IU Indianapolis': 'Indiana-Purdue Indianapolis',
+}
+
+# Non-D1 schools to skip (ESPN sometimes includes these incorrectly)
+NON_D1_SCHOOLS = {
+    'Dakota St', 'Dakota State',  # NAIA
+    'Davenport', 'Grand Canyon JV',
 }
 
 # Get conference for a team

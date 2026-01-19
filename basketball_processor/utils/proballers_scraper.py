@@ -413,45 +413,6 @@ def get_player_career(player_id: int, scraper=None, force_refresh: bool = False)
         return None
 
 
-def _guess_league_from_team(team_slug: str) -> str:
-    """Guess league from team slug patterns."""
-    # Check if it's an NCAA team (check cached teams)
-    ncaa_teams = _load_ncaa_teams()
-    if team_slug in ncaa_teams or any(team_slug.startswith(t.split('-')[0] + '-') for t in ncaa_teams):
-        return 'ncaa'
-
-    # Known patterns
-    patterns = {
-        'blue': 'g-league',  # Oklahoma City Blue, etc.
-        'thunder': 'nba',
-        'lakers': 'nba',
-        'celtics': 'nba',
-        'warriors': 'nba',
-        'istanbul': 'turkey-bsl',
-        'efes': 'turkey-bsl',
-        'fenerbahce': 'euroleague',
-        'milan': 'euroleague',
-        'barcelona': 'euroleague',
-        'real-madrid': 'euroleague',
-        'maccabi': 'euroleague',
-        'panathinaikos': 'euroleague',
-        'olympiacos': 'euroleague',
-        'cska': 'euroleague',
-        'taipans': 'australia-nbl',
-        'kings': 'australia-nbl',  # Sydney Kings, etc.
-        'breakers': 'australia-nbl',
-        'bamberg': 'germany-easycredit-bbl',
-        'alba-berlin': 'germany-easycredit-bbl',
-        'bayern': 'germany-easycredit-bbl',
-    }
-
-    for pattern, league in patterns.items():
-        if pattern in team_slug.lower():
-            return league
-
-    return 'unknown'
-
-
 def get_college_roster(college_slug: str, scraper=None) -> List[Dict[str, Any]]:
     """
     Get all-time roster for a college team.

@@ -6,6 +6,8 @@ import json
 from pathlib import Path
 from typing import Dict, Any, Optional
 
+from .schedule_scraper import normalize_state
+
 
 class VenueResolver:
     """Resolves venue information for games."""
@@ -294,27 +296,6 @@ def _is_same_arena(venue1: str, venue2: str) -> bool:
     return bool(words1 & words2)
 
 
-def normalize_state_name(state: str) -> str:
-    """Convert state abbreviation to full name if needed."""
-    STATE_ABBREV_TO_FULL = {
-        'AL': 'Alabama', 'AK': 'Alaska', 'AZ': 'Arizona', 'AR': 'Arkansas',
-        'CA': 'California', 'CO': 'Colorado', 'CT': 'Connecticut', 'DE': 'Delaware',
-        'FL': 'Florida', 'GA': 'Georgia', 'HI': 'Hawaii', 'ID': 'Idaho',
-        'IL': 'Illinois', 'IN': 'Indiana', 'IA': 'Iowa', 'KS': 'Kansas',
-        'KY': 'Kentucky', 'LA': 'Louisiana', 'ME': 'Maine', 'MD': 'Maryland',
-        'MA': 'Massachusetts', 'MI': 'Michigan', 'MN': 'Minnesota', 'MS': 'Mississippi',
-        'MO': 'Missouri', 'MT': 'Montana', 'NE': 'Nebraska', 'NV': 'Nevada',
-        'NH': 'New Hampshire', 'NJ': 'New Jersey', 'NM': 'New Mexico', 'NY': 'New York',
-        'NC': 'North Carolina', 'ND': 'North Dakota', 'OH': 'Ohio', 'OK': 'Oklahoma',
-        'OR': 'Oregon', 'PA': 'Pennsylvania', 'RI': 'Rhode Island', 'SC': 'South Carolina',
-        'SD': 'South Dakota', 'TN': 'Tennessee', 'TX': 'Texas', 'UT': 'Utah',
-        'VT': 'Vermont', 'VA': 'Virginia', 'WA': 'Washington', 'WV': 'West Virginia',
-        'WI': 'Wisconsin', 'WY': 'Wyoming', 'DC': 'District of Columbia',
-    }
-    upper = state.strip().upper()
-    return STATE_ABBREV_TO_FULL.get(upper, state)
-
-
 def parse_venue_components(venue_string: str) -> Dict[str, str]:
     """
     Parse a venue string into name, city, and state components.
@@ -337,7 +318,7 @@ def parse_venue_components(venue_string: str) -> Dict[str, str]:
         return {
             'name': parts[0],
             'city': parts[1],
-            'state': normalize_state_name(parts[2])
+            'state': normalize_state(parts[2])
         }
     elif len(parts) == 2:
         # Could be "City, State" or "Venue Name, City"
@@ -346,7 +327,7 @@ def parse_venue_components(venue_string: str) -> Dict[str, str]:
             return {
                 'name': '',
                 'city': parts[0],
-                'state': normalize_state_name(parts[1])
+                'state': normalize_state(parts[1])
             }
         else:
             return {

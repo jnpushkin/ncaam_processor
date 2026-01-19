@@ -26,6 +26,8 @@ from pathlib import Path
 from typing import Dict, List, Optional, Tuple
 from bs4 import BeautifulSoup
 
+from ..utils.log import info, warn, error, debug
+
 try:
     import requests
     HAS_REQUESTS = True
@@ -82,7 +84,7 @@ def parse_poll_table(soup: BeautifulSoup) -> Dict[str, Dict[str, int]]:
         # Try alternate table ID
         table = soup.find('table', {'id': 'polls'})
     if not table:
-        print("Warning: Could not find polls table")
+        warn("Could not find polls table")
         return polls
 
     # Get header row to find poll dates
@@ -196,11 +198,11 @@ def fetch_polls_from_url(url: str) -> Optional[BeautifulSoup]:
         BeautifulSoup object or None if failed
     """
     if not HAS_REQUESTS:
-        print("Error: 'requests' library not installed. Use --local option instead.")
+        error("'requests' library not installed. Use --local option instead.")
         return None
 
-    print(f"Fetching: {url}")
-    print(f"(Waiting {REQUEST_DELAY}s to respect rate limits...)")
+    info(f"Fetching: {url}")
+    debug(f"Waiting {REQUEST_DELAY}s to respect rate limits...")
     time.sleep(REQUEST_DELAY)
 
     try:
@@ -209,17 +211,17 @@ def fetch_polls_from_url(url: str) -> Optional[BeautifulSoup]:
         response.raise_for_status()
         return BeautifulSoup(response.text, 'html.parser')
     except Exception as e:
-        print(f"Error fetching URL: {e}")
+        error(f"Error fetching URL: {e}")
         return None
 
 
 def load_polls_from_file(filepath: Path) -> Optional[BeautifulSoup]:
     """Load polls from local HTML file."""
     if not filepath.exists():
-        print(f"Error: File not found: {filepath}")
+        error(f"File not found: {filepath}")
         return None
 
-    print(f"Loading from local file: {filepath}")
+    info(f"Loading from local file: {filepath}")
     with open(filepath, 'r', encoding='utf-8') as f:
         return BeautifulSoup(f.read(), 'html.parser')
 
@@ -242,7 +244,7 @@ def save_polls(all_polls: Dict[str, Dict[str, Dict[str, int]]], gender: str = 'M
     polls_file = get_polls_file(gender)
     with open(polls_file, 'w') as f:
         json.dump(all_polls, f, indent=2, sort_keys=True)
-    print(f"Saved polls to: {polls_file}")
+    info(f"Saved polls to: {polls_file}")
 
 
 def scrape_season_polls(season: str, local_file: Optional[Path] = None, gender: str = 'M') -> Dict[str, Dict[str, int]]:
@@ -268,9 +270,9 @@ def scrape_season_polls(season: str, local_file: Optional[Path] = None, gender: 
     raw_polls = parse_poll_table(soup)
     normalized = normalize_poll_dates(raw_polls, season)
 
-    print(f"Parsed {len(normalized)} poll weeks for {season}")
+    info(f"Parsed {len(normalized)} poll weeks for {season}")
     for date in sorted(normalized.keys()):
-        print(f"  {date}: {len(normalized[date])} teams ranked")
+        debug(f"  {date}: {len(normalized[date])} teams ranked")
 
     return normalized
 
@@ -446,7 +448,7 @@ def auto_refresh_polls_if_needed(silent: bool = False) -> bool:
         if should_refresh_polls(gender):
             gender_label = "Women's" if gender == 'W' else "Men's"
             if not silent:
-                print(f"  Refreshing {gender_label} AP polls for {current_season}...")
+                info(f"Refreshing {gender_label} AP polls for {current_season}...")
 
             try:
                 all_polls = load_existing_polls(gender)
@@ -457,10 +459,10 @@ def auto_refresh_polls_if_needed(silent: bool = False) -> bool:
                     save_polls(all_polls, gender)
                     refreshed = True
                     if not silent:
-                        print(f"  Updated {gender_label} polls: {len(season_polls)} weeks")
+                        info(f"Updated {gender_label} polls: {len(season_polls)} weeks")
             except Exception as e:
                 if not silent:
-                    print(f"  Warning: Could not refresh {gender_label} polls: {e}")
+                    warn(f"Could not refresh {gender_label} polls: {e}")
 
     return refreshed
 

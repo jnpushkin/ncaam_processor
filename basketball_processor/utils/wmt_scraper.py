@@ -20,7 +20,6 @@ To use full mode, install Playwright: pip install playwright && playwright insta
 import json
 import re
 import time
-from pathlib import Path
 from typing import Dict, List, Optional, Tuple, Any
 from datetime import datetime
 import requests

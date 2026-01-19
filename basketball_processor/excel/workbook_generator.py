@@ -3,7 +3,7 @@ Excel workbook generator for basketball statistics.
 """
 
 import os
-from typing import Dict, List, Any, Optional
+from typing import Dict, List, Any
 import pandas as pd
 import xlsxwriter
 
@@ -11,7 +11,7 @@ from .formatters import write_dataframe_to_sheet
 from ..processors.player_stats_processor import PlayerStatsProcessor
 from ..processors.milestones_processor import MilestonesProcessor, OvertimeGamesProcessor, BlowoutGamesProcessor
 from ..processors.team_records_processor import TeamRecordsProcessor, GameLogProcessor
-from ..utils.log import info, warn
+from ..utils.log import info
 from ..utils.venue_resolver import resolve_venue
 
 
