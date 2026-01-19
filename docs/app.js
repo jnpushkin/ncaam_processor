@@ -7257,9 +7257,7 @@ function showGameDetail(gameId, fromCalendarDay = false) {
         const achievementsText = lines.join('\n');
         achievementsHtml = `
             <div class="achievements-section" style="background:var(--bg-primary);padding:0.75rem 1rem;border-radius:8px;margin-bottom:1rem;border-left:3px solid var(--success);">
-                <div style="font-size:0.85rem;color:var(--text-secondary);cursor:pointer;user-select:all;white-space:pre-line;" onclick="navigator.clipboard.writeText(this.innerText).then(() => showToast('Copied!'))" title="Click to copy">
-${achievementsText}
-                </div>
+                <div style="font-size:0.85rem;color:var(--text-secondary);cursor:pointer;user-select:all;white-space:pre-line;" onclick="navigator.clipboard.writeText(this.innerText).then(() => showToast('Copied!'))" title="Click to copy">${achievementsText}</div>
             </div>
         `;
     }
