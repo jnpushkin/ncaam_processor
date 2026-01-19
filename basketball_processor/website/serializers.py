@@ -17,6 +17,7 @@ from ..utils.schedule_scraper import (
 )
 from ..utils.team_names import normalize_team_name
 from ..utils.constants import ESPN_TO_CANONICAL, NON_D1_SCHOOLS
+from ..utils.log import info, debug
 
 
 # Known neutral site venues - NBA arenas commonly used for college games
@@ -329,7 +330,7 @@ class DataSerializer:
         if not dates_needing_times:
             return
 
-        print(f"  Loading game times for {len(dates_needing_times)} dates (from cache or ESPN)...")
+        debug(f"Loading game times for {len(dates_needing_times)} dates...")
 
         for date_str in dates_needing_times:
             # Fetch men's and women's times separately to avoid cross-matching

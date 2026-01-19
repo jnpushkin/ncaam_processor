@@ -201,7 +201,7 @@ def fetch_polls_from_url(url: str) -> Optional[BeautifulSoup]:
         error("'requests' library not installed. Use --local option instead.")
         return None
 
-    info(f"Fetching: {url}")
+    debug(f"Fetching: {url}")
     debug(f"Waiting {REQUEST_DELAY}s to respect rate limits...")
     time.sleep(REQUEST_DELAY)
 
@@ -244,7 +244,7 @@ def save_polls(all_polls: Dict[str, Dict[str, Dict[str, int]]], gender: str = 'M
     polls_file = get_polls_file(gender)
     with open(polls_file, 'w') as f:
         json.dump(all_polls, f, indent=2, sort_keys=True)
-    info(f"Saved polls to: {polls_file}")
+    debug(f"Saved polls to: {polls_file}")
 
 
 def scrape_season_polls(season: str, local_file: Optional[Path] = None, gender: str = 'M') -> Dict[str, Dict[str, int]]:
@@ -270,7 +270,7 @@ def scrape_season_polls(season: str, local_file: Optional[Path] = None, gender: 
     raw_polls = parse_poll_table(soup)
     normalized = normalize_poll_dates(raw_polls, season)
 
-    info(f"Parsed {len(normalized)} poll weeks for {season}")
+    debug(f"Parsed {len(normalized)} poll weeks for {season}")
     for date in sorted(normalized.keys()):
         debug(f"  {date}: {len(normalized[date])} teams ranked")
 
@@ -400,36 +400,35 @@ def should_refresh_polls(gender: str = 'M') -> bool:
 
     Refresh if:
     - It's basketball season (Nov-April)
-    - It's Tuesday (AP polls released Monday, SR updates Tuesday)
-    - Latest cached poll is more than 6 days old
+    - Cache file is more than 1 day old (checked daily max)
+    - AND it's been at least 6 days since the latest poll (weekly polls)
     """
     if not is_basketball_season():
         return False
 
-    today = datetime.now()
+    # Check cache file age - don't refresh more than once per day
+    polls_file = get_polls_file(gender)
+    if polls_file.exists():
+        import os
+        file_age_hours = (datetime.now().timestamp() - os.path.getmtime(polls_file)) / 3600
+        if file_age_hours < 20:  # Less than 20 hours old, skip refresh
+            return False
 
-    # Check if it's Tuesday (weekday 1)
-    # Actually, let's be more flexible - refresh if polls are stale
-    # regardless of day, but only during season
-
+    # No cache or cache is old enough to check
     latest_poll = get_latest_poll_date(gender)
     if not latest_poll:
         # No polls cached for current season
         return True
 
-    # Parse the latest poll date
+    # Check if latest poll is old enough that a new one might exist
     try:
         latest_date = datetime.strptime(latest_poll, '%Y-%m-%d')
-        days_old = (today - latest_date).days
+        days_since_poll = (datetime.now() - latest_date).days
 
-        # Refresh if latest poll is more than 6 days old
-        # (new polls come out weekly)
-        if days_old > 6:
-            return True
+        # Only refresh if latest poll is 6+ days old (new polls weekly on Monday)
+        return days_since_poll >= 6
     except ValueError:
         return True
-
-    return False
 
 
 def auto_refresh_polls_if_needed(silent: bool = False) -> bool:
@@ -444,11 +443,10 @@ def auto_refresh_polls_if_needed(silent: bool = False) -> bool:
     refreshed = False
     current_season = get_current_season()
 
+    updated_genders = []
     for gender in ['M', 'W']:
         if should_refresh_polls(gender):
             gender_label = "Women's" if gender == 'W' else "Men's"
-            if not silent:
-                info(f"Refreshing {gender_label} AP polls for {current_season}...")
 
             try:
                 all_polls = load_existing_polls(gender)
@@ -458,11 +456,13 @@ def auto_refresh_polls_if_needed(silent: bool = False) -> bool:
                     all_polls[current_season] = season_polls
                     save_polls(all_polls, gender)
                     refreshed = True
-                    if not silent:
-                        info(f"Updated {gender_label} polls: {len(season_polls)} weeks")
+                    updated_genders.append(f"{gender_label[0]}:{len(season_polls)}wks")
             except Exception as e:
                 if not silent:
                     warn(f"Could not refresh {gender_label} polls: {e}")
+
+    if updated_genders and not silent:
+        info(f"Refreshed AP polls ({', '.join(updated_genders)})")
 
     return refreshed
 

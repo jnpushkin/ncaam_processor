@@ -87,11 +87,6 @@ def process_html_file(
         Parsed game data dictionary or error dict
     """
     try:
-        if index is not None and total is not None:
-            info(f"Processing file {index} of {total}: {os.path.basename(file_path)}")
-        else:
-            info(f"Processing {file_path}...")
-
         # Use filename as cache key
         filename = os.path.basename(file_path)
         filename_no_ext = os.path.splitext(filename)[0]
@@ -105,11 +100,9 @@ def process_html_file(
             json_mtime = os.path.getmtime(cache_path)
 
             if html_mtime <= json_mtime:
-                info("  Using cached data")
                 with open(cache_path, 'r', encoding='utf-8') as f:
                     cached_data = json.load(f)
-                    game_id = cached_data.get("game_id", "Unknown")
-                    info(f"     Game ID: {game_id}")
+                    cached_data['_from_cache'] = True
                     # Normalize venue names to match current venues.json
                     from .utils.venue_resolver import normalize_cached_venue
                     normalized_venue = normalize_cached_venue(cached_data)
@@ -164,12 +157,8 @@ def process_html_file(
                             pass  # Don't fail if ESPN PBP fails
 
                     return cached_data
-            else:
-                info("  Cache outdated, re-parsing...")
-        else:
-            info("  No cache found, parsing HTML...")
 
-        # Parse HTML
+        # Parse HTML (cache miss or outdated)
         with open(file_path, 'r', encoding='utf-8') as file:
             html_content = file.read()
 
@@ -183,19 +172,19 @@ def process_html_file(
 
         # Auto-detect parser format
         if is_sidearm_format(html_content):
-            info("  Detected SIDEARM Stats format")
+            debug("  Detected SIDEARM Stats format")
             game_data = parse_sidearm_boxscore(html_content, detected_gender)
         else:
             game_data = parse_sports_reference_boxscore(html_content, detected_gender)
         game_id = game_data.get("game_id", "UNKNOWN")
 
-        info(f"  Parsed game: {game_id}")
+        debug(f"  Parsed game: {game_id}")
 
-        # Report any parsing warnings
+        # Report any parsing warnings (these are important, keep as warnings)
         parsing_warnings = game_data.get('_parsing_warnings', [])
         if parsing_warnings:
             for warning in parsing_warnings:
-                warn(f"    Warning: {warning}")
+                warn(f"  {os.path.basename(file_path)}: {warning}")
 
         # Enrich with AP rankings if poll data available
         game_data = enrich_game_with_rankings(game_data)
@@ -203,7 +192,6 @@ def process_html_file(
         # Save to cache
         with open(cache_path, 'w', encoding='utf-8') as f:
             json.dump(game_data, f, indent=2)
-        info("  Saved to cache")
 
         # Copy HTML file to html_games directory if not already there
         html_games_dir = os.path.join(BASE_DIR, 'html_games')
@@ -216,7 +204,7 @@ def process_html_file(
             dest_path = os.path.join(html_games_dir, dest_filename)
             if not os.path.exists(dest_path):
                 shutil.copy2(file_path, dest_path)
-                info(f"  Copied to html_games/{dest_filename}")
+                debug(f"  Copied to html_games/{dest_filename}")
 
         return game_data
 
@@ -257,9 +245,11 @@ def process_directory_or_file(input_path: str, gender: str = 'M') -> List[Dict[s
 
     elif os.path.isdir(input_path):
         html_files = [f for f in os.listdir(input_path) if f.endswith('.html')]
-        info(f"Found {len(html_files)} HTML files in {input_path}")
-
         total = len(html_files)
+        info(f"Processing {total} HTML files...")
+
+        cached_count = 0
+        parsed_count = 0
 
         for idx, filename in enumerate(html_files, start=1):
             file_path = os.path.join(input_path, filename)
@@ -268,12 +258,27 @@ def process_directory_or_file(input_path: str, gender: str = 'M') -> List[Dict[s
                 if game_data.get("_error"):
                     failed_files.append(game_data)
                 else:
+                    if game_data.pop('_from_cache', False):
+                        cached_count += 1
+                    else:
+                        parsed_count += 1
                     all_games_data.append(game_data)
+
+            # Show progress every 10% or at completion
+            if idx == total or (total >= 10 and idx % max(1, total // 10) == 0):
+                pct = idx * 100 // total
+                debug(f"  Progress: {idx}/{total} ({pct}%)")
     else:
         warn(f"Invalid path: {input_path}")
         return []
 
-    info(f"Successfully processed {len(all_games_data)} games")
+    # Summary line
+    summary_parts = [f"{len(all_games_data)} games"]
+    if cached_count > 0:
+        summary_parts.append(f"{cached_count} cached")
+    if parsed_count > 0:
+        summary_parts.append(f"{parsed_count} parsed")
+    info(f"Loaded {', '.join(summary_parts)}")
 
     # Report failed files
     if failed_files:
