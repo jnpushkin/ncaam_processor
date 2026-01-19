@@ -7213,38 +7213,55 @@ function showGameDetail(gameId, fromCalendarDay = false) {
     let achievementsHtml = '';
     if (achievements) {
         const lines = [];
-        const genderLabel = achievements.gender === 'W' ? ' (W)' : ' (M)';
+        // Only show (W) for women's games, nothing for men's
+        const genderLabel = achievements.gender === 'W' ? ' (W)' : '';
 
-        // Away team
-        const awayRec = achievements.awayTeam.record;
-        const awayRecordStr = `${awayRec.wins}-${awayRec.losses}`;
-        if (achievements.awayTeam.isNewTeam) {
-            // For new team: separate lines for D1 count and conference count
+        // Check if both teams are new
+        const awayNew = achievements.awayTeam.isNewTeam;
+        const homeNew = achievements.homeTeam.isNewTeam;
+
+        // D1 teams - show final total (highest count after both teams counted)
+        if (awayNew && homeNew) {
+            const totalD1 = Math.max(achievements.awayTeam.d1Count, achievements.homeTeam.d1Count);
+            lines.push(`${totalD1}/365 D1 teams seen${genderLabel}`);
+        } else if (awayNew) {
             lines.push(`${achievements.awayTeam.d1Count}/365 D1 teams seen${genderLabel}`);
-            if (achievements.awayTeam.conf && achievements.awayTeam.confTeamsTotal > 0) {
-                lines.push(`${achievements.awayTeam.confTeamsSeen}/${achievements.awayTeam.confTeamsTotal} ${achievements.awayTeam.conf} teams seen`);
-            }
-        } else {
-            lines.push(`${ordinal(achievements.awayTeam.visitNum)} time seeing ${achievements.awayTeam.name}${genderLabel} (${awayRecordStr})`);
+        } else if (homeNew) {
+            lines.push(`${achievements.homeTeam.d1Count}/365 D1 teams seen${genderLabel}`);
         }
 
-        // Home team
-        const homeRec = achievements.homeTeam.record;
-        const homeRecordStr = `${homeRec.wins}-${homeRec.losses}`;
-        if (achievements.homeTeam.isNewTeam) {
-            // For new team: separate lines for D1 count and conference count
-            lines.push(`${achievements.homeTeam.d1Count}/365 D1 teams seen${genderLabel}`);
-            if (achievements.homeTeam.conf && achievements.homeTeam.confTeamsTotal > 0) {
-                lines.push(`${achievements.homeTeam.confTeamsSeen}/${achievements.homeTeam.confTeamsTotal} ${achievements.homeTeam.conf} teams seen`);
-            }
+        // Conference teams - consolidate if same conference
+        const awayConf = achievements.awayTeam.conf;
+        const homeConf = achievements.homeTeam.conf;
+        if (awayNew && homeNew && awayConf === homeConf && awayConf && achievements.awayTeam.confTeamsTotal > 0) {
+            // Both new, same conference - show final total
+            const totalConf = Math.max(achievements.awayTeam.confTeamsSeen, achievements.homeTeam.confTeamsSeen);
+            lines.push(`${totalConf}/${achievements.awayTeam.confTeamsTotal} ${awayConf} teams seen`);
         } else {
+            // Different conferences or only one new - show separately
+            if (awayNew && awayConf && achievements.awayTeam.confTeamsTotal > 0) {
+                lines.push(`${achievements.awayTeam.confTeamsSeen}/${achievements.awayTeam.confTeamsTotal} ${awayConf} teams seen`);
+            }
+            if (homeNew && homeConf && achievements.homeTeam.confTeamsTotal > 0 && homeConf !== awayConf) {
+                lines.push(`${achievements.homeTeam.confTeamsSeen}/${achievements.homeTeam.confTeamsTotal} ${homeConf} teams seen`);
+            }
+        }
+
+        // Repeat visits for non-new teams
+        if (!awayNew) {
+            const awayRec = achievements.awayTeam.record;
+            const awayRecordStr = `${awayRec.wins}-${awayRec.losses}`;
+            lines.push(`${ordinal(achievements.awayTeam.visitNum)} time seeing ${achievements.awayTeam.name}${genderLabel} (${awayRecordStr})`);
+        }
+        if (!homeNew) {
+            const homeRec = achievements.homeTeam.record;
+            const homeRecordStr = `${homeRec.wins}-${homeRec.losses}`;
             lines.push(`${ordinal(achievements.homeTeam.visitNum)} time seeing ${achievements.homeTeam.name}${genderLabel} (${homeRecordStr})`);
         }
 
         // Venue (no gender - venues are shared)
         if (achievements.venue.name) {
             if (achievements.venue.isNewVenue) {
-                // For new venue: separate lines for D1 count and conference count
                 lines.push(`${achievements.venue.totalVenuesSeen}/365 D1 venues seen`);
                 if (achievements.homeTeam.conf && achievements.venue.confVenuesTotal > 0) {
                     lines.push(`${achievements.venue.confVenuesSeen}/${achievements.venue.confVenuesTotal} ${achievements.homeTeam.conf} venues seen`);
@@ -7872,38 +7889,33 @@ function handleURLNavigation() {
     }
 }
 
-// Initialize all components
-function init() {
-    try { computeGameMilestones(); } catch(e) { console.error('computeGameMilestones:', e); }
-    try { populateGamesTable(); } catch(e) { console.error('populateGamesTable:', e); }
-    try { populatePlayersTable(); } catch(e) { console.error('populatePlayersTable:', e); }
-    try { populateSeasonHighs(); } catch(e) { console.error('populateSeasonHighs:', e); }
-    try { populateMilestones(); } catch(e) { console.error('populateMilestones:', e); }
-    try { populateTeamsTable(); } catch(e) { console.error('populateTeamsTable:', e); }
-    try { populateStreaksTable(); } catch(e) { console.error('populateStreaksTable:', e); }
-    try { populateSplitsTable(); } catch(e) { console.error('populateSplitsTable:', e); }
-    try { populateConferenceTable(); } catch(e) { console.error('populateConferenceTable:', e); }
-    try { buildMatchupMatrix(); } catch(e) { console.error('buildMatchupMatrix:', e); }
-    try { buildConferenceCrossover(); } catch(e) { console.error('buildConferenceCrossover:', e); }
-    try { populateVenuesTable(); } catch(e) { console.error('populateVenuesTable:', e); }
-    try { populateFutureProsTable(); } catch(e) { console.error('populateFutureProsTable:', e); }
-    try { initUpcomingGames(); } catch(e) { console.error('initUpcomingGames:', e); }
-    try { populateRecords(); } catch(e) { console.error('populateRecords:', e); }
-    try { populatePlayerRecords(); } catch(e) { console.error('populatePlayerRecords:', e); }
-    try { renderScorigami(); } catch(e) { console.error('renderScorigami:', e); }
-    try { initCalendar(); } catch(e) { console.error('initCalendar:', e); }
-    try { initChecklist(); } catch(e) { console.error('initChecklist:', e); }
-    try { initOnThisDay(); } catch(e) { console.error('initOnThisDay:', e); }
-    try { populateBadges(); } catch(e) { console.error('populateBadges:', e); }
-    try { populateSeasonStats(); } catch(e) { console.error('populateSeasonStats:', e); }
-    try { showChart('scoring'); } catch(e) { console.error('showChart:', e); }
+// Initialize
+try { computeGameMilestones(); } catch(e) { console.error('computeGameMilestones:', e); }
+try { populateGamesTable(); } catch(e) { console.error('populateGamesTable:', e); }
+try { populatePlayersTable(); } catch(e) { console.error('populatePlayersTable:', e); }
+try { populateSeasonHighs(); } catch(e) { console.error('populateSeasonHighs:', e); }
+try { populateMilestones(); } catch(e) { console.error('populateMilestones:', e); }
+try { populateTeamsTable(); } catch(e) { console.error('populateTeamsTable:', e); }
+try { populateStreaksTable(); } catch(e) { console.error('populateStreaksTable:', e); }
+try { populateSplitsTable(); } catch(e) { console.error('populateSplitsTable:', e); }
+try { populateConferenceTable(); } catch(e) { console.error('populateConferenceTable:', e); }
+try { buildMatchupMatrix(); } catch(e) { console.error('buildMatchupMatrix:', e); }
+try { buildConferenceCrossover(); } catch(e) { console.error('buildConferenceCrossover:', e); }
+try { populateVenuesTable(); } catch(e) { console.error('populateVenuesTable:', e); }
+try { populateFutureProsTable(); } catch(e) { console.error('populateFutureProsTable:', e); }
+try { initUpcomingGames(); } catch(e) { console.error('initUpcomingGames:', e); }
+try { populateRecords(); } catch(e) { console.error('populateRecords:', e); }
+try { populatePlayerRecords(); } catch(e) { console.error('populatePlayerRecords:', e); }
+try { renderScorigami(); } catch(e) { console.error('renderScorigami:', e); }
+try { initCalendar(); } catch(e) { console.error('initCalendar:', e); }
+try { initChecklist(); } catch(e) { console.error('initChecklist:', e); }
+try { initOnThisDay(); } catch(e) { console.error('initOnThisDay:', e); }
+try { populateBadges(); } catch(e) { console.error('populateBadges:', e); }
+try { populateSeasonStats(); } catch(e) { console.error('populateSeasonStats:', e); }
+try { showChart('scoring'); } catch(e) { console.error('showChart:', e); }
 
-    // Handle URL on load
-    handleURLNavigation();
+// Handle URL on load
+handleURLNavigation();
 
-    // Handle browser back/forward
-    window.addEventListener('popstate', handleURLNavigation);
-}
-
-// Initialize when DOM is ready
-document.addEventListener('DOMContentLoaded', init);
+// Handle browser back/forward
+window.addEventListener('popstate', handleURLNavigation);
