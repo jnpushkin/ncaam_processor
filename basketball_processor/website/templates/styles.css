@@ -1812,33 +1812,6 @@ thead {
     box-shadow: 0 1px 2px rgba(0,0,0,0.2);
 }
 /* Game Significance Badges */
-.significance-badge {
-    font-size: 0.55rem;
-    font-weight: bold;
-    padding: 2px 6px;
-    border-radius: 3px;
-    margin: 2px 3px;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.15);
-    white-space: nowrap;
-    display: inline-block;
-    text-transform: uppercase;
-}
-.significance-badge.sig-must-see {
-    background: linear-gradient(135deg, #ff9800, #f57c00);
-    color: white;
-}
-.significance-badge.sig-high {
-    background: linear-gradient(135deg, #ffc107, #ffb300);
-    color: #333;
-}
-.significance-badge.sig-notable {
-    background: linear-gradient(135deg, #8bc34a, #7cb342);
-    color: white;
-}
-.significance-badge.sig-average {
-    background: linear-gradient(135deg, #9e9e9e, #757575);
-    color: white;
-}
 /* AP Ranking Badge */
 .ap-rank {
     background: linear-gradient(135deg, #1a73e8, #4285f4);

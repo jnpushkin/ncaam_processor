@@ -102,83 +102,6 @@ const STAT_THRESHOLDS = {
     threePct: { excellent: 0.40, good: 0.35, average: 0.30 },
 };
 
-// Calculate game significance score (0-100)
-// Higher scores = more exciting/important games
-function calculateGameSignificance(game) {
-    let score = 0;
-
-    const awayRank = game.AwayRank || 999;
-    const homeRank = game.HomeRank || 999;
-    const awayScore = game['Away Score'] || 0;
-    const homeScore = game['Home Score'] || 0;
-    const margin = Math.abs(awayScore - homeScore);
-    const totalPoints = awayScore + homeScore;
-
-    // Ranking factors (up to 50 points)
-    if (awayRank <= 25 && homeRank <= 25) {
-        // Both teams ranked - very significant
-        score += 30;
-        // Bonus for close rankings (competitive matchup)
-        const rankDiff = Math.abs(awayRank - homeRank);
-        if (rankDiff <= 5) score += 15;
-        else if (rankDiff <= 10) score += 10;
-        else score += 5;
-    } else if (awayRank <= 10 || homeRank <= 10) {
-        // Top 10 team involved
-        score += 20;
-    } else if (awayRank <= 25 || homeRank <= 25) {
-        // Ranked team involved
-        score += 10;
-    }
-
-    // Upset factor (up to 25 points)
-    const awayWon = awayScore > homeScore;
-    if (awayRank <= 25 || homeRank <= 25) {
-        const higherRank = Math.min(awayRank, homeRank);
-        const lowerRank = Math.max(awayRank, homeRank);
-        const higherRankedWon = (awayRank < homeRank && awayWon) || (homeRank < awayRank && !awayWon);
-
-        if (!higherRankedWon && higherRank <= 25) {
-            // Upset occurred
-            score += 25;
-            // Bigger upset = more bonus
-            if (higherRank <= 5) score += 10;
-            else if (higherRank <= 10) score += 5;
-        }
-    }
-
-    // Game closeness (up to 20 points)
-    if (game.Linescore) {
-        // Check for overtime
-        const periods = Object.keys(game.Linescore.away || {}).length;
-        if (periods > 4) score += 15; // OT game
-    }
-    if (margin <= 3) score += 20;
-    else if (margin <= 5) score += 15;
-    else if (margin <= 10) score += 10;
-    else if (margin <= 15) score += 5;
-
-    // High scoring (up to 10 points)
-    if (totalPoints >= 180) score += 10;
-    else if (totalPoints >= 160) score += 5;
-
-    // Conference game (5 points)
-    if (game.AwayConf && game.HomeConf && game.AwayConf === game.HomeConf) {
-        score += 5;
-    }
-
-    return Math.min(100, score);
-}
-
-// Get significance label and class
-function getSignificanceLabel(score) {
-    if (score >= 80) return { label: 'Must-See', class: 'sig-must-see' };
-    if (score >= 60) return { label: 'High', class: 'sig-high' };
-    if (score >= 40) return { label: 'Notable', class: 'sig-notable' };
-    if (score >= 20) return { label: 'Average', class: 'sig-average' };
-    return { label: '', class: '' };
-}
-
 // Theme toggle
 function toggleTheme() {
     const body = document.body;
@@ -1115,10 +1038,6 @@ function applyGamesFilters() {
             if (game.Gender !== 'M') return false;
         } else if (quickFilter === 'womens') {
             if (game.Gender !== 'W') return false;
-        } else if (quickFilter === 'must-see') {
-            // Must-See = significance score >= 60
-            const significance = calculateGameSignificance(game);
-            if (significance < 60) return false;
         }
         return true;
     });
@@ -2151,20 +2070,13 @@ function renderGamesTable() {
             const otPeriods = (linescore.away?.OT?.length || 0);
             const otText = otPeriods > 0 ? ` (${otPeriods > 1 ? otPeriods + 'OT' : 'OT'})` : '';
 
-            // Calculate game significance
-            const significance = calculateGameSignificance(game);
-            const sigInfo = getSignificanceLabel(significance);
-
             // Milestone badges (compact display with expandable)
             const allBadges = [...(upsetBadge ? [{text: 'UPSET', title: upsetBadge.match(/title="([^"]+)"/)?.[1] || 'Upset', type: 'upset'}] : []), ...milestones.badges];
             const visibleBadges = allBadges.slice(0, 3);
             const hiddenBadges = allBadges.slice(3);
             const gameIdSafe = (game.GameID || '').replace(/[^a-zA-Z0-9]/g, '_');
 
-            // Add significance badge if notable or higher
-            const sigBadge = sigInfo.label ? `<span class="significance-badge ${sigInfo.class}" title="Game Significance: ${significance}/100">${sigInfo.label}</span>` : '';
-
-            let badgeHtml = sigBadge + visibleBadges.map(b =>
+            let badgeHtml = visibleBadges.map(b =>
                 b.type === 'upset'
                     ? `<span class="upset-badge" title="${b.title}">UPSET</span>`
                     : `<span class="milestone-badge" title="${b.title}">${b.text}</span>`
