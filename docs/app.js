@@ -159,6 +159,211 @@ function showToast(message) {
     setTimeout(() => toast.classList.remove('show'), 3000);
 }
 
+// Global Search
+let globalSearchTimeout = null;
+function handleGlobalSearch(event) {
+    const query = event.target.value.trim().toLowerCase();
+
+    // Clear previous timeout
+    if (globalSearchTimeout) clearTimeout(globalSearchTimeout);
+
+    // Hide results if query too short
+    if (query.length < 2) {
+        hideGlobalSearchResults();
+        return;
+    }
+
+    // Enter key navigates to first result
+    if (event.key === 'Enter') {
+        const firstResult = document.querySelector('.search-result-item');
+        if (firstResult) firstResult.click();
+        return;
+    }
+
+    // Escape key closes search
+    if (event.key === 'Escape') {
+        hideGlobalSearchResults();
+        event.target.blur();
+        return;
+    }
+
+    // Debounce search
+    globalSearchTimeout = setTimeout(() => performGlobalSearch(query), 150);
+}
+
+function performGlobalSearch(query) {
+    const results = { games: [], players: [], teams: [], venues: [] };
+    const maxResults = 5; // Max per category
+
+    // Search games
+    (DATA.games || []).forEach(game => {
+        if (results.games.length >= maxResults) return;
+        const searchStr = `${game['Away Team']} ${game['Home Team']} ${game.Date} ${game.Venue}`.toLowerCase();
+        if (searchStr.includes(query)) {
+            results.games.push({
+                id: game.GameID,
+                title: `${game['Away Team']} @ ${game['Home Team']}`,
+                subtitle: `${game.Date} - ${game['Away Score']}-${game['Home Score']}`,
+                icon: '🏀'
+            });
+        }
+    });
+
+    // Search players
+    (DATA.players || []).forEach(player => {
+        if (results.players.length >= maxResults) return;
+        const name = (player.Player || '').toLowerCase();
+        const team = (player.Team || '').toLowerCase();
+        if (name.includes(query) || team.includes(query)) {
+            results.players.push({
+                id: player['Player ID'] || player.Player,
+                title: player.Player,
+                subtitle: `${player.Team} - ${player.PPG?.toFixed(1) || 0} PPG`,
+                icon: '👤'
+            });
+        }
+    });
+
+    // Search teams
+    (DATA.teams || []).forEach(team => {
+        if (results.teams.length >= maxResults) return;
+        const name = (team.Team || '').toLowerCase();
+        if (name.includes(query)) {
+            results.teams.push({
+                id: team.Team,
+                gender: team.Gender,
+                title: team.Team,
+                subtitle: `${team.Conference || 'Unknown'} - ${team.Wins || 0}W ${team.Losses || 0}L`,
+                icon: '🏆'
+            });
+        }
+    });
+
+    // Search venues
+    const venues = new Map();
+    (DATA.games || []).forEach(game => {
+        const venue = game.Venue;
+        if (!venue || venues.has(venue)) return;
+        if (venue.toLowerCase().includes(query)) {
+            venues.set(venue, {
+                id: venue,
+                title: venue,
+                subtitle: `${game.City || ''}, ${game.State || ''}`,
+                icon: '🏟️'
+            });
+        }
+    });
+    results.venues = Array.from(venues.values()).slice(0, maxResults);
+
+    renderGlobalSearchResults(results);
+}
+
+function renderGlobalSearchResults(results) {
+    const container = document.getElementById('global-search-results');
+    const hasResults = results.games.length + results.players.length + results.teams.length + results.venues.length > 0;
+
+    if (!hasResults) {
+        container.innerHTML = '<div class="search-no-results">No results found</div>';
+        container.style.display = 'block';
+        return;
+    }
+
+    let html = '';
+
+    if (results.games.length > 0) {
+        html += '<div class="search-result-section"><div class="search-result-header">Games</div>';
+        results.games.forEach(r => {
+            html += `<div class="search-result-item" onclick="selectGlobalSearchResult('game', '${r.id}')">
+                <span class="search-result-icon">${r.icon}</span>
+                <div class="search-result-text">
+                    <div class="search-result-title">${r.title}</div>
+                    <div class="search-result-subtitle">${r.subtitle}</div>
+                </div>
+            </div>`;
+        });
+        html += '</div>';
+    }
+
+    if (results.players.length > 0) {
+        html += '<div class="search-result-section"><div class="search-result-header">Players</div>';
+        results.players.forEach(r => {
+            html += `<div class="search-result-item" onclick="selectGlobalSearchResult('player', '${r.id}')">
+                <span class="search-result-icon">${r.icon}</span>
+                <div class="search-result-text">
+                    <div class="search-result-title">${r.title}</div>
+                    <div class="search-result-subtitle">${r.subtitle}</div>
+                </div>
+            </div>`;
+        });
+        html += '</div>';
+    }
+
+    if (results.teams.length > 0) {
+        html += '<div class="search-result-section"><div class="search-result-header">Teams</div>';
+        results.teams.forEach(r => {
+            html += `<div class="search-result-item" onclick="selectGlobalSearchResult('team', '${r.id}', '${r.gender || 'M'}')">
+                <span class="search-result-icon">${r.icon}</span>
+                <div class="search-result-text">
+                    <div class="search-result-title">${r.title}</div>
+                    <div class="search-result-subtitle">${r.subtitle}</div>
+                </div>
+            </div>`;
+        });
+        html += '</div>';
+    }
+
+    if (results.venues.length > 0) {
+        html += '<div class="search-result-section"><div class="search-result-header">Venues</div>';
+        results.venues.forEach(r => {
+            html += `<div class="search-result-item" onclick="selectGlobalSearchResult('venue', '${r.id}')">
+                <span class="search-result-icon">${r.icon}</span>
+                <div class="search-result-text">
+                    <div class="search-result-title">${r.title}</div>
+                    <div class="search-result-subtitle">${r.subtitle}</div>
+                </div>
+            </div>`;
+        });
+        html += '</div>';
+    }
+
+    container.innerHTML = html;
+    container.style.display = 'block';
+}
+
+function selectGlobalSearchResult(type, id, extra = '') {
+    hideGlobalSearchResults();
+    document.getElementById('global-search').value = '';
+
+    if (type === 'game') {
+        showGameDetail(id);
+    } else if (type === 'player') {
+        showPlayerDetail(id);
+    } else if (type === 'team') {
+        filterByTeam(id, extra || 'M');
+    } else if (type === 'venue') {
+        showVenueDetail(id);
+    }
+}
+
+function showGlobalSearchResults() {
+    const query = document.getElementById('global-search').value.trim();
+    if (query.length >= 2) {
+        performGlobalSearch(query.toLowerCase());
+    }
+}
+
+function hideGlobalSearchResults() {
+    document.getElementById('global-search-results').style.display = 'none';
+}
+
+// Close global search results when clicking outside
+document.addEventListener('click', (e) => {
+    const container = document.querySelector('.global-search-container');
+    if (container && !container.contains(e.target)) {
+        hideGlobalSearchResults();
+    }
+});
+
 function toggleBadges(gameId, event) {
     event.stopPropagation();
     const hiddenSpan = document.getElementById(`badges-hidden-${gameId}`);

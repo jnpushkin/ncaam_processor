@@ -77,6 +77,90 @@ body {
     right: 1rem;
     display: flex;
     gap: 0.5rem;
+    align-items: center;
+}
+/* Global Search */
+.global-search-container {
+    position: relative;
+}
+.global-search {
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 6px;
+    padding: 6px 12px;
+    color: white;
+    font-size: 0.85rem;
+    width: 200px;
+    transition: all 0.2s;
+}
+.global-search::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+.global-search:focus {
+    outline: none;
+    background: rgba(255, 255, 255, 0.25);
+    border-color: rgba(255, 255, 255, 0.5);
+    width: 280px;
+}
+.global-search-results {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 350px;
+    max-height: 400px;
+    overflow-y: auto;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    z-index: 1000;
+    margin-top: 4px;
+}
+.search-result-section {
+    padding: 8px 0;
+}
+.search-result-section:not(:last-child) {
+    border-bottom: 1px solid var(--border-color);
+}
+.search-result-header {
+    padding: 4px 12px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    background: var(--bg-primary);
+}
+.search-result-item {
+    padding: 8px 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.search-result-item:hover {
+    background: var(--hover-color);
+}
+.search-result-icon {
+    font-size: 1.1rem;
+    opacity: 0.7;
+    width: 20px;
+    text-align: center;
+}
+.search-result-text {
+    flex: 1;
+}
+.search-result-title {
+    font-weight: 500;
+    color: var(--text-primary);
+}
+.search-result-subtitle {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+.search-no-results {
+    padding: 16px;
+    text-align: center;
+    color: var(--text-muted);
 }
 .theme-toggle, .share-btn {
     background: rgba(255,255,255,0.15);
@@ -1727,6 +1811,7 @@ thead {
     text-transform: uppercase;
     box-shadow: 0 1px 2px rgba(0,0,0,0.2);
 }
+/* Game Significance Badges */
 /* AP Ranking Badge */
 .ap-rank {
     background: linear-gradient(135deg, #1a73e8, #4285f4);
