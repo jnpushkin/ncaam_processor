@@ -3183,13 +3183,10 @@ function renderFutureProsTable(futurePros) {
             : '';
 
         // Build current team display with G-League indicator
-        let currentTeamDisplay = '';
+        let currentTeamDisplay = '—';
         if (player.Current_Team) {
             const gleagueTag = player.Had_GLeague ? '<span class="gleague-tag" data-tooltip="G-League Experience">G</span>' : '';
-            const yearsPro = player.Years_Pro ? `<span class="years-pro">${player.Years_Pro}y</span>` : '';
-            currentTeamDisplay = `${player.Current_Team} ${gleagueTag}${yearsPro}`;
-        } else if (player.NBA_Active || player.WNBA_Active) {
-            currentTeamDisplay = '<span class="active-text">Active</span>';
+            currentTeamDisplay = `<span class="team-name" data-tooltip="${player.Current_Team}">${player.Current_Team}</span>${gleagueTag}`;
         }
 
         return `

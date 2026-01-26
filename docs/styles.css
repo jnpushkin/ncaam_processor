@@ -777,18 +777,19 @@ tr.wnba-player.signed-only:hover {
     color: var(--text-muted);
     margin-left: 0.3rem;
 }
-/* Active text in current team */
-.active-text {
-    color: #4CAF50;
-    font-weight: 500;
-}
 /* Current team cell */
 .current-team-cell {
-    font-size: 0.85rem;
-    max-width: 150px;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+.current-team-cell .team-name {
+    max-width: 120px;
+    display: inline-block;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    vertical-align: middle;
+    cursor: help;
 }
 .nba-stat .number {
     color: #C8102E;

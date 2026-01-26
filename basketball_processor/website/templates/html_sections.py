@@ -899,7 +899,7 @@ def get_body(total_games: int, total_players: int, total_teams: int, total_venue
                             <th onclick="sortTable('future-pros-table', 0)">Player</th>
                             <th onclick="sortTable('future-pros-table', 1)">College Team</th>
                             <th onclick="sortTable('future-pros-table', 2)">League</th>
-                            <th onclick="sortTable('future-pros-table', 3)" class="tooltip" data-tooltip="Current pro team (G = G-League experience)">Current Team</th>
+                            <th onclick="sortTable('future-pros-table', 3)" class="tooltip" data-tooltip="Current team from Proballers (G = G-League experience)">Current</th>
                             <th onclick="sortTable('future-pros-table', 4)" class="tooltip" data-tooltip="Pro career games played">Pro Games</th>
                             <th onclick="sortTable('future-pros-table', 5)" class="tooltip" data-tooltip="Games you saw them play in college">Games Seen</th>
                             <th onclick="sortTable('future-pros-table', 6)" class="tooltip" data-tooltip="College points per game">PPG</th>
