@@ -770,13 +770,6 @@ tr.wnba-player.signed-only:hover {
     margin-left: 0.3rem;
     vertical-align: middle;
 }
-/* Years pro indicator */
-.years-pro {
-    display: inline-block;
-    font-size: 0.65rem;
-    color: var(--text-muted);
-    margin-left: 0.3rem;
-}
 /* Current team cell */
 .current-team-cell {
     font-size: 0.8rem;
