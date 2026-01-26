@@ -2793,6 +2793,7 @@ function initVenuesMap() {
         'Crypto.com Arena': [34.0430, -118.2673],
         'TD Garden': [42.3662, -71.0621],
         'Capital One Arena': [38.8981, -77.0209],
+        'Bridgestone Arena': [36.1591, -86.7785],  // Nashville, TN
         // D3/D2 venues
         'Kezar Pavilion': [37.7670, -122.4535],  // Academy of Art, San Francisco
         'Ratner Center': [41.7942, -87.6019],  // University of Chicago
@@ -4253,6 +4254,7 @@ function updateUpcomingMap() {
         'Footprint Center': [33.4457, -112.0712],
         'Crypto.com Arena': [34.0430, -118.2673],
         'Capital One Arena': [38.8982, -77.0208],
+        'Bridgestone Arena': [36.1591, -86.7785],  // Nashville, TN
         // Historical venues
         'Towson Center': [39.3935, -76.6100],  // Towson's arena before SECU Arena (pre-2013)
     };

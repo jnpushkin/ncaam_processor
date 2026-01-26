@@ -271,6 +271,7 @@ SR_SLUG_OVERRIDES = {
     'saint-francis-(pa)': 'st-francis-pa-red-flash',
     'st-francis-(ny)': 'st-francis-ny-terriers',
     'uconn': 'connecticut-huskies',
+    'uconn-huskies': 'connecticut-huskies',
     'california': 'california-golden-bears',
     'san-francisco': 'san-francisco-dons',
     'drexel': 'drexel-dragons',
@@ -575,6 +576,29 @@ def find_player_by_college(
     # Normalize name for matching - use exact matching only to avoid false positives
     search_name = player_name.lower().strip()
 
+    # Common nickname -> full name mappings (excluding 2-letter initials like DJ, RJ, TJ)
+    NICKNAMES = {
+        'cam': 'cameron', 'will': 'william', 'bill': 'william', 'billy': 'william',
+        'bob': 'robert', 'bobby': 'robert', 'rob': 'robert', 'mike': 'michael',
+        'mikey': 'michael', 'matt': 'matthew', 'matty': 'matthew',
+        'dan': 'daniel', 'danny': 'daniel', 'dave': 'david', 'davey': 'david',
+        'chris': 'christopher', 'tony': 'anthony', 'joe': 'joseph', 'joey': 'joseph',
+        'nick': 'nicholas', 'nicky': 'nicholas', 'alex': 'alexander',
+        'ben': 'benjamin', 'benny': 'benjamin', 'sam': 'samuel', 'sammy': 'samuel',
+        'tom': 'thomas', 'tommy': 'thomas', 'tim': 'timothy', 'timmy': 'timothy',
+        'jim': 'james', 'jimmy': 'james', 'jake': 'jacob', 'jack': 'john',
+        'ted': 'theodore', 'max': 'maximilian', 'rick': 'richard', 'dick': 'richard',
+        'drew': 'andrew', 'andy': 'andrew', 'pete': 'peter', 'steve': 'steven',
+        'jon': 'jonathan', 'nate': 'nathan', 'zach': 'zachary', 'zack': 'zachary',
+        'ken': 'kenneth', 'greg': 'gregory', 'jeff': 'jeffrey', 'geoff': 'geoffrey',
+        'ed': 'edward', 'eddie': 'edward', 'fred': 'frederick', 'frank': 'francis',
+        'ray': 'raymond', 'ron': 'ronald', 'donny': 'donald', 'don': 'donald',
+        'lenny': 'leonard', 'len': 'leonard', 'larry': 'lawrence', 'jerry': 'gerald',
+        'terry': 'terrence', 'barry': 'barrington', 'harry': 'harold',
+        'chuck': 'charles', 'charlie': 'charles', 'wes': 'wesley',
+        'gus': 'augustus', 'auggie': 'augustus',
+    }
+
     # Helper to normalize name (remove punctuation, standardize spacing)
     def normalize(name):
         # Decode HTML entities (&#039; -> ', etc.)
@@ -584,6 +608,17 @@ def find_player_by_college(
         normalized = name.replace("'", "").replace(".", "").replace(",", "").replace("-", " ")
         # Collapse multiple spaces
         return ' '.join(normalized.split())
+
+    # Helper to expand nicknames in a name
+    def expand_nicknames(name):
+        parts = name.split()
+        expanded = []
+        for part in parts:
+            if part in NICKNAMES:
+                expanded.append(NICKNAMES[part])
+            else:
+                expanded.append(part)
+        return ' '.join(expanded)
 
     # Collect all candidates that match by name
     candidates = []
@@ -600,6 +635,13 @@ def find_player_by_college(
             candidates.append(player)
             continue
 
+        # Nickname-expanded match (handles Cam vs Cameron, DJ vs Dennis, etc.)
+        search_expanded = expand_nicknames(normalize(search_name))
+        roster_expanded = expand_nicknames(normalize(roster_name))
+        if search_expanded == roster_expanded:
+            candidates.append(player)
+            continue
+
         # Check slug (Proballers slug format)
         search_slug = normalize(search_name).replace(' ', '-')
         if search_slug == player['slug']:
@@ -611,6 +653,13 @@ def find_player_by_college(
         search_base = ' '.join(p for p in normalize(search_name).split() if p not in suffixes)
         roster_base = ' '.join(p for p in normalize(roster_name).split() if p not in suffixes)
         if search_base == roster_base:
+            candidates.append(player)
+            continue
+
+        # Nickname + suffix removal combined
+        search_base_expanded = ' '.join(p for p in search_expanded.split() if p not in suffixes)
+        roster_base_expanded = ' '.join(p for p in roster_expanded.split() if p not in suffixes)
+        if search_base_expanded == roster_base_expanded:
             candidates.append(player)
 
     if not candidates:
