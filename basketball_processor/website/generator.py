@@ -38,7 +38,8 @@ def generate_website_from_data(processed_data: Dict[str, Any], output_path: str,
     # Serialize data
     serializer = DataSerializer(processed_data, raw_games)
     data = serializer.serialize_all(skip_nba=skip_nba)
-    json_data = json.dumps(data, default=str)
+    # Use indent for debuggability (grep-friendly) - size increase is minimal for static files
+    json_data = json.dumps(data, indent=2, default=str)
 
     # Ensure output directory exists
     output_dir = os.path.dirname(output_path)
