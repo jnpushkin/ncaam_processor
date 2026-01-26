@@ -568,6 +568,13 @@ def main() -> None:
         if generate_website and not args.no_deploy:
             _deploy_to_surge(args.output_html)
 
+            # Refresh active status for pro players in background (updates cache for next run)
+            try:
+                from .utils.nba_players import refresh_active_status
+                refresh_active_status()
+            except Exception as e:
+                warn(f"Active status refresh failed: {e}")
+
     except Exception as e:
         from .utils.log import exception
         exception("Error during processing", e)

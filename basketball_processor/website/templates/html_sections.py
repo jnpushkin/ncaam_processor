@@ -861,6 +861,37 @@ def get_body(total_games: int, total_players: int, total_teams: int, total_venue
         <div id="future-pros" class="section" role="tabpanel">
             <h2>Future Pros ⭐</h2>
             <p style="margin-bottom: 1rem; color: var(--text-secondary);">Players you've seen in college who went on to play professionally (NBA, WNBA, or overseas).</p>
+            <div class="filters" id="future-pros-filters">
+                <div class="filter-group">
+                    <label for="future-pros-search">Search</label>
+                    <input type="text" id="future-pros-search" class="search-box" placeholder="Search players..." onkeyup="applyFutureProsFilters()">
+                </div>
+                <div class="filter-group">
+                    <label for="future-pros-league">League</label>
+                    <select id="future-pros-league" onchange="applyFutureProsFilters()">
+                        <option value="">All Leagues</option>
+                        <option value="nba">NBA</option>
+                        <option value="wnba">WNBA</option>
+                        <option value="intl">International</option>
+                        <option value="national">National Team</option>
+                        <option value="gleague">G-League Experience</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="future-pros-status">Status</label>
+                    <select id="future-pros-status" onchange="applyFutureProsFilters()">
+                        <option value="">All</option>
+                        <option value="active">Active</option>
+                        <option value="former">Former</option>
+                        <option value="signed">Signed Only</option>
+                    </select>
+                </div>
+                <button class="clear-filters" onclick="clearFutureProsFilters()">Clear Filters</button>
+            </div>
+            <div id="future-pros-filter-summary" class="filter-summary" style="display: none;">
+                <span class="filter-summary-text"></span>
+                <button class="filter-summary-clear" onclick="clearFutureProsFilters()">Clear All</button>
+            </div>
             <div class="table-wrapper">
                 <table id="future-pros-table" class="data-table">
                     <thead>
@@ -868,10 +899,11 @@ def get_body(total_games: int, total_players: int, total_teams: int, total_venue
                             <th onclick="sortTable('future-pros-table', 0)">Player</th>
                             <th onclick="sortTable('future-pros-table', 1)">College Team</th>
                             <th onclick="sortTable('future-pros-table', 2)">League</th>
-                            <th onclick="sortTable('future-pros-table', 3)" class="tooltip" data-tooltip="Pro career games played">Pro Games</th>
-                            <th onclick="sortTable('future-pros-table', 4)" class="tooltip" data-tooltip="Games you saw them play in college">Games Seen</th>
-                            <th onclick="sortTable('future-pros-table', 5)" class="tooltip" data-tooltip="College points per game">PPG</th>
-                            <th onclick="sortTable('future-pros-table', 6)" class="tooltip" data-tooltip="Total college points">Total Points</th>
+                            <th onclick="sortTable('future-pros-table', 3)" class="tooltip" data-tooltip="Current pro team (G = G-League experience)">Current Team</th>
+                            <th onclick="sortTable('future-pros-table', 4)" class="tooltip" data-tooltip="Pro career games played">Pro Games</th>
+                            <th onclick="sortTable('future-pros-table', 5)" class="tooltip" data-tooltip="Games you saw them play in college">Games Seen</th>
+                            <th onclick="sortTable('future-pros-table', 6)" class="tooltip" data-tooltip="College points per game">PPG</th>
+                            <th onclick="sortTable('future-pros-table', 7)" class="tooltip" data-tooltip="Total college points">Total Points</th>
                             <th>Pro Stats</th>
                         </tr>
                     </thead>

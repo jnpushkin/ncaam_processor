@@ -606,12 +606,44 @@ class DataSerializer:
                 record['Intl_Leagues'] = []
                 record['Intl_Tournaments'] = []
 
-            # Proballers URL - set for ALL players with proballers_id (not just international)
+            # Proballers URL and career data - set for ALL players with proballers_id
             proballers_id = pro_info.get('proballers_id') if pro_info else None
             if proballers_id:
                 record['Proballers_URL'] = f'https://www.proballers.com/basketball/player/{proballers_id}/'
+                # Get career data for current team and trajectory
+                from ..utils.proballers_scraper import get_player_career
+                career = get_player_career(proballers_id)
+                if career and career.get('teams'):
+                    teams = career['teams']
+                    # Current team (most recent non-NCAA)
+                    pro_teams = [t for t in teams if t.get('league_slug') != 'ncaa']
+                    if pro_teams:
+                        current = pro_teams[-1]
+                        record['Current_Team'] = current.get('team_name', '')
+                        record['Current_League'] = current.get('league', '')
+                    # Check for G-League history
+                    gleague_teams = [t for t in teams if t.get('league_slug') == 'g-league']
+                    record['Had_GLeague'] = len(gleague_teams) > 0
+                    # Years pro (since last NCAA stint)
+                    ncaa_teams = [t for t in teams if t.get('league_slug') == 'ncaa']
+                    if ncaa_teams:
+                        last_ncaa_year = max(t.get('year', 0) for t in ncaa_teams)
+                        import datetime
+                        current_year = datetime.datetime.now().year
+                        record['Years_Pro'] = current_year - last_ncaa_year
+                    else:
+                        record['Years_Pro'] = 0
+                else:
+                    record['Current_Team'] = ''
+                    record['Current_League'] = ''
+                    record['Had_GLeague'] = False
+                    record['Years_Pro'] = 0
             else:
                 record['Proballers_URL'] = ''
+                record['Current_Team'] = ''
+                record['Current_League'] = ''
+                record['Had_GLeague'] = False
+                record['Years_Pro'] = 0
 
             # Sports Reference page exists (False if 404 or non-D1 only player)
             # Sports Reference only covers D1 players

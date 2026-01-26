@@ -758,6 +758,38 @@ tr.wnba-player.signed-only:hover {
     0%, 100% { opacity: 1; }
     50% { opacity: 0.5; }
 }
+/* G-League tag in Current Team column */
+.gleague-tag {
+    display: inline-block;
+    font-size: 0.6rem;
+    font-weight: 700;
+    background: #1D428A;
+    color: white;
+    padding: 0.1rem 0.3rem;
+    border-radius: 3px;
+    margin-left: 0.3rem;
+    vertical-align: middle;
+}
+/* Years pro indicator */
+.years-pro {
+    display: inline-block;
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    margin-left: 0.3rem;
+}
+/* Active text in current team */
+.active-text {
+    color: #4CAF50;
+    font-weight: 500;
+}
+/* Current team cell */
+.current-team-cell {
+    font-size: 0.85rem;
+    max-width: 150px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 .nba-stat .number {
     color: #C8102E;
 }

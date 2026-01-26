@@ -48,29 +48,64 @@ LEAGUE_NAMES = {
     'basketball-champions-league': 'BCL',
     'fiba-europe-cup': 'FIBA Europe Cup',
 
-    # National leagues
+    # National leagues - Top tier
     'spain-liga-endesa': 'Liga ACB (Spain)',
     'italy-lba-serie-a': 'Serie A (Italy)',
     'france-betclic-elite': 'LNB Pro A (France)',
-    'france-elite-2': 'Pro B (France)',
     'turkey-bsl': 'BSL (Turkey)',
+    'turkey-tbl': 'TBL (Turkey)',
     'germany-easycredit-bbl': 'BBL (Germany)',
     'australia-nbl': 'NBL (Australia)',
     'china-cba': 'CBA (China)',
     'japan-b1-league': 'B.League (Japan)',
     'greece-heba-a1': 'Greek League',
     'greece-basket-league': 'Greek League',
+    'super-league-basketball': 'Greek League',
     'israel-winner-league': 'Israeli League',
     'russia-vtb-united-league': 'VTB United League',
     'adriatic-aba-league': 'ABA League',
     'poland-plk': 'PLK (Poland)',
+    'bnxt-league': 'BNXT League',
+    'uk-bbl': 'BBL (UK)',
+    'netherlands-dbl': 'DBL (Netherlands)',
+    'netherlands-eredivisie': 'Eredivisie (Netherlands)',
+    'finland-korisliiga': 'Korisliiga (Finland)',
+    'sweden-basketligan': 'Basketligan (Sweden)',
+    'denmark-ligaen': 'Ligaen (Denmark)',
+    'slovenia-liga-nova-kbm': 'Liga Nova KBM (Slovenia)',
+    'hungary-a-league': 'A Liga (Hungary)',
+    'romania-division-a': 'Division A (Romania)',
+    'switzerland-sbl': 'SBL (Switzerland)',
+    'portugal-liga-profissional': 'LPB (Portugal)',
+
+    # National leagues - Second tier
+    'spain-leb-oro': 'LEB Oro (Spain)',
+    'spain-leb-gold': 'LEB Oro (Spain)',
+    'italy-serie-a2': 'Serie A2 (Italy)',
+    'france-betclic-elite-2': 'Pro B (France)',
+    'france-pro-b': 'Pro B (France)',
+    'france-elite-2': 'Pro B (France)',
+    'germany-pro-a': 'ProA (Germany)',
+    'greece-a2': 'A2 (Greece)',
+    'turkey-tb2l': 'TB2L (Turkey)',
+    'japan-b2-league': 'B2.League (Japan)',
+    'australia-nbl1': 'NBL1 (Australia)',
+    'israel-national-league': 'National League (Israel)',
+
+    # Asia-Pacific other
     'philippines-pba': 'PBA (Philippines)',
     'korea-kbl': 'KBL (Korea)',
     'taiwan-p-league': 'P.League (Taiwan)',
+    'new-zealand-nbl': 'NBL (New Zealand)',
+
+    # Americas
     'puerto-rico-bsn': 'BSN (Puerto Rico)',
     'argentina-liga-nacional': 'Liga Nacional (Argentina)',
+    'argentina-liga-a': 'Liga Nacional (Argentina)',
     'brazil-nbb': 'NBB (Brazil)',
     'mexico-lnbp': 'LNBP (Mexico)',
+    'mexico-liga-sisnova-lnbp': 'LNBP (Mexico)',
+    'canada-cebl': 'CEBL (Canada)',
 
     # North American
     'nba': 'NBA',
@@ -81,18 +116,30 @@ LEAGUE_NAMES = {
 
 # Professional leagues (not college/development)
 PRO_LEAGUES = {
-    # European
+    # European - Top tier
     'euroleague', 'eurocup', 'basketball-champions-league', 'fiba-europe-cup',
     'spain-liga-endesa', 'italy-lba-serie-a', 'france-betclic-elite',
-    'turkey-bsl', 'germany-easycredit-bbl', 'greece-heba-a1', 'greece-basket-league',
+    'turkey-bsl', 'turkey-tbl', 'germany-easycredit-bbl',
+    'greece-heba-a1', 'greece-basket-league', 'super-league-basketball',
     'israel-winner-league', 'russia-vtb-united-league', 'adriatic-aba-league',
-    'poland-plk',
+    'poland-plk', 'bnxt-league',
+    # European - Other top tier
+    'finland-korisliiga', 'sweden-basketligan', 'denmark-ligaen',
+    'slovenia-liga-nova-kbm', 'hungary-a-league', 'romania-division-a',
+    'switzerland-sbl', 'portugal-liga-profissional',
+    # European - Second tier
+    'spain-leb-oro', 'spain-leb-gold', 'italy-serie-a2',
+    'france-pro-b', 'france-elite-2', 'france-betclic-elite-2',
+    'germany-pro-a', 'greece-a2', 'turkey-tb2l',
+    'uk-bbl', 'netherlands-dbl', 'netherlands-eredivisie',
+    'israel-national-league',
     # Asia-Pacific
-    'australia-nbl', 'china-cba', 'japan-b1-league', 'philippines-pba',
-    'korea-kbl', 'taiwan-p-league',
+    'australia-nbl', 'australia-nbl1', 'china-cba', 'japan-b1-league', 'japan-b2-league',
+    'philippines-pba', 'korea-kbl', 'taiwan-p-league', 'new-zealand-nbl',
     # Americas
-    'nba', 'wnba', 'puerto-rico-bsn', 'argentina-liga-nacional',
-    'brazil-nbb', 'mexico-lnbp',
+    'nba', 'wnba', 'puerto-rico-bsn',
+    'argentina-liga-nacional', 'argentina-liga-a',
+    'brazil-nbb', 'mexico-lnbp', 'mexico-liga-sisnova-lnbp', 'canada-cebl',
 }
 
 try:
@@ -525,66 +572,103 @@ def find_player_by_college(
     if not roster:
         return None
 
-    # Normalize name for matching
+    # Normalize name for matching - use exact matching only to avoid false positives
     search_name = player_name.lower().strip()
-    search_parts = set(search_name.split())
+
+    # Helper to normalize name (remove punctuation, standardize spacing)
+    def normalize(name):
+        # Decode HTML entities (&#039; -> ', etc.)
+        import html
+        name = html.unescape(name)
+        # Remove apostrophes, periods, commas, hyphens within names
+        normalized = name.replace("'", "").replace(".", "").replace(",", "").replace("-", " ")
+        # Collapse multiple spaces
+        return ' '.join(normalized.split())
 
     # Collect all candidates that match by name
     candidates = []
     for player in roster:
         roster_name = player['name'].lower()
-        roster_parts = set(roster_name.split())
 
         # Exact match
         if search_name == roster_name:
             candidates.append(player)
             continue
 
-        # Check slug
-        if search_name.replace(' ', '-') == player['slug']:
+        # Normalized match (handles De'Andre vs DeAndre, etc.)
+        if normalize(search_name) == normalize(roster_name):
             candidates.append(player)
             continue
 
-        # Fuzzy match - both first and last name match
-        if len(search_parts & roster_parts) >= 2:
+        # Check slug (Proballers slug format)
+        search_slug = normalize(search_name).replace(' ', '-')
+        if search_slug == player['slug']:
+            candidates.append(player)
+            continue
+
+        # Match without suffixes (Jr/Sr/II/III) for cases like "John Smith Jr" vs "John Smith"
+        suffixes = {'jr', 'sr', 'ii', 'iii', 'iv', 'v'}
+        search_base = ' '.join(p for p in normalize(search_name).split() if p not in suffixes)
+        roster_base = ' '.join(p for p in normalize(roster_name).split() if p not in suffixes)
+        if search_base == roster_base:
             candidates.append(player)
 
     if not candidates:
         return None
 
-    # If only one candidate, return it
-    if len(candidates) == 1:
-        return candidates[0]['id']
+    # Helper to verify candidate played for the college in the expected year
+    def verify_candidate(candidate_id: int, expected_year: Optional[int]) -> bool:
+        career = get_player_career(candidate_id, scraper)
+        if not career:
+            return False
 
-    # Multiple candidates - use year to disambiguate
-    if year:
-        for candidate in candidates:
-            career = get_player_career(candidate['id'], scraper)
-            if career:
-                # Check if any NCAA team year matches
-                for team in career.get('teams', []):
-                    if 'ncaa' in team.get('league', '').lower():
-                        team_year = team.get('year', 0)
-                        # Allow 1 year tolerance for season overlap
-                        if abs(team_year - year) <= 1:
-                            return candidate['id']
+        # Check their college history
+        for team in career.get('teams', []):
+            league = team.get('league', '').lower()
+            if 'ncaa' not in league:
+                continue
 
-    # No year match found, return first candidate (original behavior)
-    return candidates[0]['id']
+            # If no year specified, any NCAA stint is fine
+            if not expected_year:
+                return True
+
+            # Verify year matches (allow 1 year tolerance for season overlap)
+            team_year = team.get('year', 0)
+            if abs(team_year - expected_year) <= 1:
+                return True
+
+        # No matching college stint found
+        return False
+
+    # Validate ALL candidates - must have played for college in expected year
+    verified_candidates = []
+    for candidate in candidates:
+        if verify_candidate(candidate['id'], year):
+            verified_candidates.append(candidate)
+
+    if not verified_candidates:
+        return None
+
+    if len(verified_candidates) == 1:
+        return verified_candidates[0]['id']
+
+    # Multiple verified candidates - return first (same name, same school, same year = likely same person)
+    return verified_candidates[0]['id']
 
 
-def get_player_pro_leagues(player_id: int, scraper=None) -> List[str]:
+def get_player_pro_leagues(player_id: int, scraper=None, force_refresh: bool = False) -> List[str]:
     """
     Get list of professional leagues a player has played in.
 
     Args:
         player_id: Proballers player ID
         scraper: Optional cloudscraper instance
+        force_refresh: If True, ignore cache and fetch fresh data
 
     Returns:
         List of league display names
     """
-    career = get_player_career(player_id, scraper)
+    career = get_player_career(player_id, scraper, force_refresh=force_refresh)
     if career:
         return career.get('pro_leagues', [])
     return []

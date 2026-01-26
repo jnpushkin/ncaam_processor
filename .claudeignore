@@ -1,0 +1,11 @@
+# Large data/cache files that cause Claude to hang
+data/*.json
+docs/data.js
+html_games/
+cache/
+
+# Build artifacts
+.mypy_cache/
+.pytest_cache/
+__pycache__/
+*.pyc

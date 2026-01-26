@@ -3080,7 +3080,7 @@ function renderFutureProsTable(futurePros) {
     const tbody = document.querySelector('#future-pros-table tbody');
 
     if (futurePros.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="8" class="empty-state"><h3>No future pros match filters</h3></td></tr>';
+        tbody.innerHTML = '<tr><td colspan="9" class="empty-state"><h3>No future pros match filters</h3></td></tr>';
         return;
     }
 
@@ -3182,6 +3182,16 @@ function renderFutureProsTable(futurePros) {
             ? ` <a href="${proballersUrl}" target="_blank" class="proballers-link" data-tooltip="View on Proballers">PB &#8599;</a>`
             : '';
 
+        // Build current team display with G-League indicator
+        let currentTeamDisplay = '';
+        if (player.Current_Team) {
+            const gleagueTag = player.Had_GLeague ? '<span class="gleague-tag" data-tooltip="G-League Experience">G</span>' : '';
+            const yearsPro = player.Years_Pro ? `<span class="years-pro">${player.Years_Pro}y</span>` : '';
+            currentTeamDisplay = `${player.Current_Team} ${gleagueTag}${yearsPro}`;
+        } else if (player.NBA_Active || player.WNBA_Active) {
+            currentTeamDisplay = '<span class="active-text">Active</span>';
+        }
+
         return `
             <tr class="${rowClass}">
                 <td>
@@ -3191,6 +3201,7 @@ function renderFutureProsTable(futurePros) {
                 </td>
                 <td>${player.Team || ''}</td>
                 <td>${league}</td>
+                <td class="current-team-cell">${currentTeamDisplay}</td>
                 <td>${proGames}</td>
                 <td>${player.Games || 0}</td>
                 <td>${(player.PPG || 0).toFixed(1)}</td>
@@ -3223,6 +3234,7 @@ function applyFutureProsFilters() {
             if (leagueFilter === 'wnba' && !player.WNBA) return false;
             if (leagueFilter === 'intl' && !player.Intl_Pro) return false;
             if (leagueFilter === 'national' && !player.Intl_National_Team) return false;
+            if (leagueFilter === 'gleague' && !player.Had_GLeague) return false;
         }
 
         // Status filter

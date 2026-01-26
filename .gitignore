@@ -36,6 +36,7 @@ env/
 
 # Cache and output files
 cache/
+docs/data.js
 *.xlsx
 *.html
 !html_games/*.html

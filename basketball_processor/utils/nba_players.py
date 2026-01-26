@@ -48,6 +48,31 @@ WNBA_RECHECK_TIMESTAMP_FILE = DATA_DIR / 'wnba_recheck_timestamp.txt'
 # Days between automatic null re-checks
 RECHECK_INTERVAL_DAYS = 90
 
+
+def _get_current_nba_seasons() -> Tuple[str, str]:
+    """Get current and previous NBA season strings (e.g., '2024-25', '2023-24')."""
+    now = datetime.now()
+    year = now.year
+    month = now.month
+    # NBA season runs Oct-June. If Jan-June, we're in (year-1)-(year) season
+    if month <= 6:
+        current = f"{year-1}-{str(year)[2:]}"
+        previous = f"{year-2}-{str(year-1)[2:]}"
+    else:
+        current = f"{year}-{str(year+1)[2:]}"
+        previous = f"{year-1}-{str(year)[2:]}"
+    return current, previous
+
+
+def _get_current_wnba_years() -> Tuple[str, str]:
+    """Get current and previous WNBA season years (e.g., '2025', '2024')."""
+    now = datetime.now()
+    year = now.year
+    # WNBA season runs May-Sept. If before May, previous year is more relevant
+    if now.month < 5:
+        return str(year - 1), str(year - 2)
+    return str(year), str(year - 1)
+
 # Sports Reference base URL
 SPORTS_REF_BASE = "https://www.sports-reference.com/cbb/players/"
 
@@ -536,8 +561,10 @@ def check_player_nba_status(player_id: str) -> Optional[Dict[str, Any]]:
                     if nba_verify['games'] is not None:
                         result['nba_games'] = nba_verify['games']
                     if nba_verify['played']:
-                        # Check if currently active (look for recent season stats)
-                        is_active = '2024-25' in html or '2025-26' in html
+                        # Check if currently active (look for recent season in stats table)
+                        current_season, prev_season = _get_current_nba_seasons()
+                        season_pattern = re.compile(rf'<th[^>]*scope="row"[^>]*>({re.escape(current_season)}|{re.escape(prev_season)})</th>')
+                        is_active = bool(season_pattern.search(html))
                         result['is_active'] = is_active
                     else:
                         result['is_active'] = False
@@ -561,8 +588,10 @@ def check_player_nba_status(player_id: str) -> Optional[Dict[str, Any]]:
                     if wnba_verify['games'] is not None:
                         result['wnba_games'] = wnba_verify['games']
                     if wnba_verify['played']:
-                        # Check if currently active
-                        is_wnba_active = '2024' in html or '2025' in html
+                        # Check if currently active (look for year in stats table)
+                        current_year, prev_year = _get_current_wnba_years()
+                        season_pattern = re.compile(rf'<th[^>]*scope="row"[^>]*>({re.escape(current_year)}|{re.escape(prev_year)})</th>')
+                        is_wnba_active = bool(season_pattern.search(html))
                         result['is_wnba_active'] = is_wnba_active
                     else:
                         result['is_wnba_active'] = False
@@ -1530,21 +1559,36 @@ def check_proballers_for_all_players(
             if proballers_id:
                 cache[player_id]['proballers_id'] = proballers_id
 
+            # Also save to confirmed for persistent storage and refresh capability
+            if player_id not in confirmed:
+                confirmed[player_id] = {}
+            if confirmed[player_id] is None:
+                confirmed[player_id] = {}
+            confirmed[player_id]['proballers_leagues'] = proballers_leagues
+            if proballers_id:
+                confirmed[player_id]['proballers_id'] = proballers_id
+
             # If no BR international data, mark as international based on Proballers
             if not has_br_intl and proballers_leagues:
                 new_intl_count += 1
+                # Merge with any existing leagues
+                existing_leagues = confirmed[player_id].get('intl_leagues', [])
+                merged_leagues = _merge_leagues(existing_leagues, proballers_leagues)
+                # Save to both cache and confirmed
                 cache[player_id]['intl_pro'] = True
                 cache[player_id]['intl_national_team'] = False
-                # Merge with any existing BR leagues
-                existing_leagues = cache[player_id].get('intl_leagues', [])
-                cache[player_id]['intl_leagues'] = _merge_leagues(existing_leagues, proballers_leagues)
+                cache[player_id]['intl_leagues'] = merged_leagues
+                confirmed[player_id]['intl_pro'] = True
+                confirmed[player_id]['intl_national_team'] = False
+                confirmed[player_id]['intl_leagues'] = merged_leagues
                 print(f" → NEW: {', '.join(proballers_leagues)}")
             else:
                 # Merge Proballers leagues with existing BR leagues
-                existing_leagues = cache[player_id].get('intl_leagues', [])
+                existing_leagues = confirmed[player_id].get('intl_leagues', [])
                 merged = _merge_leagues(existing_leagues, proballers_leagues)
                 if len(merged) > len(existing_leagues):
                     cache[player_id]['intl_leagues'] = merged
+                    confirmed[player_id]['intl_leagues'] = merged
                     print(f" → Added: {', '.join(set(merged) - set(existing_leagues))}")
                 else:
                     print(f" → (already have)")
@@ -1552,6 +1596,7 @@ def check_proballers_for_all_players(
             print(" → (not found)")
 
         _save_lookup_cache(cache)
+        _save_confirmed(confirmed)
 
     print(f"\nComplete!")
     print(f"  Checked: {len(players)}")
@@ -1562,4 +1607,244 @@ def check_proballers_for_all_players(
         'checked': len(players),
         'found': found_count,
         'new_international': new_intl_count
+    }
+
+
+def refresh_active_status() -> Dict[str, Any]:
+    """
+    Refresh active status for all confirmed pro players.
+    Checks all players with pro URLs (not just those who played) since
+    players can take time off and return to the league.
+    Also refreshes international league/tournament data.
+    Runs after website deployment to update cache for next time.
+    """
+    confirmed = _load_confirmed()
+    cache = _load_lookup_cache()
+
+    # Find all players with NBA/WNBA/International URLs or Proballers IDs
+    nba_to_check = []
+    wnba_to_check = []
+    intl_to_check = []
+    proballers_to_check = []
+
+    for player_id, data in confirmed.items():
+        if not data:
+            continue
+        # Skip known false positives
+        if player_id in FALSE_POSITIVE_IDS:
+            continue
+        # Check all players with URLs (they could return after time off)
+        if data.get('nba_url'):
+            nba_to_check.append((player_id, data['nba_url']))
+        if data.get('wnba_url'):
+            wnba_to_check.append((player_id, data['wnba_url']))
+        if data.get('intl_url'):
+            intl_to_check.append((player_id, data['intl_url']))
+        if data.get('proballers_id'):
+            proballers_to_check.append((player_id, data['proballers_id']))
+
+    total = len(nba_to_check) + len(wnba_to_check) + len(intl_to_check) + len(proballers_to_check)
+    if total == 0:
+        print("No pro players to refresh.")
+        return {'nba_checked': 0, 'wnba_checked': 0, 'intl_checked': 0, 'proballers_checked': 0, 'updated': 0}
+
+    print(f"\nRefreshing pro player data: {len(nba_to_check)} NBA + {len(wnba_to_check)} WNBA + {len(intl_to_check)} BR Intl + {len(proballers_to_check)} Proballers...")
+    # BR sources have rate limit, Proballers doesn't
+    br_count = len(nba_to_check) + len(wnba_to_check) + len(intl_to_check)
+    est_minutes = (br_count * RATE_LIMIT_SECONDS) / 60
+    print(f"Estimated time: {est_minutes:.1f} minutes (Proballers is fast)")
+
+    if HAS_CLOUDSCRAPER:
+        scraper = cloudscraper.create_scraper()
+    elif HAS_REQUESTS:
+        scraper = None
+    else:
+        print("No HTTP library available (need cloudscraper or requests)")
+        return {'nba_checked': 0, 'wnba_checked': 0, 'updated': 0}
+
+    updated_count = 0
+    current_nba, prev_nba = _get_current_nba_seasons()
+    current_wnba, prev_wnba = _get_current_wnba_years()
+
+    # Check NBA players
+    for i, (player_id, url) in enumerate(nba_to_check):
+        print(f"  NBA {i+1}/{len(nba_to_check)} {player_id}...", end='', flush=True)
+
+        try:
+            if scraper:
+                resp = scraper.get(url, timeout=15)
+            else:
+                resp = requests.get(url, timeout=15)
+
+            if resp.status_code == 200:
+                html = resp.text
+                # Look for season in stats table rows only (not nav links)
+                # BR uses <th scope="row" ...>2025-26</th> format for season rows
+                season_pattern = re.compile(rf'<th[^>]*scope="row"[^>]*>({re.escape(current_nba)}|{re.escape(prev_nba)})</th>')
+                is_active = bool(season_pattern.search(html))
+                old_status = confirmed[player_id].get('is_active', False)
+
+                if is_active != old_status:
+                    confirmed[player_id]['is_active'] = is_active
+                    if player_id in cache and cache[player_id]:
+                        cache[player_id]['is_active'] = is_active
+                    updated_count += 1
+                    status_str = "ACTIVE" if is_active else "INACTIVE"
+                    print(f" → {status_str} (was {'active' if old_status else 'inactive'})")
+                else:
+                    print(f" → {'active' if is_active else 'inactive'} (unchanged)")
+            else:
+                print(f" → HTTP {resp.status_code}")
+
+        except Exception as e:
+            print(f" → Error: {e}")
+
+        time.sleep(RATE_LIMIT_SECONDS)
+
+    # Check WNBA players
+    for i, (player_id, url) in enumerate(wnba_to_check):
+        print(f"  WNBA {i+1}/{len(wnba_to_check)} {player_id}...", end='', flush=True)
+
+        try:
+            if scraper:
+                resp = scraper.get(url, timeout=15)
+            else:
+                resp = requests.get(url, timeout=15)
+
+            if resp.status_code == 200:
+                html = resp.text
+                # Look for season year in stats table rows only (not nav links)
+                season_pattern = re.compile(rf'<th[^>]*scope="row"[^>]*>({re.escape(current_wnba)}|{re.escape(prev_wnba)})</th>')
+                is_active = bool(season_pattern.search(html))
+                old_status = confirmed[player_id].get('is_wnba_active', False)
+
+                if is_active != old_status:
+                    confirmed[player_id]['is_wnba_active'] = is_active
+                    if player_id in cache and cache[player_id]:
+                        cache[player_id]['is_wnba_active'] = is_active
+                    updated_count += 1
+                    status_str = "ACTIVE" if is_active else "INACTIVE"
+                    print(f" → {status_str} (was {'active' if old_status else 'inactive'})")
+                else:
+                    print(f" → {'active' if is_active else 'inactive'} (unchanged)")
+            else:
+                print(f" → HTTP {resp.status_code}")
+
+        except Exception as e:
+            print(f" → Error: {e}")
+
+        time.sleep(RATE_LIMIT_SECONDS)
+
+    # Check International players
+    intl_updated = 0
+    for i, (player_id, url) in enumerate(intl_to_check):
+        print(f"  Intl {i+1}/{len(intl_to_check)} {player_id}...", end='', flush=True)
+
+        try:
+            # _check_intl_type handles its own rate limiting
+            intl_types = _check_intl_type(url, scraper)
+
+            old_pro = confirmed[player_id].get('intl_pro', False)
+            old_national = confirmed[player_id].get('intl_national_team', False)
+            old_leagues = set(confirmed[player_id].get('intl_leagues', []))
+            old_tournaments = set(confirmed[player_id].get('intl_tournaments', []))
+
+            new_leagues = set(intl_types.get('leagues', []))
+            new_tournaments = set(intl_types.get('tournaments', []))
+
+            # Check for any changes
+            changed = False
+            changes = []
+
+            if intl_types['pro'] != old_pro:
+                changed = True
+                changes.append(f"pro: {old_pro}→{intl_types['pro']}")
+            if intl_types['national_team'] != old_national:
+                changed = True
+                changes.append(f"natl: {old_national}→{intl_types['national_team']}")
+            if new_leagues - old_leagues:
+                changed = True
+                changes.append(f"+leagues: {new_leagues - old_leagues}")
+            if new_tournaments - old_tournaments:
+                changed = True
+                changes.append(f"+tournaments: {new_tournaments - old_tournaments}")
+
+            if changed:
+                confirmed[player_id]['intl_pro'] = intl_types['pro']
+                confirmed[player_id]['intl_national_team'] = intl_types['national_team']
+                confirmed[player_id]['intl_leagues'] = intl_types.get('leagues', [])
+                confirmed[player_id]['intl_tournaments'] = intl_types.get('tournaments', [])
+                if player_id in cache and cache[player_id]:
+                    cache[player_id]['intl_pro'] = intl_types['pro']
+                    cache[player_id]['intl_national_team'] = intl_types['national_team']
+                    cache[player_id]['intl_leagues'] = intl_types.get('leagues', [])
+                    cache[player_id]['intl_tournaments'] = intl_types.get('tournaments', [])
+                intl_updated += 1
+                updated_count += 1
+                print(f" → UPDATED: {', '.join(changes)}")
+            else:
+                leagues_str = ', '.join(new_leagues) if new_leagues else 'none'
+                print(f" → {leagues_str} (unchanged)")
+
+        except Exception as e:
+            print(f" → Error: {e}")
+
+    # Check Proballers players
+    proballers_updated = 0
+    if HAS_PROBALLERS and proballers_to_check:
+        from .proballers_scraper import get_player_pro_leagues
+        for i, (player_id, pb_id) in enumerate(proballers_to_check):
+            print(f"  Proballers {i+1}/{len(proballers_to_check)} {player_id}...", end='', flush=True)
+
+            try:
+                # Force refresh to get latest data from Proballers
+                new_leagues = get_player_pro_leagues(pb_id, scraper, force_refresh=True)
+                old_leagues = set(confirmed[player_id].get('proballers_leagues', []))
+                new_leagues_set = set(new_leagues)
+
+                added_leagues = new_leagues_set - old_leagues
+                if added_leagues:
+                    confirmed[player_id]['proballers_leagues'] = new_leagues
+                    if player_id in cache and cache[player_id]:
+                        cache[player_id]['proballers_leagues'] = new_leagues
+                    # Also update intl_leagues if this is their only intl source
+                    if not confirmed[player_id].get('intl_url'):
+                        existing_intl = set(confirmed[player_id].get('intl_leagues', []))
+                        merged_intl = _merge_leagues(list(existing_intl), new_leagues)
+                        confirmed[player_id]['intl_leagues'] = merged_intl
+                        confirmed[player_id]['intl_pro'] = True
+                        if player_id in cache and cache[player_id]:
+                            cache[player_id]['intl_leagues'] = merged_intl
+                            cache[player_id]['intl_pro'] = True
+                    proballers_updated += 1
+                    updated_count += 1
+                    print(f" → +{added_leagues}")
+                else:
+                    leagues_str = ', '.join(new_leagues) if new_leagues else 'none'
+                    print(f" → {leagues_str} (unchanged)")
+
+            except Exception as e:
+                print(f" → Error: {e}")
+
+            # Proballers has no rate limit (network latency is sufficient)
+    elif proballers_to_check:
+        print("  Skipping Proballers (scraper not available)")
+
+    # Save updated data
+    _save_confirmed(confirmed)
+    _save_lookup_cache(cache)
+
+    print(f"\nPro player refresh complete!")
+    print(f"  NBA checked: {len(nba_to_check)}")
+    print(f"  WNBA checked: {len(wnba_to_check)}")
+    print(f"  BR International checked: {len(intl_to_check)}")
+    print(f"  Proballers checked: {len(proballers_to_check)}")
+    print(f"  Updated: {updated_count} (intl: {intl_updated}, proballers: {proballers_updated})")
+
+    return {
+        'nba_checked': len(nba_to_check),
+        'wnba_checked': len(wnba_to_check),
+        'intl_checked': len(intl_to_check),
+        'proballers_checked': len(proballers_to_check),
+        'updated': updated_count
     }

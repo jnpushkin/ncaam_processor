@@ -16,7 +16,7 @@
   "maya-caldwell-1": {
     "sr_page_exists": true,
     "wnba_url": "https://www.basketball-reference.com/wnba/players/c/caldwma01w.html",
-    "is_wnba_active": true,
+    "is_wnba_active": false,
     "wnba_played": true,
     "wnba_games": 105
   },
@@ -37,7 +37,7 @@
   "jocelyn-willoughby-1": {
     "sr_page_exists": true,
     "wnba_url": "https://www.basketball-reference.com/wnba/players/w/willojo01w.html",
-    "is_wnba_active": true,
+    "is_wnba_active": false,
     "wnba_played": true,
     "wnba_games": 62
   },
@@ -110,7 +110,7 @@
     "nba_url": "https://www.basketball-reference.com/players/k/keybr01.html",
     "nba_played": true,
     "nba_games": 37,
-    "is_active": false,
+    "is_active": true,
     "intl_url": "https://www.basketball-reference.com/international/players/braxton-key-1.html",
     "intl_pro": true,
     "intl_national_team": false,
@@ -125,14 +125,19 @@
     "nba_url": "https://www.basketball-reference.com/players/h/huffja01.html",
     "nba_played": true,
     "nba_games": 123,
-    "is_active": false
+    "is_active": true
   },
   "kihei-clark-1": {
     "sr_page_exists": true,
     "nba_url": "https://www.basketball-reference.com/players/c/clarkki01.html",
     "nba_played": false,
     "nba_games": 0,
-    "is_active": false
+    "is_active": false,
+    "proballers_leagues": [
+      "B2.League (Japan)",
+      "BNXT League"
+    ],
+    "proballers_id": 178649
   },
   "isaiah-wilkins-1": {
     "sr_page_exists": true,
@@ -147,12 +152,6 @@
       "EuroCup"
     ],
     "intl_tournaments": []
-  },
-  "junjie-wang-1": {
-    "sr_page_exists": true,
-    "intl_url": "https://www.basketball-reference.com/international/players/junjie-wang-1.html",
-    "intl_pro": true,
-    "intl_national_team": false
   },
   "darius-thompson-1": {
     "sr_page_exists": true,
@@ -174,7 +173,7 @@
     "nba_url": "https://www.basketball-reference.com/players/m/mogbojo01.html",
     "nba_played": true,
     "nba_games": 74,
-    "is_active": false
+    "is_active": true
   },
   "ben-gregg-1": {
     "sr_page_exists": true,
@@ -191,14 +190,14 @@
     "nba_url": "https://www.basketball-reference.com/players/t/tysonja01.html",
     "nba_played": true,
     "nba_games": 71,
-    "is_active": false
+    "is_active": true
   },
   "rj-barrett-1": {
     "sr_page_exists": true,
     "nba_url": "https://www.basketball-reference.com/players/b/barrerj01.html",
     "nba_played": true,
     "nba_games": 404,
-    "is_active": false,
+    "is_active": true,
     "intl_url": "https://www.basketball-reference.com/international/players/rj-barrett-1.html",
     "intl_pro": false,
     "intl_national_team": true,
@@ -242,7 +241,7 @@
     "nba_url": "https://www.basketball-reference.com/players/b/buiebo01.html",
     "nba_played": false,
     "nba_games": 0,
-    "is_active": false
+    "is_active": true
   },
   "ben-lammers-1": {
     "sr_page_exists": true,
@@ -261,7 +260,7 @@
     "nba_url": "https://www.basketball-reference.com/players/c/colliis01.html",
     "nba_played": true,
     "nba_games": 90,
-    "is_active": false
+    "is_active": true
   },
   "david-fuchs-1": {
     "sr_page_exists": true,
@@ -278,7 +277,7 @@
     "nba_url": "https://www.basketball-reference.com/players/m/marciau01.html",
     "nba_played": false,
     "nba_games": 0,
-    "is_active": false
+    "is_active": true
   },
   "justin-robinson-3": {
     "sr_page_exists": true,
@@ -311,14 +310,14 @@
     "nba_url": "https://www.basketball-reference.com/players/d/davisjo08.html",
     "nba_played": false,
     "nba_games": 0,
-    "is_active": false
+    "is_active": true
   },
   "dain-dainja-1": {
     "sr_page_exists": true,
     "nba_url": "https://www.basketball-reference.com/players/d/dainjda01.html",
     "nba_played": false,
     "nba_games": 0,
-    "is_active": false
+    "is_active": true
   },
   "jamir-watkins-1": {
     "sr_page_exists": true,
@@ -342,7 +341,12 @@
     "intl_leagues": [
       "ABA League"
     ],
-    "intl_tournaments": []
+    "intl_tournaments": [],
+    "proballers_leagues": [
+      "LPB (Portugal)",
+      "ProA (Germany)"
+    ],
+    "proballers_id": 72751
   },
   "raymond-spalding-1": {
     "sr_page_exists": true,
@@ -398,7 +402,7 @@
     "nba_url": "https://www.basketball-reference.com/players/s/spencca01.html",
     "nba_played": true,
     "nba_games": 52,
-    "is_active": false
+    "is_active": true
   },
   "ethan-happ-1": {
     "sr_page_exists": true,
@@ -428,7 +432,7 @@
     "nba_url": "https://www.basketball-reference.com/players/c/castlst01.html",
     "nba_played": true,
     "nba_games": 99,
-    "is_active": false
+    "is_active": true
   },
   "khalif-battle-1": {
     "sr_page_exists": true,
@@ -456,7 +460,7 @@
     "nba_url": "https://www.basketball-reference.com/players/n/newtotr01.html",
     "nba_played": true,
     "nba_games": 8,
-    "is_active": false
+    "is_active": true
   },
   "audiese-toney-1": {
     "sr_page_exists": true,
@@ -519,7 +523,7 @@
     "nba_url": "https://www.basketball-reference.com/players/c/carteje01.html",
     "nba_played": true,
     "nba_games": 426,
-    "is_active": false
+    "is_active": true
   },
   "james-banksiii-1": {
     "sr_page_exists": true,
@@ -641,6 +645,7 @@
     "intl_pro": true,
     "intl_national_team": false,
     "intl_leagues": [
+      "BSL (Turkey)",
       "EuroCup"
     ],
     "intl_tournaments": []
@@ -650,7 +655,7 @@
     "nba_url": "https://www.basketball-reference.com/players/w/watsoan02.html",
     "nba_played": true,
     "nba_games": 9,
-    "is_active": false
+    "is_active": true
   },
   "dmitrik-trice-1": {
     "sr_page_exists": true,
@@ -688,7 +693,7 @@
     "nba_url": "https://www.basketball-reference.com/players/h/huntety01.html",
     "nba_played": false,
     "nba_games": 0,
-    "is_active": false
+    "is_active": true
   },
   "aamir-simms-1": {
     "sr_page_exists": true,
@@ -767,7 +772,7 @@
     "nba_url": "https://www.basketball-reference.com/players/b/bradlto01.html",
     "nba_played": true,
     "nba_games": 216,
-    "is_active": false
+    "is_active": true
   },
   "marcus-santos-silva-1": {
     "sr_page_exists": true,
@@ -785,7 +790,7 @@
     "nba_url": "https://www.basketball-reference.com/players/j/johnsko01.html",
     "nba_played": false,
     "nba_games": 0,
-    "is_active": false
+    "is_active": true
   },
   "prentiss-hubb-1": {
     "sr_page_exists": true,
@@ -840,14 +845,14 @@
     "nba_url": "https://www.basketball-reference.com/players/w/willivi01.html",
     "nba_played": true,
     "nba_games": 116,
-    "is_active": false
+    "is_active": true
   },
   "josh-okogie-1": {
     "sr_page_exists": true,
     "nba_url": "https://www.basketball-reference.com/players/o/okogijo01.html",
     "nba_played": true,
     "nba_games": 442,
-    "is_active": false,
+    "is_active": true,
     "intl_url": "https://www.basketball-reference.com/international/players/josh-okogie-1.html",
     "intl_pro": false,
     "intl_national_team": true,
@@ -1149,7 +1154,7 @@
     "nba_url": "https://www.basketball-reference.com/players/j/johnssa01.html",
     "nba_played": false,
     "nba_games": 0,
-    "is_active": false
+    "is_active": true
   },
   "anthony-lawrencejr-1": {
     "sr_page_exists": true,
@@ -1294,6 +1299,7 @@
     "intl_pro": true,
     "intl_national_team": false,
     "intl_leagues": [
+      "EuroCup",
       "LNB Pro A (France)"
     ],
     "intl_tournaments": []
@@ -1509,7 +1515,7 @@
   },
   "mamadi-diakite-1": {
     "nba_url": "https://www.basketball-reference.com/players/d/diakima01.html",
-    "is_active": false,
+    "is_active": true,
     "nba_played": true,
     "nba_games": 50
   },
@@ -1530,5 +1536,202 @@
     "is_active": true,
     "nba_played": true,
     "nba_games": 30
+  },
+  "tyrone-riley-iv-1": {},
+  "scott-rodgers-1": {},
+  "sean-mosley-1": {},
+  "isaiah-swope-1": {},
+  "nick-faust-1": {},
+  "troy-franklin-1": {},
+  "dame-sarr-1": {},
+  "quentin-snider-1": {},
+  "vuk-boskovic-1": {},
+  "danas-kazakevicius-1": {},
+  "brevin-pritzl-1": {},
+  "giancarlo-rosado-1": {},
+  "vance-cooksey-1": {},
+  "carlton-linguardjr-1": {
+    "proballers_leagues": [
+      "BNXT League"
+    ],
+    "proballers_id": 233324
+  },
+  "chris-lykes-1": {
+    "proballers_leagues": [
+      "BNXT League",
+      "Ligaen (Denmark)",
+      "Pro B (France)",
+      "TBL (Turkey)"
+    ],
+    "proballers_id": 76159,
+    "intl_leagues": [
+      "BNXT League",
+      "Ligaen (Denmark)",
+      "Pro B (France)",
+      "TBL (Turkey)"
+    ],
+    "intl_pro": true
+  },
+  "jared-wilson-frame-1": {
+    "proballers_leagues": [
+      "Greek League",
+      "LNBP (Mexico)",
+      "NBL (New Zealand)"
+    ],
+    "proballers_id": 180429,
+    "intl_leagues": [
+      "Greek League",
+      "LNBP (Mexico)",
+      "NBL (New Zealand)"
+    ],
+    "intl_pro": true
+  },
+  "jalen-blackmon-1": {
+    "proballers_leagues": [
+      "BNXT League"
+    ],
+    "proballers_id": 243201
+  },
+  "bernard-thompson-2": {
+    "proballers_leagues": [
+      "A Liga (Hungary)",
+      "CEBL (Canada)",
+      "ProA (Germany)"
+    ],
+    "proballers_id": 61128,
+    "intl_leagues": [
+      "A Liga (Hungary)",
+      "CEBL (Canada)",
+      "ProA (Germany)"
+    ],
+    "intl_pro": true
+  },
+  "sherwood-brown-1": {
+    "proballers_leagues": [
+      "CEBL (Canada)",
+      "Division A (Romania)",
+      "Korisliiga (Finland)",
+      "LPB (Portugal)",
+      "ProA (Germany)"
+    ],
+    "proballers_id": 61136,
+    "intl_leagues": [
+      "CEBL (Canada)",
+      "Division A (Romania)",
+      "Korisliiga (Finland)",
+      "LPB (Portugal)",
+      "ProA (Germany)"
+    ],
+    "intl_pro": true
+  },
+  "ismael-diouf-1": {
+    "proballers_leagues": [
+      "CEBL (Canada)"
+    ],
+    "proballers_id": 285406
+  },
+  "esa-ahmad-1": {
+    "proballers_leagues": [
+      "A Liga (Hungary)",
+      "Liga Nacional (Argentina)",
+      "ProA (Germany)"
+    ],
+    "proballers_id": 69476,
+    "intl_leagues": [
+      "A Liga (Hungary)",
+      "Liga Nacional (Argentina)",
+      "ProA (Germany)"
+    ],
+    "intl_pro": true
+  },
+  "cliff-tucker-1": {
+    "proballers_leagues": [
+      "LNBP (Mexico)",
+      "ProA (Germany)"
+    ],
+    "proballers_id": 49653,
+    "intl_leagues": [
+      "LNBP (Mexico)",
+      "ProA (Germany)"
+    ],
+    "intl_pro": true
+  },
+  "lamont-west-1": {
+    "proballers_leagues": [
+      "Liga Nova KBM (Slovenia)",
+      "ProA (Germany)"
+    ],
+    "proballers_id": 72741,
+    "intl_leagues": [
+      "Liga Nova KBM (Slovenia)",
+      "ProA (Germany)"
+    ],
+    "intl_pro": true
+  },
+  "malik-miller-2": {
+    "proballers_leagues": [
+      "BNXT League",
+      "Ligaen (Denmark)"
+    ],
+    "proballers_id": 190690,
+    "intl_leagues": [
+      "BNXT League",
+      "Ligaen (Denmark)"
+    ],
+    "intl_pro": true
+  },
+  "oskar-giltay-1": {
+    "proballers_leagues": [
+      "BNXT League"
+    ],
+    "proballers_id": 255054
+  },
+  "emmanuel-innocenti-1": {
+    "proballers_leagues": [
+      "Serie A2 (Italy)"
+    ],
+    "proballers_id": 181173
+  },
+  "berend-weijs-1": {
+    "proballers_leagues": [
+      "BNXT League",
+      "Eredivisie (Netherlands)"
+    ],
+    "proballers_id": 60307,
+    "intl_leagues": [
+      "BNXT League",
+      "Eredivisie (Netherlands)"
+    ],
+    "intl_pro": true
+  },
+  "nicolas-timberlake-1": {
+    "proballers_leagues": [
+      "BNXT League",
+      "LPB (Portugal)"
+    ],
+    "proballers_id": 189891,
+    "intl_leagues": [
+      "BNXT League",
+      "LPB (Portugal)"
+    ],
+    "intl_pro": true
+  },
+  "dennis-tunstall-1": {
+    "proballers_leagues": [
+      "Liga Nova KBM (Slovenia)",
+      "ProA (Germany)"
+    ],
+    "proballers_id": 189892,
+    "intl_leagues": [
+      "Liga Nova KBM (Slovenia)",
+      "ProA (Germany)"
+    ],
+    "intl_pro": true
+  },
+  "aubin-gateretse-1": {
+    "proballers_leagues": [
+      "BNXT League"
+    ],
+    "proballers_id": 179658
   }
 }
