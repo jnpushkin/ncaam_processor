@@ -399,7 +399,14 @@
     "intl_tournaments": [],
     "proballers_id": 72831,
     "name": "Justin Robinson",
-    "college": "Virginia Tech"
+    "college": "Virginia Tech",
+    "proballers_leagues": [
+      "LNB Pro A (France)",
+      "Liga ACB (Spain)",
+      "NBA",
+      "NBL (Australia)",
+      "Serie A (Italy)"
+    ]
   },
   "vladislav-goldin-1": {
     "sr_page_exists": true,
@@ -409,7 +416,14 @@
     "is_active": true,
     "proballers_id": 179529,
     "name": "Vladislav Goldin",
-    "college": "Florida Atlantic"
+    "college": "Florida Atlantic",
+    "proballers_leagues": [
+      "NBA"
+    ],
+    "intl_leagues": [
+      "NBA"
+    ],
+    "intl_pro": true
   },
   "johnell-davis-1": {
     "sr_page_exists": true,
@@ -439,7 +453,14 @@
     "is_active": true,
     "proballers_id": 234524,
     "name": "Jamir Watkins",
-    "college": "Florida State"
+    "college": "Florida State",
+    "proballers_leagues": [
+      "NBA"
+    ],
+    "intl_leagues": [
+      "NBA"
+    ],
+    "intl_pro": true
   },
   "dj-rodman-1": {
     "sr_page_exists": true,
@@ -481,7 +502,12 @@
     "intl_tournaments": [],
     "proballers_id": 72930,
     "name": "Raymond Spalding",
-    "college": "Louisville"
+    "college": "Louisville",
+    "proballers_leagues": [
+      "BSN (Puerto Rico)",
+      "Israeli League",
+      "NBA"
+    ]
   },
   "deng-adel-1": {
     "sr_page_exists": true,
@@ -498,7 +524,14 @@
     "intl_tournaments": [],
     "proballers_id": 72932,
     "name": "Deng Adel",
-    "college": "Louisville"
+    "college": "Louisville",
+    "proballers_leagues": [
+      "CEBL (Canada)",
+      "Ligaen (Denmark)",
+      "NBA",
+      "NBL (Australia)",
+      "Pro B (France)"
+    ]
   },
   "fardaws-aimaq-1": {
     "sr_page_exists": true,
@@ -511,7 +544,10 @@
     "intl_tournaments": [],
     "proballers_id": 194677,
     "name": "Fardaws Aimaq",
-    "college": "California"
+    "college": "California",
+    "proballers_leagues": [
+      "A Liga (Hungary)"
+    ]
   },
   "veniamin-abosi-1": {
     "sr_page_exists": true,
@@ -536,7 +572,14 @@
     "is_active": true,
     "proballers_id": 191502,
     "name": "Cam Spencer",
-    "college": "Connecticut"
+    "college": "Connecticut",
+    "proballers_leagues": [
+      "NBA"
+    ],
+    "intl_leagues": [
+      "NBA"
+    ],
+    "intl_pro": true
   },
   "ethan-happ-1": {
     "sr_page_exists": true,
@@ -552,7 +595,13 @@
     "intl_tournaments": [],
     "proballers_id": 69470,
     "name": "Ethan Happ",
-    "college": "Wisconsin"
+    "college": "Wisconsin",
+    "proballers_leagues": [
+      "BBL (Germany)",
+      "EuroLeague",
+      "Liga ACB (Spain)",
+      "Serie A (Italy)"
+    ]
   },
   "mitchell-saxen-1": {
     "sr_page_exists": true,
@@ -572,7 +621,14 @@
     "is_active": true,
     "proballers_id": 253689,
     "name": "Stephon Castle",
-    "college": "Connecticut"
+    "college": "Connecticut",
+    "proballers_leagues": [
+      "NBA"
+    ],
+    "intl_leagues": [
+      "NBA"
+    ],
+    "intl_pro": true
   },
   "khalif-battle-1": {
     "sr_page_exists": true,
@@ -586,7 +642,10 @@
     "intl_tournaments": [],
     "proballers_id": 189336,
     "name": "Khalif Battle",
-    "college": "Gonzaga"
+    "college": "Gonzaga",
+    "proballers_leagues": [
+      "Serie A (Italy)"
+    ]
   },
   "mady-sissoko-1": {
     "sr_page_exists": true,
@@ -599,7 +658,10 @@
     "intl_tournaments": [],
     "proballers_id": 233559,
     "name": "Mady Sissoko",
-    "college": "California"
+    "college": "California",
+    "proballers_leagues": [
+      "Serie A (Italy)"
+    ]
   },
   "tristen-newton-1": {
     "sr_page_exists": true,
@@ -627,7 +689,11 @@
     "intl_tournaments": [],
     "proballers_id": 189211,
     "name": "Au'Diese Toney",
-    "college": "Pittsburgh"
+    "college": "Pittsburgh",
+    "proballers_leagues": [
+      "Division A (Romania)",
+      "Greek League"
+    ]
   },
   "moses-wright-1": {
     "sr_page_exists": true,
@@ -665,7 +731,12 @@
     "intl_tournaments": [],
     "proballers_id": 72661,
     "name": "Brandon Childress",
-    "college": "Wake Forest"
+    "college": "Wake Forest",
+    "proballers_leagues": [
+      "BBL (Germany)",
+      "BSL (Turkey)",
+      "Greek League"
+    ]
   },
   "joel-berry-1": {
     "sr_page_exists": true,
@@ -693,7 +764,14 @@
     "is_active": true,
     "proballers_id": 11611,
     "name": "Jevon Carter",
-    "college": "West Virginia"
+    "college": "West Virginia",
+    "proballers_leagues": [
+      "NBA"
+    ],
+    "intl_leagues": [
+      "NBA"
+    ],
+    "intl_pro": true
   },
   "james-banksiii-1": {
     "sr_page_exists": true,
@@ -712,7 +790,11 @@
     "intl_tournaments": [],
     "proballers_id": 189138,
     "name": "James Banks",
-    "college": "Georgia Tech"
+    "college": "Georgia Tech",
+    "proballers_leagues": [
+      "Greek League",
+      "Israeli League"
+    ]
   },
   "kymany-houinsou-1": {
     "sr_page_exists": true,
@@ -726,7 +808,11 @@
     "intl_tournaments": [],
     "proballers_id": 180212,
     "name": "Kymany Houinsou",
-    "college": "Loyola Chicago"
+    "college": "Loyola Chicago",
+    "proballers_leagues": [
+      "LNB Pro A (France)",
+      "Pro B (France)"
+    ]
   },
   "gabe-devoe-1": {
     "sr_page_exists": true,
@@ -739,7 +825,12 @@
     "intl_tournaments": [],
     "proballers_id": 76297,
     "name": "Gabe DeVoe",
-    "college": "Clemson"
+    "college": "Clemson",
+    "proballers_leagues": [
+      "LNB Pro A (France)",
+      "PLK (Poland)",
+      "Serie A2 (Italy)"
+    ]
   },
   "olivier-sarr-1": {
     "sr_page_exists": true,
@@ -749,7 +840,14 @@
     "is_active": false,
     "proballers_id": 68300,
     "name": "Olivier Sarr",
-    "college": "Wake Forest"
+    "college": "Wake Forest",
+    "proballers_leagues": [
+      "NBA"
+    ],
+    "intl_leagues": [
+      "NBA"
+    ],
+    "intl_pro": true
   },
   "john-mooney-1": {
     "sr_page_exists": true,
@@ -762,7 +860,11 @@
     "intl_tournaments": [],
     "proballers_id": 189135,
     "name": "John Mooney",
-    "college": "Notre Dame"
+    "college": "Notre Dame",
+    "proballers_leagues": [
+      "B.League (Japan)",
+      "NBL (Australia)"
+    ]
   },
   "jaylen-blakes-1": {
     "sr_page_exists": true,
@@ -775,7 +877,10 @@
     "intl_tournaments": [],
     "proballers_id": 266880,
     "name": "Jaylen Blakes",
-    "college": "Stanford"
+    "college": "Stanford",
+    "proballers_leagues": [
+      "Israeli League"
+    ]
   },
   "nathan-adrian-1": {
     "sr_page_exists": true,
@@ -788,7 +893,12 @@
     "intl_tournaments": [],
     "proballers_id": 16542,
     "name": "Nathan Adrian",
-    "college": "West Virginia"
+    "college": "West Virginia",
+    "proballers_leagues": [
+      "B2.League (Japan)",
+      "Serie A (Italy)",
+      "Serie A2 (Italy)"
+    ]
   },
   "sam-waardenburg-1": {
     "sr_page_exists": true,
@@ -801,7 +911,13 @@
     "intl_tournaments": [],
     "proballers_id": 74028,
     "name": "Sam Waardenburg",
-    "college": "Miami (FL)"
+    "college": "Miami (FL)",
+    "proballers_leagues": [
+      "BBL (Germany)",
+      "BSN (Puerto Rico)",
+      "NBL (Australia)",
+      "NBL (New Zealand)"
+    ]
   },
   "michael-devoe-1": {
     "sr_page_exists": true,
@@ -820,7 +936,13 @@
     "intl_tournaments": [],
     "proballers_id": 189142,
     "name": "Michael Devoe",
-    "college": "Georgia Tech"
+    "college": "Georgia Tech",
+    "proballers_leagues": [
+      "BBL (Germany)",
+      "BSL (Turkey)",
+      "BSN (Puerto Rico)",
+      "Israeli League"
+    ]
   },
   "blake-reynolds-1": {
     "sr_page_exists": true,
@@ -833,7 +955,11 @@
     "intl_tournaments": [],
     "proballers_id": 69268,
     "name": "Blake Reynolds",
-    "college": "Yale"
+    "college": "Yale",
+    "proballers_leagues": [
+      "Division A (Romania)",
+      "PLK (Poland)"
+    ]
   },
   "vj-king-1": {
     "sr_page_exists": true,
@@ -851,7 +977,11 @@
     "intl_tournaments": [],
     "proballers_id": 63539,
     "name": "V.J. King",
-    "college": "Louisville"
+    "college": "Louisville",
+    "proballers_leagues": [
+      "BSL (Turkey)",
+      "Serie A2 (Italy)"
+    ]
   },
   "anton-watson-1": {
     "sr_page_exists": true,
@@ -861,7 +991,14 @@
     "is_active": true,
     "proballers_id": 192407,
     "name": "Anton Watson",
-    "college": "Gonzaga"
+    "college": "Gonzaga",
+    "proballers_leagues": [
+      "NBA"
+    ],
+    "intl_leagues": [
+      "NBA"
+    ],
+    "intl_pro": true
   },
   "dmitrik-trice-1": {
     "sr_page_exists": true,
@@ -875,7 +1012,12 @@
     "intl_tournaments": [],
     "proballers_id": 72832,
     "name": "D'Mitrik Trice",
-    "college": "Wisconsin"
+    "college": "Wisconsin",
+    "proballers_leagues": [
+      "A Liga (Hungary)",
+      "LNB Pro A (France)",
+      "PLK (Poland)"
+    ]
   },
   "kody-stattmann-1": {
     "sr_page_exists": true,
@@ -888,7 +1030,10 @@
     "intl_tournaments": [],
     "proballers_id": 70055,
     "name": "Kody Stattmann",
-    "college": "Virginia"
+    "college": "Virginia",
+    "proballers_leagues": [
+      "NBL (Australia)"
+    ]
   },
   "brian-fobbs-1": {
     "sr_page_exists": true,
@@ -901,7 +1046,13 @@
     "intl_tournaments": [],
     "proballers_id": 189886,
     "name": "Brian Fobbs",
-    "college": "Towson"
+    "college": "Towson",
+    "proballers_leagues": [
+      "BBL (Germany)",
+      "BNXT League",
+      "Korisliiga (Finland)",
+      "Serie A (Italy)"
+    ]
   },
   "tyrese-hunter-1": {
     "sr_page_exists": true,
@@ -930,7 +1081,11 @@
     "intl_tournaments": [],
     "proballers_id": 76301,
     "name": "Aamir Simms",
-    "college": "Clemson"
+    "college": "Clemson",
+    "proballers_leagues": [
+      "LNB Pro A (France)",
+      "Serie A (Italy)"
+    ]
   },
   "nate-laszewski-1": {
     "sr_page_exists": true,
@@ -946,7 +1101,12 @@
     "intl_tournaments": [],
     "proballers_id": 189134,
     "name": "Nate Laszewski",
-    "college": "Notre Dame"
+    "college": "Notre Dame",
+    "proballers_leagues": [
+      "Greek League",
+      "Israeli League",
+      "Serie A (Italy)"
+    ]
   },
   "boogie-ellis-1": {
     "sr_page_exists": true,
@@ -982,7 +1142,14 @@
     "intl_tournaments": [],
     "proballers_id": 177355,
     "name": "Justin Bibbs",
-    "college": "Virginia Tech"
+    "college": "Virginia Tech",
+    "proballers_leagues": [
+      "A Liga (Hungary)",
+      "Greek League",
+      "LNBP (Mexico)",
+      "NBL (New Zealand)",
+      "PLK (Poland)"
+    ]
   },
   "ebuka-izundu-1": {
     "sr_page_exists": true,
@@ -999,7 +1166,13 @@
     "intl_tournaments": [],
     "proballers_id": 69592,
     "name": "Ebuka Izundu",
-    "college": "Miami (FL)"
+    "college": "Miami (FL)",
+    "proballers_leagues": [
+      "BBL (Germany)",
+      "BSL (Turkey)",
+      "LNB Pro A (France)",
+      "Liga ACB (Spain)"
+    ]
   },
   "tony-bradley-1": {
     "sr_page_exists": true,
@@ -1024,7 +1197,12 @@
     "intl_tournaments": [],
     "proballers_id": 178693,
     "name": "Marcus Santos-Silva",
-    "college": "Virginia Commonwealth"
+    "college": "Virginia Commonwealth",
+    "proballers_leagues": [
+      "Israeli League",
+      "LNB Pro A (France)",
+      "Pro B (France)"
+    ]
   },
   "kobe-johnson-1": {
     "sr_page_exists": true,
@@ -1049,7 +1227,12 @@
     "intl_tournaments": [],
     "proballers_id": 189133,
     "name": "Prentiss Hubb",
-    "college": "Notre Dame"
+    "college": "Notre Dame",
+    "proballers_leagues": [
+      "BBL (Germany)",
+      "Greek League",
+      "Serie A (Italy)"
+    ]
   },
   "tarik-phillip-1": {
     "sr_page_exists": true,
@@ -1070,7 +1253,18 @@
     "intl_tournaments": [],
     "proballers_id": 15851,
     "name": "Tarik Phillip",
-    "college": "West Virginia"
+    "college": "West Virginia",
+    "proballers_leagues": [
+      "A Liga (Hungary)",
+      "BCL",
+      "BSL (Turkey)",
+      "Greek League",
+      "Israeli League",
+      "LEB Oro (Spain)",
+      "Liga ACB (Spain)",
+      "PLK (Poland)",
+      "Serie A (Italy)"
+    ]
   },
   "kerry-blackshearjr-1": {
     "sr_page_exists": true,
@@ -1084,7 +1278,12 @@
     "intl_tournaments": [],
     "proballers_id": 76197,
     "name": "Kerry Blackshear",
-    "college": "Virginia Tech"
+    "college": "Virginia Tech",
+    "proballers_leagues": [
+      "B.League (Japan)",
+      "BSL (Turkey)",
+      "Israeli League"
+    ]
   },
   "justin-jackson-4": {
     "sr_page_exists": true,
@@ -1094,7 +1293,14 @@
     "is_active": false,
     "proballers_id": 14339,
     "name": "Justin Jackson",
-    "college": "North Carolina"
+    "college": "North Carolina",
+    "proballers_leagues": [
+      "NBA"
+    ],
+    "intl_leagues": [
+      "NBA"
+    ],
+    "intl_pro": true
   },
   "vince-williams-2": {
     "sr_page_exists": true,
@@ -1104,7 +1310,14 @@
     "is_active": true,
     "proballers_id": 178689,
     "name": "Vince Williams",
-    "college": "Virginia Commonwealth"
+    "college": "Virginia Commonwealth",
+    "proballers_leagues": [
+      "NBA"
+    ],
+    "intl_leagues": [
+      "NBA"
+    ],
+    "intl_pro": true
   },
   "josh-okogie-1": {
     "sr_page_exists": true,
@@ -1122,7 +1335,10 @@
     ],
     "proballers_id": 74040,
     "name": "Josh Okogie",
-    "college": "Georgia Tech"
+    "college": "Georgia Tech",
+    "proballers_leagues": [
+      "NBA"
+    ]
   },
   "marcquise-reed-1": {
     "sr_page_exists": true,
@@ -1138,7 +1354,12 @@
     "intl_tournaments": [],
     "proballers_id": 65168,
     "name": "Marcquise Reed",
-    "college": "Clemson"
+    "college": "Clemson",
+    "proballers_leagues": [
+      "BSL (Turkey)",
+      "LNB Pro A (France)",
+      "Serie A (Italy)"
+    ]
   },
   "jaylen-hoard-1": {
     "sr_page_exists": true,
@@ -1157,7 +1378,11 @@
     "intl_tournaments": [],
     "proballers_id": 67673,
     "name": "Jaylen Hoard",
-    "college": "Wake Forest"
+    "college": "Wake Forest",
+    "proballers_leagues": [
+      "Israeli League",
+      "NBA"
+    ]
   },
   "alijah-martin-1": {
     "sr_page_exists": true,
@@ -1167,7 +1392,14 @@
     "is_active": true,
     "proballers_id": 267082,
     "name": "Alijah Martin",
-    "college": "Florida Atlantic"
+    "college": "Florida Atlantic",
+    "proballers_leagues": [
+      "NBA"
+    ],
+    "intl_leagues": [
+      "NBA"
+    ],
+    "intl_pro": true
   },
   "teyvon-myers-1": {
     "sr_page_exists": true,
@@ -1181,7 +1413,17 @@
     "intl_tournaments": [],
     "proballers_id": 69477,
     "name": "Teyvon Myers",
-    "college": "West Virginia"
+    "college": "West Virginia",
+    "proballers_leagues": [
+      "A Liga (Hungary)",
+      "BBL (Germany)",
+      "Basketligan (Sweden)",
+      "CEBL (Canada)",
+      "LNB Pro A (France)",
+      "LPB (Portugal)",
+      "PLK (Poland)",
+      "TBL (Turkey)"
+    ]
   },
   "landon-milbourne-1": {
     "sr_page_exists": true,
@@ -1195,7 +1437,15 @@
     "intl_tournaments": [],
     "proballers_id": 49647,
     "name": "Landon Milbourne",
-    "college": "Maryland"
+    "college": "Maryland",
+    "proballers_leagues": [
+      "BSN (Puerto Rico)",
+      "Greek League",
+      "Israeli League",
+      "Liga ACB (Spain)",
+      "Pro B (France)",
+      "Serie A (Italy)"
+    ]
   },
   "kennedy-meeks-1": {
     "sr_page_exists": true,
@@ -1251,7 +1501,11 @@
     "intl_tournaments": [],
     "proballers_id": 63544,
     "name": "Harry Giles",
-    "college": "Duke"
+    "college": "Duke",
+    "proballers_leagues": [
+      "CBA (China)",
+      "NBA"
+    ]
   },
   "marques-bolden-1": {
     "sr_page_exists": true,
@@ -1303,7 +1557,11 @@
     "intl_tournaments": [],
     "proballers_id": 61120,
     "name": "Amile Jefferson",
-    "college": "Duke"
+    "college": "Duke",
+    "proballers_leagues": [
+      "BSL (Turkey)",
+      "NBA"
+    ]
   },
   "moussa-cisse-1": {
     "sr_page_exists": true,
@@ -1313,7 +1571,14 @@
     "is_active": true,
     "proballers_id": 233529,
     "name": "Moussa Cisse",
-    "college": "Memphis"
+    "college": "Memphis",
+    "proballers_leagues": [
+      "NBA"
+    ],
+    "intl_leagues": [
+      "NBA"
+    ],
+    "intl_pro": true
   },
   "hassan-diarra-1": {
     "sr_page_exists": true,
@@ -1326,7 +1591,10 @@
     "intl_tournaments": [],
     "proballers_id": 234290,
     "name": "Hassan Diarra",
-    "college": "Connecticut"
+    "college": "Connecticut",
+    "proballers_leagues": [
+      "Israeli League"
+    ]
   },
   "apostolos-roumoglou-1": {
     "sr_page_exists": true,
@@ -1339,7 +1607,10 @@
     "intl_tournaments": [],
     "proballers_id": 236337,
     "name": "Apostolos Roumoglou",
-    "college": "Connecticut"
+    "college": "Connecticut",
+    "proballers_leagues": [
+      "Greek League"
+    ]
   },
   "chase-fieler-1": {
     "sr_page_exists": true,
@@ -1353,7 +1624,15 @@
     "intl_tournaments": [],
     "proballers_id": 61132,
     "name": "Chase Fieler",
-    "college": "Florida Gulf Coast"
+    "college": "Florida Gulf Coast",
+    "proballers_leagues": [
+      "B.League (Japan)",
+      "B2.League (Japan)",
+      "BBL (Germany)",
+      "Eredivisie (Netherlands)",
+      "Greek League",
+      "LEB Oro (Spain)"
+    ]
   },
   "nayke-sanders-1": {
     "sr_page_exists": true,
@@ -1366,7 +1645,13 @@
     "intl_tournaments": [],
     "proballers_id": 189888,
     "name": "Nakye Sanders",
-    "college": "Towson"
+    "college": "Towson",
+    "proballers_leagues": [
+      "LNB Pro A (France)",
+      "LPB (Portugal)",
+      "Liga Nacional (Argentina)",
+      "TBL (Turkey)"
+    ]
   },
   "miye-oni-1": {
     "sr_page_exists": true,
@@ -1386,7 +1671,13 @@
     ],
     "proballers_id": 178523,
     "name": "Miye Oni",
-    "college": "Yale"
+    "college": "Yale",
+    "proballers_leagues": [
+      "BSN (Puerto Rico)",
+      "Greek League",
+      "Liga ACB (Spain)",
+      "NBA"
+    ]
   },
   "trey-mcgowens-1": {
     "sr_page_exists": true,
@@ -1403,7 +1694,10 @@
     "intl_tournaments": [],
     "proballers_id": 189210,
     "name": "Trey McGowens",
-    "college": "Pittsburgh"
+    "college": "Pittsburgh",
+    "proballers_leagues": [
+      "CEBL (Canada)"
+    ]
   },
   "michael-gilmore-1": {
     "sr_page_exists": true,
@@ -1418,7 +1712,15 @@
     "intl_tournaments": [],
     "proballers_id": 69546,
     "name": "Michael Gilmore",
-    "college": "Virginia Commonwealth"
+    "college": "Virginia Commonwealth",
+    "proballers_leagues": [
+      "BSL (Turkey)",
+      "Basketligan (Sweden)",
+      "Greek League",
+      "ProA (Germany)",
+      "Serie A (Italy)",
+      "Serie A2 (Italy)"
+    ]
   },
   "elijah-thomas-1": {
     "sr_page_exists": true,
@@ -1432,7 +1734,16 @@
     "intl_tournaments": [],
     "proballers_id": 76299,
     "name": "Elijah Thomas",
-    "college": "Clemson"
+    "college": "Clemson",
+    "proballers_leagues": [
+      "B2.League (Japan)",
+      "BSN (Puerto Rico)",
+      "Division A (Romania)",
+      "Greek League",
+      "Israeli League",
+      "NBL (New Zealand)",
+      "TBL (Turkey)"
+    ]
   },
   "frank-jackson-2": {
     "sr_page_exists": true,
@@ -1451,7 +1762,12 @@
     "intl_tournaments": [],
     "proballers_id": 69728,
     "name": "Frank Jackson",
-    "college": "Duke"
+    "college": "Duke",
+    "proballers_leagues": [
+      "CBA (China)",
+      "LNB Pro A (France)",
+      "NBA"
+    ]
   },
   "isaiah-mucius-1": {
     "sr_page_exists": true,
@@ -1464,7 +1780,14 @@
     "intl_tournaments": [],
     "proballers_id": 189189,
     "name": "Isaiah Mucius",
-    "college": "Wake Forest"
+    "college": "Wake Forest",
+    "proballers_leagues": [
+      "A Liga (Hungary)",
+      "Basketligan (Sweden)",
+      "Israeli League",
+      "NBL (New Zealand)",
+      "PLK (Poland)"
+    ]
   },
   "jack-white-1": {
     "sr_page_exists": true,
@@ -1508,7 +1831,14 @@
     "is_active": false,
     "proballers_id": 69309,
     "name": "Anthony Lawrence",
-    "college": "Miami (FL)"
+    "college": "Miami (FL)",
+    "proballers_leagues": [
+      "B.League (Japan)"
+    ],
+    "intl_leagues": [
+      "B.League (Japan)"
+    ],
+    "intl_pro": true
   },
   "isaiah-hicks-1": {
     "sr_page_exists": true,
@@ -1559,7 +1889,11 @@
     "intl_tournaments": [],
     "proballers_id": 180484,
     "name": "Taine Murray",
-    "college": "Virginia"
+    "college": "Virginia",
+    "proballers_leagues": [
+      "NBL (Australia)",
+      "NBL (New Zealand)"
+    ]
   },
   "nate-reuvers-1": {
     "sr_page_exists": true,
@@ -1576,7 +1910,11 @@
     "intl_tournaments": [],
     "proballers_id": 178750,
     "name": "Nate Reuvers",
-    "college": "Wisconsin"
+    "college": "Wisconsin",
+    "proballers_leagues": [
+      "Liga ACB (Spain)",
+      "Serie A (Italy)"
+    ]
   },
   "adam-moussa-1": {
     "sr_page_exists": true,
@@ -1604,7 +1942,12 @@
     "intl_tournaments": [],
     "proballers_id": 56830,
     "name": "David Skara",
-    "college": "Clemson"
+    "college": "Clemson",
+    "proballers_leagues": [
+      "LEB Oro (Spain)",
+      "LNB Pro A (France)",
+      "Pro B (France)"
+    ]
   },
   "malik-williams-1": {
     "sr_page_exists": true,
@@ -1614,7 +1957,16 @@
     "is_active": false,
     "proballers_id": 178596,
     "name": "Malik Williams",
-    "college": "Louisville"
+    "college": "Louisville",
+    "proballers_leagues": [
+      "NBA",
+      "PLK (Poland)"
+    ],
+    "intl_leagues": [
+      "NBA",
+      "PLK (Poland)"
+    ],
+    "intl_pro": true
   },
   "darius-perry-1": {
     "sr_page_exists": true,
@@ -1628,7 +1980,15 @@
     "intl_tournaments": [],
     "proballers_id": 178594,
     "name": "Darius Perry",
-    "college": "Louisville"
+    "college": "Louisville",
+    "proballers_leagues": [
+      "A Liga (Hungary)",
+      "BBL (Germany)",
+      "Greek League",
+      "Israeli League",
+      "PLK (Poland)",
+      "Serie A2 (Italy)"
+    ]
   },
   "yagizhan-selcuk-1": {
     "sr_page_exists": true,
@@ -1642,7 +2002,11 @@
     "intl_tournaments": [],
     "proballers_id": 189407,
     "name": "Yagizhan Selcuk",
-    "college": "Towson"
+    "college": "Towson",
+    "proballers_leagues": [
+      "BSL (Turkey)",
+      "TBL (Turkey)"
+    ]
   },
   "josh-kunen-1": {
     "sr_page_exists": true,
@@ -1655,7 +2019,10 @@
     "intl_tournaments": [],
     "proballers_id": 192442,
     "name": "Josh Kunen",
-    "college": "San Francisco"
+    "college": "San Francisco",
+    "proballers_leagues": [
+      "NBL (Australia)"
+    ]
   },
   "nikola-djogo-1": {
     "sr_page_exists": true,
@@ -1668,7 +2035,12 @@
     "intl_tournaments": [],
     "proballers_id": 63572,
     "name": "Nikola Djogo",
-    "college": "Notre Dame"
+    "college": "Notre Dame",
+    "proballers_leagues": [
+      "A Liga (Hungary)",
+      "BNXT League",
+      "CEBL (Canada)"
+    ]
   },
   "dane-goodwin-1": {
     "sr_page_exists": true,
@@ -1696,7 +2068,16 @@
     "intl_tournaments": [],
     "proballers_id": 189184,
     "name": "Chaundee Brown",
-    "college": "Wake Forest"
+    "college": "Wake Forest",
+    "proballers_leagues": [
+      "B2.League (Japan)",
+      "BBL (Germany)",
+      "BSN (Puerto Rico)",
+      "CEBL (Canada)",
+      "Greek League",
+      "LNB Pro A (France)",
+      "NBA"
+    ]
   },
   "luka-krajnovic-1": {
     "sr_page_exists": true,
@@ -1744,7 +2125,10 @@
     "intl_tournaments": [],
     "proballers_id": 237846,
     "name": "Ismaila Diagne",
-    "college": "Gonzaga"
+    "college": "Gonzaga",
+    "proballers_leagues": [
+      "Liga ACB (Spain)"
+    ]
   },
   "sagaba-konate-1": {
     "sr_page_exists": true,
@@ -1765,7 +2149,18 @@
     "intl_tournaments": [],
     "proballers_id": 72740,
     "name": "Sagaba Konate",
-    "college": "West Virginia"
+    "college": "West Virginia",
+    "proballers_leagues": [
+      "A Liga (Hungary)",
+      "BBL (Germany)",
+      "BCL",
+      "BSL (Turkey)",
+      "Greek League",
+      "Liga ACB (Spain)",
+      "PLK (Poland)",
+      "Serie A (Italy)",
+      "TBL (Turkey)"
+    ]
   },
   "malik-ellison-1": {
     "sr_page_exists": true,
@@ -1775,7 +2170,14 @@
     "is_active": false,
     "proballers_id": 188641,
     "name": "Malik Ellison",
-    "college": "Pittsburgh"
+    "college": "Pittsburgh",
+    "proballers_leagues": [
+      "Korisliiga (Finland)"
+    ],
+    "intl_leagues": [
+      "Korisliiga (Finland)"
+    ],
+    "intl_pro": true
   },
   "dino-gregory-1": {
     "sr_page_exists": true,
@@ -1788,7 +2190,14 @@
     "intl_tournaments": [],
     "proballers_id": 49654,
     "name": "Dino Gregory",
-    "college": "Maryland"
+    "college": "Maryland",
+    "proballers_leagues": [
+      "A Liga (Hungary)",
+      "BBL (Germany)",
+      "Basketligan (Sweden)",
+      "Division A (Romania)",
+      "PLK (Poland)"
+    ]
   },
   "ahmed-hill-1": {
     "sr_page_exists": true,
@@ -1831,7 +2240,10 @@
     "intl_tournaments": [],
     "proballers_id": 63570,
     "name": "Dejan Vasiljevic",
-    "college": "Miami (FL)"
+    "college": "Miami (FL)",
+    "proballers_leagues": [
+      "NBL (Australia)"
+    ]
   },
   "khalid-moore-1": {
     "sr_page_exists": true,
@@ -1845,7 +2257,11 @@
     "intl_tournaments": [],
     "proballers_id": 189145,
     "name": "Khalid Moore",
-    "college": "Georgia Tech"
+    "college": "Georgia Tech",
+    "proballers_leagues": [
+      "Greek League",
+      "LNB Pro A (France)"
+    ]
   },
   "jayson-tatum-1": {
     "nba_url": "https://www.basketball-reference.com/players/t/tatumja01.html",
@@ -1916,7 +2332,14 @@
     "nba_games": 240,
     "proballers_id": 74038,
     "name": "Cam Reddish",
-    "college": "Duke"
+    "college": "Duke",
+    "proballers_leagues": [
+      "NBA"
+    ],
+    "intl_leagues": [
+      "NBA"
+    ],
+    "intl_pro": true
   },
   "grayson-allen-1": {
     "nba_url": "https://www.basketball-reference.com/players/a/allengr01.html",
@@ -1961,7 +2384,14 @@
     "nba_games": 35,
     "proballers_id": 257466,
     "name": "Donovan Clingan",
-    "college": "Connecticut"
+    "college": "Connecticut",
+    "proballers_leagues": [
+      "NBA"
+    ],
+    "intl_leagues": [
+      "NBA"
+    ],
+    "intl_pro": true
   },
   "tre-jones-1": {
     "nba_url": "https://www.basketball-reference.com/players/j/jonestr01.html",
@@ -2038,72 +2468,212 @@
     "nba_games": 30,
     "proballers_id": 247025,
     "name": "Brooks Barnhizer",
-    "college": "Northwestern"
+    "college": "Northwestern",
+    "proballers_leagues": [
+      "NBA"
+    ],
+    "intl_leagues": [
+      "NBA"
+    ],
+    "intl_pro": true
   },
   "tyrone-riley-iv-1": {
     "proballers_id": 46109,
     "name": "Tyrone Riley IV",
-    "college": "San Francisco"
+    "college": "San Francisco",
+    "proballers_leagues": [
+      "BBL (Germany)",
+      "Eredivisie (Netherlands)",
+      "Korisliiga (Finland)",
+      "PLK (Poland)"
+    ],
+    "intl_leagues": [
+      "BBL (Germany)",
+      "Eredivisie (Netherlands)",
+      "Korisliiga (Finland)",
+      "PLK (Poland)"
+    ],
+    "intl_pro": true
   },
   "scott-rodgers-1": {
     "proballers_id": 34572,
     "name": "Scott Rodgers",
-    "college": "Drexel"
+    "college": "Drexel",
+    "proballers_leagues": [
+      "Liga Nacional (Argentina)",
+      "NBB (Brazil)"
+    ],
+    "intl_leagues": [
+      "Liga Nacional (Argentina)",
+      "NBB (Brazil)"
+    ],
+    "intl_pro": true
   },
   "sean-mosley-1": {
     "proballers_id": 49650,
     "name": "Sean Mosley",
-    "college": "Maryland"
+    "college": "Maryland",
+    "proballers_leagues": [
+      "BBL (Germany)",
+      "PLK (Poland)",
+      "Pro B (France)",
+      "Serie A2 (Italy)"
+    ],
+    "intl_leagues": [
+      "BBL (Germany)",
+      "PLK (Poland)",
+      "Pro B (France)",
+      "Serie A2 (Italy)"
+    ],
+    "intl_pro": true
   },
   "isaiah-swope-1": {
     "proballers_id": 260622,
     "name": "Isaiah Swope",
-    "college": "Saint Louis"
+    "college": "Saint Louis",
+    "proballers_leagues": [
+      "BBL (Germany)"
+    ],
+    "intl_leagues": [
+      "BBL (Germany)"
+    ],
+    "intl_pro": true
   },
   "nick-faust-1": {
     "proballers_id": 71608,
     "name": "Nick Faust",
-    "college": "Maryland"
+    "college": "Maryland",
+    "proballers_leagues": [
+      "A Liga (Hungary)",
+      "Israeli League",
+      "LNBP (Mexico)",
+      "PLK (Poland)",
+      "Serie A (Italy)"
+    ],
+    "intl_leagues": [
+      "A Liga (Hungary)",
+      "Israeli League",
+      "LNBP (Mexico)",
+      "PLK (Poland)",
+      "Serie A (Italy)"
+    ],
+    "intl_pro": true
   },
   "troy-franklin-1": {
     "proballers_id": 69639,
     "name": "Troy Franklin",
-    "college": "Towson"
+    "college": "Towson",
+    "proballers_leagues": [
+      "Division A (Romania)",
+      "FIBA Europe Cup",
+      "Liga Nova KBM (Slovenia)",
+      "Ligaen (Denmark)",
+      "PLK (Poland)",
+      "TBL (Turkey)"
+    ],
+    "intl_leagues": [
+      "Division A (Romania)",
+      "FIBA Europe Cup",
+      "Liga Nova KBM (Slovenia)",
+      "Ligaen (Denmark)",
+      "PLK (Poland)",
+      "TBL (Turkey)"
+    ],
+    "intl_pro": true
   },
   "dame-sarr-1": {
     "proballers_id": 252968,
     "name": "Dame Sarr",
-    "college": "Duke"
+    "college": "Duke",
+    "proballers_leagues": [
+      "Liga ACB (Spain)"
+    ],
+    "intl_leagues": [
+      "Liga ACB (Spain)"
+    ],
+    "intl_pro": true
   },
   "quentin-snider-1": {
     "proballers_id": 11621,
     "name": "Quentin Snider",
-    "college": "Louisville"
+    "college": "Louisville",
+    "proballers_leagues": [
+      "Eredivisie (Netherlands)",
+      "LPB (Portugal)",
+      "PLK (Poland)"
+    ],
+    "intl_leagues": [
+      "Eredivisie (Netherlands)",
+      "LPB (Portugal)",
+      "PLK (Poland)"
+    ],
+    "intl_pro": true
   },
   "vuk-boskovic-1": {
     "proballers_id": 180388,
     "name": "Vuk Boskovic",
-    "college": "San Diego"
+    "college": "San Diego",
+    "proballers_leagues": [
+      "BCL"
+    ],
+    "intl_leagues": [
+      "BCL"
+    ],
+    "intl_pro": true
   },
   "danas-kazakevicius-1": {
     "proballers_id": 242443,
     "name": "Danas Kazakevicius",
-    "college": "Howard"
+    "college": "Howard",
+    "proballers_leagues": [
+      "BBL (Germany)"
+    ],
+    "intl_leagues": [
+      "BBL (Germany)"
+    ],
+    "intl_pro": true
   },
   "brevin-pritzl-1": {
     "proballers_id": 73017,
     "name": "Brevin Pritzl",
-    "college": "Wisconsin"
+    "college": "Wisconsin",
+    "proballers_leagues": [
+      "BBL (Germany)",
+      "BNXT League",
+      "Ligaen (Denmark)"
+    ],
+    "intl_leagues": [
+      "BBL (Germany)",
+      "BNXT League",
+      "Ligaen (Denmark)"
+    ],
+    "intl_pro": true
   },
   "giancarlo-rosado-1": {
     "proballers_id": 267081,
     "name": "Giancarlo Rosado",
-    "college": "Florida Atlantic"
+    "college": "Florida Atlantic",
+    "proballers_leagues": [
+      "BSN (Puerto Rico)"
+    ],
+    "intl_leagues": [
+      "BSN (Puerto Rico)"
+    ],
+    "intl_pro": true
   },
   "vance-cooksey-1": {
     "proballers_id": 55214,
     "name": "Vance Cooksey",
-    "college": "Youngstown State"
+    "college": "Youngstown State",
+    "proballers_leagues": [
+      "LNBP (Mexico)",
+      "PLK (Poland)"
+    ],
+    "intl_leagues": [
+      "LNBP (Mexico)",
+      "PLK (Poland)"
+    ],
+    "intl_pro": true
   },
   "carlton-linguardjr-1": {
     "proballers_leagues": [
@@ -2347,7 +2917,16 @@
   "marco-anthony-1": {
     "proballers_id": 178646,
     "name": "Marco Anthony",
-    "college": "Virginia"
+    "college": "Virginia",
+    "proballers_leagues": [
+      "Greek League",
+      "Korisliiga (Finland)"
+    ],
+    "intl_leagues": [
+      "Greek League",
+      "Korisliiga (Finland)"
+    ],
+    "intl_pro": true
   },
   "legend-smiley-1": {
     "proballers_id": 301099,
@@ -2387,7 +2966,14 @@
   "josh-uduje-1": {
     "proballers_id": 176147,
     "name": "Josh Uduje",
-    "college": "San Jose State"
+    "college": "San Jose State",
+    "proballers_leagues": [
+      "Pro B (France)"
+    ],
+    "intl_leagues": [
+      "Pro B (France)"
+    ],
+    "intl_pro": true
   },
   "jarred-reuter-1": {
     "proballers_id": 69260,
@@ -2432,7 +3018,14 @@
   "jalen-cone-1": {
     "proballers_id": 189199,
     "name": "Jalen Cone",
-    "college": "California"
+    "college": "California",
+    "proballers_leagues": [
+      "LEB Oro (Spain)"
+    ],
+    "intl_leagues": [
+      "LEB Oro (Spain)"
+    ],
+    "intl_pro": true
   },
   "jeremy-dent-smith-1": {
     "proballers_id": 303521,
@@ -2512,7 +3105,14 @@
   "jeremy-sheppard-1": {
     "proballers_id": 205330,
     "name": "Jeremy Sheppard",
-    "college": "East Carolina"
+    "college": "East Carolina",
+    "proballers_leagues": [
+      "TBL (Turkey)"
+    ],
+    "intl_leagues": [
+      "TBL (Turkey)"
+    ],
+    "intl_pro": true
   },
   "dj-williams-1": {
     "proballers_id": 189381,
@@ -2652,7 +3252,16 @@
   "terry-nolanjr-1": {
     "proballers_id": 205568,
     "name": "Terry Nolan",
-    "college": "George Washington"
+    "college": "George Washington",
+    "proballers_leagues": [
+      "Division A (Romania)",
+      "LPB (Portugal)"
+    ],
+    "intl_leagues": [
+      "Division A (Romania)",
+      "LPB (Portugal)"
+    ],
+    "intl_pro": true
   },
   "pj-haggerty-1": {
     "proballers_id": 259171,
@@ -2667,7 +3276,14 @@
   "eric-hayes-1": {
     "proballers_id": 49649,
     "name": "Eric Hayes",
-    "college": "Maryland"
+    "college": "Maryland",
+    "proballers_leagues": [
+      "LEB Oro (Spain)"
+    ],
+    "intl_leagues": [
+      "LEB Oro (Spain)"
+    ],
+    "intl_pro": true
   },
   "ose-okojie-1": {
     "proballers_id": 257764,
@@ -2767,7 +3383,22 @@
   "james-padgett-1": {
     "proballers_id": 16638,
     "name": "James Padgett",
-    "college": "Maryland"
+    "college": "Maryland",
+    "proballers_leagues": [
+      "A Liga (Hungary)",
+      "Division A (Romania)",
+      "Korisliiga (Finland)",
+      "National League (Israel)",
+      "SBL (Switzerland)"
+    ],
+    "intl_leagues": [
+      "A Liga (Hungary)",
+      "Division A (Romania)",
+      "Korisliiga (Finland)",
+      "National League (Israel)",
+      "SBL (Switzerland)"
+    ],
+    "intl_pro": true
   },
   "eugene-alvin-1": {
     "proballers_id": 302306,
@@ -2857,7 +3488,16 @@
   "issac-vann-1": {
     "proballers_id": 178695,
     "name": "Issac Vann",
-    "college": "Virginia Commonwealth"
+    "college": "Virginia Commonwealth",
+    "proballers_leagues": [
+      "Basketligan (Sweden)",
+      "Division A (Romania)"
+    ],
+    "intl_leagues": [
+      "Basketligan (Sweden)",
+      "Division A (Romania)"
+    ],
+    "intl_pro": true
   },
   "evan-neisler-1": {
     "proballers_id": 33115,
@@ -2912,7 +3552,14 @@
   "colby-rogers-1": {
     "proballers_id": 189853,
     "name": "Colby Rogers",
-    "college": "Memphis"
+    "college": "Memphis",
+    "proballers_leagues": [
+      "LEB Oro (Spain)"
+    ],
+    "intl_leagues": [
+      "LEB Oro (Spain)"
+    ],
+    "intl_pro": true
   },
   "taylor-bol-bowen-1": {
     "proballers_id": 269431,
@@ -2972,7 +3619,16 @@
   "maceo-jack-1": {
     "proballers_id": 188927,
     "name": "Maceo Jack",
-    "college": "George Washington"
+    "college": "George Washington",
+    "proballers_leagues": [
+      "Greek League",
+      "Pro B (France)"
+    ],
+    "intl_leagues": [
+      "Greek League",
+      "Pro B (France)"
+    ],
+    "intl_pro": true
   },
   "jordan-ross-1": {
     "proballers_id": 275958,
@@ -2997,7 +3653,16 @@
   "deriante-jenkins-1": {
     "proballers_id": 72802,
     "name": "De'Riante Jenkins",
-    "college": "Virginia Commonwealth"
+    "college": "Virginia Commonwealth",
+    "proballers_leagues": [
+      "Basketligan (Sweden)",
+      "Serie A2 (Italy)"
+    ],
+    "intl_leagues": [
+      "Basketligan (Sweden)",
+      "Serie A2 (Italy)"
+    ],
+    "intl_pro": true
   },
   "dante-holmes-1": {
     "proballers_id": 16869,
@@ -3062,7 +3727,16 @@
   "chris-clarke-2": {
     "proballers_id": 76194,
     "name": "Chris Clarke",
-    "college": "Virginia Tech"
+    "college": "Virginia Tech",
+    "proballers_leagues": [
+      "Korisliiga (Finland)",
+      "Liga Nacional (Argentina)"
+    ],
+    "intl_leagues": [
+      "Korisliiga (Finland)",
+      "Liga Nacional (Argentina)"
+    ],
+    "intl_pro": true
   },
   "james-morrow-1": {
     "proballers_id": 275532,
@@ -3127,7 +3801,14 @@
   "trey-phills-1": {
     "proballers_id": 69270,
     "name": "Trey Phills",
-    "college": "Yale"
+    "college": "Yale",
+    "proballers_leagues": [
+      "Ligaen (Denmark)"
+    ],
+    "intl_leagues": [
+      "Ligaen (Denmark)"
+    ],
+    "intl_pro": true
   },
   "caleb-white-1": {
     "proballers_id": 75958,
@@ -3152,7 +3833,16 @@
   "abdoulaye-gueye-1": {
     "proballers_id": 183758,
     "name": "Abdoulaye Gueye",
-    "college": "Georgia Tech"
+    "college": "Georgia Tech",
+    "proballers_leagues": [
+      "National League (Israel)",
+      "TBL (Turkey)"
+    ],
+    "intl_leagues": [
+      "National League (Israel)",
+      "TBL (Turkey)"
+    ],
+    "intl_pro": true
   },
   "cam-gillus-1": {
     "proballers_id": 275730,
@@ -3187,12 +3877,28 @@
   "brad-davison-1": {
     "proballers_id": 178749,
     "name": "Brad Davison",
-    "college": "Wisconsin"
+    "college": "Wisconsin",
+    "proballers_leagues": [
+      "LEB Oro (Spain)"
+    ],
+    "intl_leagues": [
+      "LEB Oro (Spain)"
+    ],
+    "intl_pro": true
   },
   "nigel-johnson-2": {
     "proballers_id": 14261,
     "name": "Nigel Johnson",
-    "college": "Virginia"
+    "college": "Virginia",
+    "proballers_leagues": [
+      "A Liga (Hungary)",
+      "LNBP (Mexico)"
+    ],
+    "intl_leagues": [
+      "A Liga (Hungary)",
+      "LNBP (Mexico)"
+    ],
+    "intl_pro": true
   },
   "caleb-shaw-1": {
     "proballers_id": 258575,
@@ -3202,7 +3908,14 @@
   "scott-spencer-1": {
     "proballers_id": 76365,
     "name": "Scott Spencer",
-    "college": "Clemson"
+    "college": "Clemson",
+    "proballers_leagues": [
+      "Greek League"
+    ],
+    "intl_leagues": [
+      "Greek League"
+    ],
+    "intl_pro": true
   },
   "toneari-lane-1": {
     "proballers_id": 234632,
@@ -3252,7 +3965,14 @@
   "deng-riak-1": {
     "proballers_id": 190491,
     "name": "Deng Riak",
-    "college": "East Carolina"
+    "college": "East Carolina",
+    "proballers_leagues": [
+      "Korisliiga (Finland)"
+    ],
+    "intl_leagues": [
+      "Korisliiga (Finland)"
+    ],
+    "intl_pro": true
   },
   "andrew-rohde-1": {
     "proballers_id": 259111,
@@ -3287,7 +4007,16 @@
   "kristian-sjolund-1": {
     "proballers_id": 68804,
     "name": "Kristian Sjolund",
-    "college": "Georgia Tech"
+    "college": "Georgia Tech",
+    "proballers_leagues": [
+      "Korisliiga (Finland)",
+      "ProA (Germany)"
+    ],
+    "intl_leagues": [
+      "Korisliiga (Finland)",
+      "ProA (Germany)"
+    ],
+    "intl_pro": true
   },
   "cedric-taylor-iii-1": {
     "proballers_id": 301417,
@@ -3302,7 +4031,14 @@
   "christophe-varidel-1": {
     "proballers_id": 45795,
     "name": "Christophe Varidel",
-    "college": "Florida Gulf Coast"
+    "college": "Florida Gulf Coast",
+    "proballers_leagues": [
+      "SBL (Switzerland)"
+    ],
+    "intl_leagues": [
+      "SBL (Switzerland)"
+    ],
+    "intl_pro": true
   },
   "mychal-parker-1": {
     "proballers_id": 202005,
@@ -3332,7 +4068,28 @@
   "samme-givens-1": {
     "proballers_id": 60295,
     "name": "Samme Givens",
-    "college": "Drexel"
+    "college": "Drexel",
+    "proballers_leagues": [
+      "Eredivisie (Netherlands)",
+      "Korisliiga (Finland)",
+      "LNBP (Mexico)",
+      "Liga Nacional (Argentina)",
+      "National League (Israel)",
+      "Pro B (France)",
+      "ProA (Germany)",
+      "Serie A2 (Italy)"
+    ],
+    "intl_leagues": [
+      "Eredivisie (Netherlands)",
+      "Korisliiga (Finland)",
+      "LNBP (Mexico)",
+      "Liga Nacional (Argentina)",
+      "National League (Israel)",
+      "Pro B (France)",
+      "ProA (Germany)",
+      "Serie A2 (Italy)"
+    ],
+    "intl_pro": true
   },
   "robert-nwankwo-1": {
     "proballers_id": 212233,
@@ -3387,17 +4144,40 @@
   "keonte-kennedy-1": {
     "proballers_id": 205776,
     "name": "Keonte Kennedy",
-    "college": "California"
+    "college": "California",
+    "proballers_leagues": [
+      "Basketligan (Sweden)",
+      "LPB (Portugal)"
+    ],
+    "intl_leagues": [
+      "Basketligan (Sweden)",
+      "LPB (Portugal)"
+    ],
+    "intl_pro": true
   },
   "anthony-dallier-1": {
     "proballers_id": 69266,
     "name": "Anthony Dallier",
-    "college": "Yale"
+    "college": "Yale",
+    "proballers_leagues": [
+      "ProA (Germany)"
+    ],
+    "intl_leagues": [
+      "ProA (Germany)"
+    ],
+    "intl_pro": true
   },
   "sam-downey-1": {
     "proballers_id": 69269,
     "name": "Sam Downey",
-    "college": "Yale"
+    "college": "Yale",
+    "proballers_leagues": [
+      "SBL (Switzerland)"
+    ],
+    "intl_leagues": [
+      "SBL (Switzerland)"
+    ],
+    "intl_pro": true
   },
   "tyson-commander-1": {
     "proballers_id": 258107,
@@ -3417,7 +4197,14 @@
   "luke-barrett-1": {
     "proballers_id": 234057,
     "name": "Luke Barrett",
-    "college": "Saint Mary's (CA)"
+    "college": "Saint Mary's (CA)",
+    "proballers_leagues": [
+      "PLK (Poland)"
+    ],
+    "intl_leagues": [
+      "PLK (Poland)"
+    ],
+    "intl_pro": true
   },
   "martez-cameron-1": {
     "proballers_id": 205026,
@@ -3447,7 +4234,14 @@
   "sidy-ndir-1": {
     "proballers_id": 60424,
     "name": "Sidy Ndir",
-    "college": "Pittsburgh"
+    "college": "Pittsburgh",
+    "proballers_leagues": [
+      "Pro B (France)"
+    ],
+    "intl_leagues": [
+      "Pro B (France)"
+    ],
+    "intl_pro": true
   },
   "kene-chukwuka-1": {
     "proballers_id": 195235,
@@ -3457,7 +4251,22 @@
   "brandon-alston-2": {
     "proballers_id": 182733,
     "name": "Brandon Alston",
-    "college": "Georgia Tech"
+    "college": "Georgia Tech",
+    "proballers_leagues": [
+      "Division A (Romania)",
+      "Korisliiga (Finland)",
+      "LPB (Portugal)",
+      "NBL (New Zealand)",
+      "ProA (Germany)"
+    ],
+    "intl_leagues": [
+      "Division A (Romania)",
+      "Korisliiga (Finland)",
+      "LPB (Portugal)",
+      "NBL (New Zealand)",
+      "ProA (Germany)"
+    ],
+    "intl_pro": true
   },
   "bryce-harris-1": {
     "proballers_id": 245536,
@@ -3612,7 +4421,20 @@
   "nate-britt-1": {
     "proballers_id": 16806,
     "name": "Nate Britt",
-    "college": "North Carolina"
+    "college": "North Carolina",
+    "proballers_leagues": [
+      "BNXT League",
+      "Greek League",
+      "Liga Nacional (Argentina)",
+      "ProA (Germany)"
+    ],
+    "intl_leagues": [
+      "BNXT League",
+      "Greek League",
+      "Liga Nacional (Argentina)",
+      "ProA (Germany)"
+    ],
+    "intl_pro": true
   },
   "jovan-blacksherjr-1": {
     "proballers_id": 192550,
@@ -3622,7 +4444,16 @@
   "marcus-evans-2": {
     "proballers_id": 8133,
     "name": "Marcus Evans",
-    "college": "Virginia Commonwealth"
+    "college": "Virginia Commonwealth",
+    "proballers_leagues": [
+      "Basketligan (Sweden)",
+      "Greek League"
+    ],
+    "intl_leagues": [
+      "Basketligan (Sweden)",
+      "Greek League"
+    ],
+    "intl_pro": true
   },
   "sean-mobley-1": {
     "proballers_id": 178694,
@@ -3632,7 +4463,14 @@
   "mikel-simms-1": {
     "proballers_id": 178690,
     "name": "Mike'l Simms",
-    "college": "Virginia Commonwealth"
+    "college": "Virginia Commonwealth",
+    "proballers_leagues": [
+      "NBB (Brazil)"
+    ],
+    "intl_leagues": [
+      "NBB (Brazil)"
+    ],
+    "intl_pro": true
   },
   "filip-cvjeticanin-1": {
     "proballers_id": 61131,
@@ -3642,7 +4480,14 @@
   "ashton-pankey-1": {
     "proballers_id": 14573,
     "name": "Ashton Pankey",
-    "college": "Maryland"
+    "college": "Maryland",
+    "proballers_leagues": [
+      "National League (Israel)"
+    ],
+    "intl_leagues": [
+      "National League (Israel)"
+    ],
+    "intl_pro": true
   },
   "marland-harris-1": {
     "proballers_id": 290632,
@@ -3817,7 +4662,16 @@
   "stanley-davis-1": {
     "proballers_id": 190686,
     "name": "Stanley Davis",
-    "college": "Morgan State"
+    "college": "Morgan State",
+    "proballers_leagues": [
+      "Greek League",
+      "LPB (Portugal)"
+    ],
+    "intl_leagues": [
+      "Greek League",
+      "LPB (Portugal)"
+    ],
+    "intl_pro": true
   },
   "isaiah-burke-1": {
     "proballers_id": 190689,
@@ -3837,12 +4691,30 @@
   "elijah-macon-1": {
     "proballers_id": 17091,
     "name": "Elijah Macon",
-    "college": "West Virginia"
+    "college": "West Virginia",
+    "proballers_leagues": [
+      "A Liga (Hungary)"
+    ],
+    "intl_leagues": [
+      "A Liga (Hungary)"
+    ],
+    "intl_pro": true
   },
   "braxton-dupree-1": {
     "proballers_id": 55039,
     "name": "Braxton Dupree",
-    "college": "Maryland"
+    "college": "Maryland",
+    "proballers_leagues": [
+      "Division A (Romania)",
+      "National League (Israel)",
+      "ProA (Germany)"
+    ],
+    "intl_leagues": [
+      "Division A (Romania)",
+      "National League (Israel)",
+      "ProA (Germany)"
+    ],
+    "intl_pro": true
   },
   "bj-powell-1": {
     "proballers_id": 301412,
@@ -4012,7 +4884,16 @@
   "khalil-iverson-1": {
     "proballers_id": 69472,
     "name": "Khalil Iverson",
-    "college": "Wisconsin"
+    "college": "Wisconsin",
+    "proballers_leagues": [
+      "Korisliiga (Finland)",
+      "LNBP (Mexico)"
+    ],
+    "intl_leagues": [
+      "Korisliiga (Finland)",
+      "LNBP (Mexico)"
+    ],
+    "intl_pro": true
   },
   "charles-thomasiv-1": {
     "proballers_id": 178748,
@@ -4087,7 +4968,14 @@
   "clyde-trapp-1": {
     "proballers_id": 76302,
     "name": "Clyde Trapp",
-    "college": "Clemson"
+    "college": "Clemson",
+    "proballers_leagues": [
+      "LPB (Portugal)"
+    ],
+    "intl_leagues": [
+      "LPB (Portugal)"
+    ],
+    "intl_pro": true
   },
   "malik-william-1": {
     "proballers_id": 76366,
@@ -4192,7 +5080,14 @@
   "kilian-brockhoff-1": {
     "proballers_id": 180256,
     "name": "Kilian Brockhoff",
-    "college": "Saint Louis"
+    "college": "Saint Louis",
+    "proballers_leagues": [
+      "ProA (Germany)"
+    ],
+    "intl_leagues": [
+      "ProA (Germany)"
+    ],
+    "intl_pro": true
   },
   "Chris Dougherty": {
     "proballers_id": 260232,
@@ -4237,7 +5132,16 @@
   "alexander-richardson-1": {
     "proballers_id": 180253,
     "name": "Alexander Richardson",
-    "college": "Loyola Chicago"
+    "college": "Loyola Chicago",
+    "proballers_leagues": [
+      "BBL (Germany)",
+      "ProA (Germany)"
+    ],
+    "intl_leagues": [
+      "BBL (Germany)",
+      "ProA (Germany)"
+    ],
+    "intl_pro": true
   },
   "chuck-love-iii-1": {
     "proballers_id": 304385,
@@ -4262,7 +5166,14 @@
   "juwan-durham-1": {
     "proballers_id": 189131,
     "name": "Juwan Durham",
-    "college": "Notre Dame"
+    "college": "Notre Dame",
+    "proballers_leagues": [
+      "A Liga (Hungary)"
+    ],
+    "intl_leagues": [
+      "A Liga (Hungary)"
+    ],
+    "intl_pro": true
   },
   "sunday-okeke-1": {
     "proballers_id": 189191,
@@ -4297,7 +5208,18 @@
   "jabari-craig-1": {
     "proballers_id": 179234,
     "name": "Jabari Craig",
-    "college": "East Carolina"
+    "college": "East Carolina",
+    "proballers_leagues": [
+      "CEBL (Canada)",
+      "Division A (Romania)",
+      "Liga Nova KBM (Slovenia)"
+    ],
+    "intl_leagues": [
+      "CEBL (Canada)",
+      "Division A (Romania)",
+      "Liga Nova KBM (Slovenia)"
+    ],
+    "intl_pro": true
   },
   "raquan-wilkins-1": {
     "proballers_id": 205393,
@@ -4462,7 +5384,14 @@
   "mikko-niemi-1": {
     "proballers_id": 23498,
     "name": "Mikko Niemi",
-    "college": "Youngstown State"
+    "college": "Youngstown State",
+    "proballers_leagues": [
+      "Korisliiga (Finland)"
+    ],
+    "intl_leagues": [
+      "Korisliiga (Finland)"
+    ],
+    "intl_pro": true
   },
   "dan-boudler-1": {
     "proballers_id": 200521,

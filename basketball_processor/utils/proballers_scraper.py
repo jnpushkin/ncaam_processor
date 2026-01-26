@@ -269,7 +269,8 @@ SR_SLUG_OVERRIDES = {
     'northern-iowa': 'northern-iowa-panthers',
     'pitt': 'pittsburgh-panthers',
     'saint-francis-(pa)': 'st-francis-pa-red-flash',
-    'st-francis-(ny)': 'st-francis-ny-terriers',
+    'st-francis-(ny)': 'st-francis-bkn-terriers',
+    'st-francis-ny': 'st-francis-bkn-terriers',
     'uconn': 'connecticut-huskies',
     'uconn-huskies': 'connecticut-huskies',
     'california': 'california-golden-bears',
@@ -278,6 +279,28 @@ SR_SLUG_OVERRIDES = {
     'florida-gulf-coast': 'florida-gulf-coast-eagles',
     'notre-dame': 'notre-dame-fighting-irish',
     'unc': 'north-carolina-tar-heels',
+    # Additional team slug mappings
+    'holy-cross': 'holy-cross-crusaders',
+    'northern-arizona': 'northern-arizona-lumberjacks',
+    'towson': 'towson-tigers',
+    'columbia': 'columbia-lions',
+    'george-washington': 'george-washington-colonials',
+    'east-carolina': 'east-carolina-pirates',
+    'florida-atlantic': 'florida-atlantic-owls',
+    'loyola-chicago': 'loyola-il-ramblers',
+    'maryland': 'maryland-terrapins',
+    'memphis': 'memphis-tigers',
+    'morgan-state': 'morgan-state-bears',
+    'pittsburgh': 'pittsburgh-panthers',
+    'san-diego': 'san-diego-toreros',
+    'stetson': 'stetson-hatters',
+    'usc': 'usc-trojans',
+    'wisconsin': 'wisconsin-badgers',
+    'yale': 'yale-bulldogs',
+    'youngstown-state': 'youngstown-state-penguins',
+    'stanford': 'stanford-cardinal',
+    'gonzaga': 'gonzaga-bulldogs',
+    'sarah-lawrence': None,  # D3 school - not on Proballers
 }
 
 # Cache for SR slug -> Proballers slug mapping (built once from teams cache)
