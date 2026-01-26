@@ -685,9 +685,13 @@ def get_nba_status_batch(player_ids: List[str], use_api_fallback: bool = True, m
     to_fetch = []
 
     for player_id in player_ids:
-        # Check manual exclusions
+        # Check manual exclusions - but still return proballers_id if available
         if player_id in FALSE_POSITIVE_IDS:
-            results[player_id] = None
+            # False positives may still have valid Proballers data
+            if player_id in confirmed and confirmed[player_id].get('proballers_id'):
+                results[player_id] = {'proballers_id': confirmed[player_id]['proballers_id']}
+            else:
+                results[player_id] = None
             continue
 
         # Check persistent confirmed file
