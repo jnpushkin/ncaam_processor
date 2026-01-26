@@ -614,7 +614,10 @@
     "intl_tournaments": [],
     "proballers_id": 234035,
     "name": "Mitchell Saxen",
-    "college": "Saint Mary's (CA)"
+    "college": "Saint Mary's (CA)",
+    "proballers_leagues": [
+      "LNB Pro A (France)"
+    ]
   },
   "stephon-castle-2": {
     "sr_page_exists": true,
@@ -5539,7 +5542,7 @@
     "name": "Jagos Lasic",
     "college": "St. Francis (NY)"
   },
-  "semetri-tt-carr-1": {
+  "semetri-carr-1": {
     "proballers_id": 300876,
     "name": "Semetri Carr",
     "college": "California"
@@ -5611,12 +5614,164 @@
     "proballers_id": 288652
   },
   "erez-poran-1": {
-    "proballers_id": 268908
-  },
+    "proballers_id": 268908,
+  "proballers_leagues": [
+      "National League (Israel)"
+    ],
+    "intl_leagues": [
+      "National League (Israel)"
+    ],
+    "intl_pro": true
+    },
   "aidan-richard-1": {
     "proballers_id": 287938
   },
   "keon-williams-2": {
     "proballers_id": 204973
+  },
+  "stephan-swenson-1": {
+    "proballers_id": 234217,
+    "name": "Stephan Swenson",
+    "college": "Stetson"
+  },
+  "junior-hairston-1": {
+    "proballers_id": 37205,
+    "name": "Junior Hairston",
+    "college": "Towson"
+  },
+  "juan-sebastian-gorosito-1": {
+    "proballers_id": 285206,
+    "name": "Juan Sebastian Gorosito",
+    "college": "San Diego"
+  },
+  "deandre-mays-1": {
+    "proballers_id": null,
+    "name": "DeAndre Mays",
+    "college": "Youngstown State"
+  },
+  "tobias-howard-1": {
+    "proballers_id": 269252,
+    "name": "Tobias Howard",
+    "college": "Towson"
+  },
+  "geronimo-rubiodelarosa-1": {
+    "proballers_id": 243764,
+    "name": "Geronimo Rubio De La Rosa",
+    "college": "Columbia"
+  },
+  "benny-gealer-1": {
+    "proballers_id": 259116,
+    "name": "Benny Gealer",
+    "college": "Stanford"
+  },
+  "rocky-coleman-1": {
+    "proballers_id": 34602,
+    "name": "Rocky Coleman",
+    "college": "Towson"
+  },
+  "sirlester-martin-1": {
+    "proballers_id": null,
+    "name": "Sirlester Martin",
+    "college": "Youngstown State"
+  },
+  "vincent-iwuchukwu-1": {
+    "proballers_id": 259430,
+    "name": "Vincent Iwuchukwu",
+    "college": "USC"
+  },
+  "bryan-greenlee-1": {
+    "proballers_id": 233005,
+    "name": "Bryan Greenlee",
+    "college": "Florida Atlantic"
+  },
+  "sulskis-vytas-1": {
+    "proballers_id": 12836,
+    "name": "Sulskis Vytas",
+    "college": "Youngstown State"
+  },
+  "zinou-bedri-1": {
+    "proballers_id": 257458,
+    "name": "Zinou Eddine Bedri",
+    "college": "Columbia"
+  },
+  "michael-ofik-nzege-1": {
+    "proballers_id": 45831,
+    "name": "Michel Nzege",
+    "college": "East Carolina"
+  },
+  "kelvin-bright-1": {
+    "proballers_id": null,
+    "name": "Kelvin Bright",
+    "college": "Youngstown State"
+  },
+  "jin-soo-choi-1": {
+    "proballers_id": 56911,
+    "name": "Jin Soo Choi",
+    "college": "Maryland"
+  },
+  "robby-beasley-1": {
+    "proballers_id": 233613,
+    "name": "Robby Beasley III",
+    "college": "San Francisco"
+  },
+  "terrell-brown-5": {
+    "proballers_id": 189214,
+    "name": "Terrell Brown",
+    "college": "Pittsburgh"
+  },
+  "sherwyn-devonish-prince-1": {
+    "proballers_id": 190688,
+    "name": "Sherwyn Devonish-Prince",
+    "college": "Morgan State"
+  },
+  "dallas-blocker-1": {
+    "proballers_id": null,
+    "name": "Dallas Blocker",
+    "college": "Youngstown State"
+  },
+  "darelle-porter-2": {
+    "proballers_id": null,
+    "name": "Darelle Porter",
+    "college": "St. Francis (NY)"
+  },
+  "jonathan-thomas-1": {
+    "proballers_id": null,
+    "name": "Jonathan Thomas",
+    "college": "Maryland"
+  },
+  "mezie-offurum-1": {
+    "proballers_id": null,
+    "name": "Mezie Offurum",
+    "college": "George Washington"
+  },
+  "rasheem-dunn-1": {
+    "proballers_id": null,
+    "name": "Rasheem Dunn",
+    "college": "St. Francis (NY)"
+  },
+  "nicolus-anderson-1": {
+    "proballers_id": null,
+    "name": "Nicolus Anderson",
+    "college": "Loyola Chicago"
+  },
+  "sean-blakely-1": {
+    "proballers_id": null,
+    "name": "Sean Blakely",
+    "college": "San Francisco"
+  },
+  "demarien-yates-1": {
+    "proballers_id": null,
+    "name": "Demarien Yates",
+    "college": "Memphis"
+  },
+  "tom-parks-1": {
+    "proballers_id": null,
+    "name": "Tom Parks",
+    "college": "Youngstown State"
+  },
+  "steve-goins-1": {
+    "proballers_id": null,
+    "name": "Steve Goins",
+    "college": "Maryland"
   }
 }
