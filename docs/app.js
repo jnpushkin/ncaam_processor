@@ -3054,25 +3054,35 @@ function initVenuesMap() {
     }
 }
 
+// Future Pros filtering state
+let filteredFuturePros = [];
+let allFuturePros = [];
+
 function populateFutureProsTable() {
-    const tbody = document.querySelector('#future-pros-table tbody');
     const players = DATA.players || [];
 
     // Filter to players who went pro (NBA, WNBA, or International)
-    const futurePros = players.filter(p => p.NBA || p.WNBA || p.International);
-
-    if (futurePros.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="8" class="empty-state"><h3>No future pros in dataset</h3></td></tr>';
-        return;
-    }
+    allFuturePros = players.filter(p => p.NBA || p.WNBA || p.International);
 
     // Sort by pro games (prioritize those who actually played), then by total points
-    futurePros.sort((a, b) => {
+    allFuturePros.sort((a, b) => {
         const aGames = (a.NBA_Games || 0) + (a.WNBA_Games || 0);
         const bGames = (b.NBA_Games || 0) + (b.WNBA_Games || 0);
         if (bGames !== aGames) return bGames - aGames;
         return (b['Total PTS'] || 0) - (a['Total PTS'] || 0);
     });
+
+    // Initial render uses filters (which defaults to showing all)
+    applyFutureProsFilters();
+}
+
+function renderFutureProsTable(futurePros) {
+    const tbody = document.querySelector('#future-pros-table tbody');
+
+    if (futurePros.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="8" class="empty-state"><h3>No future pros match filters</h3></td></tr>';
+        return;
+    }
 
     tbody.innerHTML = futurePros.map(player => {
         const playerId = player['Player ID'] || '';
@@ -3091,9 +3101,15 @@ function populateFutureProsTable() {
         if (player.NBA) {
             const nbaGames = player.NBA_Games;
             const signedOnly = player.NBA_Played === false;
-            const tooltip = signedOnly ? 'Signed to NBA (never played)' : (nbaGames ? `NBA: ${nbaGames} games` : 'Former NBA player');
+            const isActive = player.NBA_Active === true;
+            const tooltip = signedOnly
+                ? 'Signed to NBA (never played)'
+                : (nbaGames
+                    ? `NBA: ${nbaGames} games${isActive ? ' (Active)' : ''}`
+                    : (isActive ? 'Active NBA player' : 'Former NBA player'));
             const nbaLogo = signedOnly ? '📝' : '<img src="https://a.espncdn.com/combiner/i?img=/i/teamlogos/leagues/500/nba.png&w=32&h=32" alt="NBA" class="league-logo">';
-            badges += `<span class="nba-badge${signedOnly ? ' signed-only' : ''}" data-tooltip="${tooltip}">${nbaLogo}</span>`;
+            const activeIndicator = isActive && !signedOnly ? '<span class="active-indicator" data-tooltip="Currently Active"></span>' : '';
+            badges += `<span class="nba-badge${signedOnly ? ' signed-only' : ''}" data-tooltip="${tooltip}">${nbaLogo}</span>${activeIndicator}`;
             if (!league) {
                 league = signedOnly ? 'NBA (signed)' : 'NBA';
                 proGames = signedOnly ? '0' : (nbaGames || '?');
@@ -3106,9 +3122,15 @@ function populateFutureProsTable() {
         if (player.WNBA) {
             const wnbaGames = player.WNBA_Games;
             const signedOnly = player.WNBA_Played === false;
-            const tooltip = signedOnly ? 'Signed to WNBA (never played)' : (wnbaGames ? `WNBA: ${wnbaGames} games` : 'Former WNBA player');
+            const isActive = player.WNBA_Active === true;
+            const tooltip = signedOnly
+                ? 'Signed to WNBA (never played)'
+                : (wnbaGames
+                    ? `WNBA: ${wnbaGames} games${isActive ? ' (Active)' : ''}`
+                    : (isActive ? 'Active WNBA player' : 'Former WNBA player'));
             const wnbaLogo = signedOnly ? '📝' : '<img src="https://a.espncdn.com/combiner/i?img=/i/teamlogos/leagues/500/wnba.png&w=32&h=32" alt="WNBA" class="league-logo">';
-            badges += `<span class="wnba-badge${signedOnly ? ' signed-only' : ''}" data-tooltip="${tooltip}">${wnbaLogo}</span>`;
+            const activeIndicator = isActive && !signedOnly ? '<span class="active-indicator" data-tooltip="Currently Active"></span>' : '';
+            badges += `<span class="wnba-badge${signedOnly ? ' signed-only' : ''}" data-tooltip="${tooltip}">${wnbaLogo}</span>${activeIndicator}`;
             if (!league || league.includes('signed')) {
                 league = signedOnly ? 'WNBA (signed)' : 'WNBA';
                 proGames = signedOnly ? '0' : (wnbaGames || '?');
@@ -3124,7 +3146,12 @@ function populateFutureProsTable() {
             const leagueTooltip = intlLeagues.length > 0 ? intlLeagues.join(', ') : 'Overseas Pro League';
             badges += `<span class="intl-badge" data-tooltip="${leagueTooltip}">🌍</span>`;
             if (!league || league.includes('signed')) {
-                league = intlLeagues.length > 0 ? intlLeagues[0] : 'Overseas';
+                // Show all leagues (up to 3, then "+N more")
+                if (intlLeagues.length > 3) {
+                    league = intlLeagues.slice(0, 3).join(', ') + ` +${intlLeagues.length - 3} more`;
+                } else {
+                    league = intlLeagues.length > 0 ? intlLeagues.join(', ') : 'Overseas';
+                }
                 proGames = '—';
                 proUrl = player.Intl_URL || player.Proballers_URL || '#';
                 linkClass = 'intl-link';
@@ -3132,8 +3159,13 @@ function populateFutureProsTable() {
             }
         }
         if (player.Intl_National_Team) {
-            const fibaLogo = '<img src="https://cdn.brandfetch.io/idWXlXD5v8/w/400/h/400/theme/dark/icon.jpeg" alt="FIBA" class="league-logo fiba-logo">';
-            badges += `<span class="intl-badge national-team" data-tooltip="National Team (Olympics/FIBA)">${fibaLogo}</span>`;
+            const fibaLogo = '<img src="https://a.espncdn.com/combiner/i?img=/i/teamlogos/leagues/500/fiba.png&w=32&h=32" alt="FIBA" class="league-logo fiba-logo">';
+            // Show specific tournaments in tooltip
+            const tournaments = player.Intl_Tournaments || [];
+            const tournamentTooltip = tournaments.length > 0
+                ? `National Team: ${tournaments.join(', ')}`
+                : 'National Team (Olympics/FIBA)';
+            badges += `<span class="intl-badge national-team" data-tooltip="${tournamentTooltip}">${fibaLogo}</span>`;
             if (!league || league.includes('signed')) {
                 league = 'National Team';
                 proGames = '—';
@@ -3167,6 +3199,85 @@ function populateFutureProsTable() {
             </tr>
         `;
     }).join('');
+}
+
+function applyFutureProsFilters() {
+    const searchEl = document.getElementById('future-pros-search');
+    const leagueEl = document.getElementById('future-pros-league');
+    const statusEl = document.getElementById('future-pros-status');
+
+    const search = searchEl ? searchEl.value.toLowerCase() : '';
+    const leagueFilter = leagueEl ? leagueEl.value : '';
+    const statusFilter = statusEl ? statusEl.value : '';
+
+    filteredFuturePros = allFuturePros.filter(player => {
+        // Search filter
+        if (search) {
+            const text = `${player.Player} ${player.Team}`.toLowerCase();
+            if (!text.includes(search)) return false;
+        }
+
+        // League filter
+        if (leagueFilter) {
+            if (leagueFilter === 'nba' && !player.NBA) return false;
+            if (leagueFilter === 'wnba' && !player.WNBA) return false;
+            if (leagueFilter === 'intl' && !player.Intl_Pro) return false;
+            if (leagueFilter === 'national' && !player.Intl_National_Team) return false;
+        }
+
+        // Status filter
+        if (statusFilter) {
+            const isActive = player.NBA_Active || player.WNBA_Active;
+            const isSignedOnly = (player.NBA && player.NBA_Played === false) ||
+                                 (player.WNBA && player.WNBA_Played === false);
+            if (statusFilter === 'active' && !isActive) return false;
+            if (statusFilter === 'former' && (isActive || isSignedOnly)) return false;
+            if (statusFilter === 'signed' && !isSignedOnly) return false;
+        }
+
+        return true;
+    });
+
+    renderFutureProsTable(filteredFuturePros);
+    updateFutureProsFilterSummary();
+}
+
+function clearFutureProsFilters() {
+    const searchEl = document.getElementById('future-pros-search');
+    const leagueEl = document.getElementById('future-pros-league');
+    const statusEl = document.getElementById('future-pros-status');
+
+    if (searchEl) searchEl.value = '';
+    if (leagueEl) leagueEl.value = '';
+    if (statusEl) statusEl.value = '';
+
+    applyFutureProsFilters();
+}
+
+function updateFutureProsFilterSummary() {
+    const summary = document.getElementById('future-pros-filter-summary');
+    const textSpan = summary?.querySelector('.filter-summary-text');
+    if (!summary || !textSpan) return;
+
+    const searchEl = document.getElementById('future-pros-search');
+    const leagueEl = document.getElementById('future-pros-league');
+    const statusEl = document.getElementById('future-pros-status');
+
+    const search = searchEl ? searchEl.value : '';
+    const league = leagueEl ? leagueEl.value : '';
+    const status = statusEl ? statusEl.value : '';
+
+    const chips = [];
+    if (search) chips.push(`Search: "${search}"`);
+    if (league) chips.push(league.toUpperCase());
+    if (status) chips.push(status.charAt(0).toUpperCase() + status.slice(1));
+
+    if (chips.length > 0) {
+        textSpan.innerHTML = `Showing <strong>${filteredFuturePros.length}</strong> of ${allFuturePros.length} players: ${chips.join(', ')}`;
+        summary.style.display = 'flex';
+    } else {
+        summary.style.display = 'none';
+    }
 }
 
 // Upcoming Games section - games at unvisited venues

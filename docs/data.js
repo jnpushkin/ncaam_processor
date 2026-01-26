@@ -23,7 +23,7 @@ const DATA = {
       "twenty_ten_games": 5,
       "ten_point_comeback": 5
     },
-    "futurePros": 148,
+    "futurePros": 165,
     "rankedGames": 24,
     "rankedMatchups": 5,
     "upsets": 3
@@ -5155,10 +5155,10 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "BSL (Turkey)",
         "EuroLeague",
         "NBL (Australia)",
-        "Serie A (Italy)"
+        "Serie A (Italy)",
+        "BSL (Turkey)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "",
@@ -5363,10 +5363,10 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "EuroCup",
         "Greek League",
         "Israeli League",
-        "LNB Pro A (France)"
+        "LNB Pro A (France)",
+        "EuroCup"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "",
@@ -5451,10 +5451,10 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": true,
       "Intl_Leagues": [
-        "BSL (Turkey)",
-        "CBA (China)",
         "EuroLeague",
-        "Israeli League"
+        "Israeli League",
+        "BSL (Turkey)",
+        "CBA (China)"
       ],
       "Intl_Tournaments": [
         "FIBA World Cup",
@@ -5627,10 +5627,14 @@ const DATA = {
       "NBA_URL": "https://www.basketball-reference.com/players/c/clarkki01.html",
       "NBA_Games": 0,
       "WNBA": false,
-      "International": false,
-      "Intl_Pro": false,
+      "International": true,
+      "Intl_URL": "",
+      "Intl_Pro": true,
       "Intl_National_Team": false,
-      "Intl_Leagues": [],
+      "Intl_Leagues": [
+        "BNXT League",
+        "B2.League (Japan)"
+      ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/178649/",
       "HasSportsRefPage": true,
@@ -5910,10 +5914,13 @@ const DATA = {
       "FTA": 4,
       "NBA": false,
       "WNBA": false,
-      "International": false,
-      "Intl_Pro": false,
+      "International": true,
+      "Intl_URL": "",
+      "Intl_Pro": true,
       "Intl_National_Team": false,
-      "Intl_Leagues": [],
+      "Intl_Leagues": [
+        "BNXT League"
+      ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/233324/",
       "HasSportsRefPage": true,
@@ -6227,12 +6234,12 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
+        "VTB United League",
+        "Serie A (Italy)",
         "BSL (Turkey)",
         "EuroCup",
         "EuroLeague",
-        "Liga ACB (Spain)",
-        "Serie A (Italy)",
-        "VTB United League"
+        "Liga ACB (Spain)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "",
@@ -7132,8 +7139,8 @@ const DATA = {
       "Intl_National_Team": false,
       "Intl_Leagues": [
         "Greek League",
-        "LNB Pro A (France)",
-        "Serie A (Italy)"
+        "Serie A (Italy)",
+        "LNB Pro A (France)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "",
@@ -7456,9 +7463,9 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "EuroCup",
         "EuroLeague",
-        "Liga ACB (Spain)"
+        "Liga ACB (Spain)",
+        "EuroCup"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "",
@@ -7902,12 +7909,12 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "EuroLeague",
-        "Greek League",
-        "LNB Pro A (France)",
-        "Liga ACB (Spain)",
+        "Serie A (Italy)",
         "NBL (Australia)",
-        "Serie A (Italy)"
+        "EuroLeague",
+        "Liga ACB (Spain)",
+        "Greek League",
+        "LNB Pro A (France)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "",
@@ -9151,7 +9158,8 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "ABA League"
+        "ABA League",
+        "ProA (Germany)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/72751/",
@@ -9710,10 +9718,13 @@ const DATA = {
       "FTA": 7,
       "NBA": false,
       "WNBA": false,
-      "International": false,
-      "Intl_Pro": false,
+      "International": true,
+      "Intl_URL": "",
+      "Intl_Pro": true,
       "Intl_National_Team": false,
-      "Intl_Leagues": [],
+      "Intl_Leagues": [
+        "BNXT League"
+      ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/76159/",
       "HasSportsRefPage": true,
@@ -10313,10 +10324,13 @@ const DATA = {
       "FTA": 3,
       "NBA": false,
       "WNBA": false,
-      "International": false,
-      "Intl_Pro": false,
+      "International": true,
+      "Intl_URL": "",
+      "Intl_Pro": true,
       "Intl_National_Team": false,
-      "Intl_Leagues": [],
+      "Intl_Leagues": [
+        "NBL (New Zealand)"
+      ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/180429/",
       "HasSportsRefPage": true,
@@ -10474,10 +10488,10 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "EuroCup",
         "EuroLeague",
         "Liga ACB (Spain)",
-        "Serie A (Italy)"
+        "Serie A (Italy)",
+        "EuroCup"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "",
@@ -10790,10 +10804,13 @@ const DATA = {
       "FTA": 6,
       "NBA": false,
       "WNBA": false,
-      "International": false,
-      "Intl_Pro": false,
+      "International": true,
+      "Intl_URL": "",
+      "Intl_Pro": true,
       "Intl_National_Team": false,
-      "Intl_Leagues": [],
+      "Intl_Leagues": [
+        "BNXT League"
+      ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/243201/",
       "HasSportsRefPage": true,
@@ -10877,8 +10894,8 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "EuroCup",
-        "Serie A (Italy)"
+        "Serie A (Italy)",
+        "EuroCup"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "",
@@ -11914,8 +11931,8 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "BSL (Turkey)",
-        "Greek League"
+        "Greek League",
+        "BSL (Turkey)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "",
@@ -12405,10 +12422,10 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "BSL (Turkey)",
-        "CBA (China)",
         "EuroLeague",
-        "Greek League"
+        "Greek League",
+        "BSL (Turkey)",
+        "CBA (China)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "",
@@ -12569,10 +12586,14 @@ const DATA = {
       "FTA": 9,
       "NBA": false,
       "WNBA": false,
-      "International": false,
-      "Intl_Pro": false,
+      "International": true,
+      "Intl_URL": "",
+      "Intl_Pro": true,
       "Intl_National_Team": false,
-      "Intl_Leagues": [],
+      "Intl_Leagues": [
+        "CEBL (Canada)",
+        "ProA (Germany)"
+      ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/61128/",
       "HasSportsRefPage": true,
@@ -13805,9 +13826,9 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "EuroCup",
         "Greek League",
-        "Israeli League"
+        "Israeli League",
+        "EuroCup"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "",
@@ -13922,10 +13943,14 @@ const DATA = {
       "FTA": 4,
       "NBA": false,
       "WNBA": false,
-      "International": false,
-      "Intl_Pro": false,
+      "International": true,
+      "Intl_URL": "",
+      "Intl_Pro": true,
       "Intl_National_Team": false,
-      "Intl_Leagues": [],
+      "Intl_Leagues": [
+        "CEBL (Canada)",
+        "ProA (Germany)"
+      ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/61136/",
       "HasSportsRefPage": true,
@@ -14161,8 +14186,8 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "EuroCup",
-        "LNB Pro A (France)"
+        "LNB Pro A (France)",
+        "EuroCup"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "",
@@ -14277,10 +14302,13 @@ const DATA = {
       "FTA": 0,
       "NBA": false,
       "WNBA": false,
-      "International": false,
-      "Intl_Pro": false,
+      "International": true,
+      "Intl_URL": "",
+      "Intl_Pro": true,
       "Intl_National_Team": false,
-      "Intl_Leagues": [],
+      "Intl_Leagues": [
+        "CEBL (Canada)"
+      ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/285406/",
       "HasSportsRefPage": true,
@@ -15323,9 +15351,9 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
+        "Israeli League",
         "BSL (Turkey)",
-        "EuroCup",
-        "Israeli League"
+        "EuroCup"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "",
@@ -15761,9 +15789,9 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "EuroCup",
+        "Serie A (Italy)",
         "LNB Pro A (France)",
-        "Serie A (Italy)"
+        "EuroCup"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "",
@@ -16201,10 +16229,10 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "EuroCup",
+        "Serie A (Italy)",
         "Greek League",
         "Israeli League",
-        "Serie A (Italy)"
+        "EuroCup"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "",
@@ -16401,10 +16429,13 @@ const DATA = {
       "FTA": 4,
       "NBA": false,
       "WNBA": false,
-      "International": false,
-      "Intl_Pro": false,
+      "International": true,
+      "Intl_URL": "",
+      "Intl_Pro": true,
       "Intl_National_Team": false,
-      "Intl_Leagues": [],
+      "Intl_Leagues": [
+        "ProA (Germany)"
+      ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/69476/",
       "HasSportsRefPage": true,
@@ -16518,10 +16549,13 @@ const DATA = {
       "FTA": 4,
       "NBA": false,
       "WNBA": false,
-      "International": false,
-      "Intl_Pro": false,
+      "International": true,
+      "Intl_URL": "",
+      "Intl_Pro": true,
       "Intl_National_Team": false,
-      "Intl_Leagues": [],
+      "Intl_Leagues": [
+        "ProA (Germany)"
+      ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/49653/",
       "HasSportsRefPage": true,
@@ -17816,10 +17850,13 @@ const DATA = {
       "FTA": 0,
       "NBA": false,
       "WNBA": false,
-      "International": false,
-      "Intl_Pro": false,
+      "International": true,
+      "Intl_URL": "",
+      "Intl_Pro": true,
       "Intl_National_Team": false,
-      "Intl_Leagues": [],
+      "Intl_Leagues": [
+        "ProA (Germany)"
+      ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/72741/",
       "HasSportsRefPage": true,
@@ -17942,8 +17979,8 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "EuroCup",
-        "Greek League"
+        "Greek League",
+        "EuroCup"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "",
@@ -17985,11 +18022,11 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "ABA League",
         "BSL (Turkey)",
+        "ABA League",
+        "Liga ACB (Spain)",
         "EuroLeague",
-        "LNB Pro A (France)",
-        "Liga ACB (Spain)"
+        "LNB Pro A (France)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "",
@@ -18784,9 +18821,9 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "EuroCup",
         "Greek League",
-        "Serie A (Italy)"
+        "Serie A (Italy)",
+        "EuroCup"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "",
@@ -19096,10 +19133,13 @@ const DATA = {
       "FTA": 4,
       "NBA": false,
       "WNBA": false,
-      "International": false,
-      "Intl_Pro": false,
+      "International": true,
+      "Intl_URL": "",
+      "Intl_Pro": true,
       "Intl_National_Team": false,
-      "Intl_Leagues": [],
+      "Intl_Leagues": [
+        "BNXT League"
+      ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/190690/",
       "HasSportsRefPage": true,
@@ -19213,10 +19253,13 @@ const DATA = {
       "FTA": 2,
       "NBA": false,
       "WNBA": false,
-      "International": false,
-      "Intl_Pro": false,
+      "International": true,
+      "Intl_URL": "",
+      "Intl_Pro": true,
       "Intl_National_Team": false,
-      "Intl_Leagues": [],
+      "Intl_Leagues": [
+        "BNXT League"
+      ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/255054/",
       "HasSportsRefPage": true,
@@ -19252,10 +19295,13 @@ const DATA = {
       "FTA": 0,
       "NBA": false,
       "WNBA": false,
-      "International": false,
-      "Intl_Pro": false,
+      "International": true,
+      "Intl_URL": "",
+      "Intl_Pro": true,
       "Intl_National_Team": false,
-      "Intl_Leagues": [],
+      "Intl_Leagues": [
+        "Serie A2 (Italy)"
+      ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/181173/",
       "HasSportsRefPage": true,
@@ -19339,11 +19385,11 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
+        "Serie A (Italy)",
         "BSL (Turkey)",
         "EuroCup",
         "Israeli League",
-        "Liga ACB (Spain)",
-        "Serie A (Italy)"
+        "Liga ACB (Spain)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "",
@@ -19463,8 +19509,8 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "BSL (Turkey)",
-        "Israeli League"
+        "Israeli League",
+        "BSL (Turkey)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "",
@@ -19704,10 +19750,13 @@ const DATA = {
       "FTA": 2,
       "NBA": false,
       "WNBA": false,
-      "International": false,
-      "Intl_Pro": false,
+      "International": true,
+      "Intl_URL": "",
+      "Intl_Pro": true,
       "Intl_National_Team": false,
-      "Intl_Leagues": [],
+      "Intl_Leagues": [
+        "BNXT League"
+      ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/60307/",
       "HasSportsRefPage": true,
@@ -20068,10 +20117,10 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
+        "Serie A (Italy)",
         "BSL (Turkey)",
-        "EuroCup",
         "LNB Pro A (France)",
-        "Serie A (Italy)"
+        "EuroCup"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "",
@@ -20147,10 +20196,13 @@ const DATA = {
       "FTA": 5,
       "NBA": false,
       "WNBA": false,
-      "International": false,
-      "Intl_Pro": false,
+      "International": true,
+      "Intl_URL": "",
+      "Intl_Pro": true,
       "Intl_National_Team": false,
-      "Intl_Leagues": [],
+      "Intl_Leagues": [
+        "BNXT League"
+      ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/189891/",
       "HasSportsRefPage": true,
@@ -20186,10 +20238,13 @@ const DATA = {
       "FTA": 0,
       "NBA": false,
       "WNBA": false,
-      "International": false,
-      "Intl_Pro": false,
+      "International": true,
+      "Intl_URL": "",
+      "Intl_Pro": true,
       "Intl_National_Team": false,
-      "Intl_Leagues": [],
+      "Intl_Leagues": [
+        "ProA (Germany)"
+      ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/189892/",
       "HasSportsRefPage": true,
@@ -20706,9 +20761,9 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "EuroCup",
         "EuroLeague",
-        "Israeli League"
+        "Israeli League",
+        "EuroCup"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "",
@@ -21022,10 +21077,13 @@ const DATA = {
       "FTA": 4,
       "NBA": false,
       "WNBA": false,
-      "International": false,
-      "Intl_Pro": false,
+      "International": true,
+      "Intl_URL": "",
+      "Intl_Pro": true,
       "Intl_National_Team": false,
-      "Intl_Leagues": [],
+      "Intl_Leagues": [
+        "BNXT League"
+      ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/179658/",
       "HasSportsRefPage": true,
@@ -25812,8 +25870,8 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "EuroCup",
-        "Greek League"
+        "Greek League",
+        "EuroCup"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "",
@@ -26642,8 +26700,8 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": true,
       "Intl_Leagues": [
-        "EuroCup",
-        "Liga ACB (Spain)"
+        "Liga ACB (Spain)",
+        "EuroCup"
       ],
       "Intl_Tournaments": [
         "Olympics"
@@ -27825,9 +27883,9 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "BSL (Turkey)",
         "Greek League",
-        "Serie A (Italy)"
+        "Serie A (Italy)",
+        "BSL (Turkey)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "",
@@ -29008,8 +29066,8 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "CBA (China)",
         "EuroLeague",
+        "CBA (China)",
         "LNB Pro A (France)"
       ],
       "Intl_Tournaments": [],
@@ -29644,8 +29702,8 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": true,
       "Intl_Leagues": [
-        "BSL (Turkey)",
-        "NBL (Australia)"
+        "NBL (Australia)",
+        "BSL (Turkey)"
       ],
       "Intl_Tournaments": [
         "FIBA World Cup"
@@ -30758,10 +30816,10 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "BSL (Turkey)",
-        "EuroCup",
         "Liga ACB (Spain)",
-        "Serie A (Italy)"
+        "Serie A (Italy)",
+        "BSL (Turkey)",
+        "EuroCup"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "",
@@ -32327,11 +32385,11 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "ABA League",
+        "Serie A (Italy)",
         "EuroCup",
-        "EuroLeague",
+        "ABA League",
         "Liga ACB (Spain)",
-        "Serie A (Italy)"
+        "EuroLeague"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "",
@@ -33196,8 +33254,8 @@ const DATA = {
       "Intl_National_Team": false,
       "Intl_Leagues": [
         "ABA League",
-        "EuroCup",
-        "LNB Pro A (France)"
+        "LNB Pro A (France)",
+        "EuroCup"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "",
@@ -36555,9 +36613,9 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "BSL (Turkey)",
         "Greek League",
-        "Israeli League"
+        "Israeli League",
+        "BSL (Turkey)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "",
@@ -37897,11 +37955,11 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
+        "Serie A (Italy)",
         "BSL (Turkey)",
         "EuroCup",
-        "Greek League",
         "Liga ACB (Spain)",
-        "Serie A (Italy)"
+        "Greek League"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "",
@@ -38500,9 +38558,9 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "BSL (Turkey)",
         "Greek League",
-        "Israeli League"
+        "Israeli League",
+        "BSL (Turkey)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "",
