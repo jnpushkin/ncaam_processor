@@ -7628,7 +7628,7 @@ function showGameDetail(gameId, fromCalendarDay = false) {
         // Venue (no gender - venues are shared)
         if (achievements.venue.name) {
             if (achievements.venue.isNewVenue) {
-                lines.push(`${achievements.venue.d1VenuesSeen}/365 D1 venues seen`);
+                lines.push(`${achievements.d1Stats.d1VenuesSeen}/365 D1 venues seen`);
                 if (achievements.homeTeam.conf && achievements.venue.confVenuesTotal > 0) {
                     lines.push(`${achievements.venue.confVenuesSeen}/${achievements.venue.confVenuesTotal} ${achievements.homeTeam.conf} venues seen`);
                 }
