@@ -6744,7 +6744,7 @@ function showConferenceDetail(confName) {
         'Ole Miss': ['Mississippi', 'Ole Miss'],
         'Miami (FL)': ['Miami', 'Miami (FL)'],
         'Cal': ['California', 'Cal'],
-        "Saint Mary's (CA)": ["Saint Mary's", "St. Mary's", "St Mary's"],
+        "Saint Mary's (CA)": ["Saint Mary's (CA)", "Saint Mary's", "St. Mary's", "St Mary's"],
         'Loyola Marymount': ['LMU', 'Loyola Marymount'],
         'Brigham Young': ['BYU', 'Brigham Young'],
         'Texas Christian': ['TCU', 'Texas Christian'],
