@@ -1525,6 +1525,14 @@ function computeGameMilestones() {
     let d1VenueCount = 0;
     const d1VenuesSeen = new Set();
 
+    // Build set of actual D1 venues from venue data
+    const actualD1Venues = new Set();
+    (DATA.venues || []).forEach(v => {
+        if (v.Division === 'D1') {
+            actualD1Venues.add(v.Venue);
+        }
+    });
+
     // D1 team tracking (by gender) - badge every 5 teams
     const D1_TEAM_MILESTONES = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100];
     const d1TeamsSeen = { M: new Set(), W: new Set() };
@@ -1708,8 +1716,8 @@ function computeGameMilestones() {
                 });
             }
 
-            // Track D1 venues - badge for every new D1 venue
-            if (venue && !d1VenuesSeen.has(venue)) {
+            // Track D1 venues - badge for every new D1 venue (must be actual D1 venue)
+            if (venue && !d1VenuesSeen.has(venue) && actualD1Venues.has(venue)) {
                 d1VenuesSeen.add(venue);
                 d1VenueCount++;
                 gameMilestones[gameId].badges.push({
