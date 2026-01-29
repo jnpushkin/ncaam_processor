@@ -5500,12 +5500,26 @@
   "glenn-sanabria-1": {
     "proballers_id": 204944,
     "name": "Glenn Sanabria",
-    "college": "St. Francis (NY)"
+    "college": "St. Francis (NY)",
+    "proballers_leagues": [
+      "BSN (Puerto Rico)"
+    ],
+    "intl_leagues": [
+      "BSN (Puerto Rico)"
+    ],
+    "intl_pro": true
   },
   "gunnar-olafsson-1": {
     "proballers_id": 55815,
     "name": "Gunnar Olafsson",
-    "college": "St. Francis (NY)"
+    "college": "St. Francis (NY)",
+    "proballers_leagues": [
+      "LEB Oro (Spain)"
+    ],
+    "intl_leagues": [
+      "LEB Oro (Spain)"
+    ],
+    "intl_pro": true
   },
   "yunus-hopkinson-1": {
     "proballers_id": 202439,
@@ -5515,12 +5529,30 @@
   "joshua-nurse-1": {
     "proballers_id": 191092,
     "name": "Joshua Nurse",
-    "college": "St. Francis (NY)"
+    "college": "St. Francis (NY)",
+    "proballers_leagues": [
+      "LEB Oro (Spain)",
+      "LNBP (Mexico)"
+    ],
+    "intl_leagues": [
+      "LEB Oro (Spain)",
+      "LNBP (Mexico)"
+    ],
+    "intl_pro": true
   },
   "robert-montgomery-1": {
     "proballers_id": 190578,
     "name": "Robert Montgomery",
-    "college": "St. Francis (NY)"
+    "college": "St. Francis (NY)",
+    "proballers_leagues": [
+      "Greek League",
+      "ProA (Germany)"
+    ],
+    "intl_leagues": [
+      "Greek League",
+      "ProA (Germany)"
+    ],
+    "intl_pro": true
   },
   "keon-williams-1": {
     "proballers_id": 204973,
@@ -5572,7 +5604,14 @@
     "proballers_id": 300993
   },
   "karl-markus-poom-1": {
-    "proballers_id": 239910
+    "proballers_id": 239910,
+    "proballers_leagues": [
+      "Serie A2 (Italy)"
+    ],
+    "intl_leagues": [
+      "Serie A2 (Italy)"
+    ],
+    "intl_pro": true
   },
   "arne-osojnik-1": {
     "proballers_id": 239993
@@ -5615,14 +5654,14 @@
   },
   "erez-poran-1": {
     "proballers_id": 268908,
-  "proballers_leagues": [
+    "proballers_leagues": [
       "National League (Israel)"
     ],
     "intl_leagues": [
       "National League (Israel)"
     ],
     "intl_pro": true
-    },
+  },
   "aidan-richard-1": {
     "proballers_id": 287938
   },
@@ -5632,12 +5671,30 @@
   "stephan-swenson-1": {
     "proballers_id": 234217,
     "name": "Stephan Swenson",
-    "college": "Stetson"
+    "college": "Stetson",
+    "proballers_leagues": [
+      "LPB (Portugal)"
+    ],
+    "intl_leagues": [
+      "LPB (Portugal)"
+    ],
+    "intl_pro": true
   },
   "junior-hairston-1": {
     "proballers_id": 37205,
     "name": "Junior Hairston",
-    "college": "Towson"
+    "college": "Towson",
+    "proballers_leagues": [
+      "Eredivisie (Netherlands)",
+      "Korisliiga (Finland)",
+      "TBL (Turkey)"
+    ],
+    "intl_leagues": [
+      "Eredivisie (Netherlands)",
+      "Korisliiga (Finland)",
+      "TBL (Turkey)"
+    ],
+    "intl_pro": true
   },
   "juan-sebastian-gorosito-1": {
     "proballers_id": 285206,
@@ -5697,7 +5754,20 @@
   "michael-ofik-nzege-1": {
     "proballers_id": 45831,
     "name": "Michel Nzege",
-    "college": "East Carolina"
+    "college": "East Carolina",
+    "proballers_leagues": [
+      "BNXT League",
+      "Greek League",
+      "Pro B (France)",
+      "SBL (Switzerland)"
+    ],
+    "intl_leagues": [
+      "BNXT League",
+      "Greek League",
+      "Pro B (France)",
+      "SBL (Switzerland)"
+    ],
+    "intl_pro": true
   },
   "kelvin-bright-1": {
     "proballers_id": null,
@@ -5717,7 +5787,18 @@
   "terrell-brown-5": {
     "proballers_id": 189214,
     "name": "Terrell Brown",
-    "college": "Pittsburgh"
+    "college": "Pittsburgh",
+    "proballers_leagues": [
+      "Division A (Romania)",
+      "LNBP (Mexico)",
+      "PLK (Poland)"
+    ],
+    "intl_leagues": [
+      "Division A (Romania)",
+      "LNBP (Mexico)",
+      "PLK (Poland)"
+    ],
+    "intl_pro": true
   },
   "sherwyn-devonish-prince-1": {
     "proballers_id": 190688,
@@ -5730,7 +5811,7 @@
     "college": "Youngstown State"
   },
   "darelle-porter-2": {
-    "proballers_id": null,
+    "proballers_id": 211023,
     "name": "Darelle Porter",
     "college": "St. Francis (NY)"
   },
@@ -5740,9 +5821,16 @@
     "college": "Maryland"
   },
   "mezie-offurum-1": {
-    "proballers_id": null,
+    "proballers_id": 188934,
     "name": "Mezie Offurum",
-    "college": "George Washington"
+    "college": "George Washington",
+    "proballers_leagues": [
+      "SBL (Switzerland)"
+    ],
+    "intl_leagues": [
+      "SBL (Switzerland)"
+    ],
+    "intl_pro": true
   },
   "rasheem-dunn-1": {
     "proballers_id": null,
