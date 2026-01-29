@@ -2784,6 +2784,7 @@ function initVenuesMap() {
         'Academy of Art': 'https://artuathletics.com/images/responsive/cal_logo.png',
         'Johns Hopkins': 'https://dxbhsrqyrr690.cloudfront.net/sidearm.nextgen.sites/hopkinssports.com/images/responsive_2025/logos/logo_main.svg',
         'University of Chicago': 'https://dbukjj6eu5tsf.cloudfront.net/sidearm.sites/chgo.sidearmsports.com/images/responsive_2023/main_logo.png',
+        'Chicago': 'https://dbukjj6eu5tsf.cloudfront.net/sidearm.sites/chgo.sidearmsports.com/images/responsive_2023/main_logo.png',
         'Washington College': 'https://dxbhsrqyrr690.cloudfront.net/sidearm.nextgen.sites/washingtoncollegesports.com/images/responsive_2022/svgs/on-light-theme.svg',
         'Brandeis': 'https://dbukjj6eu5tsf.cloudfront.net/sidearm.sites/brandeisu.sidearmsports.com/images/responsive_2023/logo_main_new.svg',
         'Jessup': 'https://dxbhsrqyrr690.cloudfront.net/sidearm.nextgen.sites/jessup.sidearmsports.com/images/responsive_2024/logo_main.svg',
