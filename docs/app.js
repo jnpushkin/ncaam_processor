@@ -1533,13 +1533,12 @@ function computeGameMilestones() {
     let d1VenueCount = 0;
     const d1VenuesSeen = new Set();
 
-    // Build set of actual D1 venues from venue data
+    // Build set of actual D1 home venues from conference checklist
+    // This excludes neutral sites like Chase Center and Barclays Center
     const actualD1Venues = new Set();
-    (DATA.venues || []).forEach(v => {
-        if (v.Division === 'D1') {
-            actualD1Venues.add(v.Venue);
-        }
-    });
+    for (const arenas of Object.values(conferenceHomeArenas)) {
+        arenas.forEach(arena => actualD1Venues.add(arena));
+    }
 
     // D1 team tracking (by gender) - badge every 5 teams
     const D1_TEAM_MILESTONES = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100];
