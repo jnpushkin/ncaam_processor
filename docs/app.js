@@ -1507,12 +1507,20 @@ function computeGameMilestones() {
 
     gameMilestones = {};
 
-    // Build conference team counts for completion tracking
+    // Build conference team counts and home arenas for completion tracking
     const conferenceTeamCounts = {};
+    const conferenceHomeArenas = {};  // conf -> Set of home arenas
     const checklist = DATA.conferenceChecklist || {};
     for (const [confName, confData] of Object.entries(checklist)) {
         if (confName === 'All D1' || confName === 'Historical/Other') continue;
         conferenceTeamCounts[confName] = confData.totalTeams || 0;
+        // Build set of home arenas for this conference
+        conferenceHomeArenas[confName] = new Set();
+        (confData.teams || []).forEach(team => {
+            if (team.homeArena) conferenceHomeArenas[confName].add(team.homeArena);
+            if (team.homeArenaM) conferenceHomeArenas[confName].add(team.homeArenaM);
+            if (team.homeArenaW) conferenceHomeArenas[confName].add(team.homeArenaW);
+        });
     }
 
     // Game count milestone thresholds
@@ -1880,12 +1888,15 @@ function computeGameMilestones() {
                 });
             }
 
-            // Track conference venues (based on home team's conference)
+            // Track conference venues (only actual home arenas for that conference)
             if (homeConf && homeConf !== 'All D1' && homeConf !== 'Historical/Other') {
-                if (!confVenuesSeen[homeConf]) {
-                    confVenuesSeen[homeConf] = new Set();
+                const confArenas = conferenceHomeArenas[homeConf];
+                if (confArenas && confArenas.has(venue)) {
+                    if (!confVenuesSeen[homeConf]) {
+                        confVenuesSeen[homeConf] = new Set();
+                    }
+                    confVenuesSeen[homeConf].add(venue);
                 }
-                confVenuesSeen[homeConf].add(venue);
             }
         }
 
