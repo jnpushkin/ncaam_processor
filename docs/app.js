@@ -2383,6 +2383,7 @@ function populatePlayersTable() {
     const players = DATA.players || [];
     ['compare-player1', 'compare-player2'].forEach(id => {
         const sel = document.getElementById(id);
+        if (!sel) return;
         sel.innerHTML = '<option value="">Select a player...</option>';
         players.forEach(p => {
             const genderTag = p.Gender === 'W' ? ' (W)' : '';
@@ -5611,6 +5612,7 @@ function populateConferenceTable() {
 
 function initChecklist() {
     const select = document.getElementById('checklist-conference');
+    if (!select) return;
     const checklist = DATA.conferenceChecklist || {};
     let conferences = Object.keys(checklist).sort();
 
@@ -8321,6 +8323,9 @@ function populateSeasonStats() {
 }
 
 function showChart(type) {
+    const chartCanvas = document.getElementById('stats-chart');
+    if (!chartCanvas) return;
+
     document.querySelectorAll('#charts .sub-tab').forEach(t => t.classList.remove('active'));
     // Find and activate the button for this chart type
     const btn = document.querySelector(`#charts .sub-tab[onclick*="'${type}'"]`);
@@ -8375,7 +8380,7 @@ function showChart(type) {
             .map(p => ({ ...p, ...calcEfficiency(p) }))
             .sort((a, b) => b.ts - a.ts)
             .slice(0, 10);
-        const ctx = document.getElementById('stats-chart').getContext('2d');
+        const ctx = chartCanvas.getContext('2d');
         statsChart = new Chart(ctx, {
             type: 'bar',
             data: {
@@ -8418,7 +8423,7 @@ function showChart(type) {
         const homeScores = games.map(g => g['Home Score'] || 0);
         const totalScores = games.map((g, i) => awayScores[i] + homeScores[i]);
 
-        const ctx = document.getElementById('stats-chart').getContext('2d');
+        const ctx = chartCanvas.getContext('2d');
         statsChart = new Chart(ctx, {
             type: 'line',
             data: {
@@ -8472,7 +8477,7 @@ function showChart(type) {
         color = '#e74c3c';
     }
 
-    const ctx = document.getElementById('stats-chart').getContext('2d');
+    const ctx = chartCanvas.getContext('2d');
     statsChart = new Chart(ctx, {
         type: 'bar',
         data: {
