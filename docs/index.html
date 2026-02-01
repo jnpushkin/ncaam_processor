@@ -562,12 +562,16 @@
                         <thead>
                             <tr>
                                 <th onclick="sortTable('teams-table', 0)">Team</th>
-                                <th onclick="sortTable('teams-table', 1)" class="tooltip" data-tooltip="Games played">GP</th>
-                                <th onclick="sortTable('teams-table', 2)">Wins</th>
-                                <th onclick="sortTable('teams-table', 3)">Losses</th>
-                                <th onclick="sortTable('teams-table', 4)" class="tooltip" data-tooltip="Win percentage">Win%</th>
-                                <th onclick="sortTable('teams-table', 5)" class="tooltip" data-tooltip="Points per game">PPG</th>
-                                <th onclick="sortTable('teams-table', 6)" class="tooltip" data-tooltip="Points allowed per game">PAPG</th>
+                                <th onclick="sortTable('teams-table', 1)" class="tooltip" data-tooltip="Conference">Conf</th>
+                                <th onclick="sortTable('teams-table', 2)" class="tooltip" data-tooltip="Games played">GP</th>
+                                <th onclick="sortTable('teams-table', 3)">Wins</th>
+                                <th onclick="sortTable('teams-table', 4)">Losses</th>
+                                <th onclick="sortTable('teams-table', 5)" class="tooltip" data-tooltip="Win percentage">Win%</th>
+                                <th onclick="sortTable('teams-table', 6)" class="tooltip" data-tooltip="Home record">Home</th>
+                                <th onclick="sortTable('teams-table', 7)" class="tooltip" data-tooltip="Away record">Away</th>
+                                <th onclick="sortTable('teams-table', 8)" class="tooltip" data-tooltip="Points per game">PPG</th>
+                                <th onclick="sortTable('teams-table', 9)" class="tooltip" data-tooltip="Points allowed per game">PAPG</th>
+                                <th onclick="sortTable('teams-table', 10)" class="tooltip" data-tooltip="Point differential">Diff</th>
                             </tr>
                         </thead>
                         <tbody></tbody>
@@ -1137,6 +1141,14 @@
         <div class="modal-content modal-medium">
             <button class="modal-close" onclick="closeModal('conf-teams-modal')" aria-label="Close">&times;</button>
             <div id="conf-teams-detail"></div>
+        </div>
+    </div>
+
+    <!-- Team Detail Modal -->
+    <div class="modal" id="team-modal" role="dialog" aria-labelledby="team-modal-title" onclick="if(event.target === this) closeModal('team-modal')">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('team-modal')" aria-label="Close">&times;</button>
+            <div id="team-detail"></div>
         </div>
     </div>
 

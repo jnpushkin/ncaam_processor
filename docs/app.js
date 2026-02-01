@@ -2520,21 +2520,30 @@ function populateTeamsTable() {
     }
 
     if (data.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="7" class="empty-state"><h3>No team data</h3></td></tr>';
+        tbody.innerHTML = '<tr><td colspan="11" class="empty-state"><h3>No team data</h3></td></tr>';
         return;
     }
 
     tbody.innerHTML = data.map(team => {
         const genderTag = team.Gender === 'W' ? ' <span class="gender-tag">(W)</span>' : '';
+        const homeRecord = `${team['Home W'] || 0}-${team['Home L'] || 0}`;
+        const awayRecord = `${team['Away W'] || 0}-${team['Away L'] || 0}`;
+        const diff = team.Diff || 0;
+        const diffDisplay = diff > 0 ? `+${diff.toFixed(1)}` : diff.toFixed(1);
+        const diffClass = diff > 0 ? 'stat-positive' : diff < 0 ? 'stat-negative' : '';
         return `
         <tr>
-            <td>${team.Team || ''}${genderTag}</td>
+            <td><span class="team-link" onclick="showTeamDetail('${(team.Team || '').replace(/'/g, "\\'")}', '${team.Gender || 'M'}')">${team.Team || ''}</span>${genderTag}</td>
+            <td>${team.Conference || ''}</td>
             <td>${team.Games || 0}</td>
             <td>${team.Wins || 0}</td>
             <td>${team.Losses || 0}</td>
             <td>${((team['Win%'] || 0) * 100).toFixed(1)}%</td>
+            <td>${homeRecord}</td>
+            <td>${awayRecord}</td>
             <td>${(team.PPG || 0).toFixed(1)}</td>
             <td>${(team.PAPG || 0).toFixed(1)}</td>
+            <td class="${diffClass}">${diffDisplay}</td>
         </tr>
     `}).join('');
 }
@@ -7299,6 +7308,263 @@ function showVenueDetail(venueName) {
     document.getElementById('venue-modal').classList.add('active');
 }
 
+function showTeamDetail(teamName, gender = 'M') {
+    if (!teamName) {
+        showToast('Team not specified');
+        return;
+    }
+
+    // Find the team in DATA.teams
+    const team = (DATA.teams || []).find(t => t.Team === teamName && t.Gender === gender);
+    if (!team) {
+        showToast('Team not found');
+        return;
+    }
+
+    // Find all games involving this team
+    const games = (DATA.games || []).filter(g =>
+        g.Gender === gender && (g['Away Team'] === teamName || g['Home Team'] === teamName)
+    ).sort((a, b) => (b.DateSort || '').localeCompare(a.DateSort || ''));
+
+    // Calculate additional stats
+    const otGames = games.filter(g => (g.Linescore?.away?.OT?.length > 0) || (g.Linescore?.home?.OT?.length > 0));
+    const otWins = otGames.filter(g => {
+        const isHome = g['Home Team'] === teamName;
+        const teamScore = isHome ? g['Home Score'] : g['Away Score'];
+        const oppScore = isHome ? g['Away Score'] : g['Home Score'];
+        return teamScore > oppScore;
+    }).length;
+    const otLosses = otGames.length - otWins;
+
+    // Compute win/loss streaks
+    const gameResults = games.map(g => {
+        const isHome = g['Home Team'] === teamName;
+        const teamScore = isHome ? g['Home Score'] : g['Away Score'];
+        const oppScore = isHome ? g['Away Score'] : g['Home Score'];
+        return teamScore > oppScore ? 'W' : 'L';
+    }).reverse(); // Chronological order for streak calculation
+
+    let currentStreak = 0;
+    let currentStreakType = '';
+    let longestWinStreak = 0;
+    let longestLossStreak = 0;
+    let tempStreak = 0;
+    let lastResult = '';
+
+    gameResults.forEach(result => {
+        if (result === lastResult) {
+            tempStreak++;
+        } else {
+            if (lastResult === 'W') longestWinStreak = Math.max(longestWinStreak, tempStreak);
+            if (lastResult === 'L') longestLossStreak = Math.max(longestLossStreak, tempStreak);
+            tempStreak = 1;
+            lastResult = result;
+        }
+    });
+    // Final check
+    if (lastResult === 'W') longestWinStreak = Math.max(longestWinStreak, tempStreak);
+    if (lastResult === 'L') longestLossStreak = Math.max(longestLossStreak, tempStreak);
+
+    // Current streak (from most recent)
+    if (gameResults.length > 0) {
+        currentStreakType = gameResults[gameResults.length - 1];
+        currentStreak = 1;
+        for (let i = gameResults.length - 2; i >= 0; i--) {
+            if (gameResults[i] === currentStreakType) {
+                currentStreak++;
+            } else {
+                break;
+            }
+        }
+    }
+
+    // Margin analysis
+    const margins = games.map(g => {
+        const isHome = g['Home Team'] === teamName;
+        const teamScore = isHome ? g['Home Score'] : g['Away Score'];
+        const oppScore = isHome ? g['Away Score'] : g['Home Score'];
+        return teamScore - oppScore;
+    });
+    const bestMargin = Math.max(...margins);
+    const worstMargin = Math.min(...margins);
+    const closeGames = margins.filter(m => Math.abs(m) <= 5).length;
+    const blowouts = margins.filter(m => m >= 20).length;
+
+    // Get players from this team
+    const teamPlayers = (DATA.players || []).filter(p => p.Team === teamName && p.Gender === gender)
+        .sort((a, b) => (b.PPG || 0) - (a.PPG || 0));
+
+    // First and last games
+    const firstGame = games[games.length - 1];
+    const lastGame = games[0];
+
+    // Find home venue from conferenceChecklist
+    let homeVenue = '';
+    const checklist = DATA.conferenceChecklist || {};
+    for (const [confName, confData] of Object.entries(checklist)) {
+        const teamEntry = (confData.teams || []).find(t => t.team === teamName);
+        if (teamEntry && teamEntry.venue) {
+            homeVenue = teamEntry.venue;
+            break;
+        }
+    }
+
+    // Venues where games were played
+    const venueMap = new Map();
+    games.forEach(g => {
+        if (!venueMap.has(g.Venue)) {
+            venueMap.set(g.Venue, { venue: g.Venue, city: g.City, state: g.State, count: 0 });
+        }
+        venueMap.get(g.Venue).count++;
+    });
+    const venues = [...venueMap.values()].sort((a, b) => b.count - a.count);
+
+    const genderTag = gender === 'W' ? '<span class="gender-tag">(W)</span>' : '';
+    const currentStreakDisplay = currentStreak > 0 ? `${currentStreakType}${currentStreak}` : '-';
+
+    // Build games list HTML
+    const gamesHtml = games.map(g => {
+        const isHome = g['Home Team'] === teamName;
+        const teamScore = isHome ? g['Home Score'] : g['Away Score'];
+        const oppScore = isHome ? g['Away Score'] : g['Home Score'];
+        const opponent = isHome ? g['Away Team'] : g['Home Team'];
+        const result = teamScore > oppScore ? 'W' : 'L';
+        const resultClass = result === 'W' ? 'result-win' : 'result-loss';
+        const location = isHome ? 'vs' : '@';
+        const otLabel = (g.Linescore?.away?.OT?.length > 0) ? ' OT' : '';
+        return `
+        <tr class="clickable-row" onclick="closeModal('team-modal'); showGameDetail('${g.GameID}')">
+            <td><span class="game-link">${formatDate(g.Date)}</span></td>
+            <td>${location} ${opponent}</td>
+            <td class="${resultClass}">${result}${otLabel}</td>
+            <td>${teamScore}-${oppScore}</td>
+            <td>${g.Venue || ''}</td>
+        </tr>
+    `}).join('');
+
+    // Build players list HTML
+    const playersHtml = teamPlayers.slice(0, 15).map(p => {
+        const playerId = p['Player ID'] || p.Player;
+        return `
+        <tr class="clickable-row" onclick="closeModal('team-modal'); showPlayerDetail('${playerId}')">
+            <td><span class="player-link">${p.Player}</span></td>
+            <td>${p.Games || 0}</td>
+            <td>${(p.PPG || 0).toFixed(1)}</td>
+            <td>${(p.RPG || 0).toFixed(1)}</td>
+            <td>${(p.APG || 0).toFixed(1)}</td>
+        </tr>
+    `}).join('');
+
+    // Build venues HTML
+    const venuesHtml = venues.map(v => {
+        const isHome = v.venue === homeVenue;
+        return `<span class="venue-team-tag${isHome ? ' home-venue' : ''}" onclick="closeModal('team-modal'); showVenueDetail('${v.venue.replace(/'/g, "\\'")}')">${v.venue} (${v.count})${isHome ? ' - Home' : ''}</span>`;
+    }).join('');
+
+    document.getElementById('team-detail').innerHTML = `
+        <h3 id="team-modal-title">${teamName} ${genderTag}</h3>
+        <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+            ${team.Conference || 'Unknown Conference'} |
+            <strong>${team.Wins || 0}-${team.Losses || 0}</strong> overall
+        </p>
+
+        <div class="compare-grid">
+            <div class="compare-card">
+                <h4>Record</h4>
+                <div class="stat-row"><span>Overall</span><span>${team.Wins || 0}-${team.Losses || 0} (${((team['Win%'] || 0) * 100).toFixed(1)}%)</span></div>
+                <div class="stat-row"><span>Home</span><span>${team['Home W'] || 0}-${team['Home L'] || 0}</span></div>
+                <div class="stat-row"><span>Away</span><span>${team['Away W'] || 0}-${team['Away L'] || 0}</span></div>
+                ${otGames.length > 0 ? `<div class="stat-row"><span>Overtime</span><span>${otWins}-${otLosses}</span></div>` : ''}
+            </div>
+            <div class="compare-card">
+                <h4>Scoring</h4>
+                <div class="stat-row"><span>PPG</span><span>${(team.PPG || 0).toFixed(1)}</span></div>
+                <div class="stat-row"><span>Opp PPG</span><span>${(team.PAPG || 0).toFixed(1)}</span></div>
+                <div class="stat-row"><span>Diff</span><span class="${(team.Diff || 0) > 0 ? 'stat-positive' : 'stat-negative'}">${(team.Diff || 0) > 0 ? '+' : ''}${(team.Diff || 0).toFixed(1)}</span></div>
+                <div class="stat-row"><span>Total PF</span><span>${team.PF || 0}</span></div>
+                <div class="stat-row"><span>Total PA</span><span>${team.PA || 0}</span></div>
+            </div>
+            <div class="compare-card">
+                <h4>Performance</h4>
+                <div class="stat-row"><span>Current</span><span class="${currentStreakType === 'W' ? 'stat-positive' : 'stat-negative'}">${currentStreakDisplay}</span></div>
+                <div class="stat-row"><span>Best Win Streak</span><span>${longestWinStreak}</span></div>
+                <div class="stat-row"><span>Best Margin</span><span class="stat-positive">+${bestMargin}</span></div>
+                <div class="stat-row"><span>Worst Margin</span><span class="stat-negative">${worstMargin}</span></div>
+                <div class="stat-row"><span>Close Games (5 pts)</span><span>${closeGames}</span></div>
+                <div class="stat-row"><span>Blowouts (20+ pts)</span><span>${blowouts}</span></div>
+            </div>
+        </div>
+
+        <h4 style="margin-top: 1.5rem; margin-bottom: 0.5rem; color: var(--text-secondary);">First & Last Seen</h4>
+        <div class="first-last-seen" style="display: flex; gap: 2rem; flex-wrap: wrap; margin-bottom: 1rem;">
+            ${firstGame ? `
+            <div>
+                <strong>First:</strong> ${formatDate(firstGame.Date)} -
+                <span class="game-link" onclick="closeModal('team-modal'); showGameDetail('${firstGame.GameID}')">
+                    ${firstGame['Away Team']} @ ${firstGame['Home Team']} (${firstGame['Away Score']}-${firstGame['Home Score']})
+                </span>
+            </div>
+            ` : ''}
+            ${lastGame && lastGame !== firstGame ? `
+            <div>
+                <strong>Last:</strong> ${formatDate(lastGame.Date)} -
+                <span class="game-link" onclick="closeModal('team-modal'); showGameDetail('${lastGame.GameID}')">
+                    ${lastGame['Away Team']} @ ${lastGame['Home Team']} (${lastGame['Away Score']}-${lastGame['Home Score']})
+                </span>
+            </div>
+            ` : ''}
+        </div>
+
+        ${venues.length > 0 ? `
+        <h4 style="margin-top: 1rem; margin-bottom: 0.5rem; color: var(--text-secondary);">Venues (${venues.length})</h4>
+        <div class="venue-teams-list">${venuesHtml}</div>
+        ` : ''}
+
+        ${teamPlayers.length > 0 ? `
+        <h4 style="margin-top: 1.5rem; margin-bottom: 0.5rem; color: var(--text-secondary);">Players Seen (${teamPlayers.length})</h4>
+        <div class="table-container" style="max-height: 250px; overflow-y: auto;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Player</th>
+                        <th>GP</th>
+                        <th>PPG</th>
+                        <th>RPG</th>
+                        <th>APG</th>
+                    </tr>
+                </thead>
+                <tbody>${playersHtml}</tbody>
+            </table>
+        </div>
+        ` : ''}
+
+        <h4 style="margin-top: 1.5rem; margin-bottom: 0.5rem; color: var(--text-secondary);">Games (${games.length})</h4>
+        <div class="table-container" style="max-height: 300px; overflow-y: auto;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Matchup</th>
+                        <th>Result</th>
+                        <th>Score</th>
+                        <th>Venue</th>
+                    </tr>
+                </thead>
+                <tbody>${gamesHtml}</tbody>
+            </table>
+        </div>
+
+        <div style="margin-top: 1.5rem; text-align: center;">
+            <button class="btn btn-secondary" onclick="closeModal('team-modal'); filterByTeam('${teamName.replace(/'/g, "\\'")}', '${gender}'); showSection('games');">
+                View All Games in Games Tab
+            </button>
+        </div>
+    `;
+
+    document.getElementById('team-modal').classList.add('active');
+    updateURL('teams', { team: teamName, gender: gender });
+}
+
 function showGameDetail(gameId, fromCalendarDay = false) {
     const game = DATA.games.find(g => g.GameID === gameId);
     if (!game) {
@@ -8245,6 +8511,9 @@ function handleURLNavigation() {
     }
     if (params.game) {
         setTimeout(() => showGameDetail(params.game), 100);
+    }
+    if (params.team && section === 'teams') {
+        setTimeout(() => showTeamDetail(params.team, params.gender || 'M'), 100);
     }
     if (params.type && section === 'milestones') {
         setTimeout(() => showMilestoneEntries(params.type), 100);
