@@ -975,15 +975,15 @@ function applyFilters(type) {
 }
 
 function applyGamesFilters() {
-    const search = document.getElementById('games-search').value.toLowerCase();
-    const dateFromRaw = document.getElementById('games-date-from').value;
-    const dateToRaw = document.getElementById('games-date-to').value;
+    const search = (document.getElementById('games-search')?.value || '').toLowerCase();
+    const dateFromRaw = document.getElementById('games-date-from')?.value || '';
+    const dateToRaw = document.getElementById('games-date-to')?.value || '';
     // Convert YYYY-MM-DD to YYYYMMDD for comparison with DateSort
     const dateFrom = dateFromRaw ? dateFromRaw.replace(/-/g, '') : '';
     const dateTo = dateToRaw ? dateToRaw.replace(/-/g, '') : '';
-    const teamFilter = document.getElementById('games-team').value;
-    const conference = document.getElementById('games-conference').value;
-    const minMargin = parseInt(document.getElementById('games-margin').value) || 0;
+    const teamFilter = document.getElementById('games-team')?.value || '';
+    const conference = document.getElementById('games-conference')?.value || '';
+    const minMargin = parseInt(document.getElementById('games-margin')?.value) || 0;
     const quickFilter = window.currentQuickFilter || 'all';
 
     // Parse team filter (format: "TeamName|Gender" or empty)
@@ -2245,65 +2245,71 @@ function populateGamesTable() {
     const teamNames = Object.keys(teamGenders).sort();
     const select = document.getElementById('games-team');
     // Create separate options for each team+gender combination
-    teamNames.forEach(team => {
-        const genders = teamGenders[team];
-        if (genders.has('M')) {
-            const option = document.createElement('option');
-            option.value = `${team}|M`;
-            option.textContent = genders.has('W') ? `${team} (M)` : team;
-            select.appendChild(option);
-        }
-        if (genders.has('W')) {
-            const option = document.createElement('option');
-            option.value = `${team}|W`;
-            option.textContent = `${team} (W)`;
-            select.appendChild(option);
-        }
-    });
+    if (select) {
+        teamNames.forEach(team => {
+            const genders = teamGenders[team];
+            if (genders.has('M')) {
+                const option = document.createElement('option');
+                option.value = `${team}|M`;
+                option.textContent = genders.has('W') ? `${team} (M)` : team;
+                select.appendChild(option);
+            }
+            if (genders.has('W')) {
+                const option = document.createElement('option');
+                option.value = `${team}|W`;
+                option.textContent = `${team} (W)`;
+                select.appendChild(option);
+            }
+        });
+    }
 
     // Populate conference filter
     const conferences = [...new Set(teamNames.map(t => getTeamConference(t)))].filter(c => c).sort();
     const confSelect = document.getElementById('games-conference');
-    conferences.forEach(conf => {
-        const option = document.createElement('option');
-        option.value = conf;
-        option.textContent = conf;
-        confSelect.appendChild(option);
-    });
+    if (confSelect) {
+        conferences.forEach(conf => {
+            const option = document.createElement('option');
+            option.value = conf;
+            option.textContent = conf;
+            confSelect.appendChild(option);
+        });
+    }
 
     // Populate head-to-head dropdowns with separate gender options
     const h2h1 = document.getElementById('h2h-team1');
     const h2h2 = document.getElementById('h2h-team2');
     allH2HTeams = []; // Store team|gender combos for later use
-    teamNames.forEach(team => {
-        const genders = teamGenders[team];
-        if (genders.has('M')) {
-            const value = `${team}|M`;
-            const displayName = genders.has('W') ? `${team} (M)` : team;
-            allH2HTeams.push(value);
-            const opt1 = document.createElement('option');
-            opt1.value = value;
-            opt1.textContent = displayName;
-            h2h1.appendChild(opt1);
-            const opt2 = document.createElement('option');
-            opt2.value = value;
-            opt2.textContent = displayName;
-            h2h2.appendChild(opt2);
-        }
-        if (genders.has('W')) {
-            const value = `${team}|W`;
-            const displayName = `${team} (W)`;
-            allH2HTeams.push(value);
-            const opt1 = document.createElement('option');
-            opt1.value = value;
-            opt1.textContent = displayName;
-            h2h1.appendChild(opt1);
-            const opt2 = document.createElement('option');
-            opt2.value = value;
-            opt2.textContent = displayName;
-            h2h2.appendChild(opt2);
-        }
-    });
+    if (h2h1 && h2h2) {
+        teamNames.forEach(team => {
+            const genders = teamGenders[team];
+            if (genders.has('M')) {
+                const value = `${team}|M`;
+                const displayName = genders.has('W') ? `${team} (M)` : team;
+                allH2HTeams.push(value);
+                const opt1 = document.createElement('option');
+                opt1.value = value;
+                opt1.textContent = displayName;
+                h2h1.appendChild(opt1);
+                const opt2 = document.createElement('option');
+                opt2.value = value;
+                opt2.textContent = displayName;
+                h2h2.appendChild(opt2);
+            }
+            if (genders.has('W')) {
+                const value = `${team}|W`;
+                const displayName = `${team} (W)`;
+                allH2HTeams.push(value);
+                const opt1 = document.createElement('option');
+                opt1.value = value;
+                opt1.textContent = displayName;
+                h2h1.appendChild(opt1);
+                const opt2 = document.createElement('option');
+                opt2.value = value;
+                opt2.textContent = displayName;
+                h2h2.appendChild(opt2);
+            }
+        });
+    }
 
     // Populate matrix conference dropdown (D1 conferences only)
     const d1Conferences = [
