@@ -70,7 +70,8 @@
 
     <div class="container" id="main-content">
         <div class="tabs" role="tablist">
-            <button class="tab active" onclick="showSection('games')" role="tab" aria-selected="true" data-section="games" tabindex="0">Games</button>
+            <button class="tab active" onclick="showSection('dashboard')" role="tab" aria-selected="true" data-section="dashboard" tabindex="0">Dashboard</button>
+            <button class="tab" onclick="showSection('games')" role="tab" aria-selected="false" data-section="games" tabindex="-1">Games</button>
             <button class="tab" onclick="showSection('players')" role="tab" aria-selected="false" data-section="players" tabindex="-1">Players</button>
             <button class="tab" onclick="showSection('milestones')" role="tab" aria-selected="false" data-section="milestones" tabindex="-1">Achievements</button>
             <button class="tab" onclick="showSection('teams')" role="tab" aria-selected="false" data-section="teams" tabindex="-1">Teams</button>
@@ -83,7 +84,44 @@
             <button class="tab" onclick="showSection('upcoming')" role="tab" aria-selected="false" data-section="upcoming" tabindex="-1">Upcoming</button>
         </div>
 
-        <div id="games" class="section active" role="tabpanel">
+        <div id="dashboard" class="section active" role="tabpanel">
+            <h2>Dashboard</h2>
+            <div class="dashboard-grid">
+                <div class="dashboard-card recent-games-card">
+                    <h3>Recent Games</h3>
+                    <div id="dashboard-recent-games"></div>
+                </div>
+                <div class="dashboard-card top-performers-card">
+                    <h3>Top Performers (Last 5 Games)</h3>
+                    <div id="dashboard-top-performers"></div>
+                </div>
+                <div class="dashboard-card season-summary-card">
+                    <h3>Season Summary</h3>
+                    <div id="dashboard-season-summary"></div>
+                </div>
+                <div class="dashboard-card upcoming-card">
+                    <h3>Upcoming Games</h3>
+                    <div id="dashboard-upcoming"></div>
+                </div>
+                <div class="dashboard-card streaks-card">
+                    <h3>Current Streaks</h3>
+                    <div id="dashboard-streaks"></div>
+                </div>
+                <div class="dashboard-card quick-links-card">
+                    <h3>Quick Links</h3>
+                    <div class="quick-links">
+                        <button class="quick-link-btn" onclick="showSection('games')">All Games</button>
+                        <button class="quick-link-btn" onclick="showSection('players')">Players</button>
+                        <button class="quick-link-btn" onclick="showSection('teams')">Teams</button>
+                        <button class="quick-link-btn" onclick="showSection('venues')">Venues</button>
+                        <button class="quick-link-btn" onclick="showSection('calendar')">Calendar</button>
+                        <button class="quick-link-btn" onclick="showSection('future-pros')">Future Pros</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="games" class="section" role="tabpanel">
             <h2>
                 Game Log
                 <div class="section-actions">
