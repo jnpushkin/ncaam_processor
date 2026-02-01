@@ -1069,8 +1069,8 @@ function applyGamesFilters() {
 
     // Update filter summary
     updateGamesFilterSummary({
-        search, gender, division, dateFromRaw, dateToRaw,
-        filterTeamName, filterTeamGender, conference, minMargin, otOnly, quickFilter
+        search, dateFromRaw, dateToRaw,
+        filterTeamName, filterTeamGender, conference, minMargin, quickFilter
     });
 }
 
