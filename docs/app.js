@@ -7215,16 +7215,58 @@ function showVenueDetail(venueName) {
     const city = games[0]?.City || venueInfo.City || '';
     const state = games[0]?.State || venueInfo.State || '';
 
+    // Calculate enhanced stats
+    let homeWins = 0;
+    let totalScore = 0;
+    let highestScoringGame = null;
+    let highestTotal = 0;
+    let closestGame = null;
+    let closestMargin = Infinity;
+    let biggestBlowout = null;
+    let biggestMargin = 0;
+
+    games.forEach(g => {
+        const homeScore = g['Home Score'] || 0;
+        const awayScore = g['Away Score'] || 0;
+        const combined = homeScore + awayScore;
+        const margin = Math.abs(homeScore - awayScore);
+
+        totalScore += combined;
+        if (homeScore > awayScore) homeWins++;
+
+        if (combined > highestTotal) {
+            highestTotal = combined;
+            highestScoringGame = g;
+        }
+        if (margin < closestMargin) {
+            closestMargin = margin;
+            closestGame = g;
+        }
+        if (margin > biggestMargin) {
+            biggestMargin = margin;
+            biggestBlowout = g;
+        }
+    });
+
+    const homeWinPct = games.length > 0 ? ((homeWins / games.length) * 100).toFixed(0) : 0;
+    const avgScore = games.length > 0 ? (totalScore / games.length).toFixed(1) : 0;
+
+    // First and last game
+    const firstGame = games[games.length - 1];
+    const lastGame = games[0];
+
     // Compute teams seen at this venue (with gender tracking)
     const confSet = new Set();
-    // Track team+gender combinations
-    const teamGenderSet = new Map();  // key: "team|gender", value: {team, gender, conf}
+    const teamGenderSet = new Map();
+    const homeTeamRecords = new Map(); // Track home team records
+
     games.forEach(g => {
         const gender = g.Gender || 'M';
         const awayConf = getGameConference(g, 'away');
         const homeConf = getGameConference(g, 'home');
         const awayKey = `${g['Away Team']}|${gender}`;
         const homeKey = `${g['Home Team']}|${gender}`;
+
         if (!teamGenderSet.has(awayKey)) {
             teamGenderSet.set(awayKey, { team: g['Away Team'], gender, conf: awayConf });
         }
@@ -7233,25 +7275,75 @@ function showVenueDetail(venueName) {
         }
         if (awayConf) confSet.add(awayConf);
         if (homeConf) confSet.add(homeConf);
+
+        // Track home team records at this venue
+        const homeTeam = g['Home Team'];
+        const homeTeamKey = `${homeTeam}|${gender}`;
+        if (!homeTeamRecords.has(homeTeamKey)) {
+            homeTeamRecords.set(homeTeamKey, { team: homeTeam, gender, wins: 0, losses: 0, pf: 0, pa: 0 });
+        }
+        const record = homeTeamRecords.get(homeTeamKey);
+        const homeScore = g['Home Score'] || 0;
+        const awayScore = g['Away Score'] || 0;
+        record.pf += homeScore;
+        record.pa += awayScore;
+        if (homeScore > awayScore) {
+            record.wins++;
+        } else {
+            record.losses++;
+        }
     });
 
     const teamsList = [...teamGenderSet.values()].sort((a, b) => {
         const teamCompare = a.team.localeCompare(b.team);
         if (teamCompare !== 0) return teamCompare;
-        return a.gender === 'W' ? 1 : -1;  // Men first, then women
+        return a.gender === 'W' ? 1 : -1;
     });
     const confsList = [...confSet].sort();
 
-    // Build teams list HTML with conference labels and gender indicators
+    // Sort home teams by games played
+    const homeTeamsList = [...homeTeamRecords.values()]
+        .sort((a, b) => (b.wins + b.losses) - (a.wins + a.losses));
+
+    // Build teams list HTML
     const teamsHtml = teamsList.map(({team, gender, conf}) => {
         const genderSuffix = gender === 'W' ? ' (W)' : '';
-        // For non-D1 conferences, show with division indicator
         let confLabel = conf || '';
-        if (conf === 'Historical/Other') {
-            confLabel = 'Non-D1';
-        }
-        return `<span class="venue-team-tag">${team}${genderSuffix}${confLabel ? `<span class="conf-label">${confLabel}</span>` : ''}</span>`;
+        if (conf === 'Historical/Other') confLabel = 'Non-D1';
+        return `<span class="venue-team-tag" onclick="closeModal('venue-modal'); showTeamDetail('${team.replace(/'/g, "\\'")}', '${gender}')">${team}${genderSuffix}${confLabel ? `<span class="conf-label">${confLabel}</span>` : ''}</span>`;
     }).join('');
+
+    // Build home teams breakdown HTML
+    const homeTeamsHtml = homeTeamsList.length > 0 ? homeTeamsList.map(({team, gender, wins, losses, pf, pa}) => {
+        const genderTag = gender === 'W' ? ' <span class="gender-tag">(W)</span>' : '';
+        const gamesPlayed = wins + losses;
+        const ppg = gamesPlayed > 0 ? (pf / gamesPlayed).toFixed(1) : 0;
+        const papg = gamesPlayed > 0 ? (pa / gamesPlayed).toFixed(1) : 0;
+        return `
+        <tr class="clickable-row" onclick="closeModal('venue-modal'); showTeamDetail('${team.replace(/'/g, "\\'")}', '${gender}')">
+            <td><span class="team-link">${team}</span>${genderTag}</td>
+            <td>${wins}-${losses}</td>
+            <td>${ppg}</td>
+            <td>${papg}</td>
+        </tr>
+    `}).join('') : '';
+
+    // Build notable games HTML
+    const formatNotableGame = (g, label) => {
+        if (!g) return '';
+        const homeScore = g['Home Score'] || 0;
+        const awayScore = g['Away Score'] || 0;
+        const margin = Math.abs(homeScore - awayScore);
+        const combined = homeScore + awayScore;
+        const genderTag = g.Gender === 'W' ? ' (W)' : '';
+        return `
+        <div class="notable-game" onclick="closeModal('venue-modal'); showGameDetail('${g.GameID}')" style="cursor:pointer; padding: 0.5rem; background: var(--bg-secondary); border-radius: 6px; margin-bottom: 0.5rem;">
+            <div style="font-weight: 500; color: var(--accent-color);">${label}</div>
+            <div>${g['Away Team']} ${awayScore} @ ${g['Home Team']} ${homeScore}${genderTag}</div>
+            <div style="font-size: 0.85rem; color: var(--text-secondary);">${formatDate(g.Date)} | ${label.includes('Scoring') ? combined + ' pts' : margin + ' pt margin'}</div>
+        </div>
+    `;
+    };
 
     const gamesHtml = games.map(g => {
         const homeWon = (g['Home Score'] || 0) > (g['Away Score'] || 0);
@@ -7261,8 +7353,8 @@ function showVenueDetail(venueName) {
         const loseScore = homeWon ? g['Away Score'] : g['Home Score'];
         const genderTag = g.Gender === 'W' ? ' <span class="gender-tag">(W)</span>' : '';
         return `
-        <tr>
-            <td>${g.Division === 'D1' || !g.Division ? `<a href="${getSportsRefUrl(g)}" target="_blank" class="game-link">${g.Date || ''}</a>` : g.Date || ''}</td>
+        <tr class="clickable-row" onclick="closeModal('venue-modal'); showGameDetail('${g.GameID}')">
+            <td><span class="game-link">${formatDate(g.Date)}</span></td>
             <td><strong>${winner || ''}${genderTag}</strong></td>
             <td>${winScore || 0}-${loseScore || 0}</td>
             <td>${loser || ''}${genderTag}</td>
@@ -7271,34 +7363,61 @@ function showVenueDetail(venueName) {
 
     document.getElementById('venue-detail').innerHTML = `
         <h3 id="venue-modal-title">${venueName}</h3>
-        <p>${city}${state ? ', ' + state : ''}</p>
+        <p style="color: var(--text-secondary); margin-bottom: 1rem;">${city}${state ? ', ' + state : ''}</p>
 
-        <div class="venue-stats-summary">
-            <div class="venue-stat-item">
-                <div class="value">${games.length}</div>
-                <div class="label">Games</div>
+        <div class="compare-grid">
+            <div class="compare-card">
+                <h4>Overview</h4>
+                <div class="stat-row"><span>Total Games</span><span>${games.length}</span></div>
+                <div class="stat-row"><span>Teams Seen</span><span>${teamsList.length}</span></div>
+                <div class="stat-row"><span>Conferences</span><span>${confsList.length}</span></div>
+                <div class="stat-row"><span>Home Win %</span><span>${homeWinPct}%</span></div>
             </div>
-            <div class="venue-stat-item">
-                <div class="value">${teamsList.length}</div>
-                <div class="label">Teams Seen</div>
+            <div class="compare-card">
+                <h4>Scoring</h4>
+                <div class="stat-row"><span>Avg Combined</span><span>${avgScore} pts</span></div>
+                <div class="stat-row"><span>Highest Total</span><span>${highestTotal} pts</span></div>
+                <div class="stat-row"><span>Closest Game</span><span>${closestMargin} pts</span></div>
+                <div class="stat-row"><span>Biggest Blowout</span><span>${biggestMargin} pts</span></div>
             </div>
-            <div class="venue-stat-item">
-                <div class="value">${confsList.length}</div>
-                <div class="label">Conferences</div>
+            <div class="compare-card">
+                <h4>Visits</h4>
+                <div class="stat-row"><span>First Visit</span><span>${formatDate(firstGame?.Date)}</span></div>
+                <div class="stat-row"><span>Last Visit</span><span>${formatDate(lastGame?.Date)}</span></div>
+                <div class="stat-row"><span>Home Wins</span><span>${homeWins}</span></div>
+                <div class="stat-row"><span>Away Wins</span><span>${games.length - homeWins}</span></div>
             </div>
-            ${venueInfo['Home Wins'] !== undefined ? `
-            <div class="venue-stat-item">
-                <div class="value">${venueInfo['Home Wins'] || 0}-${venueInfo['Away Wins'] || 0}</div>
-                <div class="label">Home-Away</div>
-            </div>
-            ` : ''}
         </div>
 
-        <h4 style="margin-top: 1rem; margin-bottom: 0.5rem; color: var(--text-secondary);">Teams Seen Here</h4>
+        <h4 style="margin-top: 1.5rem; margin-bottom: 0.5rem; color: var(--text-secondary);">Notable Games</h4>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 0.5rem;">
+            ${formatNotableGame(highestScoringGame, 'Highest Scoring')}
+            ${formatNotableGame(closestGame, 'Closest Game')}
+            ${formatNotableGame(biggestBlowout, 'Biggest Blowout')}
+        </div>
+
+        ${homeTeamsList.length > 0 ? `
+        <h4 style="margin-top: 1.5rem; margin-bottom: 0.5rem; color: var(--text-secondary);">Home Team Records (${homeTeamsList.length})</h4>
+        <div class="table-container" style="max-height: 200px; overflow-y: auto;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Team</th>
+                        <th>Record</th>
+                        <th>PPG</th>
+                        <th>Opp PPG</th>
+                    </tr>
+                </thead>
+                <tbody>${homeTeamsHtml}</tbody>
+            </table>
+        </div>
+        ` : ''}
+
+        <h4 style="margin-top: 1.5rem; margin-bottom: 0.5rem; color: var(--text-secondary);">Teams Seen Here (${teamsList.length})</h4>
         <div class="venue-teams-list">${teamsHtml}</div>
 
-        <h4 style="margin-top: 1.5rem; margin-bottom: 0.5rem; color: var(--text-secondary);">Game History</h4>
-        <div class="table-container">
+        <h4 style="margin-top: 1.5rem; margin-bottom: 0.5rem; color: var(--text-secondary);">Game History (${games.length})</h4>
+        <div class="table-container" style="max-height: 300px; overflow-y: auto;">
             <table>
                 <thead>
                     <tr>
