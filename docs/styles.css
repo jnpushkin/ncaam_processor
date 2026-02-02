@@ -1107,41 +1107,6 @@ thead {
 .external-link:hover {
     color: var(--accent-color);
 }
-.stat-positive {
-    color: #2e7d32;
-    font-weight: 500;
-}
-.stat-negative {
-    color: #c62828;
-    font-weight: 500;
-}
-.result-win {
-    color: #2e7d32;
-    font-weight: bold;
-}
-.result-loss {
-    color: #c62828;
-    font-weight: bold;
-}
-.home-venue {
-    background: #e8f5e9 !important;
-    border-color: #2e7d32 !important;
-}
-[data-theme="dark"] .stat-positive {
-    color: #81c784;
-}
-[data-theme="dark"] .stat-negative {
-    color: #ef5350;
-}
-[data-theme="dark"] .result-win {
-    color: #81c784;
-}
-[data-theme="dark"] .result-loss {
-    color: #ef5350;
-}
-[data-theme="dark"] .home-venue {
-    background: rgba(46, 125, 50, 0.2) !important;
-}
 .checklist-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -2684,12 +2649,6 @@ tr.has-ranked:hover {
 }
 
 /* Player Modal Enhancements */
-.player-header {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-}
 .pro-badge {
     background: linear-gradient(135deg, #ffd700, #ffb347);
     color: #333;
@@ -2698,41 +2657,6 @@ tr.has-ranked:hover {
     font-size: 0.75rem;
     font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-.career-highs {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: 1rem;
-    margin: 1rem 0;
-}
-.career-high-item {
-    background: var(--bg-primary);
-    border-radius: 8px;
-    padding: 1rem;
-    text-align: center;
-}
-.career-high-value {
-    font-size: 1.75rem;
-    font-weight: 700;
-    color: var(--accent-color);
-}
-.career-high-label {
-    font-size: 0.75rem;
-    color: var(--text-secondary);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-top: 0.25rem;
-}
-.career-high-game {
-    font-size: 0.7rem;
-    color: var(--text-muted);
-    margin-top: 0.5rem;
-    cursor: pointer;
-}
-.career-high-game:hover {
-    color: var(--accent-color);
-    text-decoration: underline;
 }
 .shooting-bars {
     display: flex;
@@ -2949,63 +2873,9 @@ tr.has-ranked:hover {
     background: #4a1c1c;
     color: #f5a5a5;
 }
-.scoring-trend {
-    margin: 1.5rem 0;
-}
-.scoring-trend h4 {
-    margin-bottom: 1rem;
-    font-size: 0.9rem;
-    color: var(--text-secondary);
-}
-.trend-chart {
-    display: flex;
-    align-items: flex-end;
-    gap: 4px;
-    height: 80px;
-    padding: 0.5rem 0;
-}
-.trend-bar {
-    flex: 1;
-    min-width: 20px;
-    background: var(--accent-color);
-    border-radius: 4px 4px 0 0;
-    cursor: pointer;
-    transition: opacity 0.2s, transform 0.2s;
-    position: relative;
-}
-.trend-bar:hover {
-    opacity: 0.8;
-    transform: scaleY(1.05);
-    transform-origin: bottom;
-}
-.trend-bar.win {
-    background: #27ae60;
-}
-.trend-bar.loss {
-    background: #e74c3c;
-}
-.trend-bar-tooltip {
-    display: none;
-    position: absolute;
-    bottom: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    background: var(--bg-secondary);
-    border: 1px solid var(--border-color);
-    border-radius: 6px;
-    padding: 0.5rem;
-    font-size: 0.75rem;
-    white-space: nowrap;
-    z-index: 10;
-    box-shadow: var(--shadow);
-}
-.trend-bar:hover .trend-bar-tooltip {
-    display: block;
-}
-.trend-labels {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.7rem;
+.dashboard-empty-state {
     color: var(--text-muted);
-    margin-top: 0.25rem;
+    font-style: italic;
+    padding: 1rem 0;
+    text-align: center;
 }

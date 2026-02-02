@@ -161,8 +161,6 @@ function showToast(message) {
 
 // Global Search
 let globalSearchTimeout = null;
-let globalSearchSelectedIndex = -1;
-
 function handleGlobalSearch(event) {
     const query = event.target.value.trim().toLowerCase();
 
@@ -172,31 +170,13 @@ function handleGlobalSearch(event) {
     // Hide results if query too short
     if (query.length < 2) {
         hideGlobalSearchResults();
-        globalSearchSelectedIndex = -1;
         return;
     }
 
-    // Arrow key navigation
-    if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
-        event.preventDefault();
-        const items = document.querySelectorAll('.search-result-item');
-        if (items.length === 0) return;
-
-        items[globalSearchSelectedIndex]?.classList.remove('selected');
-        if (event.key === 'ArrowDown') {
-            globalSearchSelectedIndex = (globalSearchSelectedIndex + 1) % items.length;
-        } else {
-            globalSearchSelectedIndex = globalSearchSelectedIndex <= 0 ? items.length - 1 : globalSearchSelectedIndex - 1;
-        }
-        items[globalSearchSelectedIndex]?.classList.add('selected');
-        items[globalSearchSelectedIndex]?.scrollIntoView({ block: 'nearest' });
-        return;
-    }
-
-    // Enter key navigates to selected or first result
+    // Enter key navigates to first result
     if (event.key === 'Enter') {
-        const selected = document.querySelector('.search-result-item.selected') || document.querySelector('.search-result-item');
-        if (selected) selected.click();
+        const firstResult = document.querySelector('.search-result-item');
+        if (firstResult) firstResult.click();
         return;
     }
 
@@ -207,97 +187,57 @@ function handleGlobalSearch(event) {
         return;
     }
 
-    // Reset selection on new search
-    globalSearchSelectedIndex = -1;
-
     // Debounce search
     globalSearchTimeout = setTimeout(() => performGlobalSearch(query), 150);
 }
 
 function performGlobalSearch(query) {
-    const results = { games: [], players: [], teams: [], venues: [], conferences: [], officials: [] };
+    const results = { games: [], players: [], teams: [], venues: [] };
     const maxResults = 5; // Max per category
 
-    // Helper to highlight matched text
-    const highlight = (text, q) => {
-        if (!text) return '';
-        const idx = text.toLowerCase().indexOf(q);
-        if (idx === -1) return text;
-        return text.slice(0, idx) + '<mark>' + text.slice(idx, idx + q.length) + '</mark>' + text.slice(idx + q.length);
-    };
-
-    // Search games - prioritize exact team name matches
-    const gameMatches = [];
+    // Search games
     (DATA.games || []).forEach(game => {
-        const away = game['Away Team'] || '';
-        const home = game['Home Team'] || '';
-        const venue = game.Venue || '';
-        const date = game.Date || '';
-
-        let score = 0;
-        if (away.toLowerCase().includes(query)) score += 10;
-        if (home.toLowerCase().includes(query)) score += 10;
-        if (venue.toLowerCase().includes(query)) score += 5;
-        if (date.toLowerCase().includes(query)) score += 3;
-
-        if (score > 0) {
-            gameMatches.push({
+        if (results.games.length >= maxResults) return;
+        const searchStr = `${game['Away Team']} ${game['Home Team']} ${game.Date} ${game.Venue}`.toLowerCase();
+        if (searchStr.includes(query)) {
+            results.games.push({
                 id: game.GameID,
-                title: `${highlight(away, query)} @ ${highlight(home, query)}`,
+                title: `${game['Away Team']} @ ${game['Home Team']}`,
                 subtitle: `${game.Date} - ${game['Away Score']}-${game['Home Score']}`,
-                icon: '🏀',
-                score
+                icon: '🏀'
             });
         }
     });
-    results.games = gameMatches.sort((a, b) => b.score - a.score).slice(0, maxResults);
 
-    // Search players - prioritize name matches over team matches
-    const playerMatches = [];
+    // Search players
     (DATA.players || []).forEach(player => {
-        const name = player.Player || '';
-        const team = player.Team || '';
-
-        let score = 0;
-        if (name.toLowerCase().startsWith(query)) score += 20;
-        else if (name.toLowerCase().includes(query)) score += 10;
-        if (team.toLowerCase().includes(query)) score += 5;
-
-        if (score > 0) {
-            playerMatches.push({
+        if (results.players.length >= maxResults) return;
+        const name = (player.Player || '').toLowerCase();
+        const team = (player.Team || '').toLowerCase();
+        if (name.includes(query) || team.includes(query)) {
+            results.players.push({
                 id: player['Player ID'] || player.Player,
-                title: highlight(name, query),
-                subtitle: `${highlight(team, query)} - ${player.PPG?.toFixed(1) || 0} PPG`,
-                icon: '👤',
-                score
+                title: player.Player,
+                subtitle: `${player.Team} - ${player.PPG?.toFixed(1) || 0} PPG`,
+                icon: '👤'
             });
         }
     });
-    results.players = playerMatches.sort((a, b) => b.score - a.score).slice(0, maxResults);
 
-    // Search teams - prioritize exact matches
-    const teamMatches = [];
+    // Search teams
     (DATA.teams || []).forEach(team => {
-        const name = team.Team || '';
-        const conf = team.Conference || '';
-
-        let score = 0;
-        if (name.toLowerCase().startsWith(query)) score += 20;
-        else if (name.toLowerCase().includes(query)) score += 10;
-        if (conf.toLowerCase().includes(query)) score += 5;
-
-        if (score > 0) {
-            teamMatches.push({
+        if (results.teams.length >= maxResults) return;
+        const name = (team.Team || '').toLowerCase();
+        if (name.includes(query)) {
+            results.teams.push({
                 id: team.Team,
                 gender: team.Gender,
-                title: highlight(name, query),
+                title: team.Team,
                 subtitle: `${team.Conference || 'Unknown'} - ${team.Wins || 0}W ${team.Losses || 0}L`,
-                icon: '🏆',
-                score
+                icon: '🏆'
             });
         }
     });
-    results.teams = teamMatches.sort((a, b) => b.score - a.score).slice(0, maxResults);
 
     // Search venues
     const venues = new Map();
@@ -307,7 +247,7 @@ function performGlobalSearch(query) {
         if (venue.toLowerCase().includes(query)) {
             venues.set(venue, {
                 id: venue,
-                title: highlight(venue, query),
+                title: venue,
                 subtitle: `${game.City || ''}, ${game.State || ''}`,
                 icon: '🏟️'
             });
@@ -315,46 +255,14 @@ function performGlobalSearch(query) {
     });
     results.venues = Array.from(venues.values()).slice(0, maxResults);
 
-    // Search conferences
-    const conferences = new Set();
-    (DATA.teams || []).forEach(team => {
-        const conf = team.Conference;
-        if (conf && conf.toLowerCase().includes(query) && !conferences.has(conf)) {
-            conferences.add(conf);
-        }
-    });
-    results.conferences = Array.from(conferences).slice(0, maxResults).map(conf => ({
-        id: conf,
-        title: highlight(conf, query),
-        subtitle: 'Conference',
-        icon: '🏅'
-    }));
-
-    // Search officials
-    const officials = new Map();
-    (DATA.games || []).forEach(game => {
-        (game.Officials || []).forEach(official => {
-            if (official.toLowerCase().includes(query) && !officials.has(official)) {
-                officials.set(official, {
-                    id: official,
-                    title: highlight(official, query),
-                    subtitle: 'Official',
-                    icon: '🦓'
-                });
-            }
-        });
-    });
-    results.officials = Array.from(officials.values()).slice(0, maxResults);
-
-    renderGlobalSearchResults(results, query);
+    renderGlobalSearchResults(results);
 }
 
-function renderGlobalSearchResults(results, query) {
+function renderGlobalSearchResults(results) {
     const container = document.getElementById('global-search-results');
-    const totalResults = results.games.length + results.players.length + results.teams.length +
-                         results.venues.length + results.conferences.length + results.officials.length;
+    const hasResults = results.games.length + results.players.length + results.teams.length + results.venues.length > 0;
 
-    if (totalResults === 0) {
+    if (!hasResults) {
         container.innerHTML = '<div class="search-no-results">No results found</div>';
         container.style.display = 'block';
         return;
@@ -362,13 +270,10 @@ function renderGlobalSearchResults(results, query) {
 
     let html = '';
 
-    const renderSection = (items, header, type, extraFn = () => '') => {
-        if (items.length === 0) return '';
-        let sectionHtml = `<div class="search-result-section"><div class="search-result-header">${header}</div>`;
-        items.forEach(r => {
-            const extra = extraFn(r);
-            const escapedId = (r.id || '').toString().replace(/'/g, "\\'");
-            sectionHtml += `<div class="search-result-item" onclick="selectGlobalSearchResult('${type}', '${escapedId}'${extra ? `, '${extra}'` : ''})">
+    if (results.games.length > 0) {
+        html += '<div class="search-result-section"><div class="search-result-header">Games</div>';
+        results.games.forEach(r => {
+            html += `<div class="search-result-item" onclick="selectGlobalSearchResult('game', '${r.id}')">
                 <span class="search-result-icon">${r.icon}</span>
                 <div class="search-result-text">
                     <div class="search-result-title">${r.title}</div>
@@ -376,16 +281,50 @@ function renderGlobalSearchResults(results, query) {
                 </div>
             </div>`;
         });
-        sectionHtml += '</div>';
-        return sectionHtml;
-    };
+        html += '</div>';
+    }
 
-    html += renderSection(results.games, 'Games', 'game');
-    html += renderSection(results.players, 'Players', 'player');
-    html += renderSection(results.teams, 'Teams', 'team', r => r.gender || 'M');
-    html += renderSection(results.venues, 'Venues', 'venue');
-    html += renderSection(results.conferences, 'Conferences', 'conference');
-    html += renderSection(results.officials, 'Officials', 'official');
+    if (results.players.length > 0) {
+        html += '<div class="search-result-section"><div class="search-result-header">Players</div>';
+        results.players.forEach(r => {
+            html += `<div class="search-result-item" onclick="selectGlobalSearchResult('player', '${r.id}')">
+                <span class="search-result-icon">${r.icon}</span>
+                <div class="search-result-text">
+                    <div class="search-result-title">${r.title}</div>
+                    <div class="search-result-subtitle">${r.subtitle}</div>
+                </div>
+            </div>`;
+        });
+        html += '</div>';
+    }
+
+    if (results.teams.length > 0) {
+        html += '<div class="search-result-section"><div class="search-result-header">Teams</div>';
+        results.teams.forEach(r => {
+            html += `<div class="search-result-item" onclick="selectGlobalSearchResult('team', '${r.id}', '${r.gender || 'M'}')">
+                <span class="search-result-icon">${r.icon}</span>
+                <div class="search-result-text">
+                    <div class="search-result-title">${r.title}</div>
+                    <div class="search-result-subtitle">${r.subtitle}</div>
+                </div>
+            </div>`;
+        });
+        html += '</div>';
+    }
+
+    if (results.venues.length > 0) {
+        html += '<div class="search-result-section"><div class="search-result-header">Venues</div>';
+        results.venues.forEach(r => {
+            html += `<div class="search-result-item" onclick="selectGlobalSearchResult('venue', '${r.id}')">
+                <span class="search-result-icon">${r.icon}</span>
+                <div class="search-result-text">
+                    <div class="search-result-title">${r.title}</div>
+                    <div class="search-result-subtitle">${r.subtitle}</div>
+                </div>
+            </div>`;
+        });
+        html += '</div>';
+    }
 
     container.innerHTML = html;
     container.style.display = 'block';
@@ -394,68 +333,16 @@ function renderGlobalSearchResults(results, query) {
 function selectGlobalSearchResult(type, id, extra = '') {
     hideGlobalSearchResults();
     document.getElementById('global-search').value = '';
-    globalSearchSelectedIndex = -1;
 
     if (type === 'game') {
         showGameDetail(id);
     } else if (type === 'player') {
         showPlayerDetail(id);
     } else if (type === 'team') {
-        showTeamDetail(id, extra || 'M');
+        filterByTeam(id, extra || 'M');
     } else if (type === 'venue') {
         showVenueDetail(id);
-    } else if (type === 'conference') {
-        // Navigate to teams tab filtered by conference
-        showSection('teams');
-        const confFilter = document.getElementById('conf-filter');
-        if (confFilter) {
-            confFilter.value = id;
-            populateTeamsTable();
-        }
-    } else if (type === 'official') {
-        // Show games officiated by this person
-        showOfficialGames(id);
     }
-}
-
-function showOfficialGames(officialName) {
-    const games = (DATA.games || []).filter(g =>
-        (g.Officials || []).some(o => o === officialName)
-    ).sort((a, b) => (b.DateSort || '').localeCompare(a.DateSort || ''));
-
-    if (games.length === 0) {
-        showToast('No games found for this official');
-        return;
-    }
-
-    const gamesHtml = games.map(g => {
-        const result = (g['Home Score'] || 0) > (g['Away Score'] || 0) ? 'Home Win' : 'Away Win';
-        return `
-            <tr class="clickable-row" onclick="closeModal('official-modal'); showGameDetail('${g.GameID}')">
-                <td><span class="game-link">${g.Date}</span></td>
-                <td>${g['Away Team']}</td>
-                <td>${g['Home Team']}</td>
-                <td>${g['Away Score']}-${g['Home Score']}</td>
-                <td>${g.Venue || ''}</td>
-            </tr>
-        `;
-    }).join('');
-
-    // Use a generic modal approach - reuse venue-modal structure
-    document.getElementById('venue-detail').innerHTML = `
-        <h3 id="venue-modal-title">${officialName}</h3>
-        <p style="margin-bottom:1rem;color:var(--text-secondary);">Official - ${games.length} games</p>
-
-        <h4 style="margin-top:1rem;margin-bottom:0.5rem;color:var(--text-secondary);">Games Officiated</h4>
-        <div class="table-container" style="max-height:400px;overflow-y:auto;">
-            <table>
-                <thead><tr><th>Date</th><th>Away</th><th>Home</th><th>Score</th><th>Venue</th></tr></thead>
-                <tbody>${gamesHtml}</tbody>
-            </table>
-        </div>
-    `;
-
-    document.getElementById('venue-modal').classList.add('active');
 }
 
 function showGlobalSearchResults() {
@@ -552,25 +439,20 @@ function populateDashboard() {
         (b.DateSort || '').localeCompare(a.DateSort || '')
     ).slice(0, 5);
 
-    const recentHtml = recentGames.map(g => {
-        const homeWon = (g['Home Score'] || 0) > (g['Away Score'] || 0);
-        return `
-            <div class="dashboard-game-item" onclick="showGameDetail('${g.GameID}')">
-                <div>
-                    <div class="dashboard-game-teams">${g['Away Team']} @ ${g['Home Team']}</div>
-                    <div class="dashboard-game-date">${g.Date} - ${g.Venue || ''}</div>
-                </div>
-                <div class="dashboard-game-score">${g['Away Score']}-${g['Home Score']}</div>
+    const recentHtml = recentGames.map(g => `
+        <div class="dashboard-game-item" onclick="showGameDetail('${g.GameID}')">
+            <div>
+                <div class="dashboard-game-teams">${g['Away Team']} @ ${g['Home Team']}</div>
+                <div class="dashboard-game-date">${g.Date} - ${g.Venue || ''}</div>
             </div>
-        `;
-    }).join('');
-    document.getElementById('dashboard-recent-games').innerHTML = recentHtml || '<p>No games yet</p>';
+            <div class="dashboard-game-score">${g['Away Score']}-${g['Home Score']}</div>
+        </div>
+    `).join('');
+    document.getElementById('dashboard-recent-games').innerHTML = recentHtml || '<div class="dashboard-empty-state">No games yet</div>';
 
     // Top performers from last 5 games
     const recentGameIds = new Set(recentGames.map(g => g.GameID));
     const recentPerformances = (DATA.playerGames || []).filter(pg => recentGameIds.has(pg.game_id));
-
-    // Sort by points and get top 5
     const topScorers = [...recentPerformances].sort((a, b) => (b.pts || 0) - (a.pts || 0)).slice(0, 5);
 
     const performersHtml = topScorers.map(p => `
@@ -585,22 +467,27 @@ function populateDashboard() {
             </div>
         </div>
     `).join('');
-    document.getElementById('dashboard-top-performers').innerHTML = performersHtml || '<p>No data</p>';
+    document.getElementById('dashboard-top-performers').innerHTML = performersHtml || '<div class="dashboard-empty-state">No data</div>';
 
-    // Season summary stats
-    const totalGames = DATA.games?.length || 0;
-    const menGames = DATA.games?.filter(g => g.Gender !== 'W').length || 0;
-    const womenGames = DATA.games?.filter(g => g.Gender === 'W').length || 0;
-    const rankedGames = DATA.games?.filter(g => g.AwayRank || g.HomeRank).length || 0;
-    const otGames = DATA.games?.filter(g => g.OT).length || 0;
-    const d1Games = DATA.games?.filter(g => g.Division === 'D1').length || 0;
+    // Season summary stats - filter to current season
+    const now = new Date();
+    const currentYear = now.getMonth() >= 9 ? now.getFullYear() : now.getFullYear() - 1;
+    const seasonStart = `${currentYear}-10-01`;
+    const seasonGames = (DATA.games || []).filter(g => (g.DateSort || '') >= seasonStart.replace(/-/g, ''));
 
+    const totalGames = seasonGames.length;
+    const menGames = seasonGames.filter(g => g.Gender !== 'W').length;
+    const womenGames = seasonGames.filter(g => g.Gender === 'W').length;
+    const rankedGames = seasonGames.filter(g => g.AwayRank || g.HomeRank).length;
+    const otGames = seasonGames.filter(g => g.OT).length;
+    const d1Games = seasonGames.filter(g => g.Division === 'D1').length;
     const avgPtsPerGame = totalGames > 0
-        ? (DATA.games.reduce((sum, g) => sum + (g['Home Score'] || 0) + (g['Away Score'] || 0), 0) / totalGames).toFixed(1)
+        ? (seasonGames.reduce((sum, g) => sum + (g['Home Score'] || 0) + (g['Away Score'] || 0), 0) / totalGames).toFixed(1)
         : 0;
 
+    const seasonLabel = `${currentYear}-${(currentYear + 1).toString().slice(2)}`;
     const summaryHtml = `
-        <div class="season-stat-row"><span class="season-stat-label">Total Games</span><span class="season-stat-value">${totalGames}</span></div>
+        <div class="season-stat-row"><span class="season-stat-label">${seasonLabel} Games</span><span class="season-stat-value">${totalGames}</span></div>
         <div class="season-stat-row"><span class="season-stat-label">Men's / Women's</span><span class="season-stat-value">${menGames} / ${womenGames}</span></div>
         <div class="season-stat-row"><span class="season-stat-label">Ranked Matchups</span><span class="season-stat-value">${rankedGames}</span></div>
         <div class="season-stat-row"><span class="season-stat-label">Overtime Games</span><span class="season-stat-value">${otGames}</span></div>
@@ -609,21 +496,45 @@ function populateDashboard() {
     `;
     document.getElementById('dashboard-season-summary').innerHTML = summaryHtml;
 
-    // Upcoming games
-    const upcoming = (DATA.upcomingGames || []).slice(0, 5);
-    const upcomingHtml = upcoming.length > 0 ? upcoming.map(g => `
+    // Upcoming games - from venues data for favorite teams
+    const favoriteTeams = new Set(['Virginia', 'San Francisco', 'California', 'Stanford']);
+    const today = new Date().toISOString().split('T')[0];
+    const allUpcoming = [];
+
+    // Collect upcoming games from all venues
+    (DATA.venues || []).forEach(venue => {
+        (venue.upcomingGames || []).forEach(g => {
+            const gameDate = (g.date || '').split('T')[0];
+            if (gameDate < today) return;
+            const home = g.home || '';
+            const away = g.away || '';
+            if (favoriteTeams.has(home) || favoriteTeams.has(away)) {
+                allUpcoming.push({
+                    ...g,
+                    venue: venue.venue,
+                    city: venue.city,
+                    state: venue.state
+                });
+            }
+        });
+    });
+
+    // Sort by date and take first 5
+    allUpcoming.sort((a, b) => (a.date || '').localeCompare(b.date || ''));
+    const relevantUpcoming = allUpcoming.slice(0, 5);
+
+    const upcomingHtml = relevantUpcoming.length > 0 ? relevantUpcoming.map(g => `
         <div class="dashboard-game-item">
             <div>
-                <div class="dashboard-game-teams">${g['Away Team'] || 'TBD'} @ ${g['Home Team'] || g.Team || 'TBD'}</div>
-                <div class="dashboard-game-date">${g.Date || g.date || ''} - ${g.Venue || g.venue || ''}</div>
+                <div class="dashboard-game-teams">${g.away || 'TBD'} @ ${g.home || 'TBD'}</div>
+                <div class="dashboard-game-date">${g.time_detail || ''} - ${g.venue || ''}</div>
             </div>
         </div>
-    `).join('') : '<p>No upcoming games scheduled</p>';
+    `).join('') : '<div class="dashboard-empty-state">No upcoming games scheduled</div>';
     document.getElementById('dashboard-upcoming').innerHTML = upcomingHtml;
 
-    // Team streaks (win/loss streaks from teams data)
+    // Team streaks
     const teamsWithStreaks = (DATA.teams || []).map(team => {
-        // Calculate streak from games
         const teamGames = (DATA.games || []).filter(g =>
             g['Away Team'] === team.Team || g['Home Team'] === team.Team
         ).sort((a, b) => (b.DateSort || '').localeCompare(a.DateSort || ''));
@@ -653,7 +564,7 @@ function populateDashboard() {
             <span class="streak-team" onclick="showTeamDetail('${t.Team.replace(/'/g, "\\'")}', '${t.Gender || 'M'}')">${t.Team}</span>
             <span class="streak-count ${t.streakType === 'W' ? 'streak-win' : 'streak-loss'}">${t.streak}${t.streakType}</span>
         </div>
-    `).join('') : '<p>No active streaks</p>';
+    `).join('') : '<div class="dashboard-empty-state">No teams with 2+ game streaks</div>';
     document.getElementById('dashboard-streaks').innerHTML = streaksHtml;
 }
 
@@ -1204,15 +1115,15 @@ function applyFilters(type) {
 }
 
 function applyGamesFilters() {
-    const search = (document.getElementById('games-search')?.value || '').toLowerCase();
-    const dateFromRaw = document.getElementById('games-date-from')?.value || '';
-    const dateToRaw = document.getElementById('games-date-to')?.value || '';
+    const search = document.getElementById('games-search').value.toLowerCase();
+    const dateFromRaw = document.getElementById('games-date-from').value;
+    const dateToRaw = document.getElementById('games-date-to').value;
     // Convert YYYY-MM-DD to YYYYMMDD for comparison with DateSort
     const dateFrom = dateFromRaw ? dateFromRaw.replace(/-/g, '') : '';
     const dateTo = dateToRaw ? dateToRaw.replace(/-/g, '') : '';
-    const teamFilter = document.getElementById('games-team')?.value || '';
-    const conference = document.getElementById('games-conference')?.value || '';
-    const minMargin = parseInt(document.getElementById('games-margin')?.value) || 0;
+    const teamFilter = document.getElementById('games-team').value;
+    const conference = document.getElementById('games-conference').value;
+    const minMargin = parseInt(document.getElementById('games-margin').value) || 0;
     const quickFilter = window.currentQuickFilter || 'all';
 
     // Parse team filter (format: "TeamName|Gender" or empty)
@@ -1298,8 +1209,8 @@ function applyGamesFilters() {
 
     // Update filter summary
     updateGamesFilterSummary({
-        search, dateFromRaw, dateToRaw,
-        filterTeamName, filterTeamGender, conference, minMargin, quickFilter
+        search, gender, division, dateFromRaw, dateToRaw,
+        filterTeamName, filterTeamGender, conference, minMargin, otOnly, quickFilter
     });
 }
 
@@ -1736,20 +1647,12 @@ function computeGameMilestones() {
 
     gameMilestones = {};
 
-    // Build conference team counts and home arenas for completion tracking
+    // Build conference team counts for completion tracking
     const conferenceTeamCounts = {};
-    const conferenceHomeArenas = {};  // conf -> Set of home arenas
     const checklist = DATA.conferenceChecklist || {};
     for (const [confName, confData] of Object.entries(checklist)) {
         if (confName === 'All D1' || confName === 'Historical/Other') continue;
         conferenceTeamCounts[confName] = confData.totalTeams || 0;
-        // Build set of home arenas for this conference
-        conferenceHomeArenas[confName] = new Set();
-        (confData.teams || []).forEach(team => {
-            if (team.homeArena) conferenceHomeArenas[confName].add(team.homeArena);
-            if (team.homeArenaM) conferenceHomeArenas[confName].add(team.homeArenaM);
-            if (team.homeArenaW) conferenceHomeArenas[confName].add(team.homeArenaW);
-        });
     }
 
     // Game count milestone thresholds
@@ -1761,13 +1664,6 @@ function computeGameMilestones() {
     let d1GameCount = 0;
     let d1VenueCount = 0;
     const d1VenuesSeen = new Set();
-
-    // Build set of actual D1 home venues from conference checklist
-    // This excludes neutral sites like Chase Center and Barclays Center
-    const actualD1Venues = new Set();
-    for (const arenas of Object.values(conferenceHomeArenas)) {
-        arenas.forEach(arena => actualD1Venues.add(arena));
-    }
 
     // D1 team tracking (by gender) - badge every 5 teams
     const D1_TEAM_MILESTONES = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100];
@@ -1952,8 +1848,8 @@ function computeGameMilestones() {
                 });
             }
 
-            // Track D1 venues - badge for every new D1 venue (must be actual D1 venue)
-            if (venue && !d1VenuesSeen.has(venue) && actualD1Venues.has(venue)) {
+            // Track D1 venues - badge for every new D1 venue
+            if (venue && !d1VenuesSeen.has(venue)) {
                 d1VenuesSeen.add(venue);
                 d1VenueCount++;
                 gameMilestones[gameId].badges.push({
@@ -2116,15 +2012,12 @@ function computeGameMilestones() {
                 });
             }
 
-            // Track conference venues (only actual home arenas for that conference)
+            // Track conference venues (based on home team's conference)
             if (homeConf && homeConf !== 'All D1' && homeConf !== 'Historical/Other') {
-                const confArenas = conferenceHomeArenas[homeConf];
-                if (confArenas && confArenas.has(venue)) {
-                    if (!confVenuesSeen[homeConf]) {
-                        confVenuesSeen[homeConf] = new Set();
-                    }
-                    confVenuesSeen[homeConf].add(venue);
+                if (!confVenuesSeen[homeConf]) {
+                    confVenuesSeen[homeConf] = new Set();
                 }
+                confVenuesSeen[homeConf].add(venue);
             }
         }
 
@@ -2474,71 +2367,65 @@ function populateGamesTable() {
     const teamNames = Object.keys(teamGenders).sort();
     const select = document.getElementById('games-team');
     // Create separate options for each team+gender combination
-    if (select) {
-        teamNames.forEach(team => {
-            const genders = teamGenders[team];
-            if (genders.has('M')) {
-                const option = document.createElement('option');
-                option.value = `${team}|M`;
-                option.textContent = genders.has('W') ? `${team} (M)` : team;
-                select.appendChild(option);
-            }
-            if (genders.has('W')) {
-                const option = document.createElement('option');
-                option.value = `${team}|W`;
-                option.textContent = `${team} (W)`;
-                select.appendChild(option);
-            }
-        });
-    }
+    teamNames.forEach(team => {
+        const genders = teamGenders[team];
+        if (genders.has('M')) {
+            const option = document.createElement('option');
+            option.value = `${team}|M`;
+            option.textContent = genders.has('W') ? `${team} (M)` : team;
+            select.appendChild(option);
+        }
+        if (genders.has('W')) {
+            const option = document.createElement('option');
+            option.value = `${team}|W`;
+            option.textContent = `${team} (W)`;
+            select.appendChild(option);
+        }
+    });
 
     // Populate conference filter
     const conferences = [...new Set(teamNames.map(t => getTeamConference(t)))].filter(c => c).sort();
     const confSelect = document.getElementById('games-conference');
-    if (confSelect) {
-        conferences.forEach(conf => {
-            const option = document.createElement('option');
-            option.value = conf;
-            option.textContent = conf;
-            confSelect.appendChild(option);
-        });
-    }
+    conferences.forEach(conf => {
+        const option = document.createElement('option');
+        option.value = conf;
+        option.textContent = conf;
+        confSelect.appendChild(option);
+    });
 
     // Populate head-to-head dropdowns with separate gender options
     const h2h1 = document.getElementById('h2h-team1');
     const h2h2 = document.getElementById('h2h-team2');
     allH2HTeams = []; // Store team|gender combos for later use
-    if (h2h1 && h2h2) {
-        teamNames.forEach(team => {
-            const genders = teamGenders[team];
-            if (genders.has('M')) {
-                const value = `${team}|M`;
-                const displayName = genders.has('W') ? `${team} (M)` : team;
-                allH2HTeams.push(value);
-                const opt1 = document.createElement('option');
-                opt1.value = value;
-                opt1.textContent = displayName;
-                h2h1.appendChild(opt1);
-                const opt2 = document.createElement('option');
-                opt2.value = value;
-                opt2.textContent = displayName;
-                h2h2.appendChild(opt2);
-            }
-            if (genders.has('W')) {
-                const value = `${team}|W`;
-                const displayName = `${team} (W)`;
-                allH2HTeams.push(value);
-                const opt1 = document.createElement('option');
-                opt1.value = value;
-                opt1.textContent = displayName;
-                h2h1.appendChild(opt1);
-                const opt2 = document.createElement('option');
-                opt2.value = value;
-                opt2.textContent = displayName;
-                h2h2.appendChild(opt2);
-            }
-        });
-    }
+    teamNames.forEach(team => {
+        const genders = teamGenders[team];
+        if (genders.has('M')) {
+            const value = `${team}|M`;
+            const displayName = genders.has('W') ? `${team} (M)` : team;
+            allH2HTeams.push(value);
+            const opt1 = document.createElement('option');
+            opt1.value = value;
+            opt1.textContent = displayName;
+            h2h1.appendChild(opt1);
+            const opt2 = document.createElement('option');
+            opt2.value = value;
+            opt2.textContent = displayName;
+            h2h2.appendChild(opt2);
+        }
+        if (genders.has('W')) {
+            const value = `${team}|W`;
+            const displayName = `${team} (W)`;
+            allH2HTeams.push(value);
+            const opt1 = document.createElement('option');
+            opt1.value = value;
+            opt1.textContent = displayName;
+            h2h1.appendChild(opt1);
+            const opt2 = document.createElement('option');
+            opt2.value = value;
+            opt2.textContent = displayName;
+            h2h2.appendChild(opt2);
+        }
+    });
 
     // Populate matrix conference dropdown (D1 conferences only)
     const d1Conferences = [
@@ -2612,7 +2499,6 @@ function populatePlayersTable() {
     const players = DATA.players || [];
     ['compare-player1', 'compare-player2'].forEach(id => {
         const sel = document.getElementById(id);
-        if (!sel) return;
         sel.innerHTML = '<option value="">Select a player...</option>';
         players.forEach(p => {
             const genderTag = p.Gender === 'W' ? ' (W)' : '';
@@ -2756,30 +2642,21 @@ function populateTeamsTable() {
     }
 
     if (data.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="11" class="empty-state"><h3>No team data</h3></td></tr>';
+        tbody.innerHTML = '<tr><td colspan="7" class="empty-state"><h3>No team data</h3></td></tr>';
         return;
     }
 
     tbody.innerHTML = data.map(team => {
         const genderTag = team.Gender === 'W' ? ' <span class="gender-tag">(W)</span>' : '';
-        const homeRecord = `${team['Home W'] || 0}-${team['Home L'] || 0}`;
-        const awayRecord = `${team['Away W'] || 0}-${team['Away L'] || 0}`;
-        const diff = team.Diff || 0;
-        const diffDisplay = diff > 0 ? `+${diff.toFixed(1)}` : diff.toFixed(1);
-        const diffClass = diff > 0 ? 'stat-positive' : diff < 0 ? 'stat-negative' : '';
         return `
         <tr>
-            <td><span class="team-link" onclick="showTeamDetail('${(team.Team || '').replace(/'/g, "\\'")}', '${team.Gender || 'M'}')">${team.Team || ''}</span>${genderTag}</td>
-            <td>${team.Conference || ''}</td>
+            <td>${team.Team || ''}${genderTag}</td>
             <td>${team.Games || 0}</td>
             <td>${team.Wins || 0}</td>
             <td>${team.Losses || 0}</td>
             <td>${((team['Win%'] || 0) * 100).toFixed(1)}%</td>
-            <td>${homeRecord}</td>
-            <td>${awayRecord}</td>
             <td>${(team.PPG || 0).toFixed(1)}</td>
             <td>${(team.PAPG || 0).toFixed(1)}</td>
-            <td class="${diffClass}">${diffDisplay}</td>
         </tr>
     `}).join('');
 }
@@ -3029,7 +2906,6 @@ function initVenuesMap() {
         'Academy of Art': 'https://artuathletics.com/images/responsive/cal_logo.png',
         'Johns Hopkins': 'https://dxbhsrqyrr690.cloudfront.net/sidearm.nextgen.sites/hopkinssports.com/images/responsive_2025/logos/logo_main.svg',
         'University of Chicago': 'https://dbukjj6eu5tsf.cloudfront.net/sidearm.sites/chgo.sidearmsports.com/images/responsive_2023/main_logo.png',
-        'Chicago': 'https://dbukjj6eu5tsf.cloudfront.net/sidearm.sites/chgo.sidearmsports.com/images/responsive_2023/main_logo.png',
         'Washington College': 'https://dxbhsrqyrr690.cloudfront.net/sidearm.nextgen.sites/washingtoncollegesports.com/images/responsive_2022/svgs/on-light-theme.svg',
         'Brandeis': 'https://dbukjj6eu5tsf.cloudfront.net/sidearm.sites/brandeisu.sidearmsports.com/images/responsive_2023/logo_main_new.svg',
         'Jessup': 'https://dxbhsrqyrr690.cloudfront.net/sidearm.nextgen.sites/jessup.sidearmsports.com/images/responsive_2024/logo_main.svg',
@@ -5841,7 +5717,6 @@ function populateConferenceTable() {
 
 function initChecklist() {
     const select = document.getElementById('checklist-conference');
-    if (!select) return;
     const checklist = DATA.conferenceChecklist || {};
     let conferences = Object.keys(checklist).sort();
 
@@ -7009,7 +6884,7 @@ function showConferenceDetail(confName) {
         'Ole Miss': ['Mississippi', 'Ole Miss'],
         'Miami (FL)': ['Miami', 'Miami (FL)'],
         'Cal': ['California', 'Cal'],
-        "Saint Mary's (CA)": ["Saint Mary's (CA)", "Saint Mary's", "St. Mary's", "St Mary's"],
+        "Saint Mary's (CA)": ["Saint Mary's", "St. Mary's", "St Mary's"],
         'Loyola Marymount': ['LMU', 'Loyola Marymount'],
         'Brigham Young': ['BYU', 'Brigham Young'],
         'Texas Christian': ['TCU', 'Texas Christian'],
@@ -7362,50 +7237,13 @@ function showPlayerDetail(playerId) {
     const games = (DATA.playerGames || []).filter(g => (g.player_id || g.player) === playerId)
         .sort((a, b) => (b.date_yyyymmdd || b.date || '').localeCompare(a.date_yyyymmdd || a.date || ''));
 
-    // Calculate career highs
-    let highPts = 0, highReb = 0, highAst = 0, highStl = 0, highBlk = 0, high3pm = 0;
-    let highPtsGame = null, highRebGame = null, highAstGame = null, high3pmGame = null;
-
-    games.forEach(g => {
-        if ((g.pts || 0) > highPts) { highPts = g.pts; highPtsGame = g; }
-        if ((g.trb || 0) > highReb) { highReb = g.trb; highRebGame = g; }
-        if ((g.ast || 0) > highAst) { highAst = g.ast; highAstGame = g; }
-        if ((g.stl || 0) > highStl) highStl = g.stl;
-        if ((g.blk || 0) > highBlk) highBlk = g.blk;
-        if ((g.fg3 || 0) > high3pm) { high3pm = g.fg3; high3pmGame = g; }
-    });
-
-    // Build scoring trend (last 10 games, chronological)
-    const recentGames = [...games].reverse().slice(-10);
-    const maxPts = Math.max(...recentGames.map(g => g.pts || 0), 1);
-    const trendHtml = recentGames.length > 1 ? recentGames.map(g => {
-        const pts = g.pts || 0;
-        const height = Math.max((pts / maxPts) * 50, 4);
-        const isWin = g.result === 'W';
-        return `<div class="trend-bar" title="${g.date}: ${pts} pts vs ${g.opponent}" style="height:${height}px;background:${isWin ? 'var(--accent-color)' : '#e74c3c'}"></div>`;
-    }).join('') : '';
-
-    // Shooting percentages for visual bars
-    const fgPct = (player['FG%'] || 0) * 100;
-    const threePct = (player['3P%'] || 0) * 100;
-    const ftPct = (player['FT%'] || 0) * 100;
-
-    const genderTag = player.Gender === 'W' ? '<span class="gender-tag">(W)</span>' : '';
-    const sportsRefLink = getPlayerSportsRefLink(player);
-
-    // Check if player is a future pro
-    const futurePro = (DATA.futurePros || []).find(fp => fp.player_id === playerId || fp.Player === player.Player);
-    const proTag = futurePro ? `<span class="pro-badge" title="${futurePro.League || 'Pro'}">${futurePro.League === 'NBA' ? 'NBA' : futurePro.League === 'WNBA' ? 'WNBA' : 'Pro'}</span>` : '';
-
-    let gamesHtml = games.map(g => {
-        const ptsClass = (g.pts || 0) >= 20 ? 'stat-highlight' : '';
-        return `
+    let gamesHtml = games.map(g => `
         <tr class="clickable-row" onclick="closeModal('player-modal'); showGameDetail('${g.game_id}')">
             <td><span class="game-link">${g.date}</span></td>
             <td>${g.opponent}</td>
-            <td class="${g.result === 'W' ? 'result-win' : 'result-loss'}">${g.result}</td>
+            <td>${g.result} ${g.score || ''}</td>
             <td>${g.mp != null ? Math.round(g.mp) : 0}</td>
-            <td class="${ptsClass}">${g.pts || 0}</td>
+            <td>${g.pts || 0}</td>
             <td>${g.trb || 0}</td>
             <td>${g.ast || 0}</td>
             <td>${g.stl || 0}</td>
@@ -7414,91 +7252,41 @@ function showPlayerDetail(playerId) {
             <td>${g.fg3 || 0}-${g.fg3a || 0}</td>
             <td>${g.ft || 0}-${g.fta || 0}</td>
         </tr>
-    `}).join('');
+    `).join('');
 
-    const formatHighGame = (game, stat, value) => {
-        if (!game) return `<span>${value}</span>`;
-        return `<span class="game-link" onclick="closeModal('player-modal'); showGameDetail('${game.game_id}')" title="vs ${game.opponent} on ${game.date}">${value}</span>`;
-    };
+    const genderTag = player.Gender === 'W' ? '<span class="gender-tag">(W)</span>' : '';
+    const sportsRefLink = getPlayerSportsRefLink(player);
 
     document.getElementById('player-detail').innerHTML = `
-        <h3 id="player-modal-title">${player.Player} ${proTag} ${sportsRefLink}</h3>
-        <p style="margin-bottom: 1rem;">
-            <span class="team-link" onclick="closeModal('player-modal'); showTeamDetail('${player.Team.replace(/'/g, "\\'")}', '${player.Gender || 'M'}')">${player.Team}</span>
-            ${genderTag} | ${player.Games} games
-        </p>
-
+        <h3 id="player-modal-title">${player.Player} ${sportsRefLink}</h3>
+        <p>Team: ${player.Team} ${genderTag} | Games: ${player.Games}</p>
         <div class="compare-grid">
             <div class="compare-card">
                 <h4>Averages</h4>
-                <div class="stat-row"><span>PPG</span><span class="${getStatClass(player.PPG || 0, STAT_THRESHOLDS.ppg)}">${(player.PPG || 0).toFixed(1)}</span></div>
-                <div class="stat-row"><span>RPG</span><span class="${getStatClass(player.RPG || 0, STAT_THRESHOLDS.rpg)}">${(player.RPG || 0).toFixed(1)}</span></div>
-                <div class="stat-row"><span>APG</span><span class="${getStatClass(player.APG || 0, STAT_THRESHOLDS.apg)}">${(player.APG || 0).toFixed(1)}</span></div>
-                <div class="stat-row"><span>SPG</span><span>${(player.SPG || 0).toFixed(1)}</span></div>
-                <div class="stat-row"><span>BPG</span><span>${(player.BPG || 0).toFixed(1)}</span></div>
+                <div class="stat-row"><span>PPG</span><span class="${getStatClass(player.PPG || 0, STAT_THRESHOLDS.ppg)}">${player.PPG || 0}</span></div>
+                <div class="stat-row"><span>RPG</span><span class="${getStatClass(player.RPG || 0, STAT_THRESHOLDS.rpg)}">${player.RPG || 0}</span></div>
+                <div class="stat-row"><span>APG</span><span class="${getStatClass(player.APG || 0, STAT_THRESHOLDS.apg)}">${player.APG || 0}</span></div>
+                <div class="stat-row"><span>SPG</span><span>${player.SPG || 0}</span></div>
+                <div class="stat-row"><span>BPG</span><span>${player.BPG || 0}</span></div>
             </div>
             <div class="compare-card">
-                <h4>Career Highs</h4>
-                <div class="stat-row"><span>Points</span>${formatHighGame(highPtsGame, 'pts', highPts)}</div>
-                <div class="stat-row"><span>Rebounds</span>${formatHighGame(highRebGame, 'reb', highReb)}</div>
-                <div class="stat-row"><span>Assists</span>${formatHighGame(highAstGame, 'ast', highAst)}</div>
-                <div class="stat-row"><span>3-Pointers</span>${formatHighGame(high3pmGame, '3pm', high3pm)}</div>
-                <div class="stat-row"><span>Steals</span><span>${highStl}</span></div>
-                <div class="stat-row"><span>Blocks</span><span>${highBlk}</span></div>
+                <h4>Shooting</h4>
+                <div class="stat-row"><span>FG%</span><span class="${getStatClass(player['FG%'] || 0, STAT_THRESHOLDS.fgPct)}">${((player['FG%'] || 0) * 100).toFixed(1)}%</span></div>
+                <div class="stat-row"><span>3P%</span><span class="${getStatClass(player['3P%'] || 0, STAT_THRESHOLDS.threePct)}">${((player['3P%'] || 0) * 100).toFixed(1)}%</span></div>
+                <div class="stat-row"><span>FT%</span><span>${((player['FT%'] || 0) * 100).toFixed(1)}%</span></div>
             </div>
             <div class="compare-card">
                 <h4>Totals</h4>
-                <div class="stat-row"><span>Points</span><span>${player['Total PTS'] || 0}</span></div>
-                <div class="stat-row"><span>Rebounds</span><span>${player['Total REB'] || 0}</span></div>
-                <div class="stat-row"><span>Assists</span><span>${player['Total AST'] || 0}</span></div>
-                <div class="stat-row"><span>Steals</span><span>${player['Total STL'] || 0}</span></div>
-                <div class="stat-row"><span>Blocks</span><span>${player['Total BLK'] || 0}</span></div>
+                <div class="stat-row"><span>Total Points</span><span>${player['Total PTS'] || 0}</span></div>
+                <div class="stat-row"><span>Total Rebounds</span><span>${player['Total REB'] || 0}</span></div>
+                <div class="stat-row"><span>Total Assists</span><span>${player['Total AST'] || 0}</span></div>
             </div>
         </div>
-
-        <h4 style="margin-top: 1.5rem; margin-bottom: 0.5rem; color: var(--text-secondary);">Shooting Splits</h4>
-        <div class="shooting-bars">
-            <div class="shooting-bar-row">
-                <span class="shooting-label">FG</span>
-                <div class="shooting-bar-container">
-                    <div class="shooting-bar" style="width: ${fgPct}%; background: ${fgPct >= 45 ? '#27ae60' : fgPct >= 40 ? '#f39c12' : '#e74c3c'}"></div>
-                </div>
-                <span class="shooting-value">${fgPct.toFixed(1)}%</span>
-            </div>
-            <div class="shooting-bar-row">
-                <span class="shooting-label">3PT</span>
-                <div class="shooting-bar-container">
-                    <div class="shooting-bar" style="width: ${threePct}%; background: ${threePct >= 38 ? '#27ae60' : threePct >= 33 ? '#f39c12' : '#e74c3c'}"></div>
-                </div>
-                <span class="shooting-value">${threePct.toFixed(1)}%</span>
-            </div>
-            <div class="shooting-bar-row">
-                <span class="shooting-label">FT</span>
-                <div class="shooting-bar-container">
-                    <div class="shooting-bar" style="width: ${ftPct}%; background: ${ftPct >= 75 ? '#27ae60' : ftPct >= 65 ? '#f39c12' : '#e74c3c'}"></div>
-                </div>
-                <span class="shooting-value">${ftPct.toFixed(1)}%</span>
-            </div>
-        </div>
-
-        ${trendHtml ? `
-        <h4 style="margin-top: 1.5rem; margin-bottom: 0.5rem; color: var(--text-secondary);">Scoring Trend (Last ${recentGames.length} Games)</h4>
-        <div class="scoring-trend" style="display:flex;align-items:flex-end;gap:4px;height:60px;padding:5px 0;">
-            ${trendHtml}
-        </div>
-        <div style="display:flex;justify-content:space-between;font-size:0.75rem;color:var(--text-secondary);">
-            <span>${recentGames[0]?.date || ''}</span>
-            <span style="color:var(--accent-color);">Win</span>
-            <span style="color:#e74c3c;">Loss</span>
-            <span>${recentGames[recentGames.length-1]?.date || ''}</span>
-        </div>
-        ` : ''}
-
         ${games.length > 0 ? `
-            <h4 style="margin-top:1.5rem; margin-bottom: 0.5rem; color: var(--text-secondary);">Game Log (${games.length} games)</h4>
+            <h4 style="margin-top:1rem">Game Log (${games.length} games)</h4>
             <div class="table-container" style="max-height:300px;overflow-y:auto;">
                 <table>
-                    <thead><tr><th>Date</th><th>Opp</th><th>W/L</th><th>MIN</th><th>PTS</th><th>REB</th><th>AST</th><th>STL</th><th>BLK</th><th>FG</th><th>3P</th><th>FT</th></tr></thead>
+                    <thead><tr><th>Date</th><th>Opp</th><th>Result</th><th>MIN</th><th>PTS</th><th>REB</th><th>AST</th><th>STL</th><th>BLK</th><th>FG</th><th>3P</th><th>FT</th></tr></thead>
                     <tbody>${gamesHtml}</tbody>
                 </table>
             </div>
@@ -7507,6 +7295,83 @@ function showPlayerDetail(playerId) {
 
     document.getElementById('player-modal').classList.add('active');
     updateURL('players', { player: playerId });
+}
+
+function showTeamDetail(teamName, gender = 'M') {
+    const team = DATA.teams.find(t => t.Team === teamName && (t.Gender || 'M') === gender);
+    if (!team) {
+        showToast('Team not found');
+        return;
+    }
+
+    // Get all games involving this team
+    const games = (DATA.games || []).filter(g =>
+        (g['Away Team'] === teamName || g['Home Team'] === teamName) && (g.Gender || 'M') === gender
+    ).sort((a, b) => (b.DateSort || '').localeCompare(a.DateSort || ''));
+
+    // Calculate record
+    let wins = 0, losses = 0;
+    games.forEach(g => {
+        const isHome = g['Home Team'] === teamName;
+        const won = isHome
+            ? (g['Home Score'] || 0) > (g['Away Score'] || 0)
+            : (g['Away Score'] || 0) > (g['Home Score'] || 0);
+        if (won) wins++; else losses++;
+    });
+
+    const genderTag = gender === 'W' ? '<span class="gender-tag">(W)</span>' : '';
+
+    const gamesHtml = games.map(g => {
+        const isHome = g['Home Team'] === teamName;
+        const opponent = isHome ? g['Away Team'] : g['Home Team'];
+        const score = isHome ? `${g['Home Score']}-${g['Away Score']}` : `${g['Away Score']}-${g['Home Score']}`;
+        const won = isHome
+            ? (g['Home Score'] || 0) > (g['Away Score'] || 0)
+            : (g['Away Score'] || 0) > (g['Home Score'] || 0);
+        return `
+            <tr class="clickable-row" onclick="closeModal('team-modal'); showGameDetail('${g.GameID}')">
+                <td><span class="game-link">${g.Date}</span></td>
+                <td>${isHome ? 'vs' : '@'} ${opponent}</td>
+                <td class="${won ? 'result-win' : 'result-loss'}">${won ? 'W' : 'L'}</td>
+                <td>${score}</td>
+                <td>${g.Venue || ''}</td>
+            </tr>
+        `;
+    }).join('');
+
+    document.getElementById('team-detail').innerHTML = `
+        <h3 id="team-modal-title">${teamName} ${genderTag}</h3>
+        <p style="margin-bottom: 1rem; color: var(--text-secondary);">
+            ${team.Conference || 'Unknown Conference'} | ${wins}-${losses} (${games.length} games seen)
+        </p>
+
+        <div class="compare-grid">
+            <div class="compare-card">
+                <h4>Record</h4>
+                <div class="stat-row"><span>Overall</span><span>${wins}-${losses}</span></div>
+                <div class="stat-row"><span>Win %</span><span>${games.length > 0 ? ((wins / games.length) * 100).toFixed(1) : 0}%</span></div>
+            </div>
+            <div class="compare-card">
+                <h4>Scoring</h4>
+                <div class="stat-row"><span>PPG</span><span>${(team.PPG || 0).toFixed(1)}</span></div>
+                <div class="stat-row"><span>PAPG</span><span>${(team.PAPG || 0).toFixed(1)}</span></div>
+                <div class="stat-row"><span>Diff</span><span class="${(team.Diff || 0) >= 0 ? 'stat-positive' : 'stat-negative'}">${(team.Diff || 0) >= 0 ? '+' : ''}${(team.Diff || 0).toFixed(1)}</span></div>
+            </div>
+        </div>
+
+        ${games.length > 0 ? `
+            <h4 style="margin-top: 1.5rem; margin-bottom: 0.5rem; color: var(--text-secondary);">Games (${games.length})</h4>
+            <div class="table-container" style="max-height: 300px; overflow-y: auto;">
+                <table>
+                    <thead><tr><th>Date</th><th>Opponent</th><th>Result</th><th>Score</th><th>Venue</th></tr></thead>
+                    <tbody>${gamesHtml}</tbody>
+                </table>
+            </div>
+        ` : ''}
+    `;
+
+    document.getElementById('team-modal').classList.add('active');
+    updateURL('teams', { team: teamName, gender: gender });
 }
 
 function showVenueDetail(venueName) {
@@ -7531,58 +7396,16 @@ function showVenueDetail(venueName) {
     const city = games[0]?.City || venueInfo.City || '';
     const state = games[0]?.State || venueInfo.State || '';
 
-    // Calculate enhanced stats
-    let homeWins = 0;
-    let totalScore = 0;
-    let highestScoringGame = null;
-    let highestTotal = 0;
-    let closestGame = null;
-    let closestMargin = Infinity;
-    let biggestBlowout = null;
-    let biggestMargin = 0;
-
-    games.forEach(g => {
-        const homeScore = g['Home Score'] || 0;
-        const awayScore = g['Away Score'] || 0;
-        const combined = homeScore + awayScore;
-        const margin = Math.abs(homeScore - awayScore);
-
-        totalScore += combined;
-        if (homeScore > awayScore) homeWins++;
-
-        if (combined > highestTotal) {
-            highestTotal = combined;
-            highestScoringGame = g;
-        }
-        if (margin < closestMargin) {
-            closestMargin = margin;
-            closestGame = g;
-        }
-        if (margin > biggestMargin) {
-            biggestMargin = margin;
-            biggestBlowout = g;
-        }
-    });
-
-    const homeWinPct = games.length > 0 ? ((homeWins / games.length) * 100).toFixed(0) : 0;
-    const avgScore = games.length > 0 ? (totalScore / games.length).toFixed(1) : 0;
-
-    // First and last game
-    const firstGame = games[games.length - 1];
-    const lastGame = games[0];
-
     // Compute teams seen at this venue (with gender tracking)
     const confSet = new Set();
-    const teamGenderSet = new Map();
-    const homeTeamRecords = new Map(); // Track home team records
-
+    // Track team+gender combinations
+    const teamGenderSet = new Map();  // key: "team|gender", value: {team, gender, conf}
     games.forEach(g => {
         const gender = g.Gender || 'M';
         const awayConf = getGameConference(g, 'away');
         const homeConf = getGameConference(g, 'home');
         const awayKey = `${g['Away Team']}|${gender}`;
         const homeKey = `${g['Home Team']}|${gender}`;
-
         if (!teamGenderSet.has(awayKey)) {
             teamGenderSet.set(awayKey, { team: g['Away Team'], gender, conf: awayConf });
         }
@@ -7591,75 +7414,25 @@ function showVenueDetail(venueName) {
         }
         if (awayConf) confSet.add(awayConf);
         if (homeConf) confSet.add(homeConf);
-
-        // Track home team records at this venue
-        const homeTeam = g['Home Team'];
-        const homeTeamKey = `${homeTeam}|${gender}`;
-        if (!homeTeamRecords.has(homeTeamKey)) {
-            homeTeamRecords.set(homeTeamKey, { team: homeTeam, gender, wins: 0, losses: 0, pf: 0, pa: 0 });
-        }
-        const record = homeTeamRecords.get(homeTeamKey);
-        const homeScore = g['Home Score'] || 0;
-        const awayScore = g['Away Score'] || 0;
-        record.pf += homeScore;
-        record.pa += awayScore;
-        if (homeScore > awayScore) {
-            record.wins++;
-        } else {
-            record.losses++;
-        }
     });
 
     const teamsList = [...teamGenderSet.values()].sort((a, b) => {
         const teamCompare = a.team.localeCompare(b.team);
         if (teamCompare !== 0) return teamCompare;
-        return a.gender === 'W' ? 1 : -1;
+        return a.gender === 'W' ? 1 : -1;  // Men first, then women
     });
     const confsList = [...confSet].sort();
 
-    // Sort home teams by games played
-    const homeTeamsList = [...homeTeamRecords.values()]
-        .sort((a, b) => (b.wins + b.losses) - (a.wins + a.losses));
-
-    // Build teams list HTML
+    // Build teams list HTML with conference labels and gender indicators
     const teamsHtml = teamsList.map(({team, gender, conf}) => {
         const genderSuffix = gender === 'W' ? ' (W)' : '';
+        // For non-D1 conferences, show with division indicator
         let confLabel = conf || '';
-        if (conf === 'Historical/Other') confLabel = 'Non-D1';
-        return `<span class="venue-team-tag" onclick="closeModal('venue-modal'); showTeamDetail('${team.replace(/'/g, "\\'")}', '${gender}')">${team}${genderSuffix}${confLabel ? `<span class="conf-label">${confLabel}</span>` : ''}</span>`;
+        if (conf === 'Historical/Other') {
+            confLabel = 'Non-D1';
+        }
+        return `<span class="venue-team-tag">${team}${genderSuffix}${confLabel ? `<span class="conf-label">${confLabel}</span>` : ''}</span>`;
     }).join('');
-
-    // Build home teams breakdown HTML
-    const homeTeamsHtml = homeTeamsList.length > 0 ? homeTeamsList.map(({team, gender, wins, losses, pf, pa}) => {
-        const genderTag = gender === 'W' ? ' <span class="gender-tag">(W)</span>' : '';
-        const gamesPlayed = wins + losses;
-        const ppg = gamesPlayed > 0 ? (pf / gamesPlayed).toFixed(1) : 0;
-        const papg = gamesPlayed > 0 ? (pa / gamesPlayed).toFixed(1) : 0;
-        return `
-        <tr class="clickable-row" onclick="closeModal('venue-modal'); showTeamDetail('${team.replace(/'/g, "\\'")}', '${gender}')">
-            <td><span class="team-link">${team}</span>${genderTag}</td>
-            <td>${wins}-${losses}</td>
-            <td>${ppg}</td>
-            <td>${papg}</td>
-        </tr>
-    `}).join('') : '';
-
-    // Build notable games HTML
-    const formatNotableGame = (g, label) => {
-        if (!g) return '';
-        const homeScore = g['Home Score'] || 0;
-        const awayScore = g['Away Score'] || 0;
-        const margin = Math.abs(homeScore - awayScore);
-        const combined = homeScore + awayScore;
-        const genderTag = g.Gender === 'W' ? ' (W)' : '';
-        return `
-        <div class="notable-game" onclick="closeModal('venue-modal'); showGameDetail('${g.GameID}')" style="cursor:pointer; padding: 0.5rem; background: var(--bg-secondary); border-radius: 6px; margin-bottom: 0.5rem;">
-            <div style="font-weight: 500; color: var(--accent-color);">${label}</div>
-            <div>${g['Away Team']} ${awayScore} @ ${g['Home Team']} ${homeScore}${genderTag}</div>
-            <div style="font-size: 0.85rem; color: var(--text-secondary);">${formatDate(g.Date)} | ${label.includes('Scoring') ? combined + ' pts' : margin + ' pt margin'}</div>
-        </div>
-    `;
-    };
 
     const gamesHtml = games.map(g => {
         const homeWon = (g['Home Score'] || 0) > (g['Away Score'] || 0);
@@ -7669,8 +7442,8 @@ function showVenueDetail(venueName) {
         const loseScore = homeWon ? g['Away Score'] : g['Home Score'];
         const genderTag = g.Gender === 'W' ? ' <span class="gender-tag">(W)</span>' : '';
         return `
-        <tr class="clickable-row" onclick="closeModal('venue-modal'); showGameDetail('${g.GameID}')">
-            <td><span class="game-link">${formatDate(g.Date)}</span></td>
+        <tr>
+            <td>${g.Division === 'D1' || !g.Division ? `<a href="${getSportsRefUrl(g)}" target="_blank" class="game-link">${g.Date || ''}</a>` : g.Date || ''}</td>
             <td><strong>${winner || ''}${genderTag}</strong></td>
             <td>${winScore || 0}-${loseScore || 0}</td>
             <td>${loser || ''}${genderTag}</td>
@@ -7679,61 +7452,34 @@ function showVenueDetail(venueName) {
 
     document.getElementById('venue-detail').innerHTML = `
         <h3 id="venue-modal-title">${venueName}</h3>
-        <p style="color: var(--text-secondary); margin-bottom: 1rem;">${city}${state ? ', ' + state : ''}</p>
+        <p>${city}${state ? ', ' + state : ''}</p>
 
-        <div class="compare-grid">
-            <div class="compare-card">
-                <h4>Overview</h4>
-                <div class="stat-row"><span>Total Games</span><span>${games.length}</span></div>
-                <div class="stat-row"><span>Teams Seen</span><span>${teamsList.length}</span></div>
-                <div class="stat-row"><span>Conferences</span><span>${confsList.length}</span></div>
-                <div class="stat-row"><span>Home Win %</span><span>${homeWinPct}%</span></div>
+        <div class="venue-stats-summary">
+            <div class="venue-stat-item">
+                <div class="value">${games.length}</div>
+                <div class="label">Games</div>
             </div>
-            <div class="compare-card">
-                <h4>Scoring</h4>
-                <div class="stat-row"><span>Avg Combined</span><span>${avgScore} pts</span></div>
-                <div class="stat-row"><span>Highest Total</span><span>${highestTotal} pts</span></div>
-                <div class="stat-row"><span>Closest Game</span><span>${closestMargin} pts</span></div>
-                <div class="stat-row"><span>Biggest Blowout</span><span>${biggestMargin} pts</span></div>
+            <div class="venue-stat-item">
+                <div class="value">${teamsList.length}</div>
+                <div class="label">Teams Seen</div>
             </div>
-            <div class="compare-card">
-                <h4>Visits</h4>
-                <div class="stat-row"><span>First Visit</span><span>${formatDate(firstGame?.Date)}</span></div>
-                <div class="stat-row"><span>Last Visit</span><span>${formatDate(lastGame?.Date)}</span></div>
-                <div class="stat-row"><span>Home Wins</span><span>${homeWins}</span></div>
-                <div class="stat-row"><span>Away Wins</span><span>${games.length - homeWins}</span></div>
+            <div class="venue-stat-item">
+                <div class="value">${confsList.length}</div>
+                <div class="label">Conferences</div>
             </div>
+            ${venueInfo['Home Wins'] !== undefined ? `
+            <div class="venue-stat-item">
+                <div class="value">${venueInfo['Home Wins'] || 0}-${venueInfo['Away Wins'] || 0}</div>
+                <div class="label">Home-Away</div>
+            </div>
+            ` : ''}
         </div>
 
-        <h4 style="margin-top: 1.5rem; margin-bottom: 0.5rem; color: var(--text-secondary);">Notable Games</h4>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 0.5rem;">
-            ${formatNotableGame(highestScoringGame, 'Highest Scoring')}
-            ${formatNotableGame(closestGame, 'Closest Game')}
-            ${formatNotableGame(biggestBlowout, 'Biggest Blowout')}
-        </div>
-
-        ${homeTeamsList.length > 0 ? `
-        <h4 style="margin-top: 1.5rem; margin-bottom: 0.5rem; color: var(--text-secondary);">Home Team Records (${homeTeamsList.length})</h4>
-        <div class="table-container" style="max-height: 200px; overflow-y: auto;">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Team</th>
-                        <th>Record</th>
-                        <th>PPG</th>
-                        <th>Opp PPG</th>
-                    </tr>
-                </thead>
-                <tbody>${homeTeamsHtml}</tbody>
-            </table>
-        </div>
-        ` : ''}
-
-        <h4 style="margin-top: 1.5rem; margin-bottom: 0.5rem; color: var(--text-secondary);">Teams Seen Here (${teamsList.length})</h4>
+        <h4 style="margin-top: 1rem; margin-bottom: 0.5rem; color: var(--text-secondary);">Teams Seen Here</h4>
         <div class="venue-teams-list">${teamsHtml}</div>
 
-        <h4 style="margin-top: 1.5rem; margin-bottom: 0.5rem; color: var(--text-secondary);">Game History (${games.length})</h4>
-        <div class="table-container" style="max-height: 300px; overflow-y: auto;">
+        <h4 style="margin-top: 1.5rem; margin-bottom: 0.5rem; color: var(--text-secondary);">Game History</h4>
+        <div class="table-container">
             <table>
                 <thead>
                     <tr>
@@ -7749,263 +7495,6 @@ function showVenueDetail(venueName) {
     `;
 
     document.getElementById('venue-modal').classList.add('active');
-}
-
-function showTeamDetail(teamName, gender = 'M') {
-    if (!teamName) {
-        showToast('Team not specified');
-        return;
-    }
-
-    // Find the team in DATA.teams
-    const team = (DATA.teams || []).find(t => t.Team === teamName && t.Gender === gender);
-    if (!team) {
-        showToast('Team not found');
-        return;
-    }
-
-    // Find all games involving this team
-    const games = (DATA.games || []).filter(g =>
-        g.Gender === gender && (g['Away Team'] === teamName || g['Home Team'] === teamName)
-    ).sort((a, b) => (b.DateSort || '').localeCompare(a.DateSort || ''));
-
-    // Calculate additional stats
-    const otGames = games.filter(g => (g.Linescore?.away?.OT?.length > 0) || (g.Linescore?.home?.OT?.length > 0));
-    const otWins = otGames.filter(g => {
-        const isHome = g['Home Team'] === teamName;
-        const teamScore = isHome ? g['Home Score'] : g['Away Score'];
-        const oppScore = isHome ? g['Away Score'] : g['Home Score'];
-        return teamScore > oppScore;
-    }).length;
-    const otLosses = otGames.length - otWins;
-
-    // Compute win/loss streaks
-    const gameResults = games.map(g => {
-        const isHome = g['Home Team'] === teamName;
-        const teamScore = isHome ? g['Home Score'] : g['Away Score'];
-        const oppScore = isHome ? g['Away Score'] : g['Home Score'];
-        return teamScore > oppScore ? 'W' : 'L';
-    }).reverse(); // Chronological order for streak calculation
-
-    let currentStreak = 0;
-    let currentStreakType = '';
-    let longestWinStreak = 0;
-    let longestLossStreak = 0;
-    let tempStreak = 0;
-    let lastResult = '';
-
-    gameResults.forEach(result => {
-        if (result === lastResult) {
-            tempStreak++;
-        } else {
-            if (lastResult === 'W') longestWinStreak = Math.max(longestWinStreak, tempStreak);
-            if (lastResult === 'L') longestLossStreak = Math.max(longestLossStreak, tempStreak);
-            tempStreak = 1;
-            lastResult = result;
-        }
-    });
-    // Final check
-    if (lastResult === 'W') longestWinStreak = Math.max(longestWinStreak, tempStreak);
-    if (lastResult === 'L') longestLossStreak = Math.max(longestLossStreak, tempStreak);
-
-    // Current streak (from most recent)
-    if (gameResults.length > 0) {
-        currentStreakType = gameResults[gameResults.length - 1];
-        currentStreak = 1;
-        for (let i = gameResults.length - 2; i >= 0; i--) {
-            if (gameResults[i] === currentStreakType) {
-                currentStreak++;
-            } else {
-                break;
-            }
-        }
-    }
-
-    // Margin analysis
-    const margins = games.map(g => {
-        const isHome = g['Home Team'] === teamName;
-        const teamScore = isHome ? g['Home Score'] : g['Away Score'];
-        const oppScore = isHome ? g['Away Score'] : g['Home Score'];
-        return teamScore - oppScore;
-    });
-    const bestMargin = Math.max(...margins);
-    const worstMargin = Math.min(...margins);
-    const closeGames = margins.filter(m => Math.abs(m) <= 5).length;
-    const blowouts = margins.filter(m => m >= 20).length;
-
-    // Get players from this team
-    const teamPlayers = (DATA.players || []).filter(p => p.Team === teamName && p.Gender === gender)
-        .sort((a, b) => (b.PPG || 0) - (a.PPG || 0));
-
-    // First and last games
-    const firstGame = games[games.length - 1];
-    const lastGame = games[0];
-
-    // Find home venue from conferenceChecklist
-    let homeVenue = '';
-    const checklist = DATA.conferenceChecklist || {};
-    for (const [confName, confData] of Object.entries(checklist)) {
-        const teamEntry = (confData.teams || []).find(t => t.team === teamName);
-        if (teamEntry && teamEntry.venue) {
-            homeVenue = teamEntry.venue;
-            break;
-        }
-    }
-
-    // Venues where games were played
-    const venueMap = new Map();
-    games.forEach(g => {
-        if (!venueMap.has(g.Venue)) {
-            venueMap.set(g.Venue, { venue: g.Venue, city: g.City, state: g.State, count: 0 });
-        }
-        venueMap.get(g.Venue).count++;
-    });
-    const venues = [...venueMap.values()].sort((a, b) => b.count - a.count);
-
-    const genderTag = gender === 'W' ? '<span class="gender-tag">(W)</span>' : '';
-    const currentStreakDisplay = currentStreak > 0 ? `${currentStreakType}${currentStreak}` : '-';
-
-    // Build games list HTML
-    const gamesHtml = games.map(g => {
-        const isHome = g['Home Team'] === teamName;
-        const teamScore = isHome ? g['Home Score'] : g['Away Score'];
-        const oppScore = isHome ? g['Away Score'] : g['Home Score'];
-        const opponent = isHome ? g['Away Team'] : g['Home Team'];
-        const result = teamScore > oppScore ? 'W' : 'L';
-        const resultClass = result === 'W' ? 'result-win' : 'result-loss';
-        const location = isHome ? 'vs' : '@';
-        const otLabel = (g.Linescore?.away?.OT?.length > 0) ? ' OT' : '';
-        return `
-        <tr class="clickable-row" onclick="closeModal('team-modal'); showGameDetail('${g.GameID}')">
-            <td><span class="game-link">${formatDate(g.Date)}</span></td>
-            <td>${location} ${opponent}</td>
-            <td class="${resultClass}">${result}${otLabel}</td>
-            <td>${teamScore}-${oppScore}</td>
-            <td>${g.Venue || ''}</td>
-        </tr>
-    `}).join('');
-
-    // Build players list HTML
-    const playersHtml = teamPlayers.slice(0, 15).map(p => {
-        const playerId = p['Player ID'] || p.Player;
-        return `
-        <tr class="clickable-row" onclick="closeModal('team-modal'); showPlayerDetail('${playerId}')">
-            <td><span class="player-link">${p.Player}</span></td>
-            <td>${p.Games || 0}</td>
-            <td>${(p.PPG || 0).toFixed(1)}</td>
-            <td>${(p.RPG || 0).toFixed(1)}</td>
-            <td>${(p.APG || 0).toFixed(1)}</td>
-        </tr>
-    `}).join('');
-
-    // Build venues HTML
-    const venuesHtml = venues.map(v => {
-        const isHome = v.venue === homeVenue;
-        return `<span class="venue-team-tag${isHome ? ' home-venue' : ''}" onclick="closeModal('team-modal'); showVenueDetail('${v.venue.replace(/'/g, "\\'")}')">${v.venue} (${v.count})${isHome ? ' - Home' : ''}</span>`;
-    }).join('');
-
-    document.getElementById('team-detail').innerHTML = `
-        <h3 id="team-modal-title">${teamName} ${genderTag}</h3>
-        <p style="color: var(--text-secondary); margin-bottom: 1rem;">
-            ${team.Conference || 'Unknown Conference'} |
-            <strong>${team.Wins || 0}-${team.Losses || 0}</strong> overall
-        </p>
-
-        <div class="compare-grid">
-            <div class="compare-card">
-                <h4>Record</h4>
-                <div class="stat-row"><span>Overall</span><span>${team.Wins || 0}-${team.Losses || 0} (${((team['Win%'] || 0) * 100).toFixed(1)}%)</span></div>
-                <div class="stat-row"><span>Home</span><span>${team['Home W'] || 0}-${team['Home L'] || 0}</span></div>
-                <div class="stat-row"><span>Away</span><span>${team['Away W'] || 0}-${team['Away L'] || 0}</span></div>
-                ${otGames.length > 0 ? `<div class="stat-row"><span>Overtime</span><span>${otWins}-${otLosses}</span></div>` : ''}
-            </div>
-            <div class="compare-card">
-                <h4>Scoring</h4>
-                <div class="stat-row"><span>PPG</span><span>${(team.PPG || 0).toFixed(1)}</span></div>
-                <div class="stat-row"><span>Opp PPG</span><span>${(team.PAPG || 0).toFixed(1)}</span></div>
-                <div class="stat-row"><span>Diff</span><span class="${(team.Diff || 0) > 0 ? 'stat-positive' : 'stat-negative'}">${(team.Diff || 0) > 0 ? '+' : ''}${(team.Diff || 0).toFixed(1)}</span></div>
-                <div class="stat-row"><span>Total PF</span><span>${team.PF || 0}</span></div>
-                <div class="stat-row"><span>Total PA</span><span>${team.PA || 0}</span></div>
-            </div>
-            <div class="compare-card">
-                <h4>Performance</h4>
-                <div class="stat-row"><span>Current</span><span class="${currentStreakType === 'W' ? 'stat-positive' : 'stat-negative'}">${currentStreakDisplay}</span></div>
-                <div class="stat-row"><span>Best Win Streak</span><span>${longestWinStreak}</span></div>
-                <div class="stat-row"><span>Best Margin</span><span class="stat-positive">+${bestMargin}</span></div>
-                <div class="stat-row"><span>Worst Margin</span><span class="stat-negative">${worstMargin}</span></div>
-                <div class="stat-row"><span>Close Games (5 pts)</span><span>${closeGames}</span></div>
-                <div class="stat-row"><span>Blowouts (20+ pts)</span><span>${blowouts}</span></div>
-            </div>
-        </div>
-
-        <h4 style="margin-top: 1.5rem; margin-bottom: 0.5rem; color: var(--text-secondary);">First & Last Seen</h4>
-        <div class="first-last-seen" style="display: flex; gap: 2rem; flex-wrap: wrap; margin-bottom: 1rem;">
-            ${firstGame ? `
-            <div>
-                <strong>First:</strong> ${formatDate(firstGame.Date)} -
-                <span class="game-link" onclick="closeModal('team-modal'); showGameDetail('${firstGame.GameID}')">
-                    ${firstGame['Away Team']} @ ${firstGame['Home Team']} (${firstGame['Away Score']}-${firstGame['Home Score']})
-                </span>
-            </div>
-            ` : ''}
-            ${lastGame && lastGame !== firstGame ? `
-            <div>
-                <strong>Last:</strong> ${formatDate(lastGame.Date)} -
-                <span class="game-link" onclick="closeModal('team-modal'); showGameDetail('${lastGame.GameID}')">
-                    ${lastGame['Away Team']} @ ${lastGame['Home Team']} (${lastGame['Away Score']}-${lastGame['Home Score']})
-                </span>
-            </div>
-            ` : ''}
-        </div>
-
-        ${venues.length > 0 ? `
-        <h4 style="margin-top: 1rem; margin-bottom: 0.5rem; color: var(--text-secondary);">Venues (${venues.length})</h4>
-        <div class="venue-teams-list">${venuesHtml}</div>
-        ` : ''}
-
-        ${teamPlayers.length > 0 ? `
-        <h4 style="margin-top: 1.5rem; margin-bottom: 0.5rem; color: var(--text-secondary);">Players Seen (${teamPlayers.length})</h4>
-        <div class="table-container" style="max-height: 250px; overflow-y: auto;">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Player</th>
-                        <th>GP</th>
-                        <th>PPG</th>
-                        <th>RPG</th>
-                        <th>APG</th>
-                    </tr>
-                </thead>
-                <tbody>${playersHtml}</tbody>
-            </table>
-        </div>
-        ` : ''}
-
-        <h4 style="margin-top: 1.5rem; margin-bottom: 0.5rem; color: var(--text-secondary);">Games (${games.length})</h4>
-        <div class="table-container" style="max-height: 300px; overflow-y: auto;">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Matchup</th>
-                        <th>Result</th>
-                        <th>Score</th>
-                        <th>Venue</th>
-                    </tr>
-                </thead>
-                <tbody>${gamesHtml}</tbody>
-            </table>
-        </div>
-
-        <div style="margin-top: 1.5rem; text-align: center;">
-            <button class="btn btn-secondary" onclick="closeModal('team-modal'); filterByTeam('${teamName.replace(/'/g, "\\'")}', '${gender}'); showSection('games');">
-                View All Games in Games Tab
-            </button>
-        </div>
-    `;
-
-    document.getElementById('team-modal').classList.add('active');
-    updateURL('teams', { team: teamName, gender: gender });
 }
 
 function showGameDetail(gameId, fromCalendarDay = false) {
@@ -8338,7 +7827,7 @@ function showGameDetail(gameId, fromCalendarDay = false) {
         // Venue (no gender - venues are shared)
         if (achievements.venue.name) {
             if (achievements.venue.isNewVenue) {
-                lines.push(`${achievements.d1Stats.d1VenuesSeen}/365 D1 venues seen`);
+                lines.push(`${achievements.venue.totalVenuesSeen}/365 D1 venues seen`);
                 if (achievements.homeTeam.conf && achievements.venue.confVenuesTotal > 0) {
                     lines.push(`${achievements.venue.confVenuesSeen}/${achievements.venue.confVenuesTotal} ${achievements.homeTeam.conf} venues seen`);
                 }
@@ -8355,105 +7844,16 @@ function showGameDetail(gameId, fromCalendarDay = false) {
         `;
     }
 
-    // Calculate team totals from box scores
-    const calcTeamTotals = (players) => {
-        const totals = { pts: 0, fg: 0, fga: 0, fg3: 0, fg3a: 0, ft: 0, fta: 0, trb: 0, ast: 0, stl: 0, blk: 0, tov: 0 };
-        players.forEach(p => {
-            totals.pts += p.pts || 0;
-            totals.fg += p.fg || 0;
-            totals.fga += p.fga || 0;
-            totals.fg3 += p.fg3 || 0;
-            totals.fg3a += p.fg3a || 0;
-            totals.ft += p.ft || 0;
-            totals.fta += p.fta || 0;
-            totals.trb += p.trb || 0;
-            totals.ast += p.ast || 0;
-            totals.stl += p.stl || 0;
-            totals.blk += p.blk || 0;
-            totals.tov += p.tov || 0;
-        });
-        return totals;
-    };
-
-    const awayTotals = calcTeamTotals(awayPlayers);
-    const homeTotals = calcTeamTotals(homePlayers);
-
-    // Build team stats comparison if we have box score data
-    let teamCompareHtml = '';
-    if (awayPlayers.length > 0 && homePlayers.length > 0) {
-        const awayFgPct = awayTotals.fga > 0 ? ((awayTotals.fg / awayTotals.fga) * 100).toFixed(1) : '0.0';
-        const homeFgPct = homeTotals.fga > 0 ? ((homeTotals.fg / homeTotals.fga) * 100).toFixed(1) : '0.0';
-        const away3Pct = awayTotals.fg3a > 0 ? ((awayTotals.fg3 / awayTotals.fg3a) * 100).toFixed(1) : '0.0';
-        const home3Pct = homeTotals.fg3a > 0 ? ((homeTotals.fg3 / homeTotals.fg3a) * 100).toFixed(1) : '0.0';
-        const awayFtPct = awayTotals.fta > 0 ? ((awayTotals.ft / awayTotals.fta) * 100).toFixed(1) : '0.0';
-        const homeFtPct = homeTotals.fta > 0 ? ((homeTotals.ft / homeTotals.fta) * 100).toFixed(1) : '0.0';
-
-        const statRow = (label, awayVal, homeVal, higherBetter = true) => {
-            const awayNum = parseFloat(awayVal);
-            const homeNum = parseFloat(homeVal);
-            const awayClass = higherBetter ? (awayNum > homeNum ? 'stat-positive' : awayNum < homeNum ? 'stat-negative' : '') : (awayNum < homeNum ? 'stat-positive' : awayNum > homeNum ? 'stat-negative' : '');
-            const homeClass = higherBetter ? (homeNum > awayNum ? 'stat-positive' : homeNum < awayNum ? 'stat-negative' : '') : (homeNum < awayNum ? 'stat-positive' : homeNum > awayNum ? 'stat-negative' : '');
-            return `<div class="stat-row"><span class="${awayClass}">${awayVal}</span><span style="color:var(--text-secondary)">${label}</span><span class="${homeClass}">${homeVal}</span></div>`;
-        };
-
-        teamCompareHtml = `
-            <div class="team-compare-grid" style="background:var(--bg-primary);padding:1rem;border-radius:8px;margin-bottom:1rem;">
-                <div style="display:flex;justify-content:space-between;margin-bottom:0.75rem;font-weight:600;font-size:0.9rem;">
-                    <span>${game['Away Team']}</span>
-                    <span style="color:var(--text-secondary)">Team Stats</span>
-                    <span>${game['Home Team']}</span>
-                </div>
-                ${statRow('FG%', awayFgPct + '%', homeFgPct + '%')}
-                ${statRow('3P%', away3Pct + '%', home3Pct + '%')}
-                ${statRow('FT%', awayFtPct + '%', homeFtPct + '%')}
-                ${statRow('Rebounds', awayTotals.trb, homeTotals.trb)}
-                ${statRow('Assists', awayTotals.ast, homeTotals.ast)}
-                ${statRow('Steals', awayTotals.stl, homeTotals.stl)}
-                ${statRow('Blocks', awayTotals.blk, homeTotals.blk)}
-                ${statRow('Turnovers', awayTotals.tov, homeTotals.tov, false)}
-            </div>
-        `;
-    }
-
-    // Find head-to-head series info
-    const h2hGames = DATA.games.filter(g =>
-        (g['Away Team'] === game['Away Team'] && g['Home Team'] === game['Home Team']) ||
-        (g['Away Team'] === game['Home Team'] && g['Home Team'] === game['Away Team'])
-    ).sort((a, b) => (a.DateSort || '').localeCompare(b.DateSort || ''));
-
-    let h2hHtml = '';
-    if (h2hGames.length > 1) {
-        let awayWins = 0, homeWins = 0;
-        h2hGames.forEach(g => {
-            const winner = (g['Home Score'] || 0) > (g['Away Score'] || 0) ? g['Home Team'] : g['Away Team'];
-            if (winner === game['Away Team']) awayWins++;
-            else homeWins++;
-        });
-        const currentGameIndex = h2hGames.findIndex(g => g.GameID === gameId);
-        h2hHtml = `
-            <div class="h2h-info" style="text-align:center;margin-bottom:0.75rem;font-size:0.85rem;color:var(--text-secondary);">
-                <strong>Season Series:</strong> ${game['Away Team']} ${awayWins}-${homeWins} ${game['Home Team']}
-                ${h2hGames.length > 1 ? ` (Game ${currentGameIndex + 1} of ${h2hGames.length})` : ''}
-            </div>
-        `;
-    }
-
-    // Escape team names for onclick
-    const awayTeamEscaped = game['Away Team'].replace(/'/g, "\\'");
-    const homeTeamEscaped = game['Home Team'].replace(/'/g, "\\'");
-    const venueEscaped = (game.Venue || '').replace(/'/g, "\\'");
-    const gameGender = game.Gender || 'M';
-
     document.getElementById('game-detail').innerHTML = `
         ${backButtonHtml}
         <div class="box-score-header">
             <div class="box-score-team">
-                <h3><span class="team-link" onclick="closeModal('game-modal'); showTeamDetail('${awayTeamEscaped}', '${gameGender}')">${awayRankDisplay}${game['Away Team']}</span></h3>
+                <h3>${awayRankDisplay}${game['Away Team']}</h3>
                 <div class="box-score-score">${game['Away Score'] || 0}</div>
             </div>
             <div class="box-score-vs">@</div>
             <div class="box-score-team">
-                <h3><span class="team-link" onclick="closeModal('game-modal'); showTeamDetail('${homeTeamEscaped}', '${gameGender}')">${homeRankDisplay}${game['Home Team']}</span></h3>
+                <h3>${homeRankDisplay}${game['Home Team']}</h3>
                 <div class="box-score-score">${game['Home Score'] || 0}</div>
             </div>
         </div>
@@ -8461,25 +7861,23 @@ function showGameDetail(gameId, fromCalendarDay = false) {
             ${neutralBadge}${divisionBadge}
         </div>
         <p style="text-align:center;margin-bottom:0.5rem;color:var(--text-secondary)">
-            ${game.Date} | <span class="venue-link" onclick="closeModal('game-modal'); showVenueDetail('${venueEscaped}')">${game.Venue || 'Unknown Venue'}</span>${game.City ? `, ${game.City}` : ''}${game.State ? `, ${game.State}` : ''}
+            ${game.Date} | ${game.Venue || 'Unknown Venue'}${game.City ? `, ${game.City}` : ''}${game.State ? `, ${game.State}` : ''}
         </p>
-        ${h2hHtml}
         <div class="game-info-row" style="text-align:center;margin-bottom:1rem;color:var(--text-secondary);font-size:0.9rem;">
             ${attendanceDisplay}
             ${confDisplay}
         </div>
         ${officialsDisplay ? `<div class="game-officials" style="text-align:center;margin-bottom:1rem;color:var(--text-secondary);font-size:0.85rem;">${officialsDisplay}</div>` : ''}
         ${linescoreHtml}
-        ${teamCompareHtml}
         ${achievementsHtml}
         ${pbpHtml}
         ${espnPbpHtml}
         <div class="box-score-section">
-            <h4><span class="team-link" onclick="closeModal('game-modal'); showTeamDetail('${awayTeamEscaped}', '${gameGender}')">${game['Away Team']}</span></h4>
+            <h4>${game['Away Team']}</h4>
             <div class="table-container">${renderBoxScore(awayPlayers, game['Away Team'])}</div>
         </div>
         <div class="box-score-section">
-            <h4><span class="team-link" onclick="closeModal('game-modal'); showTeamDetail('${homeTeamEscaped}', '${gameGender}')">${game['Home Team']}</span></h4>
+            <h4>${game['Home Team']}</h4>
             <div class="table-container">${renderBoxScore(homePlayers, game['Home Team'])}</div>
         </div>
     `;
@@ -8849,9 +8247,6 @@ function populateSeasonStats() {
 }
 
 function showChart(type) {
-    const chartCanvas = document.getElementById('stats-chart');
-    if (!chartCanvas) return;
-
     document.querySelectorAll('#charts .sub-tab').forEach(t => t.classList.remove('active'));
     // Find and activate the button for this chart type
     const btn = document.querySelector(`#charts .sub-tab[onclick*="'${type}'"]`);
@@ -8906,7 +8301,7 @@ function showChart(type) {
             .map(p => ({ ...p, ...calcEfficiency(p) }))
             .sort((a, b) => b.ts - a.ts)
             .slice(0, 10);
-        const ctx = chartCanvas.getContext('2d');
+        const ctx = document.getElementById('stats-chart').getContext('2d');
         statsChart = new Chart(ctx, {
             type: 'bar',
             data: {
@@ -8949,7 +8344,7 @@ function showChart(type) {
         const homeScores = games.map(g => g['Home Score'] || 0);
         const totalScores = games.map((g, i) => awayScores[i] + homeScores[i]);
 
-        const ctx = chartCanvas.getContext('2d');
+        const ctx = document.getElementById('stats-chart').getContext('2d');
         statsChart = new Chart(ctx, {
             type: 'line',
             data: {
@@ -9003,7 +8398,7 @@ function showChart(type) {
         color = '#e74c3c';
     }
 
-    const ctx = chartCanvas.getContext('2d');
+    const ctx = document.getElementById('stats-chart').getContext('2d');
     statsChart = new Chart(ctx, {
         type: 'bar',
         data: {
@@ -9048,9 +8443,6 @@ function handleURLNavigation() {
     }
     if (params.game) {
         setTimeout(() => showGameDetail(params.game), 100);
-    }
-    if (params.team && section === 'teams') {
-        setTimeout(() => showTeamDetail(params.team, params.gender || 'M'), 100);
     }
     if (params.type && section === 'milestones') {
         setTimeout(() => showMilestoneEntries(params.type), 100);
