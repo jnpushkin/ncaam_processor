@@ -2906,6 +2906,7 @@ function initVenuesMap() {
         'Academy of Art': 'https://artuathletics.com/images/responsive/cal_logo.png',
         'Johns Hopkins': 'https://dxbhsrqyrr690.cloudfront.net/sidearm.nextgen.sites/hopkinssports.com/images/responsive_2025/logos/logo_main.svg',
         'University of Chicago': 'https://dbukjj6eu5tsf.cloudfront.net/sidearm.sites/chgo.sidearmsports.com/images/responsive_2023/main_logo.png',
+        'Chicago': 'https://dbukjj6eu5tsf.cloudfront.net/sidearm.sites/chgo.sidearmsports.com/images/responsive_2023/main_logo.png',  // Alias for University of Chicago
         'Washington College': 'https://dxbhsrqyrr690.cloudfront.net/sidearm.nextgen.sites/washingtoncollegesports.com/images/responsive_2022/svgs/on-light-theme.svg',
         'Brandeis': 'https://dbukjj6eu5tsf.cloudfront.net/sidearm.sites/brandeisu.sidearmsports.com/images/responsive_2023/logo_main_new.svg',
         'Jessup': 'https://dxbhsrqyrr690.cloudfront.net/sidearm.nextgen.sites/jessup.sidearmsports.com/images/responsive_2024/logo_main.svg',
@@ -3661,7 +3662,7 @@ function updateTeamSuggestions() {
     }
 
     dropdown.innerHTML = matches.map(team =>
-        `<div class="suggestion-item" onclick="selectTeam('${team.replace(/'/g, "\'")}')">${team} (${upcomingTeamsData[team]} games)</div>`
+        `<div class="suggestion-item" onclick="selectTeam('${team.replace(/'/g, "\'")}')">${team} (${countExactTeamGames(team)} games)</div>`
     ).join('');
     dropdown.style.display = 'block';
 }
@@ -3699,6 +3700,33 @@ function renderSelectedTeams() {
 // ============ MAP TAB TEAM SEARCH ============
 let selectedMapTeams = new Set();
 
+// Strip ranking prefix from team name (e.g., "#17 Virginia" -> "Virginia")
+function stripRanking(name) {
+    return (name || '').replace(/^#\d+\s+/, '');
+}
+
+// Count games for a team using exact matching (ignoring rankings)
+// Counts from both unvisited venues (upcomingGamesData) and visited venues (upcomingVisitedVenues)
+function countExactTeamGames(teamName) {
+    // Count from unvisited venues
+    let count = upcomingGamesData.filter(g =>
+        stripRanking(g.homeTeam) === teamName || stripRanking(g.awayTeam) === teamName
+    ).length;
+
+    // Count from visited venues
+    (upcomingVisitedVenues || []).forEach(venue => {
+        (venue.upcomingGames || []).forEach(g => {
+            const home = stripRanking(g.home || '');
+            const away = stripRanking(g.away || '');
+            if (home === teamName || away === teamName) {
+                count++;
+            }
+        });
+    });
+
+    return count;
+}
+
 function updateMapTeamSuggestions() {
     const input = document.getElementById('upcoming-map-team-filter');
     const dropdown = document.getElementById('map-team-suggestions');
@@ -3719,7 +3747,7 @@ function updateMapTeamSuggestions() {
     }
 
     dropdown.innerHTML = matches.map(team =>
-        `<div class="suggestion-item" onclick="selectMapTeam('${team.replace(/'/g, "\'")}')">${team} (${upcomingTeamsData[team]} games)</div>`
+        `<div class="suggestion-item" onclick="selectMapTeam('${team.replace(/'/g, "\'")}')">${team} (${countExactTeamGames(team)} games)</div>`
     ).join('');
     dropdown.style.display = 'block';
 }
@@ -3777,7 +3805,7 @@ function updateTripTeamSuggestions() {
     }
 
     dropdown.innerHTML = matches.map(team =>
-        `<div class="suggestion-item" onclick="selectTripTeam('${team.replace(/'/g, "\'")}')">${team} (${upcomingTeamsData[team]} games)</div>`
+        `<div class="suggestion-item" onclick="selectTripTeam('${team.replace(/'/g, "\'")}')">${team} (${countExactTeamGames(team)} games)</div>`
     ).join('');
     dropdown.style.display = 'block';
 }
@@ -4295,8 +4323,8 @@ function updateUpcomingMap() {
 
         // Team filter - if teams are selected, only show games involving those teams
         if (selectedMapTeams.size > 0) {
-            const awayTeam = game.awayTeam || '';
-            const homeTeam = game.homeTeam || '';
+            const awayTeam = stripRanking(game.awayTeam || '');
+            const homeTeam = stripRanking(game.homeTeam || '');
             const matchesTeam = Array.from(selectedMapTeams).some(team =>
                 awayTeam.toLowerCase() === team.toLowerCase() ||
                 homeTeam.toLowerCase() === team.toLowerCase()
@@ -4452,8 +4480,8 @@ function updateUpcomingMap() {
             }
             // Team filter - if teams are selected, only show games involving those teams
             if (selectedMapTeams.size > 0) {
-                const awayTeam = g.away || g.awayTeam || '';
-                const homeTeam = g.home || g.homeTeam || '';
+                const awayTeam = stripRanking(g.away || g.awayTeam || '');
+                const homeTeam = stripRanking(g.home || g.homeTeam || '');
                 const matchesTeam = Array.from(selectedMapTeams).some(team =>
                     awayTeam.toLowerCase() === team.toLowerCase() ||
                     homeTeam.toLowerCase() === team.toLowerCase()
@@ -4746,8 +4774,8 @@ function generateTrips() {
 
         // Team filter - if teams are selected, only show games involving those teams
         if (selectedTripTeams.size > 0) {
-            const awayTeam = game.awayTeam || '';
-            const homeTeam = game.homeTeam || '';
+            const awayTeam = stripRanking(game.awayTeam || '');
+            const homeTeam = stripRanking(game.homeTeam || '');
             const matchesTeam = Array.from(selectedTripTeams).some(team =>
                 awayTeam.toLowerCase() === team.toLowerCase() ||
                 homeTeam.toLowerCase() === team.toLowerCase()
