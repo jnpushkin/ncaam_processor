@@ -501,8 +501,8 @@ function populateDashboard() {
     const today = new Date().toISOString().split('T')[0];
     const allUpcoming = [];
 
-    // Collect upcoming games from all venues
-    (DATA.venues || []).forEach(venue => {
+    // Collect upcoming games from all venues (data is in upcomingGames.visitedVenues)
+    (DATA.upcomingGames?.visitedVenues || []).forEach(venue => {
         (venue.upcomingGames || []).forEach(g => {
             const gameDate = (g.date || '').split('T')[0];
             if (gameDate < today) return;
@@ -4298,8 +4298,8 @@ function updateUpcomingMap() {
             const awayTeam = game.awayTeam || '';
             const homeTeam = game.homeTeam || '';
             const matchesTeam = Array.from(selectedMapTeams).some(team =>
-                awayTeam.toLowerCase().includes(team.toLowerCase()) ||
-                homeTeam.toLowerCase().includes(team.toLowerCase())
+                awayTeam.toLowerCase() === team.toLowerCase() ||
+                homeTeam.toLowerCase() === team.toLowerCase()
             );
             if (!matchesTeam) return;
         }
@@ -4455,8 +4455,8 @@ function updateUpcomingMap() {
                 const awayTeam = g.away || g.awayTeam || '';
                 const homeTeam = g.home || g.homeTeam || '';
                 const matchesTeam = Array.from(selectedMapTeams).some(team =>
-                    awayTeam.toLowerCase().includes(team.toLowerCase()) ||
-                    homeTeam.toLowerCase().includes(team.toLowerCase())
+                    awayTeam.toLowerCase() === team.toLowerCase() ||
+                    homeTeam.toLowerCase() === team.toLowerCase()
                 );
                 if (!matchesTeam) return false;
             }
@@ -4749,8 +4749,8 @@ function generateTrips() {
             const awayTeam = game.awayTeam || '';
             const homeTeam = game.homeTeam || '';
             const matchesTeam = Array.from(selectedTripTeams).some(team =>
-                awayTeam.toLowerCase().includes(team.toLowerCase()) ||
-                homeTeam.toLowerCase().includes(team.toLowerCase())
+                awayTeam.toLowerCase() === team.toLowerCase() ||
+                homeTeam.toLowerCase() === team.toLowerCase()
             );
             if (!matchesTeam) return false;
         }
