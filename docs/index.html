@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>College Basketball Stats</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏀</text></svg>">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
@@ -27,17 +26,17 @@
         <div class="stats-overview">
             <div class="stat-box">
                 <div class="icon">&#127936;</div>
-                <div class="number">60</div>
+                <div class="number">61</div>
                 <div class="label">Games</div>
             </div>
             <div class="stat-box">
                 <div class="icon">&#128101;</div>
-                <div class="number">877</div>
+                <div class="number">897</div>
                 <div class="label">Players</div>
             </div>
             <div class="stat-box">
                 <div class="icon">&#127942;</div>
-                <div class="number">71</div>
+                <div class="number">72</div>
                 <div class="label">Teams</div>
             </div>
             <div class="stat-box">
@@ -47,7 +46,7 @@
             </div>
             <div class="stat-box">
                 <div class="icon">&#128200;</div>
-                <div class="number">7,797</div>
+                <div class="number">7,956</div>
                 <div class="label">Points</div>
             </div>
             <div class="stat-box">
@@ -66,13 +65,12 @@
                 <div class="label">Future Pros</div>
             </div>
         </div>
-        <div class="generated-time">Generated: 2026-02-01 16:12:29</div>
+        <div class="generated-time">Generated: 2026-02-04 23:05:48</div>
     </div>
 
     <div class="container" id="main-content">
         <div class="tabs" role="tablist">
-            <button class="tab active" onclick="showSection('dashboard')" role="tab" aria-selected="true" data-section="dashboard" tabindex="0">Dashboard</button>
-            <button class="tab" onclick="showSection('games')" role="tab" aria-selected="false" data-section="games" tabindex="-1">Games</button>
+            <button class="tab active" onclick="showSection('games')" role="tab" aria-selected="true" data-section="games" tabindex="0">Games</button>
             <button class="tab" onclick="showSection('players')" role="tab" aria-selected="false" data-section="players" tabindex="-1">Players</button>
             <button class="tab" onclick="showSection('milestones')" role="tab" aria-selected="false" data-section="milestones" tabindex="-1">Achievements</button>
             <button class="tab" onclick="showSection('teams')" role="tab" aria-selected="false" data-section="teams" tabindex="-1">Teams</button>
@@ -85,44 +83,7 @@
             <button class="tab" onclick="showSection('upcoming')" role="tab" aria-selected="false" data-section="upcoming" tabindex="-1">Upcoming</button>
         </div>
 
-        <div id="dashboard" class="section active" role="tabpanel">
-            <h2>Dashboard</h2>
-            <div class="dashboard-grid">
-                <div class="dashboard-card recent-games-card">
-                    <h3>Recent Games</h3>
-                    <div id="dashboard-recent-games"></div>
-                </div>
-                <div class="dashboard-card top-performers-card">
-                    <h3>Top Performers (Last 5 Games)</h3>
-                    <div id="dashboard-top-performers"></div>
-                </div>
-                <div class="dashboard-card season-summary-card">
-                    <h3>Season Summary</h3>
-                    <div id="dashboard-season-summary"></div>
-                </div>
-                <div class="dashboard-card upcoming-card">
-                    <h3>Upcoming Games</h3>
-                    <div id="dashboard-upcoming"></div>
-                </div>
-                <div class="dashboard-card streaks-card">
-                    <h3>Current Streaks</h3>
-                    <div id="dashboard-streaks"></div>
-                </div>
-                <div class="dashboard-card quick-links-card">
-                    <h3>Quick Links</h3>
-                    <div class="quick-links">
-                        <button class="quick-link-btn" onclick="showSection('games')">All Games</button>
-                        <button class="quick-link-btn" onclick="showSection('players')">Players</button>
-                        <button class="quick-link-btn" onclick="showSection('teams')">Teams</button>
-                        <button class="quick-link-btn" onclick="showSection('venues')">Venues</button>
-                        <button class="quick-link-btn" onclick="showSection('calendar')">Calendar</button>
-                        <button class="quick-link-btn" onclick="showSection('future-pros')">Future Pros</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="games" class="section" role="tabpanel">
+        <div id="games" class="section active" role="tabpanel">
             <h2>
                 Game Log
                 <div class="section-actions">
@@ -600,14 +561,13 @@
                     <table id="teams-table" aria-label="Team Records">
                         <thead>
                             <tr>
-                                <th style="width: 40px;" class="tooltip" data-tooltip="Click star to add to favorites"></th>
-                                <th onclick="sortTable('teams-table', 1)">Team</th>
-                                <th onclick="sortTable('teams-table', 2)" class="tooltip" data-tooltip="Games played">GP</th>
-                                <th onclick="sortTable('teams-table', 3)">Wins</th>
-                                <th onclick="sortTable('teams-table', 4)">Losses</th>
-                                <th onclick="sortTable('teams-table', 5)" class="tooltip" data-tooltip="Win percentage">Win%</th>
-                                <th onclick="sortTable('teams-table', 6)" class="tooltip" data-tooltip="Points per game">PPG</th>
-                                <th onclick="sortTable('teams-table', 7)" class="tooltip" data-tooltip="Points allowed per game">PAPG</th>
+                                <th onclick="sortTable('teams-table', 0)">Team</th>
+                                <th onclick="sortTable('teams-table', 1)" class="tooltip" data-tooltip="Games played">GP</th>
+                                <th onclick="sortTable('teams-table', 2)">Wins</th>
+                                <th onclick="sortTable('teams-table', 3)">Losses</th>
+                                <th onclick="sortTable('teams-table', 4)" class="tooltip" data-tooltip="Win percentage">Win%</th>
+                                <th onclick="sortTable('teams-table', 5)" class="tooltip" data-tooltip="Points per game">PPG</th>
+                                <th onclick="sortTable('teams-table', 6)" class="tooltip" data-tooltip="Points allowed per game">PAPG</th>
                             </tr>
                         </thead>
                         <tbody></tbody>
@@ -1141,50 +1101,42 @@
     </div>
 
     <!-- Player Detail Modal -->
-    <div class="modal" id="player-modal" role="dialog" aria-labelledby="player-modal-title" onclick="if(event.target === this) closeModal('player-modal', true)">
+    <div class="modal" id="player-modal" role="dialog" aria-labelledby="player-modal-title" onclick="if(event.target === this) closeModal('player-modal')">
         <div class="modal-content">
-            <button class="modal-close" onclick="closeModal('player-modal', true)" aria-label="Close">&times;</button>
+            <button class="modal-close" onclick="closeModal('player-modal')" aria-label="Close">&times;</button>
             <div id="player-detail"></div>
         </div>
     </div>
 
     <!-- Game Detail Modal (Box Score) -->
-    <div class="modal" id="game-modal" role="dialog" aria-labelledby="game-modal-title" onclick="if(event.target === this) closeModal('game-modal', true)">
+    <div class="modal" id="game-modal" role="dialog" aria-labelledby="game-modal-title" onclick="if(event.target === this) closeModal('game-modal')">
         <div class="modal-content">
-            <button class="modal-close" onclick="closeModal('game-modal', true)" aria-label="Close">&times;</button>
+            <button class="modal-close" onclick="closeModal('game-modal')" aria-label="Close">&times;</button>
             <div id="game-detail"></div>
         </div>
     </div>
 
     <!-- Venue Detail Modal -->
-    <div class="modal" id="venue-modal" role="dialog" aria-labelledby="venue-modal-title" onclick="if(event.target === this) closeModal('venue-modal', true)">
+    <div class="modal" id="venue-modal" role="dialog" aria-labelledby="venue-modal-title" onclick="if(event.target === this) closeModal('venue-modal')">
         <div class="modal-content">
-            <button class="modal-close" onclick="closeModal('venue-modal', true)" aria-label="Close">&times;</button>
+            <button class="modal-close" onclick="closeModal('venue-modal')" aria-label="Close">&times;</button>
             <div id="venue-detail"></div>
         </div>
     </div>
 
     <!-- Day Games Modal (for calendar multi-game days) -->
-    <div class="modal" id="day-games-modal" role="dialog" aria-labelledby="day-games-modal-title" onclick="if(event.target === this) closeModal('day-games-modal', true)">
+    <div class="modal" id="day-games-modal" role="dialog" aria-labelledby="day-games-modal-title" onclick="if(event.target === this) closeModal('day-games-modal')">
         <div class="modal-content modal-small">
-            <button class="modal-close" onclick="closeModal('day-games-modal', true)" aria-label="Close">&times;</button>
+            <button class="modal-close" onclick="closeModal('day-games-modal')" aria-label="Close">&times;</button>
             <div id="day-games-detail"></div>
         </div>
     </div>
 
     <!-- Conference Teams Modal (for conference progress click) -->
-    <div class="modal" id="conf-teams-modal" role="dialog" aria-labelledby="conf-teams-modal-title" onclick="if(event.target === this) closeModal('conf-teams-modal', true)">
+    <div class="modal" id="conf-teams-modal" role="dialog" aria-labelledby="conf-teams-modal-title" onclick="if(event.target === this) closeModal('conf-teams-modal')">
         <div class="modal-content modal-medium">
-            <button class="modal-close" onclick="closeModal('conf-teams-modal', true)" aria-label="Close">&times;</button>
+            <button class="modal-close" onclick="closeModal('conf-teams-modal')" aria-label="Close">&times;</button>
             <div id="conf-teams-detail"></div>
-        </div>
-    </div>
-
-    <!-- Team Detail Modal -->
-    <div class="modal" id="team-modal" role="dialog" aria-labelledby="team-modal-title" onclick="if(event.target === this) closeModal('team-modal', true)">
-        <div class="modal-content">
-            <button class="modal-close" onclick="closeModal('team-modal', true)" aria-label="Close">&times;</button>
-            <div id="team-detail"></div>
         </div>
     </div>
 

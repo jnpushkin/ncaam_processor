@@ -5034,8 +5034,8 @@ const DATA = {
       "Intl_National_Team": false,
       "Intl_Leagues": [
         "NBA",
-        "Greek League",
-        "Liga ACB (Spain)"
+        "Liga ACB (Spain)",
+        "Greek League"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/72776/",
@@ -5185,8 +5185,8 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "Liga ACB (Spain)",
-        "NBA"
+        "NBA",
+        "Liga ACB (Spain)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/72775/",
@@ -5277,12 +5277,12 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "EuroLeague",
-        "BSL (Turkey)",
-        "BBL (Germany)",
+        "Serie A (Italy)",
         "NBL (Australia)",
+        "EuroLeague",
         "NBA",
-        "Serie A (Italy)"
+        "BBL (Germany)",
+        "BSL (Turkey)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/69259/",
@@ -5371,10 +5371,10 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "PLK (Poland)",
         "Eredivisie (Netherlands)",
-        "Korisliiga (Finland)",
-        "BBL (Germany)"
+        "BBL (Germany)",
+        "PLK (Poland)",
+        "Korisliiga (Finland)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/46109/",
@@ -5420,8 +5420,8 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "NBL (Australia)",
-        "NBL (New Zealand)"
+        "NBL (New Zealand)",
+        "NBL (Australia)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/6677/",
@@ -5512,12 +5512,12 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "Israeli League",
-        "BSL (Turkey)",
-        "Greek League",
         "EuroCup",
+        "Israeli League",
+        "Greek League",
+        "NBA",
         "LNB Pro A (France)",
-        "NBA"
+        "BSL (Turkey)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/11672/",
@@ -5651,12 +5651,12 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": true,
       "Intl_Leagues": [
-        "Israeli League",
         "EuroLeague",
         "BSL (Turkey)",
-        "CBA (China)",
         "B.League (Japan)",
-        "NBA"
+        "NBA",
+        "CBA (China)",
+        "Israeli League"
       ],
       "Intl_Tournaments": [
         "FIBA World Cup",
@@ -5705,8 +5705,8 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "EuroCup",
-        "BBL (Germany)"
+        "BBL (Germany)",
+        "EuroCup"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/179976/",
@@ -5756,9 +5756,9 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "NBA",
-        "Liga ACB (Spain)",
         "BSN (Puerto Rico)",
+        "Liga ACB (Spain)",
+        "NBA",
         "EuroLeague"
       ],
       "Intl_Tournaments": [],
@@ -5859,8 +5859,8 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "BNXT League",
-        "B2.League (Japan)"
+        "B2.League (Japan)",
+        "BNXT League"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/178649/",
@@ -5992,10 +5992,10 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "PLK (Poland)",
-        "EuroCup",
         "NBL (New Zealand)",
-        "BBL (Germany)"
+        "BBL (Germany)",
+        "PLK (Poland)",
+        "EuroCup"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/13141/",
@@ -6514,12 +6514,12 @@ const DATA = {
       "Intl_National_Team": false,
       "Intl_Leagues": [
         "VTB United League",
-        "EuroLeague",
-        "BSL (Turkey)",
-        "Liga ACB (Spain)",
         "EuroCup",
+        "Serie A (Italy)",
+        "EuroLeague",
         "Eredivisie (Netherlands)",
-        "Serie A (Italy)"
+        "Liga ACB (Spain)",
+        "BSL (Turkey)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/62490/",
@@ -7595,10 +7595,10 @@ const DATA = {
       "Intl_National_Team": false,
       "Intl_Leagues": [
         "PLK (Poland)",
-        "Greek League",
         "TBL (Turkey)",
-        "LNB Pro A (France)",
-        "Serie A (Italy)"
+        "Serie A (Italy)",
+        "Greek League",
+        "LNB Pro A (France)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/60443/",
@@ -8032,9 +8032,9 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
+        "EuroCup",
         "EuroLeague",
         "Liga ACB (Spain)",
-        "EuroCup",
         "BBL (Germany)",
         "LEB Oro (Spain)"
       ],
@@ -8566,13 +8566,13 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
+        "Serie A (Italy)",
+        "NBL (Australia)",
         "EuroLeague",
         "Greek League",
-        "Liga ACB (Spain)",
-        "LNB Pro A (France)",
-        "NBL (Australia)",
         "NBA",
-        "Serie A (Italy)"
+        "Liga ACB (Spain)",
+        "LNB Pro A (France)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/72831/",
@@ -9095,9 +9095,9 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
+        "Eredivisie (Netherlands)",
         "TBL (Turkey)",
-        "Korisliiga (Finland)",
-        "Eredivisie (Netherlands)"
+        "Korisliiga (Finland)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/37205/",
@@ -10060,9 +10060,9 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "ProA (Germany)",
         "ABA League",
-        "LPB (Portugal)"
+        "LPB (Portugal)",
+        "ProA (Germany)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/72751/",
@@ -10331,9 +10331,9 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "Israeli League",
+        "BSN (Puerto Rico)",
         "NBA",
-        "BSN (Puerto Rico)"
+        "Israeli League"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/72930/",
@@ -10635,9 +10635,9 @@ const DATA = {
       "Intl_National_Team": false,
       "Intl_Leagues": [
         "TBL (Turkey)",
-        "BNXT League",
+        "Ligaen (Denmark)",
         "Pro B (France)",
-        "Ligaen (Denmark)"
+        "BNXT League"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/76159/",
@@ -10812,11 +10812,11 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "Pro B (France)",
+        "CEBL (Canada)",
         "Ligaen (Denmark)",
         "NBL (Australia)",
         "NBA",
-        "CEBL (Canada)"
+        "Pro B (France)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/72932/",
@@ -11034,8 +11034,8 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "EuroCup",
-        "A Liga (Hungary)"
+        "A Liga (Hungary)",
+        "EuroCup"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/194677/",
@@ -11297,8 +11297,8 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "Greek League",
         "LNBP (Mexico)",
+        "Greek League",
         "NBL (New Zealand)"
       ],
       "Intl_Tournaments": [],
@@ -11468,11 +11468,11 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
+        "EuroCup",
+        "Serie A (Italy)",
         "EuroLeague",
         "Liga ACB (Spain)",
-        "EuroCup",
-        "BBL (Germany)",
-        "Serie A (Italy)"
+        "BBL (Germany)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/69470/",
@@ -13016,8 +13016,8 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "Greek League",
         "BBL (Germany)",
+        "Greek League",
         "BSL (Turkey)"
       ],
       "Intl_Tournaments": [],
@@ -13277,8 +13277,8 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "Greek League",
-        "Division A (Romania)"
+        "Division A (Romania)",
+        "Greek League"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/189211/",
@@ -13408,10 +13408,10 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "Serie A2 (Italy)",
+        "BBL (Germany)",
         "PLK (Poland)",
         "Pro B (France)",
-        "BBL (Germany)"
+        "Serie A2 (Italy)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/49650/",
@@ -13562,10 +13562,10 @@ const DATA = {
       "Intl_National_Team": false,
       "Intl_Leagues": [
         "EuroLeague",
-        "BSL (Turkey)",
-        "CBA (China)",
         "Greek League",
-        "NBA"
+        "NBA",
+        "CBA (China)",
+        "BSL (Turkey)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/189151/",
@@ -13745,9 +13745,9 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "CEBL (Canada)",
         "ProA (Germany)",
-        "A Liga (Hungary)"
+        "A Liga (Hungary)",
+        "CEBL (Canada)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/61128/",
@@ -14095,9 +14095,9 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "LNB Pro A (France)",
         "PLK (Poland)",
-        "Serie A2 (Italy)"
+        "Serie A2 (Italy)",
+        "LNB Pro A (France)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/76297/",
@@ -14568,8 +14568,8 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "NBL (Australia)",
-        "B.League (Japan)"
+        "B.League (Japan)",
+        "NBL (Australia)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/189135/",
@@ -15191,8 +15191,8 @@ const DATA = {
       "Intl_National_Team": false,
       "Intl_Leagues": [
         "Greek League",
-        "Israeli League",
-        "EuroCup"
+        "EuroCup",
+        "Israeli League"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/189138/",
@@ -15322,11 +15322,11 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
+        "Korisliiga (Finland)",
+        "CEBL (Canada)",
         "Division A (Romania)",
         "ProA (Germany)",
-        "LPB (Portugal)",
-        "Korisliiga (Finland)",
-        "CEBL (Canada)"
+        "LPB (Portugal)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/61136/",
@@ -15372,11 +15372,11 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
+        "SBL (Switzerland)",
+        "Korisliiga (Finland)",
         "Division A (Romania)",
         "A Liga (Hungary)",
-        "National League (Israel)",
-        "SBL (Switzerland)",
-        "Korisliiga (Finland)"
+        "National League (Israel)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/16638/",
@@ -15590,10 +15590,10 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "LNB Pro A (France)",
+        "A Liga (Hungary)",
         "PLK (Poland)",
         "EuroCup",
-        "A Liga (Hungary)"
+        "LNB Pro A (France)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/72832/",
@@ -15814,8 +15814,8 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "EuroCup",
         "Serie A2 (Italy)",
+        "EuroCup",
         "BSL (Turkey)"
       ],
       "Intl_Tournaments": [],
@@ -16116,8 +16116,8 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "Division A (Romania)",
         "VTB United League",
+        "Division A (Romania)",
         "PLK (Poland)"
       ],
       "Intl_Tournaments": [],
@@ -16813,10 +16813,10 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "NBL (Australia)",
-        "NBL (New Zealand)",
         "BSN (Puerto Rico)",
-        "BBL (Germany)"
+        "BBL (Germany)",
+        "NBL (New Zealand)",
+        "NBL (Australia)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/74028/",
@@ -16866,11 +16866,11 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "Israeli League",
-        "BSL (Turkey)",
         "BSN (Puerto Rico)",
         "EuroCup",
-        "BBL (Germany)"
+        "BSL (Turkey)",
+        "BBL (Germany)",
+        "Israeli League"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/189142/",
@@ -17385,8 +17385,8 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "LNB Pro A (France)",
         "EuroCup",
+        "LNB Pro A (France)",
         "Serie A (Italy)"
       ],
       "Intl_Tournaments": [],
@@ -17515,10 +17515,10 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "Korisliiga (Finland)",
-        "BNXT League",
         "BBL (Germany)",
-        "Serie A (Italy)"
+        "Serie A (Italy)",
+        "Korisliiga (Finland)",
+        "BNXT League"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/189886/",
@@ -17863,9 +17863,9 @@ const DATA = {
       "Intl_National_Team": false,
       "Intl_Leagues": [
         "Greek League",
-        "Israeli League",
         "EuroCup",
-        "Serie A (Italy)"
+        "Serie A (Italy)",
+        "Israeli League"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/189134/",
@@ -18091,8 +18091,8 @@ const DATA = {
       "Intl_National_Team": false,
       "Intl_Leagues": [
         "ProA (Germany)",
-        "Liga Nacional (Argentina)",
-        "A Liga (Hungary)"
+        "A Liga (Hungary)",
+        "Liga Nacional (Argentina)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/69476/",
@@ -18224,8 +18224,8 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "ProA (Germany)",
-        "LNBP (Mexico)"
+        "LNBP (Mexico)",
+        "ProA (Germany)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/49653/",
@@ -19134,8 +19134,8 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "EuroLeague",
-        "BBL (Germany)"
+        "BBL (Germany)",
+        "EuroLeague"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/188763/",
@@ -19691,8 +19691,8 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "ProA (Germany)",
-        "Liga Nova KBM (Slovenia)"
+        "Liga Nova KBM (Slovenia)",
+        "ProA (Germany)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/72741/",
@@ -19828,12 +19828,12 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "LNBP (Mexico)",
-        "A Liga (Hungary)",
         "PLK (Poland)",
+        "EuroCup",
         "NBL (New Zealand)",
         "Greek League",
-        "EuroCup"
+        "LNBP (Mexico)",
+        "A Liga (Hungary)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/177355/",
@@ -19880,11 +19880,11 @@ const DATA = {
       "Intl_National_Team": false,
       "Intl_Leagues": [
         "EuroLeague",
-        "BSL (Turkey)",
         "Liga ACB (Spain)",
         "BBL (Germany)",
+        "ABA League",
         "LNB Pro A (France)",
-        "ABA League"
+        "BSL (Turkey)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/69592/",
@@ -20107,9 +20107,9 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "Israeli League",
         "LNB Pro A (France)",
-        "Pro B (France)"
+        "Pro B (France)",
+        "Israeli League"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/178693/",
@@ -20243,11 +20243,11 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "Israeli League",
+        "PLK (Poland)",
+        "Serie A (Italy)",
         "LNBP (Mexico)",
         "A Liga (Hungary)",
-        "PLK (Poland)",
-        "Serie A (Italy)"
+        "Israeli League"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/71608/",
@@ -20461,12 +20461,12 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "Division A (Romania)",
-        "FIBA Europe Cup",
         "PLK (Poland)",
+        "TBL (Turkey)",
         "Ligaen (Denmark)",
-        "Liga Nova KBM (Slovenia)",
-        "TBL (Turkey)"
+        "FIBA Europe Cup",
+        "Division A (Romania)",
+        "Liga Nova KBM (Slovenia)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/69639/",
@@ -20852,9 +20852,9 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
+        "BBL (Germany)",
         "Greek League",
         "EuroCup",
-        "BBL (Germany)",
         "Serie A (Italy)"
       ],
       "Intl_Tournaments": [],
@@ -21242,8 +21242,8 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "BNXT League",
-        "Ligaen (Denmark)"
+        "Ligaen (Denmark)",
+        "BNXT League"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/190690/",
@@ -21514,16 +21514,16 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "Israeli League",
-        "BSL (Turkey)",
-        "A Liga (Hungary)",
         "PLK (Poland)",
-        "Liga ACB (Spain)",
-        "Greek League",
         "EuroCup",
+        "Serie A (Italy)",
+        "BSL (Turkey)",
         "BCL",
+        "Greek League",
+        "Liga ACB (Spain)",
+        "A Liga (Hungary)",
         "LEB Oro (Spain)",
-        "Serie A (Italy)"
+        "Israeli League"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/15851/",
@@ -21744,8 +21744,8 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "Korisliiga (Finland)",
-        "Liga Nacional (Argentina)"
+        "Liga Nacional (Argentina)",
+        "Korisliiga (Finland)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/76194/",
@@ -21932,8 +21932,8 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "BNXT League",
-        "Eredivisie (Netherlands)"
+        "Eredivisie (Netherlands)",
+        "BNXT League"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/60307/",
@@ -22325,8 +22325,8 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "LNB Pro A (France)",
         "EuroCup",
+        "LNB Pro A (France)",
         "Serie A (Italy)",
         "BSL (Turkey)"
       ],
@@ -22464,8 +22464,8 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "ProA (Germany)",
-        "Liga Nova KBM (Slovenia)"
+        "Liga Nova KBM (Slovenia)",
+        "ProA (Germany)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/189892/",
@@ -23024,9 +23024,9 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
+        "NBA",
         "Israeli League",
         "EuroCup",
-        "NBA",
         "EuroLeague"
       ],
       "Intl_Tournaments": [],
@@ -23252,10 +23252,10 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "Greek League",
         "SBL (Switzerland)",
-        "BNXT League",
-        "Pro B (France)"
+        "Greek League",
+        "Pro B (France)",
+        "BNXT League"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/45831/",
@@ -23474,15 +23474,15 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "A Liga (Hungary)",
         "PLK (Poland)",
         "TBL (Turkey)",
+        "CEBL (Canada)",
         "BBL (Germany)",
-        "LNB Pro A (France)",
         "ABA League",
-        "LPB (Portugal)",
         "Basketligan (Sweden)",
-        "CEBL (Canada)"
+        "LNB Pro A (France)",
+        "A Liga (Hungary)",
+        "LPB (Portugal)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/69477/",
@@ -23700,12 +23700,12 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "Israeli League",
-        "Pro B (France)",
         "BSN (Puerto Rico)",
+        "Serie A (Italy)",
         "Greek League",
         "Liga ACB (Spain)",
-        "Serie A (Italy)"
+        "Pro B (France)",
+        "Israeli League"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/49647/",
@@ -23794,8 +23794,8 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "National League (Israel)",
-        "TBL (Turkey)"
+        "TBL (Turkey)",
+        "National League (Israel)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/183758/",
@@ -24095,8 +24095,8 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "LNB Pro A (France)",
-        "B.League (Japan)"
+        "B.League (Japan)",
+        "LNB Pro A (France)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/16807/",
@@ -24749,9 +24749,9 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
+        "Eredivisie (Netherlands)",
         "PLK (Poland)",
-        "LPB (Portugal)",
-        "Eredivisie (Netherlands)"
+        "LPB (Portugal)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/11621/",
@@ -25366,8 +25366,8 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "CBA (China)",
-        "NBA"
+        "NBA",
+        "CBA (China)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/63544/",
@@ -26184,9 +26184,9 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "Division A (Romania)",
+        "LNBP (Mexico)",
         "PLK (Poland)",
-        "LNBP (Mexico)"
+        "Division A (Romania)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/189214/",
@@ -26912,12 +26912,12 @@ const DATA = {
       "Intl_National_Team": false,
       "Intl_Leagues": [
         "Korisliiga (Finland)",
+        "Eredivisie (Netherlands)",
         "LNBP (Mexico)",
         "Pro B (France)",
-        "National League (Israel)",
-        "Serie A2 (Italy)",
-        "Eredivisie (Netherlands)",
         "ProA (Germany)",
+        "Serie A2 (Italy)",
+        "National League (Israel)",
         "Liga Nacional (Argentina)"
       ],
       "Intl_Tournaments": [],
@@ -27561,8 +27561,8 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "LPB (Portugal)",
-        "Basketligan (Sweden)"
+        "Basketligan (Sweden)",
+        "LPB (Portugal)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/205776/",
@@ -28600,11 +28600,11 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "Division A (Romania)",
+        "Korisliiga (Finland)",
         "NBL (New Zealand)",
+        "Division A (Romania)",
         "ProA (Germany)",
-        "LPB (Portugal)",
-        "Korisliiga (Finland)"
+        "LPB (Portugal)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/182733/",
@@ -28816,13 +28816,13 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "Eredivisie (Netherlands)",
+        "EuroCup",
         "Greek League",
         "B.League (Japan)",
-        "EuroCup",
-        "B2.League (Japan)",
+        "Eredivisie (Netherlands)",
         "BBL (Germany)",
-        "LEB Oro (Spain)"
+        "LEB Oro (Spain)",
+        "B2.League (Japan)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/61132/",
@@ -29540,8 +29540,8 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "LNB Pro A (France)",
         "TBL (Turkey)",
+        "LNB Pro A (France)",
         "LPB (Portugal)",
         "Liga Nacional (Argentina)"
       ],
@@ -29805,10 +29805,10 @@ const DATA = {
       "Intl_National_Team": true,
       "Intl_Leagues": [
         "BSN (Puerto Rico)",
-        "Greek League",
-        "Liga ACB (Spain)",
         "EuroCup",
-        "NBA"
+        "Greek League",
+        "NBA",
+        "Liga ACB (Spain)"
       ],
       "Intl_Tournaments": [
         "Olympics"
@@ -30149,8 +30149,8 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "LEB Oro (Spain)",
-        "LNBP (Mexico)"
+        "LNBP (Mexico)",
+        "LEB Oro (Spain)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/191092/",
@@ -30870,10 +30870,10 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "Greek League",
         "ProA (Germany)",
-        "BNXT League",
-        "Liga Nacional (Argentina)"
+        "Liga Nacional (Argentina)",
+        "Greek League",
+        "BNXT League"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/16806/",
@@ -30962,8 +30962,8 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "Greek League",
-        "Basketligan (Sweden)"
+        "Basketligan (Sweden)",
+        "Greek League"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/8133/",
@@ -31096,12 +31096,12 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "BSL (Turkey)",
+        "Serie A (Italy)",
         "Greek League",
-        "Serie A2 (Italy)",
-        "ProA (Germany)",
         "Basketligan (Sweden)",
-        "Serie A (Italy)"
+        "ProA (Germany)",
+        "Serie A2 (Italy)",
+        "BSL (Turkey)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/69546/",
@@ -31865,13 +31865,13 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "Israeli League",
-        "Division A (Romania)",
         "BSN (Puerto Rico)",
+        "TBL (Turkey)",
         "NBL (New Zealand)",
         "Greek League",
-        "TBL (Turkey)",
-        "B2.League (Japan)"
+        "Division A (Romania)",
+        "B2.League (Japan)",
+        "Israeli League"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/76299/",
@@ -32419,9 +32419,9 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "LNB Pro A (France)",
-        "CBA (China)",
         "NBA",
+        "CBA (China)",
+        "LNB Pro A (France)",
         "EuroLeague"
       ],
       "Intl_Tournaments": [],
@@ -32716,11 +32716,11 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "Israeli League",
-        "A Liga (Hungary)",
         "PLK (Poland)",
         "NBL (New Zealand)",
-        "Basketligan (Sweden)"
+        "Basketligan (Sweden)",
+        "A Liga (Hungary)",
+        "Israeli League"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/189189/",
@@ -33141,9 +33141,9 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": true,
       "Intl_Leagues": [
-        "NBL (Australia)",
         "NBA",
         "BBL (Germany)",
+        "NBL (Australia)",
         "BSL (Turkey)"
       ],
       "Intl_Tournaments": [
@@ -33935,8 +33935,8 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "National League (Israel)",
         "Division A (Romania)",
+        "National League (Israel)",
         "ProA (Germany)"
       ],
       "Intl_Tournaments": [],
@@ -34333,9 +34333,9 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "B.League (Japan)",
+        "BSN (Puerto Rico)",
         "NBA",
-        "BSN (Puerto Rico)"
+        "B.League (Japan)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/16805/",
@@ -34385,12 +34385,12 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "BSL (Turkey)",
-        "Liga ACB (Spain)",
-        "B.League (Japan)",
         "EuroCup",
+        "Serie A (Italy)",
+        "B.League (Japan)",
+        "Liga ACB (Spain)",
         "B2.League (Japan)",
-        "Serie A (Italy)"
+        "BSL (Turkey)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/69332/",
@@ -35147,8 +35147,8 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "NBL (Australia)",
-        "NBL (New Zealand)"
+        "NBL (New Zealand)",
+        "NBL (Australia)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/180484/",
@@ -36115,9 +36115,9 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
+        "BBL (Germany)",
         "Ligaen (Denmark)",
-        "BNXT League",
-        "BBL (Germany)"
+        "BNXT League"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/73017/",
@@ -36163,11 +36163,11 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
+        "EuroCup",
+        "Serie A (Italy)",
         "EuroLeague",
         "Liga ACB (Spain)",
-        "EuroCup",
-        "ABA League",
-        "Serie A (Italy)"
+        "ABA League"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/178750/",
@@ -37095,11 +37095,11 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "Pro B (France)",
-        "LEB Oro (Spain)",
         "EuroCup",
+        "ABA League",
         "LNB Pro A (France)",
-        "ABA League"
+        "Pro B (France)",
+        "LEB Oro (Spain)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/56830/",
@@ -37318,8 +37318,8 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "PLK (Poland)",
-        "NBA"
+        "NBA",
+        "PLK (Poland)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/178596/",
@@ -37365,12 +37365,12 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "Israeli League",
-        "A Liga (Hungary)",
         "PLK (Poland)",
-        "Greek League",
         "Serie A2 (Italy)",
-        "BBL (Germany)"
+        "Greek League",
+        "BBL (Germany)",
+        "A Liga (Hungary)",
+        "Israeli League"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/178594/",
@@ -39404,8 +39404,8 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "ProA (Germany)",
-        "BBL (Germany)"
+        "BBL (Germany)",
+        "ProA (Germany)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/180253/",
@@ -39701,10 +39701,10 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "CEBL (Canada)",
+        "A Liga (Hungary)",
         "ABA League",
-        "BNXT League",
-        "A Liga (Hungary)"
+        "CEBL (Canada)",
+        "BNXT League"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/63572/",
@@ -39848,13 +39848,13 @@ const DATA = {
       "Intl_National_Team": false,
       "Intl_Leagues": [
         "BSN (Puerto Rico)",
-        "Greek League",
         "EuroCup",
-        "B2.League (Japan)",
+        "CEBL (Canada)",
+        "Greek League",
+        "NBA",
         "BBL (Germany)",
         "LNB Pro A (France)",
-        "NBA",
-        "CEBL (Canada)"
+        "B2.League (Japan)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/189184/",
@@ -40841,11 +40841,11 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "Israeli League",
+        "CEBL (Canada)",
         "BSL (Turkey)",
         "Greek League",
         "NBA",
-        "CEBL (Canada)"
+        "Israeli League"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/72900/",
@@ -42268,16 +42268,16 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "BSL (Turkey)",
-        "A Liga (Hungary)",
         "PLK (Poland)",
+        "EuroCup",
+        "Serie A (Italy)",
+        "TBL (Turkey)",
+        "BCL",
         "Greek League",
         "Liga ACB (Spain)",
-        "TBL (Turkey)",
-        "EuroCup",
-        "BCL",
         "BBL (Germany)",
-        "Serie A (Italy)"
+        "A Liga (Hungary)",
+        "BSL (Turkey)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/72740/",
@@ -42627,8 +42627,8 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "PLK (Poland)",
-        "LNBP (Mexico)"
+        "LNBP (Mexico)",
+        "PLK (Poland)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/55214/",
@@ -42804,12 +42804,12 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "Division A (Romania)",
-        "A Liga (Hungary)",
         "PLK (Poland)",
         "EuroCup",
         "BBL (Germany)",
-        "Basketligan (Sweden)"
+        "Division A (Romania)",
+        "Basketligan (Sweden)",
+        "A Liga (Hungary)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/49654/",
@@ -42943,13 +42943,13 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "Israeli League",
-        "BSL (Turkey)",
         "PLK (Poland)",
+        "CEBL (Canada)",
+        "BSL (Turkey)",
+        "Liga Nacional (Argentina)",
         "Greek League",
         "BBL (Germany)",
-        "Liga Nacional (Argentina)",
-        "CEBL (Canada)"
+        "Israeli League"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/66098/",
@@ -43682,8 +43682,8 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "NBA",
-        "BSN (Puerto Rico)"
+        "BSN (Puerto Rico)",
+        "NBA"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/16236/",
@@ -118642,52 +118642,6 @@ const DATA = {
   "upcomingGames": {
     "games": [
       {
-        "date": "2026-02-04T23:00Z",
-        "dateDisplay": "Wed, Feb 04 2026",
-        "time_detail": "Final",
-        "homeTeam": "VMI",
-        "homeTeamFull": "VMI Keydets",
-        "homeTeamAbbrev": "VMI",
-        "homeConf": "Southern Conference",
-        "homeRank": null,
-        "awayTeam": "Wofford",
-        "awayTeamFull": "Wofford Terriers",
-        "awayTeamAbbrev": "WOF",
-        "awayConf": "Southern Conference",
-        "awayRank": null,
-        "venue": "Cameron Hall",
-        "city": "Lexington",
-        "state": "Virginia",
-        "tv": [
-          "ESPN+"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-04T23:00Z",
-        "dateDisplay": "Wed, Feb 04 2026",
-        "time_detail": "Final",
-        "homeTeam": "UNC Greensboro",
-        "homeTeamFull": "UNC Greensboro Spartans",
-        "homeTeamAbbrev": "UNCG",
-        "homeConf": "Southern Conference",
-        "homeRank": null,
-        "awayTeam": "W Carolina",
-        "awayTeamFull": "Western Carolina Catamounts",
-        "awayTeamAbbrev": "WCU",
-        "awayConf": "Southern Conference",
-        "awayRank": null,
-        "venue": "First Horizon Coliseum",
-        "city": "Greensboro",
-        "state": "North Carolina",
-        "tv": [
-          "ESPN+"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
         "date": "2026-02-04T23:30Z",
         "dateDisplay": "Wed, Feb 04 2026",
         "time_detail": "Final",
@@ -161235,16 +161189,16 @@ const DATA = {
         "conferenceGame": false
       }
     ],
-    "totalGames": 1878,
+    "totalGames": 1876,
     "totalVenues": 384,
     "stateBreakdown": {
-      "Virginia": 61,
-      "North Carolina": 106,
+      "North Carolina": 105,
       "Pennsylvania": 73,
       "Texas": 107,
       "Minnesota": 8,
       "Kentucky": 34,
       "District of Columbia": 31,
+      "Virginia": 60,
       "Florida": 88,
       "New York": 96,
       "Rhode Island": 16,
@@ -161291,7 +161245,6 @@ const DATA = {
       "": 121
     },
     "conferenceBreakdown": {
-      "Southern Conference": 40,
       "Big South": 32,
       "Big East": 48,
       "Sun Belt": 60,
@@ -161304,6 +161257,7 @@ const DATA = {
       "AAC": 42,
       "Summit League": 32,
       "Horizon League": 39,
+      "Southern Conference": 38,
       "SEC": 72,
       "Conference USA": 57,
       "Southland": 47,
@@ -161325,10 +161279,6 @@ const DATA = {
       "MAC": 57
     },
     "teamBreakdown": {
-      "VMI": 8,
-      "Wofford": 8,
-      "UNC Greensboro": 8,
-      "W Carolina": 8,
       "UNC Asheville": 7,
       "SC Upstate": 8,
       "Villanova": 10,
@@ -161574,6 +161524,7 @@ const DATA = {
       "E Michigan": 8,
       "Boston U": 7,
       "Loyola MD": 4,
+      "VMI": 7,
       "South Carolina": 8,
       "Missouri": 9,
       "Iowa State": 9,
@@ -161616,6 +161567,8 @@ const DATA = {
       "DePaul": 8,
       "Florida St": 9,
       "Towson": 7,
+      "Wofford": 7,
+      "W Carolina": 7,
       "Nicholls": 8,
       "Texas A&M-CC": 8,
       "Auburn": 9,
@@ -161675,6 +161628,7 @@ const DATA = {
       "USC": 8,
       "Ohio State": 9,
       "Texas Tech": 9,
+      "UNC Greensboro": 7,
       "Tulane": 9,
       "Maryland": 4,
       "Xavier": 8,
