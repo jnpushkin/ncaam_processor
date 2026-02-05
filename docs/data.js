@@ -1,16 +1,16 @@
 const DATA = {
   "summary": {
-    "totalGames": 60,
-    "totalPlayers": 877,
-    "totalTeams": 71,
+    "totalGames": 61,
+    "totalPlayers": 897,
+    "totalTeams": 72,
     "totalVenues": 20,
-    "totalPoints": 7797,
+    "totalPoints": 7956,
     "conferencesSeen": 26,
     "milestones": {
       "double_doubles": 21,
       "triple_doubles": 0,
-      "twenty_point_games": 48,
-      "thirty_point_games": 1,
+      "twenty_point_games": 51,
+      "thirty_point_games": 2,
       "forty_point_games": 0,
       "ten_rebound_games": 33,
       "fifteen_rebound_games": 2,
@@ -29,6 +29,27 @@ const DATA = {
     "upsets": 3
   },
   "games": [
+    {
+      "Date": "February 05, 2026",
+      "DateSort": "20260205",
+      "Away Team": "Loyola Marymount",
+      "Away Score": 84,
+      "Home Team": "San Francisco",
+      "Home Score": 75,
+      "Venue": "War Memorial at The Sobrato Center",
+      "City": "San Francisco",
+      "State": "California",
+      "Notes": "",
+      "GameID": "UNKNOWN",
+      "HomeTeamSlug": "",
+      "SportsRefURL": "",
+      "Gender": "M",
+      "Division": "D1",
+      "Neutral": false,
+      "Attendance": null,
+      "AwayConf": "WCC",
+      "HomeConf": "WCC"
+    },
     {
       "Date": "January 28, 2026",
       "DateSort": "20260128",
@@ -5012,9 +5033,9 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "Liga ACB (Spain)",
         "NBA",
-        "Greek League"
+        "Greek League",
+        "Liga ACB (Spain)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/72776/",
@@ -5256,12 +5277,12 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "Serie A (Italy)",
-        "BSL (Turkey)",
-        "NBA",
         "EuroLeague",
+        "BSL (Turkey)",
         "BBL (Germany)",
-        "NBL (Australia)"
+        "NBL (Australia)",
+        "NBA",
+        "Serie A (Italy)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/69259/",
@@ -5350,9 +5371,9 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "Korisliiga (Finland)",
         "PLK (Poland)",
         "Eredivisie (Netherlands)",
+        "Korisliiga (Finland)",
         "BBL (Germany)"
       ],
       "Intl_Tournaments": [],
@@ -5491,12 +5512,12 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
+        "Israeli League",
+        "BSL (Turkey)",
+        "Greek League",
         "EuroCup",
         "LNB Pro A (France)",
-        "BSL (Turkey)",
-        "NBA",
-        "Israeli League",
-        "Greek League"
+        "NBA"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/11672/",
@@ -5630,12 +5651,12 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": true,
       "Intl_Leagues": [
-        "BSL (Turkey)",
-        "NBA",
         "Israeli League",
-        "CBA (China)",
         "EuroLeague",
-        "B.League (Japan)"
+        "BSL (Turkey)",
+        "CBA (China)",
+        "B.League (Japan)",
+        "NBA"
       ],
       "Intl_Tournaments": [
         "FIBA World Cup",
@@ -5735,8 +5756,8 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "Liga ACB (Spain)",
         "NBA",
+        "Liga ACB (Spain)",
         "BSN (Puerto Rico)",
         "EuroLeague"
       ],
@@ -5971,9 +5992,9 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
+        "PLK (Poland)",
         "EuroCup",
         "NBL (New Zealand)",
-        "PLK (Poland)",
         "BBL (Germany)"
       ],
       "Intl_Tournaments": [],
@@ -6492,12 +6513,12 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
+        "VTB United League",
+        "EuroLeague",
+        "BSL (Turkey)",
+        "Liga ACB (Spain)",
         "EuroCup",
         "Eredivisie (Netherlands)",
-        "BSL (Turkey)",
-        "EuroLeague",
-        "VTB United League",
-        "Liga ACB (Spain)",
         "Serie A (Italy)"
       ],
       "Intl_Tournaments": [],
@@ -6556,6 +6577,49 @@ const DATA = {
       "Current_League": "G-League",
       "Had_GLeague": true,
       "Years_Pro": 3,
+      "HasSportsRefPage": true,
+      "RealGM_URL": ""
+    },
+    {
+      "Player": "Ryan Beasley",
+      "Player ID": "Ryan Beasley",
+      "Team": "San Francisco",
+      "Gender": "M",
+      "Divisions": "D1",
+      "Games": 1,
+      "Wins": 0,
+      "MPG": 37.0,
+      "PPG": 30.0,
+      "RPG": 7.0,
+      "APG": 1.0,
+      "SPG": 0.0,
+      "BPG": 1.0,
+      "FG%": 0.4,
+      "3P%": 0.333,
+      "FT%": 0.875,
+      "Total PTS": 30,
+      "Total REB": 7,
+      "Total AST": 1,
+      "Total STL": 0,
+      "Total BLK": 1,
+      "FGM": 4,
+      "FGA": 10,
+      "3PM": 1,
+      "3PA": 3,
+      "FTM": 21,
+      "FTA": 24,
+      "NBA": false,
+      "WNBA": false,
+      "International": false,
+      "Intl_Pro": false,
+      "Intl_National_Team": false,
+      "Intl_Leagues": [],
+      "Intl_Tournaments": [],
+      "Proballers_URL": "",
+      "Current_Team": "",
+      "Current_League": "",
+      "Had_GLeague": false,
+      "Years_Pro": 0,
       "HasSportsRefPage": true,
       "RealGM_URL": ""
     },
@@ -6879,6 +6943,49 @@ const DATA = {
       "Years_Pro": 3,
       "HasSportsRefPage": true,
       "RealGM_URL": ""
+    },
+    {
+      "Player": "Jalen Shelley",
+      "Player ID": "Jalen Shelley",
+      "Team": "Loyola Marymount",
+      "Gender": "M",
+      "Divisions": "D1",
+      "Games": 1,
+      "Wins": 1,
+      "MPG": 38.0,
+      "PPG": 27.0,
+      "RPG": 3.0,
+      "APG": 6.0,
+      "SPG": 0.0,
+      "BPG": 0.0,
+      "FG%": 0.562,
+      "3P%": 0.333,
+      "FT%": 0.667,
+      "Total PTS": 27,
+      "Total REB": 3,
+      "Total AST": 6,
+      "Total STL": 0,
+      "Total BLK": 0,
+      "FGM": 9,
+      "FGA": 16,
+      "3PM": 1,
+      "3PA": 3,
+      "FTM": 8,
+      "FTA": 12,
+      "NBA": false,
+      "WNBA": false,
+      "International": false,
+      "Intl_Pro": false,
+      "Intl_National_Team": false,
+      "Intl_Leagues": [],
+      "Intl_Tournaments": [],
+      "Proballers_URL": "",
+      "Current_Team": "",
+      "Current_League": "",
+      "Had_GLeague": false,
+      "Years_Pro": 0,
+      "HasSportsRefPage": true,
+      "RealGM_URL": "https://basketball.realgm.com/player/Jalen-Shelley/Summary/199897"
     },
     {
       "Player": "Candy Edokpaigbe",
@@ -7487,10 +7594,10 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "LNB Pro A (France)",
         "PLK (Poland)",
-        "TBL (Turkey)",
         "Greek League",
+        "TBL (Turkey)",
+        "LNB Pro A (France)",
         "Serie A (Italy)"
       ],
       "Intl_Tournaments": [],
@@ -7631,6 +7738,49 @@ const DATA = {
       "Proballers_URL": "https://www.proballers.com/basketball/player/288526/",
       "Had_GLeague": false,
       "Years_Pro": 1,
+      "HasSportsRefPage": true,
+      "RealGM_URL": ""
+    },
+    {
+      "Player": "Rodney Brown Jr.",
+      "Player ID": "Rodney Brown Jr.",
+      "Team": "Loyola Marymount",
+      "Gender": "M",
+      "Divisions": "D1",
+      "Games": 1,
+      "Wins": 1,
+      "MPG": 37.0,
+      "PPG": 23.0,
+      "RPG": 2.0,
+      "APG": 0.0,
+      "SPG": 2.0,
+      "BPG": 1.0,
+      "FG%": 0.571,
+      "3P%": 0.5,
+      "FT%": 1.0,
+      "Total PTS": 23,
+      "Total REB": 2,
+      "Total AST": 0,
+      "Total STL": 2,
+      "Total BLK": 1,
+      "FGM": 8,
+      "FGA": 14,
+      "3PM": 4,
+      "3PA": 8,
+      "FTM": 3,
+      "FTA": 3,
+      "NBA": false,
+      "WNBA": false,
+      "International": false,
+      "Intl_Pro": false,
+      "Intl_National_Team": false,
+      "Intl_Leagues": [],
+      "Intl_Tournaments": [],
+      "Proballers_URL": "",
+      "Current_Team": "",
+      "Current_League": "",
+      "Had_GLeague": false,
+      "Years_Pro": 0,
       "HasSportsRefPage": true,
       "RealGM_URL": ""
     },
@@ -7882,11 +8032,11 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "EuroCup",
-        "LEB Oro (Spain)",
         "EuroLeague",
+        "Liga ACB (Spain)",
+        "EuroCup",
         "BBL (Germany)",
-        "Liga ACB (Spain)"
+        "LEB Oro (Spain)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/178061/",
@@ -8416,13 +8566,13 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "Serie A (Italy)",
-        "LNB Pro A (France)",
-        "NBA",
         "EuroLeague",
-        "Liga ACB (Spain)",
         "Greek League",
-        "NBL (Australia)"
+        "Liga ACB (Spain)",
+        "LNB Pro A (France)",
+        "NBL (Australia)",
+        "NBA",
+        "Serie A (Italy)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/72831/",
@@ -8868,6 +9018,49 @@ const DATA = {
       "RealGM_URL": "https://basketball.realgm.com/player/Travelle-Bryson/Summary/217609"
     },
     {
+      "Player": "Junjie Wang",
+      "Player ID": "Junjie Wang",
+      "Team": "San Francisco",
+      "Gender": "M",
+      "Divisions": "D1",
+      "Games": 1,
+      "Wins": 0,
+      "MPG": 26.0,
+      "PPG": 19.0,
+      "RPG": 4.0,
+      "APG": 1.0,
+      "SPG": 1.0,
+      "BPG": 0.0,
+      "FG%": 0.375,
+      "3P%": 0.4,
+      "FT%": 0.917,
+      "Total PTS": 19,
+      "Total REB": 4,
+      "Total AST": 1,
+      "Total STL": 1,
+      "Total BLK": 0,
+      "FGM": 3,
+      "FGA": 8,
+      "3PM": 2,
+      "3PA": 5,
+      "FTM": 11,
+      "FTA": 12,
+      "NBA": false,
+      "WNBA": false,
+      "International": false,
+      "Intl_Pro": false,
+      "Intl_National_Team": false,
+      "Intl_Leagues": [],
+      "Intl_Tournaments": [],
+      "Proballers_URL": "",
+      "Current_Team": "",
+      "Current_League": "",
+      "Had_GLeague": false,
+      "Years_Pro": 0,
+      "HasSportsRefPage": true,
+      "RealGM_URL": ""
+    },
+    {
       "Player": "Junior Hairston",
       "Player ID": "junior-hairston-1",
       "Team": "Towson",
@@ -8902,9 +9095,9 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "Eredivisie (Netherlands)",
         "TBL (Turkey)",
-        "Korisliiga (Finland)"
+        "Korisliiga (Finland)",
+        "Eredivisie (Netherlands)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/37205/",
@@ -9868,8 +10061,8 @@ const DATA = {
       "Intl_National_Team": false,
       "Intl_Leagues": [
         "ProA (Germany)",
-        "LPB (Portugal)",
-        "ABA League"
+        "ABA League",
+        "LPB (Portugal)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/72751/",
@@ -10138,9 +10331,9 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
+        "Israeli League",
         "NBA",
-        "BSN (Puerto Rico)",
-        "Israeli League"
+        "BSN (Puerto Rico)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/72930/",
@@ -10441,9 +10634,9 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
+        "TBL (Turkey)",
         "BNXT League",
         "Pro B (France)",
-        "TBL (Turkey)",
         "Ligaen (Denmark)"
       ],
       "Intl_Tournaments": [],
@@ -10619,11 +10812,11 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "NBA",
         "Pro B (France)",
-        "CEBL (Canada)",
         "Ligaen (Denmark)",
-        "NBL (Australia)"
+        "NBL (Australia)",
+        "NBA",
+        "CEBL (Canada)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/72932/",
@@ -10841,8 +11034,8 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "A Liga (Hungary)",
-        "EuroCup"
+        "EuroCup",
+        "A Liga (Hungary)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/194677/",
@@ -11105,8 +11298,8 @@ const DATA = {
       "Intl_National_Team": false,
       "Intl_Leagues": [
         "Greek League",
-        "NBL (New Zealand)",
-        "LNBP (Mexico)"
+        "LNBP (Mexico)",
+        "NBL (New Zealand)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/180429/",
@@ -11275,10 +11468,10 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "EuroCup",
         "EuroLeague",
-        "BBL (Germany)",
         "Liga ACB (Spain)",
+        "EuroCup",
+        "BBL (Germany)",
         "Serie A (Italy)"
       ],
       "Intl_Tournaments": [],
@@ -11678,8 +11871,8 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "Serie A (Italy)",
-        "EuroCup"
+        "EuroCup",
+        "Serie A (Italy)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/189336/",
@@ -12823,9 +13016,9 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "BSL (Turkey)",
         "Greek League",
-        "BBL (Germany)"
+        "BBL (Germany)",
+        "BSL (Turkey)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/72661/",
@@ -13084,8 +13277,8 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "Division A (Romania)",
-        "Greek League"
+        "Greek League",
+        "Division A (Romania)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/189211/",
@@ -13368,11 +13561,11 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "NBA",
+        "EuroLeague",
         "BSL (Turkey)",
         "CBA (China)",
-        "EuroLeague",
-        "Greek League"
+        "Greek League",
+        "NBA"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/189151/",
@@ -13552,9 +13745,9 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "A Liga (Hungary)",
         "CEBL (Canada)",
-        "ProA (Germany)"
+        "ProA (Germany)",
+        "A Liga (Hungary)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/61128/",
@@ -13562,6 +13755,49 @@ const DATA = {
       "Current_League": "CEBL (Canada)",
       "Had_GLeague": false,
       "Years_Pro": 12,
+      "HasSportsRefPage": true,
+      "RealGM_URL": ""
+    },
+    {
+      "Player": "Myron Amey Jr.",
+      "Player ID": "Myron Amey Jr.",
+      "Team": "Loyola Marymount",
+      "Gender": "M",
+      "Divisions": "D1",
+      "Games": 1,
+      "Wins": 1,
+      "MPG": 26.0,
+      "PPG": 12.0,
+      "RPG": 2.0,
+      "APG": 0.0,
+      "SPG": 1.0,
+      "BPG": 1.0,
+      "FG%": 0.667,
+      "3P%": 0.667,
+      "FT%": 0.0,
+      "Total PTS": 12,
+      "Total REB": 2,
+      "Total AST": 0,
+      "Total STL": 1,
+      "Total BLK": 1,
+      "FGM": 4,
+      "FGA": 6,
+      "3PM": 4,
+      "3PA": 6,
+      "FTM": 0,
+      "FTA": 0,
+      "NBA": false,
+      "WNBA": false,
+      "International": false,
+      "Intl_Pro": false,
+      "Intl_National_Team": false,
+      "Intl_Leagues": [],
+      "Intl_Tournaments": [],
+      "Proballers_URL": "",
+      "Current_Team": "",
+      "Current_League": "",
+      "Had_GLeague": false,
+      "Years_Pro": 0,
       "HasSportsRefPage": true,
       "RealGM_URL": ""
     },
@@ -13860,8 +14096,8 @@ const DATA = {
       "Intl_National_Team": false,
       "Intl_Leagues": [
         "LNB Pro A (France)",
-        "Serie A2 (Italy)",
-        "PLK (Poland)"
+        "PLK (Poland)",
+        "Serie A2 (Italy)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/76297/",
@@ -14285,8 +14521,8 @@ const DATA = {
       "Intl_National_Team": false,
       "Intl_Leagues": [
         "LNB Pro A (France)",
-        "EuroLeague",
-        "Pro B (France)"
+        "Pro B (France)",
+        "EuroLeague"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/180212/",
@@ -14954,9 +15190,9 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "EuroCup",
         "Greek League",
-        "Israeli League"
+        "Israeli League",
+        "EuroCup"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/189138/",
@@ -15086,11 +15322,11 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "CEBL (Canada)",
-        "LPB (Portugal)",
+        "Division A (Romania)",
         "ProA (Germany)",
+        "LPB (Portugal)",
         "Korisliiga (Finland)",
-        "Division A (Romania)"
+        "CEBL (Canada)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/61136/",
@@ -15136,11 +15372,11 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "SBL (Switzerland)",
-        "Korisliiga (Finland)",
-        "A Liga (Hungary)",
         "Division A (Romania)",
-        "National League (Israel)"
+        "A Liga (Hungary)",
+        "National League (Israel)",
+        "SBL (Switzerland)",
+        "Korisliiga (Finland)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/16638/",
@@ -15354,14 +15590,14 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "A Liga (Hungary)",
-        "EuroCup",
         "LNB Pro A (France)",
-        "PLK (Poland)"
+        "PLK (Poland)",
+        "EuroCup",
+        "A Liga (Hungary)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/72832/",
-      "Current_Team": "Hkk Siroki",
+      "Current_Team": "Siroki Tt Kabeli",
       "Current_League": "Bosnia Division I",
       "Had_GLeague": false,
       "Years_Pro": 6,
@@ -15579,8 +15815,8 @@ const DATA = {
       "Intl_National_Team": false,
       "Intl_Leagues": [
         "EuroCup",
-        "BSL (Turkey)",
-        "Serie A2 (Italy)"
+        "Serie A2 (Italy)",
+        "BSL (Turkey)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/63539/",
@@ -16445,9 +16681,9 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "Serie A (Italy)",
+        "Serie A2 (Italy)",
         "B2.League (Japan)",
-        "Serie A2 (Italy)"
+        "Serie A (Italy)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/16542/",
@@ -16578,8 +16814,8 @@ const DATA = {
       "Intl_National_Team": false,
       "Intl_Leagues": [
         "NBL (Australia)",
-        "BSN (Puerto Rico)",
         "NBL (New Zealand)",
+        "BSN (Puerto Rico)",
         "BBL (Germany)"
       ],
       "Intl_Tournaments": [],
@@ -16630,11 +16866,11 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "EuroCup",
-        "BSL (Turkey)",
         "Israeli League",
-        "BBL (Germany)",
-        "BSN (Puerto Rico)"
+        "BSL (Turkey)",
+        "BSN (Puerto Rico)",
+        "EuroCup",
+        "BBL (Germany)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/189142/",
@@ -16773,6 +17009,49 @@ const DATA = {
       "Current_League": "Division A (Romania)",
       "Had_GLeague": false,
       "Years_Pro": 7,
+      "HasSportsRefPage": true,
+      "RealGM_URL": ""
+    },
+    {
+      "Player": "Aaron McBride",
+      "Player ID": "Aaron McBride",
+      "Team": "Loyola Marymount",
+      "Gender": "M",
+      "Divisions": "D1",
+      "Games": 1,
+      "Wins": 1,
+      "MPG": 31.0,
+      "PPG": 10.0,
+      "RPG": 5.0,
+      "APG": 1.0,
+      "SPG": 0.0,
+      "BPG": 2.0,
+      "FG%": 0.625,
+      "3P%": 0.0,
+      "FT%": 0.0,
+      "Total PTS": 10,
+      "Total REB": 5,
+      "Total AST": 1,
+      "Total STL": 0,
+      "Total BLK": 2,
+      "FGM": 5,
+      "FGA": 8,
+      "3PM": 0,
+      "3PA": 0,
+      "FTM": 0,
+      "FTA": 0,
+      "NBA": false,
+      "WNBA": false,
+      "International": false,
+      "Intl_Pro": false,
+      "Intl_National_Team": false,
+      "Intl_Leagues": [],
+      "Intl_Tournaments": [],
+      "Proballers_URL": "",
+      "Current_Team": "",
+      "Current_League": "",
+      "Had_GLeague": false,
+      "Years_Pro": 0,
       "HasSportsRefPage": true,
       "RealGM_URL": ""
     },
@@ -17106,9 +17385,9 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "Serie A (Italy)",
+        "LNB Pro A (France)",
         "EuroCup",
-        "LNB Pro A (France)"
+        "Serie A (Italy)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/76301/",
@@ -17236,10 +17515,10 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "Serie A (Italy)",
-        "BNXT League",
         "Korisliiga (Finland)",
-        "BBL (Germany)"
+        "BNXT League",
+        "BBL (Germany)",
+        "Serie A (Italy)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/189886/",
@@ -17583,10 +17862,10 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "Serie A (Italy)",
-        "EuroCup",
         "Greek League",
-        "Israeli League"
+        "Israeli League",
+        "EuroCup",
+        "Serie A (Italy)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/189134/",
@@ -17811,9 +18090,9 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "A Liga (Hungary)",
+        "ProA (Germany)",
         "Liga Nacional (Argentina)",
-        "ProA (Germany)"
+        "A Liga (Hungary)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/69476/",
@@ -19549,12 +19828,12 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "EuroCup",
+        "LNBP (Mexico)",
+        "A Liga (Hungary)",
         "PLK (Poland)",
         "NBL (New Zealand)",
         "Greek League",
-        "A Liga (Hungary)",
-        "LNBP (Mexico)"
+        "EuroCup"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/177355/",
@@ -19600,11 +19879,11 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "LNB Pro A (France)",
-        "BSL (Turkey)",
         "EuroLeague",
-        "BBL (Germany)",
+        "BSL (Turkey)",
         "Liga ACB (Spain)",
+        "BBL (Germany)",
+        "LNB Pro A (France)",
         "ABA League"
       ],
       "Intl_Tournaments": [],
@@ -19828,9 +20107,9 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
+        "Israeli League",
         "LNB Pro A (France)",
-        "Pro B (France)",
-        "Israeli League"
+        "Pro B (France)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/178693/",
@@ -19876,8 +20155,8 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "Basketligan (Sweden)",
-        "Serie A2 (Italy)"
+        "Serie A2 (Italy)",
+        "Basketligan (Sweden)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/72802/",
@@ -19964,11 +20243,11 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "Serie A (Italy)",
-        "PLK (Poland)",
         "Israeli League",
+        "LNBP (Mexico)",
         "A Liga (Hungary)",
-        "LNBP (Mexico)"
+        "PLK (Poland)",
+        "Serie A (Italy)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/71608/",
@@ -19976,6 +20255,49 @@ const DATA = {
       "Current_League": "LNBP (Mexico)",
       "Had_GLeague": false,
       "Years_Pro": 11,
+      "HasSportsRefPage": true,
+      "RealGM_URL": ""
+    },
+    {
+      "Player": "Legend Smiley",
+      "Player ID": "Legend Smiley",
+      "Team": "San Francisco",
+      "Gender": "M",
+      "Divisions": "D1",
+      "Games": 1,
+      "Wins": 0,
+      "MPG": 35.0,
+      "PPG": 8.0,
+      "RPG": 3.0,
+      "APG": 0.0,
+      "SPG": 1.0,
+      "BPG": 0.0,
+      "FG%": 0.333,
+      "3P%": 0.4,
+      "FT%": 0.0,
+      "Total PTS": 8,
+      "Total REB": 3,
+      "Total AST": 0,
+      "Total STL": 1,
+      "Total BLK": 0,
+      "FGM": 3,
+      "FGA": 9,
+      "3PM": 2,
+      "3PA": 5,
+      "FTM": 0,
+      "FTA": 0,
+      "NBA": false,
+      "WNBA": false,
+      "International": false,
+      "Intl_Pro": false,
+      "Intl_National_Team": false,
+      "Intl_Leagues": [],
+      "Intl_Tournaments": [],
+      "Proballers_URL": "",
+      "Current_Team": "",
+      "Current_League": "",
+      "Had_GLeague": false,
+      "Years_Pro": 0,
       "HasSportsRefPage": true,
       "RealGM_URL": ""
     },
@@ -20139,12 +20461,12 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "PLK (Poland)",
-        "TBL (Turkey)",
-        "Liga Nova KBM (Slovenia)",
-        "Ligaen (Denmark)",
         "Division A (Romania)",
-        "FIBA Europe Cup"
+        "FIBA Europe Cup",
+        "PLK (Poland)",
+        "Ligaen (Denmark)",
+        "Liga Nova KBM (Slovenia)",
+        "TBL (Turkey)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/69639/",
@@ -20530,10 +20852,10 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "Serie A (Italy)",
-        "EuroCup",
         "Greek League",
-        "BBL (Germany)"
+        "EuroCup",
+        "BBL (Germany)",
+        "Serie A (Italy)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/189133/",
@@ -21192,15 +21514,15 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "EuroCup",
-        "BCL",
-        "BSL (Turkey)",
-        "PLK (Poland)",
         "Israeli League",
-        "LEB Oro (Spain)",
+        "BSL (Turkey)",
+        "A Liga (Hungary)",
+        "PLK (Poland)",
         "Liga ACB (Spain)",
         "Greek League",
-        "A Liga (Hungary)",
+        "EuroCup",
+        "BCL",
+        "LEB Oro (Spain)",
         "Serie A (Italy)"
       ],
       "Intl_Tournaments": [],
@@ -21333,9 +21655,9 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
+        "Israeli League",
         "B.League (Japan)",
-        "BSL (Turkey)",
-        "Israeli League"
+        "BSL (Turkey)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/76197/",
@@ -21422,8 +21744,8 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "Liga Nacional (Argentina)",
-        "Korisliiga (Finland)"
+        "Korisliiga (Finland)",
+        "Liga Nacional (Argentina)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/76194/",
@@ -22003,9 +22325,9 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "Serie A (Italy)",
-        "EuroCup",
         "LNB Pro A (France)",
+        "EuroCup",
+        "Serie A (Italy)",
         "BSL (Turkey)"
       ],
       "Intl_Tournaments": [],
@@ -22095,8 +22417,8 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "BNXT League",
-        "LPB (Portugal)"
+        "LPB (Portugal)",
+        "BNXT League"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/189891/",
@@ -22702,10 +23024,10 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
+        "Israeli League",
         "EuroCup",
         "NBA",
-        "EuroLeague",
-        "Israeli League"
+        "EuroLeague"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/67673/",
@@ -22930,9 +23252,9 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "BNXT League",
         "Greek League",
         "SBL (Switzerland)",
+        "BNXT League",
         "Pro B (France)"
       ],
       "Intl_Tournaments": [],
@@ -23152,15 +23474,15 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "LNB Pro A (France)",
+        "A Liga (Hungary)",
         "PLK (Poland)",
         "TBL (Turkey)",
-        "CEBL (Canada)",
         "BBL (Germany)",
+        "LNB Pro A (France)",
+        "ABA League",
         "LPB (Portugal)",
         "Basketligan (Sweden)",
-        "A Liga (Hungary)",
-        "ABA League"
+        "CEBL (Canada)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/69477/",
@@ -23380,10 +23702,10 @@ const DATA = {
       "Intl_Leagues": [
         "Israeli League",
         "Pro B (France)",
-        "Liga ACB (Spain)",
+        "BSN (Puerto Rico)",
         "Greek League",
-        "Serie A (Italy)",
-        "BSN (Puerto Rico)"
+        "Liga ACB (Spain)",
+        "Serie A (Italy)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/49647/",
@@ -24204,8 +24526,8 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "A Liga (Hungary)",
-        "LNBP (Mexico)"
+        "LNBP (Mexico)",
+        "A Liga (Hungary)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/14261/",
@@ -24428,8 +24750,8 @@ const DATA = {
       "Intl_National_Team": false,
       "Intl_Leagues": [
         "PLK (Poland)",
-        "Eredivisie (Netherlands)",
-        "LPB (Portugal)"
+        "LPB (Portugal)",
+        "Eredivisie (Netherlands)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/11621/",
@@ -25044,8 +25366,8 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "NBA",
-        "CBA (China)"
+        "CBA (China)",
+        "NBA"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/63544/",
@@ -26178,6 +26500,135 @@ const DATA = {
       "RealGM_URL": ""
     },
     {
+      "Player": "Josh Dalton",
+      "Player ID": "Josh Dalton",
+      "Team": "Loyola Marymount",
+      "Gender": "M",
+      "Divisions": "D1",
+      "Games": 1,
+      "Wins": 1,
+      "MPG": 14.0,
+      "PPG": 5.0,
+      "RPG": 4.0,
+      "APG": 0.0,
+      "SPG": 0.0,
+      "BPG": 0.0,
+      "FG%": 0.4,
+      "3P%": 0.25,
+      "FT%": 0.0,
+      "Total PTS": 5,
+      "Total REB": 4,
+      "Total AST": 0,
+      "Total STL": 0,
+      "Total BLK": 0,
+      "FGM": 2,
+      "FGA": 5,
+      "3PM": 1,
+      "3PA": 4,
+      "FTM": 0,
+      "FTA": 0,
+      "NBA": false,
+      "WNBA": false,
+      "International": false,
+      "Intl_Pro": false,
+      "Intl_National_Team": false,
+      "Intl_Leagues": [],
+      "Intl_Tournaments": [],
+      "Proballers_URL": "",
+      "Current_Team": "",
+      "Current_League": "",
+      "Had_GLeague": false,
+      "Years_Pro": 0,
+      "HasSportsRefPage": true,
+      "RealGM_URL": ""
+    },
+    {
+      "Player": "AJ Thomas",
+      "Player ID": "AJ Thomas",
+      "Team": "Loyola Marymount",
+      "Gender": "M",
+      "Divisions": "D1",
+      "Games": 1,
+      "Wins": 1,
+      "MPG": 14.0,
+      "PPG": 5.0,
+      "RPG": 2.0,
+      "APG": 3.0,
+      "SPG": 1.0,
+      "BPG": 0.0,
+      "FG%": 0.25,
+      "3P%": 0.0,
+      "FT%": 0.75,
+      "Total PTS": 5,
+      "Total REB": 2,
+      "Total AST": 3,
+      "Total STL": 1,
+      "Total BLK": 0,
+      "FGM": 1,
+      "FGA": 4,
+      "3PM": 0,
+      "3PA": 1,
+      "FTM": 3,
+      "FTA": 4,
+      "NBA": false,
+      "WNBA": false,
+      "International": false,
+      "Intl_Pro": false,
+      "Intl_National_Team": false,
+      "Intl_Leagues": [],
+      "Intl_Tournaments": [],
+      "Proballers_URL": "",
+      "Current_Team": "",
+      "Current_League": "",
+      "Had_GLeague": false,
+      "Years_Pro": 0,
+      "HasSportsRefPage": true,
+      "RealGM_URL": ""
+    },
+    {
+      "Player": "Tyrone Riley IV",
+      "Player ID": "Tyrone Riley IV",
+      "Team": "San Francisco",
+      "Gender": "M",
+      "Divisions": "D1",
+      "Games": 1,
+      "Wins": 0,
+      "MPG": 37.0,
+      "PPG": 5.0,
+      "RPG": 6.0,
+      "APG": 0.0,
+      "SPG": 1.0,
+      "BPG": 1.0,
+      "FG%": 0.2,
+      "3P%": 0.333,
+      "FT%": 1.0,
+      "Total PTS": 5,
+      "Total REB": 6,
+      "Total AST": 0,
+      "Total STL": 1,
+      "Total BLK": 1,
+      "FGM": 1,
+      "FGA": 5,
+      "3PM": 1,
+      "3PA": 3,
+      "FTM": 2,
+      "FTA": 2,
+      "NBA": false,
+      "WNBA": false,
+      "International": false,
+      "Intl_Pro": false,
+      "Intl_National_Team": false,
+      "Intl_Leagues": [],
+      "Intl_Tournaments": [],
+      "Proballers_URL": "",
+      "Current_Team": "",
+      "Current_League": "",
+      "Had_GLeague": false,
+      "Years_Pro": 0,
+      "HasSportsRefPage": true,
+      "RealGM_URL": ""
+    },
+    {
       "Player": "Matar Wade",
       "Player ID": "matar-wade-1",
       "Team": "Morgan State",
@@ -26460,14 +26911,14 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "Eredivisie (Netherlands)",
-        "Pro B (France)",
-        "Liga Nacional (Argentina)",
-        "Serie A2 (Italy)",
-        "ProA (Germany)",
         "Korisliiga (Finland)",
+        "LNBP (Mexico)",
+        "Pro B (France)",
         "National League (Israel)",
-        "LNBP (Mexico)"
+        "Serie A2 (Italy)",
+        "Eredivisie (Netherlands)",
+        "ProA (Germany)",
+        "Liga Nacional (Argentina)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/60295/",
@@ -27110,8 +27561,8 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "Basketligan (Sweden)",
-        "LPB (Portugal)"
+        "LPB (Portugal)",
+        "Basketligan (Sweden)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/205776/",
@@ -28149,11 +28600,11 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
+        "Division A (Romania)",
         "NBL (New Zealand)",
-        "LPB (Portugal)",
         "ProA (Germany)",
-        "Korisliiga (Finland)",
-        "Division A (Romania)"
+        "LPB (Portugal)",
+        "Korisliiga (Finland)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/182733/",
@@ -28365,13 +28816,13 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "EuroCup",
         "Eredivisie (Netherlands)",
-        "B2.League (Japan)",
-        "LEB Oro (Spain)",
-        "BBL (Germany)",
+        "Greek League",
         "B.League (Japan)",
-        "Greek League"
+        "EuroCup",
+        "B2.League (Japan)",
+        "BBL (Germany)",
+        "LEB Oro (Spain)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/61132/",
@@ -28381,6 +28832,92 @@ const DATA = {
       "Years_Pro": 13,
       "HasSportsRefPage": true,
       "RealGM_URL": ""
+    },
+    {
+      "Player": "Guillermo Diaz Graham",
+      "Player ID": "Guillermo Diaz Graham",
+      "Team": "San Francisco",
+      "Gender": "M",
+      "Divisions": "D1",
+      "Games": 1,
+      "Wins": 0,
+      "MPG": 16.0,
+      "PPG": 4.0,
+      "RPG": 4.0,
+      "APG": 0.0,
+      "SPG": 0.0,
+      "BPG": 0.0,
+      "FG%": 0.333,
+      "3P%": 0.0,
+      "FT%": 0.0,
+      "Total PTS": 4,
+      "Total REB": 4,
+      "Total AST": 0,
+      "Total STL": 0,
+      "Total BLK": 0,
+      "FGM": 2,
+      "FGA": 6,
+      "3PM": 0,
+      "3PA": 2,
+      "FTM": 0,
+      "FTA": 0,
+      "NBA": false,
+      "WNBA": false,
+      "International": false,
+      "Intl_Pro": false,
+      "Intl_National_Team": false,
+      "Intl_Leagues": [],
+      "Intl_Tournaments": [],
+      "Proballers_URL": "",
+      "Current_Team": "",
+      "Current_League": "",
+      "Had_GLeague": false,
+      "Years_Pro": 0,
+      "HasSportsRefPage": true,
+      "RealGM_URL": "https://basketball.realgm.com/player/Guillermo-Diaz-Graham/Summary/161446"
+    },
+    {
+      "Player": "Mookie Cook",
+      "Player ID": "Mookie Cook",
+      "Team": "San Francisco",
+      "Gender": "M",
+      "Divisions": "D1",
+      "Games": 1,
+      "Wins": 0,
+      "MPG": 19.0,
+      "PPG": 4.0,
+      "RPG": 2.0,
+      "APG": 2.0,
+      "SPG": 0.0,
+      "BPG": 0.0,
+      "FG%": 0.4,
+      "3P%": 0.0,
+      "FT%": 0.0,
+      "Total PTS": 4,
+      "Total REB": 2,
+      "Total AST": 2,
+      "Total STL": 0,
+      "Total BLK": 0,
+      "FGM": 2,
+      "FGA": 5,
+      "3PM": 0,
+      "3PA": 1,
+      "FTM": 0,
+      "FTA": 0,
+      "NBA": false,
+      "WNBA": false,
+      "International": false,
+      "Intl_Pro": false,
+      "Intl_National_Team": false,
+      "Intl_Leagues": [],
+      "Intl_Tournaments": [],
+      "Proballers_URL": "",
+      "Current_Team": "",
+      "Current_League": "",
+      "Had_GLeague": false,
+      "Years_Pro": 0,
+      "HasSportsRefPage": true,
+      "RealGM_URL": "https://basketball.realgm.com/player/Mookie-Cook/Summary/172458"
     },
     {
       "Player": "Manok Lual",
@@ -29005,8 +29542,8 @@ const DATA = {
       "Intl_Leagues": [
         "LNB Pro A (France)",
         "TBL (Turkey)",
-        "Liga Nacional (Argentina)",
-        "LPB (Portugal)"
+        "LPB (Portugal)",
+        "Liga Nacional (Argentina)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/189888/",
@@ -29267,11 +29804,11 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": true,
       "Intl_Leagues": [
-        "EuroCup",
-        "NBA",
-        "Liga ACB (Spain)",
+        "BSN (Puerto Rico)",
         "Greek League",
-        "BSN (Puerto Rico)"
+        "Liga ACB (Spain)",
+        "EuroCup",
+        "NBA"
       ],
       "Intl_Tournaments": [
         "Olympics"
@@ -30333,9 +30870,9 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
+        "Greek League",
         "ProA (Germany)",
         "BNXT League",
-        "Greek League",
         "Liga Nacional (Argentina)"
       ],
       "Intl_Tournaments": [],
@@ -30560,10 +31097,10 @@ const DATA = {
       "Intl_National_Team": false,
       "Intl_Leagues": [
         "BSL (Turkey)",
+        "Greek League",
         "Serie A2 (Italy)",
         "ProA (Germany)",
         "Basketligan (Sweden)",
-        "Greek League",
         "Serie A (Italy)"
       ],
       "Intl_Tournaments": [],
@@ -30706,6 +31243,49 @@ const DATA = {
       "Years_Pro": 0,
       "HasSportsRefPage": true,
       "RealGM_URL": ""
+    },
+    {
+      "Player": "David Fuchs",
+      "Player ID": "David Fuchs",
+      "Team": "San Francisco",
+      "Gender": "M",
+      "Divisions": "D1",
+      "Games": 1,
+      "Wins": 0,
+      "MPG": 18.0,
+      "PPG": 3.0,
+      "RPG": 5.0,
+      "APG": 2.0,
+      "SPG": 0.0,
+      "BPG": 1.0,
+      "FG%": 0.0,
+      "3P%": 0.0,
+      "FT%": 0.75,
+      "Total PTS": 3,
+      "Total REB": 5,
+      "Total AST": 2,
+      "Total STL": 0,
+      "Total BLK": 1,
+      "FGM": 0,
+      "FGA": 4,
+      "3PM": 0,
+      "3PA": 1,
+      "FTM": 3,
+      "FTA": 4,
+      "NBA": false,
+      "WNBA": false,
+      "International": false,
+      "Intl_Pro": false,
+      "Intl_National_Team": false,
+      "Intl_Leagues": [],
+      "Intl_Tournaments": [],
+      "Proballers_URL": "",
+      "Current_Team": "",
+      "Current_League": "",
+      "Had_GLeague": false,
+      "Years_Pro": 0,
+      "HasSportsRefPage": true,
+      "RealGM_URL": "https://basketball.realgm.com/player/David-Fuchs/Summary/148335"
     },
     {
       "Player": "Marland Harris",
@@ -31285,13 +31865,13 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "B2.League (Japan)",
-        "TBL (Turkey)",
         "Israeli League",
+        "Division A (Romania)",
+        "BSN (Puerto Rico)",
         "NBL (New Zealand)",
         "Greek League",
-        "Division A (Romania)",
-        "BSN (Puerto Rico)"
+        "TBL (Turkey)",
+        "B2.League (Japan)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/76299/",
@@ -31840,9 +32420,9 @@ const DATA = {
       "Intl_National_Team": false,
       "Intl_Leagues": [
         "LNB Pro A (France)",
+        "CBA (China)",
         "NBA",
-        "EuroLeague",
-        "CBA (China)"
+        "EuroLeague"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/69728/",
@@ -32136,11 +32716,11 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "PLK (Poland)",
         "Israeli League",
+        "A Liga (Hungary)",
+        "PLK (Poland)",
         "NBL (New Zealand)",
-        "Basketligan (Sweden)",
-        "A Liga (Hungary)"
+        "Basketligan (Sweden)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/189189/",
@@ -32563,8 +33143,8 @@ const DATA = {
       "Intl_Leagues": [
         "NBL (Australia)",
         "NBA",
-        "BSL (Turkey)",
-        "BBL (Germany)"
+        "BBL (Germany)",
+        "BSL (Turkey)"
       ],
       "Intl_Tournaments": [
         "FIBA World Cup"
@@ -32783,8 +33363,8 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "ProA (Germany)",
-        "Greek League"
+        "Greek League",
+        "ProA (Germany)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/190578/",
@@ -33355,9 +33935,9 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "ProA (Germany)",
+        "National League (Israel)",
         "Division A (Romania)",
-        "National League (Israel)"
+        "ProA (Germany)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/55039/",
@@ -33754,8 +34334,8 @@ const DATA = {
       "Intl_National_Team": false,
       "Intl_Leagues": [
         "B.League (Japan)",
-        "BSN (Puerto Rico)",
-        "NBA"
+        "NBA",
+        "BSN (Puerto Rico)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/16805/",
@@ -33805,11 +34385,11 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "EuroCup",
         "BSL (Turkey)",
-        "B2.League (Japan)",
         "Liga ACB (Spain)",
         "B.League (Japan)",
+        "EuroCup",
+        "B2.League (Japan)",
         "Serie A (Italy)"
       ],
       "Intl_Tournaments": [],
@@ -34029,6 +34609,92 @@ const DATA = {
       "Years_Pro": 15,
       "HasSportsRefPage": true,
       "RealGM_URL": ""
+    },
+    {
+      "Player": "Nakyel Shelton",
+      "Player ID": "Nakyel Shelton",
+      "Team": "Loyola Marymount",
+      "Gender": "M",
+      "Divisions": "D1",
+      "Games": 1,
+      "Wins": 1,
+      "MPG": 3.0,
+      "PPG": 2.0,
+      "RPG": 0.0,
+      "APG": 0.0,
+      "SPG": 0.0,
+      "BPG": 0.0,
+      "FG%": 0.0,
+      "3P%": 0.0,
+      "FT%": 1.0,
+      "Total PTS": 2,
+      "Total REB": 0,
+      "Total AST": 0,
+      "Total STL": 0,
+      "Total BLK": 0,
+      "FGM": 0,
+      "FGA": 0,
+      "3PM": 0,
+      "3PA": 0,
+      "FTM": 2,
+      "FTA": 2,
+      "NBA": false,
+      "WNBA": false,
+      "International": false,
+      "Intl_Pro": false,
+      "Intl_National_Team": false,
+      "Intl_Leagues": [],
+      "Intl_Tournaments": [],
+      "Proballers_URL": "",
+      "Current_Team": "",
+      "Current_League": "",
+      "Had_GLeague": false,
+      "Years_Pro": 0,
+      "HasSportsRefPage": true,
+      "RealGM_URL": "https://basketball.realgm.com/player/Nakyel-Shelton/Summary/174321"
+    },
+    {
+      "Player": "Vukasin Masic",
+      "Player ID": "Vukasin Masic",
+      "Team": "San Francisco",
+      "Gender": "M",
+      "Divisions": "D1",
+      "Games": 1,
+      "Wins": 0,
+      "MPG": 8.0,
+      "PPG": 2.0,
+      "RPG": 0.0,
+      "APG": 0.0,
+      "SPG": 0.0,
+      "BPG": 0.0,
+      "FG%": 0.333,
+      "3P%": 0.0,
+      "FT%": 0.0,
+      "Total PTS": 2,
+      "Total REB": 0,
+      "Total AST": 0,
+      "Total STL": 0,
+      "Total BLK": 0,
+      "FGM": 1,
+      "FGA": 3,
+      "3PM": 0,
+      "3PA": 1,
+      "FTM": 0,
+      "FTA": 0,
+      "NBA": false,
+      "WNBA": false,
+      "International": false,
+      "Intl_Pro": false,
+      "Intl_National_Team": false,
+      "Intl_Leagues": [],
+      "Intl_Tournaments": [],
+      "Proballers_URL": "",
+      "Current_Team": "",
+      "Current_League": "",
+      "Had_GLeague": false,
+      "Years_Pro": 0,
+      "HasSportsRefPage": true,
+      "RealGM_URL": "https://basketball.realgm.com/player/Vukasin-Masic/Summary/128548"
     },
     {
       "Player": "Isaiah Williams",
@@ -35449,8 +36115,8 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "BNXT League",
         "Ligaen (Denmark)",
+        "BNXT League",
         "BBL (Germany)"
       ],
       "Intl_Tournaments": [],
@@ -35497,11 +36163,11 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "EuroCup",
         "EuroLeague",
         "Liga ACB (Spain)",
-        "Serie A (Italy)",
-        "ABA League"
+        "EuroCup",
+        "ABA League",
+        "Serie A (Italy)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/178750/",
@@ -36429,10 +37095,10 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "EuroCup",
-        "LNB Pro A (France)",
         "Pro B (France)",
         "LEB Oro (Spain)",
+        "EuroCup",
+        "LNB Pro A (France)",
         "ABA League"
       ],
       "Intl_Tournaments": [],
@@ -36699,12 +37365,12 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "PLK (Poland)",
         "Israeli League",
-        "Serie A2 (Italy)",
-        "BBL (Germany)",
+        "A Liga (Hungary)",
+        "PLK (Poland)",
         "Greek League",
-        "A Liga (Hungary)"
+        "Serie A2 (Italy)",
+        "BBL (Germany)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/178594/",
@@ -36955,9 +37621,9 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
+        "TBL (Turkey)",
         "EuroCup",
-        "BSL (Turkey)",
-        "TBL (Turkey)"
+        "BSL (Turkey)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/189407/",
@@ -39035,10 +39701,10 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "A Liga (Hungary)",
-        "BNXT League",
         "CEBL (Canada)",
-        "ABA League"
+        "ABA League",
+        "BNXT League",
+        "A Liga (Hungary)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/63572/",
@@ -39181,14 +39847,14 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "EuroCup",
-        "LNB Pro A (France)",
-        "B2.League (Japan)",
-        "NBA",
-        "CEBL (Canada)",
-        "BBL (Germany)",
+        "BSN (Puerto Rico)",
         "Greek League",
-        "BSN (Puerto Rico)"
+        "EuroCup",
+        "B2.League (Japan)",
+        "BBL (Germany)",
+        "LNB Pro A (France)",
+        "NBA",
+        "CEBL (Canada)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/189184/",
@@ -39789,8 +40455,8 @@ const DATA = {
       "Intl_National_Team": false,
       "Intl_Leagues": [
         "Division A (Romania)",
-        "CEBL (Canada)",
-        "Liga Nova KBM (Slovenia)"
+        "Liga Nova KBM (Slovenia)",
+        "CEBL (Canada)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/179234/",
@@ -40175,11 +40841,11 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "NBA",
-        "BSL (Turkey)",
         "Israeli League",
-        "CEBL (Canada)",
-        "Greek League"
+        "BSL (Turkey)",
+        "Greek League",
+        "NBA",
+        "CEBL (Canada)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/72900/",
@@ -41602,15 +42268,15 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
+        "BSL (Turkey)",
+        "A Liga (Hungary)",
+        "PLK (Poland)",
+        "Greek League",
+        "Liga ACB (Spain)",
+        "TBL (Turkey)",
         "EuroCup",
         "BCL",
-        "BSL (Turkey)",
-        "PLK (Poland)",
-        "TBL (Turkey)",
         "BBL (Germany)",
-        "Liga ACB (Spain)",
-        "Greek League",
-        "A Liga (Hungary)",
         "Serie A (Italy)"
       ],
       "Intl_Tournaments": [],
@@ -42138,12 +42804,12 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "EuroCup",
-        "PLK (Poland)",
-        "BBL (Germany)",
-        "Basketligan (Sweden)",
+        "Division A (Romania)",
         "A Liga (Hungary)",
-        "Division A (Romania)"
+        "PLK (Poland)",
+        "EuroCup",
+        "BBL (Germany)",
+        "Basketligan (Sweden)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/49654/",
@@ -42277,13 +42943,13 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "PLK (Poland)",
-        "BSL (Turkey)",
         "Israeli League",
-        "CEBL (Canada)",
-        "Liga Nacional (Argentina)",
+        "BSL (Turkey)",
+        "PLK (Poland)",
+        "Greek League",
         "BBL (Germany)",
-        "Greek League"
+        "Liga Nacional (Argentina)",
+        "CEBL (Canada)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/66098/",
@@ -42545,8 +43211,8 @@ const DATA = {
       "Intl_Pro": true,
       "Intl_National_Team": false,
       "Intl_Leagues": [
-        "LNB Pro A (France)",
-        "Greek League"
+        "Greek League",
+        "LNB Pro A (France)"
       ],
       "Intl_Tournaments": [],
       "Proballers_URL": "https://www.proballers.com/basketball/player/189145/",
@@ -43275,6 +43941,221 @@ const DATA = {
       "Years_Pro": 7,
       "HasSportsRefPage": true,
       "RealGM_URL": ""
+    },
+    {
+      "Player": "Rick Issanza",
+      "Player ID": "Rick Issanza",
+      "Team": "Loyola Marymount",
+      "Gender": "M",
+      "Divisions": "D1",
+      "Games": 1,
+      "Wins": 1,
+      "MPG": 7.0,
+      "PPG": 0.0,
+      "RPG": 1.0,
+      "APG": 0.0,
+      "SPG": 0.0,
+      "BPG": 1.0,
+      "FG%": 0.0,
+      "3P%": 0.0,
+      "FT%": 0.0,
+      "Total PTS": 0,
+      "Total REB": 1,
+      "Total AST": 0,
+      "Total STL": 0,
+      "Total BLK": 1,
+      "FGM": 0,
+      "FGA": 0,
+      "3PM": 0,
+      "3PA": 0,
+      "FTM": 0,
+      "FTA": 0,
+      "NBA": false,
+      "WNBA": false,
+      "International": false,
+      "Intl_Pro": false,
+      "Intl_National_Team": false,
+      "Intl_Leagues": [],
+      "Intl_Tournaments": [],
+      "Proballers_URL": "",
+      "Current_Team": "",
+      "Current_League": "",
+      "Had_GLeague": false,
+      "Years_Pro": 0,
+      "HasSportsRefPage": true,
+      "RealGM_URL": ""
+    },
+    {
+      "Player": "Jan Vide",
+      "Player ID": "Jan Vide",
+      "Team": "Loyola Marymount",
+      "Gender": "M",
+      "Divisions": "D1",
+      "Games": 1,
+      "Wins": 1,
+      "MPG": 25.0,
+      "PPG": 0.0,
+      "RPG": 8.0,
+      "APG": 4.0,
+      "SPG": 1.0,
+      "BPG": 0.0,
+      "FG%": 0.0,
+      "3P%": 0.0,
+      "FT%": 0.0,
+      "Total PTS": 0,
+      "Total REB": 8,
+      "Total AST": 4,
+      "Total STL": 1,
+      "Total BLK": 0,
+      "FGM": 0,
+      "FGA": 6,
+      "3PM": 0,
+      "3PA": 2,
+      "FTM": 0,
+      "FTA": 0,
+      "NBA": false,
+      "WNBA": false,
+      "International": false,
+      "Intl_Pro": false,
+      "Intl_National_Team": false,
+      "Intl_Leagues": [],
+      "Intl_Tournaments": [],
+      "Proballers_URL": "",
+      "Current_Team": "",
+      "Current_League": "",
+      "Had_GLeague": false,
+      "Years_Pro": 0,
+      "HasSportsRefPage": true,
+      "RealGM_URL": ""
+    },
+    {
+      "Player": "Rokas Jocius",
+      "Player ID": "Rokas Jocius",
+      "Team": "Loyola Marymount",
+      "Gender": "M",
+      "Divisions": "D1",
+      "Games": 1,
+      "Wins": 1,
+      "MPG": 5.0,
+      "PPG": 0.0,
+      "RPG": 2.0,
+      "APG": 0.0,
+      "SPG": 0.0,
+      "BPG": 0.0,
+      "FG%": 0.0,
+      "3P%": 0.0,
+      "FT%": 0.0,
+      "Total PTS": 0,
+      "Total REB": 2,
+      "Total AST": 0,
+      "Total STL": 0,
+      "Total BLK": 0,
+      "FGM": 0,
+      "FGA": 1,
+      "3PM": 0,
+      "3PA": 0,
+      "FTM": 0,
+      "FTA": 0,
+      "NBA": false,
+      "WNBA": false,
+      "International": false,
+      "Intl_Pro": false,
+      "Intl_National_Team": false,
+      "Intl_Leagues": [],
+      "Intl_Tournaments": [],
+      "Proballers_URL": "",
+      "Current_Team": "",
+      "Current_League": "",
+      "Had_GLeague": false,
+      "Years_Pro": 0,
+      "HasSportsRefPage": true,
+      "RealGM_URL": "https://basketball.realgm.com/player/Rokas-Jocius/Summary/152546"
+    },
+    {
+      "Player": "Saba Gigiberia",
+      "Player ID": "Saba Gigiberia",
+      "Team": "San Francisco",
+      "Gender": "M",
+      "Divisions": "D1",
+      "Games": 1,
+      "Wins": 0,
+      "MPG": 3.0,
+      "PPG": 0.0,
+      "RPG": 0.0,
+      "APG": 1.0,
+      "SPG": 0.0,
+      "BPG": 0.0,
+      "FG%": 0.0,
+      "3P%": 0.0,
+      "FT%": 0.0,
+      "Total PTS": 0,
+      "Total REB": 0,
+      "Total AST": 1,
+      "Total STL": 0,
+      "Total BLK": 0,
+      "FGM": 0,
+      "FGA": 0,
+      "3PM": 0,
+      "3PA": 0,
+      "FTM": 0,
+      "FTA": 0,
+      "NBA": false,
+      "WNBA": false,
+      "International": false,
+      "Intl_Pro": false,
+      "Intl_National_Team": false,
+      "Intl_Leagues": [],
+      "Intl_Tournaments": [],
+      "Proballers_URL": "",
+      "Current_Team": "",
+      "Current_League": "",
+      "Had_GLeague": false,
+      "Years_Pro": 0,
+      "HasSportsRefPage": true,
+      "RealGM_URL": ""
+    },
+    {
+      "Player": "Weilun Zhao",
+      "Player ID": "Weilun Zhao",
+      "Team": "San Francisco",
+      "Gender": "M",
+      "Divisions": "D1",
+      "Games": 1,
+      "Wins": 0,
+      "MPG": 1.0,
+      "PPG": 0.0,
+      "RPG": 0.0,
+      "APG": 0.0,
+      "SPG": 0.0,
+      "BPG": 0.0,
+      "FG%": 0.0,
+      "3P%": 0.0,
+      "FT%": 0.0,
+      "Total PTS": 0,
+      "Total REB": 0,
+      "Total AST": 0,
+      "Total STL": 0,
+      "Total BLK": 0,
+      "FGM": 0,
+      "FGA": 0,
+      "3PM": 0,
+      "3PA": 0,
+      "FTM": 0,
+      "FTA": 0,
+      "NBA": false,
+      "WNBA": false,
+      "International": false,
+      "Intl_Pro": false,
+      "Intl_National_Team": false,
+      "Intl_Leagues": [],
+      "Intl_Tournaments": [],
+      "Proballers_URL": "",
+      "Current_Team": "",
+      "Current_League": "",
+      "Had_GLeague": false,
+      "Years_Pro": 0,
+      "HasSportsRefPage": true,
+      "RealGM_URL": ""
     }
   ],
   "milestones": {
@@ -43581,6 +44462,17 @@ const DATA = {
       },
       {
         "Date": "March 22, 2024",
+        "Player": "Stephan Swenson",
+        "Player ID": "stephan-swenson-1",
+        "Team": "Stetson",
+        "Opponent": "Connecticut",
+        "Score": "52-91",
+        "Detail": "20 points",
+        "GameID": "20240322-conn",
+        "Gender": "M"
+      },
+      {
+        "Date": "March 22, 2024",
         "Player": "Ryan Langborg",
         "Player ID": "ryan-langborg-1",
         "Team": "Northwestern",
@@ -43602,14 +44494,14 @@ const DATA = {
         "Gender": "M"
       },
       {
-        "Date": "March 22, 2024",
-        "Player": "Stephan Swenson",
-        "Player ID": "stephan-swenson-1",
-        "Team": "Stetson",
-        "Opponent": "Connecticut",
-        "Score": "52-91",
-        "Detail": "20 points",
-        "GameID": "20240322-conn",
+        "Date": "March 1, 2025",
+        "Player": "Ben Gregg",
+        "Player ID": "ben-gregg-1",
+        "Team": "Gonzaga",
+        "Opponent": "San Francisco",
+        "Score": "95-75",
+        "Detail": "23 points",
+        "GameID": "20250301-usf",
         "Gender": "M"
       },
       {
@@ -43620,17 +44512,6 @@ const DATA = {
         "Opponent": "Gonzaga",
         "Score": "75-95",
         "Detail": "28 points",
-        "GameID": "20250301-usf",
-        "Gender": "M"
-      },
-      {
-        "Date": "March 1, 2025",
-        "Player": "Ben Gregg",
-        "Player ID": "ben-gregg-1",
-        "Team": "Gonzaga",
-        "Opponent": "San Francisco",
-        "Score": "95-75",
-        "Detail": "23 points",
         "GameID": "20250301-usf",
         "Gender": "M"
       },
@@ -43680,23 +44561,23 @@ const DATA = {
       },
       {
         "Date": "January 24, 2026",
-        "Player": "Jeremy Dent-Smith",
-        "Player ID": "jeremy-dent-smith-1",
-        "Team": "Stanford",
-        "Opponent": "California",
-        "Score": "66-78",
-        "Detail": "20 points",
-        "GameID": "20260124-stan",
-        "Gender": "M"
-      },
-      {
-        "Date": "January 24, 2026",
         "Player": "John Camden",
         "Player ID": "john-camden-1",
         "Team": "California",
         "Opponent": "Stanford",
         "Score": "78-66",
         "Detail": "25 points",
+        "GameID": "20260124-stan",
+        "Gender": "M"
+      },
+      {
+        "Date": "January 24, 2026",
+        "Player": "Jeremy Dent-Smith",
+        "Player ID": "jeremy-dent-smith-1",
+        "Team": "Stanford",
+        "Opponent": "California",
+        "Score": "66-78",
+        "Detail": "20 points",
         "GameID": "20260124-stan",
         "Gender": "M"
       },
@@ -43790,22 +44671,22 @@ const DATA = {
       },
       {
         "Date": "February 7, 2024",
-        "Player": "Jalen Cone",
-        "Player ID": "jalen-cone-1",
-        "Team": "California",
-        "Opponent": "USC",
-        "Score": "83-77",
+        "Player": "Isaiah Collier",
+        "Player ID": "isaiah-collier-2",
+        "Team": "USC",
+        "Opponent": "California",
+        "Score": "77-83",
         "Detail": "20 points",
         "GameID": "20240207-cal",
         "Gender": "M"
       },
       {
         "Date": "February 7, 2024",
-        "Player": "Isaiah Collier",
-        "Player ID": "isaiah-collier-2",
-        "Team": "USC",
-        "Opponent": "California",
-        "Score": "77-83",
+        "Player": "Jalen Cone",
+        "Player ID": "jalen-cone-1",
+        "Team": "California",
+        "Opponent": "USC",
+        "Score": "83-77",
         "Detail": "20 points",
         "GameID": "20240207-cal",
         "Gender": "M"
@@ -43823,12 +44704,12 @@ const DATA = {
       },
       {
         "Date": "February 29, 2024",
-        "Player": "Nolan Hickman",
-        "Player ID": "nolan-hickman-1",
+        "Player": "Graham Ike",
+        "Player ID": "graham-ike-1",
         "Team": "Gonzaga",
         "Opponent": "San Francisco",
         "Score": "86-68",
-        "Detail": "22 points",
+        "Detail": "26 points",
         "GameID": "20240229-usf",
         "Gender": "M"
       },
@@ -43845,12 +44726,12 @@ const DATA = {
       },
       {
         "Date": "February 29, 2024",
-        "Player": "Graham Ike",
-        "Player ID": "graham-ike-1",
+        "Player": "Nolan Hickman",
+        "Player ID": "nolan-hickman-1",
         "Team": "Gonzaga",
         "Opponent": "San Francisco",
         "Score": "86-68",
-        "Detail": "26 points",
+        "Detail": "22 points",
         "GameID": "20240229-usf",
         "Gender": "M"
       },
@@ -43878,23 +44759,23 @@ const DATA = {
       },
       {
         "Date": "February 16, 2019",
-        "Player": "De'Andre Hunter",
-        "Player ID": "deandre-hunter-1",
-        "Team": "Virginia",
-        "Opponent": "Notre Dame",
-        "Score": "60-54",
-        "Detail": "20 points",
-        "GameID": "20190216-uva",
-        "Gender": "M"
-      },
-      {
-        "Date": "February 16, 2019",
         "Player": "Kyle Guy",
         "Player ID": "kyle-guy-1",
         "Team": "Virginia",
         "Opponent": "Notre Dame",
         "Score": "60-54",
         "Detail": "22 points",
+        "GameID": "20190216-uva",
+        "Gender": "M"
+      },
+      {
+        "Date": "February 16, 2019",
+        "Player": "De'Andre Hunter",
+        "Player ID": "deandre-hunter-1",
+        "Team": "Virginia",
+        "Opponent": "Notre Dame",
+        "Score": "60-54",
+        "Detail": "20 points",
         "GameID": "20190216-uva",
         "Gender": "M"
       },
@@ -43929,6 +44810,39 @@ const DATA = {
         "Score": "75-64",
         "Detail": "24 points",
         "GameID": "20250201-sjsu",
+        "Gender": "M"
+      },
+      {
+        "Date": "February 05, 2026",
+        "Player": "Jalen Shelley",
+        "Player ID": null,
+        "Team": "Loyola Marymount",
+        "Opponent": "San Francisco",
+        "Score": "84-75",
+        "Detail": "27 points",
+        "GameID": "UNKNOWN",
+        "Gender": "M"
+      },
+      {
+        "Date": "February 05, 2026",
+        "Player": "Rodney Brown Jr.",
+        "Player ID": null,
+        "Team": "Loyola Marymount",
+        "Opponent": "San Francisco",
+        "Score": "84-75",
+        "Detail": "23 points",
+        "GameID": "UNKNOWN",
+        "Gender": "M"
+      },
+      {
+        "Date": "February 05, 2026",
+        "Player": "Ryan Beasley",
+        "Player ID": null,
+        "Team": "San Francisco",
+        "Opponent": "Loyola Marymount",
+        "Score": "75-84",
+        "Detail": "30 points",
+        "GameID": "UNKNOWN",
         "Gender": "M"
       },
       {
@@ -44043,6 +44957,17 @@ const DATA = {
       }
     ],
     "thirty_point_games": [
+      {
+        "Date": "February 05, 2026",
+        "Player": "Ryan Beasley",
+        "Player ID": null,
+        "Team": "San Francisco",
+        "Opponent": "Loyola Marymount",
+        "Score": "75-84",
+        "Detail": "30 points",
+        "GameID": "UNKNOWN",
+        "Gender": "M"
+      },
       {
         "Date": "December 30, 2025",
         "Player": "Nick Martinelli",
@@ -45433,19 +46358,19 @@ const DATA = {
       "Gender": "M",
       "Code": "USF",
       "Conference": "WCC",
-      "Games": 10,
+      "Games": 11,
       "Wins": 6,
-      "Losses": 4,
-      "Win%": 0.6,
+      "Losses": 5,
+      "Win%": 0.545,
       "Home W": 6,
-      "Home L": 3,
+      "Home L": 4,
       "Away W": 0,
       "Away L": 1,
-      "PPG": 76.0,
-      "PAPG": 71.3,
-      "Diff": 4.7,
-      "PF": 760,
-      "PA": 713
+      "PPG": 75.9,
+      "PAPG": 72.5,
+      "Diff": 3.4,
+      "PF": 835,
+      "PA": 797
     },
     {
       "Team": "California",
@@ -45921,6 +46846,25 @@ const DATA = {
       "Diff": 15.0,
       "PF": 88,
       "PA": 73
+    },
+    {
+      "Team": "Loyola Marymount",
+      "Gender": "M",
+      "Code": "LMU",
+      "Conference": "WCC",
+      "Games": 1,
+      "Wins": 1,
+      "Losses": 0,
+      "Win%": 1.0,
+      "Home W": 0,
+      "Home L": 0,
+      "Away W": 1,
+      "Away L": 0,
+      "PPG": 84.0,
+      "PAPG": 75.0,
+      "Diff": 9.0,
+      "PF": 84,
+      "PA": 75
     },
     {
       "Team": "Stanford",
@@ -46774,6 +47718,19 @@ const DATA = {
       "Home Team": "Virginia"
     },
     {
+      "Venue": "War Memorial at The Sobrato Center",
+      "City": "San Francisco",
+      "State": "California",
+      "Games": 7,
+      "Home Wins": 5,
+      "Away Wins": 2,
+      "Avg Home Pts": 76.4,
+      "Avg Away Pts": 66.1,
+      "Division": "D1",
+      "Status": "Current",
+      "Home Team": "San Francisco"
+    },
+    {
       "Venue": "Chase Center",
       "City": "San Francisco",
       "State": "California",
@@ -46782,19 +47739,6 @@ const DATA = {
       "Away Wins": 4,
       "Avg Home Pts": 68.3,
       "Avg Away Pts": 72.3,
-      "Division": "D1",
-      "Status": "Current",
-      "Home Team": "San Francisco"
-    },
-    {
-      "Venue": "War Memorial at The Sobrato Center",
-      "City": "San Francisco",
-      "State": "California",
-      "Games": 6,
-      "Home Wins": 5,
-      "Away Wins": 1,
-      "Avg Home Pts": 76.7,
-      "Avg Away Pts": 63.2,
       "Division": "D1",
       "Status": "Current",
       "Home Team": "San Francisco"
@@ -47022,6 +47966,627 @@ const DATA = {
     }
   ],
   "playerGames": [
+    {
+      "player": "Jalen Shelley",
+      "player_id": null,
+      "date": "February 05, 2026",
+      "team": "Loyola Marymount",
+      "opponent": "San Francisco",
+      "result": "W",
+      "score": "84-75",
+      "starter": true,
+      "mp": 38.0,
+      "pts": 27,
+      "trb": 3,
+      "ast": 6,
+      "stl": 0,
+      "blk": 0,
+      "fg": 9,
+      "fga": 16,
+      "fg3": 1,
+      "fg3a": 3,
+      "ft": 8,
+      "fta": 12,
+      "tov": 1,
+      "pf": 2,
+      "game_id": "UNKNOWN",
+      "date_yyyymmdd": "20260205",
+      "gender": "M",
+      "orb": 0,
+      "drb": 3,
+      "game_score": 21.1,
+      "realgm_previous_schools": [
+        "USC"
+      ]
+    },
+    {
+      "player": "Aaron McBride",
+      "player_id": null,
+      "date": "February 05, 2026",
+      "team": "Loyola Marymount",
+      "opponent": "San Francisco",
+      "result": "W",
+      "score": "84-75",
+      "starter": true,
+      "mp": 31.0,
+      "pts": 10,
+      "trb": 5,
+      "ast": 1,
+      "stl": 0,
+      "blk": 2,
+      "fg": 5,
+      "fga": 8,
+      "fg3": 0,
+      "fg3a": 0,
+      "ft": 0,
+      "fta": 0,
+      "tov": 2,
+      "pf": 5,
+      "game_id": "UNKNOWN",
+      "date_yyyymmdd": "20260205",
+      "gender": "M",
+      "orb": 3,
+      "drb": 2,
+      "game_score": 7.2
+    },
+    {
+      "player": "Rick Issanza",
+      "player_id": null,
+      "date": "February 05, 2026",
+      "team": "Loyola Marymount",
+      "opponent": "San Francisco",
+      "result": "W",
+      "score": "84-75",
+      "starter": true,
+      "mp": 7.0,
+      "pts": 0,
+      "trb": 1,
+      "ast": 0,
+      "stl": 0,
+      "blk": 1,
+      "fg": 0,
+      "fga": 0,
+      "fg3": 0,
+      "fg3a": 0,
+      "ft": 0,
+      "fta": 0,
+      "tov": 0,
+      "pf": 4,
+      "game_id": "UNKNOWN",
+      "date_yyyymmdd": "20260205",
+      "gender": "M",
+      "orb": 0,
+      "drb": 1,
+      "game_score": -0.6
+    },
+    {
+      "player": "Jan Vide",
+      "player_id": null,
+      "date": "February 05, 2026",
+      "team": "Loyola Marymount",
+      "opponent": "San Francisco",
+      "result": "W",
+      "score": "84-75",
+      "starter": true,
+      "mp": 25.0,
+      "pts": 0,
+      "trb": 8,
+      "ast": 4,
+      "stl": 1,
+      "blk": 0,
+      "fg": 0,
+      "fga": 6,
+      "fg3": 0,
+      "fg3a": 2,
+      "ft": 0,
+      "fta": 0,
+      "tov": 1,
+      "pf": 5,
+      "game_id": "UNKNOWN",
+      "date_yyyymmdd": "20260205",
+      "gender": "M",
+      "orb": 0,
+      "drb": 8,
+      "game_score": -1.0
+    },
+    {
+      "player": "Rodney Brown Jr.",
+      "player_id": null,
+      "date": "February 05, 2026",
+      "team": "Loyola Marymount",
+      "opponent": "San Francisco",
+      "result": "W",
+      "score": "84-75",
+      "starter": true,
+      "mp": 37.0,
+      "pts": 23,
+      "trb": 2,
+      "ast": 0,
+      "stl": 2,
+      "blk": 1,
+      "fg": 8,
+      "fga": 14,
+      "fg3": 4,
+      "fg3a": 8,
+      "ft": 3,
+      "fta": 3,
+      "tov": 1,
+      "pf": 2,
+      "game_id": "UNKNOWN",
+      "date_yyyymmdd": "20260205",
+      "gender": "M",
+      "orb": 1,
+      "drb": 1,
+      "game_score": 18.3
+    },
+    {
+      "player": "Josh Dalton",
+      "player_id": null,
+      "date": "February 05, 2026",
+      "team": "Loyola Marymount",
+      "opponent": "San Francisco",
+      "result": "W",
+      "score": "84-75",
+      "starter": false,
+      "mp": 14.0,
+      "pts": 5,
+      "trb": 4,
+      "ast": 0,
+      "stl": 0,
+      "blk": 0,
+      "fg": 2,
+      "fga": 5,
+      "fg3": 1,
+      "fg3a": 4,
+      "ft": 0,
+      "fta": 0,
+      "tov": 0,
+      "pf": 2,
+      "game_id": "UNKNOWN",
+      "date_yyyymmdd": "20260205",
+      "gender": "M",
+      "orb": 1,
+      "drb": 3,
+      "game_score": 3.1
+    },
+    {
+      "player": "Rokas Jocius",
+      "player_id": null,
+      "date": "February 05, 2026",
+      "team": "Loyola Marymount",
+      "opponent": "San Francisco",
+      "result": "W",
+      "score": "84-75",
+      "starter": false,
+      "mp": 5.0,
+      "pts": 0,
+      "trb": 2,
+      "ast": 0,
+      "stl": 0,
+      "blk": 0,
+      "fg": 0,
+      "fga": 1,
+      "fg3": 0,
+      "fg3a": 0,
+      "ft": 0,
+      "fta": 0,
+      "tov": 1,
+      "pf": 1,
+      "game_id": "UNKNOWN",
+      "date_yyyymmdd": "20260205",
+      "gender": "M",
+      "orb": 0,
+      "drb": 2,
+      "game_score": -1.5,
+      "realgm_previous_schools": [
+        "UCF"
+      ]
+    },
+    {
+      "player": "AJ Thomas",
+      "player_id": null,
+      "date": "February 05, 2026",
+      "team": "Loyola Marymount",
+      "opponent": "San Francisco",
+      "result": "W",
+      "score": "84-75",
+      "starter": false,
+      "mp": 14.0,
+      "pts": 5,
+      "trb": 2,
+      "ast": 3,
+      "stl": 1,
+      "blk": 0,
+      "fg": 1,
+      "fga": 4,
+      "fg3": 0,
+      "fg3a": 1,
+      "ft": 3,
+      "fta": 4,
+      "tov": 2,
+      "pf": 5,
+      "game_id": "UNKNOWN",
+      "date_yyyymmdd": "20260205",
+      "gender": "M",
+      "orb": 0,
+      "drb": 2,
+      "game_score": 1.9
+    },
+    {
+      "player": "Nakyel Shelton",
+      "player_id": null,
+      "date": "February 05, 2026",
+      "team": "Loyola Marymount",
+      "opponent": "San Francisco",
+      "result": "W",
+      "score": "84-75",
+      "starter": false,
+      "mp": 3.0,
+      "pts": 2,
+      "trb": 0,
+      "ast": 0,
+      "stl": 0,
+      "blk": 0,
+      "fg": 0,
+      "fga": 0,
+      "fg3": 0,
+      "fg3a": 0,
+      "ft": 2,
+      "fta": 2,
+      "tov": 0,
+      "pf": 1,
+      "game_id": "UNKNOWN",
+      "date_yyyymmdd": "20260205",
+      "gender": "M",
+      "orb": 0,
+      "drb": 0,
+      "game_score": 1.6,
+      "realgm_previous_schools": [
+        "Eastern Illinois"
+      ]
+    },
+    {
+      "player": "Myron Amey Jr.",
+      "player_id": null,
+      "date": "February 05, 2026",
+      "team": "Loyola Marymount",
+      "opponent": "San Francisco",
+      "result": "W",
+      "score": "84-75",
+      "starter": false,
+      "mp": 26.0,
+      "pts": 12,
+      "trb": 2,
+      "ast": 0,
+      "stl": 1,
+      "blk": 1,
+      "fg": 4,
+      "fga": 6,
+      "fg3": 4,
+      "fg3a": 6,
+      "ft": 0,
+      "fta": 0,
+      "tov": 1,
+      "pf": 4,
+      "game_id": "UNKNOWN",
+      "date_yyyymmdd": "20260205",
+      "gender": "M",
+      "orb": 1,
+      "drb": 1,
+      "game_score": 9.5
+    },
+    {
+      "player": "Junjie Wang",
+      "player_id": null,
+      "date": "February 05, 2026",
+      "team": "San Francisco",
+      "opponent": "Loyola Marymount",
+      "result": "L",
+      "score": "75-84",
+      "starter": true,
+      "mp": 26.0,
+      "pts": 19,
+      "trb": 4,
+      "ast": 1,
+      "stl": 1,
+      "blk": 0,
+      "fg": 3,
+      "fga": 8,
+      "fg3": 2,
+      "fg3a": 5,
+      "ft": 11,
+      "fta": 12,
+      "tov": 1,
+      "pf": 3,
+      "game_id": "UNKNOWN",
+      "date_yyyymmdd": "20260205",
+      "gender": "M",
+      "orb": 3,
+      "drb": 1,
+      "game_score": 16.1
+    },
+    {
+      "player": "David Fuchs",
+      "player_id": null,
+      "date": "February 05, 2026",
+      "team": "San Francisco",
+      "opponent": "Loyola Marymount",
+      "result": "L",
+      "score": "75-84",
+      "starter": true,
+      "mp": 18.0,
+      "pts": 3,
+      "trb": 5,
+      "ast": 2,
+      "stl": 0,
+      "blk": 1,
+      "fg": 0,
+      "fga": 4,
+      "fg3": 0,
+      "fg3a": 1,
+      "ft": 3,
+      "fta": 4,
+      "tov": 3,
+      "pf": 3,
+      "game_id": "UNKNOWN",
+      "date_yyyymmdd": "20260205",
+      "gender": "M",
+      "orb": 2,
+      "drb": 3,
+      "game_score": 0.0,
+      "realgm_previous_schools": [
+        "Rhode Island"
+      ]
+    },
+    {
+      "player": "Ryan Beasley",
+      "player_id": null,
+      "date": "February 05, 2026",
+      "team": "San Francisco",
+      "opponent": "Loyola Marymount",
+      "result": "L",
+      "score": "75-84",
+      "starter": true,
+      "mp": 37.0,
+      "pts": 30,
+      "trb": 7,
+      "ast": 1,
+      "stl": 0,
+      "blk": 1,
+      "fg": 4,
+      "fga": 10,
+      "fg3": 1,
+      "fg3a": 3,
+      "ft": 21,
+      "fta": 24,
+      "tov": 2,
+      "pf": 1,
+      "game_id": "UNKNOWN",
+      "date_yyyymmdd": "20260205",
+      "gender": "M",
+      "orb": 0,
+      "drb": 7,
+      "game_score": 24.5
+    },
+    {
+      "player": "Legend Smiley",
+      "player_id": null,
+      "date": "February 05, 2026",
+      "team": "San Francisco",
+      "opponent": "Loyola Marymount",
+      "result": "L",
+      "score": "75-84",
+      "starter": true,
+      "mp": 35.0,
+      "pts": 8,
+      "trb": 3,
+      "ast": 0,
+      "stl": 1,
+      "blk": 0,
+      "fg": 3,
+      "fga": 9,
+      "fg3": 2,
+      "fg3a": 5,
+      "ft": 0,
+      "fta": 0,
+      "tov": 1,
+      "pf": 2,
+      "game_id": "UNKNOWN",
+      "date_yyyymmdd": "20260205",
+      "gender": "M",
+      "orb": 0,
+      "drb": 3,
+      "game_score": 3.0
+    },
+    {
+      "player": "Tyrone Riley IV",
+      "player_id": null,
+      "date": "February 05, 2026",
+      "team": "San Francisco",
+      "opponent": "Loyola Marymount",
+      "result": "L",
+      "score": "75-84",
+      "starter": true,
+      "mp": 37.0,
+      "pts": 5,
+      "trb": 6,
+      "ast": 0,
+      "stl": 1,
+      "blk": 1,
+      "fg": 1,
+      "fga": 5,
+      "fg3": 1,
+      "fg3a": 3,
+      "ft": 2,
+      "fta": 2,
+      "tov": 1,
+      "pf": 5,
+      "game_id": "UNKNOWN",
+      "date_yyyymmdd": "20260205",
+      "gender": "M",
+      "orb": 2,
+      "drb": 4,
+      "game_score": 3.2
+    },
+    {
+      "player": "Guillermo Diaz Graham",
+      "player_id": null,
+      "date": "February 05, 2026",
+      "team": "San Francisco",
+      "opponent": "Loyola Marymount",
+      "result": "L",
+      "score": "75-84",
+      "starter": false,
+      "mp": 16.0,
+      "pts": 4,
+      "trb": 4,
+      "ast": 0,
+      "stl": 0,
+      "blk": 0,
+      "fg": 2,
+      "fga": 6,
+      "fg3": 0,
+      "fg3a": 2,
+      "ft": 0,
+      "fta": 0,
+      "tov": 0,
+      "pf": 2,
+      "game_id": "UNKNOWN",
+      "date_yyyymmdd": "20260205",
+      "gender": "M",
+      "orb": 2,
+      "drb": 2,
+      "game_score": 1.8,
+      "realgm_previous_schools": [
+        "Pittsburgh"
+      ]
+    },
+    {
+      "player": "Mookie Cook",
+      "player_id": null,
+      "date": "February 05, 2026",
+      "team": "San Francisco",
+      "opponent": "Loyola Marymount",
+      "result": "L",
+      "score": "75-84",
+      "starter": false,
+      "mp": 19.0,
+      "pts": 4,
+      "trb": 2,
+      "ast": 2,
+      "stl": 0,
+      "blk": 0,
+      "fg": 2,
+      "fga": 5,
+      "fg3": 0,
+      "fg3a": 1,
+      "ft": 0,
+      "fta": 0,
+      "tov": 0,
+      "pf": 2,
+      "game_id": "UNKNOWN",
+      "date_yyyymmdd": "20260205",
+      "gender": "M",
+      "orb": 1,
+      "drb": 1,
+      "game_score": 2.9,
+      "realgm_previous_schools": [
+        "Oregon"
+      ]
+    },
+    {
+      "player": "Saba Gigiberia",
+      "player_id": null,
+      "date": "February 05, 2026",
+      "team": "San Francisco",
+      "opponent": "Loyola Marymount",
+      "result": "L",
+      "score": "75-84",
+      "starter": false,
+      "mp": 3.0,
+      "pts": 0,
+      "trb": 0,
+      "ast": 1,
+      "stl": 0,
+      "blk": 0,
+      "fg": 0,
+      "fga": 0,
+      "fg3": 0,
+      "fg3a": 0,
+      "ft": 0,
+      "fta": 0,
+      "tov": 0,
+      "pf": 1,
+      "game_id": "UNKNOWN",
+      "date_yyyymmdd": "20260205",
+      "gender": "M",
+      "orb": 0,
+      "drb": 0,
+      "game_score": 0.3
+    },
+    {
+      "player": "Weilun Zhao",
+      "player_id": null,
+      "date": "February 05, 2026",
+      "team": "San Francisco",
+      "opponent": "Loyola Marymount",
+      "result": "L",
+      "score": "75-84",
+      "starter": false,
+      "mp": 1.0,
+      "pts": 0,
+      "trb": 0,
+      "ast": 0,
+      "stl": 0,
+      "blk": 0,
+      "fg": 0,
+      "fga": 0,
+      "fg3": 0,
+      "fg3a": 0,
+      "ft": 0,
+      "fta": 0,
+      "tov": 0,
+      "pf": 0,
+      "game_id": "UNKNOWN",
+      "date_yyyymmdd": "20260205",
+      "gender": "M",
+      "orb": 0,
+      "drb": 0,
+      "game_score": 0.0
+    },
+    {
+      "player": "Vukasin Masic",
+      "player_id": null,
+      "date": "February 05, 2026",
+      "team": "San Francisco",
+      "opponent": "Loyola Marymount",
+      "result": "L",
+      "score": "75-84",
+      "starter": false,
+      "mp": 8.0,
+      "pts": 2,
+      "trb": 0,
+      "ast": 0,
+      "stl": 0,
+      "blk": 0,
+      "fg": 1,
+      "fga": 3,
+      "fg3": 0,
+      "fg3a": 1,
+      "ft": 0,
+      "fta": 0,
+      "tov": 0,
+      "pf": 0,
+      "game_id": "UNKNOWN",
+      "date_yyyymmdd": "20260205",
+      "gender": "M",
+      "orb": 0,
+      "drb": 0,
+      "game_score": 0.3,
+      "realgm_previous_schools": [
+        "Portland"
+      ]
+    },
     {
       "player": "Ryan Beasley",
       "player_id": "ryan-beasley-1",
@@ -85697,6 +87262,30 @@ const DATA = {
       "Total AST": 3
     },
     {
+      "Team": "Loyola Marymount",
+      "Type": "Starters",
+      "Games": 5,
+      "PPG": 12.0,
+      "RPG": 3.8,
+      "APG": 2.2,
+      "MPG": 27.6,
+      "Total PTS": 60,
+      "Total REB": 19,
+      "Total AST": 11
+    },
+    {
+      "Team": "Loyola Marymount",
+      "Type": "Bench",
+      "Games": 5,
+      "PPG": 4.8,
+      "RPG": 2.0,
+      "APG": 0.6,
+      "MPG": 12.4,
+      "Total PTS": 24,
+      "Total REB": 10,
+      "Total AST": 3
+    },
+    {
       "Team": "Maryland",
       "Type": "Starters",
       "Games": 15,
@@ -86083,26 +87672,26 @@ const DATA = {
     {
       "Team": "San Francisco",
       "Type": "Starters",
-      "Games": 65,
-      "PPG": 9.6,
-      "RPG": 4.1,
-      "APG": 2.0,
-      "MPG": 25.7,
-      "Total PTS": 623,
-      "Total REB": 266,
-      "Total AST": 129
+      "Games": 70,
+      "PPG": 9.8,
+      "RPG": 4.2,
+      "APG": 1.9,
+      "MPG": 26.0,
+      "Total PTS": 688,
+      "Total REB": 291,
+      "Total AST": 133
     },
     {
       "Team": "San Francisco",
       "Type": "Bench",
-      "Games": 73,
-      "PPG": 4.4,
+      "Games": 78,
+      "PPG": 4.2,
       "RPG": 2.2,
       "APG": 0.7,
-      "MPG": 12.8,
-      "Total PTS": 320,
-      "Total REB": 162,
-      "Total AST": 51
+      "MPG": 12.6,
+      "Total PTS": 330,
+      "Total REB": 168,
+      "Total AST": 54
     },
     {
       "Team": "San Jose State",
@@ -86629,6 +88218,24 @@ const DATA = {
       "Best GS Date": "December 30, 2025"
     },
     {
+      "Player": "Ryan Beasley",
+      "Player ID": "Ryan Beasley",
+      "Team": "San Francisco",
+      "High PTS": 30,
+      "PTS Game": "February 05, 2026",
+      "PTS Opponent": "Loyola Marymount",
+      "High REB": 7,
+      "REB Game": "February 05, 2026",
+      "REB Opponent": "Loyola Marymount",
+      "High AST": 1,
+      "AST Game": "February 05, 2026",
+      "AST Opponent": "Loyola Marymount",
+      "High 3PM": 1,
+      "3PM Game": "February 05, 2026",
+      "Best Game Score": 24.5,
+      "Best GS Date": "February 05, 2026"
+    },
+    {
       "Player": "Chris Bell",
       "Player ID": "chris-bell-1",
       "Team": "California",
@@ -86735,6 +88342,24 @@ const DATA = {
       "3PM Game": "March 22, 2024",
       "Best Game Score": 22.0,
       "Best GS Date": "March 22, 2024"
+    },
+    {
+      "Player": "Jalen Shelley",
+      "Player ID": "Jalen Shelley",
+      "Team": "Loyola Marymount",
+      "High PTS": 27,
+      "PTS Game": "February 05, 2026",
+      "PTS Opponent": "San Francisco",
+      "High REB": 3,
+      "REB Game": "February 05, 2026",
+      "REB Opponent": "San Francisco",
+      "High AST": 6,
+      "AST Game": "February 05, 2026",
+      "AST Opponent": "San Francisco",
+      "High 3PM": 1,
+      "3PM Game": "February 05, 2026",
+      "Best Game Score": 21.1,
+      "Best GS Date": "February 05, 2026"
     },
     {
       "Player": "Graham Ike",
@@ -87005,6 +88630,24 @@ const DATA = {
       "3PM Game": "January 10, 2026",
       "Best Game Score": 18.0,
       "Best GS Date": "January 10, 2026"
+    },
+    {
+      "Player": "Rodney Brown Jr.",
+      "Player ID": "Rodney Brown Jr.",
+      "Team": "Loyola Marymount",
+      "High PTS": 23,
+      "PTS Game": "February 05, 2026",
+      "PTS Opponent": "San Francisco",
+      "High REB": 2,
+      "REB Game": "February 05, 2026",
+      "REB Opponent": "San Francisco",
+      "High AST": 0,
+      "AST Game": "",
+      "AST Opponent": "",
+      "High 3PM": 4,
+      "3PM Game": "February 05, 2026",
+      "Best Game Score": 18.3,
+      "Best GS Date": "February 05, 2026"
     },
     {
       "Player": "Kyle Guy",
@@ -87491,6 +89134,24 @@ const DATA = {
       "3PM Game": "December 30, 2025",
       "Best Game Score": 16.0,
       "Best GS Date": "December 30, 2025"
+    },
+    {
+      "Player": "Junjie Wang",
+      "Player ID": "Junjie Wang",
+      "Team": "San Francisco",
+      "High PTS": 19,
+      "PTS Game": "February 05, 2026",
+      "PTS Opponent": "Loyola Marymount",
+      "High REB": 4,
+      "REB Game": "February 05, 2026",
+      "REB Opponent": "Loyola Marymount",
+      "High AST": 1,
+      "AST Game": "February 05, 2026",
+      "AST Opponent": "Loyola Marymount",
+      "High 3PM": 2,
+      "3PM Game": "February 05, 2026",
+      "Best Game Score": 16.1,
+      "Best GS Date": "February 05, 2026"
     },
     {
       "Player": "Junior Hairston",
@@ -89707,6 +91368,24 @@ const DATA = {
       "Best GS Date": "November 25, 2011"
     },
     {
+      "Player": "Myron Amey Jr.",
+      "Player ID": "Myron Amey Jr.",
+      "Team": "Loyola Marymount",
+      "High PTS": 12,
+      "PTS Game": "February 05, 2026",
+      "PTS Opponent": "San Francisco",
+      "High REB": 2,
+      "REB Game": "February 05, 2026",
+      "REB Opponent": "San Francisco",
+      "High AST": 0,
+      "AST Game": "",
+      "AST Opponent": "",
+      "High 3PM": 4,
+      "3PM Game": "February 05, 2026",
+      "Best Game Score": 9.5,
+      "Best GS Date": "February 05, 2026"
+    },
+    {
       "Player": "Dai Dai Ames",
       "Player ID": "dai-dai-ames-1",
       "Team": "California, Virginia",
@@ -91073,6 +92752,24 @@ const DATA = {
       "3PM Game": "",
       "Best Game Score": 6.2,
       "Best GS Date": "December 9, 2018"
+    },
+    {
+      "Player": "Aaron McBride",
+      "Player ID": "Aaron McBride",
+      "Team": "Loyola Marymount",
+      "High PTS": 10,
+      "PTS Game": "February 05, 2026",
+      "PTS Opponent": "San Francisco",
+      "High REB": 5,
+      "REB Game": "February 05, 2026",
+      "REB Opponent": "San Francisco",
+      "High AST": 1,
+      "AST Game": "February 05, 2026",
+      "AST Opponent": "San Francisco",
+      "High 3PM": 0,
+      "3PM Game": "",
+      "Best Game Score": 7.2,
+      "Best GS Date": "February 05, 2026"
     },
     {
       "Player": "Evan Neisler",
@@ -92513,6 +94210,24 @@ const DATA = {
       "3PM Game": "",
       "Best Game Score": 5.1,
       "Best GS Date": "November 25, 2011"
+    },
+    {
+      "Player": "Legend Smiley",
+      "Player ID": "Legend Smiley",
+      "Team": "San Francisco",
+      "High PTS": 8,
+      "PTS Game": "February 05, 2026",
+      "PTS Opponent": "Loyola Marymount",
+      "High REB": 3,
+      "REB Game": "February 05, 2026",
+      "REB Opponent": "Loyola Marymount",
+      "High AST": 0,
+      "AST Game": "",
+      "AST Opponent": "",
+      "High 3PM": 2,
+      "3PM Game": "February 05, 2026",
+      "Best Game Score": 3.0,
+      "Best GS Date": "February 05, 2026"
     },
     {
       "Player": "David Bumpass",
@@ -95125,6 +96840,60 @@ const DATA = {
       "Best GS Date": "November 25, 2011"
     },
     {
+      "Player": "Josh Dalton",
+      "Player ID": "Josh Dalton",
+      "Team": "Loyola Marymount",
+      "High PTS": 5,
+      "PTS Game": "February 05, 2026",
+      "PTS Opponent": "San Francisco",
+      "High REB": 4,
+      "REB Game": "February 05, 2026",
+      "REB Opponent": "San Francisco",
+      "High AST": 0,
+      "AST Game": "",
+      "AST Opponent": "",
+      "High 3PM": 1,
+      "3PM Game": "February 05, 2026",
+      "Best Game Score": 3.1,
+      "Best GS Date": "February 05, 2026"
+    },
+    {
+      "Player": "AJ Thomas",
+      "Player ID": "AJ Thomas",
+      "Team": "Loyola Marymount",
+      "High PTS": 5,
+      "PTS Game": "February 05, 2026",
+      "PTS Opponent": "San Francisco",
+      "High REB": 2,
+      "REB Game": "February 05, 2026",
+      "REB Opponent": "San Francisco",
+      "High AST": 3,
+      "AST Game": "February 05, 2026",
+      "AST Opponent": "San Francisco",
+      "High 3PM": 0,
+      "3PM Game": "",
+      "Best Game Score": 1.9,
+      "Best GS Date": "February 05, 2026"
+    },
+    {
+      "Player": "Tyrone Riley IV",
+      "Player ID": "Tyrone Riley IV",
+      "Team": "San Francisco",
+      "High PTS": 5,
+      "PTS Game": "February 05, 2026",
+      "PTS Opponent": "Loyola Marymount",
+      "High REB": 6,
+      "REB Game": "February 05, 2026",
+      "REB Opponent": "Loyola Marymount",
+      "High AST": 0,
+      "AST Game": "",
+      "AST Opponent": "",
+      "High 3PM": 1,
+      "3PM Game": "February 05, 2026",
+      "Best Game Score": 3.2,
+      "Best GS Date": "February 05, 2026"
+    },
+    {
       "Player": "Matar Wade",
       "Player ID": "matar-wade-1",
       "Team": "Morgan State",
@@ -96059,6 +97828,42 @@ const DATA = {
       "3PM Game": "",
       "Best Game Score": 1.0,
       "Best GS Date": "November 25, 2011"
+    },
+    {
+      "Player": "Guillermo Diaz Graham",
+      "Player ID": "Guillermo Diaz Graham",
+      "Team": "San Francisco",
+      "High PTS": 4,
+      "PTS Game": "February 05, 2026",
+      "PTS Opponent": "Loyola Marymount",
+      "High REB": 4,
+      "REB Game": "February 05, 2026",
+      "REB Opponent": "Loyola Marymount",
+      "High AST": 0,
+      "AST Game": "",
+      "AST Opponent": "",
+      "High 3PM": 0,
+      "3PM Game": "",
+      "Best Game Score": 1.8,
+      "Best GS Date": "February 05, 2026"
+    },
+    {
+      "Player": "Mookie Cook",
+      "Player ID": "Mookie Cook",
+      "Team": "San Francisco",
+      "High PTS": 4,
+      "PTS Game": "February 05, 2026",
+      "PTS Opponent": "Loyola Marymount",
+      "High REB": 2,
+      "REB Game": "February 05, 2026",
+      "REB Opponent": "Loyola Marymount",
+      "High AST": 2,
+      "AST Game": "February 05, 2026",
+      "AST Opponent": "Loyola Marymount",
+      "High 3PM": 0,
+      "3PM Game": "",
+      "Best Game Score": 2.9,
+      "Best GS Date": "February 05, 2026"
     },
     {
       "Player": "Manok Lual",
@@ -97085,6 +98890,24 @@ const DATA = {
       "3PM Game": "November 25, 2011",
       "Best Game Score": 2.0,
       "Best GS Date": "November 25, 2011"
+    },
+    {
+      "Player": "David Fuchs",
+      "Player ID": "David Fuchs",
+      "Team": "San Francisco",
+      "High PTS": 3,
+      "PTS Game": "February 05, 2026",
+      "PTS Opponent": "Loyola Marymount",
+      "High REB": 5,
+      "REB Game": "February 05, 2026",
+      "REB Opponent": "Loyola Marymount",
+      "High AST": 2,
+      "AST Game": "February 05, 2026",
+      "AST Opponent": "Loyola Marymount",
+      "High 3PM": 0,
+      "3PM Game": "",
+      "Best Game Score": 0.0,
+      "Best GS Date": "February 05, 2026"
     },
     {
       "Player": "Dallas James",
@@ -98489,6 +100312,42 @@ const DATA = {
       "3PM Game": "",
       "Best Game Score": -1.4,
       "Best GS Date": "November 25, 2011"
+    },
+    {
+      "Player": "Nakyel Shelton",
+      "Player ID": "Nakyel Shelton",
+      "Team": "Loyola Marymount",
+      "High PTS": 2,
+      "PTS Game": "February 05, 2026",
+      "PTS Opponent": "San Francisco",
+      "High REB": 0,
+      "REB Game": "",
+      "REB Opponent": "",
+      "High AST": 0,
+      "AST Game": "",
+      "AST Opponent": "",
+      "High 3PM": 0,
+      "3PM Game": "",
+      "Best Game Score": 1.6,
+      "Best GS Date": "February 05, 2026"
+    },
+    {
+      "Player": "Vukasin Masic",
+      "Player ID": "Vukasin Masic",
+      "Team": "San Francisco",
+      "High PTS": 2,
+      "PTS Game": "February 05, 2026",
+      "PTS Opponent": "Loyola Marymount",
+      "High REB": 0,
+      "REB Game": "",
+      "REB Opponent": "",
+      "High AST": 0,
+      "AST Game": "",
+      "AST Opponent": "",
+      "High 3PM": 0,
+      "3PM Game": "",
+      "Best Game Score": 0.3,
+      "Best GS Date": "February 05, 2026"
     },
     {
       "Player": "Isaiah Williams",
@@ -102539,6 +104398,96 @@ const DATA = {
       "3PM Game": "",
       "Best Game Score": -1.0,
       "Best GS Date": "February 21, 2018"
+    },
+    {
+      "Player": "Rick Issanza",
+      "Player ID": "Rick Issanza",
+      "Team": "Loyola Marymount",
+      "High PTS": 0,
+      "PTS Game": "",
+      "PTS Opponent": "",
+      "High REB": 1,
+      "REB Game": "February 05, 2026",
+      "REB Opponent": "San Francisco",
+      "High AST": 0,
+      "AST Game": "",
+      "AST Opponent": "",
+      "High 3PM": 0,
+      "3PM Game": "",
+      "Best Game Score": -0.6,
+      "Best GS Date": "February 05, 2026"
+    },
+    {
+      "Player": "Jan Vide",
+      "Player ID": "Jan Vide",
+      "Team": "Loyola Marymount",
+      "High PTS": 0,
+      "PTS Game": "",
+      "PTS Opponent": "",
+      "High REB": 8,
+      "REB Game": "February 05, 2026",
+      "REB Opponent": "San Francisco",
+      "High AST": 4,
+      "AST Game": "February 05, 2026",
+      "AST Opponent": "San Francisco",
+      "High 3PM": 0,
+      "3PM Game": "",
+      "Best Game Score": -1.0,
+      "Best GS Date": "February 05, 2026"
+    },
+    {
+      "Player": "Rokas Jocius",
+      "Player ID": "Rokas Jocius",
+      "Team": "Loyola Marymount",
+      "High PTS": 0,
+      "PTS Game": "",
+      "PTS Opponent": "",
+      "High REB": 2,
+      "REB Game": "February 05, 2026",
+      "REB Opponent": "San Francisco",
+      "High AST": 0,
+      "AST Game": "",
+      "AST Opponent": "",
+      "High 3PM": 0,
+      "3PM Game": "",
+      "Best Game Score": -1.5,
+      "Best GS Date": "February 05, 2026"
+    },
+    {
+      "Player": "Saba Gigiberia",
+      "Player ID": "Saba Gigiberia",
+      "Team": "San Francisco",
+      "High PTS": 0,
+      "PTS Game": "",
+      "PTS Opponent": "",
+      "High REB": 0,
+      "REB Game": "",
+      "REB Opponent": "",
+      "High AST": 1,
+      "AST Game": "February 05, 2026",
+      "AST Opponent": "Loyola Marymount",
+      "High 3PM": 0,
+      "3PM Game": "",
+      "Best Game Score": 0.3,
+      "Best GS Date": "February 05, 2026"
+    },
+    {
+      "Player": "Weilun Zhao",
+      "Player ID": "Weilun Zhao",
+      "Team": "San Francisco",
+      "High PTS": 0,
+      "PTS Game": "",
+      "PTS Opponent": "",
+      "High REB": 0,
+      "REB Game": "",
+      "REB Opponent": "",
+      "High AST": 0,
+      "AST Game": "",
+      "AST Opponent": "",
+      "High 3PM": 0,
+      "3PM Game": "",
+      "Best Game Score": 0.0,
+      "Best GS Date": "February 05, 2026"
     }
   ],
   "teamStreaks": [
@@ -102803,6 +104752,16 @@ const DATA = {
       "Last 10": "1-0"
     },
     {
+      "Team": "Loyola Marymount",
+      "Gender": "M",
+      "Current Streak": "W1",
+      "Current Streak Count": 1,
+      "Longest Win Streak": 1,
+      "Longest Loss Streak": 0,
+      "Last 5": "1-0",
+      "Last 10": "1-0"
+    },
+    {
       "Team": "Youngstown State",
       "Gender": "M",
       "Current Streak": "L1",
@@ -103011,16 +104970,6 @@ const DATA = {
       "Longest Loss Streak": 1,
       "Last 5": "0-1",
       "Last 10": "0-1"
-    },
-    {
-      "Team": "San Francisco",
-      "Gender": "M",
-      "Current Streak": "L1",
-      "Current Streak Count": -1,
-      "Longest Win Streak": 3,
-      "Longest Loss Streak": 2,
-      "Last 5": "3-2",
-      "Last 10": "6-4"
     },
     {
       "Team": "USC",
@@ -103251,6 +105200,16 @@ const DATA = {
       "Longest Loss Streak": 2,
       "Last 5": "0-2",
       "Last 10": "0-2"
+    },
+    {
+      "Team": "San Francisco",
+      "Gender": "M",
+      "Current Streak": "L2",
+      "Current Streak Count": -2,
+      "Longest Win Streak": 3,
+      "Longest Loss Streak": 2,
+      "Last 5": "3-2",
+      "Last 10": "5-5"
     }
   ],
   "headToHead": [
@@ -104033,6 +105992,19 @@ const DATA = {
       "Winner": "Santa Clara",
       "Venue": "Leavey Center, Santa Clara, California",
       "GameID": "20260128-scu"
+    },
+    {
+      "Team 1": "Loyola Marymount",
+      "Team 2": "San Francisco",
+      "Gender": "M",
+      "Series": "1-0",
+      "Date": "February 05, 2026",
+      "Away Team": "Loyola Marymount",
+      "Home Team": "San Francisco",
+      "Score": "84-75",
+      "Winner": "Loyola Marymount",
+      "Venue": "War Memorial at The Sobrato Center, San Francisco, California",
+      "GameID": "UNKNOWN"
     }
   ],
   "conferenceStandings": [
@@ -104775,14 +106747,25 @@ const DATA = {
     },
     {
       "Conference": "WCC",
+      "Team": "Loyola Marymount",
+      "Gender": "M",
+      "Conf W": 1,
+      "Conf L": 0,
+      "Conf Win%": 1.0,
+      "Overall W": 1,
+      "Overall L": 0,
+      "Overall Win%": 1.0
+    },
+    {
+      "Conference": "WCC",
       "Team": "San Francisco",
       "Gender": "M",
       "Conf W": 2,
-      "Conf L": 3,
-      "Conf Win%": 0.4,
+      "Conf L": 4,
+      "Conf Win%": 0.333,
       "Overall W": 6,
-      "Overall L": 4,
-      "Overall Win%": 0.6
+      "Overall L": 5,
+      "Overall Win%": 0.545
     },
     {
       "Conference": "WCC",
@@ -104838,8 +106821,8 @@ const DATA = {
       "Team": "San Francisco",
       "Gender": "M",
       "Home W": 6,
-      "Home L": 3,
-      "Home Win%": 0.667,
+      "Home L": 4,
+      "Home Win%": 0.6,
       "Away W": 0,
       "Away L": 1,
       "Away Win%": 0.0,
@@ -104847,7 +106830,7 @@ const DATA = {
       "Neutral L": 0,
       "Neutral Win%": 0,
       "Total W": 6,
-      "Total L": 4
+      "Total L": 5
     },
     {
       "Team": "California",
@@ -105272,6 +107255,21 @@ const DATA = {
     {
       "Team": "South Carolina State",
       "Gender": "W",
+      "Home W": 0,
+      "Home L": 0,
+      "Home Win%": 0.0,
+      "Away W": 1,
+      "Away L": 0,
+      "Away Win%": 1.0,
+      "Neutral W": 0,
+      "Neutral L": 0,
+      "Neutral Win%": 0,
+      "Total W": 1,
+      "Total L": 0
+    },
+    {
+      "Team": "Loyola Marymount",
+      "Gender": "M",
       "Home W": 0,
       "Home L": 0,
       "Home Win%": 0.0,
@@ -107096,8 +109094,8 @@ const DATA = {
         },
         {
           "team": "Loyola Marymount",
-          "seen": false,
-          "seenM": false,
+          "seen": true,
+          "seenM": true,
           "seenW": false,
           "homeArena": "Gersten Pavilion",
           "homeArenaM": "Gersten Pavilion",
@@ -107249,8 +109247,8 @@ const DATA = {
           "espnId": "265"
         }
       ],
-      "teamsSeen": 6,
-      "teamsSeenM": 5,
+      "teamsSeen": 7,
+      "teamsSeenM": 6,
       "teamsSeenW": 2,
       "totalTeams": 12,
       "venuesVisited": 3,
@@ -113568,8 +115566,8 @@ const DATA = {
         },
         {
           "team": "Loyola Marymount",
-          "seen": false,
-          "seenM": false,
+          "seen": true,
+          "seenM": true,
           "seenW": false,
           "homeArena": "Gersten Pavilion",
           "homeArenaM": "Gersten Pavilion",
@@ -116507,8 +118505,8 @@ const DATA = {
           "espnId": "2754"
         }
       ],
-      "teamsSeen": 57,
-      "teamsSeenM": 53,
+      "teamsSeen": 58,
+      "teamsSeenM": 54,
       "teamsSeenW": 8,
       "totalTeams": 365,
       "venuesVisited": 14,
@@ -116644,1636 +118642,9 @@ const DATA = {
   "upcomingGames": {
     "games": [
       {
-        "date": "2026-02-01T17:00Z",
-        "dateDisplay": "Sun, Feb 01 2026",
-        "time_detail": "Final",
-        "homeTeam": "Duquesne",
-        "homeTeamFull": "Duquesne Dukes",
-        "homeTeamAbbrev": "DUQ",
-        "homeConf": "Atlantic 10",
-        "homeRank": null,
-        "awayTeam": "Rhode Island",
-        "awayTeamFull": "Rhode Island Rams",
-        "awayTeamAbbrev": "URI",
-        "awayConf": "Atlantic 10",
-        "awayRank": null,
-        "venue": "UPMC Cooper Fieldhouse",
-        "city": "Pittsburgh",
-        "state": "Pennsylvania",
-        "tv": [
-          "USA Net"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-01T18:00Z",
-        "dateDisplay": "Sun, Feb 01 2026",
-        "time_detail": "Final",
-        "homeTeam": "Florida",
-        "homeTeamFull": "Florida Gators",
-        "homeTeamAbbrev": "FLA",
-        "homeConf": "SEC",
-        "homeRank": 19,
-        "awayTeam": "Alabama",
-        "awayTeamFull": "Alabama Crimson Tide",
-        "awayTeamAbbrev": "ALA",
-        "awayConf": "SEC",
-        "awayRank": 23,
-        "venue": "Stephen C. O'Connell Center",
-        "city": "Gainesville",
-        "state": "Florida",
-        "tv": [
-          "ABC"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-01T18:00Z",
-        "dateDisplay": "Sun, Feb 01 2026",
-        "time_detail": "Final",
-        "homeTeam": "Merrimack",
-        "homeTeamFull": "Merrimack Warriors",
-        "homeTeamAbbrev": "MRMK",
-        "homeConf": "NEC",
-        "homeRank": null,
-        "awayTeam": "Sacred Heart",
-        "awayTeamFull": "Sacred Heart Pioneers",
-        "awayTeamAbbrev": "SHU",
-        "awayConf": "NEC",
-        "awayRank": null,
-        "venue": "Lawler Arena",
-        "city": "North Andover",
-        "state": "Massachusetts",
-        "tv": [
-          "ESPN+"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-01T18:00Z",
-        "dateDisplay": "Sun, Feb 01 2026",
-        "time_detail": "Final",
-        "homeTeam": "Canisius",
-        "homeTeamFull": "Canisius Golden Griffins",
-        "homeTeamAbbrev": "CAN",
-        "homeConf": "MAAC",
-        "homeRank": null,
-        "awayTeam": "Siena",
-        "awayTeamFull": "Siena Saints",
-        "awayTeamAbbrev": "SIE",
-        "awayConf": "MAAC",
-        "awayRank": null,
-        "venue": "Koessler Athletic Center",
-        "city": "Buffalo",
-        "state": "New York",
-        "tv": [
-          "ESPN+"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-01T18:00Z",
-        "dateDisplay": "Sun, Feb 01 2026",
-        "time_detail": "Final",
-        "homeTeam": "W Carolina",
-        "homeTeamFull": "Western Carolina Catamounts",
-        "homeTeamAbbrev": "WCU",
-        "homeConf": "Southern Conference",
-        "homeRank": null,
-        "awayTeam": "Samford",
-        "awayTeamFull": "Samford Bulldogs",
-        "awayTeamAbbrev": "SAM",
-        "awayConf": "Southern Conference",
-        "awayRank": null,
-        "venue": "Ramsey Center",
-        "city": "Cullowhee",
-        "state": "North Carolina",
-        "tv": [
-          "ESPN+"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-01T18:00Z",
-        "dateDisplay": "Sun, Feb 01 2026",
-        "time_detail": "Final",
-        "homeTeam": "Furman",
-        "homeTeamFull": "Furman Paladins",
-        "homeTeamAbbrev": "FUR",
-        "homeConf": "Southern Conference",
-        "homeRank": null,
-        "awayTeam": "Chattanooga",
-        "awayTeamFull": "Chattanooga Mocs",
-        "awayTeamAbbrev": "UTC",
-        "awayConf": "Southern Conference",
-        "awayRank": null,
-        "venue": "Timmons Arena",
-        "city": "Greenville",
-        "state": "South Carolina",
-        "tv": [
-          "ESPN2"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-01T19:00Z",
-        "dateDisplay": "Sun, Feb 01 2026",
-        "time_detail": "Final",
-        "homeTeam": "Kansas St",
-        "homeTeamFull": "Kansas State Wildcats",
-        "homeTeamAbbrev": "KSU",
-        "homeConf": "Big 12",
-        "homeRank": null,
-        "awayTeam": "Iowa State",
-        "awayTeamFull": "Iowa State Cyclones",
-        "awayTeamAbbrev": "ISU",
-        "awayConf": "Big 12",
-        "awayRank": 8,
-        "venue": "Bramlage Coliseum",
-        "city": "Manhattan",
-        "state": "Kansas",
-        "tv": [
-          "FOX"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-01T19:00Z",
-        "dateDisplay": "Sun, Feb 01 2026",
-        "time_detail": "Final",
-        "homeTeam": "St Thomas (MN)",
-        "homeTeamFull": "St. Thomas-Minnesota Tommies",
-        "homeTeamAbbrev": "STMN",
-        "homeConf": "Summit League",
-        "homeRank": null,
-        "awayTeam": "Kansas City",
-        "awayTeamFull": "Kansas City Roos",
-        "awayTeamAbbrev": "KC",
-        "awayConf": "Summit League",
-        "awayRank": null,
-        "venue": "Lee & Penny Anderson Arena",
-        "city": "Saint Paul",
-        "state": "Minnesota",
-        "tv": [
-          "CBSSN"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-01T19:00Z",
-        "dateDisplay": "Sun, Feb 01 2026",
-        "time_detail": "Final",
-        "homeTeam": "Tulsa",
-        "homeTeamFull": "Tulsa Golden Hurricane",
-        "homeTeamAbbrev": "TLSA",
-        "homeConf": "AAC",
-        "homeRank": null,
-        "awayTeam": "Wichita St",
-        "awayTeamFull": "Wichita State Shockers",
-        "awayTeamAbbrev": "WICH",
-        "awayConf": "AAC",
-        "awayRank": null,
-        "venue": "Reynolds Center",
-        "city": "Tulsa",
-        "state": "Oklahoma",
-        "tv": [
-          "ESPNU"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-01T19:00Z",
-        "dateDisplay": "Sun, Feb 01 2026",
-        "time_detail": "Final",
-        "homeTeam": "FAU",
-        "homeTeamFull": "Florida Atlantic Owls",
-        "homeTeamAbbrev": "FAU",
-        "homeConf": "AAC",
-        "homeRank": null,
-        "awayTeam": "East Carolina",
-        "awayTeamFull": "East Carolina Pirates",
-        "awayTeamAbbrev": "ECU",
-        "awayConf": "American",
-        "awayRank": null,
-        "venue": "Eleanor R. Baldwin Arena",
-        "city": "Boca Raton",
-        "state": "Florida",
-        "tv": [
-          "ESPN+"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-01T19:00Z",
-        "dateDisplay": "Sun, Feb 01 2026",
-        "time_detail": "Final",
-        "homeTeam": "Colorado",
-        "homeTeamFull": "Colorado Buffaloes",
-        "homeTeamAbbrev": "COLO",
-        "homeConf": "Big 12",
-        "homeRank": null,
-        "awayTeam": "TCU",
-        "awayTeamFull": "TCU Horned Frogs",
-        "awayTeamAbbrev": "TCU",
-        "awayConf": "Big 12",
-        "awayRank": null,
-        "venue": "CU Events Center",
-        "city": "Boulder",
-        "state": "Colorado",
-        "tv": [
-          "TNT",
-          "truTV"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-01T19:00Z",
-        "dateDisplay": "Sun, Feb 01 2026",
-        "time_detail": "Final",
-        "homeTeam": "Penn State",
-        "homeTeamFull": "Penn State Nittany Lions",
-        "homeTeamAbbrev": "PSU",
-        "homeConf": "Big Ten",
-        "homeRank": null,
-        "awayTeam": "Minnesota",
-        "awayTeamFull": "Minnesota Golden Gophers",
-        "awayTeamAbbrev": "MINN",
-        "awayConf": "Big Ten",
-        "awayRank": null,
-        "venue": "Bryce Jordan Center",
-        "city": "University Park",
-        "state": "Pennsylvania",
-        "tv": [
-          "Peacock"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-01T19:00Z",
-        "dateDisplay": "Sun, Feb 01 2026",
-        "time_detail": "Final",
-        "homeTeam": "Rider",
-        "homeTeamFull": "Rider Broncs",
-        "homeTeamAbbrev": "RID",
-        "homeConf": "MAAC",
-        "homeRank": null,
-        "awayTeam": "Saint Peter's",
-        "awayTeamFull": "Saint Peter's Peacocks",
-        "awayTeamAbbrev": "SPU",
-        "awayConf": "MAAC",
-        "awayRank": null,
-        "venue": "Alumni Gymnasium (Rider)",
-        "city": "Lawrenceville",
-        "state": "New Jersey",
-        "tv": [
-          "ESPN+"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-01T19:00Z",
-        "dateDisplay": "Sun, Feb 01 2026",
-        "time_detail": "Final",
-        "homeTeam": "Fairfield",
-        "homeTeamFull": "Fairfield Stags",
-        "homeTeamAbbrev": "FAIR",
-        "homeConf": "MAAC",
-        "homeRank": null,
-        "awayTeam": "Quinnipiac",
-        "awayTeamFull": "Quinnipiac Bobcats",
-        "awayTeamAbbrev": "QUIN",
-        "awayConf": "MAAC",
-        "awayRank": null,
-        "venue": "Leo D. Mahoney Arena",
-        "city": "Fairfield",
-        "state": "Connecticut",
-        "tv": [
-          "ESPN+"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-01T19:00Z",
-        "dateDisplay": "Sun, Feb 01 2026",
-        "time_detail": "Final",
-        "homeTeam": "Green Bay",
-        "homeTeamFull": "Green Bay Phoenix",
-        "homeTeamAbbrev": "GB",
-        "homeConf": "Horizon League",
-        "homeRank": null,
-        "awayTeam": "Wright St",
-        "awayTeamFull": "Wright State Raiders",
-        "awayTeamAbbrev": "WRST",
-        "awayConf": "Horizon League",
-        "awayRank": null,
-        "venue": "Resch Center",
-        "city": "Ashwaubenon",
-        "state": "Wisconsin",
-        "tv": [
-          "ESPN+"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-01T19:00Z",
-        "dateDisplay": "Sun, Feb 01 2026",
-        "time_detail": "Final",
-        "homeTeam": "Niagara",
-        "homeTeamFull": "Niagara Purple Eagles",
-        "homeTeamAbbrev": "NIA",
-        "homeConf": "MAAC",
-        "homeRank": null,
-        "awayTeam": "Marist",
-        "awayTeamFull": "Marist Red Foxes",
-        "awayTeamAbbrev": "MRST",
-        "awayConf": "MAAC",
-        "awayRank": null,
-        "venue": "Gallagher Center",
-        "city": "Niagara Falls",
-        "state": "New York",
-        "tv": [
-          "ESPN+"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-01T19:00Z",
-        "dateDisplay": "Sun, Feb 01 2026",
-        "time_detail": "Final",
-        "homeTeam": "Mount St Marys",
-        "homeTeamFull": "Mount St. Mary's Mountaineers",
-        "homeTeamAbbrev": "MSM",
-        "homeConf": "",
-        "homeRank": null,
-        "awayTeam": "Manhattan",
-        "awayTeamFull": "Manhattan Jaspers",
-        "awayTeamAbbrev": "MAN",
-        "awayConf": "MAAC",
-        "awayRank": null,
-        "venue": "Knott Arena",
-        "city": "Emmitsburg",
-        "state": "Maryland",
-        "tv": [
-          "ESPN+",
-          "MNMT"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-01T19:00Z",
-        "dateDisplay": "Sun, Feb 01 2026",
-        "time_detail": "Final",
-        "homeTeam": "UL Monroe",
-        "homeTeamFull": "UL Monroe Warhawks",
-        "homeTeamAbbrev": "ULM",
-        "homeConf": "Sun Belt",
-        "homeRank": null,
-        "awayTeam": "Coastal",
-        "awayTeamFull": "Coastal Carolina Chanticleers",
-        "awayTeamAbbrev": "CCU",
-        "awayConf": "",
-        "awayRank": null,
-        "venue": "Fant-Ewing Coliseum",
-        "city": "Monroe",
-        "state": "Louisiana",
-        "tv": [
-          "ESPN+"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-01T20:00Z",
-        "dateDisplay": "Sun, Feb 01 2026",
-        "time_detail": "Final",
-        "homeTeam": "Memphis",
-        "homeTeamFull": "Memphis Tigers",
-        "homeTeamAbbrev": "MEM",
-        "homeConf": "AAC",
-        "homeRank": null,
-        "awayTeam": "Tulane",
-        "awayTeamFull": "Tulane Green Wave",
-        "awayTeamAbbrev": "TULN",
-        "awayConf": "AAC",
-        "awayRank": null,
-        "venue": "FedExForum",
-        "city": "Memphis",
-        "state": "Tennessee",
-        "tv": [
-          "ESPN2"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-01T20:00Z",
-        "dateDisplay": "Sun, Feb 01 2026",
-        "time_detail": "Final",
-        "homeTeam": "Milwaukee",
-        "homeTeamFull": "Milwaukee Panthers",
-        "homeTeamAbbrev": "MILW",
-        "homeConf": "Horizon League",
-        "homeRank": null,
-        "awayTeam": "Cleveland St",
-        "awayTeamFull": "Cleveland State Vikings",
-        "awayTeamAbbrev": "CLE",
-        "awayConf": "Horizon League",
-        "awayRank": null,
-        "venue": "UW-Milwaukee Panther Arena",
-        "city": "Milwaukee",
-        "state": "Wisconsin",
-        "tv": [
-          "ESPN+"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-01T20:00Z",
-        "dateDisplay": "Sun, Feb 01 2026",
-        "time_detail": "Final",
-        "homeTeam": "Oakland",
-        "homeTeamFull": "Oakland Golden Grizzlies",
-        "homeTeamAbbrev": "OAK",
-        "homeConf": "Horizon League",
-        "homeRank": null,
-        "awayTeam": "N Kentucky",
-        "awayTeamFull": "Northern Kentucky Norse",
-        "awayTeamAbbrev": "NKU",
-        "awayConf": "Horizon League",
-        "awayRank": null,
-        "venue": "OU Credit Union O'rena",
-        "city": "Rochester",
-        "state": "Michigan",
-        "tv": [
-          "ESPN+"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-01T21:00Z",
-        "dateDisplay": "Sun, Feb 01 2026",
-        "time_detail": "Final",
-        "homeTeam": "Nebraska",
-        "homeTeamFull": "Nebraska Cornhuskers",
-        "homeTeamAbbrev": "NEB",
-        "homeConf": "Big Ten",
-        "homeRank": 5,
-        "awayTeam": "Illinois",
-        "awayTeamFull": "Illinois Fighting Illini",
-        "awayTeamAbbrev": "ILL",
-        "awayConf": "Big Ten",
-        "awayRank": 9,
-        "venue": "Pinnacle Bank Arena",
-        "city": "Lincoln",
-        "state": "Nebraska",
-        "tv": [
-          "FS1"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-02T00:00Z",
-        "dateDisplay": "Sun, Feb 01 2026",
-        "time_detail": "15:53 - 1st",
-        "homeTeam": "Wofford",
-        "homeTeamFull": "Wofford Terriers",
-        "homeTeamAbbrev": "WOF",
-        "homeConf": "Southern Conference",
-        "homeRank": null,
-        "awayTeam": "ETSU",
-        "awayTeamFull": "East Tennessee State Buccaneers",
-        "awayTeamAbbrev": "ETSU",
-        "awayConf": "Southern Conference",
-        "awayRank": null,
-        "venue": "Jerry Richardson Indoor Stadium",
-        "city": "Spartanburg",
-        "state": "South Carolina",
-        "tv": [
-          "CBSSN"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-02T01:00Z",
-        "dateDisplay": "Sun, Feb 01 2026",
-        "time_detail": "2/1 - 8:00 PM EST",
-        "homeTeam": "Oregon",
-        "homeTeamFull": "Oregon Ducks",
-        "homeTeamAbbrev": "ORE",
-        "homeConf": "Big Ten",
-        "homeRank": null,
-        "awayTeam": "Iowa",
-        "awayTeamFull": "Iowa Hawkeyes",
-        "awayTeamAbbrev": "IOWA",
-        "awayConf": "Big Ten",
-        "awayRank": null,
-        "venue": "Matthew Knight Arena",
-        "city": "Eugene",
-        "state": "Oregon",
-        "tv": [
-          "FS1"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-02T21:30Z",
-        "dateDisplay": "Mon, Feb 02 2026",
-        "time_detail": "2/2 - 4:30 PM EST",
-        "homeTeam": "NC Central",
-        "homeTeamFull": "North Carolina Central Eagles",
-        "homeTeamAbbrev": "NCCU",
-        "homeConf": "MEAC",
-        "homeRank": null,
-        "awayTeam": "MD Eastern",
-        "awayTeamFull": "Maryland Eastern Shore Hawks",
-        "awayTeamAbbrev": "UMES",
-        "awayConf": "MEAC",
-        "awayRank": null,
-        "venue": "McDougald-McLendon Arena",
-        "city": "Durham",
-        "state": "North Carolina",
-        "tv": [
-          "ESPN+"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-02T23:00Z",
-        "dateDisplay": "Mon, Feb 02 2026",
-        "time_detail": "2/2 - 6:00 PM EST",
-        "homeTeam": "Coppin St",
-        "homeTeamFull": "Coppin State Eagles",
-        "homeTeamAbbrev": "COPP",
-        "homeConf": "MEAC",
-        "homeRank": null,
-        "awayTeam": "Howard",
-        "awayTeamFull": "Howard Bison",
-        "awayTeamAbbrev": "HOW",
-        "awayConf": "MEAC",
-        "awayRank": null,
-        "venue": "Physical Education Complex",
-        "city": "Baltimore",
-        "state": "Maryland",
-        "tv": [],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-02T23:00Z",
-        "dateDisplay": "Mon, Feb 02 2026",
-        "time_detail": "2/2 - 6:00 PM EST",
-        "homeTeam": "Charleston So",
-        "homeTeamFull": "Charleston Southern Buccaneers",
-        "homeTeamAbbrev": "CHSO",
-        "homeConf": "",
-        "homeRank": null,
-        "awayTeam": "Gardner-Webb",
-        "awayTeamFull": "Gardner-Webb Runnin' Bulldogs",
-        "awayTeamAbbrev": "GWEB",
-        "awayConf": "Big South",
-        "awayRank": null,
-        "venue": "Buccaneer Fieldhouse",
-        "city": "Charleston",
-        "state": "South Carolina",
-        "tv": [
-          "ESPN+"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-03T00:00Z",
-        "dateDisplay": "Mon, Feb 02 2026",
-        "time_detail": "2/2 - 7:00 PM EST",
-        "homeTeam": "North Carolina",
-        "homeTeamFull": "North Carolina Tar Heels",
-        "homeTeamAbbrev": "UNC",
-        "homeConf": "ACC",
-        "homeRank": 16,
-        "awayTeam": "Syracuse",
-        "awayTeamFull": "Syracuse Orange",
-        "awayTeamAbbrev": "SYR",
-        "awayConf": "ACC",
-        "awayRank": null,
-        "venue": "Dean E. Smith Center",
-        "city": "Chapel Hill",
-        "state": "North Carolina",
-        "tv": [
-          "ESPN"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-03T00:00Z",
-        "dateDisplay": "Mon, Feb 02 2026",
-        "time_detail": "2/2 - 7:00 PM EST",
-        "homeTeam": "Alabama St",
-        "homeTeamFull": "Alabama State Hornets",
-        "homeTeamAbbrev": "ALST",
-        "homeConf": "SWAC",
-        "homeRank": null,
-        "awayTeam": "Florida A&M",
-        "awayTeamFull": "Florida A&M Rattlers",
-        "awayTeamAbbrev": "FAMU",
-        "awayConf": "SWAC",
-        "awayRank": null,
-        "venue": "Dunn-Oliver Acadome",
-        "city": "Montgomery",
-        "state": "Alabama",
-        "tv": [],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-03T00:00Z",
-        "dateDisplay": "Mon, Feb 02 2026",
-        "time_detail": "2/2 - 7:00 PM EST",
-        "homeTeam": "Holy Cross",
-        "homeTeamFull": "Holy Cross Crusaders",
-        "homeTeamAbbrev": "HC",
-        "homeConf": "Patriot League",
-        "homeRank": null,
-        "awayTeam": "Boston U",
-        "awayTeamFull": "Boston University Terriers",
-        "awayTeamAbbrev": "BU",
-        "awayConf": "",
-        "awayRank": null,
-        "venue": "Hart Center",
-        "city": "Worcester",
-        "state": "Massachusetts",
-        "tv": [
-          "CBSSN"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-03T00:00Z",
-        "dateDisplay": "Mon, Feb 02 2026",
-        "time_detail": "2/2 - 7:00 PM EST",
-        "homeTeam": "Lamar",
-        "homeTeamFull": "Lamar Cardinals",
-        "homeTeamAbbrev": "LAM",
-        "homeConf": "Southland",
-        "homeRank": null,
-        "awayTeam": "SE Louisiana",
-        "awayTeamFull": "SE Louisiana Lions",
-        "awayTeamAbbrev": "SELA",
-        "awayConf": "Southland",
-        "awayRank": null,
-        "venue": "Montagne Center",
-        "city": "Beaumont",
-        "state": "Texas",
-        "tv": [
-          "ESPN+"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-03T00:30Z",
-        "dateDisplay": "Mon, Feb 02 2026",
-        "time_detail": "2/2 - 7:30 PM EST",
-        "homeTeam": "UT Rio Grande",
-        "homeTeamFull": "UT Rio Grande Valley Vaqueros",
-        "homeTeamAbbrev": "RGV",
-        "homeConf": "Southland",
-        "homeRank": null,
-        "awayTeam": "Hou Christian",
-        "awayTeamFull": "Houston Christian Huskies",
-        "awayTeamAbbrev": "HCU",
-        "awayConf": "",
-        "awayRank": null,
-        "venue": "UTRGV Fieldhouse",
-        "city": "Edinburg",
-        "state": "Texas",
-        "tv": [
-          "ESPN+"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-03T00:30Z",
-        "dateDisplay": "Mon, Feb 02 2026",
-        "time_detail": "2/2 - 7:30 PM EST",
-        "homeTeam": "N'Western St",
-        "homeTeamFull": "Northwestern State Demons",
-        "homeTeamAbbrev": "NWST",
-        "homeConf": "Southland",
-        "homeRank": null,
-        "awayTeam": "Nicholls",
-        "awayTeamFull": "Nicholls Colonels",
-        "awayTeamAbbrev": "NICH",
-        "awayConf": "Southland",
-        "awayRank": null,
-        "venue": "Prather Coliseum",
-        "city": "Natchitoches",
-        "state": "Louisiana",
-        "tv": [
-          "ESPN+"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-03T00:30Z",
-        "dateDisplay": "Mon, Feb 02 2026",
-        "time_detail": "2/2 - 7:30 PM EST",
-        "homeTeam": "SF Austin",
-        "homeTeamFull": "Stephen F. Austin Lumberjacks",
-        "homeTeamAbbrev": "SFA",
-        "homeConf": "Southland",
-        "homeRank": null,
-        "awayTeam": "McNeese",
-        "awayTeamFull": "McNeese Cowboys",
-        "awayTeamAbbrev": "MCN",
-        "awayConf": "Southland",
-        "awayRank": null,
-        "venue": "William R. Johnson Coliseum",
-        "city": "Nacogdoches",
-        "state": "Texas",
-        "tv": [
-          "ESPN+"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-03T00:30Z",
-        "dateDisplay": "Mon, Feb 02 2026",
-        "time_detail": "2/2 - 7:30 PM EST",
-        "homeTeam": "E Texas A&M",
-        "homeTeamFull": "East Texas A&M Lions",
-        "homeTeamAbbrev": "ETAM",
-        "homeConf": "",
-        "homeRank": null,
-        "awayTeam": "New Orleans",
-        "awayTeamFull": "New Orleans Privateers",
-        "awayTeamAbbrev": "UNO",
-        "awayConf": "Southland",
-        "awayRank": null,
-        "venue": "The Field House",
-        "city": "Commerce",
-        "state": "Texas",
-        "tv": [
-          "ESPN+"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-03T01:00Z",
-        "dateDisplay": "Mon, Feb 02 2026",
-        "time_detail": "2/2 - 8:00 PM EST",
-        "homeTeam": "Alabama A&M",
-        "homeTeamFull": "Alabama A&M Bulldogs",
-        "homeTeamAbbrev": "AAMU",
-        "homeConf": "SWAC",
-        "homeRank": null,
-        "awayTeam": "Bethune",
-        "awayTeamFull": "Bethune-Cookman Wildcats",
-        "awayTeamAbbrev": "BCU",
-        "awayConf": "SWAC",
-        "awayRank": null,
-        "venue": "Event Center",
-        "city": "Huntsville",
-        "state": "Alabama",
-        "tv": [],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-03T01:00Z",
-        "dateDisplay": "Mon, Feb 02 2026",
-        "time_detail": "2/2 - 8:00 PM EST",
-        "homeTeam": "Alcorn St",
-        "homeTeamFull": "Alcorn State Braves",
-        "homeTeamAbbrev": "ALCN",
-        "homeConf": "SWAC",
-        "homeRank": null,
-        "awayTeam": "Grambling",
-        "awayTeamFull": "Grambling Tigers",
-        "awayTeamAbbrev": "GRAM",
-        "awayConf": "SWAC",
-        "awayRank": null,
-        "venue": "Davey L. Whitney Complex",
-        "city": "Lorman",
-        "state": "Mississippi",
-        "tv": [],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-03T01:00Z",
-        "dateDisplay": "Mon, Feb 02 2026",
-        "time_detail": "2/2 - 8:00 PM EST",
-        "homeTeam": "Jackson St",
-        "homeTeamFull": "Jackson State Tigers",
-        "homeTeamAbbrev": "JKST",
-        "homeConf": "SWAC",
-        "homeRank": null,
-        "awayTeam": "Southern",
-        "awayTeamFull": "Southern Jaguars",
-        "awayTeamAbbrev": "SOU",
-        "awayConf": "SWAC",
-        "awayRank": null,
-        "venue": "Lee E. Williams Athletics and Assembly Center",
-        "city": "Jackson",
-        "state": "Mississippi",
-        "tv": [],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-03T01:00Z",
-        "dateDisplay": "Mon, Feb 02 2026",
-        "time_detail": "2/2 - 8:00 PM EST",
-        "homeTeam": "Texas A&M-CC",
-        "homeTeamFull": "Texas A&M-Corpus Christi Islanders",
-        "homeTeamAbbrev": "AMCC",
-        "homeConf": "",
-        "homeRank": null,
-        "awayTeam": "Incarnate Word",
-        "awayTeamFull": "Incarnate Word Cardinals",
-        "awayTeamAbbrev": "UIW",
-        "awayConf": "Southland",
-        "awayRank": null,
-        "venue": "American Bank Center",
-        "city": "Corpus Christi",
-        "state": "Texas",
-        "tv": [
-          "CBSSN"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-03T01:30Z",
-        "dateDisplay": "Mon, Feb 02 2026",
-        "time_detail": "2/2 - 8:30 PM EST",
-        "homeTeam": "Tennessee St",
-        "homeTeamFull": "Tennessee State Tigers",
-        "homeTeamAbbrev": "TNST",
-        "homeConf": "OVC",
-        "homeRank": null,
-        "awayTeam": "Tennessee Tech",
-        "awayTeamFull": "Tennessee Tech Golden Eagles",
-        "awayTeamAbbrev": "TNTC",
-        "awayConf": "OVC",
-        "awayRank": null,
-        "venue": "Gentry Center",
-        "city": "Nashville",
-        "state": "Tennessee",
-        "tv": [
-          "ESPN+"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-03T02:00Z",
-        "dateDisplay": "Mon, Feb 02 2026",
-        "time_detail": "2/2 - 9:00 PM EST",
-        "homeTeam": "Texas Tech",
-        "homeTeamFull": "Texas Tech Red Raiders",
-        "homeTeamAbbrev": "TTU",
-        "homeConf": "Big 12",
-        "homeRank": 11,
-        "awayTeam": "Kansas",
-        "awayTeamFull": "Kansas Jayhawks",
-        "awayTeamAbbrev": "KU",
-        "awayConf": "Big 12",
-        "awayRank": 14,
-        "venue": "United Supermarkets Arena",
-        "city": "Lubbock",
-        "state": "Texas",
-        "tv": [
-          "ESPN"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-03T03:00Z",
-        "dateDisplay": "Mon, Feb 02 2026",
-        "time_detail": "2/2 - 10:00 PM EST",
-        "homeTeam": "Sacramento St",
-        "homeTeamFull": "Sacramento State Hornets",
-        "homeTeamAbbrev": "SAC",
-        "homeConf": "Big Sky",
-        "homeRank": null,
-        "awayTeam": "Weber St",
-        "awayTeamFull": "Weber State Wildcats",
-        "awayTeamAbbrev": "WEB",
-        "awayConf": "Big Sky",
-        "awayRank": null,
-        "venue": "Hornet Pavilion",
-        "city": "Sacramento",
-        "state": "California",
-        "tv": [
-          "ESPN+"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-03T23:30Z",
-        "dateDisplay": "Tue, Feb 03 2026",
-        "time_detail": "2/3 - 6:30 PM EST",
-        "homeTeam": "Buffalo",
-        "homeTeamFull": "Buffalo Bulls",
-        "homeTeamAbbrev": "BUF",
-        "homeConf": "MAC",
-        "homeRank": null,
-        "awayTeam": "Miami OH",
-        "awayTeamFull": "Miami (OH) RedHawks",
-        "awayTeamAbbrev": "M-OH",
-        "awayConf": "",
-        "awayRank": null,
-        "venue": "Alumni Arena",
-        "city": "Buffalo",
-        "state": "New York",
-        "tv": [
-          "ESPN+"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-03T23:30Z",
-        "dateDisplay": "Tue, Feb 03 2026",
-        "time_detail": "2/3 - 6:30 PM EST",
-        "homeTeam": "E Michigan",
-        "homeTeamFull": "Eastern Michigan Eagles",
-        "homeTeamAbbrev": "EMU",
-        "homeConf": "MAC",
-        "homeRank": null,
-        "awayTeam": "Akron",
-        "awayTeamFull": "Akron Zips",
-        "awayTeamAbbrev": "AKR",
-        "awayConf": "MAC",
-        "awayRank": null,
-        "venue": "Gervin GameAbove Center",
-        "city": "Ypsilanti",
-        "state": "Michigan",
-        "tv": [
-          "ESPN+"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-03T23:30Z",
-        "dateDisplay": "Tue, Feb 03 2026",
-        "time_detail": "2/3 - 6:30 PM EST",
-        "homeTeam": "Niagara",
-        "homeTeamFull": "Niagara Purple Eagles",
-        "homeTeamAbbrev": "NIA",
-        "homeConf": "MAAC",
-        "homeRank": null,
-        "awayTeam": "Canisius",
-        "awayTeamFull": "Canisius Golden Griffins",
-        "awayTeamAbbrev": "CAN",
-        "awayConf": "MAAC",
-        "awayRank": null,
-        "venue": "Gallagher Center",
-        "city": "Niagara Falls",
-        "state": "New York",
-        "tv": [
-          "ESPN+"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-04T00:00Z",
-        "dateDisplay": "Tue, Feb 03 2026",
-        "time_detail": "2/3 - 7:00 PM EST",
-        "homeTeam": "UConn",
-        "homeTeamFull": "UConn Huskies",
-        "homeTeamAbbrev": "CONN",
-        "homeConf": "Big East",
-        "homeRank": 2,
-        "awayTeam": "Xavier",
-        "awayTeamFull": "Xavier Musketeers",
-        "awayTeamAbbrev": "XAV",
-        "awayConf": "Big East",
-        "awayRank": null,
-        "venue": "PeoplesBank Arena",
-        "city": "Hartford",
-        "state": "Connecticut",
-        "tv": [
-          "Peacock",
-          "NBCSN"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-04T00:00Z",
-        "dateDisplay": "Tue, Feb 03 2026",
-        "time_detail": "2/3 - 7:00 PM EST",
-        "homeTeam": "Duke",
-        "homeTeamFull": "Duke Blue Devils",
-        "homeTeamAbbrev": "DUKE",
-        "homeConf": "ACC",
-        "homeRank": 4,
-        "awayTeam": "Boston College",
-        "awayTeamFull": "Boston College Eagles",
-        "awayTeamAbbrev": "BC",
-        "awayConf": "ACC",
-        "awayRank": null,
-        "venue": "Cameron Indoor Stadium",
-        "city": "Durham",
-        "state": "North Carolina",
-        "tv": [
-          "ACC Network"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-04T00:00Z",
-        "dateDisplay": "Tue, Feb 03 2026",
-        "time_detail": "2/3 - 7:00 PM EST",
-        "homeTeam": "Illinois St",
-        "homeTeamFull": "Illinois State Redbirds",
-        "homeTeamAbbrev": "ILST",
-        "homeConf": "MVC",
-        "homeRank": null,
-        "awayTeam": "S Illinois",
-        "awayTeamFull": "Southern Illinois Salukis",
-        "awayTeamAbbrev": "SIU",
-        "awayConf": "MVC",
-        "awayRank": null,
-        "venue": "CEFCU Arena",
-        "city": "Normal",
-        "state": "Illinois",
-        "tv": [
-          "ESPN+",
-          "MVC"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-04T00:00Z",
-        "dateDisplay": "Tue, Feb 03 2026",
-        "time_detail": "2/3 - 7:00 PM EST",
-        "homeTeam": "Fordham",
-        "homeTeamFull": "Fordham Rams",
-        "homeTeamAbbrev": "FOR",
-        "homeConf": "Atlantic 10",
-        "homeRank": null,
-        "awayTeam": "VCU",
-        "awayTeamFull": "VCU Rams",
-        "awayTeamAbbrev": "VCU",
-        "awayConf": "Atlantic 10",
-        "awayRank": null,
-        "venue": "Rose Hill Gym",
-        "city": "Bronx",
-        "state": "New York",
-        "tv": [
-          "ESPN+"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-04T00:00Z",
-        "dateDisplay": "Tue, Feb 03 2026",
-        "time_detail": "2/3 - 7:00 PM EST",
-        "homeTeam": "Dayton",
-        "homeTeamFull": "Dayton Flyers",
-        "homeTeamAbbrev": "DAY",
-        "homeConf": "Atlantic 10",
-        "homeRank": null,
-        "awayTeam": "St Bonaventure",
-        "awayTeamFull": "St. Bonaventure Bonnies",
-        "awayTeamAbbrev": "SBU",
-        "awayConf": "Atlantic 10",
-        "awayRank": null,
-        "venue": "UD Arena",
-        "city": "Dayton",
-        "state": "Ohio",
-        "tv": [
-          "CBSSN"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-04T00:00Z",
-        "dateDisplay": "Tue, Feb 03 2026",
-        "time_detail": "2/3 - 7:00 PM EST",
-        "homeTeam": "Ohio",
-        "homeTeamFull": "Ohio Bobcats",
-        "homeTeamAbbrev": "OHIO",
-        "homeConf": "MAC",
-        "homeRank": null,
-        "awayTeam": "W Michigan",
-        "awayTeamFull": "Western Michigan Broncos",
-        "awayTeamAbbrev": "WMU",
-        "awayConf": "MAC",
-        "awayRank": null,
-        "venue": "Convocation Center (OH)",
-        "city": "Athens",
-        "state": "Ohio",
-        "tv": [
-          "ESPN+"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-04T00:00Z",
-        "dateDisplay": "Tue, Feb 03 2026",
-        "time_detail": "2/3 - 7:00 PM EST",
-        "homeTeam": "Toledo",
-        "homeTeamFull": "Toledo Rockets",
-        "homeTeamAbbrev": "TOL",
-        "homeConf": "MAC",
-        "homeRank": null,
-        "awayTeam": "Kent State",
-        "awayTeamFull": "Kent State Golden Flashes",
-        "awayTeamAbbrev": "KENT",
-        "awayConf": "MAC",
-        "awayRank": null,
-        "venue": "Savage Arena",
-        "city": "Toledo",
-        "state": "Ohio",
-        "tv": [
-          "ESPN+"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-04T00:00Z",
-        "dateDisplay": "Tue, Feb 03 2026",
-        "time_detail": "2/3 - 7:00 PM EST",
-        "homeTeam": "UMass",
-        "homeTeamFull": "Massachusetts Minutemen",
-        "homeTeamAbbrev": "MASS",
-        "homeConf": "MAC",
-        "homeRank": null,
-        "awayTeam": "C Michigan",
-        "awayTeamFull": "Central Michigan Chippewas",
-        "awayTeamAbbrev": "CMU",
-        "awayConf": "",
-        "awayRank": null,
-        "venue": "Mullins Center",
-        "city": "Amherst",
-        "state": "Massachusetts",
-        "tv": [
-          "ESPN+"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-04T00:00Z",
-        "dateDisplay": "Tue, Feb 03 2026",
-        "time_detail": "2/3 - 7:00 PM EST",
-        "homeTeam": "Bowling Green",
-        "homeTeamFull": "Bowling Green Falcons",
-        "homeTeamAbbrev": "BGSU",
-        "homeConf": "MAC",
-        "homeRank": null,
-        "awayTeam": "Ball State",
-        "awayTeamFull": "Ball State Cardinals",
-        "awayTeamAbbrev": "BALL",
-        "awayConf": "MAC",
-        "awayRank": null,
-        "venue": "Stroh Center",
-        "city": "Bowling Green",
-        "state": "Ohio",
-        "tv": [
-          "ESPN+"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-04T00:00Z",
-        "dateDisplay": "Tue, Feb 03 2026",
-        "time_detail": "2/3 - 7:00 PM EST",
-        "homeTeam": "Tennessee",
-        "homeTeamFull": "Tennessee Volunteers",
-        "homeTeamAbbrev": "TENN",
-        "homeConf": "SEC",
-        "homeRank": null,
-        "awayTeam": "Ole Miss",
-        "awayTeamFull": "Ole Miss Rebels",
-        "awayTeamAbbrev": "MISS",
-        "awayConf": "SEC",
-        "awayRank": null,
-        "venue": "Food City Center",
-        "city": "Knoxville",
-        "state": "Tennessee",
-        "tv": [
-          "ESPN2"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-04T00:00Z",
-        "dateDisplay": "Tue, Feb 03 2026",
-        "time_detail": "2/3 - 7:00 PM EST",
-        "homeTeam": "Texas",
-        "homeTeamFull": "Texas Longhorns",
-        "homeTeamAbbrev": "TEX",
-        "homeConf": "SEC",
-        "homeRank": null,
-        "awayTeam": "South Carolina",
-        "awayTeamFull": "South Carolina Gamecocks",
-        "awayTeamAbbrev": "SC",
-        "awayConf": "SEC",
-        "awayRank": null,
-        "venue": "Moody Center",
-        "city": "Austin",
-        "state": "Texas",
-        "tv": [
-          "SEC Network"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-04T01:00Z",
-        "dateDisplay": "Tue, Feb 03 2026",
-        "time_detail": "2/3 - 8:00 PM EST",
-        "homeTeam": "DePaul",
-        "homeTeamFull": "DePaul Blue Demons",
-        "homeTeamAbbrev": "DEP",
-        "homeConf": "Big East",
-        "homeRank": null,
-        "awayTeam": "St John's",
-        "awayTeamFull": "St. John's Red Storm",
-        "awayTeamAbbrev": "SJU",
-        "awayConf": "Big East",
-        "awayRank": null,
-        "venue": "Wintrust Arena",
-        "city": "Chicago",
-        "state": "Illinois",
-        "tv": [
-          "Peacock"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-04T01:00Z",
-        "dateDisplay": "Tue, Feb 03 2026",
-        "time_detail": "2/3 - 8:00 PM EST",
-        "homeTeam": "Evansville",
-        "homeTeamFull": "Evansville Purple Aces",
-        "homeTeamAbbrev": "EVAN",
-        "homeConf": "MVC",
-        "homeRank": null,
-        "awayTeam": "Indiana St",
-        "awayTeamFull": "Indiana State Sycamores",
-        "awayTeamAbbrev": "INST",
-        "awayConf": "MVC",
-        "awayRank": null,
-        "venue": "Ford Center",
-        "city": "Evansville",
-        "state": "Indiana",
-        "tv": [
-          "ESPN+"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-04T01:00Z",
-        "dateDisplay": "Tue, Feb 03 2026",
-        "time_detail": "2/3 - 8:00 PM EST",
-        "homeTeam": "Murray St",
-        "homeTeamFull": "Murray State Racers",
-        "homeTeamAbbrev": "MUR",
-        "homeConf": "MVC",
-        "homeRank": null,
-        "awayTeam": "UIC",
-        "awayTeamFull": "UIC Flames",
-        "awayTeamAbbrev": "UIC",
-        "awayConf": "MVC",
-        "awayRank": null,
-        "venue": "CFSB Center",
-        "city": "Murray",
-        "state": "Kentucky",
-        "tv": [
-          "ESPN+"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-04T01:00Z",
-        "dateDisplay": "Tue, Feb 03 2026",
-        "time_detail": "2/3 - 8:00 PM EST",
-        "homeTeam": "Bradley",
-        "homeTeamFull": "Bradley Braves",
-        "homeTeamAbbrev": "BRAD",
-        "homeConf": "MVC",
-        "homeRank": null,
-        "awayTeam": "Valparaiso",
-        "awayTeamFull": "Valparaiso Beacons",
-        "awayTeamAbbrev": "VAL",
-        "awayConf": "MVC",
-        "awayRank": null,
-        "venue": "Carver Arena",
-        "city": "Peoria",
-        "state": "Illinois",
-        "tv": [
-          "ESPN+"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-04T01:00Z",
-        "dateDisplay": "Tue, Feb 03 2026",
-        "time_detail": "2/3 - 8:00 PM EST",
-        "homeTeam": "Loyola Chicago",
-        "homeTeamFull": "Loyola Chicago Ramblers",
-        "homeTeamAbbrev": "LUC",
-        "homeConf": "Atlantic 10",
-        "homeRank": null,
-        "awayTeam": "La Salle",
-        "awayTeamFull": "La Salle Explorers",
-        "awayTeamAbbrev": "LAS",
-        "awayConf": "Atlantic 10",
-        "awayRank": null,
-        "venue": "Gentile Arena",
-        "city": "Chicago",
-        "state": "Illinois",
-        "tv": [
-          "ESPN+"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-04T01:30Z",
-        "dateDisplay": "Tue, Feb 03 2026",
-        "time_detail": "2/3 - 8:30 PM EST",
-        "homeTeam": "Lindenwood",
-        "homeTeamFull": "Lindenwood Lions",
-        "homeTeamAbbrev": "LIN",
-        "homeConf": "OVC",
-        "homeRank": null,
-        "awayTeam": "SIUE",
-        "awayTeamFull": "SIU Edwardsville Cougars",
-        "awayTeamAbbrev": "SIUE",
-        "awayConf": "OVC",
-        "awayRank": null,
-        "venue": "Hyland Arena",
-        "city": "Saint Charles",
-        "state": "Missouri",
-        "tv": [
-          "ESPN+"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-04T01:30Z",
-        "dateDisplay": "Tue, Feb 03 2026",
-        "time_detail": "2/3 - 8:30 PM EST",
-        "homeTeam": "UT Martin",
-        "homeTeamFull": "UT Martin Skyhawks",
-        "homeTeamAbbrev": "UTM",
-        "homeConf": "OVC",
-        "homeRank": null,
-        "awayTeam": "Little Rock",
-        "awayTeamFull": "Little Rock Trojans",
-        "awayTeamAbbrev": "LR",
-        "awayConf": "OVC",
-        "awayRank": null,
-        "venue": "Kathleen and Tom Elam Center",
-        "city": "Martin",
-        "state": "Tennessee",
-        "tv": [
-          "ESPN+"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-04T02:00Z",
-        "dateDisplay": "Tue, Feb 03 2026",
-        "time_detail": "2/3 - 9:00 PM EST",
-        "homeTeam": "Davidson",
-        "homeTeamFull": "Davidson Wildcats",
-        "homeTeamAbbrev": "DAV",
-        "homeConf": "Atlantic 10",
-        "homeRank": null,
-        "awayTeam": "Saint Louis",
-        "awayTeamFull": "Saint Louis Billikens",
-        "awayTeamAbbrev": "SLU",
-        "awayConf": "Atlantic 10",
-        "awayRank": 21,
-        "venue": "John M. Belk Arena",
-        "city": "Davidson",
-        "state": "North Carolina",
-        "tv": [
-          "CBSSN"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-04T02:00Z",
-        "dateDisplay": "Tue, Feb 03 2026",
-        "time_detail": "2/3 - 9:00 PM EST",
-        "homeTeam": "Belmont",
-        "homeTeamFull": "Belmont Bruins",
-        "homeTeamAbbrev": "BEL",
-        "homeConf": "MVC",
-        "homeRank": null,
-        "awayTeam": "Drake",
-        "awayTeamFull": "Drake Bulldogs",
-        "awayTeamAbbrev": "DRKE",
-        "awayConf": "MVC",
-        "awayRank": null,
-        "venue": "Curb Event Center Arena",
-        "city": "Nashville",
-        "state": "Tennessee",
-        "tv": [
-          "ESPN+"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-04T02:00Z",
-        "dateDisplay": "Tue, Feb 03 2026",
-        "time_detail": "2/3 - 9:00 PM EST",
-        "homeTeam": "Boise St",
-        "homeTeamFull": "Boise State Broncos",
-        "homeTeamAbbrev": "BOIS",
-        "homeConf": "Mountain West",
-        "homeRank": null,
-        "awayTeam": "Nevada",
-        "awayTeamFull": "Nevada Wolf Pack",
-        "awayTeamAbbrev": "NEV",
-        "awayConf": "Mountain West",
-        "awayRank": null,
-        "venue": "ExtraMile Arena",
-        "city": "Boise",
-        "state": "Idaho",
-        "tv": [
-          "MWN"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-04T02:00Z",
-        "dateDisplay": "Tue, Feb 03 2026",
-        "time_detail": "2/3 - 9:00 PM EST",
-        "homeTeam": "SMU",
-        "homeTeamFull": "SMU Mustangs",
-        "homeTeamAbbrev": "SMU",
-        "homeConf": "ACC",
-        "homeRank": null,
-        "awayTeam": "NC State",
-        "awayTeamFull": "NC State Wolfpack",
-        "awayTeamAbbrev": "NCSU",
-        "awayConf": "ACC",
-        "awayRank": null,
-        "venue": "Moody Coliseum (Dallas)",
-        "city": "Dallas",
-        "state": "Texas",
-        "tv": [
-          "ESPN2"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-04T02:30Z",
-        "dateDisplay": "Tue, Feb 03 2026",
-        "time_detail": "2/3 - 9:30 PM EST",
-        "homeTeam": "UCLA",
-        "homeTeamFull": "UCLA Bruins",
-        "homeTeamAbbrev": "UCLA",
-        "homeConf": "Big Ten",
-        "homeRank": null,
-        "awayTeam": "Rutgers",
-        "awayTeamFull": "Rutgers Scarlet Knights",
-        "awayTeamAbbrev": "RUTG",
-        "awayConf": "Big Ten",
-        "awayRank": null,
-        "venue": "Pauley Pavilion",
-        "city": "Los Angeles",
-        "state": "California",
-        "tv": [
-          "BTN"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-04T03:00Z",
-        "dateDisplay": "Tue, Feb 03 2026",
-        "time_detail": "2/3 - 10:00 PM EST",
-        "homeTeam": "USC",
-        "homeTeamFull": "USC Trojans",
-        "homeTeamAbbrev": "USC",
-        "homeConf": "Big Ten",
-        "homeRank": null,
-        "awayTeam": "Indiana",
-        "awayTeamFull": "Indiana Hoosiers",
-        "awayTeamAbbrev": "IU",
-        "awayConf": "Big Ten",
-        "awayRank": null,
-        "venue": "Galen Center",
-        "city": "Los Angeles",
-        "state": "California",
-        "tv": [
-          "Peacock"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-04T04:00Z",
-        "dateDisplay": "Tue, Feb 03 2026",
-        "time_detail": "2/3 - 11:00 PM EST",
-        "homeTeam": "Fresno St",
-        "homeTeamFull": "Fresno State Bulldogs",
-        "homeTeamAbbrev": "FRES",
-        "homeConf": "Mountain West",
-        "homeRank": null,
-        "awayTeam": "UNLV",
-        "awayTeamFull": "UNLV Rebels",
-        "awayTeamAbbrev": "UNLV",
-        "awayConf": "Mountain West",
-        "awayRank": null,
-        "venue": "Save Mart Center",
-        "city": "Fresno",
-        "state": "California",
-        "tv": [
-          "FS1"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-04T04:00Z",
-        "dateDisplay": "Tue, Feb 03 2026",
-        "time_detail": "2/3 - 11:00 PM EST",
-        "homeTeam": "San Diego St",
-        "homeTeamFull": "San Diego State Aztecs",
-        "homeTeamAbbrev": "SDSU",
-        "homeConf": "Mountain West",
-        "homeRank": null,
-        "awayTeam": "Wyoming",
-        "awayTeamFull": "Wyoming Cowboys",
-        "awayTeamAbbrev": "WYO",
-        "awayConf": "Mountain West",
-        "awayRank": null,
-        "venue": "Viejas Arena",
-        "city": "San Diego",
-        "state": "California",
-        "tv": [
-          "CBSSN"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
         "date": "2026-02-04T23:00Z",
         "dateDisplay": "Wed, Feb 04 2026",
-        "time_detail": "2/4 - 6:00 PM EST",
+        "time_detail": "Final",
         "homeTeam": "VMI",
         "homeTeamFull": "VMI Keydets",
         "homeTeamAbbrev": "VMI",
@@ -118294,9 +118665,32 @@ const DATA = {
         "conferenceGame": true
       },
       {
+        "date": "2026-02-04T23:00Z",
+        "dateDisplay": "Wed, Feb 04 2026",
+        "time_detail": "Final",
+        "homeTeam": "UNC Greensboro",
+        "homeTeamFull": "UNC Greensboro Spartans",
+        "homeTeamAbbrev": "UNCG",
+        "homeConf": "Southern Conference",
+        "homeRank": null,
+        "awayTeam": "W Carolina",
+        "awayTeamFull": "Western Carolina Catamounts",
+        "awayTeamAbbrev": "WCU",
+        "awayConf": "Southern Conference",
+        "awayRank": null,
+        "venue": "First Horizon Coliseum",
+        "city": "Greensboro",
+        "state": "North Carolina",
+        "tv": [
+          "ESPN+"
+        ],
+        "neutralSite": false,
+        "conferenceGame": true
+      },
+      {
         "date": "2026-02-04T23:30Z",
         "dateDisplay": "Wed, Feb 04 2026",
-        "time_detail": "2/4 - 6:30 PM EST",
+        "time_detail": "Final",
         "homeTeam": "UNC Asheville",
         "homeTeamFull": "UNC Asheville Bulldogs",
         "homeTeamAbbrev": "UNCA",
@@ -118319,7 +118713,7 @@ const DATA = {
       {
         "date": "2026-02-04T23:30Z",
         "dateDisplay": "Wed, Feb 04 2026",
-        "time_detail": "2/4 - 6:30 PM EST",
+        "time_detail": "Final",
         "homeTeam": "Villanova",
         "homeTeamFull": "Villanova Wildcats",
         "homeTeamAbbrev": "VILL",
@@ -118342,7 +118736,7 @@ const DATA = {
       {
         "date": "2026-02-04T23:30Z",
         "dateDisplay": "Wed, Feb 04 2026",
-        "time_detail": "2/4 - 6:30 PM EST",
+        "time_detail": "Final",
         "homeTeam": "App State",
         "homeTeamFull": "App State Mountaineers",
         "homeTeamAbbrev": "APP",
@@ -118365,35 +118759,12 @@ const DATA = {
       {
         "date": "2026-02-05T00:00Z",
         "dateDisplay": "Wed, Feb 04 2026",
-        "time_detail": "2/4 - 7:00 PM EST",
-        "homeTeam": "Minnesota",
-        "homeTeamFull": "Minnesota Golden Gophers",
-        "homeTeamAbbrev": "MINN",
-        "homeConf": "Big Ten",
-        "homeRank": null,
-        "awayTeam": "Michigan St",
-        "awayTeamFull": "Michigan State Spartans",
-        "awayTeamAbbrev": "MSU",
-        "awayConf": "Big Ten",
-        "awayRank": 7,
-        "venue": "Williams Arena",
-        "city": "Minneapolis",
-        "state": "Minnesota",
-        "tv": [
-          "BTN"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-05T00:00Z",
-        "dateDisplay": "Wed, Feb 04 2026",
-        "time_detail": "2/4 - 7:00 PM EST",
+        "time_detail": "Final",
         "homeTeam": "Houston",
         "homeTeamFull": "Houston Cougars",
         "homeTeamAbbrev": "HOU",
         "homeConf": "Big 12",
-        "homeRank": 10,
+        "homeRank": 8,
         "awayTeam": "UCF",
         "awayTeamFull": "UCF Knights",
         "awayTeamAbbrev": "UCF",
@@ -118411,12 +118782,35 @@ const DATA = {
       {
         "date": "2026-02-05T00:00Z",
         "dateDisplay": "Wed, Feb 04 2026",
-        "time_detail": "2/4 - 7:00 PM EST",
+        "time_detail": "Final",
+        "homeTeam": "Minnesota",
+        "homeTeamFull": "Minnesota Golden Gophers",
+        "homeTeamAbbrev": "MINN",
+        "homeConf": "Big Ten",
+        "homeRank": null,
+        "awayTeam": "Michigan St",
+        "awayTeamFull": "Michigan State Spartans",
+        "awayTeamAbbrev": "MSU",
+        "awayConf": "Big Ten",
+        "awayRank": 10,
+        "venue": "Williams Arena",
+        "city": "Minneapolis",
+        "state": "Minnesota",
+        "tv": [
+          "BTN"
+        ],
+        "neutralSite": false,
+        "conferenceGame": true
+      },
+      {
+        "date": "2026-02-05T00:00Z",
+        "dateDisplay": "Wed, Feb 04 2026",
+        "time_detail": "Final",
         "homeTeam": "Louisville",
         "homeTeamFull": "Louisville Cardinals",
         "homeTeamAbbrev": "LOU",
         "homeConf": "ACC",
-        "homeRank": 20,
+        "homeRank": 24,
         "awayTeam": "Notre Dame",
         "awayTeamFull": "Notre Dame Fighting Irish",
         "awayTeamAbbrev": "ND",
@@ -118434,30 +118828,7 @@ const DATA = {
       {
         "date": "2026-02-05T00:00Z",
         "dateDisplay": "Wed, Feb 04 2026",
-        "time_detail": "2/4 - 7:00 PM EST",
-        "homeTeam": "Alabama",
-        "homeTeamFull": "Alabama Crimson Tide",
-        "homeTeamAbbrev": "ALA",
-        "homeConf": "SEC",
-        "homeRank": 23,
-        "awayTeam": "Texas A&M",
-        "awayTeamFull": "Texas A&M Aggies",
-        "awayTeamAbbrev": "TA&M",
-        "awayConf": "SEC",
-        "awayRank": null,
-        "venue": "Coleman Coliseum",
-        "city": "Tuscaloosa",
-        "state": "Alabama",
-        "tv": [
-          "SEC Network"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-05T00:00Z",
-        "dateDisplay": "Wed, Feb 04 2026",
-        "time_detail": "2/4 - 7:00 PM EST",
+        "time_detail": "Final",
         "homeTeam": "American",
         "homeTeamFull": "American University Eagles",
         "homeTeamAbbrev": "AMER",
@@ -118480,7 +118851,7 @@ const DATA = {
       {
         "date": "2026-02-05T00:00Z",
         "dateDisplay": "Wed, Feb 04 2026",
-        "time_detail": "2/4 - 7:00 PM EST",
+        "time_detail": "Final",
         "homeTeam": "Saint Joseph's",
         "homeTeamFull": "Saint Joseph's Hawks",
         "homeTeamAbbrev": "JOES",
@@ -118503,7 +118874,7 @@ const DATA = {
       {
         "date": "2026-02-05T00:00Z",
         "dateDisplay": "Wed, Feb 04 2026",
-        "time_detail": "2/4 - 7:00 PM EST",
+        "time_detail": "Final",
         "homeTeam": "George Mason",
         "homeTeamFull": "George Mason Patriots",
         "homeTeamAbbrev": "GMU",
@@ -118526,7 +118897,7 @@ const DATA = {
       {
         "date": "2026-02-05T00:00Z",
         "dateDisplay": "Wed, Feb 04 2026",
-        "time_detail": "2/4 - 7:00 PM EST",
+        "time_detail": "Final",
         "homeTeam": "South Florida",
         "homeTeamFull": "South Florida Bulls",
         "homeTeamAbbrev": "USF",
@@ -118549,7 +118920,7 @@ const DATA = {
       {
         "date": "2026-02-05T00:00Z",
         "dateDisplay": "Wed, Feb 04 2026",
-        "time_detail": "2/4 - 7:00 PM EST",
+        "time_detail": "Final",
         "homeTeam": "FAU",
         "homeTeamFull": "Florida Atlantic Owls",
         "homeTeamAbbrev": "FAU",
@@ -118572,7 +118943,7 @@ const DATA = {
       {
         "date": "2026-02-05T00:00Z",
         "dateDisplay": "Wed, Feb 04 2026",
-        "time_detail": "2/4 - 7:00 PM EST",
+        "time_detail": "Final",
         "homeTeam": "Colgate",
         "homeTeamFull": "Colgate Raiders",
         "homeTeamAbbrev": "COLG",
@@ -118595,7 +118966,7 @@ const DATA = {
       {
         "date": "2026-02-05T00:00Z",
         "dateDisplay": "Wed, Feb 04 2026",
-        "time_detail": "2/4 - 7:00 PM EST",
+        "time_detail": "Final",
         "homeTeam": "Radford",
         "homeTeamFull": "Radford Highlanders",
         "homeTeamAbbrev": "RAD",
@@ -118618,7 +118989,7 @@ const DATA = {
       {
         "date": "2026-02-05T00:00Z",
         "dateDisplay": "Wed, Feb 04 2026",
-        "time_detail": "2/4 - 7:00 PM EST",
+        "time_detail": "Final",
         "homeTeam": "Gardner-Webb",
         "homeTeamFull": "Gardner-Webb Runnin' Bulldogs",
         "homeTeamAbbrev": "GWEB",
@@ -118641,7 +119012,7 @@ const DATA = {
       {
         "date": "2026-02-05T00:00Z",
         "dateDisplay": "Wed, Feb 04 2026",
-        "time_detail": "2/4 - 7:00 PM EST",
+        "time_detail": "Final",
         "homeTeam": "High Point",
         "homeTeamFull": "High Point Panthers",
         "homeTeamAbbrev": "HPU",
@@ -118664,7 +119035,7 @@ const DATA = {
       {
         "date": "2026-02-05T00:00Z",
         "dateDisplay": "Wed, Feb 04 2026",
-        "time_detail": "2/4 - 7:00 PM EST",
+        "time_detail": "Final/2OT",
         "homeTeam": "Providence",
         "homeTeamFull": "Providence Friars",
         "homeTeamAbbrev": "PROV",
@@ -118687,7 +119058,7 @@ const DATA = {
       {
         "date": "2026-02-05T00:00Z",
         "dateDisplay": "Wed, Feb 04 2026",
-        "time_detail": "2/4 - 7:00 PM EST",
+        "time_detail": "Final",
         "homeTeam": "Lafayette",
         "homeTeamFull": "Lafayette Leopards",
         "homeTeamAbbrev": "LAF",
@@ -118710,7 +119081,7 @@ const DATA = {
       {
         "date": "2026-02-05T00:00Z",
         "dateDisplay": "Wed, Feb 04 2026",
-        "time_detail": "2/4 - 7:00 PM EST",
+        "time_detail": "Final",
         "homeTeam": "S Dakota St",
         "homeTeamFull": "South Dakota State Jackrabbits",
         "homeTeamAbbrev": "SDST",
@@ -118733,7 +119104,7 @@ const DATA = {
       {
         "date": "2026-02-05T00:00Z",
         "dateDisplay": "Wed, Feb 04 2026",
-        "time_detail": "2/4 - 7:00 PM EST",
+        "time_detail": "Final",
         "homeTeam": "Purdue FW",
         "homeTeamFull": "Purdue Fort Wayne Mastodons",
         "homeTeamAbbrev": "PFW",
@@ -118756,7 +119127,7 @@ const DATA = {
       {
         "date": "2026-02-05T00:00Z",
         "dateDisplay": "Wed, Feb 04 2026",
-        "time_detail": "2/4 - 7:00 PM EST",
+        "time_detail": "Final",
         "homeTeam": "Cleveland St",
         "homeTeamFull": "Cleveland State Vikings",
         "homeTeamAbbrev": "CLE",
@@ -118780,7 +119151,7 @@ const DATA = {
       {
         "date": "2026-02-05T00:00Z",
         "dateDisplay": "Wed, Feb 04 2026",
-        "time_detail": "2/4 - 7:00 PM EST",
+        "time_detail": "Final",
         "homeTeam": "Robert Morris",
         "homeTeamFull": "Robert Morris Colonials",
         "homeTeamAbbrev": "RMU",
@@ -118804,7 +119175,7 @@ const DATA = {
       {
         "date": "2026-02-05T00:00Z",
         "dateDisplay": "Wed, Feb 04 2026",
-        "time_detail": "2/4 - 7:00 PM EST",
+        "time_detail": "Final/OT",
         "homeTeam": "N Kentucky",
         "homeTeamFull": "Northern Kentucky Norse",
         "homeTeamAbbrev": "NKU",
@@ -118827,30 +119198,7 @@ const DATA = {
       {
         "date": "2026-02-05T00:00Z",
         "dateDisplay": "Wed, Feb 04 2026",
-        "time_detail": "2/4 - 7:00 PM EST",
-        "homeTeam": "UNC Greensboro",
-        "homeTeamFull": "UNC Greensboro Spartans",
-        "homeTeamAbbrev": "UNCG",
-        "homeConf": "Southern Conference",
-        "homeRank": null,
-        "awayTeam": "W Carolina",
-        "awayTeamFull": "Western Carolina Catamounts",
-        "awayTeamAbbrev": "WCU",
-        "awayConf": "Southern Conference",
-        "awayRank": null,
-        "venue": "First Horizon Coliseum",
-        "city": "Greensboro",
-        "state": "North Carolina",
-        "tv": [
-          "ESPN+"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-05T00:00Z",
-        "dateDisplay": "Wed, Feb 04 2026",
-        "time_detail": "2/4 - 7:00 PM EST",
+        "time_detail": "Final/OT",
         "homeTeam": "ETSU",
         "homeTeamFull": "East Tennessee State Buccaneers",
         "homeTeamAbbrev": "ETSU",
@@ -118873,7 +119221,7 @@ const DATA = {
       {
         "date": "2026-02-05T00:00Z",
         "dateDisplay": "Wed, Feb 04 2026",
-        "time_detail": "2/4 - 7:00 PM EST",
+        "time_detail": "Final",
         "homeTeam": "Old Dominion",
         "homeTeamFull": "Old Dominion Monarchs",
         "homeTeamAbbrev": "ODU",
@@ -118896,7 +119244,7 @@ const DATA = {
       {
         "date": "2026-02-05T00:00Z",
         "dateDisplay": "Wed, Feb 04 2026",
-        "time_detail": "2/4 - 7:00 PM EST",
+        "time_detail": "Final",
         "homeTeam": "Marshall",
         "homeTeamFull": "Marshall Thundering Herd",
         "homeTeamAbbrev": "MRSH",
@@ -118919,7 +119267,7 @@ const DATA = {
       {
         "date": "2026-02-05T00:00Z",
         "dateDisplay": "Wed, Feb 04 2026",
-        "time_detail": "2/4 - 7:00 PM EST",
+        "time_detail": "Final",
         "homeTeam": "James Madison",
         "homeTeamFull": "James Madison Dukes",
         "homeTeamAbbrev": "JMU",
@@ -118942,7 +119290,7 @@ const DATA = {
       {
         "date": "2026-02-05T00:00Z",
         "dateDisplay": "Wed, Feb 04 2026",
-        "time_detail": "2/4 - 7:00 PM EST",
+        "time_detail": "Final",
         "homeTeam": "Georgia St",
         "homeTeamFull": "Georgia State Panthers",
         "homeTeamAbbrev": "GAST",
@@ -118965,7 +119313,7 @@ const DATA = {
       {
         "date": "2026-02-05T00:00Z",
         "dateDisplay": "Wed, Feb 04 2026",
-        "time_detail": "2/4 - 7:00 PM EST",
+        "time_detail": "Final",
         "homeTeam": "GA Southern",
         "homeTeamFull": "Georgia Southern Eagles",
         "homeTeamAbbrev": "GASO",
@@ -118988,7 +119336,7 @@ const DATA = {
       {
         "date": "2026-02-05T00:00Z",
         "dateDisplay": "Wed, Feb 04 2026",
-        "time_detail": "2/4 - 7:00 PM EST",
+        "time_detail": "Final",
         "homeTeam": "Coastal",
         "homeTeamFull": "Coastal Carolina Chanticleers",
         "homeTeamAbbrev": "CCU",
@@ -119011,7 +119359,30 @@ const DATA = {
       {
         "date": "2026-02-05T00:00Z",
         "dateDisplay": "Wed, Feb 04 2026",
-        "time_detail": "2/4 - 7:00 PM EST",
+        "time_detail": "Final",
+        "homeTeam": "Alabama",
+        "homeTeamFull": "Alabama Crimson Tide",
+        "homeTeamAbbrev": "ALA",
+        "homeConf": "SEC",
+        "homeRank": null,
+        "awayTeam": "Texas A&M",
+        "awayTeamFull": "Texas A&M Aggies",
+        "awayTeamAbbrev": "TA&M",
+        "awayConf": "SEC",
+        "awayRank": null,
+        "venue": "Coleman Coliseum",
+        "city": "Tuscaloosa",
+        "state": "Alabama",
+        "tv": [
+          "SEC Network"
+        ],
+        "neutralSite": false,
+        "conferenceGame": true
+      },
+      {
+        "date": "2026-02-05T00:00Z",
+        "dateDisplay": "Wed, Feb 04 2026",
+        "time_detail": "Final",
         "homeTeam": "Delaware",
         "homeTeamFull": "Delaware Blue Hens",
         "homeTeamAbbrev": "DEL",
@@ -119034,7 +119405,7 @@ const DATA = {
       {
         "date": "2026-02-05T00:30Z",
         "dateDisplay": "Wed, Feb 04 2026",
-        "time_detail": "2/4 - 7:30 PM EST",
+        "time_detail": "Final",
         "homeTeam": "N'Western St",
         "homeTeamFull": "Northwestern State Demons",
         "homeTeamAbbrev": "NWST",
@@ -119048,14 +119419,16 @@ const DATA = {
         "venue": "Prather Coliseum",
         "city": "Natchitoches",
         "state": "Louisiana",
-        "tv": [],
+        "tv": [
+          "ESPN+"
+        ],
         "neutralSite": false,
         "conferenceGame": true
       },
       {
         "date": "2026-02-05T00:30Z",
         "dateDisplay": "Wed, Feb 04 2026",
-        "time_detail": "2/4 - 7:30 PM EST",
+        "time_detail": "Final",
         "homeTeam": "Wichita St",
         "homeTeamFull": "Wichita State Shockers",
         "homeTeamAbbrev": "WICH",
@@ -119078,7 +119451,7 @@ const DATA = {
       {
         "date": "2026-02-05T00:30Z",
         "dateDisplay": "Wed, Feb 04 2026",
-        "time_detail": "2/4 - 7:30 PM EST",
+        "time_detail": "Final",
         "homeTeam": "Grambling",
         "homeTeamFull": "Grambling Tigers",
         "homeTeamAbbrev": "GRAM",
@@ -119099,7 +119472,7 @@ const DATA = {
       {
         "date": "2026-02-05T00:30Z",
         "dateDisplay": "Wed, Feb 04 2026",
-        "time_detail": "2/4 - 7:30 PM EST",
+        "time_detail": "Final",
         "homeTeam": "Georgetown",
         "homeTeamFull": "Georgetown Hoyas",
         "homeTeamAbbrev": "GTWN",
@@ -119122,7 +119495,7 @@ const DATA = {
       {
         "date": "2026-02-05T00:30Z",
         "dateDisplay": "Wed, Feb 04 2026",
-        "time_detail": "2/4 - 7:30 PM EST",
+        "time_detail": "Final",
         "homeTeam": "C Arkansas",
         "homeTeamFull": "Central Arkansas Bears",
         "homeTeamAbbrev": "CARK",
@@ -119145,7 +119518,7 @@ const DATA = {
       {
         "date": "2026-02-05T00:30Z",
         "dateDisplay": "Wed, Feb 04 2026",
-        "time_detail": "2/4 - 7:30 PM EST",
+        "time_detail": "Final/OT",
         "homeTeam": "MTSU",
         "homeTeamFull": "Middle Tennessee Blue Raiders",
         "homeTeamAbbrev": "MTSU",
@@ -119168,7 +119541,7 @@ const DATA = {
       {
         "date": "2026-02-05T00:30Z",
         "dateDisplay": "Wed, Feb 04 2026",
-        "time_detail": "2/4 - 7:30 PM EST",
+        "time_detail": "Final",
         "homeTeam": "Sam Houston",
         "homeTeamFull": "Sam Houston Bearkats",
         "homeTeamAbbrev": "SHSU",
@@ -119191,7 +119564,7 @@ const DATA = {
       {
         "date": "2026-02-05T00:30Z",
         "dateDisplay": "Wed, Feb 04 2026",
-        "time_detail": "2/4 - 7:30 PM EST",
+        "time_detail": "Final",
         "homeTeam": "Louisiana Tech",
         "homeTeamFull": "Louisiana Tech Bulldogs",
         "homeTeamAbbrev": "LT",
@@ -119214,7 +119587,7 @@ const DATA = {
       {
         "date": "2026-02-05T01:00Z",
         "dateDisplay": "Wed, Feb 04 2026",
-        "time_detail": "2/4 - 8:00 PM EST",
+        "time_detail": "Final/2OT",
         "homeTeam": "Rice",
         "homeTeamFull": "Rice Owls",
         "homeTeamAbbrev": "RICE",
@@ -119237,7 +119610,7 @@ const DATA = {
       {
         "date": "2026-02-05T01:00Z",
         "dateDisplay": "Wed, Feb 04 2026",
-        "time_detail": "2/4 - 8:00 PM EST",
+        "time_detail": "Final",
         "homeTeam": "Baylor",
         "homeTeamFull": "Baylor Bears",
         "homeTeamAbbrev": "BAY",
@@ -119260,7 +119633,7 @@ const DATA = {
       {
         "date": "2026-02-05T01:00Z",
         "dateDisplay": "Wed, Feb 04 2026",
-        "time_detail": "2/4 - 8:00 PM EST",
+        "time_detail": "Final",
         "homeTeam": "SC State",
         "homeTeamFull": "South Carolina State Bulldogs",
         "homeTeamAbbrev": "SCST",
@@ -119283,7 +119656,7 @@ const DATA = {
       {
         "date": "2026-02-05T01:00Z",
         "dateDisplay": "Wed, Feb 04 2026",
-        "time_detail": "2/4 - 8:00 PM EST",
+        "time_detail": "Final/OT",
         "homeTeam": "Kansas City",
         "homeTeamFull": "Kansas City Roos",
         "homeTeamAbbrev": "KC",
@@ -119307,7 +119680,7 @@ const DATA = {
       {
         "date": "2026-02-05T01:00Z",
         "dateDisplay": "Wed, Feb 04 2026",
-        "time_detail": "2/4 - 8:00 PM EST",
+        "time_detail": "Final",
         "homeTeam": "Milwaukee",
         "homeTeamFull": "Milwaukee Panthers",
         "homeTeamAbbrev": "MILW",
@@ -119328,9 +119701,9 @@ const DATA = {
         "conferenceGame": true
       },
       {
-        "date": "2026-02-05T01:00Z",
+        "date": "2026-02-05T01:20Z",
         "dateDisplay": "Wed, Feb 04 2026",
-        "time_detail": "2/4 - 8:00 PM EST",
+        "time_detail": "Final",
         "homeTeam": "Austin Peay",
         "homeTeamFull": "Austin Peay Governors",
         "homeTeamAbbrev": "APSU",
@@ -119353,12 +119726,12 @@ const DATA = {
       {
         "date": "2026-02-05T02:00Z",
         "dateDisplay": "Wed, Feb 04 2026",
-        "time_detail": "2/4 - 9:00 PM EST",
+        "time_detail": "Final",
         "homeTeam": "Illinois",
         "homeTeamFull": "Illinois Fighting Illini",
         "homeTeamAbbrev": "ILL",
         "homeConf": "Big Ten",
-        "homeRank": 9,
+        "homeRank": 5,
         "awayTeam": "Northwestern",
         "awayTeamFull": "Northwestern Wildcats",
         "awayTeamAbbrev": "NU",
@@ -119376,7 +119749,7 @@ const DATA = {
       {
         "date": "2026-02-05T02:00Z",
         "dateDisplay": "Wed, Feb 04 2026",
-        "time_detail": "2/4 - 9:00 PM EST",
+        "time_detail": "Final",
         "homeTeam": "Oklahoma St",
         "homeTeamFull": "Oklahoma State Cowboys",
         "homeTeamAbbrev": "OKST",
@@ -119386,7 +119759,7 @@ const DATA = {
         "awayTeamFull": "BYU Cougars",
         "awayTeamAbbrev": "BYU",
         "awayConf": "Big 12",
-        "awayRank": 13,
+        "awayRank": 16,
         "venue": "Gallagher-Iba Arena",
         "city": "Stillwater",
         "state": "Oklahoma",
@@ -119399,7 +119772,7 @@ const DATA = {
       {
         "date": "2026-02-05T02:00Z",
         "dateDisplay": "Wed, Feb 04 2026",
-        "time_detail": "2/4 - 9:00 PM EST",
+        "time_detail": "Final",
         "homeTeam": "Utah",
         "homeTeamFull": "Utah Utes",
         "homeTeamAbbrev": "UTAH",
@@ -119422,7 +119795,7 @@ const DATA = {
       {
         "date": "2026-02-05T02:00Z",
         "dateDisplay": "Wed, Feb 04 2026",
-        "time_detail": "2/4 - 9:00 PM EST",
+        "time_detail": "Final",
         "homeTeam": "Kentucky",
         "homeTeamFull": "Kentucky Wildcats",
         "homeTeamAbbrev": "UK",
@@ -119445,7 +119818,7 @@ const DATA = {
       {
         "date": "2026-02-05T03:00Z",
         "dateDisplay": "Wed, Feb 04 2026",
-        "time_detail": "2/4 - 10:00 PM EST",
+        "time_detail": "Final",
         "homeTeam": "Portland",
         "homeTeamFull": "Portland Pilots",
         "homeTeamAbbrev": "PORT",
@@ -119468,7 +119841,7 @@ const DATA = {
       {
         "date": "2026-02-05T03:00Z",
         "dateDisplay": "Wed, Feb 04 2026",
-        "time_detail": "2/4 - 10:00 PM EST",
+        "time_detail": "Final",
         "homeTeam": "Pacific",
         "homeTeamFull": "Pacific Tigers",
         "homeTeamAbbrev": "PAC",
@@ -119491,7 +119864,7 @@ const DATA = {
       {
         "date": "2026-02-05T03:00Z",
         "dateDisplay": "Wed, Feb 04 2026",
-        "time_detail": "2/4 - 10:00 PM EST",
+        "time_detail": "Final",
         "homeTeam": "Seattle U",
         "homeTeamFull": "Seattle U Redhawks",
         "homeTeamAbbrev": "SEA",
@@ -119512,9 +119885,32 @@ const DATA = {
         "conferenceGame": true
       },
       {
-        "date": "2026-02-05T04:00Z",
+        "date": "2026-02-05T04:10Z",
         "dateDisplay": "Wed, Feb 04 2026",
-        "time_detail": "2/4 - 11:00 PM EST",
+        "time_detail": "Final",
+        "homeTeam": "Washington",
+        "homeTeamFull": "Washington Huskies",
+        "homeTeamAbbrev": "WASH",
+        "homeConf": "Big Ten",
+        "homeRank": null,
+        "awayTeam": "Iowa",
+        "awayTeamFull": "Iowa Hawkeyes",
+        "awayTeamAbbrev": "IOWA",
+        "awayConf": "Big Ten",
+        "awayRank": null,
+        "venue": "Alaska Airlines Arena",
+        "city": "Seattle",
+        "state": "Washington",
+        "tv": [
+          "BTN"
+        ],
+        "neutralSite": false,
+        "conferenceGame": true
+      },
+      {
+        "date": "2026-02-05T04:15Z",
+        "dateDisplay": "Wed, Feb 04 2026",
+        "time_detail": "Final",
         "homeTeam": "New Mexico",
         "homeTeamFull": "New Mexico Lobos",
         "homeTeamAbbrev": "UNM",
@@ -119535,9 +119931,9 @@ const DATA = {
         "conferenceGame": true
       },
       {
-        "date": "2026-02-05T04:00Z",
+        "date": "2026-02-05T04:15Z",
         "dateDisplay": "Wed, Feb 04 2026",
-        "time_detail": "2/4 - 11:00 PM EST",
+        "time_detail": "Final",
         "homeTeam": "Oregon St",
         "homeTeamFull": "Oregon State Beavers",
         "homeTeamAbbrev": "ORST",
@@ -119553,29 +119949,6 @@ const DATA = {
         "state": "Oregon",
         "tv": [
           "CBSSN"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-05T04:00Z",
-        "dateDisplay": "Wed, Feb 04 2026",
-        "time_detail": "2/4 - 11:00 PM EST",
-        "homeTeam": "Washington",
-        "homeTeamFull": "Washington Huskies",
-        "homeTeamAbbrev": "WASH",
-        "homeConf": "Big Ten",
-        "homeRank": null,
-        "awayTeam": "Iowa",
-        "awayTeamFull": "Iowa Hawkeyes",
-        "awayTeamAbbrev": "IOWA",
-        "awayConf": "Big Ten",
-        "awayRank": null,
-        "venue": "Alaska Airlines Arena",
-        "city": "Seattle",
-        "state": "Washington",
-        "tv": [
-          "BTN"
         ],
         "neutralSite": false,
         "conferenceGame": true
@@ -119658,7 +120031,7 @@ const DATA = {
         "homeTeamFull": "Michigan Wolverines",
         "homeTeamAbbrev": "MICH",
         "homeConf": "Big Ten",
-        "homeRank": 3,
+        "homeRank": 2,
         "awayTeam": "Penn State",
         "awayTeamFull": "Penn State Nittany Lions",
         "awayTeamAbbrev": "PSU",
@@ -119737,7 +120110,7 @@ const DATA = {
         "city": "Albany",
         "state": "New York",
         "tv": [
-          "ESPN+"
+          "ESPNU"
         ],
         "neutralSite": false,
         "conferenceGame": true
@@ -120109,7 +120482,8 @@ const DATA = {
         "city": "Hampton",
         "state": "Virginia",
         "tv": [
-          "FloSports"
+          "FloSports",
+          "MSG2"
         ],
         "neutralSite": false,
         "conferenceGame": true
@@ -120819,7 +121193,7 @@ const DATA = {
         "awayTeamFull": "UConn Huskies",
         "awayTeamAbbrev": "CONN",
         "awayConf": "Big East",
-        "awayRank": 2,
+        "awayRank": 3,
         "venue": "Madison Square Garden",
         "city": "New York",
         "state": "New York",
@@ -120945,27 +121319,6 @@ const DATA = {
         "conferenceGame": true
       },
       {
-        "date": "2026-02-07T05:00Z",
-        "dateDisplay": "Sat, Feb 07 2026",
-        "time_detail": "TBD",
-        "homeTeam": "Auburn",
-        "homeTeamFull": "Auburn Tigers",
-        "homeTeamAbbrev": "AUB",
-        "homeConf": "SEC",
-        "homeRank": null,
-        "awayTeam": "Alabama",
-        "awayTeamFull": "Alabama Crimson Tide",
-        "awayTeamAbbrev": "ALA",
-        "awayConf": "SEC",
-        "awayRank": 23,
-        "venue": "Neville Arena",
-        "city": "Auburn",
-        "state": "Alabama",
-        "tv": [],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
         "date": "2026-02-07T17:00Z",
         "dateDisplay": "Sat, Feb 07 2026",
         "time_detail": "2/7 - 12:00 PM EST",
@@ -120978,7 +121331,7 @@ const DATA = {
         "awayTeamFull": "Nebraska Cornhuskers",
         "awayTeamAbbrev": "NEB",
         "awayConf": "Big Ten",
-        "awayRank": 5,
+        "awayRank": 9,
         "venue": "Jersey Mike\u2019s Arena",
         "city": "Piscataway",
         "state": "New Jersey",
@@ -121001,11 +121354,13 @@ const DATA = {
         "awayTeamFull": "Arkansas Razorbacks",
         "awayTeamAbbrev": "ARK",
         "awayConf": "SEC",
-        "awayRank": 15,
+        "awayRank": 21,
         "venue": "Humphrey Coliseum",
         "city": "Starkville",
         "state": "Mississippi",
-        "tv": [],
+        "tv": [
+          "ESPN2"
+        ],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -121022,7 +121377,7 @@ const DATA = {
         "awayTeamFull": "Louisville Cardinals",
         "awayTeamAbbrev": "LOU",
         "awayConf": "ACC",
-        "awayRank": 20,
+        "awayRank": 24,
         "venue": "LJVM Coliseum",
         "city": "Winston-Salem",
         "state": "North Carolina",
@@ -121121,6 +121476,29 @@ const DATA = {
         "tv": [
           "TNT",
           "truTV"
+        ],
+        "neutralSite": false,
+        "conferenceGame": true
+      },
+      {
+        "date": "2026-02-07T17:00Z",
+        "dateDisplay": "Sat, Feb 07 2026",
+        "time_detail": "2/7 - 12:00 PM EST",
+        "homeTeam": "NC State",
+        "homeTeamFull": "NC State Wolfpack",
+        "homeTeamAbbrev": "NCSU",
+        "homeConf": "ACC",
+        "homeRank": null,
+        "awayTeam": "Virginia Tech",
+        "awayTeamFull": "Virginia Tech Hokies",
+        "awayTeamAbbrev": "VT",
+        "awayConf": "ACC",
+        "awayRank": null,
+        "venue": "Lenovo Center",
+        "city": "Raleigh",
+        "state": "North Carolina",
+        "tv": [
+          "The CW Network"
         ],
         "neutralSite": false,
         "conferenceGame": true
@@ -121378,52 +121756,6 @@ const DATA = {
         "conferenceGame": true
       },
       {
-        "date": "2026-02-07T18:30Z",
-        "dateDisplay": "Sat, Feb 07 2026",
-        "time_detail": "2/7 - 1:30 PM EST",
-        "homeTeam": "NC State",
-        "homeTeamFull": "NC State Wolfpack",
-        "homeTeamAbbrev": "NCSU",
-        "homeConf": "ACC",
-        "homeRank": null,
-        "awayTeam": "Virginia Tech",
-        "awayTeamFull": "Virginia Tech Hokies",
-        "awayTeamAbbrev": "VT",
-        "awayConf": "ACC",
-        "awayRank": null,
-        "venue": "Lenovo Center",
-        "city": "Raleigh",
-        "state": "North Carolina",
-        "tv": [
-          "The CW Network"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-07T18:30Z",
-        "dateDisplay": "Sat, Feb 07 2026",
-        "time_detail": "2/7 - 1:30 PM EST",
-        "homeTeam": "Vermont",
-        "homeTeamFull": "Vermont Catamounts",
-        "homeTeamAbbrev": "UVM",
-        "homeConf": "America East",
-        "homeRank": null,
-        "awayTeam": "New Hampshire",
-        "awayTeamFull": "New Hampshire Wildcats",
-        "awayTeamAbbrev": "UNH",
-        "awayConf": "America East",
-        "awayRank": null,
-        "venue": "Patrick Gymnasium",
-        "city": "Burlington",
-        "state": "Vermont",
-        "tv": [
-          "ESPN+"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
         "date": "2026-02-07T19:00Z",
         "dateDisplay": "Sat, Feb 07 2026",
         "time_detail": "2/7 - 2:00 PM EST",
@@ -121431,7 +121763,7 @@ const DATA = {
         "homeTeamFull": "Iowa State Cyclones",
         "homeTeamAbbrev": "ISU",
         "homeConf": "Big 12",
-        "homeRank": 8,
+        "homeRank": 7,
         "awayTeam": "Baylor",
         "awayTeamFull": "Baylor Bears",
         "awayTeamAbbrev": "BAY",
@@ -121440,7 +121772,9 @@ const DATA = {
         "venue": "Hilton Coliseum",
         "city": "Ames",
         "state": "Iowa",
-        "tv": [],
+        "tv": [
+          "ESPN"
+        ],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -121701,6 +122035,29 @@ const DATA = {
         "date": "2026-02-07T19:00Z",
         "dateDisplay": "Sat, Feb 07 2026",
         "time_detail": "2/7 - 2:00 PM EST",
+        "homeTeam": "Pitt",
+        "homeTeamFull": "Pittsburgh Panthers",
+        "homeTeamAbbrev": "PITT",
+        "homeConf": "ACC",
+        "homeRank": null,
+        "awayTeam": "SMU",
+        "awayTeamFull": "SMU Mustangs",
+        "awayTeamAbbrev": "SMU",
+        "awayConf": "ACC",
+        "awayRank": null,
+        "venue": "Petersen Events Center",
+        "city": "Pittsburgh",
+        "state": "Pennsylvania",
+        "tv": [
+          "The CW Network"
+        ],
+        "neutralSite": false,
+        "conferenceGame": true
+      },
+      {
+        "date": "2026-02-07T19:00Z",
+        "dateDisplay": "Sat, Feb 07 2026",
+        "time_detail": "2/7 - 2:00 PM EST",
         "homeTeam": "Boston College",
         "homeTeamFull": "Boston College Eagles",
         "homeTeamAbbrev": "BC",
@@ -121912,6 +122269,29 @@ const DATA = {
         "date": "2026-02-07T19:00Z",
         "dateDisplay": "Sat, Feb 07 2026",
         "time_detail": "2/7 - 2:00 PM EST",
+        "homeTeam": "Vermont",
+        "homeTeamFull": "Vermont Catamounts",
+        "homeTeamAbbrev": "UVM",
+        "homeConf": "America East",
+        "homeRank": null,
+        "awayTeam": "New Hampshire",
+        "awayTeamFull": "New Hampshire Wildcats",
+        "awayTeamAbbrev": "UNH",
+        "awayConf": "America East",
+        "awayRank": null,
+        "venue": "Patrick Gymnasium",
+        "city": "Burlington",
+        "state": "Vermont",
+        "tv": [
+          "ESPN+"
+        ],
+        "neutralSite": false,
+        "conferenceGame": true
+      },
+      {
+        "date": "2026-02-07T19:00Z",
+        "dateDisplay": "Sat, Feb 07 2026",
+        "time_detail": "2/7 - 2:00 PM EST",
         "homeTeam": "NC A&T",
         "homeTeamFull": "North Carolina A&T Aggies",
         "homeTeamAbbrev": "NCAT",
@@ -121971,7 +122351,9 @@ const DATA = {
         "venue": "Moody Center",
         "city": "Austin",
         "state": "Texas",
-        "tv": [],
+        "tv": [
+          "ESPN2"
+        ],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -122052,7 +122434,7 @@ const DATA = {
         "homeTeamFull": "Kansas Jayhawks",
         "homeTeamAbbrev": "KU",
         "homeConf": "Big 12",
-        "homeRank": 14,
+        "homeRank": 11,
         "awayTeam": "Utah",
         "awayTeamFull": "Utah Utes",
         "awayTeamAbbrev": "UTAH",
@@ -122099,7 +122481,7 @@ const DATA = {
         "homeTeamFull": "Saint Louis Billikens",
         "homeTeamAbbrev": "SLU",
         "homeConf": "Atlantic 10",
-        "homeRank": 21,
+        "homeRank": 19,
         "awayTeam": "La Salle",
         "awayTeamFull": "La Salle Explorers",
         "awayTeamAbbrev": "LAS",
@@ -122131,7 +122513,9 @@ const DATA = {
         "venue": "Strahan Arena at the University Events Center",
         "city": "San Marcos",
         "state": "Texas",
-        "tv": [],
+        "tv": [
+          "ESPN+"
+        ],
         "neutralSite": false,
         "conferenceGame": false
       },
@@ -122275,7 +122659,7 @@ const DATA = {
         "homeTeamFull": "Vanderbilt Commodores",
         "homeTeamAbbrev": "VAN",
         "homeConf": "SEC",
-        "homeRank": 18,
+        "homeRank": 15,
         "awayTeam": "Oklahoma",
         "awayTeamFull": "Oklahoma Sooners",
         "awayTeamAbbrev": "OU",
@@ -122314,29 +122698,6 @@ const DATA = {
         "conferenceGame": true
       },
       {
-        "date": "2026-02-07T20:45Z",
-        "dateDisplay": "Sat, Feb 07 2026",
-        "time_detail": "2/7 - 3:45 PM EST",
-        "homeTeam": "Pitt",
-        "homeTeamFull": "Pittsburgh Panthers",
-        "homeTeamAbbrev": "PITT",
-        "homeConf": "ACC",
-        "homeRank": null,
-        "awayTeam": "SMU",
-        "awayTeamFull": "SMU Mustangs",
-        "awayTeamAbbrev": "SMU",
-        "awayConf": "ACC",
-        "awayRank": null,
-        "venue": "Petersen Events Center",
-        "city": "Pittsburgh",
-        "state": "Pennsylvania",
-        "tv": [
-          "The CW Network"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
         "date": "2026-02-07T21:00Z",
         "dateDisplay": "Sat, Feb 07 2026",
         "time_detail": "2/7 - 4:00 PM EST",
@@ -122353,7 +122714,9 @@ const DATA = {
         "venue": "McKale Memorial Center",
         "city": "Tucson",
         "state": "Arizona",
-        "tv": [],
+        "tv": [
+          "ESPN"
+        ],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -122374,7 +122737,9 @@ const DATA = {
         "venue": "Cam Henderson Center",
         "city": "Huntington",
         "state": "West Virginia",
-        "tv": [],
+        "tv": [
+          "ESPN+"
+        ],
         "neutralSite": false,
         "conferenceGame": false
       },
@@ -122395,7 +122760,9 @@ const DATA = {
         "venue": "Mitchell Center",
         "city": "Mobile",
         "state": "Alabama",
-        "tv": [],
+        "tv": [
+          "ESPN+"
+        ],
         "neutralSite": false,
         "conferenceGame": false
       },
@@ -122531,7 +122898,7 @@ const DATA = {
         "city": "South Bend",
         "state": "Indiana",
         "tv": [
-          "ACC Network"
+          "The CW Network"
         ],
         "neutralSite": false,
         "conferenceGame": true
@@ -122726,6 +123093,52 @@ const DATA = {
         "date": "2026-02-07T21:00Z",
         "dateDisplay": "Sat, Feb 07 2026",
         "time_detail": "2/7 - 4:00 PM EST",
+        "homeTeam": "Auburn",
+        "homeTeamFull": "Auburn Tigers",
+        "homeTeamAbbrev": "AUB",
+        "homeConf": "SEC",
+        "homeRank": null,
+        "awayTeam": "Alabama",
+        "awayTeamFull": "Alabama Crimson Tide",
+        "awayTeamAbbrev": "ALA",
+        "awayConf": "SEC",
+        "awayRank": null,
+        "venue": "Neville Arena",
+        "city": "Auburn",
+        "state": "Alabama",
+        "tv": [
+          "ESPN2"
+        ],
+        "neutralSite": false,
+        "conferenceGame": true
+      },
+      {
+        "date": "2026-02-07T21:00Z",
+        "dateDisplay": "Sat, Feb 07 2026",
+        "time_detail": "2/7 - 4:00 PM EST",
+        "homeTeam": "UT Martin",
+        "homeTeamFull": "UT Martin Skyhawks",
+        "homeTeamAbbrev": "UTM",
+        "homeConf": "OVC",
+        "homeRank": null,
+        "awayTeam": "Morehead St",
+        "awayTeamFull": "Morehead State Eagles",
+        "awayTeamAbbrev": "MORE",
+        "awayConf": "OVC",
+        "awayRank": null,
+        "venue": "Kathleen and Tom Elam Center",
+        "city": "Martin",
+        "state": "Tennessee",
+        "tv": [
+          "ESPNU"
+        ],
+        "neutralSite": false,
+        "conferenceGame": true
+      },
+      {
+        "date": "2026-02-07T21:00Z",
+        "dateDisplay": "Sat, Feb 07 2026",
+        "time_detail": "2/7 - 4:00 PM EST",
         "homeTeam": "Little Rock",
         "homeTeamFull": "Little Rock Trojans",
         "homeTeamAbbrev": "LR",
@@ -122785,29 +123198,6 @@ const DATA = {
         "venue": "UCCU Center",
         "city": "Orem",
         "state": "Utah",
-        "tv": [
-          "ESPN+"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-07T21:00Z",
-        "dateDisplay": "Sat, Feb 07 2026",
-        "time_detail": "2/7 - 4:00 PM EST",
-        "homeTeam": "UT Martin",
-        "homeTeamFull": "UT Martin Skyhawks",
-        "homeTeamAbbrev": "UTM",
-        "homeConf": "OVC",
-        "homeRank": null,
-        "awayTeam": "Morehead St",
-        "awayTeamFull": "Morehead State Eagles",
-        "awayTeamAbbrev": "MORE",
-        "awayConf": "OVC",
-        "awayRank": null,
-        "venue": "Kathleen and Tom Elam Center",
-        "city": "Martin",
-        "state": "Tennessee",
         "tv": [
           "ESPN+"
         ],
@@ -122944,29 +123334,6 @@ const DATA = {
         "venue": "Gentry Center",
         "city": "Nashville",
         "state": "Tennessee",
-        "tv": [
-          "ESPN+"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-07T21:30Z",
-        "dateDisplay": "Sat, Feb 07 2026",
-        "time_detail": "2/7 - 4:30 PM EST",
-        "homeTeam": "Howard",
-        "homeTeamFull": "Howard Bison",
-        "homeTeamAbbrev": "HOW",
-        "homeConf": "MEAC",
-        "homeRank": null,
-        "awayTeam": "SC State",
-        "awayTeamFull": "South Carolina State Bulldogs",
-        "awayTeamAbbrev": "SCST",
-        "awayConf": "MEAC",
-        "awayRank": null,
-        "venue": "Burr Gymnasium",
-        "city": "Washington",
-        "state": "District of Columbia",
         "tv": [
           "ESPN+"
         ],
@@ -123218,6 +123585,29 @@ const DATA = {
         "venue": "Pete Mathews Coliseum",
         "city": "Jacksonville",
         "state": "Alabama",
+        "tv": [
+          "ESPN+"
+        ],
+        "neutralSite": false,
+        "conferenceGame": true
+      },
+      {
+        "date": "2026-02-07T22:30Z",
+        "dateDisplay": "Sat, Feb 07 2026",
+        "time_detail": "2/7 - 5:30 PM EST",
+        "homeTeam": "Howard",
+        "homeTeamFull": "Howard Bison",
+        "homeTeamAbbrev": "HOW",
+        "homeConf": "MEAC",
+        "homeRank": null,
+        "awayTeam": "SC State",
+        "awayTeamFull": "South Carolina State Bulldogs",
+        "awayTeamAbbrev": "SCST",
+        "awayConf": "MEAC",
+        "awayRank": null,
+        "venue": "Burr Gymnasium",
+        "city": "Washington",
+        "state": "District of Columbia",
         "tv": [
           "ESPN+"
         ],
@@ -123592,7 +123982,7 @@ const DATA = {
         "homeTeamFull": "North Carolina Tar Heels",
         "homeTeamAbbrev": "UNC",
         "homeConf": "ACC",
-        "homeRank": 16,
+        "homeRank": 14,
         "awayTeam": "Duke",
         "awayTeamFull": "Duke Blue Devils",
         "awayTeamAbbrev": "DUKE",
@@ -123818,12 +124208,12 @@ const DATA = {
         "homeTeamFull": "Michigan State Spartans",
         "homeTeamAbbrev": "MSU",
         "homeConf": "Big Ten",
-        "homeRank": 7,
+        "homeRank": 10,
         "awayTeam": "Illinois",
         "awayTeamFull": "Illinois Fighting Illini",
         "awayTeamAbbrev": "ILL",
         "awayConf": "Big Ten",
-        "awayRank": 9,
+        "awayRank": 5,
         "venue": "Breslin Center",
         "city": "East Lansing",
         "state": "Michigan",
@@ -124008,7 +124398,7 @@ const DATA = {
         "awayTeamFull": "Florida Gators",
         "awayTeamAbbrev": "FLA",
         "awayConf": "SEC",
-        "awayRank": 19,
+        "awayRank": 17,
         "venue": "Reed Arena",
         "city": "College Station",
         "state": "Texas",
@@ -124031,11 +124421,13 @@ const DATA = {
         "awayTeamFull": "Tennessee Volunteers",
         "awayTeamAbbrev": "TENN",
         "awayConf": "SEC",
-        "awayRank": null,
+        "awayRank": 25,
         "venue": "Rupp Arena",
         "city": "Lexington",
         "state": "Kentucky",
-        "tv": [],
+        "tv": [
+          "ESPN"
+        ],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -124126,7 +124518,7 @@ const DATA = {
         "city": "Santa Barbara",
         "state": "California",
         "tv": [
-          "ESPN+"
+          "ESPNU"
         ],
         "neutralSite": false,
         "conferenceGame": true
@@ -124301,12 +124693,12 @@ const DATA = {
         "homeTeamFull": "BYU Cougars",
         "homeTeamAbbrev": "BYU",
         "homeConf": "Big 12",
-        "homeRank": 13,
+        "homeRank": 16,
         "awayTeam": "Houston",
         "awayTeamFull": "Houston Cougars",
         "awayTeamAbbrev": "HOU",
         "awayConf": "Big 12",
-        "awayRank": 10,
+        "awayRank": 8,
         "venue": "Marriott Center",
         "city": "Provo",
         "state": "Utah",
@@ -124399,7 +124791,7 @@ const DATA = {
         "awayTeamFull": "Michigan Wolverines",
         "awayTeamAbbrev": "MICH",
         "awayConf": "Big Ten",
-        "awayRank": 3,
+        "awayRank": 2,
         "venue": "Value City Arena",
         "city": "Columbus",
         "state": "Ohio",
@@ -124422,7 +124814,7 @@ const DATA = {
         "awayTeamFull": "Texas Tech Red Raiders",
         "awayTeamAbbrev": "TTU",
         "awayConf": "Big 12",
-        "awayRank": 11,
+        "awayRank": 13,
         "venue": "WVU Coliseum",
         "city": "Morgantown",
         "state": "West Virginia",
@@ -124691,7 +125083,7 @@ const DATA = {
         "homeTeamFull": "Louisville Cardinals",
         "homeTeamAbbrev": "LOU",
         "homeConf": "ACC",
-        "homeRank": 20,
+        "homeRank": 24,
         "awayTeam": "NC State",
         "awayTeamFull": "NC State Wolfpack",
         "awayTeamAbbrev": "NCSU",
@@ -125165,7 +125557,7 @@ const DATA = {
         "homeTeamFull": "Kansas Jayhawks",
         "homeTeamAbbrev": "KU",
         "homeConf": "Big 12",
-        "homeRank": 14,
+        "homeRank": 11,
         "awayTeam": "Arizona",
         "awayTeamFull": "Arizona Wildcats",
         "awayTeamAbbrev": "ARIZ",
@@ -125257,7 +125649,7 @@ const DATA = {
         "homeTeamFull": "Nebraska Cornhuskers",
         "homeTeamAbbrev": "NEB",
         "homeConf": "Big Ten",
-        "homeRank": 5,
+        "homeRank": 9,
         "awayTeam": "Purdue",
         "awayTeamFull": "Purdue Boilermakers",
         "awayTeamAbbrev": "PUR",
@@ -125276,27 +125668,6 @@ const DATA = {
         "date": "2026-02-11T00:00Z",
         "dateDisplay": "Tue, Feb 10 2026",
         "time_detail": "2/10 - 7:00 PM EST",
-        "homeTeam": "Baylor",
-        "homeTeamFull": "Baylor Bears",
-        "homeTeamAbbrev": "BAY",
-        "homeConf": "Big 12",
-        "homeRank": null,
-        "awayTeam": "BYU",
-        "awayTeamFull": "BYU Cougars",
-        "awayTeamAbbrev": "BYU",
-        "awayConf": "Big 12",
-        "awayRank": 13,
-        "venue": "Foster Pavilion",
-        "city": "Waco",
-        "state": "Texas",
-        "tv": [],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-11T00:00Z",
-        "dateDisplay": "Tue, Feb 10 2026",
-        "time_detail": "2/10 - 7:00 PM EST",
         "homeTeam": "Miami",
         "homeTeamFull": "Miami Hurricanes",
         "homeTeamAbbrev": "MIA",
@@ -125306,32 +125677,13 @@ const DATA = {
         "awayTeamFull": "North Carolina Tar Heels",
         "awayTeamAbbrev": "UNC",
         "awayConf": "ACC",
-        "awayRank": 16,
+        "awayRank": 14,
         "venue": "Watsco Center",
         "city": "Coral Gables",
         "state": "Florida",
-        "tv": [],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-11T00:00Z",
-        "dateDisplay": "Tue, Feb 10 2026",
-        "time_detail": "2/10 - 7:00 PM EST",
-        "homeTeam": "Florida St",
-        "homeTeamFull": "Florida State Seminoles",
-        "homeTeamAbbrev": "FSU",
-        "homeConf": "ACC",
-        "homeRank": null,
-        "awayTeam": "Virginia",
-        "awayTeamFull": "Virginia Cavaliers",
-        "awayTeamAbbrev": "UVA",
-        "awayConf": "ACC",
-        "awayRank": 17,
-        "venue": "Tucker Center",
-        "city": "Tallahassee",
-        "state": "Florida",
-        "tv": [],
+        "tv": [
+          "ESPN"
+        ],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -125348,12 +125700,58 @@ const DATA = {
         "awayTeamFull": "Vanderbilt Commodores",
         "awayTeamAbbrev": "VAN",
         "awayConf": "SEC",
-        "awayRank": 18,
+        "awayRank": 15,
         "venue": "Neville Arena",
         "city": "Auburn",
         "state": "Alabama",
         "tv": [
           "SEC Network"
+        ],
+        "neutralSite": false,
+        "conferenceGame": true
+      },
+      {
+        "date": "2026-02-11T00:00Z",
+        "dateDisplay": "Tue, Feb 10 2026",
+        "time_detail": "2/10 - 7:00 PM EST",
+        "homeTeam": "Baylor",
+        "homeTeamFull": "Baylor Bears",
+        "homeTeamAbbrev": "BAY",
+        "homeConf": "Big 12",
+        "homeRank": null,
+        "awayTeam": "BYU",
+        "awayTeamFull": "BYU Cougars",
+        "awayTeamAbbrev": "BYU",
+        "awayConf": "Big 12",
+        "awayRank": 16,
+        "venue": "Foster Pavilion",
+        "city": "Waco",
+        "state": "Texas",
+        "tv": [
+          "ESPN2"
+        ],
+        "neutralSite": false,
+        "conferenceGame": true
+      },
+      {
+        "date": "2026-02-11T00:00Z",
+        "dateDisplay": "Tue, Feb 10 2026",
+        "time_detail": "2/10 - 7:00 PM EST",
+        "homeTeam": "Florida St",
+        "homeTeamFull": "Florida State Seminoles",
+        "homeTeamAbbrev": "FSU",
+        "homeConf": "ACC",
+        "homeRank": null,
+        "awayTeam": "Virginia",
+        "awayTeamFull": "Virginia Cavaliers",
+        "awayTeamAbbrev": "UVA",
+        "awayConf": "ACC",
+        "awayRank": 18,
+        "venue": "Tucker Center",
+        "city": "Tallahassee",
+        "state": "Florida",
+        "tv": [
+          "ESPNU"
         ],
         "neutralSite": false,
         "conferenceGame": true
@@ -125482,7 +125880,7 @@ const DATA = {
         "homeTeamFull": "Illinois Fighting Illini",
         "homeTeamAbbrev": "ILL",
         "homeConf": "Big Ten",
-        "homeRank": 9,
+        "homeRank": 5,
         "awayTeam": "Wisconsin",
         "awayTeamFull": "Wisconsin Badgers",
         "awayTeamAbbrev": "WIS",
@@ -125537,7 +125935,9 @@ const DATA = {
         "venue": "Petersen Events Center",
         "city": "Pittsburgh",
         "state": "Pennsylvania",
-        "tv": [],
+        "tv": [
+          "ESPN"
+        ],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -125554,7 +125954,7 @@ const DATA = {
         "awayTeamFull": "Iowa State Cyclones",
         "awayTeamAbbrev": "ISU",
         "awayConf": "Big 12",
-        "awayRank": 8,
+        "awayRank": 7,
         "venue": "Schollmaier Arena",
         "city": "Fort Worth",
         "state": "Texas",
@@ -125577,11 +125977,13 @@ const DATA = {
         "awayTeamFull": "Houston Cougars",
         "awayTeamAbbrev": "HOU",
         "awayConf": "Big 12",
-        "awayRank": 10,
+        "awayRank": 8,
         "venue": "Jon M. Huntsman Center",
         "city": "Salt Lake City",
         "state": "Utah",
-        "tv": [],
+        "tv": [
+          "ESPN2"
+        ],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -125598,7 +126000,7 @@ const DATA = {
         "awayTeamFull": "Arkansas Razorbacks",
         "awayTeamAbbrev": "ARK",
         "awayConf": "SEC",
-        "awayRank": 15,
+        "awayRank": 21,
         "venue": "Pete Maravich Assembly Center",
         "city": "Baton Rouge",
         "state": "Louisiana",
@@ -125694,7 +126096,9 @@ const DATA = {
         "venue": "McCarthey Athletic Center",
         "city": "Spokane",
         "state": "Washington",
-        "tv": [],
+        "tv": [
+          "ESPN2"
+        ],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -125849,11 +126253,13 @@ const DATA = {
         "awayTeamFull": "Florida Gators",
         "awayTeamAbbrev": "FLA",
         "awayConf": "SEC",
-        "awayRank": 19,
+        "awayRank": 17,
         "venue": "Stegeman Coliseum",
         "city": "Athens",
         "state": "Georgia",
-        "tv": [],
+        "tv": [
+          "ESPN2"
+        ],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -125865,7 +126271,7 @@ const DATA = {
         "homeTeamFull": "Clemson Tigers",
         "homeTeamAbbrev": "CLEM",
         "homeConf": "ACC",
-        "homeRank": 22,
+        "homeRank": 20,
         "awayTeam": "Virginia Tech",
         "awayTeamFull": "Virginia Tech Hokies",
         "awayTeamAbbrev": "VT",
@@ -125876,29 +126282,6 @@ const DATA = {
         "state": "South Carolina",
         "tv": [
           "ACC Network"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-12T00:00Z",
-        "dateDisplay": "Wed, Feb 11 2026",
-        "time_detail": "2/11 - 7:00 PM EST",
-        "homeTeam": "Ole Miss",
-        "homeTeamFull": "Ole Miss Rebels",
-        "homeTeamAbbrev": "MISS",
-        "homeConf": "SEC",
-        "homeRank": null,
-        "awayTeam": "Alabama",
-        "awayTeamFull": "Alabama Crimson Tide",
-        "awayTeamAbbrev": "ALA",
-        "awayConf": "SEC",
-        "awayRank": 23,
-        "venue": "The Sandy and John Black Pavilion at Ole Miss",
-        "city": "Oxford",
-        "state": "Mississippi",
-        "tv": [
-          "SEC Network"
         ],
         "neutralSite": false,
         "conferenceGame": true
@@ -125966,7 +126349,9 @@ const DATA = {
         "venue": "JMA Wireless Dome",
         "city": "Syracuse",
         "state": "New York",
-        "tv": [],
+        "tv": [
+          "ESPNU"
+        ],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -126181,6 +126566,29 @@ const DATA = {
         "date": "2026-02-12T00:00Z",
         "dateDisplay": "Wed, Feb 11 2026",
         "time_detail": "2/11 - 7:00 PM EST",
+        "homeTeam": "Ole Miss",
+        "homeTeamFull": "Ole Miss Rebels",
+        "homeTeamAbbrev": "MISS",
+        "homeConf": "SEC",
+        "homeRank": null,
+        "awayTeam": "Alabama",
+        "awayTeamFull": "Alabama Crimson Tide",
+        "awayTeamAbbrev": "ALA",
+        "awayConf": "SEC",
+        "awayRank": null,
+        "venue": "The Sandy and John Black Pavilion at Ole Miss",
+        "city": "Oxford",
+        "state": "Mississippi",
+        "tv": [
+          "SEC Network"
+        ],
+        "neutralSite": false,
+        "conferenceGame": true
+      },
+      {
+        "date": "2026-02-12T00:00Z",
+        "dateDisplay": "Wed, Feb 11 2026",
+        "time_detail": "2/11 - 7:00 PM EST",
         "homeTeam": "North Alabama",
         "homeTeamFull": "North Alabama Lions",
         "homeTeamAbbrev": "UNA",
@@ -126305,7 +126713,7 @@ const DATA = {
         "awayTeamFull": "UConn Huskies",
         "awayTeamAbbrev": "CONN",
         "awayConf": "Big East",
-        "awayRank": 2,
+        "awayRank": 3,
         "venue": "Hinkle Fieldhouse",
         "city": "Indianapolis",
         "state": "Indiana",
@@ -126439,7 +126847,7 @@ const DATA = {
         "homeTeamFull": "Texas Tech Red Raiders",
         "homeTeamAbbrev": "TTU",
         "homeConf": "Big 12",
-        "homeRank": 11,
+        "homeRank": 13,
         "awayTeam": "Colorado",
         "awayTeamFull": "Colorado Buffaloes",
         "awayTeamAbbrev": "COLO",
@@ -126620,6 +127028,29 @@ const DATA = {
         "date": "2026-02-12T02:00Z",
         "dateDisplay": "Wed, Feb 11 2026",
         "time_detail": "2/11 - 9:00 PM EST",
+        "homeTeam": "Mississippi St",
+        "homeTeamFull": "Mississippi State Bulldogs",
+        "homeTeamAbbrev": "MSST",
+        "homeConf": "SEC",
+        "homeRank": null,
+        "awayTeam": "Tennessee",
+        "awayTeamFull": "Tennessee Volunteers",
+        "awayTeamAbbrev": "TENN",
+        "awayConf": "SEC",
+        "awayRank": 25,
+        "venue": "Humphrey Coliseum",
+        "city": "Starkville",
+        "state": "Mississippi",
+        "tv": [
+          "ESPN2"
+        ],
+        "neutralSite": false,
+        "conferenceGame": true
+      },
+      {
+        "date": "2026-02-12T02:00Z",
+        "dateDisplay": "Wed, Feb 11 2026",
+        "time_detail": "2/11 - 9:00 PM EST",
         "homeTeam": "Kansas St",
         "homeTeamFull": "Kansas State Wildcats",
         "homeTeamAbbrev": "KSU",
@@ -126705,27 +127136,6 @@ const DATA = {
         "tv": [
           "ESPNU"
         ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-12T02:00Z",
-        "dateDisplay": "Wed, Feb 11 2026",
-        "time_detail": "2/11 - 9:00 PM EST",
-        "homeTeam": "Mississippi St",
-        "homeTeamFull": "Mississippi State Bulldogs",
-        "homeTeamAbbrev": "MSST",
-        "homeConf": "SEC",
-        "homeRank": null,
-        "awayTeam": "Tennessee",
-        "awayTeamFull": "Tennessee Volunteers",
-        "awayTeamAbbrev": "TENN",
-        "awayConf": "SEC",
-        "awayRank": null,
-        "venue": "Humphrey Coliseum",
-        "city": "Starkville",
-        "state": "Mississippi",
-        "tv": [],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -127092,6 +127502,7 @@ const DATA = {
         "city": "Farmville",
         "state": "Virginia",
         "tv": [
+          "ESPNU",
           "ESPN+"
         ],
         "neutralSite": false,
@@ -127230,7 +127641,7 @@ const DATA = {
         "city": "Ashwaubenon",
         "state": "Wisconsin",
         "tv": [
-          "ESPN+"
+          "ESPN2"
         ],
         "neutralSite": false,
         "conferenceGame": true
@@ -128017,8 +128428,7 @@ const DATA = {
         "city": "Abilene",
         "state": "Texas",
         "tv": [
-          "ESPNU",
-          "ESPN+"
+          "ESPNU"
         ],
         "neutralSite": false,
         "conferenceGame": true
@@ -128381,35 +128791,12 @@ const DATA = {
         "awayTeamFull": "Michigan State Spartans",
         "awayTeamAbbrev": "MSU",
         "awayConf": "Big Ten",
-        "awayRank": 7,
+        "awayRank": 10,
         "venue": "Kohl Center",
         "city": "Madison",
         "state": "Wisconsin",
         "tv": [
           "FOX"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-14T01:00Z",
-        "dateDisplay": "Fri, Feb 13 2026",
-        "time_detail": "2/13 - 8:00 PM EST",
-        "homeTeam": "Miami OH",
-        "homeTeamFull": "Miami (OH) RedHawks",
-        "homeTeamAbbrev": "M-OH",
-        "homeConf": "",
-        "homeRank": null,
-        "awayTeam": "Ohio",
-        "awayTeamFull": "Ohio Bobcats",
-        "awayTeamAbbrev": "OHIO",
-        "awayConf": "MAC",
-        "awayRank": null,
-        "venue": "Millett Hall",
-        "city": "Oxford",
-        "state": "Ohio",
-        "tv": [
-          "ESPNU"
         ],
         "neutralSite": false,
         "conferenceGame": true
@@ -128427,12 +128814,35 @@ const DATA = {
         "awayTeamFull": "Saint Louis Billikens",
         "awayTeamAbbrev": "SLU",
         "awayConf": "Atlantic 10",
-        "awayRank": 21,
+        "awayRank": 19,
         "venue": "Gentile Arena",
         "city": "Chicago",
         "state": "Illinois",
         "tv": [
           "ESPN2"
+        ],
+        "neutralSite": false,
+        "conferenceGame": true
+      },
+      {
+        "date": "2026-02-14T02:00Z",
+        "dateDisplay": "Fri, Feb 13 2026",
+        "time_detail": "2/13 - 9:00 PM EST",
+        "homeTeam": "Miami OH",
+        "homeTeamFull": "Miami (OH) RedHawks",
+        "homeTeamAbbrev": "M-OH",
+        "homeConf": "",
+        "homeRank": null,
+        "awayTeam": "Ohio",
+        "awayTeamFull": "Ohio Bobcats",
+        "awayTeamAbbrev": "OHIO",
+        "awayConf": "MAC",
+        "awayRank": null,
+        "venue": "Millett Hall",
+        "city": "Oxford",
+        "state": "Ohio",
+        "tv": [
+          "ESPNU"
         ],
         "neutralSite": false,
         "conferenceGame": true
@@ -128519,7 +128929,7 @@ const DATA = {
         "awayTeamFull": "Texas Tech Red Raiders",
         "awayTeamAbbrev": "TTU",
         "awayConf": "Big 12",
-        "awayRank": 11,
+        "awayRank": 13,
         "venue": "McKale Memorial Center",
         "city": "Tucson",
         "state": "Arizona",
@@ -128563,7 +128973,7 @@ const DATA = {
         "awayTeamFull": "Clemson Tigers",
         "awayTeamAbbrev": "CLEM",
         "awayConf": "ACC",
-        "awayRank": 22,
+        "awayRank": 20,
         "venue": "Cameron Indoor Stadium",
         "city": "Durham",
         "state": "North Carolina",
@@ -128666,6 +129076,29 @@ const DATA = {
         "conferenceGame": true
       },
       {
+        "date": "2026-02-14T17:00Z",
+        "dateDisplay": "Sat, Feb 14 2026",
+        "time_detail": "2/14 - 12:00 PM EST",
+        "homeTeam": "ETSU",
+        "homeTeamFull": "East Tennessee State Buccaneers",
+        "homeTeamAbbrev": "ETSU",
+        "homeConf": "Southern Conference",
+        "homeRank": null,
+        "awayTeam": "Samford",
+        "awayTeamFull": "Samford Bulldogs",
+        "awayTeamAbbrev": "SAM",
+        "awayConf": "Southern Conference",
+        "awayRank": null,
+        "venue": "Freedom Hall (TN)",
+        "city": "Johnson City",
+        "state": "Tennessee",
+        "tv": [
+          "ESPNU"
+        ],
+        "neutralSite": false,
+        "conferenceGame": true
+      },
+      {
         "date": "2026-02-14T18:00Z",
         "dateDisplay": "Sat, Feb 14 2026",
         "time_detail": "2/14 - 1:00 PM EST",
@@ -128673,7 +129106,7 @@ const DATA = {
         "homeTeamFull": "Michigan Wolverines",
         "homeTeamAbbrev": "MICH",
         "homeConf": "Big Ten",
-        "homeRank": 3,
+        "homeRank": 2,
         "awayTeam": "UCLA",
         "awayTeamFull": "UCLA Bruins",
         "awayTeamAbbrev": "UCLA",
@@ -128692,11 +129125,34 @@ const DATA = {
         "date": "2026-02-14T18:00Z",
         "dateDisplay": "Sat, Feb 14 2026",
         "time_detail": "2/14 - 1:00 PM EST",
+        "homeTeam": "Iowa State",
+        "homeTeamFull": "Iowa State Cyclones",
+        "homeTeamAbbrev": "ISU",
+        "homeConf": "Big 12",
+        "homeRank": 7,
+        "awayTeam": "Kansas",
+        "awayTeamFull": "Kansas Jayhawks",
+        "awayTeamAbbrev": "KU",
+        "awayConf": "Big 12",
+        "awayRank": 11,
+        "venue": "Hilton Coliseum",
+        "city": "Ames",
+        "state": "Iowa",
+        "tv": [
+          "ABC"
+        ],
+        "neutralSite": false,
+        "conferenceGame": true
+      },
+      {
+        "date": "2026-02-14T18:00Z",
+        "dateDisplay": "Sat, Feb 14 2026",
+        "time_detail": "2/14 - 1:00 PM EST",
         "homeTeam": "Nebraska",
         "homeTeamFull": "Nebraska Cornhuskers",
         "homeTeamAbbrev": "NEB",
         "homeConf": "Big Ten",
-        "homeRank": 5,
+        "homeRank": 9,
         "awayTeam": "Northwestern",
         "awayTeamFull": "Northwestern Wildcats",
         "awayTeamAbbrev": "NU",
@@ -128715,34 +129171,11 @@ const DATA = {
         "date": "2026-02-14T18:00Z",
         "dateDisplay": "Sat, Feb 14 2026",
         "time_detail": "2/14 - 1:00 PM EST",
-        "homeTeam": "Iowa State",
-        "homeTeamFull": "Iowa State Cyclones",
-        "homeTeamAbbrev": "ISU",
-        "homeConf": "Big 12",
-        "homeRank": 8,
-        "awayTeam": "Kansas",
-        "awayTeamFull": "Kansas Jayhawks",
-        "awayTeamAbbrev": "KU",
-        "awayConf": "Big 12",
-        "awayRank": 14,
-        "venue": "Hilton Coliseum",
-        "city": "Ames",
-        "state": "Iowa",
-        "tv": [
-          "ABC"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-14T18:00Z",
-        "dateDisplay": "Sat, Feb 14 2026",
-        "time_detail": "2/14 - 1:00 PM EST",
         "homeTeam": "Vanderbilt",
         "homeTeamFull": "Vanderbilt Commodores",
         "homeTeamAbbrev": "VAN",
         "homeConf": "SEC",
-        "homeRank": 18,
+        "homeRank": 15,
         "awayTeam": "Texas A&M",
         "awayTeamFull": "Texas A&M Aggies",
         "awayTeamAbbrev": "TA&M",
@@ -128928,7 +129361,7 @@ const DATA = {
         "homeTeamFull": "North Carolina Tar Heels",
         "homeTeamAbbrev": "UNC",
         "homeConf": "ACC",
-        "homeRank": 16,
+        "homeRank": 14,
         "awayTeam": "Pitt",
         "awayTeamFull": "Pittsburgh Panthers",
         "awayTeamAbbrev": "PITT",
@@ -129435,7 +129868,7 @@ const DATA = {
         "homeTeamFull": "Florida Gators",
         "homeTeamAbbrev": "FLA",
         "homeConf": "SEC",
-        "homeRank": 19,
+        "homeRank": 17,
         "awayTeam": "Kentucky",
         "awayTeamFull": "Kentucky Wildcats",
         "awayTeamAbbrev": "UK",
@@ -129758,7 +130191,7 @@ const DATA = {
         "homeTeamFull": "BYU Cougars",
         "homeTeamAbbrev": "BYU",
         "homeConf": "Big 12",
-        "homeRank": 13,
+        "homeRank": 16,
         "awayTeam": "Colorado",
         "awayTeamFull": "Colorado Buffaloes",
         "awayTeamAbbrev": "COLO",
@@ -129786,7 +130219,7 @@ const DATA = {
         "awayTeamFull": "Louisville Cardinals",
         "awayTeamAbbrev": "LOU",
         "awayConf": "ACC",
-        "awayRank": 20,
+        "awayRank": 24,
         "venue": "Dickies Arena",
         "city": "Fort Worth",
         "state": "Texas",
@@ -129834,7 +130267,9 @@ const DATA = {
         "venue": "Joseph G. Echols Hall",
         "city": "Norfolk",
         "state": "Virginia",
-        "tv": [],
+        "tv": [
+          "ESPN+"
+        ],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -129989,29 +130424,6 @@ const DATA = {
         "state": "North Carolina",
         "tv": [
           "CBSSN"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-14T21:00Z",
-        "dateDisplay": "Sat, Feb 14 2026",
-        "time_detail": "2/14 - 4:00 PM EST",
-        "homeTeam": "ETSU",
-        "homeTeamFull": "East Tennessee State Buccaneers",
-        "homeTeamAbbrev": "ETSU",
-        "homeConf": "Southern Conference",
-        "homeRank": null,
-        "awayTeam": "Samford",
-        "awayTeamFull": "Samford Bulldogs",
-        "awayTeamAbbrev": "SAM",
-        "awayConf": "Southern Conference",
-        "awayRank": null,
-        "venue": "Freedom Hall (TN)",
-        "city": "Johnson City",
-        "state": "Tennessee",
-        "tv": [
-          "ESPN+"
         ],
         "neutralSite": false,
         "conferenceGame": true
@@ -130309,9 +130721,7 @@ const DATA = {
         "venue": "Liberty Arena (IN)",
         "city": "Evansville",
         "state": "Indiana",
-        "tv": [
-          "ESPN+"
-        ],
+        "tv": [],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -130604,9 +131014,7 @@ const DATA = {
         "venue": "Jack and Ruth Ann Hill Convocation Center",
         "city": "Statesboro",
         "state": "Georgia",
-        "tv": [
-          "ESPN+"
-        ],
+        "tv": [],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -130773,6 +131181,29 @@ const DATA = {
         "date": "2026-02-14T23:00Z",
         "dateDisplay": "Sat, Feb 14 2026",
         "time_detail": "2/14 - 6:00 PM EST",
+        "homeTeam": "Tennessee",
+        "homeTeamFull": "Tennessee Volunteers",
+        "homeTeamAbbrev": "TENN",
+        "homeConf": "SEC",
+        "homeRank": 25,
+        "awayTeam": "LSU",
+        "awayTeamFull": "LSU Tigers",
+        "awayTeamAbbrev": "LSU",
+        "awayConf": "SEC",
+        "awayRank": null,
+        "venue": "Food City Center",
+        "city": "Knoxville",
+        "state": "Tennessee",
+        "tv": [
+          "SEC Network"
+        ],
+        "neutralSite": false,
+        "conferenceGame": true
+      },
+      {
+        "date": "2026-02-14T23:00Z",
+        "dateDisplay": "Sat, Feb 14 2026",
+        "time_detail": "2/14 - 6:00 PM EST",
         "homeTeam": "Richmond",
         "homeTeamFull": "Richmond Spiders",
         "homeTeamAbbrev": "RICH",
@@ -130908,29 +131339,6 @@ const DATA = {
         "conferenceGame": true
       },
       {
-        "date": "2026-02-14T23:00Z",
-        "dateDisplay": "Sat, Feb 14 2026",
-        "time_detail": "2/14 - 6:00 PM EST",
-        "homeTeam": "Tennessee",
-        "homeTeamFull": "Tennessee Volunteers",
-        "homeTeamAbbrev": "TENN",
-        "homeConf": "SEC",
-        "homeRank": null,
-        "awayTeam": "LSU",
-        "awayTeamFull": "LSU Tigers",
-        "awayTeamAbbrev": "LSU",
-        "awayConf": "SEC",
-        "awayRank": null,
-        "venue": "Food City Center",
-        "city": "Knoxville",
-        "state": "Tennessee",
-        "tv": [
-          "SEC Network"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
         "date": "2026-02-14T23:30Z",
         "dateDisplay": "Sat, Feb 14 2026",
         "time_detail": "2/14 - 6:30 PM EST",
@@ -131029,7 +131437,7 @@ const DATA = {
         "homeTeamFull": "UConn Huskies",
         "homeTeamAbbrev": "CONN",
         "homeConf": "Big East",
-        "homeRank": 2,
+        "homeRank": 3,
         "awayTeam": "Georgetown",
         "awayTeamFull": "Georgetown Hoyas",
         "awayTeamAbbrev": "GTWN",
@@ -131057,7 +131465,7 @@ const DATA = {
         "awayTeamFull": "Virginia Cavaliers",
         "awayTeamAbbrev": "UVA",
         "awayConf": "ACC",
-        "awayRank": 17,
+        "awayRank": 18,
         "venue": "Bridgestone Arena",
         "city": "Nashville",
         "state": "Tennessee",
@@ -131215,7 +131623,7 @@ const DATA = {
         "homeTeamFull": "Arkansas Razorbacks",
         "homeTeamAbbrev": "ARK",
         "homeConf": "SEC",
-        "homeRank": 15,
+        "homeRank": 21,
         "awayTeam": "Auburn",
         "awayTeamFull": "Auburn Tigers",
         "awayTeamAbbrev": "AUB",
@@ -131225,29 +131633,6 @@ const DATA = {
         "city": "Fayetteville",
         "state": "Arkansas",
         "tv": [],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-15T01:30Z",
-        "dateDisplay": "Sat, Feb 14 2026",
-        "time_detail": "2/14 - 8:30 PM EST",
-        "homeTeam": "Alabama",
-        "homeTeamFull": "Alabama Crimson Tide",
-        "homeTeamAbbrev": "ALA",
-        "homeConf": "SEC",
-        "homeRank": 23,
-        "awayTeam": "South Carolina",
-        "awayTeamFull": "South Carolina Gamecocks",
-        "awayTeamAbbrev": "SC",
-        "awayConf": "SEC",
-        "awayRank": null,
-        "venue": "Coleman Coliseum",
-        "city": "Tuscaloosa",
-        "state": "Alabama",
-        "tv": [
-          "SEC Network"
-        ],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -131270,6 +131655,29 @@ const DATA = {
         "state": "Mississippi",
         "tv": [
           "ESPN+"
+        ],
+        "neutralSite": false,
+        "conferenceGame": true
+      },
+      {
+        "date": "2026-02-15T01:30Z",
+        "dateDisplay": "Sat, Feb 14 2026",
+        "time_detail": "2/14 - 8:30 PM EST",
+        "homeTeam": "Alabama",
+        "homeTeamFull": "Alabama Crimson Tide",
+        "homeTeamAbbrev": "ALA",
+        "homeConf": "SEC",
+        "homeRank": null,
+        "awayTeam": "South Carolina",
+        "awayTeamFull": "South Carolina Gamecocks",
+        "awayTeamAbbrev": "SC",
+        "awayConf": "SEC",
+        "awayRank": null,
+        "venue": "Coleman Coliseum",
+        "city": "Tuscaloosa",
+        "state": "Alabama",
+        "tv": [
+          "SEC Network"
         ],
         "neutralSite": false,
         "conferenceGame": true
@@ -131303,7 +131711,7 @@ const DATA = {
         "homeTeamFull": "Houston Cougars",
         "homeTeamAbbrev": "HOU",
         "homeConf": "Big 12",
-        "homeRank": 10,
+        "homeRank": 8,
         "awayTeam": "Kansas St",
         "awayTeamFull": "Kansas State Wildcats",
         "awayTeamAbbrev": "KSU",
@@ -131555,7 +131963,7 @@ const DATA = {
         "homeTeamFull": "Illinois Fighting Illini",
         "homeTeamAbbrev": "ILL",
         "homeConf": "Big Ten",
-        "homeRank": 9,
+        "homeRank": 5,
         "awayTeam": "Indiana",
         "awayTeamFull": "Indiana Hoosiers",
         "awayTeamAbbrev": "IU",
@@ -131962,29 +132370,6 @@ const DATA = {
         "date": "2026-02-15T20:00Z",
         "dateDisplay": "Sun, Feb 15 2026",
         "time_detail": "2/15 - 3:00 PM EST",
-        "homeTeam": "S Illinois",
-        "homeTeamFull": "Southern Illinois Salukis",
-        "homeTeamAbbrev": "SIU",
-        "homeConf": "MVC",
-        "homeRank": null,
-        "awayTeam": "Bradley",
-        "awayTeamFull": "Bradley Braves",
-        "awayTeamAbbrev": "BRAD",
-        "awayConf": "MVC",
-        "awayRank": null,
-        "venue": "Banterra Center",
-        "city": "Carbondale",
-        "state": "Illinois",
-        "tv": [
-          "ESPN+"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-15T20:00Z",
-        "dateDisplay": "Sun, Feb 15 2026",
-        "time_detail": "2/15 - 3:00 PM EST",
         "homeTeam": "Murray St",
         "homeTeamFull": "Murray State Racers",
         "homeTeamAbbrev": "MUR",
@@ -131998,9 +132383,7 @@ const DATA = {
         "venue": "CFSB Center",
         "city": "Murray",
         "state": "Kentucky",
-        "tv": [
-          "ESPN+"
-        ],
+        "tv": [],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -132067,6 +132450,29 @@ const DATA = {
         "state": "Alabama",
         "tv": [
           "ESPNU"
+        ],
+        "neutralSite": false,
+        "conferenceGame": true
+      },
+      {
+        "date": "2026-02-15T22:00Z",
+        "dateDisplay": "Sun, Feb 15 2026",
+        "time_detail": "2/15 - 5:00 PM EST",
+        "homeTeam": "S Illinois",
+        "homeTeamFull": "Southern Illinois Salukis",
+        "homeTeamAbbrev": "SIU",
+        "homeConf": "MVC",
+        "homeRank": null,
+        "awayTeam": "Bradley",
+        "awayTeamFull": "Bradley Braves",
+        "awayTeamAbbrev": "BRAD",
+        "awayConf": "MVC",
+        "awayRank": null,
+        "venue": "Banterra Center",
+        "city": "Carbondale",
+        "state": "Illinois",
+        "tv": [
+          "ESPN+"
         ],
         "neutralSite": false,
         "conferenceGame": true
@@ -132164,9 +132570,9 @@ const DATA = {
         "conferenceGame": true
       },
       {
-        "date": "2026-02-16T01:00Z",
+        "date": "2026-02-16T02:00Z",
         "dateDisplay": "Sun, Feb 15 2026",
-        "time_detail": "2/15 - 8:00 PM EST",
+        "time_detail": "2/15 - 9:00 PM EST",
         "homeTeam": "Seattle U",
         "homeTeamFull": "Seattle U Redhawks",
         "homeTeamAbbrev": "SEA",
@@ -132226,9 +132632,7 @@ const DATA = {
         "venue": "Chartway Arena",
         "city": "Norfolk",
         "state": "Virginia",
-        "tv": [
-          "ESPN+"
-        ],
+        "tv": [],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -132279,6 +132683,29 @@ const DATA = {
         "conferenceGame": true
       },
       {
+        "date": "2026-02-16T23:30Z",
+        "dateDisplay": "Mon, Feb 16 2026",
+        "time_detail": "2/16 - 6:30 PM EST",
+        "homeTeam": "N'Western St",
+        "homeTeamFull": "Northwestern State Demons",
+        "homeTeamAbbrev": "NWST",
+        "homeConf": "Southland",
+        "homeRank": null,
+        "awayTeam": "McNeese",
+        "awayTeamFull": "McNeese Cowboys",
+        "awayTeamAbbrev": "MCN",
+        "awayConf": "Southland",
+        "awayRank": null,
+        "venue": "Prather Coliseum",
+        "city": "Natchitoches",
+        "state": "Louisiana",
+        "tv": [
+          "ESPN+"
+        ],
+        "neutralSite": false,
+        "conferenceGame": true
+      },
+      {
         "date": "2026-02-17T00:00Z",
         "dateDisplay": "Mon, Feb 16 2026",
         "time_detail": "2/16 - 7:00 PM EST",
@@ -132318,7 +132745,9 @@ const DATA = {
         "venue": "Memorial Hall (DE)",
         "city": "Dover",
         "state": "Delaware",
-        "tv": [],
+        "tv": [
+          "ESPN+"
+        ],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -132503,29 +132932,6 @@ const DATA = {
         "conferenceGame": true
       },
       {
-        "date": "2026-02-17T00:30Z",
-        "dateDisplay": "Mon, Feb 16 2026",
-        "time_detail": "2/16 - 7:30 PM EST",
-        "homeTeam": "N'Western St",
-        "homeTeamFull": "Northwestern State Demons",
-        "homeTeamAbbrev": "NWST",
-        "homeConf": "Southland",
-        "homeRank": null,
-        "awayTeam": "McNeese",
-        "awayTeamFull": "McNeese Cowboys",
-        "awayTeamAbbrev": "MCN",
-        "awayConf": "Southland",
-        "awayRank": null,
-        "venue": "Prather Coliseum",
-        "city": "Natchitoches",
-        "state": "Louisiana",
-        "tv": [
-          "ESPN+"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
         "date": "2026-02-17T01:00Z",
         "dateDisplay": "Mon, Feb 16 2026",
         "time_detail": "2/16 - 8:00 PM EST",
@@ -132688,17 +133094,40 @@ const DATA = {
         "homeTeamFull": "Iowa State Cyclones",
         "homeTeamAbbrev": "ISU",
         "homeConf": "Big 12",
-        "homeRank": 8,
+        "homeRank": 7,
         "awayTeam": "Houston",
         "awayTeamFull": "Houston Cougars",
         "awayTeamAbbrev": "HOU",
         "awayConf": "Big 12",
-        "awayRank": 10,
+        "awayRank": 8,
         "venue": "Hilton Coliseum",
         "city": "Ames",
         "state": "Iowa",
         "tv": [
           "ESPN"
+        ],
+        "neutralSite": false,
+        "conferenceGame": true
+      },
+      {
+        "date": "2026-02-17T23:00Z",
+        "dateDisplay": "Tue, Feb 17 2026",
+        "time_detail": "2/17 - 6:00 PM EST",
+        "homeTeam": "Charleston So",
+        "homeTeamFull": "Charleston Southern Buccaneers",
+        "homeTeamAbbrev": "CHSO",
+        "homeConf": "",
+        "homeRank": null,
+        "awayTeam": "Gardner-Webb",
+        "awayTeamFull": "Gardner-Webb Runnin' Bulldogs",
+        "awayTeamAbbrev": "GWEB",
+        "awayConf": "Big South",
+        "awayRank": null,
+        "venue": "Buccaneer Fieldhouse",
+        "city": "Charleston",
+        "state": "South Carolina",
+        "tv": [
+          "ESPN+"
         ],
         "neutralSite": false,
         "conferenceGame": true
@@ -132739,7 +133168,7 @@ const DATA = {
         "awayTeamFull": "Michigan Wolverines",
         "awayTeamAbbrev": "MICH",
         "awayConf": "Big Ten",
-        "awayRank": 3,
+        "awayRank": 2,
         "venue": "Mackey Arena",
         "city": "West Lafayette",
         "state": "Indiana",
@@ -132820,27 +133249,6 @@ const DATA = {
         "date": "2026-02-18T00:00Z",
         "dateDisplay": "Tue, Feb 17 2026",
         "time_detail": "2/17 - 7:00 PM EST",
-        "homeTeam": "Alabama",
-        "homeTeamFull": "Alabama Crimson Tide",
-        "homeTeamAbbrev": "ALA",
-        "homeConf": "SEC",
-        "homeRank": 23,
-        "awayTeam": "Arkansas",
-        "awayTeamFull": "Arkansas Razorbacks",
-        "awayTeamAbbrev": "ARK",
-        "awayConf": "SEC",
-        "awayRank": 15,
-        "venue": "Coleman Coliseum",
-        "city": "Tuscaloosa",
-        "state": "Alabama",
-        "tv": [],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-18T00:00Z",
-        "dateDisplay": "Tue, Feb 17 2026",
-        "time_detail": "2/17 - 7:00 PM EST",
         "homeTeam": "NC State",
         "homeTeamFull": "NC State Wolfpack",
         "homeTeamAbbrev": "NCSU",
@@ -132850,7 +133258,7 @@ const DATA = {
         "awayTeamFull": "North Carolina Tar Heels",
         "awayTeamAbbrev": "UNC",
         "awayConf": "ACC",
-        "awayRank": 16,
+        "awayRank": 14,
         "venue": "Lenovo Center",
         "city": "Raleigh",
         "state": "North Carolina",
@@ -132866,7 +133274,7 @@ const DATA = {
         "homeTeamFull": "Florida Gators",
         "homeTeamAbbrev": "FLA",
         "homeConf": "SEC",
-        "homeRank": 19,
+        "homeRank": 17,
         "awayTeam": "South Carolina",
         "awayTeamFull": "South Carolina Gamecocks",
         "awayTeamAbbrev": "SC",
@@ -132885,27 +133293,6 @@ const DATA = {
         "date": "2026-02-18T00:00Z",
         "dateDisplay": "Tue, Feb 17 2026",
         "time_detail": "2/17 - 7:00 PM EST",
-        "homeTeam": "SMU",
-        "homeTeamFull": "SMU Mustangs",
-        "homeTeamAbbrev": "SMU",
-        "homeConf": "ACC",
-        "homeRank": null,
-        "awayTeam": "Louisville",
-        "awayTeamFull": "Louisville Cardinals",
-        "awayTeamAbbrev": "LOU",
-        "awayConf": "ACC",
-        "awayRank": 20,
-        "venue": "Moody Coliseum (Dallas)",
-        "city": "Dallas",
-        "state": "Texas",
-        "tv": [],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-18T00:00Z",
-        "dateDisplay": "Tue, Feb 17 2026",
-        "time_detail": "2/17 - 7:00 PM EST",
         "homeTeam": "Rhode Island",
         "homeTeamFull": "Rhode Island Rams",
         "homeTeamAbbrev": "URI",
@@ -132915,13 +133302,34 @@ const DATA = {
         "awayTeamFull": "Saint Louis Billikens",
         "awayTeamAbbrev": "SLU",
         "awayConf": "Atlantic 10",
-        "awayRank": 21,
+        "awayRank": 19,
         "venue": "Thomas M. Ryan Center",
         "city": "Kingston",
         "state": "Rhode Island",
         "tv": [
           "ESPN+"
         ],
+        "neutralSite": false,
+        "conferenceGame": true
+      },
+      {
+        "date": "2026-02-18T00:00Z",
+        "dateDisplay": "Tue, Feb 17 2026",
+        "time_detail": "2/17 - 7:00 PM EST",
+        "homeTeam": "Alabama",
+        "homeTeamFull": "Alabama Crimson Tide",
+        "homeTeamAbbrev": "ALA",
+        "homeConf": "SEC",
+        "homeRank": null,
+        "awayTeam": "Arkansas",
+        "awayTeamFull": "Arkansas Razorbacks",
+        "awayTeamAbbrev": "ARK",
+        "awayConf": "SEC",
+        "awayRank": 21,
+        "venue": "Coleman Coliseum",
+        "city": "Tuscaloosa",
+        "state": "Alabama",
+        "tv": [],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -132945,6 +133353,27 @@ const DATA = {
         "tv": [
           "ESPN+"
         ],
+        "neutralSite": false,
+        "conferenceGame": true
+      },
+      {
+        "date": "2026-02-18T00:00Z",
+        "dateDisplay": "Tue, Feb 17 2026",
+        "time_detail": "2/17 - 7:00 PM EST",
+        "homeTeam": "SMU",
+        "homeTeamFull": "SMU Mustangs",
+        "homeTeamAbbrev": "SMU",
+        "homeConf": "ACC",
+        "homeRank": null,
+        "awayTeam": "Louisville",
+        "awayTeamFull": "Louisville Cardinals",
+        "awayTeamAbbrev": "LOU",
+        "awayConf": "ACC",
+        "awayRank": 24,
+        "venue": "Moody Coliseum (Dallas)",
+        "city": "Dallas",
+        "state": "Texas",
+        "tv": [],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -133094,7 +133523,7 @@ const DATA = {
         "homeTeamFull": "Michigan State Spartans",
         "homeTeamAbbrev": "MSU",
         "homeConf": "Big Ten",
-        "homeRank": 7,
+        "homeRank": 10,
         "awayTeam": "UCLA",
         "awayTeamFull": "UCLA Bruins",
         "awayTeamAbbrev": "UCLA",
@@ -133185,7 +133614,7 @@ const DATA = {
         "awayTeamFull": "Nebraska Cornhuskers",
         "awayTeamAbbrev": "NEB",
         "awayConf": "Big Ten",
-        "awayRank": 5,
+        "awayRank": 9,
         "venue": "Carver-Hawkeye Arena",
         "city": "Iowa City",
         "state": "Iowa",
@@ -133336,7 +133765,7 @@ const DATA = {
         "awayTeamFull": "Texas Tech Red Raiders",
         "awayTeamAbbrev": "TTU",
         "awayConf": "Big 12",
-        "awayRank": 11,
+        "awayRank": 13,
         "venue": "Desert Financial Arena",
         "city": "Tempe",
         "state": "Arizona",
@@ -133490,7 +133919,7 @@ const DATA = {
         "homeTeamFull": "UConn Huskies",
         "homeTeamAbbrev": "CONN",
         "homeConf": "Big East",
-        "homeRank": 2,
+        "homeRank": 3,
         "awayTeam": "Creighton",
         "awayTeamFull": "Creighton Bluejays",
         "awayTeamAbbrev": "CREI",
@@ -133519,7 +133948,7 @@ const DATA = {
         "awayTeamFull": "Clemson Tigers",
         "awayTeamAbbrev": "CLEM",
         "awayConf": "ACC",
-        "awayRank": 22,
+        "awayRank": 20,
         "venue": "LJVM Coliseum",
         "city": "Winston-Salem",
         "state": "North Carolina",
@@ -133533,22 +133962,20 @@ const DATA = {
         "date": "2026-02-19T00:00Z",
         "dateDisplay": "Wed, Feb 18 2026",
         "time_detail": "2/18 - 7:00 PM EST",
-        "homeTeam": "Drake",
-        "homeTeamFull": "Drake Bulldogs",
-        "homeTeamAbbrev": "DRKE",
-        "homeConf": "MVC",
-        "homeRank": null,
-        "awayTeam": "S Illinois",
-        "awayTeamFull": "Southern Illinois Salukis",
-        "awayTeamAbbrev": "SIU",
-        "awayConf": "MVC",
+        "homeTeam": "Tennessee",
+        "homeTeamFull": "Tennessee Volunteers",
+        "homeTeamAbbrev": "TENN",
+        "homeConf": "SEC",
+        "homeRank": 25,
+        "awayTeam": "Oklahoma",
+        "awayTeamFull": "Oklahoma Sooners",
+        "awayTeamAbbrev": "OU",
+        "awayConf": "SEC",
         "awayRank": null,
-        "venue": "Knapp Center",
-        "city": "Des Moines",
-        "state": "Iowa",
-        "tv": [
-          "ESPN+"
-        ],
+        "venue": "Food City Center",
+        "city": "Knoxville",
+        "state": "Tennessee",
+        "tv": [],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -133900,27 +134327,6 @@ const DATA = {
         "date": "2026-02-19T00:00Z",
         "dateDisplay": "Wed, Feb 18 2026",
         "time_detail": "2/18 - 7:00 PM EST",
-        "homeTeam": "Tennessee",
-        "homeTeamFull": "Tennessee Volunteers",
-        "homeTeamAbbrev": "TENN",
-        "homeConf": "SEC",
-        "homeRank": null,
-        "awayTeam": "Oklahoma",
-        "awayTeamFull": "Oklahoma Sooners",
-        "awayTeamAbbrev": "OU",
-        "awayConf": "SEC",
-        "awayRank": null,
-        "venue": "Food City Center",
-        "city": "Knoxville",
-        "state": "Tennessee",
-        "tv": [],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-19T00:00Z",
-        "dateDisplay": "Wed, Feb 18 2026",
-        "time_detail": "2/18 - 7:00 PM EST",
         "homeTeam": "E Kentucky",
         "homeTeamFull": "Eastern Kentucky Colonels",
         "homeTeamAbbrev": "EKU",
@@ -134003,6 +134409,29 @@ const DATA = {
         "venue": "Bob Carpenter Center",
         "city": "Newark",
         "state": "Delaware",
+        "tv": [
+          "ESPN+"
+        ],
+        "neutralSite": false,
+        "conferenceGame": true
+      },
+      {
+        "date": "2026-02-19T00:30Z",
+        "dateDisplay": "Wed, Feb 18 2026",
+        "time_detail": "2/18 - 7:30 PM EST",
+        "homeTeam": "Drake",
+        "homeTeamFull": "Drake Bulldogs",
+        "homeTeamAbbrev": "DRKE",
+        "homeConf": "MVC",
+        "homeRank": null,
+        "awayTeam": "S Illinois",
+        "awayTeamFull": "Southern Illinois Salukis",
+        "awayTeamAbbrev": "SIU",
+        "awayConf": "MVC",
+        "awayRank": null,
+        "venue": "Knapp Center",
+        "city": "Des Moines",
+        "state": "Iowa",
         "tv": [
           "ESPN+"
         ],
@@ -134346,7 +134775,7 @@ const DATA = {
         "awayTeamFull": "BYU Cougars",
         "awayTeamAbbrev": "BYU",
         "awayConf": "Big 12",
-        "awayRank": 13,
+        "awayRank": 16,
         "venue": "McKale Memorial Center",
         "city": "Tucson",
         "state": "Arizona",
@@ -134369,36 +134798,13 @@ const DATA = {
         "awayTeamFull": "Kansas Jayhawks",
         "awayTeamAbbrev": "KU",
         "awayConf": "Big 12",
-        "awayRank": 14,
+        "awayRank": 11,
         "venue": "Gallagher-Iba Arena",
         "city": "Stillwater",
         "state": "Oklahoma",
         "tv": [
           "Peacock",
           "NBCSN"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-19T02:00Z",
-        "dateDisplay": "Wed, Feb 18 2026",
-        "time_detail": "2/18 - 9:00 PM EST",
-        "homeTeam": "Georgia Tech",
-        "homeTeamFull": "Georgia Tech Yellow Jackets",
-        "homeTeamAbbrev": "GT",
-        "homeConf": "ACC",
-        "homeRank": null,
-        "awayTeam": "Virginia",
-        "awayTeamFull": "Virginia Cavaliers",
-        "awayTeamAbbrev": "UVA",
-        "awayConf": "ACC",
-        "awayRank": 17,
-        "venue": "McCamish Pavilion",
-        "city": "Atlanta",
-        "state": "Georgia",
-        "tv": [
-          "ACC Network"
         ],
         "neutralSite": false,
         "conferenceGame": true
@@ -134416,12 +134822,35 @@ const DATA = {
         "awayTeamFull": "Vanderbilt Commodores",
         "awayTeamAbbrev": "VAN",
         "awayConf": "SEC",
-        "awayRank": 18,
+        "awayRank": 15,
         "venue": "Mizzou Arena",
         "city": "Columbia",
         "state": "Missouri",
         "tv": [
           "SEC Network"
+        ],
+        "neutralSite": false,
+        "conferenceGame": true
+      },
+      {
+        "date": "2026-02-19T02:00Z",
+        "dateDisplay": "Wed, Feb 18 2026",
+        "time_detail": "2/18 - 9:00 PM EST",
+        "homeTeam": "Georgia Tech",
+        "homeTeamFull": "Georgia Tech Yellow Jackets",
+        "homeTeamAbbrev": "GT",
+        "homeConf": "ACC",
+        "homeRank": null,
+        "awayTeam": "Virginia",
+        "awayTeamFull": "Virginia Cavaliers",
+        "awayTeamAbbrev": "UVA",
+        "awayConf": "ACC",
+        "awayRank": 18,
+        "venue": "McCamish Pavilion",
+        "city": "Atlanta",
+        "state": "Georgia",
+        "tv": [
+          "ACC Network"
         ],
         "neutralSite": false,
         "conferenceGame": true
@@ -134531,7 +134960,7 @@ const DATA = {
         "awayTeamFull": "Illinois Fighting Illini",
         "awayTeamAbbrev": "ILL",
         "awayConf": "Big Ten",
-        "awayRank": 9,
+        "awayRank": 5,
         "venue": "Galen Center",
         "city": "Los Angeles",
         "state": "California",
@@ -135824,7 +136253,7 @@ const DATA = {
         "homeTeamFull": "Saint Louis Billikens",
         "homeTeamAbbrev": "SLU",
         "homeConf": "Atlantic 10",
-        "homeRank": 21,
+        "homeRank": 19,
         "awayTeam": "VCU",
         "awayTeamFull": "VCU Rams",
         "awayTeamAbbrev": "VCU",
@@ -136080,7 +136509,7 @@ const DATA = {
         "awayTeamFull": "Florida Gators",
         "awayTeamAbbrev": "FLA",
         "awayConf": "SEC",
-        "awayRank": 19,
+        "awayRank": 17,
         "venue": "The Sandy and John Black Pavilion at Ole Miss",
         "city": "Oxford",
         "state": "Mississippi",
@@ -136096,7 +136525,7 @@ const DATA = {
         "homeTeamFull": "Clemson Tigers",
         "homeTeamAbbrev": "CLEM",
         "homeConf": "ACC",
-        "homeRank": 22,
+        "homeRank": 20,
         "awayTeam": "Florida St",
         "awayTeamFull": "Florida State Seminoles",
         "awayTeamAbbrev": "FSU",
@@ -136230,7 +136659,7 @@ const DATA = {
         "homeTeamFull": "Kansas Jayhawks",
         "homeTeamAbbrev": "KU",
         "homeConf": "Big 12",
-        "homeRank": 14,
+        "homeRank": 11,
         "awayTeam": "Cincinnati",
         "awayTeamFull": "Cincinnati Bearcats",
         "awayTeamAbbrev": "CIN",
@@ -136258,7 +136687,7 @@ const DATA = {
         "awayTeamFull": "North Carolina Tar Heels",
         "awayTeamAbbrev": "UNC",
         "awayConf": "ACC",
-        "awayRank": 16,
+        "awayRank": 14,
         "venue": "JMA Wireless Dome",
         "city": "Syracuse",
         "state": "New York",
@@ -136507,7 +136936,7 @@ const DATA = {
         "homeTeamFull": "Nebraska Cornhuskers",
         "homeTeamAbbrev": "NEB",
         "homeConf": "Big Ten",
-        "homeRank": 5,
+        "homeRank": 9,
         "awayTeam": "Penn State",
         "awayTeamFull": "Penn State Nittany Lions",
         "awayTeamAbbrev": "PSU",
@@ -136530,12 +136959,12 @@ const DATA = {
         "homeTeamFull": "Vanderbilt Commodores",
         "homeTeamAbbrev": "VAN",
         "homeConf": "SEC",
-        "homeRank": 18,
+        "homeRank": 15,
         "awayTeam": "Tennessee",
         "awayTeamFull": "Tennessee Volunteers",
         "awayTeamAbbrev": "TENN",
         "awayConf": "SEC",
-        "awayRank": null,
+        "awayRank": 25,
         "venue": "Memorial Gymnasium (TN)",
         "city": "Nashville",
         "state": "Tennessee",
@@ -136921,7 +137350,7 @@ const DATA = {
         "homeTeamFull": "Louisville Cardinals",
         "homeTeamAbbrev": "LOU",
         "homeConf": "ACC",
-        "homeRank": 20,
+        "homeRank": 24,
         "awayTeam": "Georgia Tech",
         "awayTeamFull": "Georgia Tech Yellow Jackets",
         "awayTeamAbbrev": "GT",
@@ -136944,7 +137373,7 @@ const DATA = {
         "homeTeamFull": "Texas Tech Red Raiders",
         "homeTeamAbbrev": "TTU",
         "homeConf": "Big 12",
-        "homeRank": 11,
+        "homeRank": 13,
         "awayTeam": "Kansas St",
         "awayTeamFull": "Kansas State Wildcats",
         "awayTeamAbbrev": "KSU",
@@ -136990,7 +137419,7 @@ const DATA = {
         "homeTeamFull": "Houston Cougars",
         "homeTeamAbbrev": "HOU",
         "homeConf": "Big 12",
-        "homeRank": 10,
+        "homeRank": 8,
         "awayTeam": "Arizona",
         "awayTeamFull": "Arizona Wildcats",
         "awayTeamAbbrev": "ARIZ",
@@ -137360,7 +137789,7 @@ const DATA = {
         "homeTeamFull": "Arkansas Razorbacks",
         "homeTeamAbbrev": "ARK",
         "homeConf": "SEC",
-        "homeRank": 15,
+        "homeRank": 21,
         "awayTeam": "Missouri",
         "awayTeamFull": "Missouri Tigers",
         "awayTeamAbbrev": "MIZ",
@@ -138198,29 +138627,6 @@ const DATA = {
         "date": "2026-02-21T23:00Z",
         "dateDisplay": "Sat, Feb 21 2026",
         "time_detail": "2/21 - 6:00 PM EST",
-        "homeTeam": "LSU",
-        "homeTeamFull": "LSU Tigers",
-        "homeTeamAbbrev": "LSU",
-        "homeConf": "SEC",
-        "homeRank": null,
-        "awayTeam": "Alabama",
-        "awayTeamFull": "Alabama Crimson Tide",
-        "awayTeamAbbrev": "ALA",
-        "awayConf": "SEC",
-        "awayRank": 23,
-        "venue": "Pete Maravich Assembly Center",
-        "city": "Baton Rouge",
-        "state": "Louisiana",
-        "tv": [
-          "SEC Network"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-21T23:00Z",
-        "dateDisplay": "Sat, Feb 21 2026",
-        "time_detail": "2/21 - 6:00 PM EST",
         "homeTeam": "Miss Valley St",
         "homeTeamFull": "Mississippi Valley State Delta Devils",
         "homeTeamAbbrev": "MVSU",
@@ -138533,6 +138939,29 @@ const DATA = {
         "conferenceGame": true
       },
       {
+        "date": "2026-02-21T23:00Z",
+        "dateDisplay": "Sat, Feb 21 2026",
+        "time_detail": "2/21 - 6:00 PM EST",
+        "homeTeam": "LSU",
+        "homeTeamFull": "LSU Tigers",
+        "homeTeamAbbrev": "LSU",
+        "homeConf": "SEC",
+        "homeRank": null,
+        "awayTeam": "Alabama",
+        "awayTeamFull": "Alabama Crimson Tide",
+        "awayTeamAbbrev": "ALA",
+        "awayConf": "SEC",
+        "awayRank": null,
+        "venue": "Pete Maravich Assembly Center",
+        "city": "Baton Rouge",
+        "state": "Louisiana",
+        "tv": [
+          "SEC Network"
+        ],
+        "neutralSite": false,
+        "conferenceGame": true
+      },
+      {
         "date": "2026-02-21T23:30Z",
         "dateDisplay": "Sat, Feb 21 2026",
         "time_detail": "2/21 - 6:30 PM EST",
@@ -138545,7 +138974,7 @@ const DATA = {
         "awayTeamFull": "Michigan Wolverines",
         "awayTeamAbbrev": "MICH",
         "awayConf": "Big Ten",
-        "awayRank": 3,
+        "awayRank": 2,
         "venue": "Capital One Arena",
         "city": "Washington",
         "state": "District of Columbia",
@@ -138589,7 +139018,7 @@ const DATA = {
         "awayTeamFull": "UConn Huskies",
         "awayTeamAbbrev": "CONN",
         "awayConf": "Big East",
-        "awayRank": 2,
+        "awayRank": 3,
         "venue": "Xfinity Mobile Arena",
         "city": "Philadelphia",
         "state": "Pennsylvania",
@@ -138774,7 +139203,7 @@ const DATA = {
         "awayTeamFull": "Illinois Fighting Illini",
         "awayTeamAbbrev": "ILL",
         "awayConf": "Big Ten",
-        "awayRank": 9,
+        "awayRank": 5,
         "venue": "Pauley Pavilion",
         "city": "Los Angeles",
         "state": "California",
@@ -139277,12 +139706,12 @@ const DATA = {
         "homeTeamFull": "BYU Cougars",
         "homeTeamAbbrev": "BYU",
         "homeConf": "Big 12",
-        "homeRank": 13,
+        "homeRank": 16,
         "awayTeam": "Iowa State",
         "awayTeamFull": "Iowa State Cyclones",
         "awayTeamAbbrev": "ISU",
         "awayConf": "Big 12",
-        "awayRank": 8,
+        "awayRank": 7,
         "venue": "Marriott Center",
         "city": "Provo",
         "state": "Utah",
@@ -139369,7 +139798,7 @@ const DATA = {
         "homeTeamFull": "Michigan State Spartans",
         "homeTeamAbbrev": "MSU",
         "homeConf": "Big Ten",
-        "homeRank": 7,
+        "homeRank": 10,
         "awayTeam": "Ohio State",
         "awayTeamFull": "Ohio State Buckeyes",
         "awayTeamAbbrev": "OSU",
@@ -139800,12 +140229,12 @@ const DATA = {
         "homeTeamFull": "North Carolina Tar Heels",
         "homeTeamAbbrev": "UNC",
         "homeConf": "ACC",
-        "homeRank": 16,
+        "homeRank": 14,
         "awayTeam": "Louisville",
         "awayTeamFull": "Louisville Cardinals",
         "awayTeamAbbrev": "LOU",
         "awayConf": "ACC",
-        "awayRank": 20,
+        "awayRank": 24,
         "venue": "Dean E. Smith Center",
         "city": "Chapel Hill",
         "state": "North Carolina",
@@ -139961,12 +140390,12 @@ const DATA = {
         "homeTeamFull": "Kansas Jayhawks",
         "homeTeamAbbrev": "KU",
         "homeConf": "Big 12",
-        "homeRank": 14,
+        "homeRank": 11,
         "awayTeam": "Houston",
         "awayTeamFull": "Houston Cougars",
         "awayTeamAbbrev": "HOU",
         "awayConf": "Big 12",
-        "awayRank": 10,
+        "awayRank": 8,
         "venue": "Allen Fieldhouse",
         "city": "Lawrence",
         "state": "Kansas",
@@ -140095,7 +140524,7 @@ const DATA = {
         "homeTeamFull": "Texas Tech Red Raiders",
         "homeTeamAbbrev": "TTU",
         "homeConf": "Big 12",
-        "homeRank": 11,
+        "homeRank": 13,
         "awayTeam": "Cincinnati",
         "awayTeamFull": "Cincinnati Bearcats",
         "awayTeamAbbrev": "CIN",
@@ -140121,7 +140550,7 @@ const DATA = {
         "awayTeamFull": "Saint Louis Billikens",
         "awayTeamAbbrev": "SLU",
         "awayConf": "Atlantic 10",
-        "awayRank": 21,
+        "awayRank": 19,
         "venue": "UD Arena",
         "city": "Dayton",
         "state": "Ohio",
@@ -140508,7 +140937,7 @@ const DATA = {
         "homeTeamFull": "Michigan Wolverines",
         "homeTeamAbbrev": "MICH",
         "homeConf": "Big Ten",
-        "homeRank": 3,
+        "homeRank": 2,
         "awayTeam": "Minnesota",
         "awayTeamFull": "Minnesota Golden Gophers",
         "awayTeamAbbrev": "MINN",
@@ -140582,12 +141011,35 @@ const DATA = {
         "awayTeamFull": "Iowa State Cyclones",
         "awayTeamAbbrev": "ISU",
         "awayConf": "Big 12",
-        "awayRank": 8,
+        "awayRank": 7,
         "venue": "Jon M. Huntsman Center",
         "city": "Salt Lake City",
         "state": "Utah",
         "tv": [
           "FS1"
+        ],
+        "neutralSite": false,
+        "conferenceGame": true
+      },
+      {
+        "date": "2026-02-25T02:00Z",
+        "dateDisplay": "Tue, Feb 24 2026",
+        "time_detail": "2/24 - 9:00 PM EST",
+        "homeTeam": "Missouri",
+        "homeTeamFull": "Missouri Tigers",
+        "homeTeamAbbrev": "MIZ",
+        "homeConf": "SEC",
+        "homeRank": null,
+        "awayTeam": "Tennessee",
+        "awayTeamFull": "Tennessee Volunteers",
+        "awayTeamAbbrev": "TENN",
+        "awayConf": "SEC",
+        "awayRank": 25,
+        "venue": "Mizzou Arena",
+        "city": "Columbia",
+        "state": "Missouri",
+        "tv": [
+          "SEC Network"
         ],
         "neutralSite": false,
         "conferenceGame": true
@@ -140727,29 +141179,6 @@ const DATA = {
         "conferenceGame": true
       },
       {
-        "date": "2026-02-25T02:00Z",
-        "dateDisplay": "Tue, Feb 24 2026",
-        "time_detail": "2/24 - 9:00 PM EST",
-        "homeTeam": "Missouri",
-        "homeTeamFull": "Missouri Tigers",
-        "homeTeamAbbrev": "MIZ",
-        "homeConf": "SEC",
-        "homeRank": null,
-        "awayTeam": "Tennessee",
-        "awayTeamFull": "Tennessee Volunteers",
-        "awayTeamAbbrev": "TENN",
-        "awayConf": "SEC",
-        "awayRank": null,
-        "venue": "Mizzou Arena",
-        "city": "Columbia",
-        "state": "Missouri",
-        "tv": [
-          "SEC Network"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
         "date": "2026-02-25T04:00Z",
         "dateDisplay": "Tue, Feb 24 2026",
         "time_detail": "2/24 - 11:00 PM EST",
@@ -140757,7 +141186,7 @@ const DATA = {
         "homeTeamFull": "BYU Cougars",
         "homeTeamAbbrev": "BYU",
         "homeConf": "Big 12",
-        "homeRank": 13,
+        "homeRank": 16,
         "awayTeam": "UCF",
         "awayTeamFull": "UCF Knights",
         "awayTeamAbbrev": "UCF",
@@ -140893,7 +141322,7 @@ const DATA = {
         "homeTeamFull": "UConn Huskies",
         "homeTeamAbbrev": "CONN",
         "homeConf": "Big East",
-        "homeRank": 2,
+        "homeRank": 3,
         "awayTeam": "St John's",
         "awayTeamFull": "St. John's Red Storm",
         "awayTeamAbbrev": "SJU",
@@ -140917,7 +141346,7 @@ const DATA = {
         "homeTeamFull": "Nebraska Cornhuskers",
         "homeTeamAbbrev": "NEB",
         "homeConf": "Big Ten",
-        "homeRank": 5,
+        "homeRank": 9,
         "awayTeam": "Maryland",
         "awayTeamFull": "Maryland Terrapins",
         "awayTeamAbbrev": "MD",
@@ -140940,7 +141369,7 @@ const DATA = {
         "homeTeamFull": "Vanderbilt Commodores",
         "homeTeamAbbrev": "VAN",
         "homeConf": "SEC",
-        "homeRank": 18,
+        "homeRank": 15,
         "awayTeam": "Georgia",
         "awayTeamFull": "Georgia Bulldogs",
         "awayTeamAbbrev": "UGA",
@@ -140968,7 +141397,7 @@ const DATA = {
         "awayTeamFull": "Florida Gators",
         "awayTeamAbbrev": "FLA",
         "awayConf": "SEC",
-        "awayRank": 19,
+        "awayRank": 17,
         "venue": "Moody Center",
         "city": "Austin",
         "state": "Texas",
@@ -141650,27 +142079,6 @@ const DATA = {
         "date": "2026-02-26T02:00Z",
         "dateDisplay": "Wed, Feb 25 2026",
         "time_detail": "2/25 - 9:00 PM EST",
-        "homeTeam": "Alabama",
-        "homeTeamFull": "Alabama Crimson Tide",
-        "homeTeamAbbrev": "ALA",
-        "homeConf": "SEC",
-        "homeRank": 23,
-        "awayTeam": "Mississippi St",
-        "awayTeamFull": "Mississippi State Bulldogs",
-        "awayTeamAbbrev": "MSST",
-        "awayConf": "SEC",
-        "awayRank": null,
-        "venue": "Coleman Coliseum",
-        "city": "Tuscaloosa",
-        "state": "Alabama",
-        "tv": [],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-26T02:00Z",
-        "dateDisplay": "Wed, Feb 25 2026",
-        "time_detail": "2/25 - 9:00 PM EST",
         "homeTeam": "Pepperdine",
         "homeTeamFull": "Pepperdine Waves",
         "homeTeamAbbrev": "PEPP",
@@ -141756,6 +142164,27 @@ const DATA = {
         "tv": [
           "Peacock"
         ],
+        "neutralSite": false,
+        "conferenceGame": true
+      },
+      {
+        "date": "2026-02-26T02:00Z",
+        "dateDisplay": "Wed, Feb 25 2026",
+        "time_detail": "2/25 - 9:00 PM EST",
+        "homeTeam": "Alabama",
+        "homeTeamFull": "Alabama Crimson Tide",
+        "homeTeamAbbrev": "ALA",
+        "homeConf": "SEC",
+        "homeRank": null,
+        "awayTeam": "Mississippi St",
+        "awayTeamFull": "Mississippi State Bulldogs",
+        "awayTeamAbbrev": "MSST",
+        "awayConf": "SEC",
+        "awayRank": null,
+        "venue": "Coleman Coliseum",
+        "city": "Tuscaloosa",
+        "state": "Alabama",
+        "tv": [],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -142556,7 +142985,7 @@ const DATA = {
         "awayTeamFull": "Michigan State Spartans",
         "awayTeamAbbrev": "MSU",
         "awayConf": "Big Ten",
-        "awayRank": 7,
+        "awayRank": 10,
         "venue": "Mackey Arena",
         "city": "West Lafayette",
         "state": "Indiana",
@@ -142825,7 +143254,7 @@ const DATA = {
         "homeTeamFull": "Arkansas Razorbacks",
         "homeTeamAbbrev": "ARK",
         "homeConf": "SEC",
-        "homeRank": 15,
+        "homeRank": 21,
         "awayTeam": "Texas A&M",
         "awayTeamFull": "Texas A&M Aggies",
         "awayTeamAbbrev": "TA&M",
@@ -143467,12 +143896,12 @@ const DATA = {
         "homeTeamFull": "Illinois Fighting Illini",
         "homeTeamAbbrev": "ILL",
         "homeConf": "Big Ten",
-        "homeRank": 9,
+        "homeRank": 5,
         "awayTeam": "Michigan",
         "awayTeamFull": "Michigan Wolverines",
         "awayTeamAbbrev": "MICH",
         "awayConf": "Big Ten",
-        "awayRank": 3,
+        "awayRank": 2,
         "venue": "State Farm Center",
         "city": "Champaign",
         "state": "Illinois",
@@ -143606,7 +144035,7 @@ const DATA = {
         "homeTeamFull": "North Carolina Tar Heels",
         "homeTeamAbbrev": "UNC",
         "homeConf": "ACC",
-        "homeRank": 16,
+        "homeRank": 14,
         "awayTeam": "Virginia Tech",
         "awayTeamFull": "Virginia Tech Hokies",
         "awayTeamAbbrev": "VT",
@@ -143627,12 +144056,12 @@ const DATA = {
         "homeTeamFull": "Clemson Tigers",
         "homeTeamAbbrev": "CLEM",
         "homeConf": "ACC",
-        "homeRank": 22,
+        "homeRank": 20,
         "awayTeam": "Louisville",
         "awayTeamFull": "Louisville Cardinals",
         "awayTeamAbbrev": "LOU",
         "awayConf": "ACC",
-        "awayRank": 20,
+        "awayRank": 24,
         "venue": "Littlejohn Coliseum",
         "city": "Clemson",
         "state": "South Carolina",
@@ -143648,7 +144077,7 @@ const DATA = {
         "homeTeamFull": "UConn Huskies",
         "homeTeamAbbrev": "CONN",
         "homeConf": "Big East",
-        "homeRank": 2,
+        "homeRank": 3,
         "awayTeam": "Seton Hall",
         "awayTeamFull": "Seton Hall Pirates",
         "awayTeamAbbrev": "HALL",
@@ -143676,7 +144105,7 @@ const DATA = {
         "awayTeamFull": "Virginia Cavaliers",
         "awayTeamAbbrev": "UVA",
         "awayConf": "ACC",
-        "awayRank": 17,
+        "awayRank": 18,
         "venue": "Cameron Indoor Stadium",
         "city": "Durham",
         "state": "North Carolina",
@@ -143692,7 +144121,7 @@ const DATA = {
         "homeTeamFull": "Houston Cougars",
         "homeTeamAbbrev": "HOU",
         "homeConf": "Big 12",
-        "homeRank": 10,
+        "homeRank": 8,
         "awayTeam": "Colorado",
         "awayTeamFull": "Colorado Buffaloes",
         "awayTeamAbbrev": "COLO",
@@ -144017,7 +144446,7 @@ const DATA = {
         "awayTeamFull": "Vanderbilt Commodores",
         "awayTeamAbbrev": "VAN",
         "awayConf": "SEC",
-        "awayRank": 18,
+        "awayRank": 15,
         "venue": "Rupp Arena",
         "city": "Lexington",
         "state": "Kentucky",
@@ -144900,12 +145329,35 @@ const DATA = {
         "awayTeamFull": "Kansas Jayhawks",
         "awayTeamAbbrev": "KU",
         "awayConf": "Big 12",
-        "awayRank": 14,
+        "awayRank": 11,
         "venue": "McKale Memorial Center",
         "city": "Tucson",
         "state": "Arizona",
         "tv": [
           "ESPN"
+        ],
+        "neutralSite": false,
+        "conferenceGame": true
+      },
+      {
+        "date": "2026-02-28T21:00Z",
+        "dateDisplay": "Sat, Feb 28 2026",
+        "time_detail": "2/28 - 4:00 PM EST",
+        "homeTeam": "Iowa State",
+        "homeTeamFull": "Iowa State Cyclones",
+        "homeTeamAbbrev": "ISU",
+        "homeConf": "Big 12",
+        "homeRank": 7,
+        "awayTeam": "Texas Tech",
+        "awayTeamFull": "Texas Tech Red Raiders",
+        "awayTeamAbbrev": "TTU",
+        "awayConf": "Big 12",
+        "awayRank": 13,
+        "venue": "Hilton Coliseum",
+        "city": "Ames",
+        "state": "Iowa",
+        "tv": [
+          "CBSSN"
         ],
         "neutralSite": false,
         "conferenceGame": true
@@ -144923,35 +145375,12 @@ const DATA = {
         "awayTeamFull": "Nebraska Cornhuskers",
         "awayTeamAbbrev": "NEB",
         "awayConf": "Big Ten",
-        "awayRank": 5,
+        "awayRank": 9,
         "venue": "Galen Center",
         "city": "Los Angeles",
         "state": "California",
         "tv": [
           "BTN"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-02-28T21:00Z",
-        "dateDisplay": "Sat, Feb 28 2026",
-        "time_detail": "2/28 - 4:00 PM EST",
-        "homeTeam": "Iowa State",
-        "homeTeamFull": "Iowa State Cyclones",
-        "homeTeamAbbrev": "ISU",
-        "homeConf": "Big 12",
-        "homeRank": 8,
-        "awayTeam": "Texas Tech",
-        "awayTeamFull": "Texas Tech Red Raiders",
-        "awayTeamAbbrev": "TTU",
-        "awayConf": "Big 12",
-        "awayRank": 11,
-        "venue": "Hilton Coliseum",
-        "city": "Ames",
-        "state": "Iowa",
-        "tv": [
-          "CBSSN"
         ],
         "neutralSite": false,
         "conferenceGame": true
@@ -145716,7 +146145,7 @@ const DATA = {
         "awayTeamFull": "BYU Cougars",
         "awayTeamAbbrev": "BYU",
         "awayConf": "Big 12",
-        "awayRank": 13,
+        "awayRank": 16,
         "venue": "WVU Coliseum",
         "city": "Morgantown",
         "state": "West Virginia",
@@ -145870,12 +146299,12 @@ const DATA = {
         "homeTeamFull": "Tennessee Volunteers",
         "homeTeamAbbrev": "TENN",
         "homeConf": "SEC",
-        "homeRank": null,
+        "homeRank": 25,
         "awayTeam": "Alabama",
         "awayTeamFull": "Alabama Crimson Tide",
         "awayTeamAbbrev": "ALA",
         "awayConf": "SEC",
-        "awayRank": 23,
+        "awayRank": null,
         "venue": "Food City Center",
         "city": "Knoxville",
         "state": "Tennessee",
@@ -146322,7 +146751,7 @@ const DATA = {
         "homeTeamFull": "Saint Louis Billikens",
         "homeTeamAbbrev": "SLU",
         "homeConf": "Atlantic 10",
-        "homeRank": 21,
+        "homeRank": 19,
         "awayTeam": "Duquesne",
         "awayTeamFull": "Duquesne Dukes",
         "awayTeamAbbrev": "DUQ",
@@ -146460,12 +146889,12 @@ const DATA = {
         "homeTeamFull": "Florida Gators",
         "homeTeamAbbrev": "FLA",
         "homeConf": "SEC",
-        "homeRank": 19,
+        "homeRank": 17,
         "awayTeam": "Arkansas",
         "awayTeamFull": "Arkansas Razorbacks",
         "awayTeamAbbrev": "ARK",
         "awayConf": "SEC",
-        "awayRank": 15,
+        "awayRank": 21,
         "venue": "Stephen C. O'Connell Center",
         "city": "Gainesville",
         "state": "Florida",
@@ -146718,7 +147147,9 @@ const DATA = {
         "venue": "John M. Belk Arena",
         "city": "Davidson",
         "state": "North Carolina",
-        "tv": [],
+        "tv": [
+          "USA Net"
+        ],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -146825,7 +147256,9 @@ const DATA = {
         "venue": "Value City Arena",
         "city": "Columbus",
         "state": "Ohio",
-        "tv": [],
+        "tv": [
+          "CBS"
+        ],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -147072,11 +147505,13 @@ const DATA = {
         "awayTeamFull": "Michigan State Spartans",
         "awayTeamAbbrev": "MSU",
         "awayConf": "Big Ten",
-        "awayRank": 7,
+        "awayRank": 10,
         "venue": "Simon Skjodt Assembly Hall",
         "city": "Bloomington",
         "state": "Indiana",
-        "tv": [],
+        "tv": [
+          "CBS"
+        ],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -147120,7 +147555,9 @@ const DATA = {
         "venue": "Fiserv Forum",
         "city": "Milwaukee",
         "state": "Wisconsin",
-        "tv": [],
+        "tv": [
+          "FS1"
+        ],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -147256,7 +147693,9 @@ const DATA = {
         "venue": "",
         "city": "",
         "state": "",
-        "tv": [],
+        "tv": [
+          "ESPN+"
+        ],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -147300,7 +147739,9 @@ const DATA = {
         "venue": "Hytche Center",
         "city": "Princess Anne",
         "state": "Maryland",
-        "tv": [],
+        "tv": [
+          "DSN"
+        ],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -147499,7 +147940,7 @@ const DATA = {
         "awayTeamFull": "Iowa State Cyclones",
         "awayTeamAbbrev": "ISU",
         "awayConf": "Big 12",
-        "awayRank": 8,
+        "awayRank": 7,
         "venue": "McKale Memorial Center",
         "city": "Tucson",
         "state": "Arizona",
@@ -147572,7 +148013,9 @@ const DATA = {
         "venue": "",
         "city": "",
         "state": "",
-        "tv": [],
+        "tv": [
+          "ESPN+"
+        ],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -147593,7 +148036,9 @@ const DATA = {
         "venue": "",
         "city": "",
         "state": "",
-        "tv": [],
+        "tv": [
+          "ESPN+"
+        ],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -147614,7 +148059,32 @@ const DATA = {
         "venue": "Arena-Auditorium",
         "city": "Laramie",
         "state": "Wyoming",
-        "tv": [],
+        "tv": [
+          "MWN"
+        ],
+        "neutralSite": false,
+        "conferenceGame": true
+      },
+      {
+        "date": "2026-03-03T23:00Z",
+        "dateDisplay": "Tue, Mar 03 2026",
+        "time_detail": "3/3 - 6:00 PM EST",
+        "homeTeam": "South Carolina",
+        "homeTeamFull": "South Carolina Gamecocks",
+        "homeTeamAbbrev": "SC",
+        "homeConf": "SEC",
+        "homeRank": null,
+        "awayTeam": "Tennessee",
+        "awayTeamFull": "Tennessee Volunteers",
+        "awayTeamAbbrev": "TENN",
+        "awayConf": "SEC",
+        "awayRank": 25,
+        "venue": "Colonial Life Arena",
+        "city": "Columbia",
+        "state": "South Carolina",
+        "tv": [
+          "SEC Network"
+        ],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -147635,7 +148105,9 @@ const DATA = {
         "venue": "Pensacola Bay Center",
         "city": "Pensacola",
         "state": "Florida",
-        "tv": [],
+        "tv": [
+          "ESPN+"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -147709,52 +148181,6 @@ const DATA = {
         "conferenceGame": true
       },
       {
-        "date": "2026-03-03T23:00Z",
-        "dateDisplay": "Tue, Mar 03 2026",
-        "time_detail": "3/3 - 6:00 PM EST",
-        "homeTeam": "South Carolina",
-        "homeTeamFull": "South Carolina Gamecocks",
-        "homeTeamAbbrev": "SC",
-        "homeConf": "SEC",
-        "homeRank": null,
-        "awayTeam": "Tennessee",
-        "awayTeamFull": "Tennessee Volunteers",
-        "awayTeamAbbrev": "TENN",
-        "awayConf": "SEC",
-        "awayRank": null,
-        "venue": "Colonial Life Arena",
-        "city": "Columbia",
-        "state": "South Carolina",
-        "tv": [
-          "SEC Network"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-03-03T23:30Z",
-        "dateDisplay": "Tue, Mar 03 2026",
-        "time_detail": "3/3 - 6:30 PM EST",
-        "homeTeam": "Georgia",
-        "homeTeamFull": "Georgia Bulldogs",
-        "homeTeamAbbrev": "UGA",
-        "homeConf": "SEC",
-        "homeRank": null,
-        "awayTeam": "Alabama",
-        "awayTeamFull": "Alabama Crimson Tide",
-        "awayTeamAbbrev": "ALA",
-        "awayConf": "SEC",
-        "awayRank": 23,
-        "venue": "Stegeman Coliseum",
-        "city": "Athens",
-        "state": "Georgia",
-        "tv": [
-          "ESPNEWS"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
         "date": "2026-03-03T23:30Z",
         "dateDisplay": "Tue, Mar 03 2026",
         "time_detail": "3/3 - 6:30 PM EST",
@@ -147794,7 +148220,32 @@ const DATA = {
         "venue": "Stony Brook Arena",
         "city": "Stony Brook",
         "state": "New York",
-        "tv": [],
+        "tv": [
+          "FloSports"
+        ],
+        "neutralSite": false,
+        "conferenceGame": true
+      },
+      {
+        "date": "2026-03-03T23:30Z",
+        "dateDisplay": "Tue, Mar 03 2026",
+        "time_detail": "3/3 - 6:30 PM EST",
+        "homeTeam": "Georgia",
+        "homeTeamFull": "Georgia Bulldogs",
+        "homeTeamAbbrev": "UGA",
+        "homeConf": "SEC",
+        "homeRank": null,
+        "awayTeam": "Alabama",
+        "awayTeamFull": "Alabama Crimson Tide",
+        "awayTeamAbbrev": "ALA",
+        "awayConf": "SEC",
+        "awayRank": null,
+        "venue": "Stegeman Coliseum",
+        "city": "Athens",
+        "state": "Georgia",
+        "tv": [
+          "ESPNEWS"
+        ],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -147806,7 +148257,7 @@ const DATA = {
         "homeTeamFull": "Texas Tech Red Raiders",
         "homeTeamAbbrev": "TTU",
         "homeConf": "Big 12",
-        "homeRank": 11,
+        "homeRank": 13,
         "awayTeam": "TCU",
         "awayTeamFull": "TCU Horned Frogs",
         "awayTeamAbbrev": "TCU",
@@ -147825,6 +148276,27 @@ const DATA = {
         "date": "2026-03-04T00:00Z",
         "dateDisplay": "Tue, Mar 03 2026",
         "time_detail": "3/3 - 7:00 PM EST",
+        "homeTeam": "North Carolina",
+        "homeTeamFull": "North Carolina Tar Heels",
+        "homeTeamAbbrev": "UNC",
+        "homeConf": "ACC",
+        "homeRank": 14,
+        "awayTeam": "Clemson",
+        "awayTeamFull": "Clemson Tigers",
+        "awayTeamAbbrev": "CLEM",
+        "awayConf": "ACC",
+        "awayRank": 20,
+        "venue": "Dean E. Smith Center",
+        "city": "Chapel Hill",
+        "state": "North Carolina",
+        "tv": [],
+        "neutralSite": false,
+        "conferenceGame": true
+      },
+      {
+        "date": "2026-03-04T00:00Z",
+        "dateDisplay": "Tue, Mar 03 2026",
+        "time_detail": "3/3 - 7:00 PM EST",
         "homeTeam": "Cincinnati",
         "homeTeamFull": "Cincinnati Bearcats",
         "homeTeamAbbrev": "CIN",
@@ -147834,7 +148306,7 @@ const DATA = {
         "awayTeamFull": "BYU Cougars",
         "awayTeamAbbrev": "BYU",
         "awayConf": "Big 12",
-        "awayRank": 13,
+        "awayRank": 16,
         "venue": "Fifth Third Arena",
         "city": "Cincinnati",
         "state": "Ohio",
@@ -147846,20 +148318,22 @@ const DATA = {
         "date": "2026-03-04T00:00Z",
         "dateDisplay": "Tue, Mar 03 2026",
         "time_detail": "3/3 - 7:00 PM EST",
-        "homeTeam": "North Carolina",
-        "homeTeamFull": "North Carolina Tar Heels",
-        "homeTeamAbbrev": "UNC",
-        "homeConf": "ACC",
-        "homeRank": 16,
-        "awayTeam": "Clemson",
-        "awayTeamFull": "Clemson Tigers",
-        "awayTeamAbbrev": "CLEM",
-        "awayConf": "ACC",
-        "awayRank": 22,
-        "venue": "Dean E. Smith Center",
-        "city": "Chapel Hill",
-        "state": "North Carolina",
-        "tv": [],
+        "homeTeam": "St John's",
+        "homeTeamFull": "St. John's Red Storm",
+        "homeTeamAbbrev": "SJU",
+        "homeConf": "Big East",
+        "homeRank": null,
+        "awayTeam": "Georgetown",
+        "awayTeamFull": "Georgetown Hoyas",
+        "awayTeamAbbrev": "GTWN",
+        "awayConf": "Big East",
+        "awayRank": null,
+        "venue": "Madison Square Garden",
+        "city": "New York",
+        "state": "New York",
+        "tv": [
+          "Peacock"
+        ],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -147890,27 +148364,6 @@ const DATA = {
         "date": "2026-03-04T00:00Z",
         "dateDisplay": "Tue, Mar 03 2026",
         "time_detail": "3/3 - 7:00 PM EST",
-        "homeTeam": "St John's",
-        "homeTeamFull": "St. John's Red Storm",
-        "homeTeamAbbrev": "SJU",
-        "homeConf": "Big East",
-        "homeRank": null,
-        "awayTeam": "Georgetown",
-        "awayTeamFull": "Georgetown Hoyas",
-        "awayTeamAbbrev": "GTWN",
-        "awayConf": "Big East",
-        "awayRank": null,
-        "venue": "Madison Square Garden",
-        "city": "New York",
-        "state": "New York",
-        "tv": [],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-03-04T00:00Z",
-        "dateDisplay": "Tue, Mar 03 2026",
-        "time_detail": "3/3 - 7:00 PM EST",
         "homeTeam": "VCU",
         "homeTeamFull": "VCU Rams",
         "homeTeamAbbrev": "VCU",
@@ -147924,7 +148377,9 @@ const DATA = {
         "venue": "Siegel Center",
         "city": "Richmond",
         "state": "Virginia",
-        "tv": [],
+        "tv": [
+          "CBSSN"
+        ],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -147991,7 +148446,9 @@ const DATA = {
         "venue": "Cintas Center",
         "city": "Cincinnati",
         "state": "Ohio",
-        "tv": [],
+        "tv": [
+          "truTV"
+        ],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -148104,7 +148561,9 @@ const DATA = {
         "venue": "Schar Center",
         "city": "Elon",
         "state": "North Carolina",
-        "tv": [],
+        "tv": [
+          "FloSports"
+        ],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -148125,7 +148584,9 @@ const DATA = {
         "venue": "John W. Pope Jr. Convocation Center",
         "city": "Buies Creek",
         "state": "North Carolina",
-        "tv": [],
+        "tv": [
+          "FloSports"
+        ],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -148167,7 +148628,10 @@ const DATA = {
         "venue": "David S. Mack Sports and Exhibition Complex",
         "city": "Hempstead",
         "state": "New York",
-        "tv": [],
+        "tv": [
+          "MSGSN",
+          "FloSports"
+        ],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -148188,7 +148652,9 @@ const DATA = {
         "venue": "Cabot Center",
         "city": "Boston",
         "state": "Massachusetts",
-        "tv": [],
+        "tv": [
+          "FloSports"
+        ],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -148244,7 +148710,7 @@ const DATA = {
         "homeTeamFull": "Florida Gators",
         "homeTeamAbbrev": "FLA",
         "homeConf": "SEC",
-        "homeRank": 19,
+        "homeRank": 17,
         "awayTeam": "Mississippi St",
         "awayTeamFull": "Mississippi State Bulldogs",
         "awayTeamAbbrev": "MSST",
@@ -148364,7 +148830,9 @@ const DATA = {
         "venue": "Pensacola Bay Center",
         "city": "Pensacola",
         "state": "Florida",
-        "tv": [],
+        "tv": [
+          "ESPN+"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -148397,7 +148865,7 @@ const DATA = {
         "homeTeamFull": "Illinois Fighting Illini",
         "homeTeamAbbrev": "ILL",
         "homeConf": "Big Ten",
-        "homeRank": 9,
+        "homeRank": 5,
         "awayTeam": "Oregon",
         "awayTeamFull": "Oregon Ducks",
         "awayTeamAbbrev": "ORE",
@@ -148406,7 +148874,9 @@ const DATA = {
         "venue": "State Farm Center",
         "city": "Champaign",
         "state": "Illinois",
-        "tv": [],
+        "tv": [
+          "Peacock"
+        ],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -148423,7 +148893,7 @@ const DATA = {
         "awayTeamFull": "Kansas Jayhawks",
         "awayTeamAbbrev": "KU",
         "awayConf": "Big 12",
-        "awayRank": 14,
+        "awayRank": 11,
         "venue": "Desert Financial Arena",
         "city": "Tempe",
         "state": "Arizona",
@@ -148441,7 +148911,7 @@ const DATA = {
         "homeTeamFull": "Louisville Cardinals",
         "homeTeamAbbrev": "LOU",
         "homeConf": "ACC",
-        "homeRank": 20,
+        "homeRank": 24,
         "awayTeam": "Syracuse",
         "awayTeamFull": "Syracuse Orange",
         "awayTeamAbbrev": "SYR",
@@ -148473,7 +148943,9 @@ const DATA = {
         "venue": "Save Mart Center",
         "city": "Fresno",
         "state": "California",
-        "tv": [],
+        "tv": [
+          "MWN"
+        ],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -148538,7 +149010,9 @@ const DATA = {
         "venue": "ExtraMile Arena",
         "city": "Boise",
         "state": "Idaho",
-        "tv": [],
+        "tv": [
+          "CBSSN"
+        ],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -148582,7 +149056,9 @@ const DATA = {
         "venue": "Clune Arena",
         "city": "Colorado Springs",
         "state": "Colorado",
-        "tv": [],
+        "tv": [
+          "MWN"
+        ],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -148622,7 +149098,7 @@ const DATA = {
         "awayTeamFull": "Nebraska Cornhuskers",
         "awayTeamAbbrev": "NEB",
         "awayConf": "Big Ten",
-        "awayRank": 5,
+        "awayRank": 9,
         "venue": "Pauley Pavilion",
         "city": "Los Angeles",
         "state": "California",
@@ -148649,7 +149125,9 @@ const DATA = {
         "venue": "Thomas & Mack Center",
         "city": "Las Vegas",
         "state": "Nevada",
-        "tv": [],
+        "tv": [
+          "CBSSN"
+        ],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -148817,7 +149295,9 @@ const DATA = {
         "venue": "Pensacola Bay Center",
         "city": "Pensacola",
         "state": "Florida",
-        "tv": [],
+        "tv": [
+          "ESPN+"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -148838,7 +149318,9 @@ const DATA = {
         "venue": "Hinkle Fieldhouse",
         "city": "Indianapolis",
         "state": "Indiana",
-        "tv": [],
+        "tv": [
+          "FS1"
+        ],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -148882,28 +149364,9 @@ const DATA = {
         "venue": "Simon Skjodt Assembly Hall",
         "city": "Bloomington",
         "state": "Indiana",
-        "tv": [],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-03-05T00:00Z",
-        "dateDisplay": "Wed, Mar 04 2026",
-        "time_detail": "3/4 - 7:00 PM EST",
-        "homeTeam": "Arkansas",
-        "homeTeamFull": "Arkansas Razorbacks",
-        "homeTeamAbbrev": "ARK",
-        "homeConf": "SEC",
-        "homeRank": 15,
-        "awayTeam": "Texas",
-        "awayTeamFull": "Texas Longhorns",
-        "awayTeamAbbrev": "TEX",
-        "awayConf": "SEC",
-        "awayRank": null,
-        "venue": "Bud Walton Arena",
-        "city": "Fayetteville",
-        "state": "Arkansas",
-        "tv": [],
+        "tv": [
+          "BTN"
+        ],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -148920,13 +149383,34 @@ const DATA = {
         "awayTeamFull": "Vanderbilt Commodores",
         "awayTeamAbbrev": "VAN",
         "awayConf": "SEC",
-        "awayRank": 18,
+        "awayRank": 15,
         "venue": "The Sandy and John Black Pavilion at Ole Miss",
         "city": "Oxford",
         "state": "Mississippi",
         "tv": [
           "ESPNEWS"
         ],
+        "neutralSite": false,
+        "conferenceGame": true
+      },
+      {
+        "date": "2026-03-05T00:00Z",
+        "dateDisplay": "Wed, Mar 04 2026",
+        "time_detail": "3/4 - 7:00 PM EST",
+        "homeTeam": "Arkansas",
+        "homeTeamFull": "Arkansas Razorbacks",
+        "homeTeamAbbrev": "ARK",
+        "homeConf": "SEC",
+        "homeRank": 21,
+        "awayTeam": "Texas",
+        "awayTeamFull": "Texas Longhorns",
+        "awayTeamAbbrev": "TEX",
+        "awayConf": "SEC",
+        "awayRank": null,
+        "venue": "Bud Walton Arena",
+        "city": "Fayetteville",
+        "state": "Arkansas",
+        "tv": [],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -148947,7 +149431,9 @@ const DATA = {
         "venue": "Ford Center",
         "city": "Evansville",
         "state": "Indiana",
-        "tv": [],
+        "tv": [
+          "ESPN+"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -148968,7 +149454,9 @@ const DATA = {
         "venue": "",
         "city": "",
         "state": "",
-        "tv": [],
+        "tv": [
+          "ESPN+"
+        ],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -148989,7 +149477,9 @@ const DATA = {
         "venue": "",
         "city": "",
         "state": "",
-        "tv": [],
+        "tv": [
+          "ESPN+"
+        ],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -149010,7 +149500,9 @@ const DATA = {
         "venue": "",
         "city": "",
         "state": "",
-        "tv": [],
+        "tv": [
+          "ESPN+"
+        ],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -149031,7 +149523,9 @@ const DATA = {
         "venue": "",
         "city": "",
         "state": "",
-        "tv": [],
+        "tv": [
+          "ESPN+"
+        ],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -149052,7 +149546,9 @@ const DATA = {
         "venue": "",
         "city": "",
         "state": "",
-        "tv": [],
+        "tv": [
+          "ESPN+"
+        ],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -149165,7 +149661,9 @@ const DATA = {
         "venue": "Amica Mutual Pavilion",
         "city": "Providence",
         "state": "Rhode Island",
-        "tv": [],
+        "tv": [
+          "Peacock"
+        ],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -149232,7 +149730,9 @@ const DATA = {
         "venue": "Freedom Hall (TN)",
         "city": "Johnson City",
         "state": "Tennessee",
-        "tv": [],
+        "tv": [
+          "ESPN+"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -149288,7 +149788,7 @@ const DATA = {
         "homeTeamFull": "Saint Louis Billikens",
         "homeTeamAbbrev": "SLU",
         "homeConf": "Atlantic 10",
-        "homeRank": 21,
+        "homeRank": 19,
         "awayTeam": "Loyola Chicago",
         "awayTeamFull": "Loyola Chicago Ramblers",
         "awayTeamAbbrev": "LUC",
@@ -149297,7 +149797,9 @@ const DATA = {
         "venue": "Chaifetz Arena",
         "city": "St. Louis",
         "state": "Missouri",
-        "tv": [],
+        "tv": [
+          "CBSSN"
+        ],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -149318,7 +149820,10 @@ const DATA = {
         "venue": "Denny Sanford Premier Center",
         "city": "Sioux Falls",
         "state": "South Dakota",
-        "tv": [],
+        "tv": [
+          "Midco Sports Net",
+          "Summit League Network"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -149362,7 +149867,9 @@ const DATA = {
         "venue": "Kohl Center",
         "city": "Madison",
         "state": "Wisconsin",
-        "tv": [],
+        "tv": [
+          "FS1"
+        ],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -149383,7 +149890,9 @@ const DATA = {
         "venue": "Wintrust Arena",
         "city": "Chicago",
         "state": "Illinois",
-        "tv": [],
+        "tv": [
+          "Peacock"
+        ],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -149404,7 +149913,9 @@ const DATA = {
         "venue": "Pensacola Bay Center",
         "city": "Pensacola",
         "state": "Florida",
-        "tv": [],
+        "tv": [
+          "ESPN+"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -149416,7 +149927,7 @@ const DATA = {
         "homeTeamFull": "Houston Cougars",
         "homeTeamAbbrev": "HOU",
         "homeConf": "Big 12",
-        "homeRank": 10,
+        "homeRank": 8,
         "awayTeam": "Baylor",
         "awayTeamFull": "Baylor Bears",
         "awayTeamAbbrev": "BAY",
@@ -149494,7 +150005,9 @@ const DATA = {
         "venue": "Ford Center",
         "city": "Evansville",
         "state": "Indiana",
-        "tv": [],
+        "tv": [
+          "ESPN+"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -149515,7 +150028,9 @@ const DATA = {
         "venue": "The Pit",
         "city": "Albuquerque",
         "state": "New Mexico",
-        "tv": [],
+        "tv": [
+          "CBSSN"
+        ],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -149536,7 +150051,9 @@ const DATA = {
         "venue": "Alaska Airlines Arena",
         "city": "Seattle",
         "state": "Washington",
-        "tv": [],
+        "tv": [
+          "BTN"
+        ],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -149557,7 +150074,9 @@ const DATA = {
         "venue": "",
         "city": "",
         "state": "",
-        "tv": [],
+        "tv": [
+          "ESPN+"
+        ],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -149578,7 +150097,9 @@ const DATA = {
         "venue": "",
         "city": "",
         "state": "",
-        "tv": [],
+        "tv": [
+          "ESPN+"
+        ],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -149599,7 +150120,9 @@ const DATA = {
         "venue": "",
         "city": "",
         "state": "",
-        "tv": [],
+        "tv": [
+          "ESPN+"
+        ],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -149620,7 +150143,9 @@ const DATA = {
         "venue": "",
         "city": "",
         "state": "",
-        "tv": [],
+        "tv": [
+          "ESPN+"
+        ],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -149662,7 +150187,9 @@ const DATA = {
         "venue": "Enterprise Center",
         "city": "St. Louis",
         "state": "Missouri",
-        "tv": [],
+        "tv": [
+          "ESPN+"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -149706,7 +150233,9 @@ const DATA = {
         "venue": "Pensacola Bay Center",
         "city": "Pensacola",
         "state": "Florida",
-        "tv": [],
+        "tv": [
+          "ESPN+"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -149727,7 +150256,9 @@ const DATA = {
         "venue": "Jim Whelan Boardwalk Hall",
         "city": "Atlantic City",
         "state": "New Jersey",
-        "tv": [],
+        "tv": [
+          "ESPN+"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -149748,7 +150279,10 @@ const DATA = {
         "venue": "Denny Sanford Premier Center",
         "city": "Sioux Falls",
         "state": "South Dakota",
-        "tv": [],
+        "tv": [
+          "Midco Sports Net",
+          "Summit League Network"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -149769,7 +150303,9 @@ const DATA = {
         "venue": "Ford Center",
         "city": "Evansville",
         "state": "Indiana",
-        "tv": [],
+        "tv": [
+          "ESPN+"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -149790,7 +150326,9 @@ const DATA = {
         "venue": "Enterprise Center",
         "city": "St. Louis",
         "state": "Missouri",
-        "tv": [],
+        "tv": [
+          "ESPN+"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -149876,7 +150414,9 @@ const DATA = {
         "venue": "Hytche Center",
         "city": "Princess Anne",
         "state": "Maryland",
-        "tv": [],
+        "tv": [
+          "DSN"
+        ],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -149943,7 +150483,9 @@ const DATA = {
         "venue": "Bob Carpenter Center",
         "city": "Newark",
         "state": "Delaware",
-        "tv": [],
+        "tv": [
+          "CBSSN"
+        ],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -149960,11 +150502,13 @@ const DATA = {
         "awayTeamFull": "Michigan Wolverines",
         "awayTeamAbbrev": "MICH",
         "awayConf": "Big Ten",
-        "awayRank": 3,
+        "awayRank": 2,
         "venue": "Carver-Hawkeye Arena",
         "city": "Iowa City",
         "state": "Iowa",
-        "tv": [],
+        "tv": [
+          "Peacock"
+        ],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -149976,7 +150520,7 @@ const DATA = {
         "homeTeamFull": "Michigan State Spartans",
         "homeTeamAbbrev": "MSU",
         "homeConf": "Big Ten",
-        "homeRank": 7,
+        "homeRank": 10,
         "awayTeam": "Rutgers",
         "awayTeamFull": "Rutgers Scarlet Knights",
         "awayTeamAbbrev": "RUTG",
@@ -149985,7 +150529,9 @@ const DATA = {
         "venue": "Breslin Center",
         "city": "East Lansing",
         "state": "Michigan",
-        "tv": [],
+        "tv": [
+          "FS1"
+        ],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -150094,7 +150640,9 @@ const DATA = {
         "venue": "Pensacola Bay Center",
         "city": "Pensacola",
         "state": "Florida",
-        "tv": [],
+        "tv": [
+          "ESPN+"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -150115,7 +150663,9 @@ const DATA = {
         "venue": "Jim Whelan Boardwalk Hall",
         "city": "Atlantic City",
         "state": "New Jersey",
-        "tv": [],
+        "tv": [
+          "ESPN+"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -150180,7 +150730,9 @@ const DATA = {
         "venue": "Orleans Arena",
         "city": "Las Vegas",
         "state": "Nevada",
-        "tv": [],
+        "tv": [
+          "ESPN+"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -150312,7 +150864,10 @@ const DATA = {
         "venue": "Denny Sanford Premier Center",
         "city": "Sioux Falls",
         "state": "South Dakota",
-        "tv": [],
+        "tv": [
+          "Midco Sports Net",
+          "Summit League Network"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -150333,7 +150888,9 @@ const DATA = {
         "venue": "Ford Center",
         "city": "Evansville",
         "state": "Indiana",
-        "tv": [],
+        "tv": [
+          "ESPN+"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -150354,7 +150911,9 @@ const DATA = {
         "venue": "Enterprise Center",
         "city": "St. Louis",
         "state": "Missouri",
-        "tv": [],
+        "tv": [
+          "ESPN+"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -150490,7 +151049,9 @@ const DATA = {
         "venue": "Orleans Arena",
         "city": "Las Vegas",
         "state": "Nevada",
-        "tv": [],
+        "tv": [
+          "ESPN+"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -150534,7 +151095,9 @@ const DATA = {
         "venue": "Freedom Hall (TN)",
         "city": "Johnson City",
         "state": "Tennessee",
-        "tv": [],
+        "tv": [
+          "ESPN+"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -150576,7 +151139,9 @@ const DATA = {
         "venue": "Enterprise Center",
         "city": "St. Louis",
         "state": "Missouri",
-        "tv": [],
+        "tv": [
+          "ESPN+"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -150597,7 +151162,9 @@ const DATA = {
         "venue": "CareFirst Arena",
         "city": "Washington",
         "state": "District of Columbia",
-        "tv": [],
+        "tv": [
+          "FloSports"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -150618,7 +151185,9 @@ const DATA = {
         "venue": "Freedom Hall (TN)",
         "city": "Johnson City",
         "state": "Tennessee",
-        "tv": [],
+        "tv": [
+          "ESPN+"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -150660,7 +151229,9 @@ const DATA = {
         "venue": "Enterprise Center",
         "city": "St. Louis",
         "state": "Missouri",
-        "tv": [],
+        "tv": [
+          "ESPN+"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -150681,7 +151252,9 @@ const DATA = {
         "venue": "Harrah's Cherokee Center",
         "city": "Asheville",
         "state": "North Carolina",
-        "tv": [],
+        "tv": [
+          "ESPN+"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -150723,7 +151296,9 @@ const DATA = {
         "venue": "Pensacola Bay Center",
         "city": "Pensacola",
         "state": "Florida",
-        "tv": [],
+        "tv": [
+          "ESPN+"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -150744,7 +151319,9 @@ const DATA = {
         "venue": "Jim Whelan Boardwalk Hall",
         "city": "Atlantic City",
         "state": "New Jersey",
-        "tv": [],
+        "tv": [
+          "ESPN+"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -150765,7 +151342,9 @@ const DATA = {
         "venue": "Freedom Hall (TN)",
         "city": "Johnson City",
         "state": "Tennessee",
-        "tv": [],
+        "tv": [
+          "ESPN+"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -150832,7 +151411,10 @@ const DATA = {
         "venue": "Denny Sanford Premier Center",
         "city": "Sioux Falls",
         "state": "South Dakota",
-        "tv": [],
+        "tv": [
+          "Midco Sports Net",
+          "Summit League Network"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -150853,7 +151435,9 @@ const DATA = {
         "venue": "Enterprise Center",
         "city": "St. Louis",
         "state": "Missouri",
-        "tv": [],
+        "tv": [
+          "ESPN+"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -151012,7 +151596,9 @@ const DATA = {
         "venue": "Harrah's Cherokee Center",
         "city": "Asheville",
         "state": "North Carolina",
-        "tv": [],
+        "tv": [
+          "ESPN+"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -151054,7 +151640,9 @@ const DATA = {
         "venue": "Ford Center",
         "city": "Evansville",
         "state": "Indiana",
-        "tv": [],
+        "tv": [
+          "ESPNU"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -151098,7 +151686,9 @@ const DATA = {
         "venue": "Pensacola Bay Center",
         "city": "Pensacola",
         "state": "Florida",
-        "tv": [],
+        "tv": [
+          "ESPN+"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -151119,7 +151709,9 @@ const DATA = {
         "venue": "Jim Whelan Boardwalk Hall",
         "city": "Atlantic City",
         "state": "New Jersey",
-        "tv": [],
+        "tv": [
+          "ESPN+"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -151140,7 +151732,9 @@ const DATA = {
         "venue": "Freedom Hall (TN)",
         "city": "Johnson City",
         "state": "Tennessee",
-        "tv": [],
+        "tv": [
+          "ESPN+"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -151161,7 +151755,9 @@ const DATA = {
         "venue": "Prudential Center",
         "city": "Newark",
         "state": "New Jersey",
-        "tv": [],
+        "tv": [
+          "FS1"
+        ],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -151182,7 +151778,9 @@ const DATA = {
         "venue": "Orleans Arena",
         "city": "Las Vegas",
         "state": "Nevada",
-        "tv": [],
+        "tv": [
+          "ESPN+"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -151203,7 +151801,10 @@ const DATA = {
         "venue": "Denny Sanford Premier Center",
         "city": "Sioux Falls",
         "state": "South Dakota",
-        "tv": [],
+        "tv": [
+          "Midco Sports Net",
+          "Summit League Network"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -151224,7 +151825,9 @@ const DATA = {
         "venue": "Enterprise Center",
         "city": "St. Louis",
         "state": "Missouri",
-        "tv": [],
+        "tv": [
+          "ESPN+"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -151245,7 +151848,9 @@ const DATA = {
         "venue": "Viejas Arena",
         "city": "San Diego",
         "state": "California",
-        "tv": [],
+        "tv": [
+          "CBSSN"
+        ],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -151266,7 +151871,9 @@ const DATA = {
         "venue": "Ford Center",
         "city": "Evansville",
         "state": "Indiana",
-        "tv": [],
+        "tv": [
+          "ESPNU"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -151287,50 +151894,10 @@ const DATA = {
         "venue": "Orleans Arena",
         "city": "Las Vegas",
         "state": "Nevada",
-        "tv": [],
+        "tv": [
+          "ESPN+"
+        ],
         "neutralSite": true,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-03-07T05:00Z",
-        "dateDisplay": "Sat, Mar 07 2026",
-        "time_detail": "TBD",
-        "homeTeam": "TBD",
-        "homeTeamFull": "TBD",
-        "homeTeamAbbrev": "TBD",
-        "homeConf": "",
-        "homeRank": null,
-        "awayTeam": "TBD",
-        "awayTeamFull": "TBD",
-        "awayTeamAbbrev": "TBD",
-        "awayConf": "",
-        "awayRank": null,
-        "venue": "",
-        "city": "",
-        "state": "",
-        "tv": [],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-03-07T05:00Z",
-        "dateDisplay": "Sat, Mar 07 2026",
-        "time_detail": "TBD",
-        "homeTeam": "TBD",
-        "homeTeamFull": "TBD",
-        "homeTeamAbbrev": "TBD",
-        "homeConf": "",
-        "homeRank": null,
-        "awayTeam": "TBD",
-        "awayTeamFull": "TBD",
-        "awayTeamAbbrev": "TBD",
-        "awayConf": "",
-        "awayRank": null,
-        "venue": "",
-        "city": "",
-        "state": "",
-        "tv": [],
-        "neutralSite": false,
         "conferenceGame": true
       },
       {
@@ -151430,12 +151997,35 @@ const DATA = {
         "awayTeamFull": "Houston Cougars",
         "awayTeamAbbrev": "HOU",
         "awayConf": "Big 12",
-        "awayRank": 10,
+        "awayRank": 8,
         "venue": "Gallagher-Iba Arena",
         "city": "Stillwater",
         "state": "Oklahoma",
         "tv": [
           "CBS"
+        ],
+        "neutralSite": false,
+        "conferenceGame": true
+      },
+      {
+        "date": "2026-03-07T17:00Z",
+        "dateDisplay": "Sat, Mar 07 2026",
+        "time_detail": "3/7 - 12:00 PM EST",
+        "homeTeam": "Clemson",
+        "homeTeamFull": "Clemson Tigers",
+        "homeTeamAbbrev": "CLEM",
+        "homeConf": "ACC",
+        "homeRank": 20,
+        "awayTeam": "Georgia Tech",
+        "awayTeamFull": "Georgia Tech Yellow Jackets",
+        "awayTeamAbbrev": "GT",
+        "awayConf": "ACC",
+        "awayRank": null,
+        "venue": "Littlejohn Coliseum",
+        "city": "Clemson",
+        "state": "South Carolina",
+        "tv": [
+          "ACC Network"
         ],
         "neutralSite": false,
         "conferenceGame": true
@@ -151453,35 +152043,12 @@ const DATA = {
         "awayTeamFull": "Arkansas Razorbacks",
         "awayTeamAbbrev": "ARK",
         "awayConf": "SEC",
-        "awayRank": 15,
+        "awayRank": 21,
         "venue": "Mizzou Arena",
         "city": "Columbia",
         "state": "Missouri",
         "tv": [
           "ESPN"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-03-07T17:00Z",
-        "dateDisplay": "Sat, Mar 07 2026",
-        "time_detail": "3/7 - 12:00 PM EST",
-        "homeTeam": "Clemson",
-        "homeTeamFull": "Clemson Tigers",
-        "homeTeamAbbrev": "CLEM",
-        "homeConf": "ACC",
-        "homeRank": 22,
-        "awayTeam": "Georgia Tech",
-        "awayTeamFull": "Georgia Tech Yellow Jackets",
-        "awayTeamAbbrev": "GT",
-        "awayConf": "ACC",
-        "awayRank": null,
-        "venue": "Littlejohn Coliseum",
-        "city": "Clemson",
-        "state": "South Carolina",
-        "tv": [
-          "ACC Network"
         ],
         "neutralSite": false,
         "conferenceGame": true
@@ -151503,7 +152070,9 @@ const DATA = {
         "venue": "CareFirst Arena",
         "city": "Washington",
         "state": "District of Columbia",
-        "tv": [],
+        "tv": [
+          "FloSports"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -151524,8 +152093,33 @@ const DATA = {
         "venue": "Harrah's Cherokee Center",
         "city": "Asheville",
         "state": "North Carolina",
-        "tv": [],
+        "tv": [
+          "ESPN+"
+        ],
         "neutralSite": true,
+        "conferenceGame": true
+      },
+      {
+        "date": "2026-03-07T17:00Z",
+        "dateDisplay": "Sat, Mar 07 2026",
+        "time_detail": "3/7 - 12:00 PM EST",
+        "homeTeam": "TBD",
+        "homeTeamFull": "TBD",
+        "homeTeamAbbrev": "TBD",
+        "homeConf": "",
+        "homeRank": null,
+        "awayTeam": "TBD",
+        "awayTeamFull": "TBD",
+        "awayTeamAbbrev": "TBD",
+        "awayConf": "",
+        "awayRank": null,
+        "venue": "",
+        "city": "",
+        "state": "",
+        "tv": [
+          "ESPN+"
+        ],
+        "neutralSite": false,
         "conferenceGame": true
       },
       {
@@ -151545,7 +152139,9 @@ const DATA = {
         "venue": "Freedom Hall (TN)",
         "city": "Johnson City",
         "state": "Tennessee",
-        "tv": [],
+        "tv": [
+          "ESPN+"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -151566,7 +152162,9 @@ const DATA = {
         "venue": "Reilly Center",
         "city": "Saint Bonaventure",
         "state": "New York",
-        "tv": [],
+        "tv": [
+          "USA Net"
+        ],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -151587,7 +152185,9 @@ const DATA = {
         "venue": "Wintrust Arena",
         "city": "Chicago",
         "state": "Illinois",
-        "tv": [],
+        "tv": [
+          "FS1"
+        ],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -151608,7 +152208,9 @@ const DATA = {
         "venue": "Finneran Pavilion",
         "city": "Villanova",
         "state": "Pennsylvania",
-        "tv": [],
+        "tv": [
+          "TNT"
+        ],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -151671,11 +152273,13 @@ const DATA = {
         "awayTeamFull": "UConn Huskies",
         "awayTeamAbbrev": "CONN",
         "awayConf": "Big East",
-        "awayRank": 2,
+        "awayRank": 3,
         "venue": "Fiserv Forum",
         "city": "Milwaukee",
         "state": "Wisconsin",
-        "tv": [],
+        "tv": [
+          "FOX"
+        ],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -151733,7 +152337,7 @@ const DATA = {
         "homeTeamFull": "Iowa State Cyclones",
         "homeTeamAbbrev": "ISU",
         "homeConf": "Big 12",
-        "homeRank": 8,
+        "homeRank": 7,
         "awayTeam": "Arizona St",
         "awayTeamFull": "Arizona State Sun Devils",
         "awayTeamAbbrev": "ASU",
@@ -151756,7 +152360,7 @@ const DATA = {
         "homeTeamFull": "Kansas Jayhawks",
         "homeTeamAbbrev": "KU",
         "homeConf": "Big 12",
-        "homeRank": 14,
+        "homeRank": 11,
         "awayTeam": "Kansas St",
         "awayTeamFull": "Kansas State Wildcats",
         "awayTeamAbbrev": "KSU",
@@ -151779,12 +152383,12 @@ const DATA = {
         "homeTeamFull": "Tennessee Volunteers",
         "homeTeamAbbrev": "TENN",
         "homeConf": "SEC",
-        "homeRank": null,
+        "homeRank": 25,
         "awayTeam": "Vanderbilt",
         "awayTeamFull": "Vanderbilt Commodores",
         "awayTeamAbbrev": "VAN",
         "awayConf": "SEC",
-        "awayRank": 18,
+        "awayRank": 15,
         "venue": "Food City Center",
         "city": "Knoxville",
         "state": "Tennessee",
@@ -151805,12 +152409,35 @@ const DATA = {
         "awayTeamFull": "Louisville Cardinals",
         "awayTeamAbbrev": "LOU",
         "awayConf": "ACC",
-        "awayRank": 20,
+        "awayRank": 24,
         "venue": "Watsco Center",
         "city": "Coral Gables",
         "state": "Florida",
         "tv": [
           "ESPN"
+        ],
+        "neutralSite": false,
+        "conferenceGame": true
+      },
+      {
+        "date": "2026-03-07T19:00Z",
+        "dateDisplay": "Sat, Mar 07 2026",
+        "time_detail": "3/7 - 2:00 PM EST",
+        "homeTeam": "TBD",
+        "homeTeamFull": "TBD",
+        "homeTeamAbbrev": "TBD",
+        "homeConf": "",
+        "homeRank": null,
+        "awayTeam": "TBD",
+        "awayTeamFull": "TBD",
+        "awayTeamAbbrev": "TBD",
+        "awayConf": "",
+        "awayRank": null,
+        "venue": "",
+        "city": "",
+        "state": "",
+        "tv": [
+          "ESPN+"
         ],
         "neutralSite": false,
         "conferenceGame": true
@@ -151855,7 +152482,9 @@ const DATA = {
         "venue": "Gentile Arena",
         "city": "Chicago",
         "state": "Illinois",
-        "tv": [],
+        "tv": [
+          "USA Net"
+        ],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -152058,7 +152687,9 @@ const DATA = {
         "venue": "CareFirst Arena",
         "city": "Washington",
         "state": "District of Columbia",
-        "tv": [],
+        "tv": [
+          "FloSports"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -152079,7 +152710,9 @@ const DATA = {
         "venue": "Harrah's Cherokee Center",
         "city": "Asheville",
         "state": "North Carolina",
-        "tv": [],
+        "tv": [
+          "ESPN+"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -152100,7 +152733,9 @@ const DATA = {
         "venue": "Freedom Hall (TN)",
         "city": "Johnson City",
         "state": "Tennessee",
-        "tv": [],
+        "tv": [
+          "ESPN+"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -152121,7 +152756,9 @@ const DATA = {
         "venue": "Lenovo Center",
         "city": "Raleigh",
         "state": "North Carolina",
-        "tv": [],
+        "tv": [
+          "The CW Network"
+        ],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -152165,7 +152802,9 @@ const DATA = {
         "venue": "Enterprise Center",
         "city": "St. Louis",
         "state": "Missouri",
-        "tv": [],
+        "tv": [
+          "CBSSN"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -152209,7 +152848,9 @@ const DATA = {
         "venue": "Mackey Arena",
         "city": "West Lafayette",
         "state": "Indiana",
-        "tv": [],
+        "tv": [
+          "CBS"
+        ],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -152226,7 +152867,7 @@ const DATA = {
         "awayTeamFull": "Florida Gators",
         "awayTeamAbbrev": "FLA",
         "awayConf": "SEC",
-        "awayRank": 19,
+        "awayRank": 17,
         "venue": "Rupp Arena",
         "city": "Lexington",
         "state": "Kentucky",
@@ -152249,11 +152890,13 @@ const DATA = {
         "awayTeamFull": "Saint Louis Billikens",
         "awayTeamAbbrev": "SLU",
         "awayConf": "Atlantic 10",
-        "awayRank": 21,
+        "awayRank": 19,
         "venue": "EagleBank Arena",
         "city": "Fairfax",
         "state": "Virginia",
-        "tv": [],
+        "tv": [
+          "USA Net"
+        ],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -152274,7 +152917,9 @@ const DATA = {
         "venue": "Dee Glen Smith Spectrum",
         "city": "Logan",
         "state": "Utah",
-        "tv": [],
+        "tv": [
+          "MWN"
+        ],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -152318,7 +152963,9 @@ const DATA = {
         "venue": "Moby Arena",
         "city": "Fort Collins",
         "state": "Colorado",
-        "tv": [],
+        "tv": [
+          "MWN"
+        ],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -152452,7 +153099,9 @@ const DATA = {
         "venue": "JMA Wireless Dome",
         "city": "Syracuse",
         "state": "New York",
-        "tv": [],
+        "tv": [
+          "The CW Network"
+        ],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -152473,7 +153122,9 @@ const DATA = {
         "venue": "Value City Arena",
         "city": "Columbus",
         "state": "Ohio",
-        "tv": [],
+        "tv": [
+          "FOX"
+        ],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -152494,7 +153145,9 @@ const DATA = {
         "venue": "CareFirst Arena",
         "city": "Washington",
         "state": "District of Columbia",
-        "tv": [],
+        "tv": [
+          "FloSports"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -152515,7 +153168,9 @@ const DATA = {
         "venue": "Harrah's Cherokee Center",
         "city": "Asheville",
         "state": "North Carolina",
-        "tv": [],
+        "tv": [
+          "ESPN+"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -152536,7 +153191,9 @@ const DATA = {
         "venue": "Enterprise Center",
         "city": "St. Louis",
         "state": "Missouri",
-        "tv": [],
+        "tv": [
+          "CBSSN"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -152557,7 +153214,9 @@ const DATA = {
         "venue": "Jim Whelan Boardwalk Hall",
         "city": "Atlantic City",
         "state": "New Jersey",
-        "tv": [],
+        "tv": [
+          "ESPN+"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -152578,7 +153237,9 @@ const DATA = {
         "venue": "Capital One Arena",
         "city": "Washington",
         "state": "District of Columbia",
-        "tv": [],
+        "tv": [
+          "truTV"
+        ],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -152618,7 +153279,7 @@ const DATA = {
         "awayTeamFull": "North Carolina Tar Heels",
         "awayTeamAbbrev": "UNC",
         "awayConf": "ACC",
-        "awayRank": 16,
+        "awayRank": 14,
         "venue": "Cameron Indoor Stadium",
         "city": "Durham",
         "state": "North Carolina",
@@ -152645,7 +153306,9 @@ const DATA = {
         "venue": "Pensacola Bay Center",
         "city": "Pensacola",
         "state": "Florida",
-        "tv": [],
+        "tv": [
+          "ESPN+"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -152754,7 +153417,9 @@ const DATA = {
         "venue": "Denny Sanford Premier Center",
         "city": "Sioux Falls",
         "state": "South Dakota",
-        "tv": [],
+        "tv": [
+          "CBSSN"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -152785,29 +153450,6 @@ const DATA = {
         "date": "2026-03-08T01:30Z",
         "dateDisplay": "Sat, Mar 07 2026",
         "time_detail": "3/7 - 8:30 PM EST",
-        "homeTeam": "Alabama",
-        "homeTeamFull": "Alabama Crimson Tide",
-        "homeTeamAbbrev": "ALA",
-        "homeConf": "SEC",
-        "homeRank": 23,
-        "awayTeam": "Auburn",
-        "awayTeamFull": "Auburn Tigers",
-        "awayTeamAbbrev": "AUB",
-        "awayConf": "SEC",
-        "awayRank": null,
-        "venue": "Coleman Coliseum",
-        "city": "Tuscaloosa",
-        "state": "Alabama",
-        "tv": [
-          "ESPN"
-        ],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-03-08T01:30Z",
-        "dateDisplay": "Sat, Mar 07 2026",
-        "time_detail": "3/7 - 8:30 PM EST",
         "homeTeam": "TBD",
         "homeTeamFull": "TBD",
         "homeTeamAbbrev": "TBD",
@@ -152821,7 +153463,9 @@ const DATA = {
         "venue": "CareFirst Arena",
         "city": "Washington",
         "state": "District of Columbia",
-        "tv": [],
+        "tv": [
+          "FloSports"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -152842,7 +153486,9 @@ const DATA = {
         "venue": "Harrah's Cherokee Center",
         "city": "Asheville",
         "state": "North Carolina",
-        "tv": [],
+        "tv": [
+          "ESPN+"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -152863,8 +153509,33 @@ const DATA = {
         "venue": "Jim Whelan Boardwalk Hall",
         "city": "Atlantic City",
         "state": "New Jersey",
-        "tv": [],
+        "tv": [
+          "ESPN+"
+        ],
         "neutralSite": true,
+        "conferenceGame": true
+      },
+      {
+        "date": "2026-03-08T01:30Z",
+        "dateDisplay": "Sat, Mar 07 2026",
+        "time_detail": "3/7 - 8:30 PM EST",
+        "homeTeam": "Alabama",
+        "homeTeamFull": "Alabama Crimson Tide",
+        "homeTeamAbbrev": "ALA",
+        "homeConf": "SEC",
+        "homeRank": null,
+        "awayTeam": "Auburn",
+        "awayTeamFull": "Auburn Tigers",
+        "awayTeamAbbrev": "AUB",
+        "awayConf": "SEC",
+        "awayRank": null,
+        "venue": "Coleman Coliseum",
+        "city": "Tuscaloosa",
+        "state": "Alabama",
+        "tv": [
+          "ESPN"
+        ],
+        "neutralSite": false,
         "conferenceGame": true
       },
       {
@@ -152930,7 +153601,9 @@ const DATA = {
         "venue": "Orleans Arena",
         "city": "Las Vegas",
         "state": "Nevada",
-        "tv": [],
+        "tv": [
+          "ESPN+"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -152951,7 +153624,9 @@ const DATA = {
         "venue": "Pensacola Bay Center",
         "city": "Pensacola",
         "state": "Florida",
-        "tv": [],
+        "tv": [
+          "ESPN+"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -152972,7 +153647,9 @@ const DATA = {
         "venue": "Ford Center",
         "city": "Evansville",
         "state": "Indiana",
-        "tv": [],
+        "tv": [
+          "ESPN2"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -152993,7 +153670,9 @@ const DATA = {
         "venue": "Galen Center",
         "city": "Los Angeles",
         "state": "California",
-        "tv": [],
+        "tv": [
+          "FS1"
+        ],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -153014,7 +153693,9 @@ const DATA = {
         "venue": "Williams Arena",
         "city": "Minneapolis",
         "state": "Minnesota",
-        "tv": [],
+        "tv": [
+          "BTN"
+        ],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -153102,7 +153783,9 @@ const DATA = {
         "venue": "Lawlor Events Center",
         "city": "Reno",
         "state": "Nevada",
-        "tv": [],
+        "tv": [
+          "MWN"
+        ],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -153137,12 +153820,12 @@ const DATA = {
         "homeTeamFull": "BYU Cougars",
         "homeTeamAbbrev": "BYU",
         "homeConf": "Big 12",
-        "homeRank": 13,
+        "homeRank": 16,
         "awayTeam": "Texas Tech",
         "awayTeamFull": "Texas Tech Red Raiders",
         "awayTeamAbbrev": "TTU",
         "awayConf": "Big 12",
-        "awayRank": 11,
+        "awayRank": 13,
         "venue": "Marriott Center",
         "city": "Provo",
         "state": "Utah",
@@ -153169,7 +153852,9 @@ const DATA = {
         "venue": "Denny Sanford Premier Center",
         "city": "Sioux Falls",
         "state": "South Dakota",
-        "tv": [],
+        "tv": [
+          "CBSSN"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -153213,7 +153898,9 @@ const DATA = {
         "venue": "Matthew Knight Arena",
         "city": "Eugene",
         "state": "Oregon",
-        "tv": [],
+        "tv": [
+          "FS1"
+        ],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -153234,7 +153921,9 @@ const DATA = {
         "venue": "Orleans Arena",
         "city": "Las Vegas",
         "state": "Nevada",
-        "tv": [],
+        "tv": [
+          "ESPN+"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -153320,7 +154009,9 @@ const DATA = {
         "venue": "CareFirst Arena",
         "city": "Washington",
         "state": "District of Columbia",
-        "tv": [],
+        "tv": [
+          "FloSports"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -153341,7 +154032,9 @@ const DATA = {
         "venue": "Enterprise Center",
         "city": "St. Louis",
         "state": "Missouri",
-        "tv": [],
+        "tv": [
+          "CBS"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -153362,7 +154055,9 @@ const DATA = {
         "venue": "Freedom Hall (TN)",
         "city": "Johnson City",
         "state": "Tennessee",
-        "tv": [],
+        "tv": [
+          "ESPN2"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -153406,7 +154101,9 @@ const DATA = {
         "venue": "VyStar Veterans Memorial Arena",
         "city": "Jacksonville",
         "state": "Florida",
-        "tv": [],
+        "tv": [
+          "ESPN2"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -153473,7 +154170,9 @@ const DATA = {
         "venue": "CareFirst Arena",
         "city": "Washington",
         "state": "District of Columbia",
-        "tv": [],
+        "tv": [
+          "FloSports"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -153563,7 +154262,9 @@ const DATA = {
         "venue": "Corteva Coliseum",
         "city": "Indianapolis",
         "state": "Indiana",
-        "tv": [],
+        "tv": [
+          "ESPN+"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -153584,7 +154285,9 @@ const DATA = {
         "venue": "Harrah's Cherokee Center",
         "city": "Asheville",
         "state": "North Carolina",
-        "tv": [],
+        "tv": [
+          "ESPNU"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -153596,7 +154299,7 @@ const DATA = {
         "homeTeamFull": "Nebraska Cornhuskers",
         "homeTeamAbbrev": "NEB",
         "homeConf": "Big Ten",
-        "homeRank": 5,
+        "homeRank": 9,
         "awayTeam": "Iowa",
         "awayTeamFull": "Iowa Hawkeyes",
         "awayTeamAbbrev": "IOWA",
@@ -153619,12 +154322,12 @@ const DATA = {
         "homeTeamFull": "Michigan Wolverines",
         "homeTeamAbbrev": "MICH",
         "homeConf": "Big Ten",
-        "homeRank": 3,
+        "homeRank": 2,
         "awayTeam": "Michigan St",
         "awayTeamFull": "Michigan State Spartans",
         "awayTeamAbbrev": "MSU",
         "awayConf": "Big Ten",
-        "awayRank": 7,
+        "awayRank": 10,
         "venue": "Crisler Center",
         "city": "Ann Arbor",
         "state": "Michigan",
@@ -153649,7 +154352,9 @@ const DATA = {
         "venue": "CareFirst Arena",
         "city": "Washington",
         "state": "District of Columbia",
-        "tv": [],
+        "tv": [
+          "FloSports"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -153670,7 +154375,9 @@ const DATA = {
         "venue": "Pensacola Bay Center",
         "city": "Pensacola",
         "state": "Florida",
-        "tv": [],
+        "tv": [
+          "ESPN+"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -153691,7 +154398,9 @@ const DATA = {
         "venue": "Townsley Law Arena",
         "city": "Lake Charles",
         "state": "Louisiana",
-        "tv": [],
+        "tv": [
+          "ESPN+"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -153712,7 +154421,9 @@ const DATA = {
         "venue": "Jim Whelan Boardwalk Hall",
         "city": "Atlantic City",
         "state": "New Jersey",
-        "tv": [],
+        "tv": [
+          "ESPN+"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -153733,7 +154444,9 @@ const DATA = {
         "venue": "Harrah's Cherokee Center",
         "city": "Asheville",
         "state": "North Carolina",
-        "tv": [],
+        "tv": [
+          "ESPNU"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -153775,7 +154488,9 @@ const DATA = {
         "venue": "CareFirst Arena",
         "city": "Washington",
         "state": "District of Columbia",
-        "tv": [],
+        "tv": [
+          "FloSports"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -153796,7 +154511,9 @@ const DATA = {
         "venue": "Orleans Arena",
         "city": "Las Vegas",
         "state": "Nevada",
-        "tv": [],
+        "tv": [
+          "ESPN2"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -153817,7 +154534,9 @@ const DATA = {
         "venue": "Pensacola Bay Center",
         "city": "Pensacola",
         "state": "Florida",
-        "tv": [],
+        "tv": [
+          "ESPN+"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -153838,7 +154557,9 @@ const DATA = {
         "venue": "Townsley Law Arena",
         "city": "Lake Charles",
         "state": "Louisiana",
-        "tv": [],
+        "tv": [
+          "ESPN+"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -153859,7 +154580,9 @@ const DATA = {
         "venue": "Jim Whelan Boardwalk Hall",
         "city": "Atlantic City",
         "state": "New Jersey",
-        "tv": [],
+        "tv": [
+          "ESPN+"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -153880,7 +154603,9 @@ const DATA = {
         "venue": "Denny Sanford Premier Center",
         "city": "Sioux Falls",
         "state": "South Dakota",
-        "tv": [],
+        "tv": [
+          "CBSSN"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -153922,7 +154647,9 @@ const DATA = {
         "venue": "Orleans Arena",
         "city": "Las Vegas",
         "state": "Nevada",
-        "tv": [],
+        "tv": [
+          "ESPN2"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -153964,7 +154691,9 @@ const DATA = {
         "venue": "CareFirst Arena",
         "city": "Washington",
         "state": "District of Columbia",
-        "tv": [],
+        "tv": [
+          "CBSSN"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -153985,7 +154714,9 @@ const DATA = {
         "venue": "Townsley Law Arena",
         "city": "Lake Charles",
         "state": "Louisiana",
-        "tv": [],
+        "tv": [
+          "ESPN+"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -154048,7 +154779,9 @@ const DATA = {
         "venue": "Corteva Coliseum",
         "city": "Indianapolis",
         "state": "Indiana",
-        "tv": [],
+        "tv": [
+          "ESPNU"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -154090,7 +154823,9 @@ const DATA = {
         "venue": "CareFirst Arena",
         "city": "Washington",
         "state": "District of Columbia",
-        "tv": [],
+        "tv": [
+          "CBSSN"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -154132,7 +154867,9 @@ const DATA = {
         "venue": "Townsley Law Arena",
         "city": "Lake Charles",
         "state": "Louisiana",
-        "tv": [],
+        "tv": [
+          "ESPN+"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -154153,7 +154890,9 @@ const DATA = {
         "venue": "Orleans Arena",
         "city": "Las Vegas",
         "state": "Nevada",
-        "tv": [],
+        "tv": [
+          "ESPN"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -154174,7 +154913,9 @@ const DATA = {
         "venue": "Corteva Coliseum",
         "city": "Indianapolis",
         "state": "Indiana",
-        "tv": [],
+        "tv": [
+          "ESPN2"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -154216,7 +154957,9 @@ const DATA = {
         "venue": "Orleans Arena",
         "city": "Las Vegas",
         "state": "Nevada",
-        "tv": [],
+        "tv": [
+          "ESPN2"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -154237,7 +154980,9 @@ const DATA = {
         "venue": "Jim Whelan Boardwalk Hall",
         "city": "Atlantic City",
         "state": "New Jersey",
-        "tv": [],
+        "tv": [
+          "ESPN2"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -154281,75 +155026,6 @@ const DATA = {
         "state": "",
         "tv": [],
         "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-03-10T04:00Z",
-        "dateDisplay": "Mon, Mar 09 2026",
-        "time_detail": "TBD",
-        "homeTeam": "TBD",
-        "homeTeamFull": "TBD",
-        "homeTeamAbbrev": "TBD",
-        "homeConf": "",
-        "homeRank": null,
-        "awayTeam": "TBD",
-        "awayTeamFull": "TBD",
-        "awayTeamAbbrev": "TBD",
-        "awayConf": "",
-        "awayRank": null,
-        "venue": "Spectrum Center",
-        "city": "Charlotte",
-        "state": "North Carolina",
-        "tv": [
-          "ACC Network"
-        ],
-        "neutralSite": true,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-03-10T04:00Z",
-        "dateDisplay": "Mon, Mar 09 2026",
-        "time_detail": "TBD",
-        "homeTeam": "TBD",
-        "homeTeamFull": "TBD",
-        "homeTeamAbbrev": "TBD",
-        "homeConf": "",
-        "homeRank": null,
-        "awayTeam": "TBD",
-        "awayTeamFull": "TBD",
-        "awayTeamAbbrev": "TBD",
-        "awayConf": "",
-        "awayRank": null,
-        "venue": "Spectrum Center",
-        "city": "Charlotte",
-        "state": "North Carolina",
-        "tv": [
-          "ACC Network"
-        ],
-        "neutralSite": true,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-03-10T04:00Z",
-        "dateDisplay": "Mon, Mar 09 2026",
-        "time_detail": "TBD",
-        "homeTeam": "TBD",
-        "homeTeamFull": "TBD",
-        "homeTeamAbbrev": "TBD",
-        "homeConf": "",
-        "homeRank": null,
-        "awayTeam": "TBD",
-        "awayTeamFull": "TBD",
-        "awayTeamAbbrev": "TBD",
-        "awayConf": "",
-        "awayRank": null,
-        "venue": "Spectrum Center",
-        "city": "Charlotte",
-        "state": "North Carolina",
-        "tv": [
-          "ACC Network"
-        ],
-        "neutralSite": true,
         "conferenceGame": true
       },
       {
@@ -154395,6 +155071,29 @@ const DATA = {
         "conferenceGame": true
       },
       {
+        "date": "2026-03-10T18:00Z",
+        "dateDisplay": "Tue, Mar 10 2026",
+        "time_detail": "3/10 - 2:00 PM EDT",
+        "homeTeam": "TBD",
+        "homeTeamFull": "TBD",
+        "homeTeamAbbrev": "TBD",
+        "homeConf": "",
+        "homeRank": null,
+        "awayTeam": "TBD",
+        "awayTeamFull": "TBD",
+        "awayTeamAbbrev": "TBD",
+        "awayConf": "",
+        "awayRank": null,
+        "venue": "Spectrum Center",
+        "city": "Charlotte",
+        "state": "North Carolina",
+        "tv": [
+          "ACC Network"
+        ],
+        "neutralSite": true,
+        "conferenceGame": true
+      },
+      {
         "date": "2026-03-10T19:00Z",
         "dateDisplay": "Tue, Mar 10 2026",
         "time_detail": "3/10 - 3:00 PM EDT",
@@ -154416,6 +155115,29 @@ const DATA = {
         "conferenceGame": true
       },
       {
+        "date": "2026-03-10T20:30Z",
+        "dateDisplay": "Tue, Mar 10 2026",
+        "time_detail": "3/10 - 4:30 PM EDT",
+        "homeTeam": "TBD",
+        "homeTeamFull": "TBD",
+        "homeTeamAbbrev": "TBD",
+        "homeConf": "",
+        "homeRank": null,
+        "awayTeam": "TBD",
+        "awayTeamFull": "TBD",
+        "awayTeamAbbrev": "TBD",
+        "awayConf": "",
+        "awayRank": null,
+        "venue": "Spectrum Center",
+        "city": "Charlotte",
+        "state": "North Carolina",
+        "tv": [
+          "ACC Network"
+        ],
+        "neutralSite": true,
+        "conferenceGame": true
+      },
+      {
         "date": "2026-03-10T21:00Z",
         "dateDisplay": "Tue, Mar 10 2026",
         "time_detail": "3/10 - 5:00 PM EDT",
@@ -154432,7 +155154,9 @@ const DATA = {
         "venue": "United Center",
         "city": "Chicago",
         "state": "Illinois",
-        "tv": [],
+        "tv": [
+          "Peacock"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -154453,7 +155177,9 @@ const DATA = {
         "venue": "Propst Arena",
         "city": "Huntsville",
         "state": "Alabama",
-        "tv": [],
+        "tv": [
+          "ESPN+"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -154474,7 +155200,9 @@ const DATA = {
         "venue": "CareFirst Arena",
         "city": "Washington",
         "state": "District of Columbia",
-        "tv": [],
+        "tv": [
+          "CBSSN"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -154495,7 +155223,9 @@ const DATA = {
         "venue": "Townsley Law Arena",
         "city": "Lake Charles",
         "state": "Louisiana",
-        "tv": [],
+        "tv": [
+          "ESPNU"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -154516,7 +155246,9 @@ const DATA = {
         "venue": "",
         "city": "",
         "state": "",
-        "tv": [],
+        "tv": [
+          "ESPN2"
+        ],
         "neutralSite": false,
         "conferenceGame": true
       },
@@ -154537,7 +155269,9 @@ const DATA = {
         "venue": "Corteva Coliseum",
         "city": "Indianapolis",
         "state": "Indiana",
-        "tv": [],
+        "tv": [
+          "ESPN"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -154563,6 +155297,29 @@ const DATA = {
         "conferenceGame": true
       },
       {
+        "date": "2026-03-10T23:00Z",
+        "dateDisplay": "Tue, Mar 10 2026",
+        "time_detail": "3/10 - 7:00 PM EDT",
+        "homeTeam": "TBD",
+        "homeTeamFull": "TBD",
+        "homeTeamAbbrev": "TBD",
+        "homeConf": "",
+        "homeRank": null,
+        "awayTeam": "TBD",
+        "awayTeamFull": "TBD",
+        "awayTeamAbbrev": "TBD",
+        "awayConf": "",
+        "awayRank": null,
+        "venue": "Spectrum Center",
+        "city": "Charlotte",
+        "state": "North Carolina",
+        "tv": [
+          "ACC Network"
+        ],
+        "neutralSite": true,
+        "conferenceGame": true
+      },
+      {
         "date": "2026-03-10T23:30Z",
         "dateDisplay": "Tue, Mar 10 2026",
         "time_detail": "3/10 - 7:30 PM EDT",
@@ -154579,7 +155336,9 @@ const DATA = {
         "venue": "United Center",
         "city": "Chicago",
         "state": "Illinois",
-        "tv": [],
+        "tv": [
+          "Peacock"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -154621,7 +155380,9 @@ const DATA = {
         "venue": "Orleans Arena",
         "city": "Las Vegas",
         "state": "Nevada",
-        "tv": [],
+        "tv": [
+          "ESPN"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -154642,7 +155403,9 @@ const DATA = {
         "venue": "Propst Arena",
         "city": "Huntsville",
         "state": "Alabama",
-        "tv": [],
+        "tv": [
+          "ESPN+"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -154663,7 +155426,9 @@ const DATA = {
         "venue": "Idaho Central Arena",
         "city": "Boise",
         "state": "Idaho",
-        "tv": [],
+        "tv": [
+          "ESPNU"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -154684,7 +155449,9 @@ const DATA = {
         "venue": "Townsley Law Arena",
         "city": "Lake Charles",
         "state": "Louisiana",
-        "tv": [],
+        "tv": [
+          "ESPN+"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -154726,29 +155493,10 @@ const DATA = {
         "venue": "Idaho Central Arena",
         "city": "Boise",
         "state": "Idaho",
-        "tv": [],
+        "tv": [
+          "ESPN2"
+        ],
         "neutralSite": true,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-03-11T04:00Z",
-        "dateDisplay": "Tue, Mar 10 2026",
-        "time_detail": "TBD",
-        "homeTeam": "TBD",
-        "homeTeamFull": "TBD",
-        "homeTeamAbbrev": "TBD",
-        "homeConf": "",
-        "homeRank": null,
-        "awayTeam": "TBD",
-        "awayTeamFull": "TBD",
-        "awayTeamAbbrev": "TBD",
-        "awayConf": "",
-        "awayRank": null,
-        "venue": "",
-        "city": "",
-        "state": "",
-        "tv": [],
-        "neutralSite": false,
         "conferenceGame": true
       },
       {
@@ -154789,90 +155537,6 @@ const DATA = {
         "venue": "Norfolk Scope Arena",
         "city": "Norfolk",
         "state": "Virginia",
-        "tv": [],
-        "neutralSite": true,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-03-11T04:00Z",
-        "dateDisplay": "Tue, Mar 10 2026",
-        "time_detail": "TBD",
-        "homeTeam": "TBD",
-        "homeTeamFull": "TBD",
-        "homeTeamAbbrev": "TBD",
-        "homeConf": "",
-        "homeRank": null,
-        "awayTeam": "TBD",
-        "awayTeamFull": "TBD",
-        "awayTeamAbbrev": "TBD",
-        "awayConf": "",
-        "awayRank": null,
-        "venue": "Spectrum Center",
-        "city": "Charlotte",
-        "state": "North Carolina",
-        "tv": [],
-        "neutralSite": true,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-03-11T04:00Z",
-        "dateDisplay": "Tue, Mar 10 2026",
-        "time_detail": "TBD",
-        "homeTeam": "TBD",
-        "homeTeamFull": "TBD",
-        "homeTeamAbbrev": "TBD",
-        "homeConf": "",
-        "homeRank": null,
-        "awayTeam": "TBD",
-        "awayTeamFull": "TBD",
-        "awayTeamAbbrev": "TBD",
-        "awayConf": "",
-        "awayRank": null,
-        "venue": "Spectrum Center",
-        "city": "Charlotte",
-        "state": "North Carolina",
-        "tv": [],
-        "neutralSite": true,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-03-11T04:00Z",
-        "dateDisplay": "Tue, Mar 10 2026",
-        "time_detail": "TBD",
-        "homeTeam": "TBD",
-        "homeTeamFull": "TBD",
-        "homeTeamAbbrev": "TBD",
-        "homeConf": "",
-        "homeRank": null,
-        "awayTeam": "TBD",
-        "awayTeamFull": "TBD",
-        "awayTeamAbbrev": "TBD",
-        "awayConf": "",
-        "awayRank": null,
-        "venue": "Spectrum Center",
-        "city": "Charlotte",
-        "state": "North Carolina",
-        "tv": [],
-        "neutralSite": true,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-03-11T04:00Z",
-        "dateDisplay": "Tue, Mar 10 2026",
-        "time_detail": "TBD",
-        "homeTeam": "TBD",
-        "homeTeamFull": "TBD",
-        "homeTeamAbbrev": "TBD",
-        "homeConf": "",
-        "homeRank": null,
-        "awayTeam": "TBD",
-        "awayTeamFull": "TBD",
-        "awayTeamAbbrev": "TBD",
-        "awayConf": "",
-        "awayRank": null,
-        "venue": "Spectrum Center",
-        "city": "Charlotte",
-        "state": "North Carolina",
         "tv": [],
         "neutralSite": true,
         "conferenceGame": true
@@ -154894,7 +155558,9 @@ const DATA = {
         "venue": "PPG Paints Arena",
         "city": "Pittsburgh",
         "state": "Pennsylvania",
-        "tv": [],
+        "tv": [
+          "USA Net"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -154915,6 +155581,29 @@ const DATA = {
         "venue": "United Center",
         "city": "Chicago",
         "state": "Illinois",
+        "tv": [
+          "Peacock"
+        ],
+        "neutralSite": true,
+        "conferenceGame": true
+      },
+      {
+        "date": "2026-03-11T16:00Z",
+        "dateDisplay": "Wed, Mar 11 2026",
+        "time_detail": "3/11 - 12:00 PM EDT",
+        "homeTeam": "TBD",
+        "homeTeamFull": "TBD",
+        "homeTeamAbbrev": "TBD",
+        "homeConf": "",
+        "homeRank": null,
+        "awayTeam": "TBD",
+        "awayTeamFull": "TBD",
+        "awayTeamAbbrev": "TBD",
+        "awayConf": "",
+        "awayRank": null,
+        "venue": "Spectrum Center",
+        "city": "Charlotte",
+        "state": "North Carolina",
         "tv": [],
         "neutralSite": true,
         "conferenceGame": true
@@ -154936,7 +155625,9 @@ const DATA = {
         "venue": "Bridgestone Arena",
         "city": "Nashville",
         "state": "Tennessee",
-        "tv": [],
+        "tv": [
+          "SEC Network"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -154999,7 +155690,9 @@ const DATA = {
         "venue": "PPG Paints Arena",
         "city": "Pittsburgh",
         "state": "Pennsylvania",
-        "tv": [],
+        "tv": [
+          "USA Net"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -155020,7 +155713,32 @@ const DATA = {
         "venue": "United Center",
         "city": "Chicago",
         "state": "Illinois",
-        "tv": [],
+        "tv": [
+          "Peacock"
+        ],
+        "neutralSite": true,
+        "conferenceGame": true
+      },
+      {
+        "date": "2026-03-11T18:30Z",
+        "dateDisplay": "Wed, Mar 11 2026",
+        "time_detail": "3/11 - 2:30 PM EDT",
+        "homeTeam": "TBD",
+        "homeTeamFull": "TBD",
+        "homeTeamAbbrev": "TBD",
+        "homeConf": "",
+        "homeRank": null,
+        "awayTeam": "TBD",
+        "awayTeamFull": "TBD",
+        "awayTeamAbbrev": "TBD",
+        "awayConf": "",
+        "awayRank": null,
+        "venue": "Spectrum Center",
+        "city": "Charlotte",
+        "state": "North Carolina",
+        "tv": [
+          "ESPN"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -155041,7 +155759,9 @@ const DATA = {
         "venue": "Bridgestone Arena",
         "city": "Nashville",
         "state": "Tennessee",
-        "tv": [],
+        "tv": [
+          "SEC Network"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -155062,7 +155782,9 @@ const DATA = {
         "venue": "Thomas & Mack Center",
         "city": "Las Vegas",
         "state": "Nevada",
-        "tv": [],
+        "tv": [
+          "MWN"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -155104,7 +155826,9 @@ const DATA = {
         "venue": "Madison Square Garden",
         "city": "New York",
         "state": "New York",
-        "tv": [],
+        "tv": [
+          "Peacock"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -155125,7 +155849,9 @@ const DATA = {
         "venue": "Townsley Law Arena",
         "city": "Lake Charles",
         "state": "Louisiana",
-        "tv": [],
+        "tv": [
+          "ESPN2"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -155146,7 +155872,9 @@ const DATA = {
         "venue": "Thomas & Mack Center",
         "city": "Las Vegas",
         "state": "Nevada",
-        "tv": [],
+        "tv": [
+          "MWN"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -155167,7 +155895,9 @@ const DATA = {
         "venue": "Propst Arena",
         "city": "Huntsville",
         "state": "Alabama",
-        "tv": [],
+        "tv": [
+          "ESPN+"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -155188,7 +155918,9 @@ const DATA = {
         "venue": "United Center",
         "city": "Chicago",
         "state": "Illinois",
-        "tv": [],
+        "tv": [
+          "BTN"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -155209,7 +155941,9 @@ const DATA = {
         "venue": "Madison Square Garden",
         "city": "New York",
         "state": "New York",
-        "tv": [],
+        "tv": [
+          "Peacock"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -155230,8 +155964,31 @@ const DATA = {
         "venue": "Bridgestone Arena",
         "city": "Nashville",
         "state": "Tennessee",
-        "tv": [],
+        "tv": [
+          "SEC Network"
+        ],
         "neutralSite": true,
+        "conferenceGame": true
+      },
+      {
+        "date": "2026-03-11T23:00Z",
+        "dateDisplay": "Wed, Mar 11 2026",
+        "time_detail": "3/11 - 7:00 PM EDT",
+        "homeTeam": "TBD",
+        "homeTeamFull": "TBD",
+        "homeTeamAbbrev": "TBD",
+        "homeConf": "",
+        "homeRank": null,
+        "awayTeam": "TBD",
+        "awayTeamFull": "TBD",
+        "awayTeamAbbrev": "TBD",
+        "awayConf": "",
+        "awayRank": null,
+        "venue": "",
+        "city": "",
+        "state": "",
+        "tv": [],
+        "neutralSite": false,
         "conferenceGame": true
       },
       {
@@ -155277,6 +156034,29 @@ const DATA = {
         "conferenceGame": true
       },
       {
+        "date": "2026-03-11T23:00Z",
+        "dateDisplay": "Wed, Mar 11 2026",
+        "time_detail": "3/11 - 7:00 PM EDT",
+        "homeTeam": "TBD",
+        "homeTeamFull": "TBD",
+        "homeTeamAbbrev": "TBD",
+        "homeConf": "",
+        "homeRank": null,
+        "awayTeam": "TBD",
+        "awayTeamFull": "TBD",
+        "awayTeamAbbrev": "TBD",
+        "awayConf": "",
+        "awayRank": null,
+        "venue": "Spectrum Center",
+        "city": "Charlotte",
+        "state": "North Carolina",
+        "tv": [
+          "ESPN2"
+        ],
+        "neutralSite": true,
+        "conferenceGame": true
+      },
+      {
         "date": "2026-03-12T00:30Z",
         "dateDisplay": "Wed, Mar 11 2026",
         "time_detail": "3/11 - 8:30 PM EDT",
@@ -155293,7 +156073,9 @@ const DATA = {
         "venue": "Orleans Arena",
         "city": "Las Vegas",
         "state": "Nevada",
-        "tv": [],
+        "tv": [
+          "ESPN+"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -155335,7 +156117,9 @@ const DATA = {
         "venue": "Thomas & Mack Center",
         "city": "Las Vegas",
         "state": "Nevada",
-        "tv": [],
+        "tv": [
+          "MWN"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -155356,7 +156140,9 @@ const DATA = {
         "venue": "Propst Arena",
         "city": "Huntsville",
         "state": "Alabama",
-        "tv": [],
+        "tv": [
+          "ESPN+"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -155398,7 +156184,9 @@ const DATA = {
         "venue": "United Center",
         "city": "Chicago",
         "state": "Illinois",
-        "tv": [],
+        "tv": [
+          "BTN"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -155419,7 +156207,9 @@ const DATA = {
         "venue": "Madison Square Garden",
         "city": "New York",
         "state": "New York",
-        "tv": [],
+        "tv": [
+          "Peacock"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -155440,7 +156230,9 @@ const DATA = {
         "venue": "Bridgestone Arena",
         "city": "Nashville",
         "state": "Tennessee",
-        "tv": [],
+        "tv": [
+          "SEC Network"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -155487,6 +156279,27 @@ const DATA = {
         "conferenceGame": true
       },
       {
+        "date": "2026-03-12T01:30Z",
+        "dateDisplay": "Wed, Mar 11 2026",
+        "time_detail": "3/11 - 9:30 PM EDT",
+        "homeTeam": "TBD",
+        "homeTeamFull": "TBD",
+        "homeTeamAbbrev": "TBD",
+        "homeConf": "",
+        "homeRank": null,
+        "awayTeam": "TBD",
+        "awayTeamFull": "TBD",
+        "awayTeamAbbrev": "TBD",
+        "awayConf": "",
+        "awayRank": null,
+        "venue": "Spectrum Center",
+        "city": "Charlotte",
+        "state": "North Carolina",
+        "tv": [],
+        "neutralSite": true,
+        "conferenceGame": true
+      },
+      {
         "date": "2026-03-12T03:30Z",
         "dateDisplay": "Wed, Mar 11 2026",
         "time_detail": "3/11 - 11:30 PM EDT",
@@ -155503,7 +156316,9 @@ const DATA = {
         "venue": "Thomas & Mack Center",
         "city": "Las Vegas",
         "state": "Nevada",
-        "tv": [],
+        "tv": [
+          "MWN"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -155545,7 +156360,9 @@ const DATA = {
         "venue": "Idaho Central Arena",
         "city": "Boise",
         "state": "Idaho",
-        "tv": [],
+        "tv": [
+          "ESPN2"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -155671,90 +156488,6 @@ const DATA = {
         "venue": "Norfolk Scope Arena",
         "city": "Norfolk",
         "state": "Virginia",
-        "tv": [],
-        "neutralSite": true,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-03-12T04:00Z",
-        "dateDisplay": "Wed, Mar 11 2026",
-        "time_detail": "TBD",
-        "homeTeam": "TBD",
-        "homeTeamFull": "TBD",
-        "homeTeamAbbrev": "TBD",
-        "homeConf": "",
-        "homeRank": null,
-        "awayTeam": "TBD",
-        "awayTeamFull": "TBD",
-        "awayTeamAbbrev": "TBD",
-        "awayConf": "",
-        "awayRank": null,
-        "venue": "Spectrum Center",
-        "city": "Charlotte",
-        "state": "North Carolina",
-        "tv": [],
-        "neutralSite": true,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-03-12T04:00Z",
-        "dateDisplay": "Wed, Mar 11 2026",
-        "time_detail": "TBD",
-        "homeTeam": "TBD",
-        "homeTeamFull": "TBD",
-        "homeTeamAbbrev": "TBD",
-        "homeConf": "",
-        "homeRank": null,
-        "awayTeam": "TBD",
-        "awayTeamFull": "TBD",
-        "awayTeamAbbrev": "TBD",
-        "awayConf": "",
-        "awayRank": null,
-        "venue": "Spectrum Center",
-        "city": "Charlotte",
-        "state": "North Carolina",
-        "tv": [],
-        "neutralSite": true,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-03-12T04:00Z",
-        "dateDisplay": "Wed, Mar 11 2026",
-        "time_detail": "TBD",
-        "homeTeam": "TBD",
-        "homeTeamFull": "TBD",
-        "homeTeamAbbrev": "TBD",
-        "homeConf": "",
-        "homeRank": null,
-        "awayTeam": "TBD",
-        "awayTeamFull": "TBD",
-        "awayTeamAbbrev": "TBD",
-        "awayConf": "",
-        "awayRank": null,
-        "venue": "Spectrum Center",
-        "city": "Charlotte",
-        "state": "North Carolina",
-        "tv": [],
-        "neutralSite": true,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-03-12T04:00Z",
-        "dateDisplay": "Wed, Mar 11 2026",
-        "time_detail": "TBD",
-        "homeTeam": "TBD",
-        "homeTeamFull": "TBD",
-        "homeTeamAbbrev": "TBD",
-        "homeConf": "",
-        "homeRank": null,
-        "awayTeam": "TBD",
-        "awayTeamFull": "TBD",
-        "awayTeamAbbrev": "TBD",
-        "awayConf": "",
-        "awayRank": null,
-        "venue": "Spectrum Center",
-        "city": "Charlotte",
-        "state": "North Carolina",
         "tv": [],
         "neutralSite": true,
         "conferenceGame": true
@@ -155776,7 +156509,9 @@ const DATA = {
         "venue": "PPG Paints Arena",
         "city": "Pittsburgh",
         "state": "Pennsylvania",
-        "tv": [],
+        "tv": [
+          "USA Net"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -155797,7 +156532,9 @@ const DATA = {
         "venue": "United Center",
         "city": "Chicago",
         "state": "Illinois",
-        "tv": [],
+        "tv": [
+          "BTN"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -155818,6 +156555,29 @@ const DATA = {
         "venue": "Madison Square Garden",
         "city": "New York",
         "state": "New York",
+        "tv": [
+          "Peacock"
+        ],
+        "neutralSite": true,
+        "conferenceGame": true
+      },
+      {
+        "date": "2026-03-12T16:00Z",
+        "dateDisplay": "Thu, Mar 12 2026",
+        "time_detail": "3/12 - 12:00 PM EDT",
+        "homeTeam": "TBD",
+        "homeTeamFull": "TBD",
+        "homeTeamAbbrev": "TBD",
+        "homeConf": "",
+        "homeRank": null,
+        "awayTeam": "TBD",
+        "awayTeamFull": "TBD",
+        "awayTeamAbbrev": "TBD",
+        "awayConf": "",
+        "awayRank": null,
+        "venue": "Spectrum Center",
+        "city": "Charlotte",
+        "state": "North Carolina",
         "tv": [],
         "neutralSite": true,
         "conferenceGame": true
@@ -155839,7 +156599,9 @@ const DATA = {
         "venue": "Bridgestone Arena",
         "city": "Nashville",
         "state": "Tennessee",
-        "tv": [],
+        "tv": [
+          "SEC Network"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -155902,7 +156664,9 @@ const DATA = {
         "venue": "PPG Paints Arena",
         "city": "Pittsburgh",
         "state": "Pennsylvania",
-        "tv": [],
+        "tv": [
+          "USA Net"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -155923,7 +156687,9 @@ const DATA = {
         "venue": "United Center",
         "city": "Chicago",
         "state": "Illinois",
-        "tv": [],
+        "tv": [
+          "BTN"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -155944,6 +156710,29 @@ const DATA = {
         "venue": "Madison Square Garden",
         "city": "New York",
         "state": "New York",
+        "tv": [
+          "Peacock"
+        ],
+        "neutralSite": true,
+        "conferenceGame": true
+      },
+      {
+        "date": "2026-03-12T18:30Z",
+        "dateDisplay": "Thu, Mar 12 2026",
+        "time_detail": "3/12 - 2:30 PM EDT",
+        "homeTeam": "TBD",
+        "homeTeamFull": "TBD",
+        "homeTeamAbbrev": "TBD",
+        "homeConf": "",
+        "homeRank": null,
+        "awayTeam": "TBD",
+        "awayTeamFull": "TBD",
+        "awayTeamAbbrev": "TBD",
+        "awayConf": "",
+        "awayRank": null,
+        "venue": "Spectrum Center",
+        "city": "Charlotte",
+        "state": "North Carolina",
         "tv": [],
         "neutralSite": true,
         "conferenceGame": true
@@ -155965,7 +156754,9 @@ const DATA = {
         "venue": "Bridgestone Arena",
         "city": "Nashville",
         "state": "Tennessee",
-        "tv": [],
+        "tv": [
+          "SEC Network"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -155986,7 +156777,9 @@ const DATA = {
         "venue": "Thomas & Mack Center",
         "city": "Las Vegas",
         "state": "Nevada",
-        "tv": [],
+        "tv": [
+          "CBSSN"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -156028,7 +156821,9 @@ const DATA = {
         "venue": "PPG Paints Arena",
         "city": "Pittsburgh",
         "state": "Pennsylvania",
-        "tv": [],
+        "tv": [
+          "USA Net"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -156049,7 +156844,9 @@ const DATA = {
         "venue": "Thomas & Mack Center",
         "city": "Las Vegas",
         "state": "Nevada",
-        "tv": [],
+        "tv": [
+          "CBSSN"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -156070,7 +156867,9 @@ const DATA = {
         "venue": "Propst Arena",
         "city": "Huntsville",
         "state": "Alabama",
-        "tv": [],
+        "tv": [
+          "ESPN+"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -156091,7 +156890,9 @@ const DATA = {
         "venue": "United Center",
         "city": "Chicago",
         "state": "Illinois",
-        "tv": [],
+        "tv": [
+          "BTN"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -156112,7 +156913,9 @@ const DATA = {
         "venue": "Bridgestone Arena",
         "city": "Nashville",
         "state": "Tennessee",
-        "tv": [],
+        "tv": [
+          "SEC Network"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -156133,7 +156936,9 @@ const DATA = {
         "venue": "Madison Square Garden",
         "city": "New York",
         "state": "New York",
-        "tv": [],
+        "tv": [
+          "FS1"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -156175,6 +156980,29 @@ const DATA = {
         "venue": "Legacy Arena at BJCC",
         "city": "Birmingham",
         "state": "Alabama",
+        "tv": [
+          "ESPNU"
+        ],
+        "neutralSite": true,
+        "conferenceGame": true
+      },
+      {
+        "date": "2026-03-12T23:00Z",
+        "dateDisplay": "Thu, Mar 12 2026",
+        "time_detail": "3/12 - 7:00 PM EDT",
+        "homeTeam": "TBD",
+        "homeTeamFull": "TBD",
+        "homeTeamAbbrev": "TBD",
+        "homeConf": "",
+        "homeRank": null,
+        "awayTeam": "TBD",
+        "awayTeamFull": "TBD",
+        "awayTeamAbbrev": "TBD",
+        "awayConf": "",
+        "awayRank": null,
+        "venue": "Spectrum Center",
+        "city": "Charlotte",
+        "state": "North Carolina",
         "tv": [],
         "neutralSite": true,
         "conferenceGame": true
@@ -156196,7 +157024,9 @@ const DATA = {
         "venue": "PPG Paints Arena",
         "city": "Pittsburgh",
         "state": "Pennsylvania",
-        "tv": [],
+        "tv": [
+          "USA Net"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -156238,7 +157068,9 @@ const DATA = {
         "venue": "Orleans Arena",
         "city": "Las Vegas",
         "state": "Nevada",
-        "tv": [],
+        "tv": [
+          "ESPN+"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -156259,7 +157091,9 @@ const DATA = {
         "venue": "Thomas & Mack Center",
         "city": "Las Vegas",
         "state": "Nevada",
-        "tv": [],
+        "tv": [
+          "CBSSN"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -156280,7 +157114,9 @@ const DATA = {
         "venue": "Propst Arena",
         "city": "Huntsville",
         "state": "Alabama",
-        "tv": [],
+        "tv": [
+          "ESPN+"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -156322,7 +157158,9 @@ const DATA = {
         "venue": "United Center",
         "city": "Chicago",
         "state": "Illinois",
-        "tv": [],
+        "tv": [
+          "BTN"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -156343,7 +157181,9 @@ const DATA = {
         "venue": "Bridgestone Arena",
         "city": "Nashville",
         "state": "Tennessee",
-        "tv": [],
+        "tv": [
+          "SEC Network"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -156364,7 +157204,9 @@ const DATA = {
         "venue": "Madison Square Garden",
         "city": "New York",
         "state": "New York",
-        "tv": [],
+        "tv": [
+          "FS1"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -156406,6 +157248,29 @@ const DATA = {
         "venue": "Legacy Arena at BJCC",
         "city": "Birmingham",
         "state": "Alabama",
+        "tv": [
+          "ESPNU"
+        ],
+        "neutralSite": true,
+        "conferenceGame": true
+      },
+      {
+        "date": "2026-03-13T01:30Z",
+        "dateDisplay": "Thu, Mar 12 2026",
+        "time_detail": "3/12 - 9:30 PM EDT",
+        "homeTeam": "TBD",
+        "homeTeamFull": "TBD",
+        "homeTeamAbbrev": "TBD",
+        "homeConf": "",
+        "homeRank": null,
+        "awayTeam": "TBD",
+        "awayTeamFull": "TBD",
+        "awayTeamAbbrev": "TBD",
+        "awayConf": "",
+        "awayRank": null,
+        "venue": "Spectrum Center",
+        "city": "Charlotte",
+        "state": "North Carolina",
         "tv": [],
         "neutralSite": true,
         "conferenceGame": true
@@ -156427,7 +157292,9 @@ const DATA = {
         "venue": "Orleans Arena",
         "city": "Las Vegas",
         "state": "Nevada",
-        "tv": [],
+        "tv": [
+          "ESPN+"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -156448,7 +157315,9 @@ const DATA = {
         "venue": "Thomas & Mack Center",
         "city": "Las Vegas",
         "state": "Nevada",
-        "tv": [],
+        "tv": [
+          "CBSSN"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -156558,48 +157427,6 @@ const DATA = {
         "conferenceGame": true
       },
       {
-        "date": "2026-03-13T04:00Z",
-        "dateDisplay": "Thu, Mar 12 2026",
-        "time_detail": "TBD",
-        "homeTeam": "TBD",
-        "homeTeamFull": "TBD",
-        "homeTeamAbbrev": "TBD",
-        "homeConf": "",
-        "homeRank": null,
-        "awayTeam": "TBD",
-        "awayTeamFull": "TBD",
-        "awayTeamAbbrev": "TBD",
-        "awayConf": "",
-        "awayRank": null,
-        "venue": "Spectrum Center",
-        "city": "Charlotte",
-        "state": "North Carolina",
-        "tv": [],
-        "neutralSite": true,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-03-13T04:00Z",
-        "dateDisplay": "Thu, Mar 12 2026",
-        "time_detail": "TBD",
-        "homeTeam": "TBD",
-        "homeTeamFull": "TBD",
-        "homeTeamAbbrev": "TBD",
-        "homeConf": "",
-        "homeRank": null,
-        "awayTeam": "TBD",
-        "awayTeamFull": "TBD",
-        "awayTeamAbbrev": "TBD",
-        "awayConf": "",
-        "awayRank": null,
-        "venue": "Spectrum Center",
-        "city": "Charlotte",
-        "state": "North Carolina",
-        "tv": [],
-        "neutralSite": true,
-        "conferenceGame": true
-      },
-      {
         "date": "2026-03-13T15:30Z",
         "dateDisplay": "Fri, Mar 13 2026",
         "time_detail": "3/13 - 11:30 AM EDT",
@@ -156616,7 +157443,9 @@ const DATA = {
         "venue": "PPG Paints Arena",
         "city": "Pittsburgh",
         "state": "Pennsylvania",
-        "tv": [],
+        "tv": [
+          "USA Net"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -156637,7 +157466,9 @@ const DATA = {
         "venue": "United Center",
         "city": "Chicago",
         "state": "Illinois",
-        "tv": [],
+        "tv": [
+          "BTN"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -156679,7 +157510,9 @@ const DATA = {
         "venue": "Bridgestone Arena",
         "city": "Nashville",
         "state": "Tennessee",
-        "tv": [],
+        "tv": [
+          "ESPN"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -156700,7 +157533,9 @@ const DATA = {
         "venue": "Legacy Arena at BJCC",
         "city": "Birmingham",
         "state": "Alabama",
-        "tv": [],
+        "tv": [
+          "ESPN2"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -156742,7 +157577,9 @@ const DATA = {
         "venue": "PPG Paints Arena",
         "city": "Pittsburgh",
         "state": "Pennsylvania",
-        "tv": [],
+        "tv": [
+          "USA Net"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -156763,7 +157600,9 @@ const DATA = {
         "venue": "United Center",
         "city": "Chicago",
         "state": "Illinois",
-        "tv": [],
+        "tv": [
+          "BTN"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -156805,7 +157644,9 @@ const DATA = {
         "venue": "Bridgestone Arena",
         "city": "Nashville",
         "state": "Tennessee",
-        "tv": [],
+        "tv": [
+          "ESPN"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -156826,7 +157667,9 @@ const DATA = {
         "venue": "Legacy Arena at BJCC",
         "city": "Birmingham",
         "state": "Alabama",
-        "tv": [],
+        "tv": [
+          "ESPN2"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -156847,7 +157690,9 @@ const DATA = {
         "venue": "PPG Paints Arena",
         "city": "Pittsburgh",
         "state": "Pennsylvania",
-        "tv": [],
+        "tv": [
+          "USA Net"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -156868,7 +157713,9 @@ const DATA = {
         "venue": "Madison Square Garden",
         "city": "New York",
         "state": "New York",
-        "tv": [],
+        "tv": [
+          "FOX"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -156889,7 +157736,9 @@ const DATA = {
         "venue": "United Center",
         "city": "Chicago",
         "state": "Illinois",
-        "tv": [],
+        "tv": [
+          "BTN"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -156910,7 +157759,9 @@ const DATA = {
         "venue": "Bridgestone Arena",
         "city": "Nashville",
         "state": "Tennessee",
-        "tv": [],
+        "tv": [
+          "SEC Network"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -156936,6 +157787,27 @@ const DATA = {
         "conferenceGame": true
       },
       {
+        "date": "2026-03-13T23:00Z",
+        "dateDisplay": "Fri, Mar 13 2026",
+        "time_detail": "3/13 - 7:00 PM EDT",
+        "homeTeam": "TBD",
+        "homeTeamFull": "TBD",
+        "homeTeamAbbrev": "TBD",
+        "homeConf": "",
+        "homeRank": null,
+        "awayTeam": "TBD",
+        "awayTeamFull": "TBD",
+        "awayTeamAbbrev": "TBD",
+        "awayConf": "",
+        "awayRank": null,
+        "venue": "Spectrum Center",
+        "city": "Charlotte",
+        "state": "North Carolina",
+        "tv": [],
+        "neutralSite": true,
+        "conferenceGame": true
+      },
+      {
         "date": "2026-03-13T23:30Z",
         "dateDisplay": "Fri, Mar 13 2026",
         "time_detail": "3/13 - 7:30 PM EDT",
@@ -156952,7 +157824,9 @@ const DATA = {
         "venue": "PPG Paints Arena",
         "city": "Pittsburgh",
         "state": "Pennsylvania",
-        "tv": [],
+        "tv": [
+          "CNBC"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -156973,7 +157847,9 @@ const DATA = {
         "venue": "Madison Square Garden",
         "city": "New York",
         "state": "New York",
-        "tv": [],
+        "tv": [
+          "FS1"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -157015,7 +157891,9 @@ const DATA = {
         "venue": "Orleans Arena",
         "city": "Las Vegas",
         "state": "Nevada",
-        "tv": [],
+        "tv": [
+          "ESPN+"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -157057,7 +157935,9 @@ const DATA = {
         "venue": "United Center",
         "city": "Chicago",
         "state": "Illinois",
-        "tv": [],
+        "tv": [
+          "BTN"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -157078,7 +157958,9 @@ const DATA = {
         "venue": "Bridgestone Arena",
         "city": "Nashville",
         "state": "Tennessee",
-        "tv": [],
+        "tv": [
+          "SEC Network"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -157099,7 +157981,9 @@ const DATA = {
         "venue": "Thomas & Mack Center",
         "city": "Las Vegas",
         "state": "Nevada",
-        "tv": [],
+        "tv": [
+          "CBSSN"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -157120,6 +158004,27 @@ const DATA = {
         "venue": "T-Mobile Center",
         "city": "Kansas City",
         "state": "Missouri",
+        "tv": [],
+        "neutralSite": true,
+        "conferenceGame": true
+      },
+      {
+        "date": "2026-03-14T01:30Z",
+        "dateDisplay": "Fri, Mar 13 2026",
+        "time_detail": "3/13 - 9:30 PM EDT",
+        "homeTeam": "TBD",
+        "homeTeamFull": "TBD",
+        "homeTeamAbbrev": "TBD",
+        "homeConf": "",
+        "homeRank": null,
+        "awayTeam": "TBD",
+        "awayTeamFull": "TBD",
+        "awayTeamAbbrev": "TBD",
+        "awayConf": "",
+        "awayRank": null,
+        "venue": "Spectrum Center",
+        "city": "Charlotte",
+        "state": "North Carolina",
         "tv": [],
         "neutralSite": true,
         "conferenceGame": true
@@ -157141,7 +158046,9 @@ const DATA = {
         "venue": "Orleans Arena",
         "city": "Las Vegas",
         "state": "Nevada",
-        "tv": [],
+        "tv": [
+          "ESPN+"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -157162,7 +158069,9 @@ const DATA = {
         "venue": "Lee's Family Forum",
         "city": "Henderson",
         "state": "Nevada",
-        "tv": [],
+        "tv": [
+          "ESPN2"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -157183,91 +158092,9 @@ const DATA = {
         "venue": "Thomas & Mack Center",
         "city": "Las Vegas",
         "state": "Nevada",
-        "tv": [],
-        "neutralSite": true,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-03-14T04:00Z",
-        "dateDisplay": "Fri, Mar 13 2026",
-        "time_detail": "TBD",
-        "homeTeam": "TBD",
-        "homeTeamFull": "TBD",
-        "homeTeamAbbrev": "TBD",
-        "homeConf": "",
-        "homeRank": null,
-        "awayTeam": "TBD",
-        "awayTeamFull": "TBD",
-        "awayTeamAbbrev": "TBD",
-        "awayConf": "",
-        "awayRank": null,
-        "venue": "Norfolk Scope Arena",
-        "city": "Norfolk",
-        "state": "Virginia",
-        "tv": [],
-        "neutralSite": true,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-03-14T04:00Z",
-        "dateDisplay": "Fri, Mar 13 2026",
-        "time_detail": "TBD",
-        "homeTeam": "TBD",
-        "homeTeamFull": "TBD",
-        "homeTeamAbbrev": "TBD",
-        "homeConf": "",
-        "homeRank": null,
-        "awayTeam": "TBD",
-        "awayTeamFull": "TBD",
-        "awayTeamAbbrev": "TBD",
-        "awayConf": "",
-        "awayRank": null,
-        "venue": "Lee's Family Forum",
-        "city": "Henderson",
-        "state": "Nevada",
-        "tv": [],
-        "neutralSite": true,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-03-14T04:00Z",
-        "dateDisplay": "Fri, Mar 13 2026",
-        "time_detail": "TBD",
-        "homeTeam": "TBD",
-        "homeTeamFull": "TBD",
-        "homeTeamAbbrev": "TBD",
-        "homeConf": "",
-        "homeRank": null,
-        "awayTeam": "TBD",
-        "awayTeamFull": "TBD",
-        "awayTeamAbbrev": "TBD",
-        "awayConf": "",
-        "awayRank": null,
-        "venue": "",
-        "city": "",
-        "state": "",
-        "tv": [],
-        "neutralSite": false,
-        "conferenceGame": true
-      },
-      {
-        "date": "2026-03-14T04:00Z",
-        "dateDisplay": "Fri, Mar 13 2026",
-        "time_detail": "TBD",
-        "homeTeam": "TBD",
-        "homeTeamFull": "TBD",
-        "homeTeamAbbrev": "TBD",
-        "homeConf": "",
-        "homeRank": null,
-        "awayTeam": "TBD",
-        "awayTeamFull": "TBD",
-        "awayTeamAbbrev": "TBD",
-        "awayConf": "",
-        "awayRank": null,
-        "venue": "Spectrum Center",
-        "city": "Charlotte",
-        "state": "North Carolina",
-        "tv": [],
+        "tv": [
+          "CBSSN"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -157288,8 +158115,33 @@ const DATA = {
         "venue": "Newman Arena",
         "city": "Ithaca",
         "state": "New York",
-        "tv": [],
+        "tv": [
+          "ESPNU"
+        ],
         "neutralSite": true,
+        "conferenceGame": true
+      },
+      {
+        "date": "2026-03-14T15:00Z",
+        "dateDisplay": "Sat, Mar 14 2026",
+        "time_detail": "3/14 - 11:00 AM EDT",
+        "homeTeam": "TBD",
+        "homeTeamFull": "TBD",
+        "homeTeamAbbrev": "TBD",
+        "homeConf": "",
+        "homeRank": null,
+        "awayTeam": "TBD",
+        "awayTeamFull": "TBD",
+        "awayTeamAbbrev": "TBD",
+        "awayConf": "",
+        "awayRank": null,
+        "venue": "",
+        "city": "",
+        "state": "",
+        "tv": [
+          "ESPN2"
+        ],
+        "neutralSite": false,
         "conferenceGame": true
       },
       {
@@ -157309,7 +158161,32 @@ const DATA = {
         "venue": "Bridgestone Arena",
         "city": "Nashville",
         "state": "Tennessee",
-        "tv": [],
+        "tv": [
+          "ESPN"
+        ],
+        "neutralSite": true,
+        "conferenceGame": true
+      },
+      {
+        "date": "2026-03-14T17:00Z",
+        "dateDisplay": "Sat, Mar 14 2026",
+        "time_detail": "3/14 - 1:00 PM EDT",
+        "homeTeam": "TBD",
+        "homeTeamFull": "TBD",
+        "homeTeamAbbrev": "TBD",
+        "homeConf": "",
+        "homeRank": null,
+        "awayTeam": "TBD",
+        "awayTeamFull": "TBD",
+        "awayTeamAbbrev": "TBD",
+        "awayConf": "",
+        "awayRank": null,
+        "venue": "Norfolk Scope Arena",
+        "city": "Norfolk",
+        "state": "Virginia",
+        "tv": [
+          "ESPN2"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -157330,7 +158207,9 @@ const DATA = {
         "venue": "United Center",
         "city": "Chicago",
         "state": "Illinois",
-        "tv": [],
+        "tv": [
+          "CBS"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -157351,7 +158230,9 @@ const DATA = {
         "venue": "PPG Paints Arena",
         "city": "Pittsburgh",
         "state": "Pennsylvania",
-        "tv": [],
+        "tv": [
+          "CBSSN"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -157372,7 +158253,9 @@ const DATA = {
         "venue": "Newman Arena",
         "city": "Ithaca",
         "state": "New York",
-        "tv": [],
+        "tv": [
+          "ESPNEWS"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -157393,7 +158276,9 @@ const DATA = {
         "venue": "Legacy Arena at BJCC",
         "city": "Birmingham",
         "state": "Alabama",
-        "tv": [],
+        "tv": [
+          "ESPN2"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -157414,7 +158299,9 @@ const DATA = {
         "venue": "Bridgestone Arena",
         "city": "Nashville",
         "state": "Tennessee",
-        "tv": [],
+        "tv": [
+          "ESPN"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -157435,7 +158322,9 @@ const DATA = {
         "venue": "United Center",
         "city": "Chicago",
         "state": "Illinois",
-        "tv": [],
+        "tv": [
+          "CBS"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -157456,7 +158345,9 @@ const DATA = {
         "venue": "PPG Paints Arena",
         "city": "Pittsburgh",
         "state": "Pennsylvania",
-        "tv": [],
+        "tv": [
+          "CBSSN"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -157477,7 +158368,9 @@ const DATA = {
         "venue": "Legacy Arena at BJCC",
         "city": "Birmingham",
         "state": "Alabama",
-        "tv": [],
+        "tv": [
+          "ESPN2"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -157498,7 +158391,9 @@ const DATA = {
         "venue": "Thomas & Mack Center",
         "city": "Las Vegas",
         "state": "Nevada",
-        "tv": [],
+        "tv": [
+          "CBS"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -157519,7 +158414,9 @@ const DATA = {
         "venue": "T-Mobile Center",
         "city": "Kansas City",
         "state": "Missouri",
-        "tv": [],
+        "tv": [
+          "ESPN"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -157540,7 +158437,9 @@ const DATA = {
         "venue": "Madison Square Garden",
         "city": "New York",
         "state": "New York",
-        "tv": [],
+        "tv": [
+          "FOX"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -157561,7 +158460,9 @@ const DATA = {
         "venue": "Gateway Center",
         "city": "College Park",
         "state": "Georgia",
-        "tv": [],
+        "tv": [
+          "ESPNU"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -157582,7 +158483,9 @@ const DATA = {
         "venue": "Rocket Arena",
         "city": "Cleveland",
         "state": "Ohio",
-        "tv": [],
+        "tv": [
+          "ESPN2"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -157608,6 +158511,52 @@ const DATA = {
         "conferenceGame": true
       },
       {
+        "date": "2026-03-15T00:30Z",
+        "dateDisplay": "Sat, Mar 14 2026",
+        "time_detail": "3/14 - 8:30 PM EDT",
+        "homeTeam": "TBD",
+        "homeTeamFull": "TBD",
+        "homeTeamAbbrev": "TBD",
+        "homeConf": "",
+        "homeRank": null,
+        "awayTeam": "TBD",
+        "awayTeamFull": "TBD",
+        "awayTeamAbbrev": "TBD",
+        "awayConf": "",
+        "awayRank": null,
+        "venue": "Spectrum Center",
+        "city": "Charlotte",
+        "state": "North Carolina",
+        "tv": [
+          "ESPN"
+        ],
+        "neutralSite": true,
+        "conferenceGame": true
+      },
+      {
+        "date": "2026-03-15T02:00Z",
+        "dateDisplay": "Sat, Mar 14 2026",
+        "time_detail": "3/14 - 10:00 PM EDT",
+        "homeTeam": "TBD",
+        "homeTeamFull": "TBD",
+        "homeTeamAbbrev": "TBD",
+        "homeConf": "",
+        "homeRank": null,
+        "awayTeam": "TBD",
+        "awayTeamFull": "TBD",
+        "awayTeamAbbrev": "TBD",
+        "awayConf": "",
+        "awayRank": null,
+        "venue": "Lee's Family Forum",
+        "city": "Henderson",
+        "state": "Nevada",
+        "tv": [
+          "ESPN2"
+        ],
+        "neutralSite": true,
+        "conferenceGame": true
+      },
+      {
         "date": "2026-03-15T03:59Z",
         "dateDisplay": "Sat, Mar 14 2026",
         "time_detail": "3/14 - 11:59 PM EDT",
@@ -157624,7 +158573,9 @@ const DATA = {
         "venue": "Orleans Arena",
         "city": "Las Vegas",
         "state": "Nevada",
-        "tv": [],
+        "tv": [
+          "ESPN2"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -157645,7 +158596,9 @@ const DATA = {
         "venue": "Newman Arena",
         "city": "Ithaca",
         "state": "New York",
-        "tv": [],
+        "tv": [
+          "ESPN2"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -157666,7 +158619,9 @@ const DATA = {
         "venue": "Bridgestone Arena",
         "city": "Nashville",
         "state": "Tennessee",
-        "tv": [],
+        "tv": [
+          "ESPN"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -157687,7 +158642,9 @@ const DATA = {
         "venue": "PPG Paints Arena",
         "city": "Pittsburgh",
         "state": "Pennsylvania",
-        "tv": [],
+        "tv": [
+          "CBS"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -157708,7 +158665,9 @@ const DATA = {
         "venue": "Legacy Arena at BJCC",
         "city": "Birmingham",
         "state": "Alabama",
-        "tv": [],
+        "tv": [
+          "ESPN"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -157729,7 +158688,9 @@ const DATA = {
         "venue": "United Center",
         "city": "Chicago",
         "state": "Illinois",
-        "tv": [],
+        "tv": [
+          "CBS"
+        ],
         "neutralSite": true,
         "conferenceGame": true
       },
@@ -159582,9 +160543,9 @@ const DATA = {
         "conferenceGame": false
       },
       {
-        "date": "2026-03-24T04:00Z",
-        "dateDisplay": "Mon, Mar 23 2026",
-        "time_detail": "TBD",
+        "date": "2026-03-24T23:00Z",
+        "dateDisplay": "Tue, Mar 24 2026",
+        "time_detail": "3/24 - 7:00 PM EDT",
         "homeTeam": "TBD",
         "homeTeamFull": "TBD",
         "homeTeamAbbrev": "TBD",
@@ -159598,28 +160559,9 @@ const DATA = {
         "venue": "",
         "city": "",
         "state": "",
-        "tv": [],
-        "neutralSite": false,
-        "conferenceGame": false
-      },
-      {
-        "date": "2026-03-24T04:00Z",
-        "dateDisplay": "Mon, Mar 23 2026",
-        "time_detail": "TBD",
-        "homeTeam": "TBD",
-        "homeTeamFull": "TBD",
-        "homeTeamAbbrev": "TBD",
-        "homeConf": "",
-        "homeRank": null,
-        "awayTeam": "TBD",
-        "awayTeamFull": "TBD",
-        "awayTeamAbbrev": "TBD",
-        "awayConf": "",
-        "awayRank": null,
-        "venue": "",
-        "city": "",
-        "state": "",
-        "tv": [],
+        "tv": [
+          "ESPN2"
+        ],
         "neutralSite": false,
         "conferenceGame": false
       },
@@ -159640,8 +160582,33 @@ const DATA = {
         "venue": "Ocean Center",
         "city": "Daytona Beach",
         "state": "Florida",
-        "tv": [],
+        "tv": [
+          "ESPNU"
+        ],
         "neutralSite": true,
+        "conferenceGame": false
+      },
+      {
+        "date": "2026-03-25T01:00Z",
+        "dateDisplay": "Tue, Mar 24 2026",
+        "time_detail": "3/24 - 9:00 PM EDT",
+        "homeTeam": "TBD",
+        "homeTeamFull": "TBD",
+        "homeTeamAbbrev": "TBD",
+        "homeConf": "",
+        "homeRank": null,
+        "awayTeam": "TBD",
+        "awayTeamFull": "TBD",
+        "awayTeamAbbrev": "TBD",
+        "awayConf": "",
+        "awayRank": null,
+        "venue": "",
+        "city": "",
+        "state": "",
+        "tv": [
+          "ESPN2"
+        ],
+        "neutralSite": false,
         "conferenceGame": false
       },
       {
@@ -159661,50 +160628,10 @@ const DATA = {
         "venue": "Ocean Center",
         "city": "Daytona Beach",
         "state": "Florida",
-        "tv": [],
+        "tv": [
+          "ESPNU"
+        ],
         "neutralSite": true,
-        "conferenceGame": false
-      },
-      {
-        "date": "2026-03-25T04:00Z",
-        "dateDisplay": "Tue, Mar 24 2026",
-        "time_detail": "TBD",
-        "homeTeam": "TBD",
-        "homeTeamFull": "TBD",
-        "homeTeamAbbrev": "TBD",
-        "homeConf": "",
-        "homeRank": null,
-        "awayTeam": "TBD",
-        "awayTeamFull": "TBD",
-        "awayTeamAbbrev": "TBD",
-        "awayConf": "",
-        "awayRank": null,
-        "venue": "",
-        "city": "",
-        "state": "",
-        "tv": [],
-        "neutralSite": false,
-        "conferenceGame": false
-      },
-      {
-        "date": "2026-03-25T04:00Z",
-        "dateDisplay": "Tue, Mar 24 2026",
-        "time_detail": "TBD",
-        "homeTeam": "TBD",
-        "homeTeamFull": "TBD",
-        "homeTeamAbbrev": "TBD",
-        "homeConf": "",
-        "homeRank": null,
-        "awayTeam": "TBD",
-        "awayTeamFull": "TBD",
-        "awayTeamAbbrev": "TBD",
-        "awayConf": "",
-        "awayRank": null,
-        "venue": "",
-        "city": "",
-        "state": "",
-        "tv": [],
-        "neutralSite": false,
         "conferenceGame": false
       },
       {
@@ -159724,8 +160651,56 @@ const DATA = {
         "venue": "Ocean Center",
         "city": "Daytona Beach",
         "state": "Florida",
-        "tv": [],
+        "tv": [
+          "ESPN2"
+        ],
         "neutralSite": true,
+        "conferenceGame": false
+      },
+      {
+        "date": "2026-03-25T23:00Z",
+        "dateDisplay": "Wed, Mar 25 2026",
+        "time_detail": "3/25 - 7:00 PM EDT",
+        "homeTeam": "TBD",
+        "homeTeamFull": "TBD",
+        "homeTeamAbbrev": "TBD",
+        "homeConf": "",
+        "homeRank": null,
+        "awayTeam": "TBD",
+        "awayTeamFull": "TBD",
+        "awayTeamAbbrev": "TBD",
+        "awayConf": "",
+        "awayRank": null,
+        "venue": "",
+        "city": "",
+        "state": "",
+        "tv": [
+          "ESPN2"
+        ],
+        "neutralSite": false,
+        "conferenceGame": false
+      },
+      {
+        "date": "2026-03-26T01:00Z",
+        "dateDisplay": "Wed, Mar 25 2026",
+        "time_detail": "3/25 - 9:00 PM EDT",
+        "homeTeam": "TBD",
+        "homeTeamFull": "TBD",
+        "homeTeamAbbrev": "TBD",
+        "homeConf": "",
+        "homeRank": null,
+        "awayTeam": "TBD",
+        "awayTeamFull": "TBD",
+        "awayTeamAbbrev": "TBD",
+        "awayConf": "",
+        "awayRank": null,
+        "venue": "",
+        "city": "",
+        "state": "",
+        "tv": [
+          "ESPN2"
+        ],
+        "neutralSite": false,
         "conferenceGame": false
       },
       {
@@ -160023,9 +160998,9 @@ const DATA = {
         "conferenceGame": false
       },
       {
-        "date": "2026-04-02T04:00Z",
-        "dateDisplay": "Wed, Apr 01 2026",
-        "time_detail": "TBD",
+        "date": "2026-04-02T23:00Z",
+        "dateDisplay": "Thu, Apr 02 2026",
+        "time_detail": "4/2 - 7:00 PM EDT",
         "homeTeam": "TBD",
         "homeTeamFull": "TBD",
         "homeTeamAbbrev": "TBD",
@@ -160039,28 +161014,9 @@ const DATA = {
         "venue": "Hinkle Fieldhouse",
         "city": "Indianapolis",
         "state": "Indiana",
-        "tv": [],
-        "neutralSite": true,
-        "conferenceGame": false
-      },
-      {
-        "date": "2026-04-02T04:00Z",
-        "dateDisplay": "Wed, Apr 01 2026",
-        "time_detail": "TBD",
-        "homeTeam": "TBD",
-        "homeTeamFull": "TBD",
-        "homeTeamAbbrev": "TBD",
-        "homeConf": "",
-        "homeRank": null,
-        "awayTeam": "TBD",
-        "awayTeamFull": "TBD",
-        "awayTeamAbbrev": "TBD",
-        "awayConf": "",
-        "awayRank": null,
-        "venue": "Hinkle Fieldhouse",
-        "city": "Indianapolis",
-        "state": "Indiana",
-        "tv": [],
+        "tv": [
+          "ESPN"
+        ],
         "neutralSite": true,
         "conferenceGame": false
       },
@@ -160082,6 +161038,29 @@ const DATA = {
         "city": "Las Vegas",
         "state": "Nevada",
         "tv": [],
+        "neutralSite": true,
+        "conferenceGame": false
+      },
+      {
+        "date": "2026-04-03T01:30Z",
+        "dateDisplay": "Thu, Apr 02 2026",
+        "time_detail": "4/2 - 9:30 PM EDT",
+        "homeTeam": "TBD",
+        "homeTeamFull": "TBD",
+        "homeTeamAbbrev": "TBD",
+        "homeConf": "",
+        "homeRank": null,
+        "awayTeam": "TBD",
+        "awayTeamFull": "TBD",
+        "awayTeamAbbrev": "TBD",
+        "awayConf": "",
+        "awayRank": null,
+        "venue": "Hinkle Fieldhouse",
+        "city": "Indianapolis",
+        "state": "Indiana",
+        "tv": [
+          "ESPN"
+        ],
         "neutralSite": true,
         "conferenceGame": false
       },
@@ -160228,7 +161207,9 @@ const DATA = {
         "venue": "Gainbridge Fieldhouse",
         "city": "Indianapolis",
         "state": "Indiana",
-        "tv": [],
+        "tv": [
+          "ESPN2"
+        ],
         "neutralSite": true,
         "conferenceGame": false
       },
@@ -160254,272 +161235,148 @@ const DATA = {
         "conferenceGame": false
       }
     ],
-    "totalGames": 1948,
+    "totalGames": 1878,
     "totalVenues": 384,
     "stateBreakdown": {
-      "Pennsylvania": 75,
-      "Florida": 90,
-      "Massachusetts": 37,
-      "New York": 101,
-      "North Carolina": 111,
-      "South Carolina": 46,
-      "Kansas": 15,
-      "Minnesota": 9,
-      "Oklahoma": 18,
-      "Colorado": 22,
-      "New Jersey": 42,
-      "Connecticut": 32,
-      "Wisconsin": 15,
-      "Maryland": 22,
-      "Louisiana": 63,
-      "Tennessee": 77,
-      "Michigan": 28,
-      "Nebraska": 13,
-      "Oregon": 13,
-      "Alabama": 67,
-      "Texas": 115,
-      "Mississippi": 30,
-      "California": 90,
-      "Illinois": 68,
-      "Ohio": 65,
-      "Indiana": 64,
-      "Kentucky": 35,
-      "Missouri": 50,
-      "Idaho": 23,
       "Virginia": 61,
+      "North Carolina": 106,
+      "Pennsylvania": 73,
+      "Texas": 107,
+      "Minnesota": 8,
+      "Kentucky": 34,
       "District of Columbia": 31,
+      "Florida": 88,
+      "New York": 96,
       "Rhode Island": 16,
       "South Dakota": 15,
+      "Indiana": 63,
+      "Ohio": 61,
+      "Tennessee": 72,
       "West Virginia": 9,
       "Georgia": 41,
+      "South Carolina": 44,
+      "Alabama": 65,
       "Delaware": 8,
+      "Louisiana": 61,
+      "Kansas": 14,
       "Arkansas": 24,
+      "Missouri": 49,
+      "Wisconsin": 13,
+      "Illinois": 64,
+      "Oklahoma": 17,
       "Utah": 34,
+      "Oregon": 12,
+      "California": 85,
       "Washington": 20,
       "New Mexico": 9,
       "Maine": 4,
+      "Maryland": 20,
+      "Michigan": 26,
+      "Connecticut": 30,
+      "New Jersey": 41,
       "North Dakota": 8,
+      "Idaho": 22,
       "Montana": 9,
       "Iowa": 18,
+      "Mississippi": 28,
+      "Massachusetts": 34,
       "Vermont": 4,
       "Arizona": 12,
       "Nevada": 51,
       "New Hampshire": 8,
+      "Nebraska": 12,
       "Wyoming": 4,
+      "Colorado": 21,
       "Hawaii": 5,
       "": 121
     },
     "conferenceBreakdown": {
-      "Atlantic 10": 64,
-      "SEC": 75,
-      "NEC": 53,
-      "MAAC": 52,
-      "Southern Conference": 43,
-      "Big 12": 78,
-      "Summit League": 33,
-      "AAC": 45,
-      "American": 47,
-      "Big Ten": 78,
-      "Horizon League": 42,
-      "Sun Belt": 61,
-      "MEAC": 29,
+      "Southern Conference": 40,
       "Big South": 32,
-      "ACC": 70,
-      "SWAC": 60,
-      "Patriot League": 36,
-      "Southland": 53,
-      "OVC": 45,
-      "Big Sky": 39,
-      "MAC": 63,
-      "Big East": 50,
-      "MVC": 46,
-      "Mountain West": 48,
+      "Big East": 48,
+      "Sun Belt": 60,
+      "Big 12": 75,
+      "Big Ten": 73,
+      "ACC": 67,
+      "Patriot League": 35,
+      "Atlantic 10": 59,
+      "American": 46,
+      "AAC": 42,
+      "Summit League": 32,
+      "Horizon League": 39,
+      "SEC": 72,
       "Conference USA": 57,
+      "Southland": 47,
+      "SWAC": 56,
       "ASUN": 49,
+      "MEAC": 27,
       "WCC": 32,
+      "Mountain West": 45,
       "America East": 36,
+      "NEC": 52,
+      "MAAC": 46,
       "CAA": 52,
+      "OVC": 42,
       "WAC": 29,
       "Big West": 48,
-      "Ivy League": 25
+      "Big Sky": 38,
+      "Ivy League": 25,
+      "MVC": 41,
+      "MAC": 57
     },
     "teamBreakdown": {
-      "Duquesne": 10,
-      "Rhode Island": 10,
-      "Florida": 10,
-      "Alabama": 11,
-      "Merrimack": 9,
-      "Sacred Heart": 8,
-      "Canisius": 9,
-      "Siena": 9,
-      "W Carolina": 9,
-      "Samford": 9,
-      "Furman": 9,
-      "Chattanooga": 9,
-      "Kansas St": 10,
-      "Iowa State": 10,
-      "St Thomas (MN)": 8,
-      "Kansas City": 8,
-      "Tulsa": 10,
-      "Wichita St": 10,
-      "FAU": 9,
-      "East Carolina": 10,
-      "Colorado": 10,
-      "TCU": 10,
-      "Penn State": 10,
-      "Minnesota": 10,
-      "Rider": 9,
-      "Saint Peter's": 9,
-      "Fairfield": 8,
-      "Quinnipiac": 8,
-      "Green Bay": 8,
-      "Wright St": 9,
-      "Niagara": 9,
-      "Marist": 8,
-      "Mount St Marys": 8,
-      "Manhattan": 8,
-      "UL Monroe": 9,
-      "Coastal": 8,
-      "Memphis": 11,
-      "Tulane": 10,
-      "Milwaukee": 8,
-      "Cleveland St": 9,
-      "Oakland": 8,
-      "N Kentucky": 8,
-      "Nebraska": 10,
-      "Illinois": 9,
-      "Wofford": 9,
-      "ETSU": 9,
-      "Oregon": 9,
-      "Iowa": 10,
-      "NC Central": 10,
-      "MD Eastern": 8,
-      "Coppin St": 7,
-      "Howard": 8,
-      "Charleston So": 8,
-      "Gardner-Webb": 8,
-      "North Carolina": 10,
-      "Syracuse": 8,
-      "Alabama St": 10,
-      "Florida A&M": 10,
-      "Holy Cross": 7,
-      "Boston U": 8,
-      "Lamar": 9,
-      "SE Louisiana": 9,
-      "UT Rio Grande": 9,
-      "Hou Christian": 9,
-      "N'Western St": 10,
-      "Nicholls": 9,
-      "SF Austin": 9,
-      "McNeese": 9,
-      "E Texas A&M": 10,
-      "New Orleans": 9,
-      "Alabama A&M": 10,
-      "Bethune": 10,
-      "Alcorn St": 10,
-      "Grambling": 12,
-      "Jackson St": 10,
-      "Southern": 10,
-      "Texas A&M-CC": 9,
-      "Incarnate Word": 9,
-      "Tennessee St": 9,
-      "Tennessee Tech": 9,
-      "Texas Tech": 10,
-      "Kansas": 10,
-      "Sacramento St": 9,
-      "Weber St": 8,
-      "Buffalo": 9,
-      "Miami OH": 9,
-      "E Michigan": 9,
-      "Akron": 9,
-      "UConn": 9,
-      "Xavier": 9,
-      "Duke": 10,
-      "Boston College": 10,
-      "Illinois St": 9,
-      "S Illinois": 9,
-      "Fordham": 9,
-      "VCU": 9,
-      "Dayton": 9,
-      "St Bonaventure": 9,
-      "Ohio": 8,
-      "W Michigan": 10,
-      "Toledo": 9,
-      "Kent State": 9,
-      "UMass": 8,
-      "C Michigan": 9,
-      "Bowling Green": 9,
-      "Ball State": 10,
-      "Tennessee": 10,
-      "Ole Miss": 10,
-      "Texas": 9,
-      "South Carolina": 9,
-      "DePaul": 9,
-      "St John's": 10,
-      "Evansville": 9,
-      "Indiana St": 8,
-      "Murray St": 8,
-      "UIC": 8,
-      "Bradley": 8,
-      "Valparaiso": 9,
-      "Loyola Chicago": 8,
-      "La Salle": 9,
-      "Lindenwood": 8,
-      "SIUE": 8,
-      "UT Martin": 9,
-      "Little Rock": 9,
-      "Davidson": 10,
-      "Saint Louis": 9,
-      "Belmont": 8,
-      "Drake": 8,
-      "Boise St": 9,
-      "Nevada": 8,
-      "SMU": 8,
-      "NC State": 8,
-      "UCLA": 9,
-      "Rutgers": 8,
-      "USC": 9,
-      "Indiana": 9,
-      "Fresno St": 9,
-      "UNLV": 9,
-      "San Diego St": 9,
-      "Wyoming": 7,
       "VMI": 8,
+      "Wofford": 8,
+      "UNC Greensboro": 8,
+      "W Carolina": 8,
       "UNC Asheville": 7,
       "SC Upstate": 8,
       "Villanova": 10,
       "Seton Hall": 9,
       "App State": 7,
       "South Alabama": 9,
-      "Michigan St": 9,
       "Houston": 10,
       "UCF": 9,
+      "Minnesota": 9,
+      "Michigan St": 9,
       "Louisville": 10,
       "Notre Dame": 9,
-      "Texas A&M": 10,
       "American": 8,
       "Bucknell": 8,
       "Saint Joseph's": 9,
       "G Washington": 9,
       "George Mason": 9,
+      "Duquesne": 9,
       "South Florida": 9,
       "UTSA": 9,
+      "FAU": 8,
+      "Tulsa": 9,
       "Colgate": 8,
       "Army": 7,
       "Radford": 7,
       "Winthrop": 7,
+      "Gardner-Webb": 8,
       "Longwood": 7,
       "High Point": 7,
+      "Charleston So": 8,
       "Providence": 9,
       "Butler": 9,
       "Lafayette": 8,
       "Navy": 7,
       "S Dakota St": 8,
+      "St Thomas (MN)": 7,
       "Purdue FW": 8,
       "Youngstown St": 8,
+      "Cleveland St": 8,
+      "Oakland": 7,
       "Robert Morris": 7,
-      "UNC Greensboro": 8,
+      "Wright St": 8,
+      "N Kentucky": 7,
+      "Green Bay": 7,
+      "ETSU": 8,
+      "Furman": 8,
       "Old Dominion": 8,
+      "UL Monroe": 8,
       "Marshall": 9,
       "Southern Miss": 7,
       "James Madison": 8,
@@ -160528,10 +161385,17 @@ const DATA = {
       "Troy": 8,
       "GA Southern": 7,
       "Texas St": 7,
+      "Coastal": 7,
       "Arkansas St": 8,
+      "Alabama": 10,
+      "Texas A&M": 10,
       "Delaware": 10,
       "Liberty": 10,
+      "N'Western St": 9,
+      "E Texas A&M": 9,
+      "Wichita St": 9,
       "Charlotte": 9,
+      "Grambling": 11,
       "AR-Pine Bluff": 10,
       "Georgetown": 9,
       "Creighton": 9,
@@ -160546,11 +161410,16 @@ const DATA = {
       "Rice": 9,
       "North Texas": 9,
       "Baylor": 10,
+      "Colorado": 9,
       "SC State": 9,
+      "MD Eastern": 7,
+      "Kansas City": 7,
       "South Dakota": 7,
+      "Milwaukee": 7,
       "Detroit Mercy": 8,
       "Austin Peay": 8,
       "Lipscomb": 8,
+      "Illinois": 8,
       "Northwestern": 5,
       "Oklahoma St": 10,
       "BYU": 10,
@@ -160564,11 +161433,12 @@ const DATA = {
       "Santa Clara": 2,
       "Seattle U": 7,
       "Pepperdine": 7,
+      "Washington": 8,
+      "Iowa": 9,
       "New Mexico": 8,
       "Utah State": 10,
       "Oregon St": 5,
       "Washington St": 7,
-      "Washington": 8,
       "Maine": 8,
       "Vermont": 8,
       "UMBC": 8,
@@ -160576,9 +161446,21 @@ const DATA = {
       "Bryant": 8,
       "UAlbany": 8,
       "Michigan": 9,
+      "Penn State": 9,
       "Cincinnati": 9,
       "West Virginia": 9,
+      "Sacred Heart": 7,
+      "Fairfield": 7,
+      "Siena": 8,
       "Iona": 8,
+      "Mount St Marys": 7,
+      "Merrimack": 8,
+      "Quinnipiac": 7,
+      "Canisius": 7,
+      "Marist": 7,
+      "Rider": 8,
+      "Manhattan": 7,
+      "Saint Peter's": 8,
       "C Connecticut": 8,
       "Chicago St": 9,
       "Mercyhurst": 8,
@@ -160603,6 +161485,7 @@ const DATA = {
       "NC A&T": 8,
       "Hampton": 8,
       "Elon": 8,
+      "Chattanooga": 8,
       "Mercer": 8,
       "Bellarmine": 8,
       "Stetson": 8,
@@ -160616,17 +161499,25 @@ const DATA = {
       "Denver": 7,
       "North Dakota": 7,
       "Omaha": 7,
+      "Samford": 8,
       "The Citadel": 8,
+      "Little Rock": 8,
+      "Lindenwood": 7,
       "Utah Valley": 9,
       "Abilene Chrstn": 10,
+      "Tennessee Tech": 8,
       "W Illinois": 8,
+      "UT Martin": 8,
       "So Indiana": 8,
       "SE Missouri": 8,
       "Morehead St": 8,
+      "Tennessee St": 8,
       "E Illinois": 8,
       "UAB": 9,
+      "Memphis": 10,
       "UC Davis": 9,
       "Santa Barbara": 9,
+      "Weber St": 7,
       "N Colorado": 8,
       "Idaho St": 8,
       "N Arizona": 8,
@@ -160648,60 +161539,150 @@ const DATA = {
       "Long Beach St": 9,
       "CA Baptist": 9,
       "Tarleton St": 9,
+      "Davidson": 9,
+      "Loyola Chicago": 7,
+      "VCU": 8,
+      "Dayton": 8,
       "Yale": 7,
       "Brown": 6,
+      "St John's": 9,
+      "UConn": 8,
+      "Valparaiso": 8,
+      "Evansville": 8,
+      "S Illinois": 8,
+      "Murray St": 7,
+      "Illinois St": 8,
+      "Drake": 7,
       "Northern Iowa": 8,
-      "Auburn": 9,
+      "Bradley": 7,
+      "UIC": 7,
+      "Belmont": 7,
+      "Rutgers": 7,
+      "Nebraska": 9,
       "Mississippi St": 9,
       "Arkansas": 9,
       "Wake Forest": 8,
+      "East Carolina": 9,
       "Temple": 9,
+      "Indiana": 8,
       "Wisconsin": 9,
-      "Purdue": 8,
-      "Loyola MD": 4,
-      "Missouri": 9,
+      "NC State": 7,
       "Virginia Tech": 7,
-      "New Hampshire": 8,
+      "Purdue": 8,
+      "Oregon": 8,
+      "UMass": 7,
+      "E Michigan": 8,
+      "Boston U": 7,
+      "Loyola MD": 4,
+      "South Carolina": 8,
+      "Missouri": 9,
+      "Iowa State": 9,
       "N Illinois": 9,
+      "Rhode Island": 9,
       "Richmond": 8,
+      "Fordham": 8,
+      "St Bonaventure": 8,
+      "TCU": 9,
+      "Kansas St": 9,
+      "Holy Cross": 6,
       "Lehigh": 7,
       "Presbyterian": 7,
       "Marquette": 8,
+      "Pitt": 6,
+      "SMU": 7,
+      "Boston College": 9,
       "Miami": 8,
       "IU Indy": 7,
+      "Niagara": 7,
       "Penn": 7,
       "Princeton": 7,
+      "New Hampshire": 8,
+      "Texas": 8,
+      "Ole Miss": 9,
       "Missouri St": 9,
+      "Kansas": 9,
+      "Saint Louis": 8,
+      "La Salle": 8,
+      "W Michigan": 9,
+      "Kent State": 8,
+      "Ball State": 9,
+      "Bowling Green": 8,
       "Vanderbilt": 9,
-      "Pitt": 6,
       "Arizona": 9,
+      "Miami OH": 8,
+      "Buffalo": 8,
+      "C Michigan": 8,
+      "Toledo": 8,
+      "DePaul": 8,
       "Florida St": 9,
       "Towson": 7,
+      "Nicholls": 8,
+      "Texas A&M-CC": 8,
+      "Auburn": 9,
+      "SIUE": 7,
       "Norfolk St": 6,
+      "NC Central": 9,
+      "UNLV": 8,
       "Grand Canyon": 4,
+      "Coppin St": 6,
       "Delaware St": 7,
+      "SE Louisiana": 8,
+      "Hou Christian": 8,
+      "Alabama St": 9,
       "Dartmouth": 6,
       "Harvard": 7,
+      "McNeese": 8,
+      "Incarnate Word": 8,
       "Kennesaw St": 9,
+      "Howard": 7,
+      "Bethune": 9,
       "Prairie View": 9,
+      "Akron": 8,
+      "Florida A&M": 9,
       "Texas Southern": 9,
       "Miss Valley St": 10,
+      "Jackson St": 9,
+      "Southern": 9,
+      "Alabama A&M": 9,
+      "SF Austin": 8,
+      "Lamar": 8,
+      "New Orleans": 8,
+      "UT Rio Grande": 8,
       "LSU": 9,
       "Georgia": 9,
+      "North Carolina": 9,
+      "Duke": 9,
+      "Alcorn St": 9,
+      "Ohio": 7,
+      "Wyoming": 6,
       "Air Force": 9,
+      "San Diego St": 8,
       "Oral Roberts": 7,
+      "Florida": 9,
+      "Tennessee": 9,
       "Southern Utah": 8,
       "Colorado St": 8,
       "San Jos\u00e9 St": 5,
       "LMU": 6,
       "San Diego": 6,
+      "Nevada": 7,
+      "Fresno St": 8,
+      "UCLA": 8,
+      "Boise St": 8,
+      "Sacramento St": 8,
       "Portland St": 5,
       "Hawai\u2019i": 9,
+      "USC": 8,
       "Ohio State": 9,
+      "Texas Tech": 9,
+      "Tulane": 9,
       "Maryland": 4,
+      "Xavier": 8,
       "Mid Atl Chrstn": 1,
+      "Indiana St": 7,
       "Virginia": 4,
       "Clemson": 7,
+      "Syracuse": 7,
       "California": 4,
       "Georgia Tech": 7,
       "Stanford": 4,
@@ -160714,6 +161695,55 @@ const DATA = {
     },
     "visitedVenueCount": 20,
     "visitedVenues": [
+      {
+        "venue": "War Memorial at The Sobrato Center",
+        "city": "San Francisco",
+        "state": "California",
+        "pastGames": 7,
+        "upcomingGames": [
+          {
+            "date": "2026-02-05T03:00Z",
+            "time_detail": "Final",
+            "home": "San Francisco",
+            "away": "LMU",
+            "homeRank": null,
+            "awayRank": null,
+            "tv": [
+              "ESPN+"
+            ]
+          },
+          {
+            "date": "2026-02-13T02:00Z",
+            "time_detail": "2/12 - 9:00 PM EST",
+            "home": "San Francisco",
+            "away": "Oregon St",
+            "homeRank": null,
+            "awayRank": null,
+            "tv": []
+          },
+          {
+            "date": "2026-02-19T04:00Z",
+            "time_detail": "2/18 - 11:00 PM EST",
+            "home": "San Francisco",
+            "away": "Gonzaga",
+            "homeRank": null,
+            "awayRank": 6,
+            "tv": []
+          },
+          {
+            "date": "2026-02-22T03:00Z",
+            "time_detail": "2/21 - 10:00 PM EST",
+            "home": "San Francisco",
+            "away": "Santa Clara",
+            "homeRank": null,
+            "awayRank": null,
+            "tv": [
+              "CBSSN"
+            ]
+          }
+        ],
+        "homeTeam": "San Francisco"
+      },
       {
         "venue": "Leavey Center",
         "city": "Santa Clara",
@@ -160764,11 +161794,11 @@ const DATA = {
         "upcomingGames": [
           {
             "date": "2026-02-05T03:00Z",
-            "time_detail": "2/4 - 10:00 PM EST",
+            "time_detail": "Final",
             "home": "Stanford",
             "away": "Clemson",
             "homeRank": null,
-            "awayRank": 22,
+            "awayRank": 20,
             "tv": [
               "ACC Network"
             ]
@@ -160816,17 +161846,6 @@ const DATA = {
         "pastGames": 1,
         "upcomingGames": [
           {
-            "date": "2026-02-03T03:00Z",
-            "time_detail": "2/2 - 10:00 PM EST",
-            "home": "Portland St",
-            "away": "Idaho St",
-            "homeRank": null,
-            "awayRank": null,
-            "tv": [
-              "ESPN+"
-            ]
-          },
-          {
             "date": "2026-02-20T02:00Z",
             "time_detail": "2/19 - 9:00 PM EST",
             "home": "Portland St",
@@ -160870,7 +161889,7 @@ const DATA = {
         "upcomingGames": [
           {
             "date": "2026-02-05T01:00Z",
-            "time_detail": "2/4 - 8:00 PM EST",
+            "time_detail": "Final",
             "home": "California",
             "away": "Georgia Tech",
             "homeRank": null,
@@ -160885,7 +161904,7 @@ const DATA = {
             "home": "California",
             "away": "Clemson",
             "homeRank": null,
-            "awayRank": 22,
+            "awayRank": 20,
             "tv": [
               "ACC Network"
             ]
@@ -160995,17 +162014,6 @@ const DATA = {
         "pastGames": 3,
         "upcomingGames": [
           {
-            "date": "2026-02-01T18:00Z",
-            "time_detail": "Final",
-            "home": "Maryland",
-            "away": "Purdue",
-            "homeRank": null,
-            "awayRank": 12,
-            "tv": [
-              "CBS"
-            ]
-          },
-          {
             "date": "2026-02-06T01:30Z",
             "time_detail": "2/5 - 8:30 PM EST",
             "home": "Maryland",
@@ -161045,7 +162053,9 @@ const DATA = {
             "away": "Rutgers",
             "homeRank": null,
             "awayRank": null,
-            "tv": []
+            "tv": [
+              "FS1"
+            ]
           },
           {
             "date": "2026-03-08T19:00Z",
@@ -161053,60 +162063,11 @@ const DATA = {
             "home": "Maryland",
             "away": "Illinois",
             "homeRank": null,
-            "awayRank": 9,
+            "awayRank": 5,
             "tv": []
           }
         ],
         "homeTeam": "Maryland"
-      },
-      {
-        "venue": "War Memorial at The Sobrato Center",
-        "city": "San Francisco",
-        "state": "California",
-        "pastGames": 6,
-        "upcomingGames": [
-          {
-            "date": "2026-02-05T03:00Z",
-            "time_detail": "2/4 - 10:00 PM EST",
-            "home": "San Francisco",
-            "away": "LMU",
-            "homeRank": null,
-            "awayRank": null,
-            "tv": [
-              "ESPN+"
-            ]
-          },
-          {
-            "date": "2026-02-13T02:00Z",
-            "time_detail": "2/12 - 9:00 PM EST",
-            "home": "San Francisco",
-            "away": "Oregon St",
-            "homeRank": null,
-            "awayRank": null,
-            "tv": []
-          },
-          {
-            "date": "2026-02-19T04:00Z",
-            "time_detail": "2/18 - 11:00 PM EST",
-            "home": "San Francisco",
-            "away": "Gonzaga",
-            "homeRank": null,
-            "awayRank": 6,
-            "tv": []
-          },
-          {
-            "date": "2026-02-22T03:00Z",
-            "time_detail": "2/21 - 10:00 PM EST",
-            "home": "San Francisco",
-            "away": "Santa Clara",
-            "homeRank": null,
-            "awayRank": null,
-            "tv": [
-              "CBSSN"
-            ]
-          }
-        ],
-        "homeTeam": "San Francisco"
       },
       {
         "venue": "Welsh-Ryan Arena",
@@ -161120,7 +162081,7 @@ const DATA = {
             "home": "Northwestern",
             "away": "Michigan",
             "homeRank": null,
-            "awayRank": 3,
+            "awayRank": 2,
             "tv": [
               "BTN"
             ]
@@ -161152,7 +162113,9 @@ const DATA = {
             "away": "Purdue",
             "homeRank": null,
             "awayRank": 12,
-            "tv": []
+            "tv": [
+              "BTN"
+            ]
           }
         ],
         "homeTeam": "Northwestern"
@@ -161165,7 +162128,7 @@ const DATA = {
         "upcomingGames": [
           {
             "date": "2026-02-05T03:00Z",
-            "time_detail": "2/4 - 10:00 PM EST",
+            "time_detail": "Final",
             "home": "Saint Mary's",
             "away": "San Diego",
             "homeRank": null,
@@ -161236,17 +162199,6 @@ const DATA = {
         "pastGames": 1,
         "upcomingGames": [
           {
-            "date": "2026-02-04T02:00Z",
-            "time_detail": "2/3 - 9:00 PM EST",
-            "home": "Grand Canyon",
-            "away": "Air Force",
-            "homeRank": null,
-            "awayRank": null,
-            "tv": [
-              "MWN"
-            ]
-          },
-          {
             "date": "2026-02-12T03:00Z",
             "time_detail": "2/11 - 10:00 PM EST",
             "home": "Grand Canyon",
@@ -161286,7 +162238,9 @@ const DATA = {
             "away": "Fresno St",
             "homeRank": null,
             "awayRank": null,
-            "tv": []
+            "tv": [
+              "MWN"
+            ]
           }
         ],
         "homeTeam": "Grand Canyon"
@@ -161307,7 +162261,7 @@ const DATA = {
         "upcomingGames": [
           {
             "date": "2026-02-05T00:00Z",
-            "time_detail": "2/4 - 7:00 PM EST",
+            "time_detail": "Final/2OT",
             "home": "Loyola MD",
             "away": "Lehigh",
             "homeRank": null,
@@ -161430,31 +162384,22 @@ const DATA = {
         "pastGames": 22,
         "upcomingGames": [
           {
-            "date": "2026-02-04T02:00Z",
-            "time_detail": "2/3 - 9:00 PM EST",
-            "home": "Virginia",
-            "away": "Pitt",
-            "homeRank": 17,
-            "awayRank": null,
-            "tv": [
-              "ACC Network"
-            ]
-          },
-          {
             "date": "2026-02-07T17:00Z",
             "time_detail": "2/7 - 12:00 PM EST",
             "home": "Virginia",
             "away": "Syracuse",
-            "homeRank": 17,
+            "homeRank": 18,
             "awayRank": null,
-            "tv": []
+            "tv": [
+              "ESPN"
+            ]
           },
           {
             "date": "2026-02-21T19:00Z",
             "time_detail": "2/21 - 2:00 PM EST",
             "home": "Virginia",
             "away": "Miami",
-            "homeRank": 17,
+            "homeRank": 18,
             "awayRank": null,
             "tv": []
           },
@@ -161463,7 +162408,7 @@ const DATA = {
             "time_detail": "2/24 - 7:00 PM EST",
             "home": "Virginia",
             "away": "NC State",
-            "homeRank": 17,
+            "homeRank": 18,
             "awayRank": null,
             "tv": [
               "ACC Network"
@@ -161474,7 +162419,7 @@ const DATA = {
             "time_detail": "3/3 - 7:00 PM EST",
             "home": "Virginia",
             "away": "Wake Forest",
-            "homeRank": 17,
+            "homeRank": 18,
             "awayRank": null,
             "tv": [
               "ACC Network"
@@ -161485,9 +162430,11 @@ const DATA = {
             "time_detail": "3/7 - 12:30 PM EST",
             "home": "Virginia",
             "away": "Virginia Tech",
-            "homeRank": 17,
+            "homeRank": 18,
             "awayRank": null,
-            "tv": []
+            "tv": [
+              "The CW Network"
+            ]
           }
         ],
         "homeTeam": "Virginia"
