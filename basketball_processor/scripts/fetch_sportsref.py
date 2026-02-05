@@ -21,6 +21,7 @@ import argparse
 import json
 import os
 import re
+import subprocess
 import sys
 import time
 from datetime import datetime
@@ -257,6 +258,19 @@ def save_pending_games(data: dict):
         json.dump(data, f, indent=2)
 
 
+def cleanup_scheduled_job():
+    """Remove the launchd job after fetch completes."""
+    plist_path = Path.home() / "Library" / "LaunchAgents" / "com.ncaam.sportsref-fetch.plist"
+    if plist_path.exists():
+        try:
+            subprocess.run(["launchctl", "unload", str(plist_path)],
+                          capture_output=True, check=False)
+            plist_path.unlink()
+            print("Cleaned up scheduled job.")
+        except Exception as e:
+            print(f"Note: Could not clean up scheduled job: {e}")
+
+
 def fetch_pending_games(fetch_all: bool = False, specific_game_id: Optional[str] = None):
     """
     Fetch Sports Reference pages for pending games.
@@ -341,6 +355,14 @@ def fetch_pending_games(fetch_all: bool = False, specific_game_id: Optional[str]
     print(f"Fetched: {fetched}")
     print(f"Skipped (already done): {skipped}")
     print(f"Failed: {failed}")
+
+    # Check if all pending games are now fetched
+    pending = load_pending_games()
+    unfetched = [g for g in pending.get("games", []) if not g.get("sportsref_fetched")]
+    if not unfetched:
+        cleanup_scheduled_job()
+    elif failed > 0:
+        print(f"\n{len(unfetched)} game(s) still pending - will retry on next scheduled run")
 
     if fetched > 0:
         print(f"\nNext step: Run the processor to include new games:")

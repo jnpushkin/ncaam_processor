@@ -18,8 +18,10 @@ Examples:
 import argparse
 import json
 import os
+import plistlib
+import subprocess
 import sys
-from datetime import datetime
+from datetime import datetime, timedelta
 from pathlib import Path
 
 # Add parent directory to path for imports
@@ -45,6 +47,73 @@ def save_pending_games(data: dict):
     PENDING_GAMES_FILE.parent.mkdir(parents=True, exist_ok=True)
     with open(PENDING_GAMES_FILE, 'w') as f:
         json.dump(data, f, indent=2)
+
+
+def schedule_sportsref_fetch():
+    """
+    Schedule a one-time Sports Reference fetch for tomorrow at 10 AM.
+    Uses launchd on macOS.
+    """
+    plist_dir = Path.home() / "Library" / "LaunchAgents"
+    plist_path = plist_dir / "com.ncaam.sportsref-fetch.plist"
+
+    # Calculate tomorrow at 10 AM
+    now = datetime.now()
+    tomorrow_10am = (now + timedelta(days=1)).replace(hour=10, minute=0, second=0, microsecond=0)
+
+    # If it's before 10 AM today, schedule for today instead
+    today_10am = now.replace(hour=10, minute=0, second=0, microsecond=0)
+    if now < today_10am:
+        target_time = today_10am
+    else:
+        target_time = tomorrow_10am
+
+    project_dir = Path(__file__).parent.parent.parent.resolve()
+    log_file = project_dir / "logs" / "sportsref_fetch.log"
+
+    plist_content = {
+        "Label": "com.ncaam.sportsref-fetch",
+        "ProgramArguments": [
+            "/usr/bin/python3",
+            "-m", "basketball_processor.scripts.fetch_sportsref"
+        ],
+        "WorkingDirectory": str(project_dir),
+        "StartCalendarInterval": {
+            "Hour": target_time.hour,
+            "Minute": target_time.minute,
+            "Day": target_time.day,
+            "Month": target_time.month,
+        },
+        "StandardOutPath": str(log_file),
+        "StandardErrorPath": str(log_file),
+        "RunAtLoad": False,
+    }
+
+    # Ensure directories exist
+    plist_dir.mkdir(parents=True, exist_ok=True)
+    log_file.parent.mkdir(parents=True, exist_ok=True)
+
+    # Unload existing job if present
+    try:
+        subprocess.run(["launchctl", "unload", str(plist_path)],
+                      capture_output=True, check=False)
+    except:
+        pass
+
+    # Write plist
+    with open(plist_path, 'wb') as f:
+        plistlib.dump(plist_content, f)
+
+    # Load the job
+    result = subprocess.run(["launchctl", "load", str(plist_path)],
+                           capture_output=True, text=True)
+
+    if result.returncode == 0:
+        print(f"\n  Scheduled Sports Reference fetch for {target_time.strftime('%Y-%m-%d %H:%M')}")
+        return True
+    else:
+        print(f"\n  Note: Could not schedule auto-fetch: {result.stderr}")
+        return False
 
 
 def add_game(url_or_id: str, process_now: bool = False) -> dict:
@@ -138,13 +207,11 @@ Examples:
 
     try:
         game_data = add_game(args.url_or_id, args.process)
-        print("\nDone!")
 
-        # Show next steps
-        print("\nNext steps:")
-        print("  1. Sports Reference box score usually available next day")
-        print("  2. Run: python -m basketball_processor.scripts.fetch_sportsref")
-        print("     to download when available")
+        # Schedule automatic fetch
+        schedule_sportsref_fetch()
+
+        print("\nDone!")
 
     except Exception as e:
         print(f"Error: {e}", file=sys.stderr)
