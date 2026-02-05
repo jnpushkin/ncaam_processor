@@ -71,11 +71,14 @@ def schedule_sportsref_fetch():
     project_dir = Path(__file__).parent.parent.parent.resolve()
     log_file = project_dir / "logs" / "sportsref_fetch.log"
 
+    # Use the shell script which handles Python path and auto-deployment
+    script_path = project_dir / "scripts" / "fetch_sportsref.sh"
+
     plist_content = {
         "Label": "com.ncaam.sportsref-fetch",
         "ProgramArguments": [
-            "/usr/bin/python3",
-            "-m", "basketball_processor.scripts.fetch_sportsref"
+            "/bin/bash",
+            str(script_path)
         ],
         "WorkingDirectory": str(project_dir),
         "StartCalendarInterval": {

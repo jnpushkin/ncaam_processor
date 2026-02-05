@@ -191,9 +191,82 @@ def get_team_slug(team_name: str) -> Optional[str]:
     return slug
 
 
+def find_sportsref_url(date_yyyymmdd: str, home_team: str, away_team: str) -> Tuple[bool, Optional[str]]:
+    """
+    Find the Sports Reference box score URL by searching the team's schedule.
+
+    Sports Reference URLs can have sequence numbers (e.g., 2026-02-04-22-san-francisco.html)
+    when multiple games occur. We search the team schedule page to find the correct URL.
+
+    Args:
+        date_yyyymmdd: Date in YYYYMMDD format
+        home_team: Home team name
+        away_team: Away team name
+
+    Returns:
+        Tuple of (success, url or error_message)
+    """
+    slug = get_team_slug(home_team)
+    if not slug:
+        return False, f"No slug mapping for team: {home_team}"
+
+    # Format date for matching
+    formatted_date = f"{date_yyyymmdd[:4]}-{date_yyyymmdd[4:6]}-{date_yyyymmdd[6:8]}"
+
+    # Also try the previous day (ESPN uses UTC, game might be previous local date)
+    from datetime import datetime, timedelta
+    game_date = datetime.strptime(date_yyyymmdd, "%Y%m%d")
+    prev_date = (game_date - timedelta(days=1)).strftime("%Y-%m-%d")
+
+    # First, try the simple URL without sequence number (most common case)
+    simple_url = f"{SPORTSREF_BASE}/{formatted_date}-{slug}.html"
+    success, _ = fetch_sportsref_page(simple_url)
+    if success:
+        return True, simple_url
+
+    # Also try previous day
+    prev_url = f"{SPORTSREF_BASE}/{prev_date}-{slug}.html"
+    success, _ = fetch_sportsref_page(prev_url)
+    if success:
+        return True, prev_url
+
+    # If simple URL fails, search the team's schedule page for the correct URL
+    year = date_yyyymmdd[:4]
+    schedule_url = f"https://www.sports-reference.com/cbb/schools/{slug}/men/{year}-schedule.html"
+
+    try:
+        headers = {
+            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36"
+        }
+        response = requests.get(schedule_url, headers=headers, timeout=30)
+
+        if response.status_code != 200:
+            return False, f"Could not fetch schedule page: HTTP {response.status_code}"
+
+        # Look for box score links matching the date
+        # Pattern: /cbb/boxscores/YYYY-MM-DD[-NN]-slug.html
+        import re
+
+        # Try both the expected date and previous day
+        for date_to_match in [formatted_date, prev_date]:
+            pattern = rf'/cbb/boxscores/({date_to_match}(?:-\d+)?-{re.escape(slug)}\.html)'
+            matches = re.findall(pattern, response.text)
+
+            if matches:
+                # Return the first matching URL
+                box_url = f"https://www.sports-reference.com/cbb/boxscores/{matches[0]}"
+                return True, box_url
+
+        return False, f"No box score found in schedule for {formatted_date} or {prev_date}"
+
+    except requests.exceptions.RequestException as e:
+        return False, f"Error fetching schedule: {str(e)}"
+
+
 def build_sportsref_url(date_yyyymmdd: str, home_team: str) -> Optional[str]:
     """
-    Build Sports Reference box score URL.
+    Build Sports Reference box score URL (simple version without sequence number).
+    Used as fallback. Prefer find_sportsref_url() for accurate URL discovery.
 
     Args:
         date_yyyymmdd: Date in YYYYMMDD format
@@ -306,19 +379,23 @@ def fetch_pending_games(fetch_all: bool = False, specific_game_id: Optional[str]
             continue
 
         home_team = game.get("home_team")
+        away_team = game.get("away_team")
         date_yyyymmdd = game.get("date_yyyymmdd")
         gender = game.get("gender", "M")
 
-        print(f"\n{game.get('away_team')} @ {home_team} ({game.get('date')})")
+        print(f"\n{away_team} @ {home_team} ({game.get('date')})")
 
-        # Build SR URL
-        sr_url = build_sportsref_url(date_yyyymmdd, home_team)
-        if not sr_url:
-            print(f"  Could not build SR URL for {home_team}")
+        # Find the correct SR URL (handles sequence numbers and date offsets)
+        print(f"  Searching for box score...")
+        url_found, sr_url_or_error = find_sportsref_url(date_yyyymmdd, home_team, away_team)
+
+        if not url_found:
+            print(f"  {sr_url_or_error}")
             failed += 1
             continue
 
-        print(f"  Trying: {sr_url}")
+        sr_url = sr_url_or_error
+        print(f"  Found: {sr_url}")
 
         # Fetch the page
         success, result = fetch_sportsref_page(sr_url)

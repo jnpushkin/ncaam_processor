@@ -1,0 +1,19 @@
+{
+  "games": [
+    {
+      "espn_game_id": "401829228",
+      "espn_url": "https://www.espn.com/mens-college-basketball/boxscore/_/gameId/401829228",
+      "away_team": "Loyola Marymount",
+      "home_team": "San Francisco",
+      "date": "February 05, 2026",
+      "date_yyyymmdd": "20260205",
+      "gender": "M",
+      "added_at": "2026-02-04T22:24:46.691008",
+      "sportsref_fetched": true,
+      "sportsref_url": "https://www.sports-reference.com/cbb/boxscores/2026-02-04-22-san-francisco.html",
+      "sportsref_file": "/Users/jeremypushkin/ncaam_processor/html_games/2026-02-04-22-san-francisco.html",
+      "fetched_at": "2026-02-05T12:00:00.000000",
+      "processed": true
+    }
+  ]
+}

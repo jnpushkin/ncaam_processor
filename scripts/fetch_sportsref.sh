@@ -4,10 +4,13 @@
 
 cd /Users/jeremypushkin/ncaam_processor
 
+# Use the correct Python 3.13 path
+PYTHON3="/Library/Frameworks/Python.framework/Versions/3.13/bin/python3"
+
 echo "=== Sports Reference Fetch: $(date) ==="
 
 # Capture output to check if any games were fetched
-OUTPUT=$(/usr/bin/python3 -m basketball_processor.scripts.fetch_sportsref 2>&1)
+OUTPUT=$($PYTHON3 -m basketball_processor.scripts.fetch_sportsref 2>&1)
 echo "$OUTPUT"
 
 # Check if any games were successfully fetched
@@ -16,7 +19,7 @@ if echo "$OUTPUT" | grep -q "SUCCESS!"; then
     echo "=== New games fetched - running processor ==="
 
     # Run processor (skip NBA checks to avoid rate limiting)
-    /usr/bin/python3 -m basketball_processor --no-deploy --website-only 2>&1
+    $PYTHON3 -m basketball_processor --no-deploy --website-only 2>&1
 
     echo ""
     echo "=== Deploying to surge ==="
