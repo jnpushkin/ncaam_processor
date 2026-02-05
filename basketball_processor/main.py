@@ -40,8 +40,29 @@ def load_espn_cached_games(existing_game_ids: set) -> List[Dict[str, Any]]:
     if not ESPN_CACHE_DIR.exists():
         return espn_games
 
+    # Load pending games to check which ESPN games have SR data fetched
+    pending_file = BASE_DIR / "data" / "pending_games.json"
+    sr_fetched_espn_ids = set()
+    if pending_file.exists():
+        try:
+            with open(pending_file, 'r') as f:
+                pending_data = json.load(f)
+            for game in pending_data.get("games", []):
+                if game.get("sportsref_fetched"):
+                    sr_fetched_espn_ids.add(game.get("espn_game_id"))
+        except Exception:
+            pass
+
     for cache_file in ESPN_CACHE_DIR.glob("*.json"):
         try:
+            # ESPN game ID is the filename without extension
+            espn_game_id = cache_file.stem
+
+            # Skip if SR data has been fetched for this ESPN game
+            if espn_game_id in sr_fetched_espn_ids:
+                debug(f"  Skipping ESPN game {espn_game_id} - SR data fetched")
+                continue
+
             with open(cache_file, 'r') as f:
                 game_data = json.load(f)
 
@@ -53,7 +74,7 @@ def load_espn_cached_games(existing_game_ids: set) -> List[Dict[str, Any]]:
             home_slug = home_team.lower().replace(' ', '-').replace("'", '').replace('.', '')
             game_id = f"{date_yyyymmdd}-{home_slug}"
 
-            # Skip if we already have this game from Sports Reference
+            # Skip if we already have this game from Sports Reference (by date/team match)
             if game_id in existing_game_ids:
                 debug(f"  Skipping ESPN game {game_id} - already have SR data")
                 continue
