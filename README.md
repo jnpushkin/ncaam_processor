@@ -46,6 +46,30 @@ python3 -m basketball_processor --website-only
 python3 -m basketball_processor --from-cache-only
 ```
 
+### Adding Games from ESPN
+
+After attending a game, you can add it immediately using the ESPN box score URL:
+
+```bash
+python3 -m basketball_processor.scripts.add_espn_game <espn_url>
+```
+
+**Example:**
+```bash
+python3 -m basketball_processor.scripts.add_espn_game https://www.espn.com/mens-college-basketball/boxscore/_/gameId/401829228
+```
+
+**What happens:**
+1. ESPN data is fetched and cached immediately
+2. A launchd job is scheduled for 10 AM the next day
+3. At 10 AM, the Sports Reference box score is automatically fetched
+4. If successful, the processor runs and deploys to surge automatically
+
+**Manual fetch (if needed):**
+```bash
+python3 -m basketball_processor.scripts.fetch_sportsref
+```
+
 ### Command Line Options
 
 | Option | Description |
