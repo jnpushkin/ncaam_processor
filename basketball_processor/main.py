@@ -19,6 +19,64 @@ from .parsers.sidearm_parser import parse_sidearm_boxscore, is_sidearm_format, S
 from .utils.constants import BASE_DIR, DEFAULT_INPUT_DIR, CACHE_DIR, DEFAULT_HTML_OUTPUT, SURGE_DOMAIN
 from .utils.log import info, warn, error, success, debug, set_verbosity, set_use_emoji
 from .website import generate_website_from_data
+from .engines.milestone_engine import MilestoneEngine
+
+# ESPN cache directory
+ESPN_CACHE_DIR = BASE_DIR / "data" / "espn_cache"
+
+
+def load_espn_cached_games(existing_game_ids: set) -> List[Dict[str, Any]]:
+    """
+    Load games from ESPN cache that don't already have Sports Reference data.
+
+    Args:
+        existing_game_ids: Set of game IDs already loaded from SR HTML files
+
+    Returns:
+        List of ESPN game data dictionaries
+    """
+    espn_games = []
+
+    if not ESPN_CACHE_DIR.exists():
+        return espn_games
+
+    for cache_file in ESPN_CACHE_DIR.glob("*.json"):
+        try:
+            with open(cache_file, 'r') as f:
+                game_data = json.load(f)
+
+            basic_info = game_data.get('basic_info', {})
+            date_yyyymmdd = basic_info.get('date_yyyymmdd', '')
+            home_team = basic_info.get('home_team', '')
+
+            # Create a comparable game ID
+            home_slug = home_team.lower().replace(' ', '-').replace("'", '').replace('.', '')
+            game_id = f"{date_yyyymmdd}-{home_slug}"
+
+            # Skip if we already have this game from Sports Reference
+            if game_id in existing_game_ids:
+                debug(f"  Skipping ESPN game {game_id} - already have SR data")
+                continue
+
+            # Mark as ESPN source
+            game_data['_source'] = 'espn'
+            game_data['basic_info']['source'] = 'espn'
+
+            # Ensure milestone_stats exists
+            if 'milestone_stats' not in game_data:
+                game_data['milestone_stats'] = {}
+
+            # Run milestone detection on ESPN data
+            milestone_engine = MilestoneEngine(game_data)
+            game_data = milestone_engine.process()
+
+            espn_games.append(game_data)
+            info(f"  Added ESPN game: {basic_info.get('away_team')} @ {home_team}")
+
+        except Exception as e:
+            warn(f"Failed to load ESPN cache {cache_file}: {e}")
+
+    return espn_games
 
 
 def enrich_game_with_rankings(game_data: Dict[str, Any]) -> Dict[str, Any]:
@@ -288,6 +346,22 @@ def process_directory_or_file(input_path: str, gender: str = 'M') -> List[Dict[s
             error_msg = failed["error"]
             warn(f"   {file_name}")
             warn(f"     Error: {error_msg}")
+
+    # Build set of existing game IDs to avoid duplicates with ESPN
+    existing_game_ids = set()
+    for game in all_games_data:
+        basic = game.get('basic_info', {})
+        date_yyyymmdd = basic.get('date_yyyymmdd', '')
+        home_team = basic.get('home_team', '')
+        if date_yyyymmdd and home_team:
+            home_slug = home_team.lower().replace(' ', '-').replace("'", '').replace('.', '')
+            existing_game_ids.add(f"{date_yyyymmdd}-{home_slug}")
+
+    # Add ESPN cached games that don't have SR data yet
+    espn_games = load_espn_cached_games(existing_game_ids)
+    if espn_games:
+        info(f"Added {len(espn_games)} game(s) from ESPN cache")
+        all_games_data.extend(espn_games)
 
     return all_games_data
 

@@ -1977,17 +1977,21 @@ function computeGameMilestones() {
                 playerTeams[playerId] = { name: playerName, teams: new Set() };
 
                 // Check RealGM previous schools - if we have playerGames data for this player
-                // at that school (by name match), pre-populate their teams set
+                // at that school BEFORE the current game, pre-populate their teams set
                 // This handles D2/D3 transfers where player IDs don't match across sources
                 if (realgmPrevSchools.length > 0) {
-                    const playerNameLower = playerName.toLowerCase();
+                    const currentDateSort = game.DateSort || '';
                     realgmPrevSchools.forEach(prevSchool => {
-                        // Check if we actually have game data for this player at the previous school
-                        const hasPlayerAtSchool = (DATA.playerGames || []).some(pg =>
-                            pg.player && pg.player.toLowerCase() === playerNameLower &&
-                            pg.team === prevSchool
-                        );
-                        if (hasPlayerAtSchool) {
+                        // Check if we have game data for this player at the previous school BEFORE current game
+                        // Match by player_id first (reliable), fall back to name match only if no player_id
+                        const hasPlayerAtSchoolBefore = (DATA.playerGames || []).some(pg => {
+                            const idMatch = playerId && pg.player_id === playerId;
+                            const nameMatch = !playerId && pg.player && pg.player.toLowerCase() === playerName.toLowerCase();
+                            return (idMatch || nameMatch) &&
+                                pg.team === prevSchool &&
+                                (pg.date_yyyymmdd || '') < currentDateSort;  // Only count games BEFORE current
+                        });
+                        if (hasPlayerAtSchoolBefore) {
                             playerTeams[playerId].teams.add(prevSchool);
                         }
                     });
