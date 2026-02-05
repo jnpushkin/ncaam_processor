@@ -307,6 +307,44 @@ body {
     color: var(--text-primary);
     border: 1px solid var(--border-color);
 }
+.favorite-btn {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    color: var(--text-secondary);
+    padding: 0.25rem;
+    transition: color 0.2s, transform 0.2s;
+    line-height: 1;
+}
+.favorite-btn:hover {
+    transform: scale(1.2);
+    color: #f59e0b;
+}
+.favorite-btn.active {
+    color: #f59e0b;
+}
+.team-link {
+    color: var(--accent-color);
+    text-decoration: none;
+    cursor: pointer;
+}
+.team-link:hover {
+    text-decoration: underline;
+}
+.player-tag, .venue-tag {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    background: var(--accent-light);
+    color: var(--accent-color);
+    border-radius: 4px;
+    font-size: 0.85rem;
+    transition: background 0.2s;
+}
+.player-tag:hover, .venue-tag:hover {
+    background: var(--accent-color);
+    color: white;
+}
 .sub-tabs {
     display: flex;
     gap: 0.25rem;

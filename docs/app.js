@@ -118,6 +118,66 @@ if (savedTheme === 'dark') {
     document.querySelector('.theme-toggle').innerHTML = '&#9728;';
 }
 
+// Favorites management
+let favoriteTeams = new Set();
+
+function loadFavorites() {
+    const saved = localStorage.getItem('favoriteTeams');
+    favoriteTeams = saved ? new Set(JSON.parse(saved)) : new Set();
+}
+
+function saveFavorites() {
+    localStorage.setItem('favoriteTeams', JSON.stringify([...favoriteTeams]));
+}
+
+function toggleFavorite(teamName, gender = 'M') {
+    const key = `${teamName}|${gender}`;
+    if (favoriteTeams.has(key)) {
+        favoriteTeams.delete(key);
+    } else {
+        favoriteTeams.add(key);
+    }
+    saveFavorites();
+    populateTeamsTable();  // Refresh star icons
+    populateDashboard();   // Refresh dashboard favorites section
+}
+
+function isFavorite(teamName, gender = 'M') {
+    return favoriteTeams.has(`${teamName}|${gender}`);
+}
+
+// Load favorites on startup
+loadFavorites();
+
+// Modal navigation stack for back button functionality
+let modalStack = [];
+
+function pushModal(modalType, data) {
+    modalStack.push({ type: modalType, data: data });
+}
+
+function popModal() {
+    if (modalStack.length > 1) {
+        modalStack.pop(); // Remove current
+        const prev = modalStack.pop(); // Get previous (will be re-pushed when opened)
+        if (prev.type === 'team') {
+            showTeamDetail(prev.data.teamName, prev.data.gender);
+        } else if (prev.type === 'player') {
+            showPlayerDetail(prev.data.playerId);
+        } else if (prev.type === 'venue') {
+            showVenueDetail(prev.data.venueName);
+        } else if (prev.type === 'game') {
+            showGameDetail(prev.data.gameId);
+        }
+        return true;
+    }
+    return false;
+}
+
+function clearModalStack() {
+    modalStack = [];
+}
+
 // URL hash-based routing
 function updateURL(section, params = {}) {
     let hash = section;
@@ -497,7 +557,8 @@ function populateDashboard() {
     document.getElementById('dashboard-season-summary').innerHTML = summaryHtml;
 
     // Upcoming games - from venues data for favorite teams
-    const favoriteTeams = new Set(['Virginia', 'San Francisco', 'California', 'Stanford']);
+    // Extract team names from favoriteTeams Set (which stores "teamName|gender" keys)
+    const favTeamNames = new Set([...favoriteTeams].map(key => key.split('|')[0]));
     const today = new Date().toISOString().split('T')[0];
     const allUpcoming = [];
 
@@ -508,7 +569,7 @@ function populateDashboard() {
             if (gameDate < today) return;
             const home = g.home || '';
             const away = g.away || '';
-            if (favoriteTeams.has(home) || favoriteTeams.has(away)) {
+            if (favTeamNames.has(home) || favTeamNames.has(away)) {
                 allUpcoming.push({
                     ...g,
                     venue: venue.venue,
@@ -523,14 +584,14 @@ function populateDashboard() {
     allUpcoming.sort((a, b) => (a.date || '').localeCompare(b.date || ''));
     const relevantUpcoming = allUpcoming.slice(0, 5);
 
-    const upcomingHtml = relevantUpcoming.length > 0 ? relevantUpcoming.map(g => `
+    const upcomingHtml = favoriteTeams.size > 0 ? (relevantUpcoming.length > 0 ? relevantUpcoming.map(g => `
         <div class="dashboard-game-item">
             <div>
                 <div class="dashboard-game-teams">${g.away || 'TBD'} @ ${g.home || 'TBD'}</div>
                 <div class="dashboard-game-date">${g.time_detail || ''} - ${g.venue || ''}</div>
             </div>
         </div>
-    `).join('') : '<div class="dashboard-empty-state">No upcoming games scheduled</div>';
+    `).join('') : '<div class="dashboard-empty-state">No upcoming games for your favorites</div>') : '<div class="dashboard-empty-state">Star teams in the Teams tab to see their upcoming games here</div>';
     document.getElementById('dashboard-upcoming').innerHTML = upcomingHtml;
 
     // Team streaks
@@ -2642,15 +2703,25 @@ function populateTeamsTable() {
     }
 
     if (data.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="7" class="empty-state"><h3>No team data</h3></td></tr>';
+        tbody.innerHTML = '<tr><td colspan="8" class="empty-state"><h3>No team data</h3></td></tr>';
         return;
     }
 
     tbody.innerHTML = data.map(team => {
         const genderTag = team.Gender === 'W' ? ' <span class="gender-tag">(W)</span>' : '';
+        const gender = team.Gender || 'M';
+        const isFav = isFavorite(team.Team, gender);
+        const teamNameEscaped = (team.Team || '').replace(/'/g, "\\'");
         return `
         <tr>
-            <td>${team.Team || ''}${genderTag}</td>
+            <td>
+                <button class="favorite-btn ${isFav ? 'active' : ''}"
+                        onclick="event.stopPropagation(); toggleFavorite('${teamNameEscaped}', '${gender}')"
+                        title="${isFav ? 'Remove from favorites' : 'Add to favorites'}">
+                    ${isFav ? '★' : '☆'}
+                </button>
+            </td>
+            <td><a href="#" onclick="event.preventDefault(); showTeamDetail('${teamNameEscaped}', '${gender}')" class="team-link">${team.Team || ''}${genderTag}</a></td>
             <td>${team.Games || 0}</td>
             <td>${team.Wins || 0}</td>
             <td>${team.Losses || 0}</td>
@@ -5686,9 +5757,11 @@ function populateStreaksTable() {
 
     tbody.innerHTML = data.map(team => {
         const genderTag = team.Gender === 'W' ? ' <span class="gender-tag">(W)</span>' : '';
+        const gender = team.Gender || 'M';
+        const teamNameEscaped = (team.Team || '').replace(/'/g, "\\'");
         return `
         <tr>
-            <td>${team.Team || ''}${genderTag}</td>
+            <td><a href="#" onclick="event.preventDefault(); showTeamDetail('${teamNameEscaped}', '${gender}')" class="team-link">${team.Team || ''}${genderTag}</a></td>
             <td>${team['Current Streak'] || '-'}</td>
             <td>${team['Longest Win Streak'] || 0}</td>
             <td>${team['Longest Loss Streak'] || 0}</td>
@@ -5709,9 +5782,11 @@ function populateSplitsTable() {
 
     tbody.innerHTML = data.map(team => {
         const genderTag = team.Gender === 'W' ? ' <span class="gender-tag">(W)</span>' : '';
+        const gender = team.Gender || 'M';
+        const teamNameEscaped = (team.Team || '').replace(/'/g, "\\'");
         return `
         <tr>
-            <td>${team.Team || ''}${genderTag}</td>
+            <td><a href="#" onclick="event.preventDefault(); showTeamDetail('${teamNameEscaped}', '${gender}')" class="team-link">${team.Team || ''}${genderTag}</a></td>
             <td>${team['Home W'] || 0}-${team['Home L'] || 0}</td>
             <td>${((team['Home Win%'] || 0) * 100).toFixed(1)}%</td>
             <td>${team['Away W'] || 0}-${team['Away L'] || 0}</td>
@@ -5732,10 +5807,12 @@ function populateConferenceTable() {
 
     tbody.innerHTML = data.map(team => {
         const genderTag = team.Gender === 'W' ? ' <span class="gender-tag">(W)</span>' : '';
+        const gender = team.Gender || 'M';
+        const teamNameEscaped = (team.Team || '').replace(/'/g, "\\'");
         return `
         <tr>
             <td>${team.Conference || 'Independent'}</td>
-            <td>${team.Team || ''}${genderTag}</td>
+            <td><a href="#" onclick="event.preventDefault(); showTeamDetail('${teamNameEscaped}', '${gender}')" class="team-link">${team.Team || ''}${genderTag}</a></td>
             <td>${team['Conf W'] || 0}-${team['Conf L'] || 0}</td>
             <td>${((team['Conf Win%'] || 0) * 100).toFixed(1)}%</td>
             <td>${team['Overall W'] || 0}-${team['Overall L'] || 0}</td>
@@ -7322,6 +7399,7 @@ function showPlayerDetail(playerId) {
     `;
 
     document.getElementById('player-modal').classList.add('active');
+    pushModal('player', { playerId });
     updateURL('players', { player: playerId });
 }
 
@@ -7337,17 +7415,66 @@ function showTeamDetail(teamName, gender = 'M') {
         (g['Away Team'] === teamName || g['Home Team'] === teamName) && (g.Gender || 'M') === gender
     ).sort((a, b) => (b.DateSort || '').localeCompare(a.DateSort || ''));
 
-    // Calculate record
-    let wins = 0, losses = 0;
+    // Calculate detailed records
+    let wins = 0, losses = 0, homeWins = 0, homeLosses = 0, awayWins = 0, awayLosses = 0;
+    let bestMargin = -999, worstMargin = 999, bestGame = null, worstGame = null;
+    const margins = [];
+
     games.forEach(g => {
+        const isHome = g['Home Team'] === teamName;
+        const teamScore = isHome ? (g['Home Score'] || 0) : (g['Away Score'] || 0);
+        const oppScore = isHome ? (g['Away Score'] || 0) : (g['Home Score'] || 0);
+        const margin = teamScore - oppScore;
+        const won = margin > 0;
+
+        margins.push({ margin, game: g, won });
+
+        if (won) {
+            wins++;
+            if (isHome) homeWins++; else awayWins++;
+            if (margin > bestMargin) { bestMargin = margin; bestGame = g; }
+        } else {
+            losses++;
+            if (isHome) homeLosses++; else awayLosses++;
+            if (margin < worstMargin) { worstMargin = margin; worstGame = g; }
+        }
+    });
+
+    // Calculate current streak
+    let streak = 0, streakType = null;
+    for (const m of margins) {
+        if (streakType === null) {
+            streakType = m.won ? 'W' : 'L';
+            streak = 1;
+        } else if ((m.won && streakType === 'W') || (!m.won && streakType === 'L')) {
+            streak++;
+        } else {
+            break;
+        }
+    }
+    const streakText = streak > 0 ? `${streakType}${streak}` : '-';
+
+    // Get players seen from this team
+    const players = (DATA.players || []).filter(p =>
+        p.Team === teamName && (p.Gender || 'M') === gender
+    ).sort((a, b) => (b.PPG || 0) - (a.PPG || 0));
+
+    // Get unique venues
+    const venueStats = {};
+    games.forEach(g => {
+        const venue = g.Venue || 'Unknown';
+        if (!venueStats[venue]) venueStats[venue] = { wins: 0, losses: 0, games: [] };
         const isHome = g['Home Team'] === teamName;
         const won = isHome
             ? (g['Home Score'] || 0) > (g['Away Score'] || 0)
             : (g['Away Score'] || 0) > (g['Home Score'] || 0);
-        if (won) wins++; else losses++;
+        if (won) venueStats[venue].wins++; else venueStats[venue].losses++;
+        venueStats[venue].games.push(g);
     });
 
     const genderTag = gender === 'W' ? '<span class="gender-tag">(W)</span>' : '';
+    const isFav = isFavorite(teamName, gender);
+    const teamNameEscaped = teamName.replace(/'/g, "\\'");
 
     const gamesHtml = games.map(g => {
         const isHome = g['Home Team'] === teamName;
@@ -7367,8 +7494,39 @@ function showTeamDetail(teamName, gender = 'M') {
         `;
     }).join('');
 
+    const playersHtml = players.length > 0 ? `
+        <h4 style="margin-top: 1.5rem; margin-bottom: 0.5rem; color: var(--text-secondary);">Players Seen (${players.length})</h4>
+        <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+            ${players.slice(0, 12).map(p => `
+                <span class="player-tag" onclick="closeModal('team-modal'); showPlayerDetail('${(p['Player ID'] || p.Player || '').replace(/'/g, "\\'")}')" style="cursor: pointer;">
+                    ${p.Player} <span style="color: var(--text-secondary);">(${(p.PPG || 0).toFixed(1)} ppg)</span>
+                </span>
+            `).join('')}
+            ${players.length > 12 ? `<span style="color: var(--text-secondary);">+${players.length - 12} more</span>` : ''}
+        </div>
+    ` : '';
+
+    const venuesHtml = Object.keys(venueStats).length > 0 ? `
+        <h4 style="margin-top: 1.5rem; margin-bottom: 0.5rem; color: var(--text-secondary);">Venues (${Object.keys(venueStats).length})</h4>
+        <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+            ${Object.entries(venueStats).slice(0, 8).map(([venue, stats]) => `
+                <span class="venue-tag" onclick="closeModal('team-modal'); showVenueDetail('${venue.replace(/'/g, "\\'")}')" style="cursor: pointer;">
+                    ${venue} <span style="color: var(--text-secondary);">(${stats.wins}-${stats.losses})</span>
+                </span>
+            `).join('')}
+        </div>
+    ` : '';
+
     document.getElementById('team-detail').innerHTML = `
-        <h3 id="team-modal-title">${teamName} ${genderTag}</h3>
+        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem;">
+            <h3 id="team-modal-title" style="margin: 0;">${teamName} ${genderTag}</h3>
+            <button class="favorite-btn ${isFav ? 'active' : ''}"
+                    onclick="toggleFavorite('${teamNameEscaped}', '${gender}'); showTeamDetail('${teamNameEscaped}', '${gender}');"
+                    title="${isFav ? 'Remove from favorites' : 'Add to favorites'}"
+                    style="font-size: 1.5rem;">
+                ${isFav ? '★' : '☆'}
+            </button>
+        </div>
         <p style="margin-bottom: 1rem; color: var(--text-secondary);">
             ${team.Conference || 'Unknown Conference'} | ${wins}-${losses} (${games.length} games seen)
         </p>
@@ -7377,6 +7535,8 @@ function showTeamDetail(teamName, gender = 'M') {
             <div class="compare-card">
                 <h4>Record</h4>
                 <div class="stat-row"><span>Overall</span><span>${wins}-${losses}</span></div>
+                <div class="stat-row"><span>Home</span><span>${homeWins}-${homeLosses}</span></div>
+                <div class="stat-row"><span>Away</span><span>${awayWins}-${awayLosses}</span></div>
                 <div class="stat-row"><span>Win %</span><span>${games.length > 0 ? ((wins / games.length) * 100).toFixed(1) : 0}%</span></div>
             </div>
             <div class="compare-card">
@@ -7385,7 +7545,16 @@ function showTeamDetail(teamName, gender = 'M') {
                 <div class="stat-row"><span>PAPG</span><span>${(team.PAPG || 0).toFixed(1)}</span></div>
                 <div class="stat-row"><span>Diff</span><span class="${(team.Diff || 0) >= 0 ? 'stat-positive' : 'stat-negative'}">${(team.Diff || 0) >= 0 ? '+' : ''}${(team.Diff || 0).toFixed(1)}</span></div>
             </div>
+            <div class="compare-card">
+                <h4>Streaks & Margins</h4>
+                <div class="stat-row"><span>Current</span><span class="${streakType === 'W' ? 'stat-positive' : 'stat-negative'}">${streakText}</span></div>
+                <div class="stat-row"><span>Best Win</span><span class="stat-positive">${bestMargin > 0 ? '+' + bestMargin : '-'}</span></div>
+                <div class="stat-row"><span>Worst Loss</span><span class="stat-negative">${worstMargin < 0 ? worstMargin : '-'}</span></div>
+            </div>
         </div>
+
+        ${playersHtml}
+        ${venuesHtml}
 
         ${games.length > 0 ? `
             <h4 style="margin-top: 1.5rem; margin-bottom: 0.5rem; color: var(--text-secondary);">Games (${games.length})</h4>
@@ -7399,6 +7568,7 @@ function showTeamDetail(teamName, gender = 'M') {
     `;
 
     document.getElementById('team-modal').classList.add('active');
+    pushModal('team', { teamName, gender });
     updateURL('teams', { team: teamName, gender: gender });
 }
 
@@ -7523,6 +7693,7 @@ function showVenueDetail(venueName) {
     `;
 
     document.getElementById('venue-modal').classList.add('active');
+    pushModal('venue', { venueName });
 }
 
 function showGameDetail(gameId, fromCalendarDay = false) {
@@ -7532,12 +7703,25 @@ function showGameDetail(gameId, fromCalendarDay = false) {
         return;
     }
 
-    // Build back button HTML if coming from calendar day list
-    const backButtonHtml = (fromCalendarDay && lastCalendarMonthDay) ? `
-        <button class="back-to-day-btn" onclick="closeModal('game-modal'); showCalendarDayGames('${lastCalendarMonthDay}')">
-            &larr; Back to day list
-        </button>
-    ` : '';
+    // Build back button HTML if coming from calendar day list or another modal
+    let backButtonHtml = '';
+    if (fromCalendarDay && lastCalendarMonthDay) {
+        backButtonHtml = `
+            <button class="back-to-day-btn" onclick="closeModal('game-modal'); showCalendarDayGames('${lastCalendarMonthDay}')">
+                &larr; Back to day list
+            </button>
+        `;
+    } else if (modalStack.length > 0) {
+        const prev = modalStack[modalStack.length - 1];
+        const backLabel = prev.type === 'team' ? `Back to ${prev.data.teamName}` :
+                          prev.type === 'player' ? 'Back to player' :
+                          prev.type === 'venue' ? 'Back to venue' : 'Back';
+        backButtonHtml = `
+            <button class="back-to-day-btn" onclick="closeModal('game-modal'); popModal();">
+                &larr; ${backLabel}
+            </button>
+        `;
+    }
 
     // Get players from this game
     const playerGames = (DATA.playerGames || []).filter(pg => pg.game_id === gameId);
@@ -7911,6 +8095,7 @@ function showGameDetail(gameId, fromCalendarDay = false) {
     `;
 
     document.getElementById('game-modal').classList.add('active');
+    pushModal('game', { gameId });
     updateURL('games', { game: gameId });
 }
 
@@ -8030,11 +8215,15 @@ function showPlayerGameLogById(playerId) {
     document.getElementById('gamelog-container').innerHTML = html;
 }
 
-function closeModal(modalId) {
+function closeModal(modalId, clearStack = false) {
     document.getElementById(modalId).classList.remove('active');
     // Clean up URL params
     const { section } = parseURL();
     updateURL(section);
+    // Clear modal stack if explicitly requested (e.g., clicking X or backdrop)
+    if (clearStack) {
+        modalStack = [];
+    }
 }
 
 function updateComparison() {

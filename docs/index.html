@@ -600,13 +600,14 @@
                     <table id="teams-table" aria-label="Team Records">
                         <thead>
                             <tr>
-                                <th onclick="sortTable('teams-table', 0)">Team</th>
-                                <th onclick="sortTable('teams-table', 1)" class="tooltip" data-tooltip="Games played">GP</th>
-                                <th onclick="sortTable('teams-table', 2)">Wins</th>
-                                <th onclick="sortTable('teams-table', 3)">Losses</th>
-                                <th onclick="sortTable('teams-table', 4)" class="tooltip" data-tooltip="Win percentage">Win%</th>
-                                <th onclick="sortTable('teams-table', 5)" class="tooltip" data-tooltip="Points per game">PPG</th>
-                                <th onclick="sortTable('teams-table', 6)" class="tooltip" data-tooltip="Points allowed per game">PAPG</th>
+                                <th style="width: 40px;" class="tooltip" data-tooltip="Click star to add to favorites"></th>
+                                <th onclick="sortTable('teams-table', 1)">Team</th>
+                                <th onclick="sortTable('teams-table', 2)" class="tooltip" data-tooltip="Games played">GP</th>
+                                <th onclick="sortTable('teams-table', 3)">Wins</th>
+                                <th onclick="sortTable('teams-table', 4)">Losses</th>
+                                <th onclick="sortTable('teams-table', 5)" class="tooltip" data-tooltip="Win percentage">Win%</th>
+                                <th onclick="sortTable('teams-table', 6)" class="tooltip" data-tooltip="Points per game">PPG</th>
+                                <th onclick="sortTable('teams-table', 7)" class="tooltip" data-tooltip="Points allowed per game">PAPG</th>
                             </tr>
                         </thead>
                         <tbody></tbody>
@@ -1140,49 +1141,49 @@
     </div>
 
     <!-- Player Detail Modal -->
-    <div class="modal" id="player-modal" role="dialog" aria-labelledby="player-modal-title" onclick="if(event.target === this) closeModal('player-modal')">
+    <div class="modal" id="player-modal" role="dialog" aria-labelledby="player-modal-title" onclick="if(event.target === this) closeModal('player-modal', true)">
         <div class="modal-content">
-            <button class="modal-close" onclick="closeModal('player-modal')" aria-label="Close">&times;</button>
+            <button class="modal-close" onclick="closeModal('player-modal', true)" aria-label="Close">&times;</button>
             <div id="player-detail"></div>
         </div>
     </div>
 
     <!-- Game Detail Modal (Box Score) -->
-    <div class="modal" id="game-modal" role="dialog" aria-labelledby="game-modal-title" onclick="if(event.target === this) closeModal('game-modal')">
+    <div class="modal" id="game-modal" role="dialog" aria-labelledby="game-modal-title" onclick="if(event.target === this) closeModal('game-modal', true)">
         <div class="modal-content">
-            <button class="modal-close" onclick="closeModal('game-modal')" aria-label="Close">&times;</button>
+            <button class="modal-close" onclick="closeModal('game-modal', true)" aria-label="Close">&times;</button>
             <div id="game-detail"></div>
         </div>
     </div>
 
     <!-- Venue Detail Modal -->
-    <div class="modal" id="venue-modal" role="dialog" aria-labelledby="venue-modal-title" onclick="if(event.target === this) closeModal('venue-modal')">
+    <div class="modal" id="venue-modal" role="dialog" aria-labelledby="venue-modal-title" onclick="if(event.target === this) closeModal('venue-modal', true)">
         <div class="modal-content">
-            <button class="modal-close" onclick="closeModal('venue-modal')" aria-label="Close">&times;</button>
+            <button class="modal-close" onclick="closeModal('venue-modal', true)" aria-label="Close">&times;</button>
             <div id="venue-detail"></div>
         </div>
     </div>
 
     <!-- Day Games Modal (for calendar multi-game days) -->
-    <div class="modal" id="day-games-modal" role="dialog" aria-labelledby="day-games-modal-title" onclick="if(event.target === this) closeModal('day-games-modal')">
+    <div class="modal" id="day-games-modal" role="dialog" aria-labelledby="day-games-modal-title" onclick="if(event.target === this) closeModal('day-games-modal', true)">
         <div class="modal-content modal-small">
-            <button class="modal-close" onclick="closeModal('day-games-modal')" aria-label="Close">&times;</button>
+            <button class="modal-close" onclick="closeModal('day-games-modal', true)" aria-label="Close">&times;</button>
             <div id="day-games-detail"></div>
         </div>
     </div>
 
     <!-- Conference Teams Modal (for conference progress click) -->
-    <div class="modal" id="conf-teams-modal" role="dialog" aria-labelledby="conf-teams-modal-title" onclick="if(event.target === this) closeModal('conf-teams-modal')">
+    <div class="modal" id="conf-teams-modal" role="dialog" aria-labelledby="conf-teams-modal-title" onclick="if(event.target === this) closeModal('conf-teams-modal', true)">
         <div class="modal-content modal-medium">
-            <button class="modal-close" onclick="closeModal('conf-teams-modal')" aria-label="Close">&times;</button>
+            <button class="modal-close" onclick="closeModal('conf-teams-modal', true)" aria-label="Close">&times;</button>
             <div id="conf-teams-detail"></div>
         </div>
     </div>
 
     <!-- Team Detail Modal -->
-    <div class="modal" id="team-modal" role="dialog" aria-labelledby="team-modal-title" onclick="if(event.target === this) closeModal('team-modal')">
+    <div class="modal" id="team-modal" role="dialog" aria-labelledby="team-modal-title" onclick="if(event.target === this) closeModal('team-modal', true)">
         <div class="modal-content">
-            <button class="modal-close" onclick="closeModal('team-modal')" aria-label="Close">&times;</button>
+            <button class="modal-close" onclick="closeModal('team-modal', true)" aria-label="Close">&times;</button>
             <div id="team-detail"></div>
         </div>
     </div>
