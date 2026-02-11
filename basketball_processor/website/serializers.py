@@ -622,14 +622,16 @@ class DataSerializer:
             # Merge both sources (proballers_leagues may have data not copied to intl_leagues)
             all_intl_leagues = list(set(intl_leagues + proballers_intl))
 
-            if pro_info and (pro_info.get('intl_url') or pro_info.get('intl_pro') or all_intl_leagues):
+            # Determine actual international pro status based on real foreign leagues
+            has_intl_pro = bool(all_intl_leagues)
+            has_intl_url = bool(pro_info.get('intl_url')) if pro_info else False
+            has_national_team = bool(pro_info.get('intl_national_team')) if pro_info else False
+
+            if pro_info and (has_intl_url or has_intl_pro or has_national_team):
                 record['International'] = True
                 record['Intl_URL'] = '' if url_invalid else pro_info.get('intl_url', '')
-                # Separate flags for pro leagues vs national team tournaments
-                # If we have proballers international leagues, assume pro leagues
-                record['Intl_Pro'] = pro_info.get('intl_pro', False) or bool(proballers_intl)
-                record['Intl_National_Team'] = pro_info.get('intl_national_team', False)
-                # Specific league/tournament names
+                record['Intl_Pro'] = has_intl_pro
+                record['Intl_National_Team'] = has_national_team
                 record['Intl_Leagues'] = all_intl_leagues
                 record['Intl_Tournaments'] = pro_info.get('intl_tournaments', [])
             else:
