@@ -45,8 +45,16 @@ DATA_DIR = Path(__file__).parent.parent.parent / 'data'
 NBA_CONFIRMED_FILE = DATA_DIR / 'nba_confirmed.json'
 NBA_RECHECK_TIMESTAMP_FILE = DATA_DIR / 'nba_recheck_timestamp.txt'
 WNBA_RECHECK_TIMESTAMP_FILE = DATA_DIR / 'wnba_recheck_timestamp.txt'
+PRO_REFRESH_TIMESTAMP_FILE = DATA_DIR / 'pro_refresh_timestamp.txt'
+PRO_REFRESH_INTERVAL_HOURS = 24
 # Days between automatic null re-checks
 RECHECK_INTERVAL_DAYS = 90
+# Shorter interval during draft season (June-October)
+DRAFT_SEASON_RECHECK_DAYS = 14
+
+# URL validation
+URL_VALIDATION_INTERVAL_DAYS = 30
+URL_VALIDATION_TIMESTAMP_FILE = DATA_DIR / 'url_validation_timestamp.txt'
 
 
 def _get_current_nba_seasons() -> Tuple[str, str]:
@@ -98,6 +106,7 @@ FALSE_POSITIVE_IDS = {
     'bernard-thompson-1',   # Different person
     'jack-white-3',         # Different person
     'junjie-wang-1',        # College player is different from BR international player
+    'tyrone-riley-iv-1',    # San Francisco player, not the European pro
 }
 
 # Professional overseas league URL patterns on Basketball Reference
@@ -149,10 +158,12 @@ def _load_lookup_cache() -> Dict[str, Any]:
 
 
 def _save_lookup_cache(cache: Dict[str, Any]) -> None:
-    """Save NBA lookup cache."""
+    """Save NBA lookup cache atomically to prevent corruption."""
     CACHE_DIR.mkdir(parents=True, exist_ok=True)
-    with open(NBA_LOOKUP_CACHE_FILE, 'w') as f:
+    tmp_file = NBA_LOOKUP_CACHE_FILE.with_suffix('.tmp')
+    with open(tmp_file, 'w') as f:
         json.dump(cache, f, indent=2)
+    tmp_file.replace(NBA_LOOKUP_CACHE_FILE)
 
 
 def _load_confirmed() -> Dict[str, Any]:
@@ -170,18 +181,466 @@ def _load_confirmed() -> Dict[str, Any]:
 
 
 def _save_confirmed(confirmed: Dict[str, Any]) -> None:
-    """Save to persistent confirmed file."""
+    """Save to persistent confirmed file atomically to prevent corruption."""
     DATA_DIR.mkdir(parents=True, exist_ok=True)
-    with open(NBA_CONFIRMED_FILE, 'w') as f:
+    tmp_file = NBA_CONFIRMED_FILE.with_suffix('.tmp')
+    with open(tmp_file, 'w') as f:
         json.dump(confirmed, f, indent=2)
+    tmp_file.replace(NBA_CONFIRMED_FILE)
 
 
 def _add_to_confirmed(player_id: str, data: Dict[str, Any]) -> None:
     """Add a player to the persistent confirmed file."""
     if data and (data.get('nba_url') or data.get('wnba_url') or data.get('intl_url')):
         confirmed = _load_confirmed()
+        # Preserve first_detected from existing entry
+        if player_id in confirmed and confirmed[player_id]:
+            existing = confirmed[player_id]
+            if existing.get('first_detected') and not data.get('first_detected'):
+                data['first_detected'] = existing['first_detected']
+                data['first_detected_as'] = existing.get('first_detected_as', '')
+        # Set first_detected if not present
+        if not data.get('first_detected'):
+            data['first_detected'] = datetime.now().isoformat()
+            # Determine what they were first detected as
+            if data.get('nba_url'):
+                data['first_detected_as'] = 'nba'
+            elif data.get('wnba_url'):
+                data['first_detected_as'] = 'wnba'
+            elif data.get('intl_url'):
+                data['first_detected_as'] = 'international'
         confirmed[player_id] = data
         _save_confirmed(confirmed)
+
+
+def _validate_url(url: str, timeout: int = 10) -> Dict[str, Any]:
+    """
+    HEAD-request a Basketball Reference URL to check validity.
+
+    Returns:
+        Dict with 'valid' (bool), 'status_code' (int), 'redirect_url' (str or None)
+    """
+    result = {'valid': False, 'status_code': 0, 'redirect_url': None}
+
+    if not url:
+        return result
+
+    try:
+        if HAS_CLOUDSCRAPER:
+            scraper = cloudscraper.create_scraper()
+            response = scraper.head(url, timeout=timeout, allow_redirects=True)
+        elif HAS_REQUESTS:
+            response = requests.head(url, timeout=timeout, allow_redirects=True,
+                                     headers={'User-Agent': 'Mozilla/5.0 (compatible; BasketballStatsBot/1.0)'})
+        else:
+            return result
+
+        result['status_code'] = response.status_code
+        result['valid'] = response.status_code == 200
+
+        # Check for redirects
+        if response.url and response.url != url:
+            result['redirect_url'] = response.url
+
+    except (requests.RequestException if HAS_REQUESTS else Exception, ConnectionError, TimeoutError):
+        pass
+
+    return result
+
+
+def validate_all_urls(auto_fix: bool = False) -> Dict[str, Any]:
+    """
+    Validate all Basketball Reference URLs in confirmed players.
+
+    Args:
+        auto_fix: If True, remove 404 URLs and update redirects
+
+    Returns:
+        Dict with validation results
+    """
+    confirmed = _load_confirmed()
+    results = {'total': 0, 'valid': 0, 'invalid': 0, 'redirected': 0, 'fixed': 0, 'details': []}
+
+    url_fields = ['nba_url', 'wnba_url', 'intl_url']
+
+    for player_id, data in confirmed.items():
+        if not data:
+            continue
+
+        for field in url_fields:
+            url = data.get(field)
+            if not url:
+                continue
+
+            results['total'] += 1
+            print(f"  Checking {player_id} {field}...", end='', flush=True)
+
+            time.sleep(RATE_LIMIT_SECONDS)
+            check = _validate_url(url)
+
+            if check['valid']:
+                results['valid'] += 1
+                data['url_last_validated'] = datetime.now().isoformat()
+                data.pop('url_invalid', None)  # Clear any previous invalid flag
+                if check['redirect_url'] and check['redirect_url'] != url:
+                    results['redirected'] += 1
+                    detail = f"{player_id} {field}: redirected to {check['redirect_url']}"
+                    results['details'].append(detail)
+                    print(f" -> redirected")
+                    if auto_fix:
+                        data[field] = check['redirect_url']
+                        results['fixed'] += 1
+                else:
+                    print(f" OK")
+            else:
+                results['invalid'] += 1
+                detail = f"{player_id} {field}: HTTP {check['status_code']}"
+                results['details'].append(detail)
+                print(f" INVALID (HTTP {check['status_code']})")
+                if auto_fix and check['status_code'] == 404:
+                    data[field] = ''
+                    results['fixed'] += 1
+
+    _save_confirmed(confirmed)
+
+    print(f"\nURL Validation complete:")
+    print(f"  Total URLs: {results['total']}")
+    print(f"  Valid: {results['valid']}")
+    print(f"  Invalid: {results['invalid']}")
+    print(f"  Redirected: {results['redirected']}")
+    if auto_fix:
+        print(f"  Fixed: {results['fixed']}")
+
+    return results
+
+
+def validate_urls_on_load(max_checks: int = 50) -> int:
+    """
+    Lightweight URL validation called during serialization.
+    Only checks URLs not validated in last 30 days.
+    Sets url_invalid flag on failures but doesn't delete URLs.
+    Caps at max_checks per run.
+
+    Returns:
+        Number of URLs checked
+    """
+    # Check if we ran recently
+    if URL_VALIDATION_TIMESTAMP_FILE.exists():
+        try:
+            ts = URL_VALIDATION_TIMESTAMP_FILE.read_text().strip()
+            last_run = datetime.fromisoformat(ts)
+            days_since = (datetime.now() - last_run).days
+            if days_since < URL_VALIDATION_INTERVAL_DAYS:
+                return 0
+        except (IOError, OSError, ValueError):
+            pass
+
+    confirmed = _load_confirmed()
+    url_fields = ['nba_url', 'wnba_url', 'intl_url']
+    checked = 0
+
+    for player_id, data in confirmed.items():
+        if checked >= max_checks:
+            break
+        if not data:
+            continue
+
+        # Skip recently validated
+        last_validated = data.get('url_last_validated')
+        if last_validated:
+            try:
+                lv = datetime.fromisoformat(last_validated)
+                if (datetime.now() - lv).days < URL_VALIDATION_INTERVAL_DAYS:
+                    continue
+            except ValueError:
+                pass
+
+        for field in url_fields:
+            if checked >= max_checks:
+                break
+            url = data.get(field)
+            if not url:
+                continue
+
+            time.sleep(RATE_LIMIT_SECONDS)
+            check = _validate_url(url)
+            checked += 1
+
+            if check['valid']:
+                data['url_last_validated'] = datetime.now().isoformat()
+                data.pop('url_invalid', None)
+            else:
+                data['url_invalid'] = True
+
+    if checked > 0:
+        _save_confirmed(confirmed)
+        # Save timestamp
+        DATA_DIR.mkdir(parents=True, exist_ok=True)
+        URL_VALIDATION_TIMESTAMP_FILE.write_text(datetime.now().isoformat())
+        print(f"  URL validation: checked {checked} URLs")
+
+    return checked
+
+
+def _extract_draft_info(html: str) -> Optional[Dict[str, Any]]:
+    """
+    Extract draft info from a Basketball Reference player page.
+
+    Looks for patterns like:
+    - "Draft: Houston Rockets, 1st round (3rd pick, 3rd overall), 2024 NBA Draft"
+    - "Undrafted"
+
+    Returns:
+        Dict with draft_round, draft_pick, draft_year, draft_team, undrafted or None
+    """
+    # Check for undrafted
+    if re.search(r'<strong>\s*Undrafted\s*</strong>', html, re.IGNORECASE):
+        return {'undrafted': True, 'draft_round': None, 'draft_pick': None, 'draft_year': None, 'draft_team': ''}
+
+    # Check for "Draft:" section
+    # Pattern: Draft: <team>, Nth round (Mth pick, Pth overall), YEAR NBA Draft
+    draft_match = re.search(
+        r'<strong>\s*Draft:\s*</strong>\s*<a[^>]*>([^<]+)</a>'  # Team name in link
+        r'.*?(\d+)\w{0,2}\s+round'  # Round number
+        r'.*?(\d+)\w{0,2}\s+overall'  # Overall pick number
+        r'.*?(\d{4})\s+(?:NBA|WNBA)\s+Draft',  # Year
+        html, re.DOTALL | re.IGNORECASE
+    )
+
+    if draft_match:
+        return {
+            'draft_team': draft_match.group(1).strip(),
+            'draft_round': int(draft_match.group(2)),
+            'draft_pick': int(draft_match.group(3)),
+            'draft_year': int(draft_match.group(4)),
+            'undrafted': False,
+        }
+
+    # Simpler pattern: just round and pick without team link
+    draft_match2 = re.search(
+        r'<strong>\s*Draft:\s*</strong>'
+        r'.*?(\d+)\w{0,2}\s+round'
+        r'.*?(\d+)\w{0,2}\s+overall'
+        r'.*?(\d{4})\s+(?:NBA|WNBA)\s+Draft',
+        html, re.DOTALL | re.IGNORECASE
+    )
+    if draft_match2:
+        return {
+            'draft_team': '',
+            'draft_round': int(draft_match2.group(1)),
+            'draft_pick': int(draft_match2.group(2)),
+            'draft_year': int(draft_match2.group(3)),
+            'undrafted': False,
+        }
+
+    return None
+
+
+# Backfill draft info timestamp
+DRAFT_BACKFILL_TIMESTAMP_FILE = DATA_DIR / 'draft_backfill_timestamp.txt'
+DRAFT_BACKFILL_INTERVAL_DAYS = 30
+
+
+def backfill_draft_info(max_players: int = 0) -> Dict[str, int]:
+    """
+    Fetch draft info for all confirmed players with NBA/WNBA URLs
+    that don't already have draft data.
+
+    Args:
+        max_players: Maximum players to process (0 = unlimited)
+
+    Returns:
+        Dict with counts
+    """
+    confirmed = _load_confirmed()
+    to_check = []
+
+    for pid, data in confirmed.items():
+        if not data:
+            continue
+        # Skip if already has draft info
+        if data.get('draft_round') is not None or data.get('undrafted') is not None:
+            continue
+        # Must have NBA or WNBA URL
+        url = data.get('nba_url') or data.get('wnba_url')
+        if url:
+            to_check.append((pid, url))
+
+    if not to_check:
+        print("All confirmed players already have draft info!")
+        return {'checked': 0, 'found': 0}
+
+    if max_players > 0:
+        to_check = to_check[:max_players]
+
+    print(f"Backfilling draft info for {len(to_check)} players...")
+    est_minutes = (len(to_check) * RATE_LIMIT_SECONDS) / 60
+    print(f"Estimated time: {est_minutes:.1f} minutes")
+
+    if HAS_CLOUDSCRAPER:
+        scraper = cloudscraper.create_scraper()
+    else:
+        scraper = None
+
+    found = 0
+    for i, (player_id, url) in enumerate(to_check):
+        print(f"  {i+1}/{len(to_check)} {player_id}...", end='', flush=True)
+
+        try:
+            time.sleep(RATE_LIMIT_SECONDS)
+            if scraper:
+                response = scraper.get(url, timeout=15)
+            elif HAS_REQUESTS:
+                response = requests.get(url, timeout=15, headers={
+                    'User-Agent': 'Mozilla/5.0 (compatible; BasketballStatsBot/1.0)'
+                })
+            else:
+                print(" (no HTTP library)")
+                continue
+
+            if response.status_code == 200:
+                draft_info = _extract_draft_info(response.text)
+                if draft_info:
+                    found += 1
+                    confirmed[player_id].update(draft_info)
+                    if draft_info.get('undrafted'):
+                        print(f" -> Undrafted")
+                    else:
+                        print(f" -> R{draft_info['draft_round']} P{draft_info['draft_pick']} '{str(draft_info['draft_year'])[2:]}")
+                else:
+                    print(f" -> no draft info found")
+            else:
+                print(f" -> HTTP {response.status_code}")
+
+        except Exception as e:
+            print(f" -> Error: {e}")
+
+    _save_confirmed(confirmed)
+
+    # Save timestamp
+    DATA_DIR.mkdir(parents=True, exist_ok=True)
+    DRAFT_BACKFILL_TIMESTAMP_FILE.write_text(datetime.now().isoformat())
+
+    print(f"\nDraft backfill complete: checked {len(to_check)}, found {found}")
+    return {'checked': len(to_check), 'found': found}
+
+
+def _auto_backfill_draft_info(max_players: int = 20) -> None:
+    """Auto-run draft backfill during site generation if >30 days since last run."""
+    if DRAFT_BACKFILL_TIMESTAMP_FILE.exists():
+        try:
+            ts = DRAFT_BACKFILL_TIMESTAMP_FILE.read_text().strip()
+            last_run = datetime.fromisoformat(ts)
+            if (datetime.now() - last_run).days < DRAFT_BACKFILL_INTERVAL_DAYS:
+                return
+        except (IOError, OSError, ValueError):
+            pass
+    backfill_draft_info(max_players=max_players)
+
+
+NBA_ACTIVE_ROSTER_CACHE = CACHE_DIR / 'nba_active_roster.json'
+
+
+def _bulk_check_active_rosters() -> Optional[Set[str]]:
+    """
+    Hit NBA stats API to get all current players in one request.
+    Returns set of player full names in lowercase, or None if API fails.
+
+    Caches response for 7 days.
+    """
+    # Check cache
+    if NBA_ACTIVE_ROSTER_CACHE.exists():
+        try:
+            with open(NBA_ACTIVE_ROSTER_CACHE, 'r') as f:
+                cached = json.load(f)
+            cache_time = datetime.fromisoformat(cached.get('timestamp', '2000-01-01'))
+            if (datetime.now() - cache_time).days < 7:
+                return set(cached.get('players', []))
+        except (json.JSONDecodeError, IOError, OSError, ValueError):
+            pass
+
+    if not HAS_REQUESTS:
+        return None
+
+    all_players = set()
+
+    for league_id in ['00', '10']:  # 00=NBA, 10=WNBA
+        try:
+            url = f'https://stats.nba.com/stats/commonallplayers?IsOnlyCurrentSeason=1&LeagueID={league_id}&Season=2025-26'
+            headers = {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                'Referer': 'https://stats.nba.com/',
+                'Accept': 'application/json',
+                'x-nba-stats-origin': 'stats',
+                'x-nba-stats-token': 'true',
+            }
+            response = requests.get(url, headers=headers, timeout=15)
+            if response.status_code == 200:
+                data = response.json()
+                # Response format: resultSets[0].rowSet where each row has player name at index 2
+                result_sets = data.get('resultSets', [])
+                if result_sets:
+                    rows = result_sets[0].get('rowSet', [])
+                    for row in rows:
+                        if len(row) > 2 and row[2]:
+                            # Names come as "Last, First" - normalize to "first last"
+                            name = row[2].strip().lower()
+                            if ', ' in name:
+                                parts = name.split(', ', 1)
+                                name = f"{parts[1]} {parts[0]}"
+                            all_players.add(name)
+        except Exception as e:
+            print(f"  NBA API ({league_id}) failed: {e}")
+
+    if all_players:
+        # Cache the result
+        CACHE_DIR.mkdir(parents=True, exist_ok=True)
+        cache_data = {
+            'timestamp': datetime.now().isoformat(),
+            'players': list(all_players),
+            'count': len(all_players)
+        }
+        with open(NBA_ACTIVE_ROSTER_CACHE, 'w') as f:
+            json.dump(cache_data, f, indent=2)
+        print(f"  Cached {len(all_players)} active roster players")
+        return all_players
+
+    return None
+
+
+def backfill_first_detected() -> int:
+    """
+    One-time migration: set first_detected for existing entries that lack it.
+    Uses current timestamp since we don't know when they were originally discovered.
+
+    Returns:
+        Number of entries updated
+    """
+    confirmed = _load_confirmed()
+    updated = 0
+    now = datetime.now().isoformat()
+
+    for player_id, data in confirmed.items():
+        if not data:
+            continue
+        if not data.get('first_detected'):
+            data['first_detected'] = now
+            # Determine type
+            if data.get('nba_url'):
+                data['first_detected_as'] = 'nba'
+            elif data.get('wnba_url'):
+                data['first_detected_as'] = 'wnba'
+            elif data.get('intl_url') or data.get('intl_pro'):
+                data['first_detected_as'] = 'international'
+            else:
+                data['first_detected_as'] = 'unknown'
+            updated += 1
+
+    if updated > 0:
+        _save_confirmed(confirmed)
+        print(f"Backfilled first_detected for {updated} players")
+
+    return updated
 
 
 def _check_intl_type(intl_url: str, scraper: Any = None) -> Dict[str, Any]:
@@ -404,6 +863,12 @@ def _verify_nba_stats(nba_url: str, scraper: Any = None) -> Dict[str, Any]:
             return {'verified': False, 'status_code': response.status_code}  # Can't verify
 
         html = response.text
+        result_data = {}
+
+        # Extract draft info from the page
+        draft_info = _extract_draft_info(html)
+        if draft_info:
+            result_data.update(draft_info)
 
         # Check for NBA per-game stats table with actual data
         # The table ID is "per_game_stats" and rows have IDs like "per_game_stats.2023"
@@ -420,12 +885,12 @@ def _verify_nba_stats(nba_url: str, scraper: Any = None) -> Dict[str, Any]:
                 career_match = re.search(r'<tfoot>.*?data-stat="games"[^>]*>(\d+)<', section_html, re.DOTALL)
                 if career_match:
                     games = int(career_match.group(1))
-                    return {'played': True, 'games': games}
+                    return {**result_data, 'played': True, 'games': games}
             # Has row IDs but couldn't get count - still played
-            return {'played': True, 'games': None}
+            return {**result_data, 'played': True, 'games': None}
 
         # No NBA per_game_stats rows = never played NBA
-        return {'played': False, 'games': 0}
+        return {**result_data, 'played': False, 'games': 0}
 
     except (requests.RequestException, ConnectionError, TimeoutError) as e:
         return {'verified': False, 'error': str(e)}  # Can't verify - network error
@@ -555,6 +1020,11 @@ def check_player_nba_status(player_id: str) -> Optional[Dict[str, Any]]:
                 nba_verify = _verify_nba_stats(nba_url, scraper if HAS_CLOUDSCRAPER else None)
                 # Always store the URL (they were signed)
                 result['nba_url'] = nba_url
+                # Store draft info if found
+                if nba_verify.get('draft_round') is not None or nba_verify.get('undrafted') is not None:
+                    for key in ('draft_round', 'draft_pick', 'draft_year', 'draft_team', 'undrafted'):
+                        if key in nba_verify:
+                            result[key] = nba_verify[key]
                 # Only set played status if we could verify
                 if nba_verify.get('verified') is not False:
                     result['nba_played'] = nba_verify['played']
@@ -929,13 +1399,25 @@ def _save_recheck_timestamp() -> None:
     NBA_RECHECK_TIMESTAMP_FILE.write_text(datetime.now().isoformat())
 
 
+def _get_recheck_interval() -> int:
+    """
+    Get dynamic recheck interval based on current date.
+    Returns 14 days during draft season (June-October), 90 otherwise.
+    """
+    month = datetime.now().month
+    if 6 <= month <= 10:
+        return DRAFT_SEASON_RECHECK_DAYS
+    return RECHECK_INTERVAL_DAYS
+
+
 def should_recheck_nulls() -> bool:
-    """Check if it's time to re-check null players (every 90 days by default)."""
+    """Check if it's time to re-check null players (dynamic interval)."""
     last_check = _get_last_recheck_time()
     if last_check is None:
         return True
     days_since = (datetime.now() - last_check).days
-    return days_since >= RECHECK_INTERVAL_DAYS
+    interval = _get_recheck_interval()
+    return days_since >= interval
 
 
 def _check_nba_players_for_intl() -> int:
@@ -1027,8 +1509,9 @@ def recheck_null_players(force: bool = False) -> Dict[str, int]:
         last_check = _get_last_recheck_time()
         if last_check:
             days_since = (datetime.now() - last_check).days
-            if days_since < RECHECK_INTERVAL_DAYS:
-                print(f"Last re-check was {days_since} days ago. Next re-check in {RECHECK_INTERVAL_DAYS - days_since} days.")
+            interval = _get_recheck_interval()
+            if days_since < interval:
+                print(f"Last re-check was {days_since} days ago. Next re-check in {interval - days_since} days (interval: {interval}d).")
                 print("Use force=True to re-check anyway.")
                 return {'checked': 0, 'nba_found': 0, 'intl_found': 0}
 
@@ -1109,12 +1592,13 @@ def _save_wnba_recheck_timestamp() -> None:
 
 
 def should_recheck_wnba() -> bool:
-    """Check if it's time to re-check female players for WNBA (every 90 days)."""
+    """Check if it's time to re-check female players for WNBA (dynamic interval)."""
     last_check = _get_last_wnba_recheck_time()
     if last_check is None:
         return True
     days_since = (datetime.now() - last_check).days
-    return days_since >= RECHECK_INTERVAL_DAYS
+    interval = _get_recheck_interval()
+    return days_since >= interval
 
 
 def recheck_female_players_for_wnba(force: bool = False) -> Dict[str, int]:
@@ -1136,8 +1620,9 @@ def recheck_female_players_for_wnba(force: bool = False) -> Dict[str, int]:
         last_check = _get_last_wnba_recheck_time()
         if last_check:
             days_since = (datetime.now() - last_check).days
-            if days_since < RECHECK_INTERVAL_DAYS:
-                print(f"WNBA re-check: Last check was {days_since} days ago. Next in {RECHECK_INTERVAL_DAYS - days_since} days.")
+            interval = _get_recheck_interval()
+            if days_since < interval:
+                print(f"WNBA re-check: Last check was {days_since} days ago. Next in {interval - days_since} days (interval: {interval}d).")
                 return {'checked': 0, 'wnba_found': 0}
 
     import json as json_module
@@ -1614,16 +2099,77 @@ def check_proballers_for_all_players(
     }
 
 
-def refresh_active_status() -> Dict[str, Any]:
+def refresh_active_status(force: bool = False) -> Dict[str, Any]:
     """
     Refresh active status for all confirmed pro players.
-    Checks all players with pro URLs (not just those who played) since
-    players can take time off and return to the league.
+    Uses bulk NBA API first for active roster check, then falls back to
+    individual BR page scraping for unmatched players.
     Also refreshes international league/tournament data.
     Runs after website deployment to update cache for next time.
+    Skips if last refresh was less than PRO_REFRESH_INTERVAL_HOURS ago.
     """
+    # Check staleness - skip if refreshed recently
+    if not force and PRO_REFRESH_TIMESTAMP_FILE.exists():
+        try:
+            last_refresh = datetime.fromisoformat(PRO_REFRESH_TIMESTAMP_FILE.read_text().strip())
+            hours_since = (datetime.now() - last_refresh).total_seconds() / 3600
+            if hours_since < PRO_REFRESH_INTERVAL_HOURS:
+                print(f"  Pro player refresh: skipping (last refresh {hours_since:.1f}h ago, interval is {PRO_REFRESH_INTERVAL_HOURS}h)")
+                return {'skipped': True, 'hours_since': hours_since}
+        except Exception:
+            pass  # If timestamp is corrupt, just re-run
+
     confirmed = _load_confirmed()
     cache = _load_lookup_cache()
+
+    # Try bulk active roster check first (NBA API)
+    bulk_active_names = None
+    try:
+        print("  Checking bulk active rosters via NBA API...")
+        bulk_active_names = _bulk_check_active_rosters()
+        if bulk_active_names:
+            print(f"  Got {len(bulk_active_names)} active players from API")
+    except Exception as e:
+        print(f"  Bulk roster check failed: {e}, falling back to individual scraping")
+
+    # If bulk check succeeded, update active status by name matching
+    bulk_matched = set()
+    if bulk_active_names:
+        for player_id, data in confirmed.items():
+            if not data or player_id in FALSE_POSITIVE_IDS:
+                continue
+            # Try to match by player name (convert player_id to name)
+            # Player IDs are like "jayson-tatum-1" -> "jayson tatum"
+            name_parts = player_id.rsplit('-', 1)
+            if len(name_parts) == 2 and name_parts[1].isdigit():
+                player_name = name_parts[0].replace('-', ' ').lower()
+            else:
+                player_name = player_id.replace('-', ' ').lower()
+
+            is_active_api = player_name in bulk_active_names
+
+            if data.get('nba_url'):
+                old_status = data.get('is_active', False)
+                if is_active_api != old_status:
+                    data['is_active'] = is_active_api
+                    if player_id in cache and cache[player_id]:
+                        cache[player_id]['is_active'] = is_active_api
+                if is_active_api:
+                    bulk_matched.add(player_id)
+
+            if data.get('wnba_url'):
+                old_status = data.get('is_wnba_active', False)
+                if is_active_api != old_status:
+                    data['is_wnba_active'] = is_active_api
+                    if player_id in cache and cache[player_id]:
+                        cache[player_id]['is_wnba_active'] = is_active_api
+                if is_active_api:
+                    bulk_matched.add(player_id)
+
+        _save_confirmed(confirmed)
+        _save_lookup_cache(cache)
+        if bulk_matched:
+            print(f"  Bulk API matched {len(bulk_matched)} active players")
 
     # Find all players with NBA/WNBA/International URLs or Proballers IDs
     nba_to_check = []
@@ -1636,6 +2182,9 @@ def refresh_active_status() -> Dict[str, Any]:
             continue
         # Skip known false positives
         if player_id in FALSE_POSITIVE_IDS:
+            continue
+        # Skip players already matched by bulk API (they're confirmed active)
+        if player_id in bulk_matched:
             continue
         # Check all players with URLs (they could return after time off)
         if data.get('nba_url'):
@@ -1669,6 +2218,48 @@ def refresh_active_status() -> Dict[str, Any]:
     updated_count = 0
     current_nba, prev_nba = _get_current_nba_seasons()
     current_wnba, prev_wnba = _get_current_wnba_years()
+
+    # Launch Proballers check in parallel (no rate limit, so it runs fast)
+    # Results are collected (not printed) to avoid interleaved output with BR checks
+    proballers_future = None
+    if HAS_PROBALLERS and proballers_to_check:
+        from concurrent.futures import ThreadPoolExecutor
+        from .proballers_scraper import get_player_pro_leagues
+
+        def _run_proballers():
+            pb_updated = 0
+            pb_results = []  # Collect (player_id, updates_dict) for main thread to apply
+            pb_log = []  # Collect log lines for main thread to print
+            # Proballers needs its own scraper instance (thread safety)
+            if HAS_CLOUDSCRAPER:
+                pb_scraper = cloudscraper.create_scraper()
+            elif HAS_REQUESTS:
+                pb_scraper = None
+            else:
+                return 0, [], []
+
+            for i, (player_id, pb_id) in enumerate(proballers_to_check):
+                prefix = f"  Proballers {i+1}/{len(proballers_to_check)} {player_id}..."
+                try:
+                    new_leagues = get_player_pro_leagues(pb_id, pb_scraper, force_refresh=True)
+                    old_leagues = set(confirmed[player_id].get('proballers_leagues', []))
+                    new_leagues_set = set(new_leagues)
+                    added_leagues = new_leagues_set - old_leagues
+                    if added_leagues:
+                        pb_results.append((player_id, new_leagues))
+                        pb_updated += 1
+                        pb_log.append(f"{prefix} → +{added_leagues}")
+                    else:
+                        leagues_str = ', '.join(new_leagues) if new_leagues else 'none'
+                        pb_log.append(f"{prefix} → {leagues_str} (unchanged)")
+                except Exception as e:
+                    pb_log.append(f"{prefix} → Error: {e}")
+            return pb_updated, pb_results, pb_log
+
+        executor = ThreadPoolExecutor(max_workers=1)
+        proballers_future = executor.submit(_run_proballers)
+    elif proballers_to_check:
+        print("  Skipping Proballers (scraper not available)")
 
     # Check NBA players
     for i, (player_id, url) in enumerate(nba_to_check):
@@ -1793,50 +2384,35 @@ def refresh_active_status() -> Dict[str, Any]:
         except Exception as e:
             print(f" → Error: {e}")
 
-    # Check Proballers players
+    # Collect Proballers results (ran in parallel with BR scraping above)
     proballers_updated = 0
-    if HAS_PROBALLERS and proballers_to_check:
-        from .proballers_scraper import get_player_pro_leagues
-        for i, (player_id, pb_id) in enumerate(proballers_to_check):
-            print(f"  Proballers {i+1}/{len(proballers_to_check)} {player_id}...", end='', flush=True)
-
-            try:
-                # Force refresh to get latest data from Proballers
-                new_leagues = get_player_pro_leagues(pb_id, scraper, force_refresh=True)
-                old_leagues = set(confirmed[player_id].get('proballers_leagues', []))
-                new_leagues_set = set(new_leagues)
-
-                added_leagues = new_leagues_set - old_leagues
-                if added_leagues:
-                    confirmed[player_id]['proballers_leagues'] = new_leagues
-                    if player_id in cache and cache[player_id]:
-                        cache[player_id]['proballers_leagues'] = new_leagues
-                    # Also update intl_leagues if this is their only intl source
-                    if not confirmed[player_id].get('intl_url'):
-                        existing_intl = set(confirmed[player_id].get('intl_leagues', []))
-                        merged_intl = _merge_leagues(list(existing_intl), new_leagues)
-                        confirmed[player_id]['intl_leagues'] = merged_intl
-                        confirmed[player_id]['intl_pro'] = True
-                        if player_id in cache and cache[player_id]:
-                            cache[player_id]['intl_leagues'] = merged_intl
-                            cache[player_id]['intl_pro'] = True
-                    proballers_updated += 1
-                    updated_count += 1
-                    print(f" → +{added_leagues}")
-                else:
-                    leagues_str = ', '.join(new_leagues) if new_leagues else 'none'
-                    print(f" → {leagues_str} (unchanged)")
-
-            except Exception as e:
-                print(f" → Error: {e}")
-
-            # Proballers has no rate limit (network latency is sufficient)
-    elif proballers_to_check:
-        print("  Skipping Proballers (scraper not available)")
+    if proballers_future:
+        pb_updated, pb_results, pb_log = proballers_future.result()
+        # Apply updates to confirmed/cache (now safe, single-threaded)
+        for player_id, new_leagues in pb_results:
+            confirmed[player_id]['proballers_leagues'] = new_leagues
+            if player_id in cache and cache[player_id]:
+                cache[player_id]['proballers_leagues'] = new_leagues
+            if not confirmed[player_id].get('intl_url'):
+                existing_intl = set(confirmed[player_id].get('intl_leagues', []))
+                merged_intl = _merge_leagues(list(existing_intl), new_leagues)
+                confirmed[player_id]['intl_leagues'] = merged_intl
+                confirmed[player_id]['intl_pro'] = True
+                if player_id in cache and cache[player_id]:
+                    cache[player_id]['intl_leagues'] = merged_intl
+                    cache[player_id]['intl_pro'] = True
+        # Print collected log lines (no interleaving)
+        for line in pb_log:
+            print(line)
+        proballers_updated = pb_updated
+        updated_count += proballers_updated
 
     # Save updated data
     _save_confirmed(confirmed)
     _save_lookup_cache(cache)
+
+    # Save refresh timestamp
+    PRO_REFRESH_TIMESTAMP_FILE.write_text(datetime.now().isoformat())
 
     print(f"\nPro player refresh complete!")
     print(f"  NBA checked: {len(nba_to_check)}")

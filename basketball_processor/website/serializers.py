@@ -8,7 +8,7 @@ import json
 
 from ..utils.nba_players import (
     get_nba_player_info_by_id, get_nba_status_batch, recheck_female_players_for_wnba,
-    check_proballers_for_all_players
+    check_proballers_for_all_players, validate_urls_on_load
 )
 from ..utils.d2d3_scraper import enrich_player_with_realgm, lookup_player_transfers
 from ..utils.schedule_scraper import (
@@ -113,6 +113,15 @@ class DataSerializer:
         # Check female players for WNBA status before serialization (unless skipped)
         if not skip_nba:
             recheck_female_players_for_wnba()
+
+        # Auto-backfill draft info (runs if >30 days since last backfill)
+        if not skip_nba:
+            try:
+                from ..utils.nba_players import _auto_backfill_draft_info, backfill_first_detected
+                _auto_backfill_draft_info(max_players=20)
+                backfill_first_detected()
+            except Exception:
+                pass  # Don't fail generation if backfill fails
 
         summary = self._serialize_summary()
         players = self._serialize_players()
@@ -276,8 +285,12 @@ class DataSerializer:
                 if espn_pbp:
                     away_team = game.get('Away Team', '')
                     home_team = game.get('Home Team', '')
+                    away_score = basic_info.get('away_score', 0)
+                    home_score = basic_info.get('home_score', 0)
+                    winner_team = home_team if home_score > away_score else away_team
                     game['ESPNPBPAnalysis'] = self._serialize_espn_pbp_analysis(
-                        espn_pbp, away_team=away_team, home_team=home_team
+                        espn_pbp, away_team=away_team, home_team=home_team,
+                        winner_team=winner_team
                     )
 
                 # Add neutral site flag if available
@@ -560,14 +573,23 @@ class DataSerializer:
             if not pro_info and not skip_nba and is_male:
                 pro_info = get_nba_player_info_by_id(player_id)
 
+            # Check if URLs are flagged as invalid
+            url_invalid = pro_info.get('url_invalid', False) if pro_info else False
+
             # NBA info
             if pro_info and pro_info.get('nba_url'):
                 record['NBA'] = True
                 record['NBA_Played'] = pro_info.get('nba_played', True)  # Default true for backwards compat
                 record['NBA_Active'] = pro_info.get('is_active', False)
-                record['NBA_URL'] = pro_info.get('nba_url', '')
+                record['NBA_URL'] = '' if url_invalid else pro_info.get('nba_url', '')
                 if pro_info.get('nba_games') is not None:
                     record['NBA_Games'] = pro_info.get('nba_games')
+                # Draft info
+                record['Draft_Round'] = pro_info.get('draft_round')
+                record['Draft_Pick'] = pro_info.get('draft_pick')
+                record['Draft_Year'] = pro_info.get('draft_year')
+                record['Draft_Team'] = pro_info.get('draft_team', '')
+                record['Undrafted'] = pro_info.get('undrafted', False)
             else:
                 record['NBA'] = False
 
@@ -576,25 +598,36 @@ class DataSerializer:
                 record['WNBA'] = True
                 record['WNBA_Played'] = pro_info.get('wnba_played', True)  # Default true for backwards compat
                 record['WNBA_Active'] = pro_info.get('is_wnba_active', False)
-                record['WNBA_URL'] = pro_info.get('wnba_url', '')
+                record['WNBA_URL'] = '' if url_invalid else pro_info.get('wnba_url', '')
                 if pro_info.get('wnba_games') is not None:
                     record['WNBA_Games'] = pro_info.get('wnba_games')
+                # Draft info (WNBA players can also have draft info)
+                if not record.get('Draft_Round'):
+                    record['Draft_Round'] = pro_info.get('draft_round')
+                    record['Draft_Pick'] = pro_info.get('draft_pick')
+                    record['Draft_Year'] = pro_info.get('draft_year')
+                    record['Draft_Team'] = pro_info.get('draft_team', '')
+                    record['Undrafted'] = pro_info.get('undrafted', False)
             else:
                 record['WNBA'] = False
 
             # International info - check intl_url (from BR) or intl_pro/intl_leagues/proballers_leagues (from Proballers)
             # proballers_leagues is the raw data, intl_leagues is the processed version
+            # Filter out domestic leagues (NBA, WNBA, G-League) - these aren't international
+            domestic_leagues = {'NBA', 'WNBA', 'G-League'}
             intl_leagues = pro_info.get('intl_leagues', []) if pro_info else []
             proballers_leagues = pro_info.get('proballers_leagues', []) if pro_info else []
+            intl_leagues = [l for l in intl_leagues if l not in domestic_leagues]
+            proballers_intl = [l for l in proballers_leagues if l not in domestic_leagues]
             # Merge both sources (proballers_leagues may have data not copied to intl_leagues)
-            all_intl_leagues = list(set(intl_leagues + proballers_leagues))
+            all_intl_leagues = list(set(intl_leagues + proballers_intl))
 
             if pro_info and (pro_info.get('intl_url') or pro_info.get('intl_pro') or all_intl_leagues):
                 record['International'] = True
-                record['Intl_URL'] = pro_info.get('intl_url', '')
+                record['Intl_URL'] = '' if url_invalid else pro_info.get('intl_url', '')
                 # Separate flags for pro leagues vs national team tournaments
-                # If we have proballers_leagues, assume pro leagues
-                record['Intl_Pro'] = pro_info.get('intl_pro', False) or bool(proballers_leagues)
+                # If we have proballers international leagues, assume pro leagues
+                record['Intl_Pro'] = pro_info.get('intl_pro', False) or bool(proballers_intl)
                 record['Intl_National_Team'] = pro_info.get('intl_national_team', False)
                 # Specific league/tournament names
                 record['Intl_Leagues'] = all_intl_leagues
@@ -612,18 +645,27 @@ class DataSerializer:
                 record['Proballers_URL'] = f'https://www.proballers.com/basketball/player/{proballers_id}/'
                 # Get career data for current team and trajectory
                 from ..utils.proballers_scraper import get_player_career
-                career = get_player_career(proballers_id)
+                try:
+                    career = get_player_career(proballers_id)
+                except Exception:
+                    career = None
                 if career and career.get('teams'):
                     teams = career['teams']
-                    # Current team (most recent non-NCAA)
-                    pro_teams = [t for t in teams if t.get('league_slug') != 'ncaa']
+                    # Current team (most recent pro club team - exclude NCAA, national teams, youth tournaments)
+                    from ..utils.proballers_scraper import PRO_LEAGUES
+                    club_leagues = PRO_LEAGUES | {'g-league'}
+                    pro_teams = [t for t in teams if t.get('league_slug') in club_leagues]
                     if pro_teams:
                         current = pro_teams[-1]
                         record['Current_Team'] = current.get('team_name', '')
                         record['Current_League'] = current.get('league', '')
-                    # Check for G-League history
+                    # Check for G-League history - include team names and years
                     gleague_teams = [t for t in teams if t.get('league_slug') == 'g-league']
                     record['Had_GLeague'] = len(gleague_teams) > 0
+                    record['GLeague_Teams'] = [
+                        {'team': t.get('team_name', ''), 'year': t.get('year', 0)}
+                        for t in gleague_teams
+                    ]
                     # Years pro (since last NCAA stint)
                     ncaa_teams = [t for t in teams if t.get('league_slug') == 'ncaa']
                     if ncaa_teams:
@@ -633,17 +675,31 @@ class DataSerializer:
                         record['Years_Pro'] = current_year - last_ncaa_year
                     else:
                         record['Years_Pro'] = 0
+                    # Pro games from Proballers season stats
+                    record['Proballers_Games'] = career.get('pro_games', 0)
                 else:
                     record['Current_Team'] = ''
                     record['Current_League'] = ''
                     record['Had_GLeague'] = False
+                    record['GLeague_Teams'] = []
                     record['Years_Pro'] = 0
+                    record['Proballers_Games'] = 0
             else:
                 record['Proballers_URL'] = ''
                 record['Current_Team'] = ''
                 record['Current_League'] = ''
                 record['Had_GLeague'] = False
+                record['GLeague_Teams'] = []
                 record['Years_Pro'] = 0
+                record['Proballers_Games'] = 0
+
+            # Historical tracking - when player was first detected as pro
+            if pro_info:
+                record['First_Detected'] = pro_info.get('first_detected', '')
+                record['First_Detected_As'] = pro_info.get('first_detected_as', '')
+            else:
+                record['First_Detected'] = ''
+                record['First_Detected_As'] = ''
 
             # Sports Reference page exists (False if 404 or non-D1 only player)
             # Sports Reference only covers D1 players
@@ -672,7 +728,8 @@ class DataSerializer:
         return records
 
     def _serialize_espn_pbp_analysis(
-        self, espn_pbp: Dict[str, Any], away_team: str = '', home_team: str = ''
+        self, espn_pbp: Dict[str, Any], away_team: str = '', home_team: str = '',
+        winner_team: str = ''
     ) -> Dict[str, Any]:
         """
         Serialize ESPN play-by-play analysis for a single game.
@@ -724,13 +781,26 @@ class DataSerializer:
 
         # Biggest comeback
         comeback = espn_pbp.get('biggest_comeback')
-        if comeback and comeback.get('deficit', 0) >= 5:
+        if comeback:
             result['biggestComeback'] = {
                 'team': comeback.get('team', ''),
                 'deficit': comeback.get('deficit', 0),
                 'deficitTime': comeback.get('deficit_time', ''),
                 'deficitPeriod': comeback.get('deficit_period', 0),
+                'deficitScore': comeback.get('deficit_score', ''),
                 'won': comeback.get('won', False),
+                'neverTrailed': comeback.get('never_trailed', False),
+            }
+        elif winner_team:
+            # No comeback data means winner never trailed
+            result['biggestComeback'] = {
+                'team': winner_team,
+                'deficit': 0,
+                'deficitTime': '',
+                'deficitPeriod': 0,
+                'deficitScore': '',
+                'won': True,
+                'neverTrailed': True,
             }
 
         # Game-winning shots
