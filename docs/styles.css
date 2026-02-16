@@ -628,8 +628,7 @@ tr:hover .sticky-col {
     content: attr(data-tooltip);
     position: absolute;
     bottom: 100%;
-    left: 50%;
-    transform: translateX(-50%);
+    left: 0;
     background: rgba(0, 0, 0, 0.85);
     color: white;
     padding: 4px 8px;
@@ -772,17 +771,56 @@ tr.wnba-player.signed-only:hover {
 }
 /* Current team cell */
 .current-team-cell {
-    font-size: 0.8rem;
-    color: var(--text-muted);
+    font-size: 0.85rem;
+    white-space: nowrap;
 }
 .current-team-cell .team-name {
-    max-width: 120px;
+    max-width: 150px;
     display: inline-block;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     vertical-align: middle;
     cursor: help;
+}
+/* Box score pro badges */
+.box-score-pro-badge {
+    display: inline-block;
+    margin-left: 0.3rem;
+    vertical-align: middle;
+    position: relative;
+}
+.box-score-pro-badge .inline-league-logo {
+    height: 16px;
+    width: 16px;
+    vertical-align: middle;
+    margin-top: -2px;
+    border-radius: 2px;
+}
+.box-score-pro-badge[data-tooltip]:hover::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0,0,0,0.85);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    white-space: nowrap;
+    z-index: 100;
+    pointer-events: none;
+}
+tr.went-pro {
+    background: rgba(255, 215, 0, 0.06);
+}
+[data-theme="dark"] tr.went-pro {
+    background: rgba(255, 215, 0, 0.04);
+}
+.draft-cell {
+    font-size: 0.8rem;
+    white-space: nowrap;
 }
 .nba-stat .number {
     color: #C8102E;
@@ -2646,4 +2684,179 @@ tr.has-ranked:hover {
 }
 .scorigami-tooltip .game-item:hover {
     color: var(--accent-color);
+}
+
+/* Future Pros summary cards */
+.future-pros-summary {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+}
+.fp-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 0.6rem 1rem;
+    text-align: center;
+    min-width: 80px;
+    flex: 1;
+}
+.fp-card-number {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+.fp-card-label {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+.fp-nba { border-top: 3px solid #1d428a; }
+.fp-wnba { border-top: 3px solid #f56600; }
+.fp-intl { border-top: 3px solid #2e7d32; }
+.fp-active { border-top: 3px solid #d32f2f; }
+
+/* Future Pros - Proballers inline link */
+.proballers-link {
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+    text-decoration: none;
+    margin-left: 0.25rem;
+    opacity: 0.7;
+}
+.proballers-link:hover {
+    opacity: 1;
+    color: var(--accent-color);
+}
+
+/* Future Pros responsive column hiding */
+@media (max-width: 768px) {
+    #future-pros-table .fp-draft,
+    #future-pros-table .fp-ppg {
+        display: none;
+    }
+    .future-pros-summary {
+        gap: 0.4rem;
+    }
+    .fp-card {
+        min-width: 60px;
+        padding: 0.4rem 0.5rem;
+    }
+    .fp-card-number {
+        font-size: 1.1rem;
+    }
+}
+
+/* Stat Leaders */
+.leaders-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+.leader-card {
+    background: var(--bg-primary);
+    border-radius: 10px;
+    padding: 1rem;
+    border-top: 3px solid var(--accent-color);
+}
+.leader-card h4 {
+    font-size: 0.9rem;
+    color: var(--accent-color);
+    margin-bottom: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.leader-list { list-style: none; }
+.leader-item {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--border-color);
+}
+.leader-item:last-child { border-bottom: none; }
+.leader-rank {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--bg-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-right: 0.75rem;
+    color: var(--text-muted);
+}
+.leader-item:first-child .leader-rank {
+    background: var(--accent-color);
+    color: white;
+}
+.leader-name {
+    flex: 1;
+    font-weight: 500;
+    cursor: pointer;
+    color: var(--accent-color);
+}
+.leader-name:hover { text-decoration: underline; }
+.leader-team {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-right: 0.75rem;
+}
+.leader-value {
+    font-weight: 700;
+    font-size: 1.1rem;
+    font-variant-numeric: tabular-nums;
+}
+
+/* Player Chart */
+.chart-section {
+    background: var(--bg-primary);
+    border-radius: 10px;
+    padding: 1rem;
+    margin: 1rem 0;
+}
+.chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+.chart-header h4 { margin: 0; font-size: 1rem; }
+.chart-toggles { display: flex; gap: 0.5rem; }
+.chart-toggle {
+    padding: 0.35rem 0.75rem;
+    border: 1px solid var(--border-color);
+    background: var(--bg-secondary);
+    border-radius: 6px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    color: var(--text-primary);
+    transition: all 0.2s;
+}
+.chart-toggle:hover { background: var(--hover-color); }
+.chart-toggle.active {
+    background: var(--accent-color);
+    color: white;
+    border-color: var(--accent-color);
+}
+.chart-container {
+    position: relative;
+}
+
+/* Starter/Bench Dividers */
+.roster-divider {
+    background: var(--bg-primary) !important;
+}
+.roster-divider td {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    padding: 0.4rem 0.6rem !important;
+    letter-spacing: 0.5px;
 }

@@ -582,7 +582,7 @@ def get_espn_team_id(team_name: str) -> Optional[str]:
         'IU Indianapolis': '85',
         'Louisiana-Monroe': '2433',
         'Loyola (MD)': '2352',
-        'Loyola Marymount': '2350',
+        'Loyola Marymount': '2351',
         'Maryland-Eastern Shore': '2379',
         'Miami (FL)': '2390',
         'Miami (OH)': '193',

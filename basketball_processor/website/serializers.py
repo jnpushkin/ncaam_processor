@@ -13,7 +13,7 @@ from ..utils.nba_players import (
 from ..utils.d2d3_scraper import enrich_player_with_realgm, lookup_player_transfers
 from ..utils.schedule_scraper import (
     get_schedule, filter_upcoming_games,
-    SCHEDULE_CACHE_FILE, normalize_state, get_espn_team_id
+    SCHEDULE_CACHE_FILE, SCHEDULE_CACHE_FILE_WOMENS, normalize_state, get_espn_team_id
 )
 from ..utils.team_names import normalize_team_name
 from ..utils.constants import ESPN_TO_CANONICAL, NON_D1_SCHOOLS
@@ -879,12 +879,22 @@ class DataSerializer:
             if venue and city and state:
                 visited_venues.add(f"{venue}, {city}, {state}")
 
-        # Try to load schedule
-        if not SCHEDULE_CACHE_FILE.exists():
+        # Try to load schedule (both men's and women's)
+        if not SCHEDULE_CACHE_FILE.exists() and not SCHEDULE_CACHE_FILE_WOMENS.exists():
             return {'games': [], 'error': 'No schedule cache. Run schedule scraper first.'}
 
+        schedule = []
         try:
-            schedule = get_schedule(force_refresh=False)
+            if SCHEDULE_CACHE_FILE.exists():
+                mens_schedule = get_schedule(force_refresh=False, gender='M')
+                for g in mens_schedule:
+                    g['_gender'] = 'M'
+                schedule.extend(mens_schedule)
+            if SCHEDULE_CACHE_FILE_WOMENS.exists():
+                womens_schedule = get_schedule(force_refresh=False, gender='W')
+                for g in womens_schedule:
+                    g['_gender'] = 'W'
+                schedule.extend(womens_schedule)
         except Exception as e:
             return {'games': [], 'error': str(e)}
 
@@ -915,9 +925,10 @@ class DataSerializer:
             home_conf = self._lookup_conference(home_name)
             away_conf = self._lookup_conference(away_name)
 
-            # Look up current AP rankings (men's basketball)
-            home_rank = get_team_current_rank(home_name, gender='M')
-            away_rank = get_team_current_rank(away_name, gender='M')
+            # Look up current AP rankings using correct gender
+            game_gender = game.get('_gender', 'M')
+            home_rank = get_team_current_rank(home_name, gender=game_gender)
+            away_rank = get_team_current_rank(away_name, gender=game_gender)
 
             state = normalize_state(game['venue']['state'])
 
@@ -1022,9 +1033,10 @@ class DataSerializer:
                     if espn_lower == our_lower or alias_match or significant_match:
                         home = sched_game['home_team'].get('short_name') or sched_game['home_team']['name']
                         away = sched_game['away_team'].get('short_name') or sched_game['away_team']['name']
-                        # Get current rankings
-                        home_rank = get_team_current_rank(home, gender='M')
-                        away_rank = get_team_current_rank(away, gender='M')
+                        # Get current rankings using correct gender
+                        sched_gender = sched_game.get('_gender', 'M')
+                        home_rank = get_team_current_rank(home, gender=sched_gender)
+                        away_rank = get_team_current_rank(away, gender=sched_gender)
                         data['upcomingGames'].append({
                             'date': sched_game['date'],
                             'time_detail': sched_game.get('time_detail', ''),

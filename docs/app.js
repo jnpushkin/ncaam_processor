@@ -5,6 +5,8 @@ let compareChart = null;
 let currentMilestoneType = null;
 let currentMilestoneData = [];
 let currentConfDetailName = null;  // Track selected conference in detail view
+let playerChart = null;
+let leadersInitialized = false;
 
 // Pagination state
 const pagination = {
@@ -382,6 +384,13 @@ function toggleBadges(gameId, event) {
     }
 }
 
+function formatMinutes(mp) {
+    if (mp == null || mp === '' || mp === '-') return '-';
+    const num = parseFloat(mp);
+    if (isNaN(num)) return '-';
+    return Math.round(num);
+}
+
 function showSection(sectionId) {
     document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
     document.querySelectorAll('.tab').forEach(t => {
@@ -426,6 +435,12 @@ function showSection(sectionId) {
             }
         }, 100);
     }
+
+    // Initialize leaders when first shown
+    if (sectionId === 'leaders' && !leadersInitialized) {
+        leadersInitialized = true;
+        renderLeaders();
+    }
 }
 
 function showSubSection(parentId, subId) {
@@ -435,6 +450,64 @@ function showSubSection(parentId, subId) {
     document.getElementById(parentId + '-' + subId).classList.add('active');
     event.target.classList.add('active');
     updateURL(parentId, { sub: subId });
+}
+
+// Stat Leaders
+function renderLeaders() {
+    const players = DATA.players || [];
+    const grid = document.getElementById('leaders-grid');
+    const gender = document.getElementById('leaders-gender')?.value || '';
+    const minGames = parseInt(document.getElementById('leaders-min-games')?.value) || 2;
+
+    if (!players.length) {
+        grid.innerHTML = '<p style="text-align:center;padding:2rem;color:var(--text-muted);">No player data</p>';
+        return;
+    }
+
+    const filtered = players.filter(p => {
+        if (gender && p.Gender !== gender) return false;
+        if ((p.Games || 0) < minGames) return false;
+        return true;
+    });
+
+    const categories = [
+        { key: 'PPG', label: 'Points Per Game', format: v => v.toFixed(1) },
+        { key: 'RPG', label: 'Rebounds Per Game', format: v => v.toFixed(1) },
+        { key: 'APG', label: 'Assists Per Game', format: v => v.toFixed(1) },
+        { key: 'SPG', label: 'Steals Per Game', format: v => v.toFixed(1) },
+        { key: 'BPG', label: 'Blocks Per Game', format: v => v.toFixed(1) },
+        { key: 'FG%', label: 'Field Goal %', format: v => (v * 100).toFixed(1) + '%' },
+        { key: '3P%', label: 'Three-Point %', format: v => (v * 100).toFixed(1) + '%' },
+        { key: 'FT%', label: 'Free Throw %', format: v => (v * 100).toFixed(1) + '%' },
+        { key: 'Total PTS', label: 'Total Points', format: v => v.toLocaleString() },
+        { key: 'Total REB', label: 'Total Rebounds', format: v => v.toLocaleString() },
+        { key: 'Total AST', label: 'Total Assists', format: v => v.toLocaleString() },
+        { key: 'Best Game Score', label: 'Best Game Score', format: v => v.toFixed(1) },
+    ];
+
+    grid.innerHTML = categories.map(cat => {
+        const sorted = [...filtered]
+            .filter(p => p[cat.key] != null && !isNaN(p[cat.key]))
+            .sort((a, b) => b[cat.key] - a[cat.key])
+            .slice(0, 5);
+
+        if (!sorted.length) return '';
+
+        return `
+        <div class="leader-card">
+            <h4>${cat.label}</h4>
+            <ul class="leader-list">
+                ${sorted.map((p, i) => `
+                    <li class="leader-item">
+                        <span class="leader-rank">${i + 1}</span>
+                        <span class="leader-name" onclick="showPlayerDetail('${(p['Player ID'] || p.Player || '').replace(/'/g, "\\'")}')">${p.Player}</span>
+                        <span class="leader-team">${p.Team || ''}</span>
+                        <span class="leader-value">${cat.format(p[cat.key])}</span>
+                    </li>
+                `).join('')}
+            </ul>
+        </div>`;
+    }).join('');
 }
 
 // Keyboard navigation
@@ -1426,6 +1499,70 @@ function downloadCSV(type) {
         data = currentMilestoneData || [];
         filename = `milestones_${currentMilestoneType || 'all'}.csv`;
         headers = ['Date', 'Player', 'Team', 'Opponent', 'Detail'];
+    } else if (type === 'futurePros') {
+        data = filteredFuturePros || allFuturePros || [];
+        filename = 'future_pros.csv';
+        headers = ['Player', 'Team', 'Draft', 'League', 'Current Team', 'Current League', 'Pro Games', 'Games Seen', 'PPG', 'Total PTS', 'NBA', 'WNBA', 'International', 'G-League'];
+
+        if (!data.length) {
+            showToast('No data to download');
+            return;
+        }
+
+        let csv = headers.join(',') + '\n';
+        data.forEach(player => {
+            // Build draft string
+            let draft = '';
+            if (player.Draft_Round) {
+                draft = `R${player.Draft_Round} P${player.Draft_Pick} ${player.Draft_Year || ''}`;
+            } else if (player.Undrafted) {
+                draft = 'UDFA';
+            }
+
+            // Determine league
+            let league = '';
+            if (player.NBA) league = player.NBA_Played === false ? 'NBA (signed)' : 'NBA';
+            else if (player.WNBA) league = player.WNBA_Played === false ? 'WNBA (signed)' : 'WNBA';
+            else if (player.Intl_Pro) {
+                const leagues = player.Intl_Leagues || [];
+                league = leagues.length > 0 ? leagues.join('; ') : 'Overseas';
+            }
+            else if (player.Intl_National_Team) league = 'National Team';
+
+            const proGames = (player.NBA_Games || 0) + (player.WNBA_Games || 0);
+
+            const values = [
+                player.Player || '',
+                player.Team || '',
+                draft,
+                league,
+                player.Current_Team || '',
+                player.Current_League || '',
+                proGames || '',
+                player.Games || 0,
+                (player.PPG || 0).toFixed(1),
+                player['Total PTS'] || 0,
+                player.NBA ? 'Yes' : '',
+                player.WNBA ? 'Yes' : '',
+                player.International ? 'Yes' : '',
+                player.Had_GLeague ? 'Yes' : '',
+            ].map(v => {
+                v = String(v);
+                if (v.includes(',') || v.includes('"')) v = `"${v.replace(/"/g, '""')}"`;
+                return v;
+            });
+            csv += values.join(',') + '\n';
+        });
+
+        const blob = new Blob([csv], { type: 'text/csv' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        a.click();
+        URL.revokeObjectURL(url);
+        showToast(`Downloaded ${filename}`);
+        return;
     }
 
     if (!data.length) {
@@ -2770,6 +2907,7 @@ function initVenuesMap() {
         'Academy of Art': 'https://artuathletics.com/images/responsive/cal_logo.png',
         'Johns Hopkins': 'https://dxbhsrqyrr690.cloudfront.net/sidearm.nextgen.sites/hopkinssports.com/images/responsive_2025/logos/logo_main.svg',
         'University of Chicago': 'https://dbukjj6eu5tsf.cloudfront.net/sidearm.sites/chgo.sidearmsports.com/images/responsive_2023/main_logo.png',
+        'Chicago': 'https://dbukjj6eu5tsf.cloudfront.net/sidearm.sites/chgo.sidearmsports.com/images/responsive_2023/main_logo.png',
         'Washington College': 'https://dxbhsrqyrr690.cloudfront.net/sidearm.nextgen.sites/washingtoncollegesports.com/images/responsive_2022/svgs/on-light-theme.svg',
         'Brandeis': 'https://dbukjj6eu5tsf.cloudfront.net/sidearm.sites/brandeisu.sidearmsports.com/images/responsive_2023/logo_main_new.svg',
         'Jessup': 'https://dxbhsrqyrr690.cloudfront.net/sidearm.nextgen.sites/jessup.sidearmsports.com/images/responsive_2024/logo_main.svg',
@@ -3077,6 +3215,22 @@ function populateFutureProsTable() {
         return (b['Total PTS'] || 0) - (a['Total PTS'] || 0);
     });
 
+    // Build summary stats
+    const summaryEl = document.getElementById('future-pros-summary');
+    if (summaryEl) {
+        const nbaCount = allFuturePros.filter(p => p.NBA).length;
+        const wnbaCount = allFuturePros.filter(p => p.WNBA).length;
+        const intlCount = allFuturePros.filter(p => p.Intl_Pro).length;
+        const activeCount = allFuturePros.filter(p => p.NBA_Active || p.WNBA_Active || !!p.Current_Team).length;
+        summaryEl.innerHTML = `
+            <div class="fp-card"><div class="fp-card-number">${allFuturePros.length}</div><div class="fp-card-label">Total</div></div>
+            <div class="fp-card fp-nba"><div class="fp-card-number">${nbaCount}</div><div class="fp-card-label">NBA</div></div>
+            <div class="fp-card fp-wnba"><div class="fp-card-number">${wnbaCount}</div><div class="fp-card-label">WNBA</div></div>
+            <div class="fp-card fp-intl"><div class="fp-card-number">${intlCount}</div><div class="fp-card-label">International</div></div>
+            <div class="fp-card fp-active"><div class="fp-card-number">${activeCount}</div><div class="fp-card-label">Active</div></div>
+        `;
+    }
+
     // Initial render uses filters (which defaults to showing all)
     applyFutureProsFilters();
 }
@@ -3085,7 +3239,7 @@ function renderFutureProsTable(futurePros) {
     const tbody = document.querySelector('#future-pros-table tbody');
 
     if (futurePros.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="9" class="empty-state"><h3>No future pros match filters</h3></td></tr>';
+        tbody.innerHTML = '<tr><td colspan="8" class="empty-state"><h3>No future pros match filters</h3></td></tr>';
         return;
     }
 
@@ -3157,7 +3311,8 @@ function renderFutureProsTable(futurePros) {
                 } else {
                     league = intlLeagues.length > 0 ? intlLeagues.join(', ') : 'Overseas';
                 }
-                proGames = '—';
+                const pbGames = player.Proballers_Games || 0;
+                proGames = pbGames > 0 ? pbGames : '—';
                 proUrl = player.Intl_URL || player.Proballers_URL || '#';
                 linkClass = 'intl-link';
                 rowClass = 'intl-player';
@@ -3173,42 +3328,72 @@ function renderFutureProsTable(futurePros) {
             badges += `<span class="intl-badge national-team" data-tooltip="${tournamentTooltip}">${fibaLogo}</span>`;
             if (!league || league.includes('signed')) {
                 league = 'National Team';
-                proGames = '—';
+                const pbGames = player.Proballers_Games || 0;
+                proGames = pbGames > 0 ? pbGames : '—';
                 proUrl = player.Intl_URL || player.Proballers_URL || '#';
                 linkClass = 'natl-link';
                 rowClass = 'national-team-player';
             }
         }
 
-        // Build Proballers link if available and different from main link
+        // For players whose primary league is international (not NBA/WNBA), use Proballers as main link
         const proballersUrl = player.Proballers_URL || '';
-        const showProballers = proballersUrl && proballersUrl !== proUrl && proballersUrl !== '#';
+        if (player.Intl_Pro && !player.NBA && !player.WNBA && proballersUrl && proballersUrl !== '#') {
+            proUrl = proballersUrl;
+        }
+
+        // Show Proballers link badge only if it's different from the main link
+        const showProballers = proballersUrl && proballersUrl !== '#' && proballersUrl !== proUrl;
         const proballersLink = showProballers
-            ? ` <a href="${proballersUrl}" target="_blank" class="proballers-link" data-tooltip="View on Proballers">PB &#8599;</a>`
+            ? ` <a href="${proballersUrl}" target="_blank" class="proballers-link" data-tooltip="View on Proballers">PB</a>`
             : '';
+
+        // Build draft display
+        let draftDisplay = '';
+        if (player.Draft_Round) {
+            draftDisplay = `${player.Draft_Year} Draft: Round ${player.Draft_Round}, Pick ${player.Draft_Pick}`;
+        } else if (player.Undrafted) {
+            draftDisplay = 'UDFA';
+        }
 
         // Build current team display with G-League indicator
         let currentTeamDisplay = '—';
         if (player.Current_Team) {
-            const gleagueTag = player.Had_GLeague ? '<span class="gleague-tag" data-tooltip="G-League Experience">G</span>' : '';
+            // Build G-League tooltip with team names and years
+            let gleagueTag = '';
+            if (player.Had_GLeague) {
+                const gleagueTeams = player.GLeague_Teams || [];
+                let gleagueTooltip = 'G-League Experience';
+                if (gleagueTeams.length > 0) {
+                    gleagueTooltip = 'G-League: ' + gleagueTeams.map(t => {
+                        const yr = t.year ? ` '${String(t.year).slice(2)}` : '';
+                        return `${t.team}${yr}`;
+                    }).join(', ');
+                }
+                gleagueTag = `<span class="gleague-tag" data-tooltip="${gleagueTooltip}">G</span>`;
+            }
             currentTeamDisplay = `<span class="team-name" data-tooltip="${player.Current_Team}">${player.Current_Team}</span>${gleagueTag}`;
         }
+
+        // Build player name — link to pro stats page if available
+        const playerNameHtml = proUrl && proUrl !== '#'
+            ? `<a href="${proUrl}" target="_blank" class="player-link ${linkClass}">${player.Player || ''}</a>`
+            : `<span class="player-link" onclick="showPlayerDetail('${playerId || player.Player}')">${player.Player || ''}</span>`;
 
         return `
             <tr class="${rowClass}">
                 <td>
-                    <span class="player-link" onclick="showPlayerDetail('${playerId || player.Player}')">${player.Player || ''}</span>
-                    ${badges}
+                    ${playerNameHtml}
+                    ${badges}${proballersLink}
                     ${sportsRefLink}${genderTag}
                 </td>
                 <td>${player.Team || ''}</td>
+                <td class="fp-draft draft-cell">${draftDisplay}</td>
                 <td>${league}</td>
                 <td class="current-team-cell">${currentTeamDisplay}</td>
                 <td>${proGames}</td>
                 <td>${player.Games || 0}</td>
-                <td>${(player.PPG || 0).toFixed(1)}</td>
-                <td>${player['Total PTS'] || 0}</td>
-                <td><a href="${proUrl}" target="_blank" class="${linkClass}">View Stats &#8599;</a>${proballersLink}</td>
+                <td class="fp-ppg">${(player.PPG || 0).toFixed(1)}</td>
             </tr>
         `;
     }).join('');
@@ -3218,10 +3403,16 @@ function applyFutureProsFilters() {
     const searchEl = document.getElementById('future-pros-search');
     const leagueEl = document.getElementById('future-pros-league');
     const statusEl = document.getElementById('future-pros-status');
+    const playingEl = document.getElementById('future-pros-playing');
 
     const search = searchEl ? searchEl.value.toLowerCase() : '';
     const leagueFilter = leagueEl ? leagueEl.value : '';
     const statusFilter = statusEl ? statusEl.value : '';
+    const playingFilter = playingEl ? playingEl.value : '';
+
+    // Check for special quick-filter
+    const section = document.getElementById('future-pros');
+    const quickFilter = section ? section.dataset.quickFilter : '';
 
     filteredFuturePros = allFuturePros.filter(player => {
         // Search filter
@@ -3241,13 +3432,23 @@ function applyFutureProsFilters() {
 
         // Status filter
         if (statusFilter) {
-            const isActive = player.NBA_Active || player.WNBA_Active;
+            const isActive = player.NBA_Active || player.WNBA_Active || !!player.Current_Team;
             const isSignedOnly = (player.NBA && player.NBA_Played === false) ||
                                  (player.WNBA && player.WNBA_Played === false);
             if (statusFilter === 'active' && !isActive) return false;
             if (statusFilter === 'former' && (isActive || isSignedOnly)) return false;
             if (statusFilter === 'signed' && !isSignedOnly) return false;
         }
+
+        // Currently Playing filter
+        if (playingFilter) {
+            const hasCurrentTeam = !!player.Current_Team;
+            if (playingFilter === 'playing' && !hasCurrentTeam) return false;
+            if (playingFilter === 'not-playing' && hasCurrentTeam) return false;
+        }
+
+        // Quick-filter: Drafted
+        if (quickFilter === 'drafted' && !player.Draft_Round) return false;
 
         return true;
     });
@@ -3260,10 +3461,55 @@ function clearFutureProsFilters() {
     const searchEl = document.getElementById('future-pros-search');
     const leagueEl = document.getElementById('future-pros-league');
     const statusEl = document.getElementById('future-pros-status');
+    const playingEl = document.getElementById('future-pros-playing');
 
     if (searchEl) searchEl.value = '';
     if (leagueEl) leagueEl.value = '';
     if (statusEl) statusEl.value = '';
+    if (playingEl) playingEl.value = '';
+
+    // Reset quick-filter pills
+    const qfContainer = document.getElementById('future-pros-quick-filters');
+    if (qfContainer) {
+        qfContainer.querySelectorAll('.quick-filter').forEach(btn => btn.classList.remove('active'));
+        qfContainer.querySelector('.quick-filter').classList.add('active'); // "All" button
+    }
+
+    applyFutureProsFilters();
+}
+
+function quickFilterFuturePros(type) {
+    // Reset dropdowns first
+    const leagueEl = document.getElementById('future-pros-league');
+    const statusEl = document.getElementById('future-pros-status');
+    const playingEl = document.getElementById('future-pros-playing');
+    if (leagueEl) leagueEl.value = '';
+    if (statusEl) statusEl.value = '';
+    if (playingEl) playingEl.value = '';
+
+    // Set appropriate dropdown based on pill
+    if (type === 'nba' && leagueEl) leagueEl.value = 'nba';
+    else if (type === 'wnba' && leagueEl) leagueEl.value = 'wnba';
+    else if (type === 'intl' && leagueEl) leagueEl.value = 'intl';
+    else if (type === 'active' && statusEl) statusEl.value = 'active';
+    else if (type === 'drafted') {
+        // "Drafted" is a special filter — handled in applyFutureProsFilters
+        // We set a data attribute to signal this
+        const section = document.getElementById('future-pros');
+        if (section) section.dataset.quickFilter = 'drafted';
+    }
+
+    if (type !== 'drafted') {
+        const section = document.getElementById('future-pros');
+        if (section) delete section.dataset.quickFilter;
+    }
+
+    // Update pill active state
+    const qfContainer = document.getElementById('future-pros-quick-filters');
+    if (qfContainer) {
+        qfContainer.querySelectorAll('.quick-filter').forEach(btn => btn.classList.remove('active'));
+        event.target.classList.add('active');
+    }
 
     applyFutureProsFilters();
 }
@@ -3276,15 +3522,18 @@ function updateFutureProsFilterSummary() {
     const searchEl = document.getElementById('future-pros-search');
     const leagueEl = document.getElementById('future-pros-league');
     const statusEl = document.getElementById('future-pros-status');
+    const playingEl = document.getElementById('future-pros-playing');
 
     const search = searchEl ? searchEl.value : '';
     const league = leagueEl ? leagueEl.value : '';
     const status = statusEl ? statusEl.value : '';
+    const playing = playingEl ? playingEl.value : '';
 
     const chips = [];
     if (search) chips.push(`Search: "${search}"`);
     if (league) chips.push(league.toUpperCase());
     if (status) chips.push(status.charAt(0).toUpperCase() + status.slice(1));
+    if (playing) chips.push(playing === 'playing' ? 'Currently Playing' : 'Not Playing');
 
     if (chips.length > 0) {
         textSpan.innerHTML = `Showing <strong>${filteredFuturePros.length}</strong> of ${allFuturePros.length} players: ${chips.join(', ')}`;
@@ -4990,7 +5239,7 @@ function populateRecords() {
     const comebacks = [];
     games.forEach(g => {
         const espnPbp = g.ESPNPBPAnalysis || {};
-        if (espnPbp.biggestComeback && espnPbp.biggestComeback.deficit >= 5) {
+        if (espnPbp.biggestComeback && espnPbp.biggestComeback.deficit > 0 && !espnPbp.biggestComeback.neverTrailed) {
             const cb = espnPbp.biggestComeback;
             const wTag = g.Gender === 'W' ? ' (W)' : '';
             comebacks.push({
@@ -6149,6 +6398,7 @@ const SCHOOL_COORDS = {
     'Purdue Fort Wayne': [41.1175, -85.1045],
     // D2/D3/NAIA Schools
     'University of Chicago': [41.7919, -87.5997],  // Ratner Center
+    'Chicago': [41.7919, -87.5997],  // University of Chicago / Ratner Center
     'Johns Hopkins': [39.3299, -76.6205],  // Goldfarb Gym
     'Brandeis': [42.3654, -74.2631],  // Auerbach Arena
     'Washington College': [39.2107, -76.0721],  // Gibson Center
@@ -7106,7 +7356,7 @@ function showPlayerDetail(playerId) {
             <td><span class="game-link">${g.date}</span></td>
             <td>${g.opponent}</td>
             <td>${g.result} ${g.score || ''}</td>
-            <td>${g.mp != null ? Math.round(g.mp) : 0}</td>
+            <td>${formatMinutes(g.mp)}</td>
             <td>${g.pts || 0}</td>
             <td>${g.trb || 0}</td>
             <td>${g.ast || 0}</td>
@@ -7115,13 +7365,14 @@ function showPlayerDetail(playerId) {
             <td>${g.fg || 0}-${g.fga || 0}</td>
             <td>${g.fg3 || 0}-${g.fg3a || 0}</td>
             <td>${g.ft || 0}-${g.fta || 0}</td>
+            <td>${g.game_score != null ? g.game_score.toFixed(1) : '-'}</td>
         </tr>
     `).join('');
 
     const genderTag = player.Gender === 'W' ? '<span class="gender-tag">(W)</span>' : '';
     const sportsRefLink = getPlayerSportsRefLink(player);
 
-    document.getElementById('player-detail').innerHTML = `
+    let html = `
         <h3 id="player-modal-title">${player.Player} ${sportsRefLink}</h3>
         <p>Team: ${player.Team} ${genderTag} | Games: ${player.Games}</p>
         <div class="compare-grid">
@@ -7145,20 +7396,129 @@ function showPlayerDetail(playerId) {
                 <div class="stat-row"><span>Total Rebounds</span><span>${player['Total REB'] || 0}</span></div>
                 <div class="stat-row"><span>Total Assists</span><span>${player['Total AST'] || 0}</span></div>
             </div>
-        </div>
-        ${games.length > 0 ? `
+        </div>`;
+
+    if (games.length > 1) {
+        html += `
+        <div class="chart-section">
+            <div class="chart-header">
+                <h4>Performance Trend</h4>
+                <div class="chart-toggles">
+                    <button class="chart-toggle active" data-stat="pts">PTS</button>
+                    <button class="chart-toggle" data-stat="trb">REB</button>
+                    <button class="chart-toggle" data-stat="ast">AST</button>
+                    <button class="chart-toggle" data-stat="game_score">GmSc</button>
+                </div>
+            </div>
+            <div class="chart-container" style="height:200px;">
+                <canvas id="player-chart"></canvas>
+            </div>
+        </div>`;
+    }
+
+    if (games.length > 0) {
+        html += `
             <h4 style="margin-top:1rem">Game Log (${games.length} games)</h4>
             <div class="table-container" style="max-height:300px;overflow-y:auto;">
                 <table>
-                    <thead><tr><th>Date</th><th>Opp</th><th>Result</th><th>MIN</th><th>PTS</th><th>REB</th><th>AST</th><th>STL</th><th>BLK</th><th>FG</th><th>3P</th><th>FT</th></tr></thead>
+                    <thead><tr><th>Date</th><th>Opp</th><th>Result</th><th>MIN</th><th>PTS</th><th>REB</th><th>AST</th><th>STL</th><th>BLK</th><th>FG</th><th>3P</th><th>FT</th><th>GmSc</th></tr></thead>
                     <tbody>${gamesHtml}</tbody>
                 </table>
-            </div>
-        ` : ''}
-    `;
+            </div>`;
+    }
 
+    document.getElementById('player-detail').innerHTML = html;
     document.getElementById('player-modal').classList.add('active');
     updateURL('players', { player: playerId });
+
+    if (games.length > 1) {
+        setTimeout(() => initPlayerChart(games, 'pts'), 100);
+        document.querySelectorAll('.chart-toggle').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                document.querySelectorAll('.chart-toggle').forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+                initPlayerChart(games, e.target.dataset.stat);
+            });
+        });
+    }
+}
+
+function initPlayerChart(games, stat) {
+    const ctx = document.getElementById('player-chart');
+    if (!ctx) return;
+
+    if (playerChart) {
+        playerChart.destroy();
+    }
+
+    const chartGames = [...games].reverse();
+
+    const labels = chartGames.map(g => {
+        const d = g.date || '';
+        const parts = d.split(' ');
+        return parts.length >= 3 ? `${parts[0].slice(0,3)} ${parts[1].replace(',','')} '${parts[2].slice(2)}` : parts.length >= 2 ? `${parts[0].slice(0,3)} ${parts[1].replace(',','')}` : d;
+    });
+
+    const data = chartGames.map(g => g[stat] || 0);
+    const avg = data.reduce((a,b) => a+b, 0) / data.length;
+
+    const statLabels = { pts: 'Points', trb: 'Rebounds', ast: 'Assists', game_score: 'Game Score' };
+    const statColors = { pts: '#4ade80', trb: '#60a5fa', ast: '#f472b6', game_score: '#fbbf24' };
+
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    const gridColor = isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)';
+    const textColor = isDark ? '#b0b0b0' : '#666666';
+
+    playerChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: statLabels[stat] || stat,
+                data: data,
+                borderColor: statColors[stat] || '#4ade80',
+                backgroundColor: (statColors[stat] || '#4ade80') + '20',
+                fill: true,
+                tension: 0.3,
+                pointRadius: 5,
+                pointHoverRadius: 7,
+            }, {
+                label: `Avg: ${avg.toFixed(1)}`,
+                data: data.map(() => avg),
+                borderColor: isDark ? 'rgba(255,255,255,0.4)' : 'rgba(0,0,0,0.3)',
+                borderWidth: 1,
+                borderDash: [5, 5],
+                pointRadius: 0,
+                pointHoverRadius: 0,
+                fill: false,
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    filter: (item) => item.datasetIndex === 0,
+                    callbacks: {
+                        title: (items) => chartGames[items[0].dataIndex]?.date || '',
+                        afterLabel: (item) => `vs ${chartGames[item.dataIndex]?.opponent || ''}`
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    grid: { color: gridColor },
+                    ticks: { color: textColor, maxRotation: 45 }
+                },
+                y: {
+                    beginAtZero: true,
+                    grid: { color: gridColor },
+                    ticks: { color: textColor }
+                }
+            }
+        }
+    });
 }
 
 function showVenueDetail(venueName) {
@@ -7303,8 +7663,74 @@ function showGameDetail(gameId, fromCalendarDay = false) {
     const awayPlayers = playerGames.filter(p => p.team === game['Away Team']);
     const homePlayers = playerGames.filter(p => p.team === game['Home Team']);
 
+    // Build pro status lookup from DATA.players keyed by Player ID
+    const proLookup = {};
+    (DATA.players || []).forEach(p => {
+        const pid = p['Player ID'];
+        if (pid && (p.NBA || p.WNBA || p.International)) {
+            proLookup[pid] = p;
+        }
+    });
+
+    const renderPlayerRow = (p) => {
+        const pid = p.player_id || '';
+        const proPlayer = proLookup[pid];
+        let proBadge = '';
+        let rowClass = '';
+
+        if (proPlayer) {
+            rowClass = 'went-pro';
+            if (proPlayer.NBA) {
+                const tooltip = proPlayer.NBA_Active ? 'Active NBA player' : 'Former NBA player';
+                proBadge += `<span class="box-score-pro-badge" data-tooltip="${tooltip}"><img src="https://a.espncdn.com/combiner/i?img=/i/teamlogos/leagues/500/nba.png&w=32&h=32" alt="NBA" class="inline-league-logo"></span>`;
+            }
+            if (proPlayer.WNBA) {
+                const tooltip = proPlayer.WNBA_Active ? 'Active WNBA player' : 'Former WNBA player';
+                proBadge += `<span class="box-score-pro-badge" data-tooltip="${tooltip}"><img src="https://a.espncdn.com/combiner/i?img=/i/teamlogos/leagues/500/wnba.png&w=32&h=32" alt="WNBA" class="inline-league-logo"></span>`;
+            }
+            if (proPlayer.Intl_Pro) {
+                const leagues = proPlayer.Intl_Leagues || [];
+                const tooltip = leagues.length > 0 ? leagues.join(', ') : 'Overseas Pro';
+                proBadge += `<span class="box-score-pro-badge" data-tooltip="${tooltip}">&#127758;</span>`;
+            }
+        }
+
+        return `
+        <tr class="${rowClass}">
+            <td><span class="player-link" onclick="closeModal('game-modal'); showPlayerDetail('${p.player_id || p.player}')">${p.player || ''}</span>${proBadge}${getPlayerSportsRefLink(p)}</td>
+            <td>${formatMinutes(p.mp)}</td>
+            <td>${p.pts || 0}</td>
+            <td>${p.fg || 0}-${p.fga || 0}</td>
+            <td>${p.fg3 || 0}-${p.fg3a || 0}</td>
+            <td>${p.ft || 0}-${p.fta || 0}</td>
+            <td>${p.orb || 0}</td>
+            <td>${p.drb || 0}</td>
+            <td>${p.trb || 0}</td>
+            <td>${p.ast || 0}</td>
+            <td>${p.stl || 0}</td>
+            <td>${p.blk || 0}</td>
+            <td>${p.tov || 0}</td>
+            <td>${p.pf || 0}</td>
+        </tr>`;
+    };
+
     const renderBoxScore = (players, teamName) => {
         if (players.length === 0) return '<p>No box score data available</p>';
+
+        const starters = players.filter(p => p.starter).sort((a, b) => (b.mp || 0) - (a.mp || 0));
+        const bench = players.filter(p => !p.starter).sort((a, b) => (b.mp || 0) - (a.mp || 0));
+        const hasStarterData = starters.length > 0;
+
+        let rowsHtml = '';
+        if (hasStarterData) {
+            rowsHtml += `<tr class="roster-divider"><td colspan="14">Starters</td></tr>`;
+            rowsHtml += starters.map(renderPlayerRow).join('');
+            rowsHtml += `<tr class="roster-divider"><td colspan="14">Bench</td></tr>`;
+            rowsHtml += bench.map(renderPlayerRow).join('');
+        } else {
+            rowsHtml = players.sort((a, b) => (b.mp || 0) - (a.mp || 0)).map(renderPlayerRow).join('');
+        }
+
         return `
             <table>
                 <thead>
@@ -7325,26 +7751,7 @@ function showGameDetail(gameId, fromCalendarDay = false) {
                         <th>PF</th>
                     </tr>
                 </thead>
-                <tbody>
-                    ${players.map(p => `
-                        <tr>
-                            <td><span class="player-link" onclick="closeModal('game-modal'); showPlayerDetail('${p.player_id || p.player}')">${p.player || ''}</span>${getPlayerSportsRefLink(p)}</td>
-                            <td>${p.mp ? Math.round(p.mp) : 0}</td>
-                            <td>${p.pts || 0}</td>
-                            <td>${p.fg || 0}-${p.fga || 0}</td>
-                            <td>${p.fg3 || 0}-${p.fg3a || 0}</td>
-                            <td>${p.ft || 0}-${p.fta || 0}</td>
-                            <td>${p.orb || 0}</td>
-                            <td>${p.drb || 0}</td>
-                            <td>${p.trb || 0}</td>
-                            <td>${p.ast || 0}</td>
-                            <td>${p.stl || 0}</td>
-                            <td>${p.blk || 0}</td>
-                            <td>${p.tov || 0}</td>
-                            <td>${p.pf || 0}</td>
-                        </tr>
-                    `).join('')}
-                </tbody>
+                <tbody>${rowsHtml}</tbody>
             </table>
         `;
     };
@@ -7455,29 +7862,53 @@ function showGameDetail(gameId, fromCalendarDay = false) {
     // Check if we have any ESPN PBP data to display
     const hasTeamRuns = (espnPbp.teamScoringRuns || []).length > 0;
     const hasPlayerStreaks = (espnPbp.playerPointStreaks || []).length > 0;
-    const hasComeback = espnPbp.biggestComeback && espnPbp.biggestComeback.deficit >= 5;
+    const hasComeback = !!espnPbp.biggestComeback;
     const hasClutchGoAhead = espnPbp.clutchGoAhead;
     const hasDecisiveShot = espnPbp.decisiveShot;
 
     if (hasTeamRuns || hasPlayerStreaks || hasComeback || hasClutchGoAhead || hasDecisiveShot) {
         let espnSections = [];
 
+        // Helper to get period label - handles both men's (2 halves) and women's (4 quarters)
+        const gameGender = game.Gender || 'M';
+        const getPeriodLabel = (period, gender) => {
+            if (gender === 'W') {
+                // Women's basketball: 4 quarters
+                if (period <= 4) return `Q${period}`;
+                return `OT${period - 4 || ''}`;
+            } else {
+                // Men's basketball: 2 halves
+                if (period === 1) return '1st half';
+                if (period === 2) return '2nd half';
+                return `OT${period - 2 || ''}`;
+            }
+        };
+
         // Biggest comeback (most prominent)
         if (hasComeback) {
             const cb = espnPbp.biggestComeback;
-            const wonText = cb.won ? 'overcame' : 'nearly overcame';
-            espnSections.push(`
-                <div class="espn-pbp-item comeback-item" style="text-align:center;padding:0.5rem;background:var(--bg-primary);border-radius:6px;">
-                    <div style="font-size:1.2rem;font-weight:bold;color:var(--accent);">${cb.team} ${wonText} ${cb.deficit}-pt deficit</div>
-                    <div style="font-size:0.8rem;color:var(--text-secondary);">Down ${cb.deficit} at ${cb.deficitTime} in ${cb.deficitPeriod === 1 ? '1st half' : cb.deficitPeriod === 2 ? '2nd half' : 'OT'}</div>
-                </div>
-            `);
+            if (cb.neverTrailed) {
+                espnSections.push(`
+                    <div class="espn-pbp-item comeback-item" style="text-align:center;padding:0.5rem;background:var(--bg-primary);border-radius:6px;">
+                        <div style="font-size:1.2rem;font-weight:bold;color:var(--accent);">${cb.team} led wire-to-wire</div>
+                        <div style="font-size:0.8rem;color:var(--text-secondary);">Never trailed in this game</div>
+                    </div>
+                `);
+            } else {
+                const wonText = cb.won ? 'overcame' : 'nearly overcame';
+                espnSections.push(`
+                    <div class="espn-pbp-item comeback-item" style="text-align:center;padding:0.5rem;background:var(--bg-primary);border-radius:6px;">
+                        <div style="font-size:1.2rem;font-weight:bold;color:var(--accent);">${cb.team} ${wonText} ${cb.deficit}-pt deficit</div>
+                        <div style="font-size:0.8rem;color:var(--text-secondary);">Down ${cb.deficit} (${cb.deficitScore}) at ${cb.deficitTime} in ${getPeriodLabel(cb.deficitPeriod, gameGender)}</div>
+                    </div>
+                `);
+            }
         }
 
         // Team scoring runs
         if (hasTeamRuns) {
             const runsText = espnPbp.teamScoringRuns.map(r => {
-                const periodLabel = r.endPeriod === 1 ? '1st' : r.endPeriod === 2 ? '2nd' : `OT${r.endPeriod - 2 || ''}`;
+                const periodLabel = getPeriodLabel(r.endPeriod, gameGender);
                 const scoreChange = r.startScore && r.endScore ? ` (${r.startScore} → ${r.endScore})` : '';
                 const timeRange = r.startTime && r.endTime ? ` ${r.startTime}-${r.endTime}` : '';
                 return `<span class="espn-run-badge">${r.team} ${r.points}-0 run${scoreChange}${timeRange} ${periodLabel}</span>`;
@@ -7492,7 +7923,7 @@ function showGameDetail(gameId, fromCalendarDay = false) {
         // Player point streaks
         if (hasPlayerStreaks) {
             const streaksText = espnPbp.playerPointStreaks.map(s => {
-                const periodLabel = s.endPeriod === 1 ? '1st' : s.endPeriod === 2 ? '2nd' : `OT${s.endPeriod - 2 || ''}`;
+                const periodLabel = getPeriodLabel(s.endPeriod, gameGender);
                 const timeRange = s.startTime && s.endTime ? ` ${s.startTime}-${s.endTime}` : '';
                 const scoreChange = s.startScore && s.endScore ? ` (${s.startScore} → ${s.endScore})` : '';
                 return `<span class="espn-streak-badge">${s.player} (${s.team}) ${s.points} consecutive pts${scoreChange}${timeRange} ${periodLabel}</span>`;
@@ -7507,20 +7938,6 @@ function showGameDetail(gameId, fromCalendarDay = false) {
         // Decisive shots
         if (hasClutchGoAhead || hasDecisiveShot) {
             let gwsText = '';
-            // Helper to get period label - handles both men's (2 halves) and women's (4 quarters)
-            const getPeriodLabel = (period, gender) => {
-                if (gender === 'W') {
-                    // Women's basketball: 4 quarters
-                    if (period <= 4) return `Q${period}`;
-                    return `OT${period - 4 || ''}`;
-                } else {
-                    // Men's basketball: 2 halves
-                    if (period === 1) return '1st half';
-                    if (period === 2) return '2nd half';
-                    return `OT${period - 2 || ''}`;
-                }
-            };
-            const gameGender = game.Gender || 'M';
 
             if (hasClutchGoAhead) {
                 const cga = espnPbp.clutchGoAhead;

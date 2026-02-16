@@ -107,7 +107,8 @@ def enrich_game_with_rankings(game_data: Dict[str, Any]) -> Dict[str, Any]:
     """
     try:
         from .scrapers.poll_scraper import get_rankings_for_game, load_existing_polls
-        polls_data = load_existing_polls()
+        gender = game_data.get('basic_info', {}).get('gender', 'M')
+        polls_data = load_existing_polls(gender=gender)
         if not polls_data:
             return game_data
     except ImportError:
@@ -134,7 +135,7 @@ def enrich_game_with_rankings(game_data: Dict[str, Any]) -> Dict[str, Any]:
             season = f"{year - 1}-{str(year)[-2:]}"
 
         away_rank, home_rank = get_rankings_for_game(
-            away_team, home_team, game_date_iso, season
+            away_team, home_team, game_date_iso, season, gender=gender
         )
 
         if away_rank:
@@ -537,6 +538,16 @@ def main() -> None:
         action='store_true',
         help='Show timestamps in console log output'
     )
+    parser.add_argument(
+        '--validate-urls',
+        action='store_true',
+        help='Validate all Basketball Reference URLs in confirmed players'
+    )
+    parser.add_argument(
+        '--backfill-draft',
+        action='store_true',
+        help='Backfill draft info for all confirmed NBA/WNBA players'
+    )
 
     args = parser.parse_args()
 
@@ -553,6 +564,19 @@ def main() -> None:
     if args.timestamps:
         from .utils.log import set_show_timestamp
         set_show_timestamp(True)
+
+    # Handle standalone utility commands
+    if args.validate_urls:
+        from .utils.nba_players import validate_all_urls
+        info("Validating all Basketball Reference URLs...")
+        validate_all_urls(auto_fix=True)
+        return
+
+    if args.backfill_draft:
+        from .utils.nba_players import backfill_draft_info
+        info("Backfilling draft info for confirmed players...")
+        backfill_draft_info()
+        return
 
     # Validate flags
     if args.excel_only and args.website_only:

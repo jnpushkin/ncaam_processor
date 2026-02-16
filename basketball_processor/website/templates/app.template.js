@@ -2907,6 +2907,7 @@ function initVenuesMap() {
         'Academy of Art': 'https://artuathletics.com/images/responsive/cal_logo.png',
         'Johns Hopkins': 'https://dxbhsrqyrr690.cloudfront.net/sidearm.nextgen.sites/hopkinssports.com/images/responsive_2025/logos/logo_main.svg',
         'University of Chicago': 'https://dbukjj6eu5tsf.cloudfront.net/sidearm.sites/chgo.sidearmsports.com/images/responsive_2023/main_logo.png',
+        'Chicago': 'https://dbukjj6eu5tsf.cloudfront.net/sidearm.sites/chgo.sidearmsports.com/images/responsive_2023/main_logo.png',
         'Washington College': 'https://dxbhsrqyrr690.cloudfront.net/sidearm.nextgen.sites/washingtoncollegesports.com/images/responsive_2022/svgs/on-light-theme.svg',
         'Brandeis': 'https://dbukjj6eu5tsf.cloudfront.net/sidearm.sites/brandeisu.sidearmsports.com/images/responsive_2023/logo_main_new.svg',
         'Jessup': 'https://dxbhsrqyrr690.cloudfront.net/sidearm.nextgen.sites/jessup.sidearmsports.com/images/responsive_2024/logo_main.svg',
@@ -6397,6 +6398,7 @@ const SCHOOL_COORDS = {
     'Purdue Fort Wayne': [41.1175, -85.1045],
     // D2/D3/NAIA Schools
     'University of Chicago': [41.7919, -87.5997],  // Ratner Center
+    'Chicago': [41.7919, -87.5997],  // University of Chicago / Ratner Center
     'Johns Hopkins': [39.3299, -76.6205],  // Goldfarb Gym
     'Brandeis': [42.3654, -74.2631],  // Auerbach Arena
     'Washington College': [39.2107, -76.0721],  // Gibson Center
@@ -7867,6 +7869,21 @@ function showGameDetail(gameId, fromCalendarDay = false) {
     if (hasTeamRuns || hasPlayerStreaks || hasComeback || hasClutchGoAhead || hasDecisiveShot) {
         let espnSections = [];
 
+        // Helper to get period label - handles both men's (2 halves) and women's (4 quarters)
+        const gameGender = game.Gender || 'M';
+        const getPeriodLabel = (period, gender) => {
+            if (gender === 'W') {
+                // Women's basketball: 4 quarters
+                if (period <= 4) return `Q${period}`;
+                return `OT${period - 4 || ''}`;
+            } else {
+                // Men's basketball: 2 halves
+                if (period === 1) return '1st half';
+                if (period === 2) return '2nd half';
+                return `OT${period - 2 || ''}`;
+            }
+        };
+
         // Biggest comeback (most prominent)
         if (hasComeback) {
             const cb = espnPbp.biggestComeback;
@@ -7882,7 +7899,7 @@ function showGameDetail(gameId, fromCalendarDay = false) {
                 espnSections.push(`
                     <div class="espn-pbp-item comeback-item" style="text-align:center;padding:0.5rem;background:var(--bg-primary);border-radius:6px;">
                         <div style="font-size:1.2rem;font-weight:bold;color:var(--accent);">${cb.team} ${wonText} ${cb.deficit}-pt deficit</div>
-                        <div style="font-size:0.8rem;color:var(--text-secondary);">Down ${cb.deficit} (${cb.deficitScore}) at ${cb.deficitTime} in ${cb.deficitPeriod === 1 ? '1st half' : cb.deficitPeriod === 2 ? '2nd half' : 'OT'}</div>
+                        <div style="font-size:0.8rem;color:var(--text-secondary);">Down ${cb.deficit} (${cb.deficitScore}) at ${cb.deficitTime} in ${getPeriodLabel(cb.deficitPeriod, gameGender)}</div>
                     </div>
                 `);
             }
@@ -7891,7 +7908,7 @@ function showGameDetail(gameId, fromCalendarDay = false) {
         // Team scoring runs
         if (hasTeamRuns) {
             const runsText = espnPbp.teamScoringRuns.map(r => {
-                const periodLabel = r.endPeriod === 1 ? '1st' : r.endPeriod === 2 ? '2nd' : `OT${r.endPeriod - 2 || ''}`;
+                const periodLabel = getPeriodLabel(r.endPeriod, gameGender);
                 const scoreChange = r.startScore && r.endScore ? ` (${r.startScore} → ${r.endScore})` : '';
                 const timeRange = r.startTime && r.endTime ? ` ${r.startTime}-${r.endTime}` : '';
                 return `<span class="espn-run-badge">${r.team} ${r.points}-0 run${scoreChange}${timeRange} ${periodLabel}</span>`;
@@ -7906,7 +7923,7 @@ function showGameDetail(gameId, fromCalendarDay = false) {
         // Player point streaks
         if (hasPlayerStreaks) {
             const streaksText = espnPbp.playerPointStreaks.map(s => {
-                const periodLabel = s.endPeriod === 1 ? '1st' : s.endPeriod === 2 ? '2nd' : `OT${s.endPeriod - 2 || ''}`;
+                const periodLabel = getPeriodLabel(s.endPeriod, gameGender);
                 const timeRange = s.startTime && s.endTime ? ` ${s.startTime}-${s.endTime}` : '';
                 const scoreChange = s.startScore && s.endScore ? ` (${s.startScore} → ${s.endScore})` : '';
                 return `<span class="espn-streak-badge">${s.player} (${s.team}) ${s.points} consecutive pts${scoreChange}${timeRange} ${periodLabel}</span>`;
@@ -7921,20 +7938,6 @@ function showGameDetail(gameId, fromCalendarDay = false) {
         // Decisive shots
         if (hasClutchGoAhead || hasDecisiveShot) {
             let gwsText = '';
-            // Helper to get period label - handles both men's (2 halves) and women's (4 quarters)
-            const getPeriodLabel = (period, gender) => {
-                if (gender === 'W') {
-                    // Women's basketball: 4 quarters
-                    if (period <= 4) return `Q${period}`;
-                    return `OT${period - 4 || ''}`;
-                } else {
-                    // Men's basketball: 2 halves
-                    if (period === 1) return '1st half';
-                    if (period === 2) return '2nd half';
-                    return `OT${period - 2 || ''}`;
-                }
-            };
-            const gameGender = game.Gender || 'M';
 
             if (hasClutchGoAhead) {
                 const cga = espnPbp.clutchGoAhead;
