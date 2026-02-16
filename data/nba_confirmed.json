@@ -4,42 +4,74 @@
     "wnba_url": "https://www.basketball-reference.com/wnba/players/c/coleta01w.html",
     "is_wnba_active": false,
     "wnba_played": false,
-    "wnba_games": 0
+    "wnba_games": 0,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "wnba"
   },
   "mackenzie-engram-1": {
     "sr_page_exists": true,
     "wnba_url": "https://www.basketball-reference.com/wnba/players/e/engrama01w.html",
     "is_wnba_active": false,
     "wnba_played": false,
-    "wnba_games": 0
+    "wnba_games": 0,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "wnba",
+    "draft_team": "Atlanta Dream",
+    "draft_round": 3,
+    "draft_pick": 27,
+    "draft_year": 2018,
+    "undrafted": false
   },
   "maya-caldwell-1": {
     "sr_page_exists": true,
     "wnba_url": "https://www.basketball-reference.com/wnba/players/c/caldwma01w.html",
     "is_wnba_active": false,
     "wnba_played": true,
-    "wnba_games": 105
+    "wnba_games": 105,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "wnba",
+    "draft_team": "Indiana Fever",
+    "draft_round": 3,
+    "draft_pick": 33,
+    "draft_year": 2021,
+    "undrafted": false
   },
   "que-morrison-1": {
     "sr_page_exists": true,
     "wnba_url": "https://www.basketball-reference.com/wnba/players/m/morriqu01w.html",
     "is_wnba_active": false,
     "wnba_played": false,
-    "wnba_games": 0
+    "wnba_games": 0,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "wnba"
   },
   "caliya-robinson-1": {
     "sr_page_exists": true,
     "wnba_url": "https://www.basketball-reference.com/wnba/players/r/robinca01w.html",
     "is_wnba_active": false,
     "wnba_played": false,
-    "wnba_games": 0
+    "wnba_games": 0,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "wnba",
+    "draft_team": "Indiana Fever",
+    "draft_round": 3,
+    "draft_pick": 28,
+    "draft_year": 2019,
+    "undrafted": false
   },
   "jocelyn-willoughby-1": {
     "sr_page_exists": true,
     "wnba_url": "https://www.basketball-reference.com/wnba/players/w/willojo01w.html",
     "is_wnba_active": false,
     "wnba_played": true,
-    "wnba_games": 62
+    "wnba_games": 62,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "wnba",
+    "draft_team": "Phoenix Mercury",
+    "draft_round": 1,
+    "draft_pick": 10,
+    "draft_year": 2020,
+    "undrafted": false
   },
   "devon-hall-1": {
     "sr_page_exists": true,
@@ -64,7 +96,14 @@
       "NBA",
       "NBL (Australia)",
       "Serie A (Italy)"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba",
+    "draft_team": "Oklahoma City Thunder",
+    "draft_round": 2,
+    "draft_pick": 53,
+    "draft_year": 2018,
+    "undrafted": false
   },
   "jack-salt-1": {
     "sr_page_exists": true,
@@ -79,7 +118,9 @@
     "proballers_leagues": [
       "NBL (Australia)",
       "NBL (New Zealand)"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "london-perrantes-1": {
     "sr_page_exists": true,
@@ -104,7 +145,9 @@
       "Israeli League",
       "LNB Pro A (France)",
       "NBA"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba"
   },
   "marial-shayok-1": {
     "sr_page_exists": true,
@@ -132,7 +175,14 @@
       "CBA (China)",
       "Israeli League",
       "NBA"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba",
+    "draft_team": "Philadelphia 76ers",
+    "draft_round": 2,
+    "draft_pick": 54,
+    "draft_year": 2019,
+    "undrafted": false
   },
   "braxton-key-1": {
     "sr_page_exists": true,
@@ -153,7 +203,9 @@
       "BSN (Puerto Rico)",
       "Liga ACB (Spain)",
       "NBA"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba"
   },
   "jay-huff-1": {
     "sr_page_exists": true,
@@ -164,7 +216,9 @@
     "proballers_id": 178647,
     "proballers_leagues": [
       "NBA"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba"
   },
   "kihei-clark-1": {
     "sr_page_exists": true,
@@ -176,7 +230,9 @@
       "B2.League (Japan)",
       "BNXT League"
     ],
-    "proballers_id": 178649
+    "proballers_id": 178649,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba"
   },
   "isaiah-wilkins-1": {
     "sr_page_exists": true,
@@ -196,7 +252,9 @@
       "BBL (Germany)",
       "NBL (New Zealand)",
       "PLK (Poland)"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba"
   },
   "darius-thompson-1": {
     "sr_page_exists": true,
@@ -218,7 +276,9 @@
       "Eredivisie (Netherlands)",
       "Liga ACB (Spain)",
       "Serie A (Italy)"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "jonathan-mogbo-1": {
     "sr_page_exists": true,
@@ -229,7 +289,14 @@
     "proballers_id": 258330,
     "proballers_leagues": [
       "NBA"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba",
+    "draft_team": "Toronto Raptors",
+    "draft_round": 2,
+    "draft_pick": 31,
+    "draft_year": 2024,
+    "undrafted": false
   },
   "ben-gregg-1": {
     "sr_page_exists": true,
@@ -243,7 +310,9 @@
     "proballers_id": 233111,
     "proballers_leagues": [
       "LNB Pro A (France)"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "jaylon-tyson-1": {
     "sr_page_exists": true,
@@ -254,7 +323,14 @@
     "proballers_id": 245549,
     "proballers_leagues": [
       "NBA"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba",
+    "draft_team": "Cleveland Cavaliers",
+    "draft_round": 1,
+    "draft_pick": 20,
+    "draft_year": 2024,
+    "undrafted": false
   },
   "rj-barrett-1": {
     "sr_page_exists": true,
@@ -273,7 +349,14 @@
     "proballers_id": 70065,
     "proballers_leagues": [
       "NBA"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba",
+    "draft_team": "New York Knicks",
+    "draft_round": 1,
+    "draft_pick": 3,
+    "draft_year": 2019,
+    "undrafted": false
   },
   "kendal-coleman-1": {
     "sr_page_exists": true,
@@ -287,7 +370,9 @@
     "proballers_id": 233838,
     "proballers_leagues": [
       "Greek League"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "maxime-raynaud-1": {
     "sr_page_exists": true,
@@ -298,7 +383,14 @@
     "proballers_id": 180216,
     "proballers_leagues": [
       "NBA"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba",
+    "draft_team": "Sacramento Kings",
+    "draft_round": 2,
+    "draft_pick": 42,
+    "draft_year": 2025,
+    "undrafted": false
   },
   "terrell-stoglin-1": {
     "sr_page_exists": true,
@@ -318,7 +410,9 @@
       "PLK (Poland)",
       "Serie A (Italy)",
       "TBL (Turkey)"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "boo-buie-1": {
     "sr_page_exists": true,
@@ -326,7 +420,9 @@
     "nba_played": false,
     "nba_games": 0,
     "is_active": true,
-    "proballers_id": 189763
+    "proballers_id": 189763,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba"
   },
   "ben-lammers-1": {
     "sr_page_exists": true,
@@ -344,7 +440,9 @@
       "BBL (Germany)",
       "LEB Oro (Spain)",
       "Liga ACB (Spain)"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "isaiah-collier-2": {
     "sr_page_exists": true,
@@ -355,7 +453,14 @@
     "proballers_id": 269417,
     "proballers_leagues": [
       "NBA"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba",
+    "draft_team": "Utah Jazz",
+    "draft_round": 1,
+    "draft_pick": 29,
+    "draft_year": 2024,
+    "undrafted": false
   },
   "david-fuchs-1": {
     "sr_page_exists": true,
@@ -369,7 +474,9 @@
     "proballers_id": 179976,
     "proballers_leagues": [
       "BBL (Germany)"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "augustas-marciulionis-1": {
     "sr_page_exists": true,
@@ -377,7 +484,9 @@
     "nba_played": false,
     "nba_games": 0,
     "is_active": true,
-    "proballers_id": 175938
+    "proballers_id": 175938,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba"
   },
   "justin-robinson-3": {
     "sr_page_exists": true,
@@ -406,7 +515,9 @@
       "NBA",
       "NBL (Australia)",
       "Serie A (Italy)"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba"
   },
   "vladislav-goldin-1": {
     "sr_page_exists": true,
@@ -423,7 +534,9 @@
     "intl_leagues": [
       "NBA"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba"
   },
   "johnell-davis-1": {
     "sr_page_exists": true,
@@ -433,7 +546,9 @@
     "is_active": true,
     "proballers_id": 267091,
     "name": "Johnell Davis",
-    "college": "Florida Atlantic"
+    "college": "Florida Atlantic",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba"
   },
   "dain-dainja-1": {
     "sr_page_exists": true,
@@ -443,7 +558,9 @@
     "is_active": true,
     "proballers_id": 232624,
     "name": "Dain Dainja",
-    "college": "Memphis"
+    "college": "Memphis",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba"
   },
   "jamir-watkins-1": {
     "sr_page_exists": true,
@@ -460,7 +577,14 @@
     "intl_leagues": [
       "NBA"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba",
+    "draft_team": "Utah Jazz",
+    "draft_round": 2,
+    "draft_pick": 43,
+    "draft_year": 2025,
+    "undrafted": false
   },
   "dj-rodman-1": {
     "sr_page_exists": true,
@@ -470,7 +594,9 @@
     "is_active": false,
     "proballers_id": 191379,
     "name": "DJ Rodman",
-    "college": "USC"
+    "college": "USC",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba"
   },
   "temple-gibbs-1": {
     "sr_page_exists": true,
@@ -485,7 +611,9 @@
       "LPB (Portugal)",
       "ProA (Germany)"
     ],
-    "proballers_id": 72751
+    "proballers_id": 72751,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "raymond-spalding-1": {
     "sr_page_exists": true,
@@ -507,7 +635,14 @@
       "BSN (Puerto Rico)",
       "Israeli League",
       "NBA"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba",
+    "draft_team": "Philadelphia 76ers",
+    "draft_round": 2,
+    "draft_pick": 56,
+    "draft_year": 2018,
+    "undrafted": false
   },
   "deng-adel-1": {
     "sr_page_exists": true,
@@ -531,7 +666,9 @@
       "NBA",
       "NBL (Australia)",
       "Pro B (France)"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba"
   },
   "fardaws-aimaq-1": {
     "sr_page_exists": true,
@@ -539,6 +676,7 @@
     "intl_pro": true,
     "intl_national_team": false,
     "intl_leagues": [
+      "A Liga (Hungary)",
       "EuroCup"
     ],
     "intl_tournaments": [],
@@ -547,7 +685,9 @@
     "college": "California",
     "proballers_leagues": [
       "A Liga (Hungary)"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "veniamin-abosi-1": {
     "sr_page_exists": true,
@@ -562,7 +702,9 @@
     "proballers_id": 286015,
     "proballers_leagues": [
       "Greek League"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "cam-spencer-1": {
     "sr_page_exists": true,
@@ -579,7 +721,14 @@
     "intl_leagues": [
       "NBA"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba",
+    "draft_team": "Detroit Pistons",
+    "draft_round": 2,
+    "draft_pick": 53,
+    "draft_year": 2024,
+    "undrafted": false
   },
   "ethan-happ-1": {
     "sr_page_exists": true,
@@ -601,7 +750,9 @@
       "EuroLeague",
       "Liga ACB (Spain)",
       "Serie A (Italy)"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "mitchell-saxen-1": {
     "sr_page_exists": true,
@@ -617,7 +768,9 @@
     "college": "Saint Mary's (CA)",
     "proballers_leagues": [
       "LNB Pro A (France)"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "stephon-castle-2": {
     "sr_page_exists": true,
@@ -634,7 +787,14 @@
     "intl_leagues": [
       "NBA"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba",
+    "draft_team": "San Antonio Spurs",
+    "draft_round": 1,
+    "draft_pick": 4,
+    "draft_year": 2024,
+    "undrafted": false
   },
   "khalif-battle-1": {
     "sr_page_exists": true,
@@ -651,7 +811,9 @@
     "college": "Gonzaga",
     "proballers_leagues": [
       "Serie A (Italy)"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "mady-sissoko-1": {
     "sr_page_exists": true,
@@ -667,7 +829,9 @@
     "college": "California",
     "proballers_leagues": [
       "Serie A (Italy)"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "tristen-newton-1": {
     "sr_page_exists": true,
@@ -678,7 +842,14 @@
     "proballers_id": 188818,
     "proballers_leagues": [
       "NBA"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba",
+    "draft_team": "Indiana Pacers",
+    "draft_round": 2,
+    "draft_pick": 49,
+    "draft_year": 2024,
+    "undrafted": false
   },
   "audiese-toney-1": {
     "sr_page_exists": true,
@@ -699,7 +870,9 @@
     "proballers_leagues": [
       "Division A (Romania)",
       "Greek League"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba"
   },
   "moses-wright-1": {
     "sr_page_exists": true,
@@ -723,7 +896,9 @@
       "CBA (China)",
       "Greek League",
       "NBA"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba"
   },
   "brandon-childress-1": {
     "sr_page_exists": true,
@@ -742,7 +917,9 @@
       "BBL (Germany)",
       "BSL (Turkey)",
       "Greek League"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "joel-berry-1": {
     "sr_page_exists": true,
@@ -760,7 +937,9 @@
     "proballers_id": 56725,
     "proballers_leagues": [
       "BSL (Turkey)"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba"
   },
   "jevon-carter-1": {
     "sr_page_exists": true,
@@ -777,7 +956,14 @@
     "intl_leagues": [
       "NBA"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba",
+    "draft_team": "Memphis Grizzlies",
+    "draft_round": 2,
+    "draft_pick": 32,
+    "draft_year": 2018,
+    "undrafted": false
   },
   "james-banksiii-1": {
     "sr_page_exists": true,
@@ -800,7 +986,9 @@
     "proballers_leagues": [
       "Greek League",
       "Israeli League"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba"
   },
   "kymany-houinsou-1": {
     "sr_page_exists": true,
@@ -809,7 +997,8 @@
     "intl_national_team": false,
     "intl_leagues": [
       "EuroLeague",
-      "LNB Pro A (France)"
+      "LNB Pro A (France)",
+      "Pro B (France)"
     ],
     "intl_tournaments": [],
     "proballers_id": 180212,
@@ -818,7 +1007,9 @@
     "proballers_leagues": [
       "LNB Pro A (France)",
       "Pro B (France)"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "gabe-devoe-1": {
     "sr_page_exists": true,
@@ -836,7 +1027,9 @@
       "LNB Pro A (France)",
       "PLK (Poland)",
       "Serie A2 (Italy)"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "olivier-sarr-1": {
     "sr_page_exists": true,
@@ -853,7 +1046,9 @@
     "intl_leagues": [
       "NBA"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba"
   },
   "john-mooney-1": {
     "sr_page_exists": true,
@@ -870,7 +1065,9 @@
     "proballers_leagues": [
       "B.League (Japan)",
       "NBL (Australia)"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "jaylen-blakes-1": {
     "sr_page_exists": true,
@@ -886,7 +1083,9 @@
     "college": "Stanford",
     "proballers_leagues": [
       "Israeli League"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "nathan-adrian-1": {
     "sr_page_exists": true,
@@ -904,7 +1103,9 @@
       "B2.League (Japan)",
       "Serie A (Italy)",
       "Serie A2 (Italy)"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "sam-waardenburg-1": {
     "sr_page_exists": true,
@@ -923,7 +1124,9 @@
       "BSN (Puerto Rico)",
       "NBL (Australia)",
       "NBL (New Zealand)"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "michael-devoe-1": {
     "sr_page_exists": true,
@@ -948,7 +1151,9 @@
       "BSL (Turkey)",
       "BSN (Puerto Rico)",
       "Israeli League"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba"
   },
   "blake-reynolds-1": {
     "sr_page_exists": true,
@@ -965,7 +1170,9 @@
     "proballers_leagues": [
       "Division A (Romania)",
       "PLK (Poland)"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "vj-king-1": {
     "sr_page_exists": true,
@@ -987,7 +1194,9 @@
     "proballers_leagues": [
       "BSL (Turkey)",
       "Serie A2 (Italy)"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba"
   },
   "anton-watson-1": {
     "sr_page_exists": true,
@@ -1004,7 +1213,14 @@
     "intl_leagues": [
       "NBA"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba",
+    "draft_team": "Boston Celtics",
+    "draft_round": 2,
+    "draft_pick": 54,
+    "draft_year": 2024,
+    "undrafted": false
   },
   "dmitrik-trice-1": {
     "sr_page_exists": true,
@@ -1023,7 +1239,9 @@
       "A Liga (Hungary)",
       "LNB Pro A (France)",
       "PLK (Poland)"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "kody-stattmann-1": {
     "sr_page_exists": true,
@@ -1039,7 +1257,9 @@
     "college": "Virginia",
     "proballers_leagues": [
       "NBL (Australia)"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "brian-fobbs-1": {
     "sr_page_exists": true,
@@ -1058,7 +1278,9 @@
       "BNXT League",
       "Korisliiga (Finland)",
       "Serie A (Italy)"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "tyrese-hunter-1": {
     "sr_page_exists": true,
@@ -1068,7 +1290,9 @@
     "is_active": true,
     "proballers_id": 243271,
     "name": "Tyrese Hunter",
-    "college": "Memphis"
+    "college": "Memphis",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba"
   },
   "aamir-simms-1": {
     "sr_page_exists": true,
@@ -1091,7 +1315,9 @@
     "proballers_leagues": [
       "LNB Pro A (France)",
       "Serie A (Italy)"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba"
   },
   "nate-laszewski-1": {
     "sr_page_exists": true,
@@ -1112,7 +1338,9 @@
       "Greek League",
       "Israeli League",
       "Serie A (Italy)"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "boogie-ellis-1": {
     "sr_page_exists": true,
@@ -1130,7 +1358,9 @@
     "proballers_id": 188763,
     "proballers_leagues": [
       "BBL (Germany)"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba"
   },
   "justin-bibbs-1": {
     "sr_page_exists": true,
@@ -1155,7 +1385,9 @@
       "LNBP (Mexico)",
       "NBL (New Zealand)",
       "PLK (Poland)"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba"
   },
   "ebuka-izundu-1": {
     "sr_page_exists": true,
@@ -1178,7 +1410,9 @@
       "BSL (Turkey)",
       "LNB Pro A (France)",
       "Liga ACB (Spain)"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "tony-bradley-1": {
     "sr_page_exists": true,
@@ -1189,7 +1423,14 @@
     "proballers_id": 72889,
     "proballers_leagues": [
       "NBA"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba",
+    "draft_team": "Los Angeles Lakers",
+    "draft_round": 1,
+    "draft_pick": 28,
+    "draft_year": 2017,
+    "undrafted": false
   },
   "marcus-santos-silva-1": {
     "sr_page_exists": true,
@@ -1208,7 +1449,9 @@
       "Israeli League",
       "LNB Pro A (France)",
       "Pro B (France)"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "kobe-johnson-1": {
     "sr_page_exists": true,
@@ -1218,7 +1461,9 @@
     "is_active": true,
     "proballers_id": 242906,
     "name": "Kobe Johnson",
-    "college": "USC"
+    "college": "USC",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba"
   },
   "prentiss-hubb-1": {
     "sr_page_exists": true,
@@ -1238,7 +1483,9 @@
       "BBL (Germany)",
       "Greek League",
       "Serie A (Italy)"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "tarik-phillip-1": {
     "sr_page_exists": true,
@@ -1270,7 +1517,9 @@
       "Liga ACB (Spain)",
       "PLK (Poland)",
       "Serie A (Italy)"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba"
   },
   "kerry-blackshearjr-1": {
     "sr_page_exists": true,
@@ -1289,7 +1538,9 @@
       "B.League (Japan)",
       "BSL (Turkey)",
       "Israeli League"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "justin-jackson-4": {
     "sr_page_exists": true,
@@ -1306,7 +1557,14 @@
     "intl_leagues": [
       "NBA"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba",
+    "draft_team": "Portland Trail Blazers",
+    "draft_round": 1,
+    "draft_pick": 15,
+    "draft_year": 2017,
+    "undrafted": false
   },
   "vince-williams-2": {
     "sr_page_exists": true,
@@ -1323,7 +1581,14 @@
     "intl_leagues": [
       "NBA"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba",
+    "draft_team": "Memphis Grizzlies",
+    "draft_round": 2,
+    "draft_pick": 47,
+    "draft_year": 2022,
+    "undrafted": false
   },
   "josh-okogie-1": {
     "sr_page_exists": true,
@@ -1344,7 +1609,14 @@
     "college": "Georgia Tech",
     "proballers_leagues": [
       "NBA"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba",
+    "draft_team": "Minnesota Timberwolves",
+    "draft_round": 1,
+    "draft_pick": 20,
+    "draft_year": 2018,
+    "undrafted": false
   },
   "marcquise-reed-1": {
     "sr_page_exists": true,
@@ -1365,7 +1637,9 @@
       "BSL (Turkey)",
       "LNB Pro A (France)",
       "Serie A (Italy)"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "jaylen-hoard-1": {
     "sr_page_exists": true,
@@ -1388,7 +1662,9 @@
     "proballers_leagues": [
       "Israeli League",
       "NBA"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba"
   },
   "alijah-martin-1": {
     "sr_page_exists": true,
@@ -1405,7 +1681,14 @@
     "intl_leagues": [
       "NBA"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba",
+    "draft_team": "Toronto Raptors",
+    "draft_round": 2,
+    "draft_pick": 39,
+    "draft_year": 2025,
+    "undrafted": false
   },
   "teyvon-myers-1": {
     "sr_page_exists": true,
@@ -1429,7 +1712,9 @@
       "LPB (Portugal)",
       "PLK (Poland)",
       "TBL (Turkey)"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "landon-milbourne-1": {
     "sr_page_exists": true,
@@ -1451,7 +1736,9 @@
       "Liga ACB (Spain)",
       "Pro B (France)",
       "Serie A (Italy)"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "kennedy-meeks-1": {
     "sr_page_exists": true,
@@ -1470,7 +1757,9 @@
     "proballers_leagues": [
       "B.League (Japan)",
       "LNB Pro A (France)"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba"
   },
   "dwayne-sutton-1": {
     "sr_page_exists": true,
@@ -1480,7 +1769,9 @@
     "is_active": false,
     "proballers_id": 69379,
     "name": "Dwayne Sutton",
-    "college": "Louisville"
+    "college": "Louisville",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba"
   },
   "matt-jones-3": {
     "sr_page_exists": true,
@@ -1490,7 +1781,9 @@
     "is_active": false,
     "proballers_id": 62660,
     "name": "Matt Jones",
-    "college": "Duke"
+    "college": "Duke",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba"
   },
   "harry-giles-1": {
     "sr_page_exists": true,
@@ -1511,7 +1804,14 @@
     "proballers_leagues": [
       "CBA (China)",
       "NBA"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba",
+    "draft_team": "Portland Trail Blazers",
+    "draft_round": 1,
+    "draft_pick": 20,
+    "draft_year": 2017,
+    "undrafted": false
   },
   "marques-bolden-1": {
     "sr_page_exists": true,
@@ -1522,7 +1822,9 @@
     "proballers_id": 69730,
     "proballers_leagues": [
       "NBA"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba"
   },
   "arnaldo-toro-1": {
     "sr_page_exists": true,
@@ -1533,6 +1835,15 @@
     "intl_tournaments": [
       "FIBA World Cup",
       "Olympics"
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international",
+    "proballers_id": 188929,
+    "proballers_leagues": [
+      "A Liga (Hungary)",
+      "BNXT League",
+      "BSN (Puerto Rico)",
+      "Korisliiga (Finland)"
     ]
   },
   "anas-mahmoud-1": {
@@ -1546,7 +1857,9 @@
     ],
     "proballers_id": 11662,
     "name": "Anas Mahmoud",
-    "college": "Louisville"
+    "college": "Louisville",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "amile-jefferson-1": {
     "sr_page_exists": true,
@@ -1567,7 +1880,9 @@
     "proballers_leagues": [
       "BSL (Turkey)",
       "NBA"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba"
   },
   "moussa-cisse-1": {
     "sr_page_exists": true,
@@ -1584,7 +1899,9 @@
     "intl_leagues": [
       "NBA"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba"
   },
   "hassan-diarra-1": {
     "sr_page_exists": true,
@@ -1600,7 +1917,9 @@
     "college": "Connecticut",
     "proballers_leagues": [
       "Israeli League"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "apostolos-roumoglou-1": {
     "sr_page_exists": true,
@@ -1616,7 +1935,9 @@
     "college": "Connecticut",
     "proballers_leagues": [
       "Greek League"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "chase-fieler-1": {
     "sr_page_exists": true,
@@ -1638,7 +1959,9 @@
       "Eredivisie (Netherlands)",
       "Greek League",
       "LEB Oro (Spain)"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "nayke-sanders-1": {
     "sr_page_exists": true,
@@ -1657,7 +1980,9 @@
       "LPB (Portugal)",
       "Liga Nacional (Argentina)",
       "TBL (Turkey)"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "miye-oni-1": {
     "sr_page_exists": true,
@@ -1683,7 +2008,14 @@
       "Greek League",
       "Liga ACB (Spain)",
       "NBA"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba",
+    "draft_team": "Golden State Warriors",
+    "draft_round": 2,
+    "draft_pick": 58,
+    "draft_year": 2019,
+    "undrafted": false
   },
   "trey-mcgowens-1": {
     "sr_page_exists": true,
@@ -1695,6 +2027,7 @@
     "intl_pro": true,
     "intl_national_team": false,
     "intl_leagues": [
+      "CEBL (Canada)",
       "EuroCup"
     ],
     "intl_tournaments": [],
@@ -1703,7 +2036,9 @@
     "college": "Pittsburgh",
     "proballers_leagues": [
       "CEBL (Canada)"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba"
   },
   "michael-gilmore-1": {
     "sr_page_exists": true,
@@ -1726,7 +2061,9 @@
       "ProA (Germany)",
       "Serie A (Italy)",
       "Serie A2 (Italy)"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "elijah-thomas-1": {
     "sr_page_exists": true,
@@ -1749,7 +2086,9 @@
       "Israeli League",
       "NBL (New Zealand)",
       "TBL (Turkey)"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "frank-jackson-2": {
     "sr_page_exists": true,
@@ -1773,7 +2112,14 @@
       "CBA (China)",
       "LNB Pro A (France)",
       "NBA"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba",
+    "draft_team": "Charlotte Hornets",
+    "draft_round": 2,
+    "draft_pick": 31,
+    "draft_year": 2017,
+    "undrafted": false
   },
   "isaiah-mucius-1": {
     "sr_page_exists": true,
@@ -1793,7 +2139,9 @@
       "Israeli League",
       "NBL (New Zealand)",
       "PLK (Poland)"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "jack-white-1": {
     "sr_page_exists": true,
@@ -1817,7 +2165,9 @@
       "BSL (Turkey)",
       "NBA",
       "NBL (Australia)"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba"
   },
   "samson-johnson-1": {
     "sr_page_exists": true,
@@ -1827,7 +2177,9 @@
     "is_active": true,
     "proballers_id": 243569,
     "name": "Samson Johnson",
-    "college": "Connecticut"
+    "college": "Connecticut",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba"
   },
   "anthony-lawrencejr-1": {
     "sr_page_exists": true,
@@ -1844,7 +2196,9 @@
     "intl_leagues": [
       "B.League (Japan)"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba"
   },
   "isaiah-hicks-1": {
     "sr_page_exists": true,
@@ -1857,7 +2211,9 @@
       "B.League (Japan)",
       "BSN (Puerto Rico)",
       "NBA"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba"
   },
   "luke-maye-1": {
     "sr_page_exists": true,
@@ -1882,7 +2238,9 @@
       "BSL (Turkey)",
       "Liga ACB (Spain)",
       "Serie A (Italy)"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba"
   },
   "taine-murray-1": {
     "sr_page_exists": true,
@@ -1899,7 +2257,9 @@
     "proballers_leagues": [
       "NBL (Australia)",
       "NBL (New Zealand)"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "nate-reuvers-1": {
     "sr_page_exists": true,
@@ -1920,7 +2280,9 @@
     "proballers_leagues": [
       "Liga ACB (Spain)",
       "Serie A (Italy)"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "adam-moussa-1": {
     "sr_page_exists": true,
@@ -1933,7 +2295,9 @@
     ],
     "proballers_id": 273711,
     "name": "Adam Moussa",
-    "college": "California Baptist"
+    "college": "California Baptist",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "david-skara-1": {
     "sr_page_exists": true,
@@ -1953,7 +2317,9 @@
       "LEB Oro (Spain)",
       "LNB Pro A (France)",
       "Pro B (France)"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "malik-williams-1": {
     "sr_page_exists": true,
@@ -1972,7 +2338,9 @@
       "NBA",
       "PLK (Poland)"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba"
   },
   "darius-perry-1": {
     "sr_page_exists": true,
@@ -1994,7 +2362,9 @@
       "Israeli League",
       "PLK (Poland)",
       "Serie A2 (Italy)"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "yagizhan-selcuk-1": {
     "sr_page_exists": true,
@@ -2012,7 +2382,9 @@
     "proballers_leagues": [
       "BSL (Turkey)",
       "TBL (Turkey)"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "josh-kunen-1": {
     "sr_page_exists": true,
@@ -2028,7 +2400,9 @@
     "college": "San Francisco",
     "proballers_leagues": [
       "NBL (Australia)"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "nikola-djogo-1": {
     "sr_page_exists": true,
@@ -2036,7 +2410,10 @@
     "intl_pro": true,
     "intl_national_team": false,
     "intl_leagues": [
-      "ABA League"
+      "A Liga (Hungary)",
+      "ABA League",
+      "BNXT League",
+      "CEBL (Canada)"
     ],
     "intl_tournaments": [],
     "proballers_id": 63572,
@@ -2046,7 +2423,9 @@
       "A Liga (Hungary)",
       "BNXT League",
       "CEBL (Canada)"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "dane-goodwin-1": {
     "sr_page_exists": true,
@@ -2056,7 +2435,9 @@
     "is_active": false,
     "proballers_id": 189132,
     "name": "Dane Goodwin",
-    "college": "Notre Dame"
+    "college": "Notre Dame",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba"
   },
   "chaundee-brown-1": {
     "sr_page_exists": true,
@@ -2083,7 +2464,9 @@
       "Greek League",
       "LNB Pro A (France)",
       "NBA"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba"
   },
   "luka-krajnovic-1": {
     "sr_page_exists": true,
@@ -2096,7 +2479,9 @@
     "intl_tournaments": [],
     "proballers_id": 180325,
     "name": "Luka Krajnovic",
-    "college": "Gonzaga"
+    "college": "Gonzaga",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "javin-delaurier-1": {
     "sr_page_exists": true,
@@ -2120,7 +2505,9 @@
       "Greek League",
       "Israeli League",
       "NBA"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba"
   },
   "ismaila-diagne-1": {
     "sr_page_exists": true,
@@ -2137,7 +2524,9 @@
     "college": "Gonzaga",
     "proballers_leagues": [
       "Liga ACB (Spain)"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "sagaba-konate-1": {
     "sr_page_exists": true,
@@ -2169,7 +2558,9 @@
       "PLK (Poland)",
       "Serie A (Italy)",
       "TBL (Turkey)"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba"
   },
   "malik-ellison-1": {
     "sr_page_exists": true,
@@ -2186,7 +2577,10 @@
     "intl_leagues": [
       "Korisliiga (Finland)"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba",
+    "intl_national_team": false
   },
   "dino-gregory-1": {
     "sr_page_exists": true,
@@ -2206,7 +2600,9 @@
       "Basketligan (Sweden)",
       "Division A (Romania)",
       "PLK (Poland)"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "ahmed-hill-1": {
     "sr_page_exists": true,
@@ -2232,7 +2628,9 @@
       "Israeli League",
       "Liga Nacional (Argentina)",
       "PLK (Poland)"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba"
   },
   "dejan-vasiljevic-1": {
     "sr_page_exists": true,
@@ -2252,7 +2650,9 @@
     "college": "Miami (FL)",
     "proballers_leagues": [
       "NBL (Australia)"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba"
   },
   "khalid-moore-1": {
     "sr_page_exists": true,
@@ -2270,7 +2670,9 @@
     "proballers_leagues": [
       "Greek League",
       "LNB Pro A (France)"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "jayson-tatum-1": {
     "nba_url": "https://www.basketball-reference.com/players/t/tatumja01.html",
@@ -2280,7 +2682,14 @@
     "proballers_id": 63541,
     "proballers_leagues": [
       "NBA"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba",
+    "draft_team": "Boston Celtics",
+    "draft_round": 1,
+    "draft_pick": 3,
+    "draft_year": 2017,
+    "undrafted": false
   },
   "zion-williamson-1": {
     "nba_url": "https://www.basketball-reference.com/players/w/willizi01.html",
@@ -2290,19 +2699,41 @@
     "proballers_id": 177993,
     "proballers_leagues": [
       "NBA"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba",
+    "draft_team": "New Orleans Pelicans",
+    "draft_round": 1,
+    "draft_pick": 1,
+    "draft_year": 2019,
+    "undrafted": false
   },
   "kyle-guy-1": {
-    "nba_url": "https://www.basketball-reference.com/players/g/guuky01.html",
+    "nba_url": "https://www.basketball-reference.com/players/g/guyky01.html",
     "is_active": false,
     "nba_played": true,
     "nba_games": 12,
     "proballers_id": 72776,
     "proballers_leagues": [
+      "CBA (China)",
       "Greek League",
       "Liga ACB (Spain)",
       "NBA"
-    ]
+    ],
+    "intl_leagues": [
+      "CBA (China)",
+      "Greek League",
+      "Liga ACB (Spain)",
+      "NBA"
+    ],
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba",
+    "draft_team": "New York Knicks",
+    "draft_round": 2,
+    "draft_pick": 55,
+    "draft_year": 2019,
+    "undrafted": false
   },
   "ty-jerome-1": {
     "nba_url": "https://www.basketball-reference.com/players/j/jeromty01.html",
@@ -2312,7 +2743,14 @@
     "proballers_id": 72774,
     "proballers_leagues": [
       "NBA"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba",
+    "draft_team": "Philadelphia 76ers",
+    "draft_round": 1,
+    "draft_pick": 24,
+    "draft_year": 2019,
+    "undrafted": false
   },
   "greivis-vasquez-1": {
     "nba_url": "https://www.basketball-reference.com/players/v/vasqugr01.html",
@@ -2322,7 +2760,14 @@
     "proballers_id": 49651,
     "proballers_leagues": [
       "NBA"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba",
+    "draft_team": "Memphis Grizzlies",
+    "draft_round": 1,
+    "draft_pick": 28,
+    "draft_year": 2010,
+    "undrafted": false
   },
   "deandre-hunter-1": {
     "nba_url": "https://www.basketball-reference.com/players/h/huntede01.html",
@@ -2332,7 +2777,14 @@
     "proballers_id": 178650,
     "proballers_leagues": [
       "NBA"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba",
+    "draft_team": "Los Angeles Lakers",
+    "draft_round": 1,
+    "draft_pick": 4,
+    "draft_year": 2019,
+    "undrafted": false
   },
   "cam-reddish-1": {
     "nba_url": "https://www.basketball-reference.com/players/r/reddica01.html",
@@ -2348,7 +2800,15 @@
     "intl_leagues": [
       "NBA"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba",
+    "intl_national_team": false,
+    "draft_team": "Atlanta Hawks",
+    "draft_round": 1,
+    "draft_pick": 10,
+    "draft_year": 2019,
+    "undrafted": false
   },
   "grayson-allen-1": {
     "nba_url": "https://www.basketball-reference.com/players/a/allengr01.html",
@@ -2358,7 +2818,14 @@
     "proballers_id": 11602,
     "proballers_leagues": [
       "NBA"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba",
+    "draft_team": "Utah Jazz",
+    "draft_round": 1,
+    "draft_pick": 21,
+    "draft_year": 2018,
+    "undrafted": false
   },
   "luke-kennard-1": {
     "nba_url": "https://www.basketball-reference.com/players/k/kennalu01.html",
@@ -2368,7 +2835,14 @@
     "proballers_id": 65900,
     "proballers_leagues": [
       "NBA"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba",
+    "draft_team": "Detroit Pistons",
+    "draft_round": 1,
+    "draft_pick": 12,
+    "draft_year": 2017,
+    "undrafted": false
   },
   "bronny-james-1": {
     "nba_url": "https://www.basketball-reference.com/players/j/jamesbr02.html",
@@ -2378,13 +2852,27 @@
     "proballers_id": 269413,
     "proballers_leagues": [
       "NBA"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba",
+    "draft_team": "Los Angeles Lakers",
+    "draft_round": 2,
+    "draft_pick": 55,
+    "draft_year": 2024,
+    "undrafted": false
   },
   "stephon-castle-1": {
     "nba_url": "https://www.basketball-reference.com/players/c/castlst01.html",
     "is_active": true,
     "nba_played": true,
-    "nba_games": 35
+    "nba_games": 35,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba",
+    "draft_team": "San Antonio Spurs",
+    "draft_round": 1,
+    "draft_pick": 4,
+    "draft_year": 2024,
+    "undrafted": false
   },
   "donovan-clingan-1": {
     "nba_url": "https://www.basketball-reference.com/players/c/clingdo01.html",
@@ -2400,7 +2888,14 @@
     "intl_leagues": [
       "NBA"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba",
+    "draft_team": "Portland Trail Blazers",
+    "draft_round": 1,
+    "draft_pick": 7,
+    "draft_year": 2024,
+    "undrafted": false
   },
   "tre-jones-1": {
     "nba_url": "https://www.basketball-reference.com/players/j/jonestr01.html",
@@ -2410,7 +2905,14 @@
     "proballers_id": 174025,
     "proballers_leagues": [
       "NBA"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba",
+    "draft_team": "San Antonio Spurs",
+    "draft_round": 2,
+    "draft_pick": 41,
+    "draft_year": 2020,
+    "undrafted": false
   },
   "theo-pinson-1": {
     "nba_url": "https://www.basketball-reference.com/players/p/pinsoth01.html",
@@ -2421,7 +2923,9 @@
     "proballers_leagues": [
       "BSN (Puerto Rico)",
       "NBA"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba"
   },
   "jose-alvarado-1": {
     "nba_url": "https://www.basketball-reference.com/players/a/alvarjo01.html",
@@ -2431,7 +2935,9 @@
     "proballers_id": 189137,
     "proballers_leagues": [
       "NBA"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba"
   },
   "nickeil-alexander-walker-1": {
     "nba_url": "https://www.basketball-reference.com/players/a/alexani01.html",
@@ -2441,7 +2947,14 @@
     "proballers_id": 73186,
     "proballers_leagues": [
       "NBA"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba",
+    "draft_team": "Brooklyn Nets",
+    "draft_round": 1,
+    "draft_pick": 17,
+    "draft_year": 2019,
+    "undrafted": false
   },
   "mamadi-diakite-1": {
     "nba_url": "https://www.basketball-reference.com/players/d/diakima01.html",
@@ -2452,23 +2965,34 @@
     "proballers_leagues": [
       "Liga ACB (Spain)",
       "NBA"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba"
   },
   "isaiah-collier-1": {
     "nba_url": "https://www.basketball-reference.com/players/c/colliis01.html",
     "is_active": true,
     "nba_played": true,
-    "nba_games": 25
+    "nba_games": 25,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba",
+    "draft_team": "Utah Jazz",
+    "draft_round": 1,
+    "draft_pick": 29,
+    "draft_year": 2024,
+    "undrafted": false
   },
   "ryan-nembhard-1": {
-    "nba_url": "https://www.basketball-reference.com/players/n/nemhary01.html",
+    "nba_url": "https://www.basketball-reference.com/players/n/nembhry01.html",
     "is_active": true,
     "nba_played": true,
     "nba_games": 30,
     "proballers_id": 238661,
     "proballers_leagues": [
       "NBA"
-    ]
+    ],
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba"
   },
   "brooks-barnhizer-1": {
     "nba_url": "https://www.basketball-reference.com/players/b/barnhbr01.html",
@@ -2484,25 +3008,17 @@
     "intl_leagues": [
       "NBA"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "nba",
+    "draft_team": "Oklahoma City Thunder",
+    "draft_round": 2,
+    "draft_pick": 44,
+    "draft_year": 2025,
+    "undrafted": false
   },
   "tyrone-riley-iv-1": {
-    "proballers_id": 46109,
-    "name": "Tyrone Riley IV",
-    "college": "San Francisco",
-    "proballers_leagues": [
-      "BBL (Germany)",
-      "Eredivisie (Netherlands)",
-      "Korisliiga (Finland)",
-      "PLK (Poland)"
-    ],
-    "intl_leagues": [
-      "BBL (Germany)",
-      "Eredivisie (Netherlands)",
-      "Korisliiga (Finland)",
-      "PLK (Poland)"
-    ],
-    "intl_pro": true
+    "false_positive": true
   },
   "scott-rodgers-1": {
     "proballers_id": 34572,
@@ -2516,7 +3032,9 @@
       "Liga Nacional (Argentina)",
       "NBB (Brazil)"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "sean-mosley-1": {
     "proballers_id": 49650,
@@ -2534,7 +3052,9 @@
       "Pro B (France)",
       "Serie A2 (Italy)"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "isaiah-swope-1": {
     "proballers_id": 260622,
@@ -2546,7 +3066,9 @@
     "intl_leagues": [
       "BBL (Germany)"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "nick-faust-1": {
     "proballers_id": 71608,
@@ -2566,7 +3088,9 @@
       "PLK (Poland)",
       "Serie A (Italy)"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "troy-franklin-1": {
     "proballers_id": 69639,
@@ -2588,7 +3112,9 @@
       "PLK (Poland)",
       "TBL (Turkey)"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "dame-sarr-1": {
     "proballers_id": 252968,
@@ -2600,7 +3126,9 @@
     "intl_leagues": [
       "Liga ACB (Spain)"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "quentin-snider-1": {
     "proballers_id": 11621,
@@ -2616,7 +3144,9 @@
       "LPB (Portugal)",
       "PLK (Poland)"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "vuk-boskovic-1": {
     "proballers_id": 180388,
@@ -2628,7 +3158,9 @@
     "intl_leagues": [
       "BCL"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "danas-kazakevicius-1": {
     "proballers_id": 242443,
@@ -2640,7 +3172,9 @@
     "intl_leagues": [
       "BBL (Germany)"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "brevin-pritzl-1": {
     "proballers_id": 73017,
@@ -2656,7 +3190,9 @@
       "BNXT League",
       "Ligaen (Denmark)"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "giancarlo-rosado-1": {
     "proballers_id": 267081,
@@ -2668,7 +3204,9 @@
     "intl_leagues": [
       "BSN (Puerto Rico)"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "vance-cooksey-1": {
     "proballers_id": 55214,
@@ -2682,13 +3220,17 @@
       "LNBP (Mexico)",
       "PLK (Poland)"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "carlton-linguardjr-1": {
     "proballers_leagues": [
       "BNXT League"
     ],
-    "proballers_id": 233324
+    "proballers_id": 233324,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "chris-lykes-1": {
     "proballers_leagues": [
@@ -2704,7 +3246,9 @@
       "Pro B (France)",
       "TBL (Turkey)"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "jared-wilson-frame-1": {
     "proballers_leagues": [
@@ -2718,13 +3262,17 @@
       "LNBP (Mexico)",
       "NBL (New Zealand)"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "jalen-blackmon-1": {
     "proballers_leagues": [
       "BNXT League"
     ],
-    "proballers_id": 243201
+    "proballers_id": 243201,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "bernard-thompson-2": {
     "proballers_leagues": [
@@ -2738,7 +3286,9 @@
       "CEBL (Canada)",
       "ProA (Germany)"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "sherwood-brown-1": {
     "proballers_leagues": [
@@ -2756,13 +3306,17 @@
       "LPB (Portugal)",
       "ProA (Germany)"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "ismael-diouf-1": {
     "proballers_leagues": [
       "CEBL (Canada)"
     ],
-    "proballers_id": 285406
+    "proballers_id": 285406,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "esa-ahmad-1": {
     "proballers_leagues": [
@@ -2776,7 +3330,9 @@
       "Liga Nacional (Argentina)",
       "ProA (Germany)"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "cliff-tucker-1": {
     "proballers_leagues": [
@@ -2788,7 +3344,9 @@
       "LNBP (Mexico)",
       "ProA (Germany)"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "lamont-west-1": {
     "proballers_leagues": [
@@ -2800,7 +3358,9 @@
       "Liga Nova KBM (Slovenia)",
       "ProA (Germany)"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "malik-miller-2": {
     "proballers_leagues": [
@@ -2812,19 +3372,25 @@
       "BNXT League",
       "Ligaen (Denmark)"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "oskar-giltay-1": {
     "proballers_leagues": [
       "BNXT League"
     ],
-    "proballers_id": 255054
+    "proballers_id": 255054,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "emmanuel-innocenti-1": {
     "proballers_leagues": [
       "Serie A2 (Italy)"
     ],
-    "proballers_id": 181173
+    "proballers_id": 181173,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "berend-weijs-1": {
     "proballers_leagues": [
@@ -2836,7 +3402,9 @@
       "BNXT League",
       "Eredivisie (Netherlands)"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "nicolas-timberlake-1": {
     "proballers_leagues": [
@@ -2848,7 +3416,9 @@
       "BNXT League",
       "LPB (Portugal)"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "dennis-tunstall-1": {
     "proballers_leagues": [
@@ -2860,68 +3430,94 @@
       "Liga Nova KBM (Slovenia)",
       "ProA (Germany)"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "aubin-gateretse-1": {
     "proballers_leagues": [
       "BNXT League"
     ],
-    "proballers_id": 179658
+    "proballers_id": 179658,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "malik-thomas-2": {
     "proballers_id": 242905,
     "name": "Malik Thomas",
-    "college": "San Francisco"
+    "college": "San Francisco",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "marcus-williams-24": {
     "proballers_id": 258950,
     "name": "Marcus Williams",
-    "college": "San Francisco"
+    "college": "San Francisco",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "ryan-beasley-1": {
     "proballers_id": 274975,
     "name": "Ryan Beasley",
-    "college": "San Francisco"
+    "college": "San Francisco",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "john-camden-1": {
     "proballers_id": 259540,
     "name": "John Camden",
-    "college": "California"
+    "college": "California",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "junjie-wang-1": {
     "proballers_id": 272493,
     "name": "Junjie Wang",
-    "college": "San Francisco"
+    "college": "San Francisco",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "chris-bell-1": {
     "proballers_id": 259837,
     "name": "Chris Bell",
-    "college": "California"
+    "college": "California",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "rob-lawson-1": {
     "proballers_id": 258384,
     "name": "Rob Lawson",
-    "college": "Morgan State"
+    "college": "Morgan State",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "graham-ike-1": {
     "proballers_id": 234642,
     "name": "Graham Ike",
-    "college": "Gonzaga"
+    "college": "Gonzaga",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "nolan-hickman-1": {
     "proballers_id": 247183,
     "name": "Nolan Hickman",
-    "college": "Gonzaga"
+    "college": "Gonzaga",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "alfred-worrell-jr-1": {
     "proballers_id": 302629,
     "name": "Alfred Worrell Jr.",
-    "college": "Morgan State"
+    "college": "Morgan State",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "nick-martinelli-1": {
     "proballers_id": 258613,
     "name": "Nick Martinelli",
-    "college": "Northwestern"
+    "college": "Northwestern",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "marco-anthony-1": {
     "proballers_id": 178646,
@@ -2935,42 +3531,59 @@
       "Greek League",
       "Korisliiga (Finland)"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international",
+    "intl_national_team": false
   },
   "legend-smiley-1": {
     "proballers_id": 301099,
     "name": "Legend Smiley",
-    "college": "San Francisco"
+    "college": "San Francisco",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "lee-dort-1": {
     "proballers_id": 259485,
     "name": "Lee Dort",
-    "college": "California"
+    "college": "California",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "paulius-murauskas-1": {
     "proballers_id": 180349,
     "name": "Paulius Murauskas",
-    "college": "Saint Mary's (CA)"
+    "college": "Saint Mary's (CA)",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "justin-pippen-1": {
     "proballers_id": 288624,
     "name": "Justin Pippen",
-    "college": "California"
+    "college": "California",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "ryan-langborg-1": {
     "proballers_id": 190279,
     "name": "Ryan Langborg",
-    "college": "Northwestern"
+    "college": "Northwestern",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "christian-oliver-1": {
     "proballers_id": 276485,
     "name": "Christian Oliver",
-    "college": "Morgan State"
+    "college": "Morgan State",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "lamar-wilkerson-1": {
     "proballers_id": 258919,
     "name": "Lamar Wilkerson",
-    "college": "Indiana"
+    "college": "Indiana",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "josh-uduje-1": {
     "proballers_id": 176147,
@@ -2982,47 +3595,66 @@
     "intl_leagues": [
       "Pro B (France)"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international",
+    "intl_national_team": false
   },
   "jarred-reuter-1": {
     "proballers_id": 69260,
     "name": "Jarred Reuter",
-    "college": "Virginia"
+    "college": "Virginia",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "jayden-johnson-2": {
     "proballers_id": 288526,
     "name": "Jayden Johnson",
-    "college": "South Carolina State"
+    "college": "South Carolina State",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "dj-campbell-1": {
     "proballers_id": 259597,
     "name": "DJ Campbell",
-    "college": "California"
+    "college": "California",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "isaac-mckneely-1": {
     "proballers_id": 259523,
     "name": "Isaac McKneely",
-    "college": "Virginia"
+    "college": "Virginia",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "cameron-boozer-3": {
     "proballers_id": 285051,
     "name": "Cameron Boozer",
-    "college": "Duke"
+    "college": "Duke",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "ryan-agarwal-1": {
     "proballers_id": 259118,
     "name": "Ryan Agarwal",
-    "college": "Stanford"
+    "college": "Stanford",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "christian-meeks-1": {
     "proballers_id": 302253,
     "name": "Christian Meeks",
-    "college": "Morgan State"
+    "college": "Morgan State",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "keyon-kensie-1": {
     "proballers_id": 274997,
     "name": "Keyon Kensie",
-    "college": "Portland State"
+    "college": "Portland State",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "jalen-cone-1": {
     "proballers_id": 189199,
@@ -3034,82 +3666,115 @@
     "intl_leagues": [
       "LEB Oro (Spain)"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international",
+    "intl_national_team": false
   },
   "jeremy-dent-smith-1": {
     "proballers_id": 303521,
     "name": "Jeremy Dent-Smith",
-    "college": "Stanford"
+    "college": "Stanford",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "terri-miller-jr-1": {
     "proballers_id": 276420,
     "name": "Terri Miller Jr.",
-    "college": "Portland State"
+    "college": "Portland State",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "martel-williams-1": {
     "proballers_id": 234191,
     "name": "Martel Williams",
-    "college": "California Baptist"
+    "college": "California Baptist",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "ndewedo-newbury-1": {
     "proballers_id": 246793,
     "name": "Ndewedo Newbury",
-    "college": "San Francisco"
+    "college": "San Francisco",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "tayton-conerway-1": {
     "proballers_id": 276723,
     "name": "Tayton Conerway",
-    "college": "Indiana"
+    "college": "Indiana",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "travelle-bryson-1": {
     "proballers_id": 301418,
     "name": "Travelle Bryson",
-    "college": "Howard"
+    "college": "Howard",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "jakobe-coles-1": {
     "proballers_id": 232696,
     "name": "JaKobe Coles",
-    "college": "Grand Canyon"
+    "college": "Grand Canyon",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "trey-campbell-1": {
     "proballers_id": 258593,
     "name": "Trey Campbell",
-    "college": "Northern Iowa"
+    "college": "Northern Iowa",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "latrell-davis-1": {
     "proballers_id": 254597,
     "name": "Latrell Davis",
-    "college": "San Jose State"
+    "college": "San Jose State",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "elijah-davis-2": {
     "proballers_id": 302484,
     "name": "Elijah Davis",
-    "college": "Morgan State"
+    "college": "Morgan State",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "jeremiah-wilkinson-1": {
     "proballers_id": 288546,
     "name": "Jeremiah Wilkinson",
-    "college": "California"
+    "college": "California",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "mikey-lewis-1": {
     "proballers_id": 288813,
     "name": "Mikey Lewis",
-    "college": "Saint Mary's (CA)"
+    "college": "Saint Mary's (CA)",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "isaiah-evans-1": {
     "proballers_id": 288407,
     "name": "Isaiah Evans",
-    "college": "Duke"
+    "college": "Duke",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "kenny-noland-1": {
     "proballers_id": 257459,
     "name": "Kenny Noland",
-    "college": "Columbia"
+    "college": "Columbia",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "xavier-amos-1": {
     "proballers_id": 258582,
     "name": "Xavier Amos",
-    "college": "Loyola Chicago"
+    "college": "Loyola Chicago",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "jeremy-sheppard-1": {
     "proballers_id": 205330,
@@ -3121,142 +3786,199 @@
     "intl_leagues": [
       "TBL (Turkey)"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international",
+    "intl_national_team": false
   },
   "dj-williams-1": {
     "proballers_id": 189381,
     "name": "D.J. Williams",
-    "college": "George Washington"
+    "college": "George Washington",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "tre-singleton-1": {
     "proballers_id": 304931,
     "name": "Tre Singleton",
-    "college": "Northwestern"
+    "college": "Northwestern",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "rayshon-harrison-1": {
     "proballers_id": 233947,
     "name": "Rayshon Harrison",
-    "college": "Grand Canyon"
+    "college": "Grand Canyon",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "adrian-mcintyre-1": {
     "proballers_id": 303725,
     "name": "Adrian McIntyre",
-    "college": "San Diego"
+    "college": "San Diego",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "conor-enright-1": {
     "proballers_id": 266852,
     "name": "Conor Enright",
-    "college": "Indiana"
+    "college": "Indiana",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "gibson-jimerson-1": {
     "proballers_id": 188895,
     "name": "Gibson Jimerson",
-    "college": "Saint Louis"
+    "college": "Saint Louis",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "mookie-cook-1": {
     "proballers_id": 275284,
     "name": "Mookie Cook",
-    "college": "San Francisco"
+    "college": "San Francisco",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "aidan-cammann-1": {
     "proballers_id": 275173,
     "name": "Aidan Cammann",
-    "college": "Stanford"
+    "college": "Stanford",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "malique-ewin-1": {
     "proballers_id": 258671,
     "name": "Malique Ewin",
-    "college": "Florida State"
+    "college": "Florida State",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "brett-comer-1": {
     "proballers_id": 61127,
     "name": "Brett Comer",
-    "college": "Florida Gulf Coast"
+    "college": "Florida Gulf Coast",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "reed-bailey-1": {
     "proballers_id": 266753,
     "name": "Reed Bailey",
-    "college": "Indiana"
+    "college": "Indiana",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "justin-moore-4": {
     "proballers_id": 260526,
     "name": "Justin Moore",
-    "college": "Loyola Chicago"
+    "college": "Loyola Chicago",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "jordan-stiemke-1": {
     "proballers_id": 276072,
     "name": "Jordan Stiemke",
-    "college": "Loyola (MD)"
+    "college": "Loyola (MD)",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "ethan-taylor-1": {
     "proballers_id": 248588,
     "name": "Ethan Taylor",
-    "college": "Air Force"
+    "college": "Air Force",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "will-mcclendon-1": {
     "proballers_id": 243218,
     "name": "Will McClendon",
-    "college": "San Jose State"
+    "college": "San Jose State",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "tadric-jackson-1": {
     "proballers_id": 204095,
     "name": "Tadric Jackson",
-    "college": "Georgia Tech"
+    "college": "Georgia Tech",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "walter-peggs-jr-1": {
     "proballers_id": 302685,
     "name": "Walter Peggs Jr.",
-    "college": "Morgan State"
+    "college": "Morgan State",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "gerald-colds-1": {
     "proballers_id": 200683,
     "name": "Gerald Colds",
-    "college": "Drexel"
+    "college": "Drexel",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "vukasin-masic-1": {
     "proballers_id": 179735,
     "name": "Vukasin Masic",
-    "college": "San Francisco"
+    "college": "San Francisco",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "solomon-washington-1": {
     "proballers_id": 259217,
     "name": "Solomon Washington",
-    "college": "Maryland"
+    "college": "Maryland",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "ebuka-okorie-1": {
     "proballers_id": 303520,
     "name": "Ebuka Okorie",
-    "college": "Stanford"
+    "college": "Stanford",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "harry-wessels-1": {
     "proballers_id": 258899,
     "name": "Harry Wessels",
-    "college": "Saint Mary's (CA)"
+    "college": "Saint Mary's (CA)",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "dominique-ford-1": {
     "proballers_id": 257786,
     "name": "Dominique Ford",
-    "college": "San Diego"
+    "college": "San Diego",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "darius-adams-1": {
     "proballers_id": 301087,
     "name": "Darius Adams",
-    "college": "Maryland"
+    "college": "Maryland",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "robbie-avila-1": {
     "proballers_id": 257829,
     "name": "Robbie Avila",
-    "college": "Saint Louis"
+    "college": "Saint Louis",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "kayde-dotson-1": {
     "proballers_id": 288653,
     "name": "Kayde Dotson",
-    "college": "Loyola Chicago"
+    "college": "Loyola Chicago",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "braden-huff-1": {
     "proballers_id": 256915,
     "name": "Braden Huff",
-    "college": "Gonzaga"
+    "college": "Gonzaga",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "terry-nolanjr-1": {
     "proballers_id": 205568,
@@ -3270,17 +3992,24 @@
       "Division A (Romania)",
       "LPB (Portugal)"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international",
+    "intl_national_team": false
   },
   "pj-haggerty-1": {
     "proballers_id": 259171,
     "name": "PJ Haggerty",
-    "college": "Memphis"
+    "college": "Memphis",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "luke-kearney-1": {
     "proballers_id": 276530,
     "name": "Luke Kearney",
-    "college": "Air Force"
+    "college": "Air Force",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "eric-hayes-1": {
     "proballers_id": 49649,
@@ -3292,102 +4021,143 @@
     "intl_leagues": [
       "LEB Oro (Spain)"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international",
+    "intl_national_team": false
   },
   "ose-okojie-1": {
     "proballers_id": 257764,
     "name": "Ose Okojie",
-    "college": "Howard"
+    "college": "Howard",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "josiah-cunningham-1": {
     "proballers_id": 288607,
     "name": "Josiah Cunningham",
-    "college": "Columbia"
+    "college": "Columbia",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "justin-mullins-1": {
     "proballers_id": 257525,
     "name": "Justin Mullins",
-    "college": "Northwestern"
+    "college": "Northwestern",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "veljko-ilic-1": {
     "proballers_id": 246518,
     "name": "Veljko Ilic",
-    "college": "Loyola (MD)"
+    "college": "Loyola (MD)",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "alex-karaban-1": {
     "proballers_id": 257461,
     "name": "Alex Karaban",
-    "college": "Connecticut"
+    "college": "Connecticut",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "jack-liles-1": {
     "proballers_id": 35020,
     "name": "Jack Liles",
-    "college": "Youngstown State"
+    "college": "Youngstown State",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "rytis-petraitis-1": {
     "proballers_id": 259830,
     "name": "Rytis Petraitis",
-    "college": "California"
+    "college": "California",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "guillermo-diaz-graham-1": {
     "proballers_id": 239897,
     "name": "Guillermo Diaz Graham",
-    "college": "San Francisco"
+    "college": "San Francisco",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "cam-gregory-2": {
     "proballers_id": 259103,
     "name": "Cam Gregory",
-    "college": "St. Francis (PA)"
+    "college": "St. Francis (PA)",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "miles-webb-2": {
     "proballers_id": 259102,
     "name": "Miles Webb",
-    "college": "St. Francis (PA)"
+    "college": "St. Francis (PA)",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "isaiah-hawthorne-1": {
     "proballers_id": 234076,
     "name": "Isaiah Hawthorne",
-    "college": "San Francisco"
+    "college": "San Francisco",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "stefan-todorovic-1": {
     "proballers_id": 181845,
     "name": "Stefan Todorovic",
-    "college": "San Francisco"
+    "college": "San Francisco",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "david-coit-1": {
     "proballers_id": 302442,
     "name": "David Coit",
-    "college": "Maryland"
+    "college": "Maryland",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "Mason Meyers": {
     "proballers_id": 260236,
     "name": "Mason Meyers",
-    "college": "Sarah Lawrence"
+    "college": "Sarah Lawrence",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "jalen-celestine-1": {
     "proballers_id": 232735,
     "name": "Jalen Celestine",
-    "college": "California"
+    "college": "California",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "jacob-theodosiou-1": {
     "proballers_id": 254005,
     "name": "Jacob Theodosiou",
-    "college": "Loyola (MD)"
+    "college": "Loyola (MD)",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "jacob-cofie-1": {
     "proballers_id": 288447,
     "name": "Jacob Cofie",
-    "college": "Virginia"
+    "college": "Virginia",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "austin-nichols-2": {
     "proballers_id": 14708,
     "name": "Austin Nichols",
-    "college": "Virginia"
+    "college": "Virginia",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "jerry-deng-1": {
     "proballers_id": 275106,
     "name": "Jerry Deng",
-    "college": "Florida State"
+    "college": "Florida State",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "james-padgett-1": {
     "proballers_id": 16638,
@@ -3407,92 +4177,129 @@
       "National League (Israel)",
       "SBL (Switzerland)"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international",
+    "intl_national_team": false
   },
   "eugene-alvin-1": {
     "proballers_id": 302306,
     "name": "Eugene Alvin",
-    "college": "Morgan State"
+    "college": "Morgan State",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "jaylin-henderson-1": {
     "proballers_id": 276419,
     "name": "Jaylin Henderson",
-    "college": "Portland State"
+    "college": "Portland State",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "leon-bond-iii-1": {
     "proballers_id": 259524,
     "name": "Leon Bond III",
-    "college": "Northern Iowa"
+    "college": "Northern Iowa",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "tristan-smith-3": {
     "proballers_id": 304801,
     "name": "Tristan Smith",
-    "college": "Northern Iowa"
+    "college": "Northern Iowa",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "nikolas-khamenia-1": {
     "proballers_id": 285324,
     "name": "Nikolas Khamenia",
-    "college": "Duke"
+    "college": "Duke",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "saba-gigiberia-1": {
     "proballers_id": 174398,
     "name": "Saba Gigiberia",
-    "college": "San Francisco"
+    "college": "San Francisco",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "andre-mills-1": {
     "proballers_id": 299603,
     "name": "Andre Mills",
-    "college": "Maryland"
+    "college": "Maryland",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "blair-thompson-1": {
     "proballers_id": 257453,
     "name": "Blair Thompson",
-    "college": "Columbia"
+    "college": "Columbia",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "dj-harvey-1": {
     "proballers_id": 205533,
     "name": "D.J. Harvey",
-    "college": "Notre Dame"
+    "college": "Notre Dame",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "brandon-weatherspoon-1": {
     "proballers_id": 245914,
     "name": "Brandon Weatherspoon",
-    "college": "Florida Atlantic"
+    "college": "Florida Atlantic",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "bj-tyson-1": {
     "proballers_id": 204062,
     "name": "B.J. Tyson",
-    "college": "East Carolina"
+    "college": "East Carolina",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "donavin-young-1": {
     "proballers_id": 288270,
     "name": "Donavin Young",
-    "college": "Stanford"
+    "college": "Stanford",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "kyle-marshall-1": {
     "proballers_id": 290252,
     "name": "Kyle Marshall",
-    "college": "Air Force"
+    "college": "Air Force",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "wesley-celichowski-1": {
     "proballers_id": 276526,
     "name": "Wesley Celichowski",
-    "college": "Air Force"
+    "college": "Air Force",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "caleb-walker-2": {
     "proballers_id": 276534,
     "name": "Caleb Walker",
-    "college": "Air Force"
+    "college": "Air Force",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "zach-johnson-2": {
     "proballers_id": 69132,
     "name": "Zach Johnson",
-    "college": "Miami (FL)"
+    "college": "Miami (FL)",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "florian-tenebay-1": {
     "proballers_id": 290371,
     "name": "Florian Tenebay",
-    "college": "South Carolina State"
+    "college": "South Carolina State",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "issac-vann-1": {
     "proballers_id": 178695,
@@ -3506,57 +4313,79 @@
       "Basketligan (Sweden)",
       "Division A (Romania)"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "evan-neisler-1": {
     "proballers_id": 33115,
     "name": "Evan Neisler",
-    "college": "Drexel"
+    "college": "Drexel",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "tylen-riley-1": {
     "proballers_id": 275924,
     "name": "Tylen Riley",
-    "college": "California Baptist"
+    "college": "California Baptist",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "ben-schwieger-1": {
     "proballers_id": 242852,
     "name": "Ben Schwieger",
-    "college": "Northern Iowa"
+    "college": "Northern Iowa",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "caleb-foster-2": {
     "proballers_id": 274793,
     "name": "Caleb Foster",
-    "college": "Duke"
+    "college": "Duke",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "austin-katstra-1": {
     "proballers_id": 189111,
     "name": "Austin Katstra",
-    "college": "Virginia"
+    "college": "Virginia",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "ryan-mcmahon-1": {
     "proballers_id": 178595,
     "name": "Ryan McMahon",
-    "college": "Louisville"
+    "college": "Louisville",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "chris-moncrief-1": {
     "proballers_id": 260788,
     "name": "Chris Moncrief",
-    "college": "St. Francis (PA)"
+    "college": "St. Francis (PA)",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "mike-sharavjamts-1": {
     "proballers_id": 266760,
     "name": "Mike Sharavjamts",
-    "college": "San Francisco"
+    "college": "San Francisco",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "amari-mccottry-1": {
     "proballers_id": 287967,
     "name": "Amari McCottry",
-    "college": "Saint Louis"
+    "college": "Saint Louis",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "jason-rivera-torres-1": {
     "proballers_id": 276157,
     "name": "Jason Rivera-Torres",
-    "college": "San Francisco"
+    "college": "San Francisco",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "colby-rogers-1": {
     "proballers_id": 189853,
@@ -3568,62 +4397,87 @@
     "intl_leagues": [
       "LEB Oro (Spain)"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international",
+    "intl_national_team": false
   },
   "taylor-bol-bowen-1": {
     "proballers_id": 269431,
     "name": "Taylor Bol Bowen",
-    "college": "Florida State"
+    "college": "Florida State",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "calvin-lee-1": {
     "proballers_id": 208034,
     "name": "Calvin Lee",
-    "college": "Towson"
+    "college": "Towson",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "javonte-johnson-1": {
     "proballers_id": 233709,
     "name": "Javonte Johnson",
-    "college": "California Baptist"
+    "college": "California Baptist",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "duke-brennan-1": {
     "proballers_id": 257093,
     "name": "Duke Brennan",
-    "college": "Grand Canyon"
+    "college": "Grand Canyon",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "collin-moore-1": {
     "proballers_id": 233125,
     "name": "Collin Moore",
-    "college": "Grand Canyon"
+    "college": "Grand Canyon",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "joshua-dent-1": {
     "proballers_id": 253979,
     "name": "Joshua Dent",
-    "college": "Saint Mary's (CA)"
+    "college": "Saint Mary's (CA)",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "patrick-ngongba-2": {
     "proballers_id": 285251,
     "name": "Patrick Ngongba",
-    "college": "Duke"
+    "college": "Duke",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "nicolo-romanelli-1": {
     "proballers_id": 275879,
     "name": "Nicolo Romanelli",
-    "college": "Columbia"
+    "college": "Columbia",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "alex-copeland-1": {
     "proballers_id": 178525,
     "name": "Alex Copeland",
-    "college": "Yale"
+    "college": "Yale",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "sharone-wrightjr-1": {
     "proballers_id": 189194,
     "name": "Sharone Wright",
-    "college": "Wake Forest"
+    "college": "Wake Forest",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "luke-hunger-1": {
     "proballers_id": 258612,
     "name": "Luke Hunger",
-    "college": "Northwestern"
+    "college": "Northwestern",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "maceo-jack-1": {
     "proballers_id": 188927,
@@ -3637,27 +4491,38 @@
       "Greek League",
       "Pro B (France)"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international",
+    "intl_national_team": false
   },
   "jordan-ross-1": {
     "proballers_id": 275958,
     "name": "Jordan Ross",
-    "college": "Saint Mary's (CA)"
+    "college": "Saint Mary's (CA)",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "donavan-yap-1": {
     "proballers_id": 234471,
     "name": "Donavan Yap",
-    "college": "San Jose State"
+    "college": "San Jose State",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "cameron-clark-3": {
     "proballers_id": 289852,
     "name": "Cameron Clark",
-    "college": "South Carolina State"
+    "college": "South Carolina State",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "daquan-davis-1": {
     "proballers_id": 277088,
     "name": "Daquan Davis",
-    "college": "Florida State"
+    "college": "Florida State",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "deriante-jenkins-1": {
     "proballers_id": 72802,
@@ -3671,67 +4536,93 @@
       "Basketligan (Sweden)",
       "Serie A2 (Italy)"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "dante-holmes-1": {
     "proballers_id": 16869,
     "name": "Dante Holmes",
-    "college": "Florida Gulf Coast"
+    "college": "Florida Gulf Coast",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "david-bumpass-1": {
     "proballers_id": 301057,
     "name": "David Bumpass",
-    "college": "Morgan State"
+    "college": "Morgan State",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "tramayne-hawthorne-1": {
     "proballers_id": 34570,
     "name": "Tramayne Hawthorne",
-    "college": "Drexel"
+    "college": "Drexel",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "makaih-williams-1": {
     "proballers_id": 274969,
     "name": "Makaih Williams",
-    "college": "Grand Canyon"
+    "college": "Grand Canyon",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "grant-kersey-1": {
     "proballers_id": 189112,
     "name": "Grant Kersey",
-    "college": "Virginia"
+    "college": "Virginia",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "mason-ritter-1": {
     "proballers_id": 288777,
     "name": "Mason Ritter",
-    "college": "Columbia"
+    "college": "Columbia",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "kentrell-barkley-1": {
     "proballers_id": 177391,
     "name": "Kentrell Barkley",
-    "college": "East Carolina"
+    "college": "East Carolina",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "dave-brown-8": {
     "proballers_id": 246521,
     "name": "David Brown III",
-    "college": "Loyola (MD)"
+    "college": "Loyola (MD)",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "victor-curry-1": {
     "proballers_id": 205571,
     "name": "Victor Curry",
-    "college": "Morgan State"
+    "college": "Morgan State",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "nick-jourdain-1": {
     "proballers_id": 234253,
     "name": "Nick Jourdain",
-    "college": "Memphis"
+    "college": "Memphis",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "daxter-miles-1": {
     "proballers_id": 16158,
     "name": "Daxter Miles",
-    "college": "West Virginia"
+    "college": "West Virginia",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "devin-wilson-2": {
     "proballers_id": 76196,
     "name": "Devin Wilson",
-    "college": "Virginia Tech"
+    "college": "Virginia Tech",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "chris-clarke-2": {
     "proballers_id": 76194,
@@ -3745,67 +4636,94 @@
       "Korisliiga (Finland)",
       "Liga Nacional (Argentina)"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international",
+    "intl_national_team": false
   },
   "james-morrow-1": {
     "proballers_id": 275532,
     "name": "James Morrow",
-    "college": "South Carolina State"
+    "college": "South Carolina State",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "jamie-harris-1": {
     "proballers_id": 207417,
     "name": "Jamie Harris",
-    "college": "Drexel"
+    "college": "Drexel",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "leon-spencer-1": {
     "proballers_id": 207679,
     "name": "Leon Spencer",
-    "college": "Drexel"
+    "college": "Drexel",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "aleem-ford-1": {
     "proballers_id": 178746,
     "name": "Aleem Ford",
-    "college": "Wisconsin"
+    "college": "Wisconsin",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "andrew-mckeever-1": {
     "proballers_id": 274820,
     "name": "Andrew McKeever",
-    "college": "Saint Mary's (CA)"
+    "college": "Saint Mary's (CA)",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "alejandro-aviles-1": {
     "proballers_id": 253769,
     "name": "Alejandro Aviles",
-    "college": "San Diego"
+    "college": "San Diego",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "kellen-thames-1": {
     "proballers_id": 258889,
     "name": "Kellen Thames",
-    "college": "Saint Louis"
+    "college": "Saint Louis",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "Gavin Wright": {
     "proballers_id": 308462,
     "name": "Gavin Wright",
-    "college": "Sarah Lawrence"
+    "college": "Sarah Lawrence",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "Peter Fathi": {
     "proballers_id": 260235,
     "name": "Peter Fathi",
-    "college": "Sarah Lawrence"
+    "college": "Sarah Lawrence",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "joshua-morgan-1": {
     "proballers_id": 189844,
     "name": "Joshua Morgan",
-    "college": "USC"
+    "college": "USC",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "grant-newell-1": {
     "proballers_id": 257310,
     "name": "Grant Newell",
-    "college": "California"
+    "college": "California",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "miles-rubin-1": {
     "proballers_id": 275017,
     "name": "Miles Rubin",
-    "college": "Loyola Chicago"
+    "college": "Loyola Chicago",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "trey-phills-1": {
     "proballers_id": 69270,
@@ -3817,27 +4735,38 @@
     "intl_leagues": [
       "Ligaen (Denmark)"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international",
+    "intl_national_team": false
   },
   "caleb-white-1": {
     "proballers_id": 75958,
     "name": "Caleb White",
-    "college": "East Carolina"
+    "college": "East Carolina",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "dusty-stromer-2": {
     "proballers_id": 274951,
     "name": "Dusty Stromer",
-    "college": "Gonzaga"
+    "college": "Gonzaga",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "ishan-sharma-1": {
     "proballers_id": 254006,
     "name": "Ishan Sharma",
-    "college": "Virginia"
+    "college": "Virginia",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "brandon-watkins-2": {
     "proballers_id": 16703,
     "name": "Brandon Watkins",
-    "college": "West Virginia"
+    "college": "West Virginia",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "abdoulaye-gueye-1": {
     "proballers_id": 183758,
@@ -3851,37 +4780,52 @@
       "National League (Israel)",
       "TBL (Turkey)"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international",
+    "intl_national_team": false
   },
   "cam-gillus-1": {
     "proballers_id": 275730,
     "name": "Cam Gillus",
-    "college": "Howard"
+    "college": "Howard",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "alex-cotton-1": {
     "proballers_id": 276117,
     "name": "Alex Cotton",
-    "college": "Howard"
+    "college": "Howard",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "jake-west-1": {
     "proballers_id": 304960,
     "name": "Jake West",
-    "college": "Northwestern"
+    "college": "Northwestern",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "derwin-hodge-1": {
     "proballers_id": 305778,
     "name": "Derwin Hodge",
-    "college": "South Carolina State"
+    "college": "South Carolina State",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "eddie-murray-1": {
     "proballers_id": 61134,
     "name": "Eddie Murray",
-    "college": "Florida Gulf Coast"
+    "college": "Florida Gulf Coast",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "john-auslander-1": {
     "proballers_id": 201422,
     "name": "John Auslander",
-    "college": "Maryland"
+    "college": "Maryland",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "brad-davison-1": {
     "proballers_id": 178749,
@@ -3893,7 +4837,10 @@
     "intl_leagues": [
       "LEB Oro (Spain)"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international",
+    "intl_national_team": false
   },
   "nigel-johnson-2": {
     "proballers_id": 14261,
@@ -3907,12 +4854,17 @@
       "A Liga (Hungary)",
       "LNBP (Mexico)"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international",
+    "intl_national_team": false
   },
   "caleb-shaw-1": {
     "proballers_id": 258575,
     "name": "Caleb Shaw",
-    "college": "Grand Canyon"
+    "college": "Grand Canyon",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "scott-spencer-1": {
     "proballers_id": 76365,
@@ -3924,52 +4876,73 @@
     "intl_leagues": [
       "Greek League"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international",
+    "intl_national_team": false
   },
   "toneari-lane-1": {
     "proballers_id": 234632,
     "name": "Toneari Lane",
-    "college": "San Diego"
+    "college": "San Diego",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "jakigh-dottin-1": {
     "proballers_id": 189893,
     "name": "Jakigh Dottin",
-    "college": "Towson"
+    "college": "Towson",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "gestin-liberis-1": {
     "proballers_id": 259099,
     "name": "Gestin Liberis",
-    "college": "St. Francis (PA)"
+    "college": "St. Francis (PA)",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "tucker-devries-1": {
     "proballers_id": 266847,
     "name": "Tucker DeVries",
-    "college": "Indiana"
+    "college": "Indiana",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "kalu-anya-1": {
     "proballers_id": 257236,
     "name": "Kalu Anya",
-    "college": "Saint Louis"
+    "college": "Saint Louis",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "Eamon Kelly": {
     "proballers_id": 260228,
     "name": "Eamon Kelly",
-    "college": "Sarah Lawrence"
+    "college": "Sarah Lawrence",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "avery-brown-2": {
     "proballers_id": 257456,
     "name": "Avery Brown",
-    "college": "Columbia"
+    "college": "Columbia",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "deywilk-tavarez-1": {
     "proballers_id": 275841,
     "name": "Deywilk Tavarez",
-    "college": "Loyola Chicago"
+    "college": "Loyola Chicago",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "jordan-clayton-1": {
     "proballers_id": 275639,
     "name": "Jordan Clayton",
-    "college": "Northwestern"
+    "college": "Northwestern",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "deng-riak-1": {
     "proballers_id": 190491,
@@ -3981,37 +4954,52 @@
     "intl_leagues": [
       "Korisliiga (Finland)"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international",
+    "intl_national_team": false
   },
   "andrew-rohde-1": {
     "proballers_id": 259111,
     "name": "Andrew Rohde",
-    "college": "Virginia"
+    "college": "Virginia",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "chisom-okpara-1": {
     "proballers_id": 257732,
     "name": "Chisom Okpara",
-    "college": "Stanford"
+    "college": "Stanford",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "david-syfax-1": {
     "proballers_id": 190691,
     "name": "David Syfax",
-    "college": "Morgan State"
+    "college": "Morgan State",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "tyler-streeter-1": {
     "proballers_id": 205073,
     "name": "Tyler Streeter",
-    "college": "Morgan State"
+    "college": "Morgan State",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "pj-carter-1": {
     "proballers_id": 232738,
     "name": "PJ Carter",
-    "college": "Memphis"
+    "college": "Memphis",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "jaylin-stewart-3": {
     "proballers_id": 275374,
     "name": "Jaylin Stewart",
-    "college": "Connecticut"
+    "college": "Connecticut",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "kristian-sjolund-1": {
     "proballers_id": 68804,
@@ -4025,17 +5013,24 @@
       "Korisliiga (Finland)",
       "ProA (Germany)"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international",
+    "intl_national_team": false
   },
   "cedric-taylor-iii-1": {
     "proballers_id": 301417,
     "name": "Cedric Taylor III",
-    "college": "Howard"
+    "college": "Howard",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "angelo-ciaravino-1": {
     "proballers_id": 287982,
     "name": "Angelo Ciaravino",
-    "college": "Northwestern"
+    "college": "Northwestern",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "christophe-varidel-1": {
     "proballers_id": 45795,
@@ -4047,32 +5042,45 @@
     "intl_leagues": [
       "SBL (Switzerland)"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international",
+    "intl_national_team": false
   },
   "mychal-parker-1": {
     "proballers_id": 202005,
     "name": "Mychal Parker",
-    "college": "Maryland"
+    "college": "Maryland",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "matar-wade-1": {
     "proballers_id": 288783,
     "name": "Matar Wade",
-    "college": "Morgan State"
+    "college": "Morgan State",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "dallas-james-1": {
     "proballers_id": 302415,
     "name": "Dallas James",
-    "college": "Morgan State"
+    "college": "Morgan State",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "tre-vaughn-minott-1": {
     "proballers_id": 174990,
     "name": "Tre-Vaughn Minott",
-    "college": "Portland State"
+    "college": "Portland State",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "alex-dupre-1": {
     "proballers_id": 291177,
     "name": "Alex Dupre",
-    "college": "Portland State"
+    "college": "Portland State",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "samme-givens-1": {
     "proballers_id": 60295,
@@ -4098,57 +5106,80 @@
       "ProA (Germany)",
       "Serie A2 (Italy)"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international",
+    "intl_national_team": false
   },
   "robert-nwankwo-1": {
     "proballers_id": 212233,
     "name": "Robert Nwankwo",
-    "college": "Towson"
+    "college": "Towson",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "weilun-zhao-1": {
     "proballers_id": 301005,
     "name": "Weilun Zhao",
-    "college": "San Francisco"
+    "college": "San Francisco",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "wisler-sanon-1": {
     "proballers_id": 259097,
     "name": "Wisler Sanon",
-    "college": "St. Francis (PA)"
+    "college": "St. Francis (PA)",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "braylen-blue-1": {
     "proballers_id": 276129,
     "name": "Braylen Blue",
-    "college": "St. Francis (PA)"
+    "college": "St. Francis (PA)",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "kobe-johnson-2": {
     "proballers_id": 291532,
     "name": "Kobe Johnson",
-    "college": "Saint Louis"
+    "college": "Saint Louis",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "John Kairouz": {
     "proballers_id": 260240,
     "name": "John Kairouz",
-    "college": "Sarah Lawrence"
+    "college": "Sarah Lawrence",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "gerard-okeefe-1": {
     "proballers_id": 288351,
     "name": "Gerard O'Keefe",
-    "college": "Columbia"
+    "college": "Columbia",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "richard-nweke-1": {
     "proballers_id": 275455,
     "name": "Richard Nweke",
-    "college": "Columbia"
+    "college": "Columbia",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "arop-arop-1": {
     "proballers_id": 275316,
     "name": "Arop Arop",
-    "college": "Columbia"
+    "college": "Columbia",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "kijani-wright-1": {
     "proballers_id": 259427,
     "name": "Kijani Wright",
-    "college": "USC"
+    "college": "USC",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "keonte-kennedy-1": {
     "proballers_id": 205776,
@@ -4162,7 +5193,10 @@
       "Basketligan (Sweden)",
       "LPB (Portugal)"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international",
+    "intl_national_team": false
   },
   "anthony-dallier-1": {
     "proballers_id": 69266,
@@ -4174,7 +5208,10 @@
     "intl_leagues": [
       "ProA (Germany)"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international",
+    "intl_national_team": false
   },
   "sam-downey-1": {
     "proballers_id": 69269,
@@ -4186,22 +5223,31 @@
     "intl_leagues": [
       "SBL (Switzerland)"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international",
+    "intl_national_team": false
   },
   "tyson-commander-1": {
     "proballers_id": 258107,
     "name": "Tyson Commander",
-    "college": "Loyola (MD)"
+    "college": "Loyola (MD)",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "tj-power-2": {
     "proballers_id": 274792,
     "name": "TJ Power",
-    "college": "Virginia"
+    "college": "Virginia",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "javier-langarica-1": {
     "proballers_id": 188935,
     "name": "Javier Langarica",
-    "college": "George Washington"
+    "college": "George Washington",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "luke-barrett-1": {
     "proballers_id": 234057,
@@ -4213,32 +5259,44 @@
     "intl_leagues": [
       "PLK (Poland)"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "martez-cameron-1": {
     "proballers_id": 205026,
     "name": "Martez Cameron",
-    "college": "Morgan State"
+    "college": "Morgan State",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "alec-oglesby-1": {
     "proballers_id": 232806,
     "name": "Alec Oglesby",
-    "college": "Stetson"
+    "college": "Stetson",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "tristan-gross-1": {
     "proballers_id": 275548,
     "name": "Tristan Gross",
-    "college": "Stetson"
+    "college": "Stetson",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "treyton-thompson-1": {
     "proballers_id": 246335,
     "name": "Treyton Thompson",
-    "college": "Stetson"
+    "college": "Stetson",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "yoda-oke-1": {
     "proballers_id": 293947,
     "name": "Yoda Oke",
-    "college": "Air Force"
+    "college": "Air Force",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "sidy-ndir-1": {
     "proballers_id": 60424,
@@ -4250,12 +5308,17 @@
     "intl_leagues": [
       "Pro B (France)"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international",
+    "intl_national_team": false
   },
   "kene-chukwuka-1": {
     "proballers_id": 195235,
     "name": "Kene Chukwuka",
-    "college": "Pittsburgh"
+    "college": "Pittsburgh",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "brandon-alston-2": {
     "proballers_id": 182733,
@@ -4275,157 +5338,220 @@
       "NBL (New Zealand)",
       "ProA (Germany)"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international",
+    "intl_national_team": false
   },
   "bryce-harris-1": {
     "proballers_id": 245536,
     "name": "Bryce Harris",
-    "college": "Howard"
+    "college": "Howard",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "jamal-miles-1": {
     "proballers_id": 288483,
     "name": "Jamal Miles",
-    "college": "South Carolina State"
+    "college": "South Carolina State",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "corey-douglas-1": {
     "proballers_id": 178692,
     "name": "Corey Douglas",
-    "college": "Virginia Commonwealth"
+    "college": "Virginia Commonwealth",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "manok-lual-1": {
     "proballers_id": 302355,
     "name": "Manok Lual",
-    "college": "Morgan State"
+    "college": "Morgan State",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "nolan-dorsey-1": {
     "proballers_id": 233685,
     "name": "Nolan Dorsey",
-    "college": "California"
+    "college": "California",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "kelcy-phipps-1": {
     "proballers_id": 274973,
     "name": "Kelcy Phipps",
-    "college": "Portland State"
+    "college": "Portland State",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "jarrel-smith-1": {
     "proballers_id": 55808,
     "name": "Jarrel Smith",
-    "college": "Towson"
+    "college": "Towson",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "lok-wur-1": {
     "proballers_id": 233890,
     "name": "Lok Wur",
-    "college": "Grand Canyon"
+    "college": "Grand Canyon",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "tony-duckett-2": {
     "proballers_id": 289131,
     "name": "Tony Duckett",
-    "college": "Saint Mary's (CA)"
+    "college": "Saint Mary's (CA)",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "mark-donnal-1": {
     "proballers_id": 69151,
     "name": "Mark Donnal",
-    "college": "Clemson"
+    "college": "Clemson",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "tim-moore-3": {
     "proballers_id": 291127,
     "name": "Tim Moore",
-    "college": "San Diego"
+    "college": "San Diego",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "alex-thomas-1": {
     "proballers_id": 210654,
     "name": "Alex Thomas",
-    "college": "Towson"
+    "college": "Towson",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "trent-sisley-1": {
     "proballers_id": 300939,
     "name": "Trent Sisley",
-    "college": "Indiana"
+    "college": "Indiana",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "nigel-clarkson-1": {
     "proballers_id": 288852,
     "name": "Nigel Clarkson",
-    "college": "Columbia"
+    "college": "Columbia",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "eric-monroe-1": {
     "proballers_id": 190250,
     "name": "Eric Monroe",
-    "college": "Yale"
+    "college": "Yale",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "nicholas-boyd-1": {
     "proballers_id": 267092,
     "name": "Nick Boyd",
-    "college": "Florida Atlantic"
+    "college": "Florida Atlantic",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "justin-mazzulla-1": {
     "proballers_id": 188932,
     "name": "Justin Mazzulla",
-    "college": "George Washington"
+    "college": "George Washington",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "armel-potter-1": {
     "proballers_id": 188926,
     "name": "Armel Potter",
-    "college": "George Washington"
+    "college": "George Washington",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "antonio-gillespie-1": {
     "proballers_id": 210405,
     "name": "Antonio Gillespie",
-    "college": "Morgan State"
+    "college": "Morgan State",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "lapri-mccray-pace-1": {
     "proballers_id": 190696,
     "name": "Lapri McCray-Pace",
-    "college": "Morgan State"
+    "college": "Morgan State",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "kyson-rawls-1": {
     "proballers_id": 190694,
     "name": "Kyson Rawls",
-    "college": "Morgan State"
+    "college": "Morgan State",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "baraka-okojie-1": {
     "proballers_id": 275971,
     "name": "Baraka Okojie",
-    "college": "Memphis"
+    "college": "Memphis",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "solomon-ball-2": {
     "proballers_id": 275963,
     "name": "Solomon Ball",
-    "college": "Connecticut"
+    "college": "Connecticut",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "robert-vaihola-1": {
     "proballers_id": 243752,
     "name": "Robert Vaihola",
-    "college": "San Jose State"
+    "college": "San Jose State",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "jermaine-washington-3": {
     "proballers_id": 288552,
     "name": "Jermaine Washington",
-    "college": "San Jose State"
+    "college": "San Jose State",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "xavier-johnson-2": {
     "proballers_id": 189228,
     "name": "Xavier Johnson",
-    "college": "Pittsburgh"
+    "college": "Pittsburgh",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "anthony-starzynski-1": {
     "proballers_id": 189216,
     "name": "Anthony Starzynski",
-    "college": "Pittsburgh"
+    "college": "Pittsburgh",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "adrian-bowie-1": {
     "proballers_id": 49652,
     "name": "Adrian Bowie",
-    "college": "Maryland"
+    "college": "Maryland",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "isaiah-brown-3": {
     "proballers_id": 288409,
     "name": "Isaiah Brown",
-    "college": "Howard"
+    "college": "Howard",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "noah-treadwell-1": {
     "proballers_id": 305157,
     "name": "Noah Treadwell",
-    "college": "South Carolina State"
+    "college": "South Carolina State",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "nate-britt-1": {
     "proballers_id": 16806,
@@ -4443,12 +5569,17 @@
       "Liga Nacional (Argentina)",
       "ProA (Germany)"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international",
+    "intl_national_team": false
   },
   "jovan-blacksherjr-1": {
     "proballers_id": 192550,
     "name": "Jovan Blacksher Jr.",
-    "college": "California"
+    "college": "California",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "marcus-evans-2": {
     "proballers_id": 8133,
@@ -4462,12 +5593,16 @@
       "Basketligan (Sweden)",
       "Greek League"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "sean-mobley-1": {
     "proballers_id": 178694,
     "name": "Sean Mobley",
-    "college": "Virginia Commonwealth"
+    "college": "Virginia Commonwealth",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "mikel-simms-1": {
     "proballers_id": 178690,
@@ -4479,12 +5614,16 @@
     "intl_leagues": [
       "NBB (Brazil)"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "filip-cvjeticanin-1": {
     "proballers_id": 61131,
     "name": "Filip Cvjeticanin",
-    "college": "Florida Gulf Coast"
+    "college": "Florida Gulf Coast",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "ashton-pankey-1": {
     "proballers_id": 14573,
@@ -4496,177 +5635,248 @@
     "intl_leagues": [
       "National League (Israel)"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international",
+    "intl_national_team": false
   },
   "marland-harris-1": {
     "proballers_id": 290632,
     "name": "Marland Harris",
-    "college": "Morgan State"
+    "college": "Morgan State",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "mantas-kocanas-1": {
     "proballers_id": 237843,
     "name": "Mantas Kocanas",
-    "college": "California"
+    "college": "California",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "brayden-barron-1": {
     "proballers_id": 303518,
     "name": "Brayden Barron",
-    "college": "Portland State"
+    "college": "Portland State",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "kenny-tribbett-1": {
     "proballers_id": 34582,
     "name": "Kenny Tribbett",
-    "college": "Drexel"
+    "college": "Drexel",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "brian-morris-3": {
     "proballers_id": 212907,
     "name": "Brian Morris",
-    "college": "Towson"
+    "college": "Towson",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "josh-thornton-1": {
     "proballers_id": 34144,
     "name": "Josh Thornton",
-    "college": "Towson"
+    "college": "Towson",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "kobe-king-1": {
     "proballers_id": 178747,
     "name": "Kobe King",
-    "college": "Wisconsin"
+    "college": "Wisconsin",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "aj-braun-1": {
     "proballers_id": 243093,
     "name": "AJ Braun",
-    "college": "California Baptist"
+    "college": "California Baptist",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "samuel-silverstein-1": {
     "proballers_id": 233150,
     "name": "Samuel Silverstein",
-    "college": "California Baptist"
+    "college": "California Baptist",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "justice-bartley-1": {
     "proballers_id": 210611,
     "name": "Justice Bartley",
-    "college": "Virginia"
+    "college": "Virginia",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "aidan-braccia-1": {
     "proballers_id": 257163,
     "name": "Aidan Braccia",
-    "college": "San Francisco"
+    "college": "San Francisco",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "jayden-nixon-1": {
     "proballers_id": 178645,
     "name": "Jayden Nixon",
-    "college": "Virginia"
+    "college": "Virginia",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "carlos-lopez-jr-1": {
     "proballers_id": 275843,
     "name": "Carlos Lopez Jr.",
-    "college": "St. Francis (PA)"
+    "college": "St. Francis (PA)",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "eli-wilborn-1": {
     "proballers_id": 275083,
     "name": "Eli Wilborn",
-    "college": "St. Francis (PA)"
+    "college": "St. Francis (PA)",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "aidan-harris-1": {
     "proballers_id": 275183,
     "name": "Aidan Harris",
-    "college": "St. Francis (PA)"
+    "college": "St. Francis (PA)",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "bobby-rosenberger-1": {
     "proballers_id": 274878,
     "name": "Bobby Rosenberger",
-    "college": "St. Francis (PA)"
+    "college": "St. Francis (PA)",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "sam-alexis-1": {
     "proballers_id": 257375,
     "name": "Sam Alexis",
-    "college": "Indiana"
+    "college": "Indiana",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "myles-rice-1": {
     "proballers_id": 245800,
     "name": "Myles Rice",
-    "college": "Maryland"
+    "college": "Maryland",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "james-odonnell-2": {
     "proballers_id": 253972,
     "name": "James O'Donnell",
-    "college": "San Francisco"
+    "college": "San Francisco",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "Andrew Kim": {
     "proballers_id": 308453,
     "name": "Andrew Kim",
-    "college": "Sarah Lawrence"
+    "college": "Sarah Lawrence",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "Braden Burman": {
     "proballers_id": 260237,
     "name": "Braden Burman",
-    "college": "Sarah Lawrence"
+    "college": "Sarah Lawrence",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "Derek Hickman": {
     "proballers_id": 260230,
     "name": "Derek Hickman",
-    "college": "Sarah Lawrence"
+    "college": "Sarah Lawrence",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "robbie-stankard-1": {
     "proballers_id": 243763,
     "name": "Robbie Stankard",
-    "college": "Columbia"
+    "college": "Columbia",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "arrinten-page-2": {
     "proballers_id": 275114,
     "name": "Arrinten Page",
-    "college": "USC"
+    "college": "USC",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "torry-johnson-1": {
     "proballers_id": 189186,
     "name": "Torry Johnson",
-    "college": "Wake Forest"
+    "college": "Wake Forest",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "michael-wynn-1": {
     "proballers_id": 189195,
     "name": "Michael Wynn",
-    "college": "Wake Forest"
+    "college": "Wake Forest",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "aaron-spivey-1": {
     "proballers_id": 205065,
     "name": "Aaron Spivey",
-    "college": "Wake Forest"
+    "college": "Wake Forest",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "blake-preston-1": {
     "proballers_id": 233393,
     "name": "Blake Preston",
-    "college": "Northwestern"
+    "college": "Northwestern",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "brenen-lorient-1": {
     "proballers_id": 257567,
     "name": "Brenen Lorient",
-    "college": "Florida Atlantic"
+    "college": "Florida Atlantic",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "clarence-williams-1": {
     "proballers_id": 203807,
     "name": "Clarence Williams",
-    "college": "East Carolina"
+    "college": "East Carolina",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "blake-buchanan-3": {
     "proballers_id": 269432,
     "name": "Blake Buchanan",
-    "college": "Virginia"
+    "college": "Virginia",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "jaylen-thompson-1": {
     "proballers_id": 259119,
     "name": "Jaylen Thompson",
-    "college": "Stanford"
+    "college": "Stanford",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "marcus-littles-1": {
     "proballers_id": 205757,
     "name": "Marcus Littles",
-    "college": "George Washington"
+    "college": "George Washington",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "ashton-hardaway-1": {
     "proballers_id": 274851,
     "name": "Ashton Hardaway",
-    "college": "Saint Mary's (CA)"
+    "college": "Saint Mary's (CA)",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "stanley-davis-1": {
     "proballers_id": 190686,
@@ -4680,22 +5890,31 @@
       "Greek League",
       "LPB (Portugal)"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international",
+    "intl_national_team": false
   },
   "isaiah-burke-1": {
     "proballers_id": 190689,
     "name": "Isaiah Burke",
-    "college": "Morgan State"
+    "college": "Morgan State",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "sadaidriene-hall-1": {
     "proballers_id": 232953,
     "name": "Sadaidriene Hall",
-    "college": "San Jose State"
+    "college": "San Jose State",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "chol-marial-1": {
     "proballers_id": 189657,
     "name": "Chol Marial",
-    "college": "San Jose State"
+    "college": "San Jose State",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "elijah-macon-1": {
     "proballers_id": 17091,
@@ -4707,7 +5926,10 @@
     "intl_leagues": [
       "A Liga (Hungary)"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international",
+    "intl_national_team": false
   },
   "braxton-dupree-1": {
     "proballers_id": 55039,
@@ -4723,172 +5945,241 @@
       "National League (Israel)",
       "ProA (Germany)"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international",
+    "intl_national_team": false
   },
   "bj-powell-1": {
     "proballers_id": 301412,
     "name": "BJ Powell",
-    "college": "Howard"
+    "college": "Howard",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "tyler-kropp-1": {
     "proballers_id": 285106,
     "name": "Tyler Kropp",
-    "college": "Northwestern"
+    "college": "Northwestern",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "christopher-parker-1": {
     "proballers_id": 305234,
     "name": "Christopher Parker",
-    "college": "South Carolina State"
+    "college": "South Carolina State",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "tim-okojie-1": {
     "proballers_id": 305231,
     "name": "Tim Okojie",
-    "college": "South Carolina State"
+    "college": "South Carolina State",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "ayniel-right-1": {
     "proballers_id": 305264,
     "name": "Rayniel Wright",
-    "college": "South Carolina State"
+    "college": "South Carolina State",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "seventh-woods-1": {
     "proballers_id": 72887,
     "name": "Seventh Woods",
-    "college": "North Carolina"
+    "college": "North Carolina",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "bostyn-holt-1": {
     "proballers_id": 245689,
     "name": "Bostyn Holt",
-    "college": "Florida State"
+    "college": "Florida State",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "alier-maluk-1": {
     "proballers_id": 287961,
     "name": "Alier Maluk",
-    "college": "Florida State"
+    "college": "Florida State",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "christian-nitu-1": {
     "proballers_id": 254003,
     "name": "Christian Nitu",
-    "college": "Florida State"
+    "college": "Florida State",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "kevin-cantinol-1": {
     "proballers_id": 59943,
     "name": "Kevin Cantinol",
-    "college": "Florida Gulf Coast"
+    "college": "Florida Gulf Coast",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "isaiah-williams-4": {
     "proballers_id": 305554,
     "name": "Isaiah Williams",
-    "college": "Portland State"
+    "college": "Portland State",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "styles-phipps-1": {
     "proballers_id": 290054,
     "name": "Styles Phipps",
-    "college": "Grand Canyon"
+    "college": "Grand Canyon",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "will-hornseth-1": {
     "proballers_id": 291517,
     "name": "Will Hornseth",
-    "college": "Northern Iowa"
+    "college": "Northern Iowa",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "cayden-boozer-1": {
     "proballers_id": 285052,
     "name": "Cayden Boozer",
-    "college": "Duke"
+    "college": "Duke",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "assane-diop-2": {
     "proballers_id": 275459,
     "name": "Assane Diop",
-    "college": "San Diego"
+    "college": "San Diego",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "caleb-reese-1": {
     "proballers_id": 258091,
     "name": "Caleb Reese",
-    "college": "Loyola Chicago"
+    "college": "Loyola Chicago",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "blake-smith-3": {
     "proballers_id": 258616,
     "name": "Blake Smith",
-    "college": "Northwestern"
+    "college": "Northwestern",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "braeden-speed-1": {
     "proballers_id": 288051,
     "name": "Braeden Speed",
-    "college": "Loyola (MD)"
+    "college": "Loyola (MD)",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "jeffrey-mills-1": {
     "proballers_id": 248591,
     "name": "Jeffrey Mills",
-    "college": "Air Force"
+    "college": "Air Force",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "byron-brown-2": {
     "proballers_id": 251975,
     "name": "Byron Brown",
-    "college": "Air Force"
+    "college": "Air Force",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "evan-cole-1": {
     "proballers_id": 189141,
     "name": "Evan Cole",
-    "college": "Georgia Tech"
+    "college": "Georgia Tech",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "jayden-reid-1": {
     "proballers_id": 275031,
     "name": "Jayden Reid",
-    "college": "Northwestern"
+    "college": "Northwestern",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "brandon-robinson-2": {
     "proballers_id": 72888,
     "name": "Brandon Robinson",
-    "college": "North Carolina"
+    "college": "North Carolina",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "breon-barnett-1": {
     "proballers_id": 301009,
     "name": "Breon Barnett",
-    "college": "Morgan State"
+    "college": "Morgan State",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "bj-fisher-1": {
     "proballers_id": 298485,
     "name": "BJ Fisher",
-    "college": "California"
+    "college": "California",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "dhiaukuei-manyiel-dut-1": {
     "proballers_id": 274822,
     "name": "Dhiaukuei Manyiel Dut",
-    "college": "California"
+    "college": "California",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "stephon-marbury-ii-1": {
     "proballers_id": 298677,
     "name": "Stephon Marbury II",
-    "college": "California"
+    "college": "California",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "luke-butler-1": {
     "proballers_id": 300879,
     "name": "Luke Butler",
-    "college": "California"
+    "college": "California",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "mozae-downing-rivers-1": {
     "proballers_id": 290353,
     "name": "Mozae Downing-Rivers",
-    "college": "Portland State"
+    "college": "Portland State",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "brycen-long-1": {
     "proballers_id": 233184,
     "name": "Brycen Long",
-    "college": "Portland State"
+    "college": "Portland State",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "sebastian-tidor-1": {
     "proballers_id": 291175,
     "name": "Sebastian Tidor",
-    "college": "Portland State"
+    "college": "Portland State",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "david-brewster-2": {
     "proballers_id": 199886,
     "name": "David Brewster",
-    "college": "Towson"
+    "college": "Towson",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "tim-crossin-1": {
     "proballers_id": 34600,
     "name": "Tim Crossin",
-    "college": "Towson"
+    "college": "Towson",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "khalil-iverson-1": {
     "proballers_id": 69472,
@@ -4902,77 +6193,108 @@
       "Korisliiga (Finland)",
       "LNBP (Mexico)"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international",
+    "intl_national_team": false
   },
   "charles-thomasiv-1": {
     "proballers_id": 178748,
     "name": "Charles Thomas",
-    "college": "Wisconsin"
+    "college": "Wisconsin",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "bradey-henige-1": {
     "proballers_id": 288045,
     "name": "Bradey Henige",
-    "college": "California Baptist"
+    "college": "California Baptist",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "brantly-stevenson-1": {
     "proballers_id": 232706,
     "name": "Brantly Stevenson",
-    "college": "California Baptist"
+    "college": "California Baptist",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "mouhamadou-dioum-1": {
     "proballers_id": 289124,
     "name": "Mouhamadou Dioum",
-    "college": "California Baptist"
+    "college": "California Baptist",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "kyle-pock-1": {
     "proballers_id": 275203,
     "name": "Kyle Pock",
-    "college": "Northern Iowa"
+    "college": "Northern Iowa",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "geon-hutchins-1": {
     "proballers_id": 304349,
     "name": "Geon Hutchins",
-    "college": "Northern Iowa"
+    "college": "Northern Iowa",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "chase-courbat-1": {
     "proballers_id": 247031,
     "name": "Chase Courbat",
-    "college": "Northern Iowa"
+    "college": "Northern Iowa",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "dillan-shaw-1": {
     "proballers_id": 305150,
     "name": "Dillan Shaw",
-    "college": "Saint Mary's (CA)"
+    "college": "Saint Mary's (CA)",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "liam-campbell-1": {
     "proballers_id": 288716,
     "name": "Liam Campbell",
-    "college": "Saint Mary's (CA)"
+    "college": "Saint Mary's (CA)",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "rory-hawke-1": {
     "proballers_id": 255598,
     "name": "Rory Hawke",
-    "college": "Saint Mary's (CA)"
+    "college": "Saint Mary's (CA)",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "maliq-brown-1": {
     "proballers_id": 259149,
     "name": "Maliq Brown",
-    "college": "Duke"
+    "college": "Duke",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "darren-harris-1": {
     "proballers_id": 288229,
     "name": "Darren Harris",
-    "college": "Duke"
+    "college": "Duke",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "cameron-sheffield-1": {
     "proballers_id": 233976,
     "name": "Cameron Sheffield",
-    "college": "Duke"
+    "college": "Duke",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "shelton-mitchell-1": {
     "proballers_id": 76298,
     "name": "Shelton Mitchell",
-    "college": "Clemson"
+    "college": "Clemson",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "clyde-trapp-1": {
     "proballers_id": 76302,
@@ -4984,107 +6306,150 @@
     "intl_leagues": [
       "LPB (Portugal)"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international",
+    "intl_national_team": false
   },
   "malik-william-1": {
     "proballers_id": 76366,
     "name": "Malik William",
-    "college": "Clemson"
+    "college": "Clemson",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "aj-oliverii-1": {
     "proballers_id": 76300,
     "name": "A.J. Oliver",
-    "college": "Clemson"
+    "college": "Clemson",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "trevon-grossjr-1": {
     "proballers_id": 204779,
     "name": "Trevon Gross",
-    "college": "Virginia"
+    "college": "Virginia",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "gavin-ripp-1": {
     "proballers_id": 288345,
     "name": "Gavin Ripp",
-    "college": "San Diego"
+    "college": "San Diego",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "brandon-benjamin-2": {
     "proballers_id": 303722,
     "name": "Brandon Benjamin",
-    "college": "San Diego"
+    "college": "San Diego",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "neel-beniwal-1": {
     "proballers_id": 258942,
     "name": "Neel Beniwal",
-    "college": "San Diego"
+    "college": "San Diego",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "allen-betrand-1": {
     "proballers_id": 189887,
     "name": "Allen Betrand",
-    "college": "Towson"
+    "college": "Towson",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "solomon-uyaelunmo-1": {
     "proballers_id": 189894,
     "name": "Solomon Uyaelunmo",
-    "college": "Towson"
+    "college": "Towson",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "quinton-drayton-1": {
     "proballers_id": 211543,
     "name": "Quinton Drayton",
-    "college": "Towson"
+    "college": "Towson",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "chris-caliguiran-1": {
     "proballers_id": 189897,
     "name": "Chris Caliguiran",
-    "college": "Towson"
+    "college": "Towson",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "aaron-talbert-1": {
     "proballers_id": 275750,
     "name": "Aaron Talbert",
-    "college": "St. Francis (PA)"
+    "college": "St. Francis (PA)",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "aaron-humphrey-jr-1": {
     "proballers_id": 275149,
     "name": "Aaron Humphrey Jr.",
-    "college": "St. Francis (PA)"
+    "college": "St. Francis (PA)",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "keshawn-mcneill-1": {
     "proballers_id": 259094,
     "name": "Keshawn McNeill",
-    "college": "St. Francis (PA)"
+    "college": "St. Francis (PA)",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "volodymyr-markovetskyy-1": {
     "proballers_id": 72334,
     "name": "Volodymyr Markovetskyy",
-    "college": "San Francisco"
+    "college": "San Francisco",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "justin-bieker-1": {
     "proballers_id": 234075,
     "name": "Justin Bieker",
-    "college": "San Francisco"
+    "college": "San Francisco",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "jake-cioe-1": {
     "proballers_id": 246794,
     "name": "Jake Cioe",
-    "college": "San Francisco"
+    "college": "San Francisco",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "nick-dorn-1": {
     "proballers_id": 276183,
     "name": "Nick Dorn",
-    "college": "Indiana"
+    "college": "Indiana",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "isaiah-watts-1": {
     "proballers_id": 275968,
     "name": "Isaiah Watts",
-    "college": "Maryland"
+    "college": "Maryland",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "george-turkson-jr-1": {
     "proballers_id": 288350,
     "name": "George Turkson Jr.",
-    "college": "Maryland"
+    "college": "Maryland",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "aleks-alston-1": {
     "proballers_id": 300969,
     "name": "Aleks Alston",
-    "college": "Maryland"
+    "college": "Maryland",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "kilian-brockhoff-1": {
     "proballers_id": 180256,
@@ -5096,47 +6461,66 @@
     "intl_leagues": [
       "ProA (Germany)"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international",
+    "intl_national_team": false
   },
   "Chris Dougherty": {
     "proballers_id": 260232,
     "name": "Chris Dougherty",
-    "college": "Sarah Lawrence"
+    "college": "Sarah Lawrence",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "Kyle Jefferson": {
     "proballers_id": 260241,
     "name": "Kyle Jefferson",
-    "college": "Sarah Lawrence"
+    "college": "Sarah Lawrence",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "Aiden Morel": {
     "proballers_id": 308451,
     "name": "Aiden Morel",
-    "college": "Sarah Lawrence"
+    "college": "Sarah Lawrence",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "gianni-cobb-1": {
     "proballers_id": 288352,
     "name": "Gianni Cobb",
-    "college": "Columbia"
+    "college": "Columbia",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "jake-tavroff-1": {
     "proballers_id": 243762,
     "name": "Jake Tavroff",
-    "college": "Columbia"
+    "college": "Columbia",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "harrison-hornery-1": {
     "proballers_id": 242903,
     "name": "Harrison Hornery",
-    "college": "USC"
+    "college": "USC",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "rodney-brown-jr-1": {
     "proballers_id": 274967,
     "name": "Rodney Brown Jr.",
-    "college": "California"
+    "college": "California",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "gus-larson-1": {
     "proballers_id": 246978,
     "name": "Gus Larson",
-    "college": "California"
+    "college": "California",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "alexander-richardson-1": {
     "proballers_id": 180253,
@@ -5150,27 +6534,38 @@
       "BBL (Germany)",
       "ProA (Germany)"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international",
+    "intl_national_team": false
   },
   "chuck-love-iii-1": {
     "proballers_id": 304385,
     "name": "Chuck Love III",
-    "college": "Loyola Chicago"
+    "college": "Loyola Chicago",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "brayden-young-1": {
     "proballers_id": 288060,
     "name": "Brayden Young",
-    "college": "Loyola Chicago"
+    "college": "Loyola Chicago",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "eric-anderson-2": {
     "proballers_id": 210171,
     "name": "Eric Anderson",
-    "college": "Yale"
+    "college": "Yale",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "austin-williams-3": {
     "proballers_id": 178521,
     "name": "Austin Williams",
-    "college": "Yale"
+    "college": "Yale",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "juwan-durham-1": {
     "proballers_id": 189131,
@@ -5182,37 +6577,52 @@
     "intl_leagues": [
       "A Liga (Hungary)"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international",
+    "intl_national_team": false
   },
   "sunday-okeke-1": {
     "proballers_id": 189191,
     "name": "Sunday Okeke",
-    "college": "Wake Forest"
+    "college": "Wake Forest",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "anthony-bilas-1": {
     "proballers_id": 205036,
     "name": "Anthony Bilas",
-    "college": "Wake Forest"
+    "college": "Wake Forest",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "blake-buchanan-1": {
     "proballers_id": 189185,
     "name": "Blake Buchanan",
-    "college": "Wake Forest"
+    "college": "Wake Forest",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "francesco-badocchi-1": {
     "proballers_id": 178648,
     "name": "Francesco Badocchi",
-    "college": "Virginia"
+    "college": "Virginia",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "jalen-gaffney-1": {
     "proballers_id": 188780,
     "name": "Jalen Gaffney",
-    "college": "Florida Atlantic"
+    "college": "Florida Atlantic",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "andre-washington-1": {
     "proballers_id": 75716,
     "name": "Andre Washington",
-    "college": "East Carolina"
+    "college": "East Carolina",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "jabari-craig-1": {
     "proballers_id": 179234,
@@ -5228,167 +6638,234 @@
       "Division A (Romania)",
       "Liga Nova KBM (Slovenia)"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international",
+    "intl_national_team": false
   },
   "raquan-wilkins-1": {
     "proballers_id": 205393,
     "name": "Raquan Wilkins",
-    "college": "East Carolina"
+    "college": "East Carolina",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "jeff-jones-5": {
     "proballers_id": 209732,
     "name": "Jeff Jones",
-    "college": "Virginia"
+    "college": "Virginia",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "colby-brooks-1": {
     "proballers_id": 233128,
     "name": "Colby Brooks",
-    "college": "Gonzaga"
+    "college": "Gonzaga",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "joe-few-1": {
     "proballers_id": 247182,
     "name": "Joe Few",
-    "college": "Gonzaga"
+    "college": "Gonzaga",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "jun-seok-yeo-1": {
     "proballers_id": 238627,
     "name": "Jun Seok Yeo",
-    "college": "Gonzaga"
+    "college": "Gonzaga",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "samuel-gibbs-1": {
     "proballers_id": 258101,
     "name": "Samuel Gibbs",
-    "college": "Loyola (MD)"
+    "college": "Loyola (MD)",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "anthony-robinson-6": {
     "proballers_id": 275109,
     "name": "Anthony Robinson",
-    "college": "Virginia"
+    "college": "Virginia",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "tallis-toure-1": {
     "proballers_id": 290356,
     "name": "Tallis Toure",
-    "college": "Stanford"
+    "college": "Stanford",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "evan-stinson-1": {
     "proballers_id": 288332,
     "name": "Evan Stinson",
-    "college": "Stanford"
+    "college": "Stanford",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "anthony-batson-jr-1": {
     "proballers_id": 287986,
     "name": "Anthony Batson Jr.",
-    "college": "Stanford"
+    "college": "Stanford",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "cameron-grant-2": {
     "proballers_id": 275275,
     "name": "Cameron Grant",
-    "college": "Stanford"
+    "college": "Stanford",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "cole-kastner-1": {
     "proballers_id": 290355,
     "name": "Cole Kastner",
-    "college": "Stanford"
+    "college": "Stanford",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "shandon-brown-1": {
     "proballers_id": 190407,
     "name": "Shandon Brown",
-    "college": "George Washington"
+    "college": "George Washington",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "adam-mitola-1": {
     "proballers_id": 188937,
     "name": "Adam Mitola",
-    "college": "George Washington"
+    "college": "George Washington",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "justin-williams-4": {
     "proballers_id": 188985,
     "name": "Justin Williams",
-    "college": "George Washington"
+    "college": "George Washington",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "jordan-little-1": {
     "proballers_id": 204971,
     "name": "Jordan Little",
-    "college": "Morgan State"
+    "college": "Morgan State",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "jared-harris-1": {
     "proballers_id": 288493,
     "name": "Jared Harris",
-    "college": "Memphis"
+    "college": "Memphis",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "aj-rohosy-1": {
     "proballers_id": 259566,
     "name": "AJ Rohosy",
-    "college": "Stanford"
+    "college": "Stanford",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "giancarlo-valdez-1": {
     "proballers_id": 175094,
     "name": "Giancarlo Valdez",
-    "college": "Stetson"
+    "college": "Stetson",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "alex-doyle-1": {
     "proballers_id": 212646,
     "name": "Alex Doyle",
-    "college": "Stetson"
+    "college": "Stetson",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "finley-sheridan-1": {
     "proballers_id": 275268,
     "name": "Finley Sheridan",
-    "college": "Stetson"
+    "college": "Stetson",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "naeem-lewis-1": {
     "proballers_id": 276272,
     "name": "Naeem Lewis",
-    "college": "Stetson"
+    "college": "Stetson",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "isaac-jones-4": {
     "proballers_id": 275549,
     "name": "Isaac Jones",
-    "college": "Stetson"
+    "college": "Stetson",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "jayden-ross-2": {
     "proballers_id": 275362,
     "name": "Jayden Ross",
-    "college": "Connecticut"
+    "college": "Connecticut",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "andrew-hurley-1": {
     "proballers_id": 232836,
     "name": "Andrew Hurley",
-    "college": "Connecticut"
+    "college": "Connecticut",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "youssouf-singare-1": {
     "proballers_id": 275062,
     "name": "Youssouf Singare",
-    "college": "Connecticut"
+    "college": "Connecticut",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "andre-johnson-jr-1": {
     "proballers_id": 257467,
     "name": "Andre Johnson Jr.",
-    "college": "Connecticut"
+    "college": "Connecticut",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "michael-ajayi-1": {
     "proballers_id": 276751,
     "name": "Michael Ajayi",
-    "college": "Gonzaga"
+    "college": "Gonzaga",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "sam-springer-1": {
     "proballers_id": 290251,
     "name": "Sam Springer",
-    "college": "Air Force"
+    "college": "Air Force",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "beau-becker-1": {
     "proballers_id": 257029,
     "name": "Beau Becker",
-    "college": "Air Force"
+    "college": "Air Force",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "onyebuchi-ezeakudo-1": {
     "proballers_id": 189220,
     "name": "Onyebuchi Ezeakudo",
-    "college": "Pittsburgh"
+    "college": "Pittsburgh",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "ashen-ward-1": {
     "proballers_id": 200820,
     "name": "Ashen Ward",
-    "college": "Youngstown State"
+    "college": "Youngstown State",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "mikko-niemi-1": {
     "proballers_id": 23498,
@@ -5400,102 +6877,142 @@
     "intl_leagues": [
       "Korisliiga (Finland)"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "dan-boudler-1": {
     "proballers_id": 200521,
     "name": "Dan Boudler",
-    "college": "Youngstown State"
+    "college": "Youngstown State",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "dave-neal-1": {
     "proballers_id": 33183,
     "name": "Dave Neal",
-    "college": "Maryland"
+    "college": "Maryland",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "jerome-burney-1": {
     "proballers_id": 199577,
     "name": "Jerome Burney",
-    "college": "Maryland"
+    "college": "Maryland",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "wabissa-bede-1": {
     "proballers_id": 76195,
     "name": "Wabissa Bede",
-    "college": "Virginia Tech"
+    "college": "Virginia Tech",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "anthony-mack-1": {
     "proballers_id": 205479,
     "name": "Anthony Mack",
-    "college": "Miami (FL)"
+    "college": "Miami (FL)",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "curtis-haywoodii-1": {
     "proballers_id": 205391,
     "name": "Curtis Haywood",
-    "college": "Georgia Tech"
+    "college": "Georgia Tech",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "shembari-phillips-1": {
     "proballers_id": 189148,
     "name": "Shembari Phillips",
-    "college": "Georgia Tech"
+    "college": "Georgia Tech",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "eddie-hollandiii-1": {
     "proballers_id": 246929,
     "name": "Eddie Holland III",
-    "college": "Howard"
+    "college": "Howard",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "calvin-robins-1": {
     "proballers_id": 291629,
     "name": "Calvin Robins",
-    "college": "Howard"
+    "college": "Howard",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "jeremiah-johnson-3": {
     "proballers_id": 301416,
     "name": "Jeremiah Johnson",
-    "college": "Howard"
+    "college": "Howard",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "stefan-isailovic-1": {
     "proballers_id": 276931,
     "name": "Stefan Isailovic",
-    "college": "Howard"
+    "college": "Howard",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "julian-johnson-1": {
     "proballers_id": 301414,
     "name": "Julian Johnson",
-    "college": "Howard"
+    "college": "Howard",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "river-smith-1": {
     "proballers_id": 301415,
     "name": "River Smith",
-    "college": "Howard"
+    "college": "Howard",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "justin-thomas-5": {
     "proballers_id": 290748,
     "name": "Justin Thomas",
-    "college": "Florida State"
+    "college": "Florida State",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "christian-tucker-1": {
     "proballers_id": 245683,
     "name": "Christian Tucker",
-    "college": "California"
+    "college": "California",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "spencer-mahoney-1": {
     "proballers_id": 275264,
     "name": "Spencer Mahoney",
-    "college": "California"
+    "college": "California",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "malik-crowfield-1": {
     "proballers_id": 72800,
     "name": "Malik Crowfield",
-    "college": "Virginia Commonwealth"
+    "college": "Virginia Commonwealth",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "pj-byrd-1": {
     "proballers_id": 178691,
     "name": "P.J. Byrd",
-    "college": "Virginia Commonwealth"
+    "college": "Virginia Commonwealth",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "sylvester-ogbonda-1": {
     "proballers_id": 190552,
     "name": "Sylvester Ogbonda",
-    "college": "Georgia Tech"
+    "college": "Georgia Tech",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "glenn-sanabria-1": {
     "proballers_id": 204944,
@@ -5507,7 +7024,9 @@
     "intl_leagues": [
       "BSN (Puerto Rico)"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "gunnar-olafsson-1": {
     "proballers_id": 55815,
@@ -5519,12 +7038,16 @@
     "intl_leagues": [
       "LEB Oro (Spain)"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "yunus-hopkinson-1": {
     "proballers_id": 202439,
     "name": "Yunus Hopkinson",
-    "college": "St. Francis (NY)"
+    "college": "St. Francis (NY)",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "joshua-nurse-1": {
     "proballers_id": 191092,
@@ -5538,7 +7061,9 @@
       "LEB Oro (Spain)",
       "LNBP (Mexico)"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "robert-montgomery-1": {
     "proballers_id": 190578,
@@ -5552,56 +7077,84 @@
       "Greek League",
       "ProA (Germany)"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "keon-williams-1": {
     "proballers_id": 204973,
     "name": "Keon Williams",
-    "college": "St. Francis (NY)"
+    "college": "St. Francis (NY)",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "jahmel-bodrick-1": {
     "proballers_id": 211022,
     "name": "Jahmel Bodrick",
-    "college": "St. Francis (NY)"
+    "college": "St. Francis (NY)",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "gianni-ford-1": {
     "proballers_id": 205157,
     "name": "Gianni Ford",
-    "college": "St. Francis (NY)"
+    "college": "St. Francis (NY)",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "jagos-lasic-1": {
     "proballers_id": 195206,
     "name": "Jagos Lasic",
-    "college": "St. Francis (NY)"
+    "college": "St. Francis (NY)",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "semetri-carr-1": {
     "proballers_id": 300876,
     "name": "Semetri Carr",
-    "college": "California"
+    "college": "California",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "dai-dai-ames-1": {
-    "proballers_id": 290659
+    "proballers_id": 290659,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "milos-ilic-1": {
-    "proballers_id": 300878
+    "proballers_id": 300878,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "elijah-saunders-1": {
-    "proballers_id": 302922
+    "proballers_id": 302922,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "max-green-1": {
-    "proballers_id": 288795
+    "proballers_id": 288795,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "joshua-ola-joseph-1": {
-    "proballers_id": 258299
+    "proballers_id": 258299,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "joe-nugent-1": {
-    "proballers_id": 275167
+    "proballers_id": 275167,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "oziyah-sellers-1": {
-    "proballers_id": 259428
+    "proballers_id": 259428,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "brennan-peterson-1": {
-    "proballers_id": 300993
+    "proballers_id": 300993,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "karl-markus-poom-1": {
     "proballers_id": 239910,
@@ -5611,46 +7164,75 @@
     "intl_leagues": [
       "Serie A2 (Italy)"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international",
+    "intl_national_team": false
   },
   "arne-osojnik-1": {
-    "proballers_id": 239993
+    "proballers_id": 239993,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "caleb-kenney-1": {
-    "proballers_id": 246059
+    "proballers_id": 246059,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "kahlil-singleton-1": {
-    "proballers_id": 275965
+    "proballers_id": 275965,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "diego-campisano-1": {
-    "proballers_id": 258561
+    "proballers_id": 258561,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "traivar-jackson-1": {
-    "proballers_id": 276740
+    "proballers_id": 276740,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "jaiden-feroah-1": {
-    "proballers_id": 290061
+    "proballers_id": 290061,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "isaiah-shaw-1": {
-    "proballers_id": 257691
+    "proballers_id": 257691,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "oakland-fort-1": {
-    "proballers_id": 258564
+    "proballers_id": 258564,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "declan-ryan-1": {
-    "proballers_id": 275247
+    "proballers_id": 275247,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "chris-komin-1": {
-    "proballers_id": 301028
+    "proballers_id": 301028,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "deandre-williams-2": {
-    "proballers_id": 275925
+    "proballers_id": 275925,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "gabe-warren-1": {
-    "proballers_id": 276167
+    "proballers_id": 276167,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "kavon-bradford-1": {
-    "proballers_id": 288652
+    "proballers_id": 288652,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "erez-poran-1": {
     "proballers_id": 268908,
@@ -5660,13 +7242,20 @@
     "intl_leagues": [
       "National League (Israel)"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international",
+    "intl_national_team": false
   },
   "aidan-richard-1": {
-    "proballers_id": 287938
+    "proballers_id": 287938,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "keon-williams-2": {
-    "proballers_id": 204973
+    "proballers_id": 204973,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "stephan-swenson-1": {
     "proballers_id": 234217,
@@ -5678,7 +7267,9 @@
     "intl_leagues": [
       "LPB (Portugal)"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "junior-hairston-1": {
     "proballers_id": 37205,
@@ -5694,62 +7285,86 @@
       "Korisliiga (Finland)",
       "TBL (Turkey)"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "juan-sebastian-gorosito-1": {
     "proballers_id": 285206,
     "name": "Juan Sebastian Gorosito",
-    "college": "San Diego"
+    "college": "San Diego",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "deandre-mays-1": {
     "proballers_id": null,
     "name": "DeAndre Mays",
-    "college": "Youngstown State"
+    "college": "Youngstown State",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "tobias-howard-1": {
     "proballers_id": 269252,
     "name": "Tobias Howard",
-    "college": "Towson"
+    "college": "Towson",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "geronimo-rubiodelarosa-1": {
     "proballers_id": 243764,
     "name": "Geronimo Rubio De La Rosa",
-    "college": "Columbia"
+    "college": "Columbia",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "benny-gealer-1": {
     "proballers_id": 259116,
     "name": "Benny Gealer",
-    "college": "Stanford"
+    "college": "Stanford",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "rocky-coleman-1": {
     "proballers_id": 34602,
     "name": "Rocky Coleman",
-    "college": "Towson"
+    "college": "Towson",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "sirlester-martin-1": {
     "proballers_id": null,
     "name": "Sirlester Martin",
-    "college": "Youngstown State"
+    "college": "Youngstown State",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "vincent-iwuchukwu-1": {
     "proballers_id": 259430,
     "name": "Vincent Iwuchukwu",
-    "college": "USC"
+    "college": "USC",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "bryan-greenlee-1": {
     "proballers_id": 233005,
     "name": "Bryan Greenlee",
-    "college": "Florida Atlantic"
+    "college": "Florida Atlantic",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "sulskis-vytas-1": {
     "proballers_id": 12836,
     "name": "Sulskis Vytas",
-    "college": "Youngstown State"
+    "college": "Youngstown State",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "zinou-bedri-1": {
     "proballers_id": 257458,
     "name": "Zinou Eddine Bedri",
-    "college": "Columbia"
+    "college": "Columbia",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "michael-ofik-nzege-1": {
     "proballers_id": 45831,
@@ -5767,22 +7382,30 @@
       "Pro B (France)",
       "SBL (Switzerland)"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "kelvin-bright-1": {
     "proballers_id": null,
     "name": "Kelvin Bright",
-    "college": "Youngstown State"
+    "college": "Youngstown State",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "jin-soo-choi-1": {
     "proballers_id": 56911,
     "name": "Jin Soo Choi",
-    "college": "Maryland"
+    "college": "Maryland",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "robby-beasley-1": {
     "proballers_id": 233613,
     "name": "Robby Beasley III",
-    "college": "San Francisco"
+    "college": "San Francisco",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "terrell-brown-5": {
     "proballers_id": 189214,
@@ -5798,27 +7421,37 @@
       "LNBP (Mexico)",
       "PLK (Poland)"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "sherwyn-devonish-prince-1": {
     "proballers_id": 190688,
     "name": "Sherwyn Devonish-Prince",
-    "college": "Morgan State"
+    "college": "Morgan State",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "dallas-blocker-1": {
     "proballers_id": null,
     "name": "Dallas Blocker",
-    "college": "Youngstown State"
+    "college": "Youngstown State",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "darelle-porter-2": {
     "proballers_id": 211023,
     "name": "Darelle Porter",
-    "college": "St. Francis (NY)"
+    "college": "St. Francis (NY)",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "jonathan-thomas-1": {
     "proballers_id": null,
     "name": "Jonathan Thomas",
-    "college": "Maryland"
+    "college": "Maryland",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "mezie-offurum-1": {
     "proballers_id": 188934,
@@ -5830,36 +7463,50 @@
     "intl_leagues": [
       "SBL (Switzerland)"
     ],
-    "intl_pro": true
+    "intl_pro": true,
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "international"
   },
   "rasheem-dunn-1": {
     "proballers_id": null,
     "name": "Rasheem Dunn",
-    "college": "St. Francis (NY)"
+    "college": "St. Francis (NY)",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "nicolus-anderson-1": {
     "proballers_id": null,
     "name": "Nicolus Anderson",
-    "college": "Loyola Chicago"
+    "college": "Loyola Chicago",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "sean-blakely-1": {
     "proballers_id": null,
     "name": "Sean Blakely",
-    "college": "San Francisco"
+    "college": "San Francisco",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "demarien-yates-1": {
     "proballers_id": null,
     "name": "Demarien Yates",
-    "college": "Memphis"
+    "college": "Memphis",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "tom-parks-1": {
     "proballers_id": null,
     "name": "Tom Parks",
-    "college": "Youngstown State"
+    "college": "Youngstown State",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   },
   "steve-goins-1": {
     "proballers_id": null,
     "name": "Steve Goins",
-    "college": "Maryland"
+    "college": "Maryland",
+    "first_detected": "2026-02-08T21:58:09.053738",
+    "first_detected_as": "unknown"
   }
 }
