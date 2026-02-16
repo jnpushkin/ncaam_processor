@@ -286,7 +286,17 @@ class ESPNPlayByPlayEngine:
                 max_deficit_score = f"{away_score}-{home_score}"
 
         if max_deficit == 0:
-            return None
+            return {
+                'team': self.winner_team,
+                'team_side': self.winner_side,
+                'deficit': 0,
+                'deficit_time': '',
+                'deficit_period': 0,
+                'deficit_score': '',
+                'won': True,
+                'never_trailed': True,
+                'final_score': f"{self.final_away}-{self.final_home}",
+            }
 
         return {
             'team': self.winner_team,
@@ -296,6 +306,7 @@ class ESPNPlayByPlayEngine:
             'deficit_period': max_deficit_period,
             'deficit_score': max_deficit_score,
             'won': True,
+            'never_trailed': False,
             'final_score': f"{self.final_away}-{self.final_home}",
         }
 
@@ -529,7 +540,7 @@ class ESPNPlayByPlayEngine:
 
         # Summarize comeback
         comeback = analysis.get('biggest_comeback')
-        if comeback and comeback['deficit'] >= 10:
+        if comeback and comeback['deficit'] > 0:
             summary['comeback'] = {
                 'team': comeback['team'],
                 'deficit': comeback['deficit'],

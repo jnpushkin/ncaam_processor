@@ -94,6 +94,7 @@ def get_body(total_games: int, total_players: int, total_teams: int, total_venue
     <div class="container" id="main-content">
         <div class="tabs" role="tablist">
             <button class="tab active" onclick="showSection('games')" role="tab" aria-selected="true" data-section="games" tabindex="0">Games</button>
+            <button class="tab" onclick="showSection('leaders')" role="tab" aria-selected="false" data-section="leaders" tabindex="-1">Leaders</button>
             <button class="tab" onclick="showSection('players')" role="tab" aria-selected="false" data-section="players" tabindex="-1">Players</button>
             <button class="tab" onclick="showSection('milestones')" role="tab" aria-selected="false" data-section="milestones" tabindex="-1">Achievements</button>
             <button class="tab" onclick="showSection('teams')" role="tab" aria-selected="false" data-section="teams" tabindex="-1">Teams</button>
@@ -313,6 +314,25 @@ def get_body(total_games: int, total_players: int, total_teams: int, total_venue
                 </div>
             </div>
             <div id="scorigami-tooltip" class="scorigami-tooltip"></div>
+        </div>
+
+        <div id="leaders" class="section" role="tabpanel">
+            <h2>Stat Leaders</h2>
+            <div class="filters">
+                <div class="filter-group">
+                    <label>Gender</label>
+                    <select id="leaders-gender" onchange="renderLeaders()">
+                        <option value="">All</option>
+                        <option value="M">Men</option>
+                        <option value="W">Women</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Min Games</label>
+                    <input type="number" id="leaders-min-games" value="2" min="1" onchange="renderLeaders()">
+                </div>
+            </div>
+            <div class="leaders-grid" id="leaders-grid"></div>
         </div>
 
         <div id="players" class="section" role="tabpanel">
@@ -859,8 +879,21 @@ def get_body(total_games: int, total_players: int, total_teams: int, total_venue
         </div>
 
         <div id="future-pros" class="section" role="tabpanel">
-            <h2>Future Pros ⭐</h2>
-            <p style="margin-bottom: 1rem; color: var(--text-secondary);">Players you've seen in college who went on to play professionally (NBA, WNBA, or overseas).</p>
+            <h2>
+                Future Pros ⭐
+                <div class="section-actions">
+                    <button class="btn btn-secondary" onclick="downloadCSV('futurePros')">Export CSV</button>
+                </div>
+            </h2>
+            <div id="future-pros-summary" class="future-pros-summary"></div>
+            <div class="quick-filters" id="future-pros-quick-filters">
+                <button class="quick-filter active" onclick="quickFilterFuturePros('all')">All</button>
+                <button class="quick-filter" onclick="quickFilterFuturePros('nba')">NBA</button>
+                <button class="quick-filter" onclick="quickFilterFuturePros('wnba')">WNBA</button>
+                <button class="quick-filter" onclick="quickFilterFuturePros('intl')">International</button>
+                <button class="quick-filter" onclick="quickFilterFuturePros('active')">Active</button>
+                <button class="quick-filter" onclick="quickFilterFuturePros('drafted')">Drafted</button>
+            </div>
             <div class="filters" id="future-pros-filters">
                 <div class="filter-group">
                     <label for="future-pros-search">Search</label>
@@ -886,25 +919,32 @@ def get_body(total_games: int, total_players: int, total_teams: int, total_venue
                         <option value="signed">Signed Only</option>
                     </select>
                 </div>
+                <div class="filter-group">
+                    <label for="future-pros-playing">Currently Playing</label>
+                    <select id="future-pros-playing" onchange="applyFutureProsFilters()">
+                        <option value="">All</option>
+                        <option value="playing">Currently Playing</option>
+                        <option value="not-playing">Not Currently Playing</option>
+                    </select>
+                </div>
                 <button class="clear-filters" onclick="clearFutureProsFilters()">Clear Filters</button>
             </div>
             <div id="future-pros-filter-summary" class="filter-summary" style="display: none;">
                 <span class="filter-summary-text"></span>
                 <button class="filter-summary-clear" onclick="clearFutureProsFilters()">Clear All</button>
             </div>
-            <div class="table-wrapper">
-                <table id="future-pros-table" class="data-table">
+            <div class="table-container">
+                <table id="future-pros-table">
                     <thead>
                         <tr>
                             <th onclick="sortTable('future-pros-table', 0)">Player</th>
                             <th onclick="sortTable('future-pros-table', 1)">College Team</th>
-                            <th onclick="sortTable('future-pros-table', 2)">League</th>
-                            <th onclick="sortTable('future-pros-table', 3)" class="tooltip" data-tooltip="Current team from Proballers (G = G-League experience)">Current</th>
-                            <th onclick="sortTable('future-pros-table', 4)" class="tooltip" data-tooltip="Pro career games played">Pro Games</th>
-                            <th onclick="sortTable('future-pros-table', 5)" class="tooltip" data-tooltip="Games you saw them play in college">Games Seen</th>
-                            <th onclick="sortTable('future-pros-table', 6)" class="tooltip" data-tooltip="College points per game">PPG</th>
-                            <th onclick="sortTable('future-pros-table', 7)" class="tooltip" data-tooltip="Total college points">Total Points</th>
-                            <th>Pro Stats</th>
+                            <th onclick="sortTable('future-pros-table', 2)" class="fp-draft tooltip" data-tooltip="Draft round, pick, and year">Draft</th>
+                            <th onclick="sortTable('future-pros-table', 3)">League</th>
+                            <th onclick="sortTable('future-pros-table', 4)" class="tooltip" data-tooltip="Current team from Proballers (G = G-League experience)">Current</th>
+                            <th onclick="sortTable('future-pros-table', 5)" class="tooltip" data-tooltip="Pro career games played">Pro Games</th>
+                            <th onclick="sortTable('future-pros-table', 6)" class="tooltip" data-tooltip="Games you saw them play in college">Games Seen</th>
+                            <th onclick="sortTable('future-pros-table', 7)" class="fp-ppg tooltip" data-tooltip="College points per game">PPG</th>
                         </tr>
                     </thead>
                     <tbody></tbody>

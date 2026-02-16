@@ -172,10 +172,12 @@ def _load_cache() -> Dict[str, Any]:
 
 
 def _save_cache(cache: Dict[str, Any]) -> None:
-    """Save Proballers cache."""
+    """Save Proballers cache atomically to prevent corruption."""
     CACHE_DIR.mkdir(parents=True, exist_ok=True)
-    with open(PROBALLERS_CACHE_FILE, 'w') as f:
+    tmp_file = PROBALLERS_CACHE_FILE.with_suffix('.tmp')
+    with open(tmp_file, 'w') as f:
         json.dump(cache, f, indent=2)
+    tmp_file.replace(PROBALLERS_CACHE_FILE)
 
 
 def _load_ncaa_teams() -> Dict[str, Dict[str, Any]]:
@@ -460,12 +462,33 @@ def get_player_career(player_id: int, scraper=None, force_refresh: bool = False)
         # Sort teams by year
         teams.sort(key=lambda x: x['year'])
 
+        # Extract games played from season stats table (GP column)
+        pro_games_total = 0
+        gp_idx = html.find('>GP<')
+        if gp_idx > 0:
+            tbody_start = html.find('<tbody>', gp_idx)
+            tbody_end = html.find('</tbody>', tbody_start) if tbody_start > 0 else -1
+            if tbody_start > 0 and tbody_end > 0:
+                tbody_html = html[tbody_start:tbody_end]
+                stat_rows = re.findall(r'<tr.*?>(.*?)</tr>', tbody_html, re.DOTALL)
+                for row_html in stat_rows:
+                    cells = re.findall(r'<td[^>]*>(.*?)</td>', row_html, re.DOTALL)
+                    cells_clean = [re.sub(r'<[^>]+>', '', c).strip() for c in cells]
+                    # Columns: Season, Team, League, Pts, Reb, Ast, GP, ...
+                    if len(cells_clean) >= 7:
+                        league_cell = cells_clean[2].strip().lower()
+                        gp_cell = cells_clean[6].strip()
+                        # Count games for non-NCAA seasons
+                        if league_cell != 'ncaa' and gp_cell.isdigit():
+                            pro_games_total += int(gp_cell)
+
         result = {
             'name': name,
             'player_id': player_id,
             'teams': teams,
             'pro_leagues': sorted(list(pro_leagues)),
-            'college': college
+            'college': college,
+            'pro_games': pro_games_total
         }
 
         # Cache the result
@@ -690,9 +713,12 @@ def find_player_by_college(
 
     # Helper to verify candidate played for the college in the expected year
     def verify_candidate(candidate_id: int, expected_year: Optional[int]) -> bool:
+        from datetime import datetime
         career = get_player_career(candidate_id, scraper)
         if not career:
             return False
+
+        current_year = datetime.now().year
 
         # Check their college history
         for team in career.get('teams', []):
@@ -700,14 +726,17 @@ def find_player_by_college(
             if 'ncaa' not in league:
                 continue
 
-            # If no year specified, any NCAA stint is fine
-            if not expected_year:
-                return True
-
-            # Verify year matches (allow 1 year tolerance for season overlap)
             team_year = team.get('year', 0)
-            if abs(team_year - expected_year) <= 1:
-                return True
+
+            if expected_year:
+                # Verify year matches (allow 1 year tolerance for season overlap)
+                if abs(team_year - expected_year) <= 1:
+                    return True
+            else:
+                # No year specified - accept if NCAA stint was recent (within 6 years)
+                # This prevents matching current players to old pros with same name
+                if team_year and abs(current_year - team_year) <= 6:
+                    return True
 
         # No matching college stint found
         return False
