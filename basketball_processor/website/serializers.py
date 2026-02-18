@@ -150,6 +150,7 @@ class DataSerializer:
             'attendanceStats': self._serialize_attendance_stats(),
             'conferenceChecklist': self._serialize_conference_checklist(),
             'upcomingGames': self._serialize_upcoming_games(),
+            'unvisitedHomeArenas': self._serialize_unvisited_arenas(),
             'teamAliases': TEAM_ALIASES,
         }
 
@@ -1214,6 +1215,101 @@ class DataSerializer:
         if df.empty:
             return []
         return self._df_to_records(df)
+
+    def _serialize_unvisited_arenas(self) -> List[Dict]:
+        """Serialize unvisited D1 home arenas for the venues map toggle."""
+        from ..utils.venue_resolver import get_venue_resolver, parse_venue_components
+        from ..utils.constants import CONFERENCES, DEFUNCT_TEAMS, D1_EXIT_TEAMS, D1_ENTRY_TEAMS
+        import datetime
+
+        venue_resolver = get_venue_resolver()
+        venue_records = self.processed_data.get('venue_records', pd.DataFrame())
+
+        # Collect visited venue names from actual game data
+        visited_venue_names = set()
+        if not venue_records.empty:
+            for _, row in venue_records.iterrows():
+                name = row.get('Venue', '')
+                if name:
+                    visited_venue_names.add(name.lower().strip())
+
+        # Also check game log for venue names (covers aliases)
+        game_log = self.processed_data.get('game_log', pd.DataFrame())
+        if not game_log.empty:
+            for _, row in game_log.iterrows():
+                venue = row.get('Venue', '')
+                if venue:
+                    visited_venue_names.add(venue.lower().strip())
+
+        # Get venue aliases for matching
+        venue_aliases = venue_resolver.get_venue_aliases()
+        reverse_venue_aliases = {}
+        for old_name, new_name in venue_aliases.items():
+            if new_name not in reverse_venue_aliases:
+                reverse_venue_aliases[new_name] = []
+            reverse_venue_aliases[new_name].append(old_name)
+
+        def is_visited(arena_name: str) -> bool:
+            """Check if arena has been visited."""
+            if not arena_name:
+                return False
+            lower = arena_name.lower().strip()
+            if lower in visited_venue_names:
+                return True
+            # Check old names (aliases)
+            for old_name in reverse_venue_aliases.get(arena_name, []):
+                if old_name.lower().strip() in visited_venue_names:
+                    return True
+            return False
+
+        today = int(datetime.datetime.now().strftime('%Y%m%d'))
+        skip_conferences = {'D3', 'D2', 'NAIA', 'Non-D1'}
+        unvisited = []
+        seen_arenas = set()  # Avoid duplicates (shared arenas)
+
+        for conf_name, conf_teams in CONFERENCES.items():
+            if conf_name in skip_conferences:
+                continue
+            teams_to_check = list(conf_teams)
+
+            # Add D1 entry teams
+            for entry_team, (entry_date, target_conf) in D1_ENTRY_TEAMS.items():
+                if target_conf == conf_name and today >= entry_date and entry_team not in conf_teams:
+                    teams_to_check.append(entry_team)
+
+            for team in teams_to_check:
+                if team in DEFUNCT_TEAMS:
+                    continue
+                if team in D1_EXIT_TEAMS:
+                    exit_date, _ = D1_EXIT_TEAMS[team]
+                    if today >= exit_date:
+                        continue
+
+                home_arena = venue_resolver.get_home_arena(team, 'M')
+                if not home_arena:
+                    continue
+
+                components = parse_venue_components(home_arena)
+                arena_name = components['name']
+                if not arena_name or arena_name == 'Unknown':
+                    continue
+
+                # Skip if already visited or already added (use name+city to avoid false dedup)
+                arena_key = f"{arena_name}|{components['city']}".lower().strip()
+                if is_visited(arena_name) or arena_key in seen_arenas:
+                    continue
+                seen_arenas.add(arena_key)
+
+                unvisited.append({
+                    'venue': arena_name,
+                    'city': components['city'],
+                    'state': components['state'],
+                    'team': team,
+                    'conference': conf_name,
+                    'espnId': get_espn_team_id(team),
+                })
+
+        return unvisited
 
     def _serialize_conference_checklist(self) -> Dict[str, Any]:
         """Serialize conference checklist data - teams and venues seen per conference."""

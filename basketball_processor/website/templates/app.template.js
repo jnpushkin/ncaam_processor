@@ -2722,6 +2722,9 @@ function quickFilterVenues(filterType) {
 }
 
 function applyVenuesFilters() {
+    // Skip filtering when in unvisited mode
+    if (window.venueMapMode === 'unvisited') return;
+
     const search = (document.getElementById('venues-search')?.value || '').toLowerCase();
     const filters = window.venueFilters || new Set();
 
@@ -2843,6 +2846,8 @@ function populateVenuesTable(data = null) {
 let venuesMap = null;
 let venuesMapInitialized = false;
 let venueMarkers = [];  // Store {marker, venue, isNeutralSite} for filtering
+let unvisitedVenueMarkers = [];  // Store {marker, arena} for unvisited arenas
+window.venueMapMode = 'visited';
 
 function initVenuesMap() {
     if (venuesMapInitialized) return;
@@ -3194,6 +3199,198 @@ function initVenuesMap() {
     if (markers.length > 0) {
         const group = L.featureGroup(markers);
         venuesMap.fitBounds(group.getBounds().pad(0.1));
+    }
+
+    // Build unvisited arena markers (hidden by default)
+    const unvisitedArenas = DATA.unvisitedHomeArenas || [];
+    unvisitedArenas.forEach(arena => {
+        const team = arena.team || '';
+        const coords = SCHOOL_COORDS[team];
+        if (!coords) return;
+
+        const espnId = arena.espnId;
+        const logoUrl = espnId
+            ? `https://a.espncdn.com/i/teamlogos/ncaa/500/${espnId}.png`
+            : ncaaLogoUrl;
+
+        const popupContent = `
+            <div style="min-width: 200px;">
+                <strong>${team}</strong><br>
+                <strong style="font-size: 14px;">${arena.venue}</strong><br>
+                <span style="color: #666;">${arena.city}, ${arena.state}</span>
+                <hr style="margin: 8px 0;">
+                <div style="font-size: 12px; color: #888;">
+                    <em>Not yet visited</em><br>
+                    ${arena.conference}
+                </div>
+            </div>
+        `;
+
+        const size = 28;
+        const icon = L.divIcon({
+            className: 'venue-logo-marker',
+            html: `<div style="
+                position: relative;
+                width: ${size}px;
+                height: ${size}px;
+                border-radius: 50%;
+                background: white;
+                box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+                overflow: visible;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            "><img src="${logoUrl}" style="
+                width: ${size - 4}px;
+                height: ${size - 4}px;
+                object-fit: contain;
+                border-radius: 50%;
+            " onerror="this.src='${ncaaLogoUrl}'"></div>`,
+            iconSize: [size + 4, size + 4],
+            iconAnchor: [(size + 4) / 2, (size + 4) / 2],
+        });
+
+        const marker = L.marker(coords, { icon }).bindPopup(popupContent);
+        unvisitedVenueMarkers.push({ marker, arena });
+    });
+
+    // Set initial toggle label state
+    const visitedLabel = document.getElementById('toggle-label-visited');
+    if (visitedLabel) visitedLabel.classList.add('active');
+}
+
+function toggleVenueMapView() {
+    const toggle = document.getElementById('venue-visited-toggle');
+    const isUnvisited = toggle && toggle.checked;
+    window.venueMapMode = isUnvisited ? 'unvisited' : 'visited';
+
+    // Update toggle label styles
+    const visitedLabel = document.getElementById('toggle-label-visited');
+    const unvisitedLabel = document.getElementById('toggle-label-unvisited');
+    if (visitedLabel) visitedLabel.classList.toggle('active', !isUnvisited);
+    if (unvisitedLabel) unvisitedLabel.classList.toggle('active', isUnvisited);
+
+    // Toggle visited markers — don't add all back here, let applyVenuesFilters handle it
+    if (isUnvisited) {
+        venueMarkers.forEach(({marker}) => {
+            if (venuesMap.hasLayer(marker)) venuesMap.removeLayer(marker);
+        });
+    }
+
+    // Toggle unvisited markers
+    unvisitedVenueMarkers.forEach(({marker}) => {
+        if (isUnvisited) {
+            if (!venuesMap.hasLayer(marker)) marker.addTo(venuesMap);
+        } else {
+            if (venuesMap.hasLayer(marker)) venuesMap.removeLayer(marker);
+        }
+    });
+
+    // Show/hide filters, search, and table
+    const quickFilters = document.querySelector('#venues .quick-filters');
+    const searchBox = document.getElementById('venues-search');
+    const tableContainer = document.querySelector('#venues .table-container');
+    const downloadBtn = document.querySelector('#venues .section-actions');
+    if (quickFilters) quickFilters.style.display = isUnvisited ? 'none' : '';
+    if (searchBox) searchBox.style.display = isUnvisited ? 'none' : '';
+    if (tableContainer) tableContainer.style.display = isUnvisited ? 'none' : '';
+    if (downloadBtn) downloadBtn.style.display = isUnvisited ? 'none' : '';
+
+    // Update summary
+    const summary = document.getElementById('venues-map-summary');
+    if (summary) {
+        if (isUnvisited) {
+            const arenas = DATA.unvisitedHomeArenas || [];
+            const placed = unvisitedVenueMarkers.length;
+            const statesSet = new Set(arenas.map(a => a.state).filter(Boolean));
+            const confsSet = new Set(arenas.map(a => a.conference).filter(Boolean));
+            summary.innerHTML = `
+                <div class="stat-box">
+                    <div class="stat-value">${arenas.length}</div>
+                    <div class="stat-label">Unvisited Arenas</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">${placed}</div>
+                    <div class="stat-label">On Map</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">${statesSet.size}</div>
+                    <div class="stat-label">States</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">${confsSet.size}</div>
+                    <div class="stat-label">Conferences</div>
+                </div>
+                <div style="flex: 1; font-size: 0.85rem;">
+                    <strong>Legend:</strong>
+                    <span style="display: inline-flex; align-items: center; margin-left: 8px;">
+                        <span style="width: 12px; height: 12px; border: 2px dashed #999; border-radius: 50%; display: inline-block; margin-right: 3px; opacity: 0.7;"></span>Unvisited
+                    </span>
+                </div>
+            `;
+        } else {
+            // Restore visited: re-add markers and rebuild summary via filter logic
+            venueMarkers.forEach(({marker}) => {
+                marker.addTo(venuesMap);
+            });
+            // Rebuild full summary HTML first, then let applyVenuesFilters update it
+            const venues = DATA.venues || [];
+            const d2Venues = venues.filter(v => v.Division === 'D2').length;
+            const d3Venues = venues.filter(v => v.Division === 'D3').length;
+            const historicVenues = venues.filter(v => v.Status === 'Historic').length;
+            summary.innerHTML = `
+                <div class="stat-box">
+                    <div class="stat-value">0</div>
+                    <div class="stat-label">Venues</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">0</div>
+                    <div class="stat-label">Home Arenas</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">0</div>
+                    <div class="stat-label">Neutral Sites</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">0</div>
+                    <div class="stat-label">States</div>
+                </div>
+                <div style="flex: 1; font-size: 0.85rem;">
+                    <strong>Legend:</strong>
+                    <span style="display: inline-flex; align-items: center; margin-left: 8px;">
+                        <span style="width: 12px; height: 12px; border: 2px solid #2E7D32; border-radius: 50%; display: inline-block; margin-right: 3px;"></span>D1
+                    </span>
+                    ${d2Venues > 0 ? `<span style="display: inline-flex; align-items: center; margin-left: 8px;">
+                        <span style="width: 12px; height: 12px; border: 2px solid #F57C00; border-radius: 50%; display: inline-block; margin-right: 3px;"></span>D2
+                    </span>` : ''}
+                    ${d3Venues > 0 ? `<span style="display: inline-flex; align-items: center; margin-left: 8px;">
+                        <span style="width: 12px; height: 12px; border: 2px solid #757575; border-radius: 50%; display: inline-block; margin-right: 3px;"></span>D3
+                    </span>` : ''}
+                    <span style="display: inline-flex; align-items: center; margin-left: 8px;">
+                        <span style="width: 12px; height: 12px; border: 2px solid #1565C0; border-radius: 50%; display: inline-block; margin-right: 3px;"></span>Neutral
+                    </span>
+                    ${historicVenues > 0 ? `<span style="display: inline-flex; align-items: center; margin-left: 8px;">
+                        <span style="width: 12px; height: 12px; border: 2px dashed #2E7D32; border-radius: 50%; display: inline-block; margin-right: 3px;"></span>Historic
+                    </span>` : ''}
+                </div>
+            `;
+            applyVenuesFilters();
+        }
+    }
+
+    // Fit bounds to visible markers
+    if (isUnvisited) {
+        const onMap = unvisitedVenueMarkers.map(m => m.marker).filter(m => venuesMap.hasLayer(m));
+        if (onMap.length > 0) {
+            const group = L.featureGroup(onMap);
+            venuesMap.fitBounds(group.getBounds().pad(0.1));
+        }
+    } else {
+        const onMap = venueMarkers.map(m => m.marker).filter(m => venuesMap.hasLayer(m));
+        if (onMap.length > 0) {
+            const group = L.featureGroup(onMap);
+            venuesMap.fitBounds(group.getBounds().pad(0.1));
+        }
     }
 }
 

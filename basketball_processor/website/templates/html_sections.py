@@ -736,6 +736,14 @@ def get_body(total_games: int, total_players: int, total_teams: int, total_venue
                 </div>
             </h2>
 
+            <div class="venue-map-toggle">
+                <span class="toggle-label" id="toggle-label-visited">Visited</span>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="venue-visited-toggle" onchange="toggleVenueMapView()">
+                    <span class="toggle-slider"></span>
+                </label>
+                <span class="toggle-label" id="toggle-label-unvisited">Unvisited</span>
+            </div>
             <div id="venues-map-container" style="height: 450px; border-radius: 8px; overflow: hidden; margin-bottom: 1rem;"></div>
             <div id="venues-map-summary" style="margin-bottom: 1.5rem; display: flex; gap: 2rem; flex-wrap: wrap;"></div>
 
