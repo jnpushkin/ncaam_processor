@@ -868,11 +868,10 @@ function ScoreCard({ game, onClick }) {
     const otPeriods = linescore.away?.OT?.length || 0;
     const otText = otPeriods > 0 ? ` (${otPeriods > 1 ? otPeriods + 'OT' : 'OT'})` : '';
     const milestones = gameMilestones[game.GameID] || { badges: [] };
-    const genderTag = game.Gender === 'W' ? ' (W)' : '';
 
     return html`
         <div class="score-card" onClick=${onClick}>
-            <div class="score-card-date">${formatDate(game.Date)}${genderTag}</div>
+            <div class="score-card-date">${formatDate(game.Date)}${game.Gender === 'W' ? html` <span class="badge badge-women">W</span>` : null}</div>
             <div class="score-card-teams">
                 <div class=${'score-card-team' + (awayWon ? ' winner' : '')}>
                     ${game.AwayRank ? html`<span class="ap-rank">#${game.AwayRank}</span>` : null}
@@ -1265,6 +1264,7 @@ function GamesSection({ sub, onSubChange, showGameDetail }) {
         { id: 'calendar', label: 'Calendar' },
         { id: 'matchups', label: 'Matchups' },
         { id: 'teams', label: 'Teams' },
+        { id: 'milestones', label: 'Milestones' },
     ];
 
     return html`
@@ -1278,6 +1278,7 @@ function GamesSection({ sub, onSubChange, showGameDetail }) {
                 ${sub === 'teams' && html`<${TeamsView} />`}
                 ${sub === 'matchups' && html`<${MatchupsView} />`}
                 ${sub === 'seasons' && html`<${SeasonsView} />`}
+                ${sub === 'milestones' && html`<${MilestonesTimeline} showGameDetail=${showGameDetail} />`}
             </div>
         </section>
     `;
@@ -2223,6 +2224,123 @@ function MatchupsView() {
                     `
                 }
             `}
+        </div>
+    `;
+}
+
+function MilestonesTimeline({ showGameDetail }) {
+    const BADGE_CATEGORIES = {
+        all: { label: 'All', types: null },
+        counts: { label: 'Counts', types: ['game-count', 'd1-game'] },
+        venues: { label: 'Venues', types: ['venue-count', 'venue-visit', 'new-state'] },
+        teams: { label: 'Teams', types: ['new-team', 'team-visit', 'd1-team'] },
+        conferences: { label: 'Conferences', types: ['new-conf', 'conf-complete', 'conf-matchup'] },
+        matchups: { label: 'Matchups', types: ['new-matchup', 'conf-matchup'] },
+        streaks: { label: 'Streaks', types: ['streak'] },
+    };
+
+    const [filter, setFilter] = useState('all');
+    const [page, setPage] = useState(1);
+    const pageSize = 50;
+
+    const milestonesData = useMemo(() => {
+        const games = (DATA.games || []).slice().sort((a, b) => {
+            const da = a.DateSort || '';
+            const db = b.DateSort || '';
+            return db.localeCompare(da) || (b.GameID || '').localeCompare(a.GameID || '');
+        });
+
+        const result = [];
+        for (const game of games) {
+            const m = gameMilestones[game.GameID];
+            if (!m || !m.badges.length) continue;
+            const allowedTypes = BADGE_CATEGORIES[filter]?.types;
+            const badges = allowedTypes
+                ? m.badges.filter(b => allowedTypes.includes(b.type))
+                : m.badges;
+            if (badges.length === 0) continue;
+            result.push({ game, badges });
+        }
+        return result;
+    }, [filter]);
+
+    const totalBadges = useMemo(() => {
+        const allowedTypes = BADGE_CATEGORIES[filter]?.types;
+        let count = 0;
+        for (const { badges } of milestonesData) count += badges.length;
+        return count;
+    }, [milestonesData]);
+
+    useEffect(() => { setPage(1); }, [filter]);
+
+    const pageData = milestonesData.slice((page - 1) * pageSize, page * pageSize);
+
+    // Group page data by date for visual headers
+    let lastDate = null;
+
+    return html`
+        <div class="milestones-timeline">
+            <div class="milestones-summary">${totalBadges} milestone${totalBadges !== 1 ? 's' : ''} across ${milestonesData.length} game${milestonesData.length !== 1 ? 's' : ''}</div>
+            <div class="quick-filters">
+                ${Object.entries(BADGE_CATEGORIES).map(([id, cat]) => html`
+                    <button
+                        class=${'quick-filter' + (filter === id ? ' active' : '')}
+                        onClick=${() => setFilter(id)}
+                    >${cat.label}</button>
+                `)}
+            </div>
+            ${pageData.length === 0
+                ? html`<${EmptyState} icon="🏆" title="No milestones" message="No milestones match this filter" />`
+                : html`
+                    <div class="game-log-list">
+                        ${pageData.map(({ game, badges }) => {
+                            const dateStr = game.Date || '';
+                            const showDateHeader = dateStr !== lastDate;
+                            lastDate = dateStr;
+                            const awayWon = (game['Away Score']||0) > (game['Home Score']||0);
+                            const awayLogo = getTeamLogoUrl(game['Away Team']);
+                            const homeLogo = getTeamLogoUrl(game['Home Team']);
+                            const linescore = game.Linescore || {};
+                            const otPeriods = linescore.away?.OT?.length || 0;
+                            const otText = otPeriods > 0 ? ` (${otPeriods > 1 ? otPeriods + 'OT' : 'OT'})` : '';
+                            const location = [game.City, game.State].filter(Boolean).join(', ');
+
+                            return html`
+                                ${showDateHeader ? html`<div class="milestone-date-header">${formatDate(dateStr)}</div>` : null}
+                                <div class="game-log-card" onClick=${() => showGameDetail(game.GameID)}>
+                                    <div class="gl-matchup">
+                                        <div class="gl-team gl-away ${awayWon ? 'gl-winner' : ''}">
+                                            ${awayLogo ? html`<img src=${awayLogo} class="gl-logo" alt="" />` : null}
+                                            ${game.AwayRank ? html`<span class="ap-rank">#${game.AwayRank}</span> ` : null}
+                                            <span class="gl-team-name">${game['Away Team']}</span>
+                                        </div>
+                                        <div class="gl-score">
+                                            <span class=${awayWon ? 'gl-winner-score' : ''}>${game['Away Score']||0}</span>
+                                            <span class="gl-score-sep">-</span>
+                                            <span class=${!awayWon ? 'gl-winner-score' : ''}>${game['Home Score']||0}</span>
+                                            ${otText ? html`<span class="gl-ot">${otText}</span>` : null}
+                                        </div>
+                                        <div class="gl-team gl-home ${!awayWon ? 'gl-winner' : ''}">
+                                            ${homeLogo ? html`<img src=${homeLogo} class="gl-logo" alt="" />` : null}
+                                            ${game.HomeRank ? html`<span class="ap-rank">#${game.HomeRank}</span> ` : null}
+                                            <span class="gl-team-name">${game['Home Team']}</span>
+                                        </div>
+                                    </div>
+                                    <div class="gl-venue">
+                                        ${game.Venue || ''}${game.NeutralSite ? html` <span class="neutral-badge">N</span>` : null}
+                                        ${location ? html` · ${location}` : null}
+                                        ${game.Gender === 'W' ? html` <span class="badge badge-women">W</span>` : null}
+                                    </div>
+                                    <div class="gl-badges">
+                                        ${badges.map(b => html`<${Badge} ...${b} />`)}
+                                    </div>
+                                </div>
+                            `;
+                        })}
+                    </div>
+                    <${Pagination} page=${page} pageSize=${pageSize} total=${milestonesData.length} onPageChange=${setPage} />
+                `
+            }
         </div>
     `;
 }
@@ -3376,6 +3494,7 @@ function UpcomingView({ showGameDetail }) {
     const [dateFrom, setDateFrom] = useState('');
     const [dateTo, setDateTo] = useState('');
     const [mapReady, setMapReady] = useState(false);
+    const [mapBounds, setMapBounds] = useState(null);
     const mapRef = useRef(null);
     const mapInstance = useRef(null);
     const markersRef = useRef([]);
@@ -3437,6 +3556,17 @@ function UpcomingView({ showGameDetail }) {
         return result.sort((a, b) => (a.date || '').localeCompare(b.date || ''));
     }, [gamesData, search, genderFilter, stateFilter, dateFrom, dateTo]);
 
+    // Filter games to those visible in current map viewport
+    const visibleGames = useMemo(() => {
+        if (!mapBounds) return filtered;
+        return filtered.filter(g => {
+            const normalizedHome = normalizeTeamName(g.home || g.homeTeam || '');
+            const coords = VENUE_COORDS[g.venue] || SCHOOL_COORDS[normalizedHome] || SCHOOL_COORDS[g.home];
+            if (!coords) return false;
+            return mapBounds.contains(L.latLng(coords[0], coords[1]));
+        });
+    }, [filtered, mapBounds]);
+
     // Init map
     useEffect(() => {
         if (mapInstance.current || !mapRef.current) return;
@@ -3448,7 +3578,8 @@ function UpcomingView({ showGameDetail }) {
                 attribution: '&copy; OpenStreetMap contributors'
             }).addTo(map);
             mapInstance.current = map;
-            setTimeout(() => { map.invalidateSize(); setMapReady(true); }, 100);
+            map.on('moveend', () => setMapBounds(map.getBounds()));
+            setTimeout(() => { map.invalidateSize(); setMapReady(true); setMapBounds(map.getBounds()); }, 100);
         });
         return () => cancelAnimationFrame(timer);
     }, []);
@@ -3496,7 +3627,8 @@ function UpcomingView({ showGameDetail }) {
             const count = v.games.length;
             const popupLines = v.games.slice(0, 5).map(g => {
                 const dateStr = g.date ? formatGameDateTime(g.date, g.time_detail) : '';
-                return (g.away || g.awayTeam || '') + ' @ ' + (g.home || g.homeTeam || '') + ' — ' + dateStr;
+                const tag = g.gender === 'W' ? ' (W)' : '';
+                return (g.away || g.awayTeam || '') + ' @ ' + (g.home || g.homeTeam || '') + tag + ' — ' + dateStr;
             });
             const popup = '<strong>' + (v.venue || v.home) + '</strong><br>' +
                 (v.city ? v.city + (v.state ? ', ' + v.state : '') + '<br>' : '') +
@@ -3537,11 +3669,11 @@ function UpcomingView({ showGameDetail }) {
                     ${states.map(s => html`<option value=${s}>${s}</option>`)}
                 </select>
                 ${(dateFrom || dateTo) ? html`<button class="quick-filter-btn" onClick=${() => { setDateFrom(''); setDateTo(''); }}>Clear dates</button>` : null}
-                <span class="filter-count">${filtered.length} games</span>
+                <span class="filter-count">${visibleGames.length} games</span>
             <//>
 
             <div class="upcoming-cards-grid">
-                ${filtered.slice(0, 100).map(g => {
+                ${visibleGames.slice(0, 100).map(g => {
                     const dateStr = g.date ? formatGameDateTime(g.date, g.time_detail) : '';
                     const awayLogo = getTeamLogoUrl(g.away || g.awayTeam);
                     const homeLogo = getTeamLogoUrl(g.home || g.homeTeam);
@@ -3576,7 +3708,7 @@ function UpcomingView({ showGameDetail }) {
                         </div>
                     `;
                 })}
-                ${filtered.length > 100 ? html`<div class="text-muted" style="text-align:center;padding:var(--space-4);grid-column:1/-1;">Showing first 100 of ${filtered.length} games. Use filters to narrow results.</div>` : null}
+                ${visibleGames.length > 100 ? html`<div class="text-muted" style="text-align:center;padding:var(--space-4);grid-column:1/-1;">Showing first 100 of ${visibleGames.length} games. Use filters to narrow results.</div>` : null}
             </div>
         </div>
     `;

@@ -1346,6 +1346,8 @@ class DataSerializer:
         if not game_log.empty:
             for _, row in game_log.iterrows():
                 gender = row.get('Gender', 'M') or 'M'
+                if gender not in ('M', 'W'):
+                    gender = 'M'
                 away = row.get('Away Team')
                 home = row.get('Home Team')
                 venue = row.get('Venue')

@@ -3702,6 +3702,27 @@ tr.went-pro {
     padding-top: var(--space-1);
 }
 
+/* Milestones timeline */
+.milestones-summary {
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: var(--font-sm);
+    margin-bottom: var(--space-2);
+}
+
+.milestone-date-header {
+    font-weight: 600;
+    font-size: var(--font-sm);
+    color: var(--text-secondary);
+    padding: var(--space-2) 0 var(--space-1);
+    border-bottom: 1px solid var(--border);
+    margin-bottom: var(--space-2);
+}
+
+.milestone-date-header:first-child {
+    padding-top: 0;
+}
+
 /* Dark theme */
 [data-theme="dark"] .game-log-card {
     background: var(--bg-card);
