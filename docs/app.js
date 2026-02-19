@@ -1,70 +1,51 @@
-// DATA is loaded from data.js
-let currentSort = {};
-let statsChart = null;
-let compareChart = null;
-let currentMilestoneType = null;
-let currentMilestoneData = [];
-let currentConfDetailName = null;  // Track selected conference in detail view
-let playerChart = null;
-let leadersInitialized = false;
+// ============================================================================
+// College Basketball Journal — Preact + HTM Application
+// ============================================================================
+import { h, render } from 'https://esm.sh/preact@10.19.3';
+import { useState, useEffect, useRef, useMemo, useCallback } from 'https://esm.sh/preact@10.19.3/hooks';
+import htm from 'https://esm.sh/htm@3.1.1';
+const html = htm.bind(h);
 
-// Pagination state
-const pagination = {
-    games: { page: 1, pageSize: 50, total: 0 },
-    players: { page: 1, pageSize: 1000, total: 0 },  // Show all players by default
+// ============================================================================
+// UTILITIES
+// ============================================================================
+
+const DEFUNCT_TEAM_CONFERENCES = { 'St. Francis (NY)': 'NEC' };
+
+const STAT_THRESHOLDS = {
+    ppg: { excellent: 20, good: 15, average: 10 },
+    rpg: { excellent: 10, good: 7, average: 5 },
+    apg: { excellent: 7, good: 5, average: 3 },
+    fgPct: { excellent: 0.50, good: 0.45, average: 0.40 },
+    threePct: { excellent: 0.40, good: 0.35, average: 0.30 },
 };
 
-// Filtered data cache
-let filteredData = {
-    games: [],
-    players: [],
-};
-
-// Defunct teams that should map to their historical conference
-const DEFUNCT_TEAM_CONFERENCES = {
-    'St. Francis (NY)': 'NEC'
-};
-
-// Team to conference mapping (loaded from conferenceChecklist data)
 function getTeamConference(teamName) {
     if (!teamName) return '';
-    // Check defunct teams first
-    if (DEFUNCT_TEAM_CONFERENCES[teamName]) {
-        return DEFUNCT_TEAM_CONFERENCES[teamName];
-    }
+    if (DEFUNCT_TEAM_CONFERENCES[teamName]) return DEFUNCT_TEAM_CONFERENCES[teamName];
     const checklist = DATA.conferenceChecklist || {};
     for (const [confName, confData] of Object.entries(checklist)) {
         if (confData.teams && confData.teams.some(t => t.team === teamName || t.name === teamName)) {
             return confName;
         }
     }
-    // Fallback: check teams data
     const teams = DATA.teams || [];
     for (const team of teams) {
-        if (team.Team === teamName && team.Conference) {
-            return team.Conference;
-        }
+        if (team.Team === teamName && team.Conference) return team.Conference;
     }
     return '';
 }
 
-// Get historical conference for a team from game data (pre-computed based on game date)
 function getGameConference(game, teamType) {
     if (!game) return '';
     if (teamType === 'away' && game.AwayConf) return game.AwayConf;
     if (teamType === 'home' && game.HomeConf) return game.HomeConf;
-    // Fallback to current conference lookup
     const teamName = teamType === 'away' ? game['Away Team'] : game['Home Team'];
     return getTeamConference(teamName);
 }
 
-// Get Sports Reference box score URL (extracted from original HTML)
 function getSportsRefUrl(game) {
-    // Use the actual URL extracted from the HTML canonical link
-    if (game.SportsRefURL) {
-        return game.SportsRefURL;
-    }
-    // Fallback: construct URL from date and slug
+    if (game.SportsRefURL) return game.SportsRefURL;
     const dateSort = game.DateSort || '';
     const slug = game.HomeTeamSlug || '';
     if (dateSort && slug) {
@@ -80,308 +61,13 @@ function getPlayerSportsRefUrl(playerId) {
 }
 
 function getPlayerSportsRefLink(player) {
-    // Returns SR link HTML only if the player has a SR page
     const playerId = player['Player ID'] || player.player_id;
     if (!playerId) return '';
-    // Check if we know the page doesn't exist - use RealGM as fallback
     if (player.HasSportsRefPage === false) {
-        // Use RealGM URL for non-D1 players
-        if (player.RealGM_URL) {
-            return ` <a href="${player.RealGM_URL}" target="_blank" class="external-link" title="View on RealGM">&#8599;</a>`;
-        }
+        if (player.RealGM_URL) return { url: player.RealGM_URL, title: 'View on RealGM' };
         return '';
     }
-    return ` <a href="${getPlayerSportsRefUrl(playerId)}" target="_blank" class="external-link" title="View on Sports Reference">&#8599;</a>`;
-}
-
-
-// Stat thresholds for highlighting
-const STAT_THRESHOLDS = {
-    ppg: { excellent: 20, good: 15, average: 10 },
-    rpg: { excellent: 10, good: 7, average: 5 },
-    apg: { excellent: 7, good: 5, average: 3 },
-    fgPct: { excellent: 0.50, good: 0.45, average: 0.40 },
-    threePct: { excellent: 0.40, good: 0.35, average: 0.30 },
-};
-
-// Theme toggle
-function toggleTheme() {
-    const body = document.body;
-    const isDark = body.getAttribute('data-theme') === 'dark';
-    body.setAttribute('data-theme', isDark ? 'light' : 'dark');
-    document.querySelector('.theme-toggle').innerHTML = isDark ? '&#127769;' : '&#9728;';
-    localStorage.setItem('theme', isDark ? 'light' : 'dark');
-}
-
-// Load saved theme
-const savedTheme = localStorage.getItem('theme');
-if (savedTheme === 'dark') {
-    document.body.setAttribute('data-theme', 'dark');
-    document.querySelector('.theme-toggle').innerHTML = '&#9728;';
-}
-
-// URL hash-based routing
-function updateURL(section, params = {}) {
-    let hash = section;
-    const paramPairs = Object.entries(params).filter(([k, v]) => v);
-    if (paramPairs.length > 0) {
-        hash += '?' + paramPairs.map(([k, v]) => `${k}=${encodeURIComponent(v)}`).join('&');
-    }
-    history.replaceState(null, '', '#' + hash);
-}
-
-function parseURL() {
-    const hash = window.location.hash.slice(1);
-    if (!hash) return { section: 'games', params: {} };
-
-    const [section, queryString] = hash.split('?');
-    const params = {};
-    if (queryString) {
-        queryString.split('&').forEach(pair => {
-            const [key, value] = pair.split('=');
-            params[key] = decodeURIComponent(value);
-        });
-    }
-    return { section, params };
-}
-
-function shareCurrentView() {
-    const url = window.location.href;
-    navigator.clipboard.writeText(url).then(() => {
-        showToast('Link copied to clipboard!');
-    }).catch(() => {
-        showToast('Could not copy link');
-    });
-}
-
-function showToast(message) {
-    const toast = document.getElementById('toast');
-    toast.textContent = message;
-    toast.classList.add('show');
-    setTimeout(() => toast.classList.remove('show'), 3000);
-}
-
-// Global Search
-let globalSearchTimeout = null;
-function handleGlobalSearch(event) {
-    const query = event.target.value.trim().toLowerCase();
-
-    // Clear previous timeout
-    if (globalSearchTimeout) clearTimeout(globalSearchTimeout);
-
-    // Hide results if query too short
-    if (query.length < 2) {
-        hideGlobalSearchResults();
-        return;
-    }
-
-    // Enter key navigates to first result
-    if (event.key === 'Enter') {
-        const firstResult = document.querySelector('.search-result-item');
-        if (firstResult) firstResult.click();
-        return;
-    }
-
-    // Escape key closes search
-    if (event.key === 'Escape') {
-        hideGlobalSearchResults();
-        event.target.blur();
-        return;
-    }
-
-    // Debounce search
-    globalSearchTimeout = setTimeout(() => performGlobalSearch(query), 150);
-}
-
-function performGlobalSearch(query) {
-    const results = { games: [], players: [], teams: [], venues: [] };
-    const maxResults = 5; // Max per category
-
-    // Search games
-    (DATA.games || []).forEach(game => {
-        if (results.games.length >= maxResults) return;
-        const searchStr = `${game['Away Team']} ${game['Home Team']} ${game.Date} ${game.Venue}`.toLowerCase();
-        if (searchStr.includes(query)) {
-            results.games.push({
-                id: game.GameID,
-                title: `${game['Away Team']} @ ${game['Home Team']}`,
-                subtitle: `${game.Date} - ${game['Away Score']}-${game['Home Score']}`,
-                icon: '🏀'
-            });
-        }
-    });
-
-    // Search players
-    (DATA.players || []).forEach(player => {
-        if (results.players.length >= maxResults) return;
-        const name = (player.Player || '').toLowerCase();
-        const team = (player.Team || '').toLowerCase();
-        if (name.includes(query) || team.includes(query)) {
-            results.players.push({
-                id: player['Player ID'] || player.Player,
-                title: player.Player,
-                subtitle: `${player.Team} - ${player.PPG?.toFixed(1) || 0} PPG`,
-                icon: '👤'
-            });
-        }
-    });
-
-    // Search teams
-    (DATA.teams || []).forEach(team => {
-        if (results.teams.length >= maxResults) return;
-        const name = (team.Team || '').toLowerCase();
-        if (name.includes(query)) {
-            results.teams.push({
-                id: team.Team,
-                gender: team.Gender,
-                title: team.Team,
-                subtitle: `${team.Conference || 'Unknown'} - ${team.Wins || 0}W ${team.Losses || 0}L`,
-                icon: '🏆'
-            });
-        }
-    });
-
-    // Search venues
-    const venues = new Map();
-    (DATA.games || []).forEach(game => {
-        const venue = game.Venue;
-        if (!venue || venues.has(venue)) return;
-        if (venue.toLowerCase().includes(query)) {
-            venues.set(venue, {
-                id: venue,
-                title: venue,
-                subtitle: `${game.City || ''}, ${game.State || ''}`,
-                icon: '🏟️'
-            });
-        }
-    });
-    results.venues = Array.from(venues.values()).slice(0, maxResults);
-
-    renderGlobalSearchResults(results);
-}
-
-function renderGlobalSearchResults(results) {
-    const container = document.getElementById('global-search-results');
-    const hasResults = results.games.length + results.players.length + results.teams.length + results.venues.length > 0;
-
-    if (!hasResults) {
-        container.innerHTML = '<div class="search-no-results">No results found</div>';
-        container.style.display = 'block';
-        return;
-    }
-
-    let html = '';
-
-    if (results.games.length > 0) {
-        html += '<div class="search-result-section"><div class="search-result-header">Games</div>';
-        results.games.forEach(r => {
-            html += `<div class="search-result-item" onclick="selectGlobalSearchResult('game', '${r.id}')">
-                <span class="search-result-icon">${r.icon}</span>
-                <div class="search-result-text">
-                    <div class="search-result-title">${r.title}</div>
-                    <div class="search-result-subtitle">${r.subtitle}</div>
-                </div>
-            </div>`;
-        });
-        html += '</div>';
-    }
-
-    if (results.players.length > 0) {
-        html += '<div class="search-result-section"><div class="search-result-header">Players</div>';
-        results.players.forEach(r => {
-            html += `<div class="search-result-item" onclick="selectGlobalSearchResult('player', '${r.id}')">
-                <span class="search-result-icon">${r.icon}</span>
-                <div class="search-result-text">
-                    <div class="search-result-title">${r.title}</div>
-                    <div class="search-result-subtitle">${r.subtitle}</div>
-                </div>
-            </div>`;
-        });
-        html += '</div>';
-    }
-
-    if (results.teams.length > 0) {
-        html += '<div class="search-result-section"><div class="search-result-header">Teams</div>';
-        results.teams.forEach(r => {
-            html += `<div class="search-result-item" onclick="selectGlobalSearchResult('team', '${r.id}', '${r.gender || 'M'}')">
-                <span class="search-result-icon">${r.icon}</span>
-                <div class="search-result-text">
-                    <div class="search-result-title">${r.title}</div>
-                    <div class="search-result-subtitle">${r.subtitle}</div>
-                </div>
-            </div>`;
-        });
-        html += '</div>';
-    }
-
-    if (results.venues.length > 0) {
-        html += '<div class="search-result-section"><div class="search-result-header">Venues</div>';
-        results.venues.forEach(r => {
-            html += `<div class="search-result-item" onclick="selectGlobalSearchResult('venue', '${r.id}')">
-                <span class="search-result-icon">${r.icon}</span>
-                <div class="search-result-text">
-                    <div class="search-result-title">${r.title}</div>
-                    <div class="search-result-subtitle">${r.subtitle}</div>
-                </div>
-            </div>`;
-        });
-        html += '</div>';
-    }
-
-    container.innerHTML = html;
-    container.style.display = 'block';
-}
-
-function selectGlobalSearchResult(type, id, extra = '') {
-    hideGlobalSearchResults();
-    document.getElementById('global-search').value = '';
-
-    if (type === 'game') {
-        showGameDetail(id);
-    } else if (type === 'player') {
-        showPlayerDetail(id);
-    } else if (type === 'team') {
-        filterByTeam(id, extra || 'M');
-    } else if (type === 'venue') {
-        showVenueDetail(id);
-    }
-}
-
-function showGlobalSearchResults() {
-    const query = document.getElementById('global-search').value.trim();
-    if (query.length >= 2) {
-        performGlobalSearch(query.toLowerCase());
-    }
-}
-
-function hideGlobalSearchResults() {
-    document.getElementById('global-search-results').style.display = 'none';
-}
-
-// Close global search results when clicking outside
-document.addEventListener('click', (e) => {
-    const container = document.querySelector('.global-search-container');
-    if (container && !container.contains(e.target)) {
-        hideGlobalSearchResults();
-    }
-});
-
-function toggleBadges(gameId, event) {
-    event.stopPropagation();
-    const hiddenSpan = document.getElementById(`badges-hidden-${gameId}`);
-    const moreBtn = event.target;
-    if (hiddenSpan) {
-        const isExpanded = hiddenSpan.classList.contains('expanded');
-        if (isExpanded) {
-            hiddenSpan.classList.remove('expanded');
-            moreBtn.textContent = `+${hiddenSpan.children.length}`;
-            moreBtn.title = `Click to show ${hiddenSpan.children.length} more`;
-        } else {
-            hiddenSpan.classList.add('expanded');
-            moreBtn.textContent = '−';
-            moreBtn.title = 'Click to collapse';
-        }
-    }
+    return { url: getPlayerSportsRefUrl(playerId), title: 'View on Sports Reference' };
 }
 
 function formatMinutes(mp) {
@@ -391,84 +77,2421 @@ function formatMinutes(mp) {
     return Math.round(num);
 }
 
-function showSection(sectionId) {
-    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-    document.querySelectorAll('.tab').forEach(t => {
-        t.classList.remove('active');
-        t.setAttribute('aria-selected', 'false');
-        t.setAttribute('tabindex', '-1');
-    });
-    document.getElementById(sectionId).classList.add('active');
-    const tab = document.querySelector(`[data-section="${sectionId}"]`);
-    if (tab) {
-        tab.classList.add('active');
-        tab.setAttribute('aria-selected', 'true');
-        tab.setAttribute('tabindex', '0');
-    }
-    updateURL(sectionId);
-
-    // Initialize map when first shown (Leaflet needs visible container)
-    if (sectionId === 'map' && !schoolMap) {
-        setTimeout(initMap, 100);
-    } else if (sectionId === 'map' && schoolMap) {
-        schoolMap.invalidateSize();
-    }
-
-    // Initialize upcoming map when section shown (Map View is default sub-tab)
-    if (sectionId === 'upcoming') {
-        setTimeout(() => {
-            if (upcomingVenuesMap) {
-                upcomingVenuesMap.invalidateSize();
-            } else {
-                initUpcomingMap();
-            }
-        }, 100);
-    }
-
-    // Initialize venues map when venues section is shown
-    if (sectionId === 'venues') {
-        setTimeout(() => {
-            if (venuesMap) {
-                venuesMap.invalidateSize();
-            } else {
-                initVenuesMap();
-            }
-        }, 100);
-    }
-
-    // Initialize leaders when first shown
-    if (sectionId === 'leaders' && !leadersInitialized) {
-        leadersInitialized = true;
-        renderLeaders();
-    }
+function ordinal(n) {
+    const s = ['th', 'st', 'nd', 'rd'];
+    const v = n % 100;
+    return n + (s[(v - 20) % 10] || s[v] || s[0]);
 }
 
-function showSubSection(parentId, subId) {
-    const parent = document.getElementById(parentId);
-    parent.querySelectorAll('.sub-section').forEach(s => s.classList.remove('active'));
-    parent.querySelectorAll('.sub-tab').forEach(t => t.classList.remove('active'));
-    document.getElementById(parentId + '-' + subId).classList.add('active');
-    event.target.classList.add('active');
-    updateURL(parentId, { sub: subId });
+function getStatClass(value, thresholds) {
+    if (!thresholds) return '';
+    if (value >= thresholds.excellent) return 'stat-excellent';
+    if (value >= thresholds.good) return 'stat-good';
+    if (value >= thresholds.average) return 'stat-average';
+    return '';
 }
 
-// Stat Leaders
-function renderLeaders() {
-    const players = DATA.players || [];
-    const grid = document.getElementById('leaders-grid');
-    const gender = document.getElementById('leaders-gender')?.value || '';
-    const minGames = parseInt(document.getElementById('leaders-min-games')?.value) || 2;
+function parseDate(dateStr) {
+    if (!dateStr) return null;
+    return new Date(dateStr);
+}
 
-    if (!players.length) {
-        grid.innerHTML = '<p style="text-align:center;padding:2rem;color:var(--text-muted);">No player data</p>';
-        return;
+function formatDate(dateStr) {
+    if (!dateStr) return '';
+    // Handle "Month Day, Year" format
+    const parts = dateStr.split(' ');
+    if (parts.length >= 3) {
+        return `${parts[0].slice(0,3)} ${parts[1]} ${parts[2]}`;
+    }
+    return dateStr;
+}
+
+function downloadCSV(headers, rows, filename) {
+    let csv = headers.join(',') + '\n';
+    rows.forEach(row => {
+        const values = headers.map(h => {
+            let val = row[h] || '';
+            if (typeof val === 'string' && (val.includes(',') || val.includes('"'))) {
+                val = `"${val.replace(/"/g, '""')}"`;
+            }
+            return val;
+        });
+        csv += values.join(',') + '\n';
+    });
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    a.click();
+    URL.revokeObjectURL(url);
+}
+
+function getEspnLogoUrl(espnId) {
+    if (!espnId) return null;
+    return `https://a.espncdn.com/i/teamlogos/ncaa/500/${espnId}.png`;
+}
+
+// Normalize short/abbreviated team names to full checklist names
+const TEAM_NAME_MAP = {
+    'App State': 'Appalachian State',
+    'Coastal': 'Coastal Carolina',
+    'NC Central': 'North Carolina Central',
+    'SC State': 'South Carolina State',
+    'Arizona St': 'Arizona State',
+    'Florida St': 'Florida State',
+    'Boise St': 'Boise State',
+    'Michigan St': 'Michigan State',
+    'Kansas St': 'Kansas State',
+    'Fresno St': 'Fresno State',
+    'San Diego St': 'San Diego State',
+    'Alabama St': 'Alabama State',
+    'Wichita St': 'Wichita State',
+    'Cleveland St': 'Cleveland State',
+    'Long Beach St': 'Long Beach State',
+    'Oklahoma St': 'Oklahoma State',
+    'Oregon St': 'Oregon State',
+    'Washington St': 'Washington State',
+    'Colorado St': 'Colorado State',
+    'Arkansas St': 'Arkansas State',
+    'Illinois St': 'Illinois State',
+    'Indiana St': 'Indiana State',
+    'Idaho St': 'Idaho State',
+    'Montana St': 'Montana State',
+    'Portland St': 'Portland State',
+    'Sacramento St': 'Sacramento State',
+    'Kennesaw St': 'Kennesaw State',
+    'Mississippi St': 'Mississippi State',
+    'Missouri St': 'Missouri State',
+    'Morehead St': 'Morehead State',
+    'Morgan St': 'Morgan State',
+    'Murray St': 'Murray State',
+    'N Dakota St': 'North Dakota State',
+    'S Dakota St': 'South Dakota State',
+    'Tarleton St': 'Tarleton State',
+    'Tennessee St': 'Tennessee State',
+    'Texas St': 'Texas State',
+    'Weber St': 'Weber State',
+    'Youngstown St': 'Youngstown State',
+    'Wright St': 'Wright State',
+    'Norfolk St': 'Norfolk State',
+    'Coppin St': 'Coppin State',
+    'Delaware St': 'Delaware State',
+    'New Mexico St': 'New Mexico State',
+    'Jackson St': 'Jackson State',
+    'Alcorn St': 'Alcorn State',
+    'Jax State': 'Jacksonville State',
+    'Georgia St': 'Georgia State',
+    'Abilene Chrstn': 'Abilene Christian',
+    'AR-Pine Bluff': 'Arkansas-Pine Bluff',
+    'Bakersfield': 'Cal State Bakersfield',
+    'Fullerton': 'Cal State Fullerton',
+    'CSU Northridge': 'Cal State Northridge',
+    'CA Baptist': 'California Baptist',
+    'C Arkansas': 'Central Arkansas',
+    'C Connecticut': 'Central Connecticut',
+    'C Michigan': 'Central Michigan',
+    'Charleston So': 'Charleston Southern',
+    'Chicago St': 'Chicago State',
+    'E Illinois': 'Eastern Illinois',
+    'E Kentucky': 'Eastern Kentucky',
+    'E Michigan': 'Eastern Michigan',
+    'E Texas A&M': 'East Texas A&M',
+    'E Washington': 'Eastern Washington',
+    'ETSU': 'East Tennessee State',
+    'FAU': 'Florida Atlantic',
+    'FDU': 'Fairleigh Dickinson',
+    'FGCU': 'Florida Gulf Coast',
+    'G Washington': 'George Washington',
+    'GA Southern': 'Georgia Southern',
+    'Grambling': 'Grambling State',
+    "Hawai'i": 'Hawaii',
+    'Hou Christian': 'Houston Christian',
+    'IU Indy': 'IU Indianapolis',
+    'LMU': 'Loyola Marymount',
+    'Long Island': 'LIU',
+    'Loyola MD': 'Loyola (MD)',
+    'MD Eastern': 'Maryland-Eastern Shore',
+    'MTSU': 'Middle Tennessee',
+    'Miami': 'Miami (FL)',
+    'Miami OH': 'Miami (OH)',
+    'Miss Valley St': 'Mississippi Valley State',
+    'Mount St Marys': "Mount St. Mary's",
+    'N Arizona': 'Northern Arizona',
+    'N Colorado': 'Northern Colorado',
+    'N Illinois': 'Northern Illinois',
+    'N Kentucky': 'Northern Kentucky',
+    "N'Western St": 'Northwestern State',
+    'NC A&T': 'North Carolina A&T',
+    'Pitt': 'Pittsburgh',
+    'Prairie View': 'Prairie View A&M',
+    'Purdue FW': 'Purdue Fort Wayne',
+    'S Illinois': 'Southern Illinois',
+    'SC Upstate': 'USC Upstate',
+    'SE Louisiana': 'Southeastern Louisiana',
+    'SE Missouri': 'Southeast Missouri State',
+    'SF Austin': "Stephen F. Austin",
+    'SIUE': 'SIU Edwardsville',
+    'Saint Francis': 'St. Francis (PA)',
+    "Saint Mary's": "Saint Mary's (CA)",
+    "St John's": "St. John's",
+    'St Bonaventure': 'St. Bonaventure',
+    'St Thomas (MN)': 'St. Thomas',
+    'San José St': 'San Jose State',
+    'Santa Barbara': 'UC Santa Barbara',
+    'Seattle U': 'Seattle',
+    'So Indiana': 'Southern Indiana',
+    'Boston U': 'Boston University',
+    'Texas A&M-CC': 'Texas A&M-Corpus Christi',
+    'UAlbany': 'Albany',
+    'UL Monroe': 'Louisiana-Monroe',
+    'UNC Wilmington': 'UNCW',
+    'UT Rio Grande': 'UTRGV',
+    'W Carolina': 'Western Carolina',
+    'W Illinois': 'Western Illinois',
+    'W Michigan': 'Western Michigan',
+    'Western KY': 'Western Kentucky',
+};
+
+function normalizeTeamName(name) {
+    return TEAM_NAME_MAP[name] || name;
+}
+
+function getTeamLogoUrl(teamName) {
+    const normalized = normalizeTeamName(teamName);
+    if (CUSTOM_LOGOS[normalized]) return CUSTOM_LOGOS[normalized];
+    if (CUSTOM_LOGOS[teamName]) return CUSTOM_LOGOS[teamName];
+    const checklist = DATA.conferenceChecklist || {};
+    for (const confData of Object.values(checklist)) {
+        const team = (confData.teams || []).find(t => t.team === normalized || t.team === teamName);
+        if (team && team.espnId) return getEspnLogoUrl(team.espnId);
+    }
+    return null;
+}
+
+// Format game date/time from ISO to local time (for upcoming games)
+function formatGameDateTime(isoDate, timeDetail) {
+    try {
+        if (timeDetail && timeDetail.includes(' - ')) {
+            const parts = timeDetail.split(' - ');
+            const datePart = parts[0];
+            const timePart = parts[1];
+            const dateMatch = datePart.match(/^(\d{1,2})\/(\d{1,2})$/);
+            const timeMatch = timePart.match(/^(\d{1,2}):(\d{2})\s*(AM|PM)\s*(EST|EDT|CST|CDT|MST|MDT|PST|PDT)?$/i);
+            if (dateMatch && timeMatch) {
+                const gameMonth = parseInt(dateMatch[1]) - 1;
+                const gameDay = parseInt(dateMatch[2]);
+                let hours = parseInt(timeMatch[1]);
+                const minutes = parseInt(timeMatch[2]);
+                const ampm = timeMatch[3].toUpperCase();
+                const tz = (timeMatch[4] || 'EST').toUpperCase();
+                if (ampm === 'PM' && hours !== 12) hours += 12;
+                if (ampm === 'AM' && hours === 12) hours = 0;
+                const baseDt = new Date(isoDate);
+                let year = baseDt.getUTCFullYear();
+                if (baseDt.getUTCMonth() === 11 && gameMonth === 0) year++;
+                const tzOffsets = { 'EST': -5, 'EDT': -4, 'CST': -6, 'CDT': -5, 'MST': -7, 'MDT': -6, 'PST': -8, 'PDT': -7 };
+                const offset = tzOffsets[tz] || -5;
+                const utcMs = Date.UTC(year, gameMonth, gameDay, hours - offset, minutes);
+                const localDt = new Date(utcMs);
+                const dayOfWeek = localDt.toLocaleDateString('en-US', { weekday: 'short' });
+                const monthStr = localDt.toLocaleDateString('en-US', { month: 'short' });
+                const dayNum = localDt.getDate();
+                const timeStr = localDt.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+                return `${dayOfWeek}, ${monthStr} ${dayNum} ${timeStr}`;
+            }
+        }
+        const dt = new Date(isoDate);
+        const hasTime = dt.getUTCHours() !== 0 || dt.getUTCMinutes() !== 0;
+        const options = { weekday: 'short', month: 'short', day: 'numeric' };
+        const dateStr = dt.toLocaleDateString('en-US', options);
+        if (hasTime) {
+            const timeStr = dt.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+            return `${dateStr} ${timeStr}`;
+        }
+        return dateStr;
+    } catch (e) { return isoDate; }
+}
+
+function getActualGameDate(isoDate, timeDetail) {
+    if (timeDetail && timeDetail.includes(' - ')) {
+        const parts = timeDetail.split(' - ');
+        const dateMatch = parts[0].match(/^(\d{1,2})\/(\d{1,2})$/);
+        if (dateMatch) {
+            const gameMonth = parseInt(dateMatch[1]) - 1;
+            const gameDay = parseInt(dateMatch[2]);
+            const baseDt = new Date(isoDate);
+            let year = baseDt.getUTCFullYear();
+            if (baseDt.getUTCMonth() === 11 && gameMonth === 0) year++;
+            return new Date(year, gameMonth, gameDay);
+        }
+    }
+    return new Date(isoDate);
+}
+
+function formatMatchupWithRanks(game) {
+    const awayRank = game.awayRank ? `#${game.awayRank} ` : '';
+    const homeRank = game.homeRank ? `#${game.homeRank} ` : '';
+    return `${awayRank}${game.awayTeam || game.away || ''} @ ${homeRank}${game.homeTeam || game.home || ''}`;
+}
+
+function haversineDistance(lat1, lon1, lat2, lon2) {
+    const R = 3959;
+    const dLat = (lat2 - lat1) * Math.PI / 180;
+    const dLon = (lon2 - lon1) * Math.PI / 180;
+    const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+        Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+        Math.sin(dLon/2) * Math.sin(dLon/2);
+    return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+}
+
+// ============================================================================
+// ROUTE LEGACY MAP + PARSING
+// ============================================================================
+
+const LEGACY_ROUTES = {
+    'games': 'games',
+    'players': 'people',
+    'milestones': 'people/achievements',
+    'future-pros': 'people/future-pros',
+    'teams': 'games/teams',
+    'matchups': 'games/matchups',
+    'venues': 'places',
+    'calendar': 'games/calendar',
+    'conferences': 'places/conferences',
+    'map': 'places/map',
+    'upcoming': 'places/upcoming',
+    'leaders': 'people/leaders',
+    'compare': 'people',
+    'records': 'games/records',
+};
+
+function parseRoute() {
+    const hash = window.location.hash.slice(1) || 'home';
+    const [path, queryString] = hash.split('?');
+    const params = {};
+    if (queryString) {
+        queryString.split('&').forEach(pair => {
+            const [key, value] = pair.split('=');
+            params[key] = decodeURIComponent(value || '');
+        });
+    }
+    // Handle legacy routes
+    const segments = path.split('/');
+    if (LEGACY_ROUTES[segments[0]] && !['home','games','people','places'].includes(segments[0])) {
+        const newPath = LEGACY_ROUTES[segments[0]];
+        // Handle legacy sub params
+        if (params.sub) {
+            return { section: newPath.split('/')[0], sub: params.sub, params };
+        }
+        const parts = newPath.split('/');
+        return { section: parts[0], sub: parts[1] || '', params };
+    }
+    return { section: segments[0] || 'home', sub: segments[1] || '', params };
+}
+
+function updateRoute(section, sub = '', params = {}) {
+    let hash = section;
+    if (sub) hash += '/' + sub;
+    const paramPairs = Object.entries(params).filter(([k, v]) => v);
+    if (paramPairs.length > 0) {
+        hash += '?' + paramPairs.map(([k, v]) => `${k}=${encodeURIComponent(v)}`).join('&');
+    }
+    history.pushState(null, '', '#' + hash);
+}
+
+// ============================================================================
+// COMPUTE GAME MILESTONES (port verbatim from original)
+// ============================================================================
+
+const MILESTONE_COUNTS = [1, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 75, 100, 150, 200];
+let gameMilestones = {};
+
+function computeGameMilestones() {
+    const allGames = (DATA.games || []).slice().sort((a, b) => {
+        const dateA = a.DateSort || '';
+        const dateB = b.DateSort || '';
+        const dateCompare = dateA.localeCompare(dateB);
+        if (dateCompare !== 0) return dateCompare;
+        const timeA = a.TimeSort || '';
+        const timeB = b.TimeSort || '';
+        if (timeA && timeB && timeA !== timeB) return timeA.localeCompare(timeB);
+        const genderA = a.Gender || 'M';
+        const genderB = b.Gender || 'M';
+        if (genderA !== genderB) return genderA === 'W' ? -1 : 1;
+        return (a.GameID || '').localeCompare(b.GameID || '');
+    });
+
+    const teamCounts = {};
+    const teamRecords = {};
+    const venueCounts = {};
+    const matchupsSeen = {};
+    const confMatchupCounts = {};
+    const confTeamCounts = {};
+    const playerTeams = {};
+    let venueOrder = [];
+    const confTeamsSeen = {};
+    const confVenuesSeen = {};
+    const confCompleted = {};
+    const statesSeen = new Set();
+    let stateOrder = [];
+
+    let currentStreak = 0;
+    let lastGameDate = null;
+    let maxStreak = 0;
+    const streakHistory = [];
+
+    gameMilestones = {};
+
+    const conferenceTeamCounts = {};
+    const checklist = DATA.conferenceChecklist || {};
+    for (const [confName, confData] of Object.entries(checklist)) {
+        if (confName === 'All D1' || confName === 'Historical/Other') continue;
+        conferenceTeamCounts[confName] = confData.totalTeams || 0;
     }
 
-    const filtered = players.filter(p => {
-        if (gender && p.Gender !== gender) return false;
-        if ((p.Games || 0) < minGames) return false;
-        return true;
+    const GAME_MILESTONES = [1, 10, 25, 50, 75, 100, 150, 200, 250, 500];
+    let gameCount = 0;
+
+    const D1_MILESTONES = [1, 10, 25, 50, 75, 100, 150, 200, 250, 500];
+    let d1GameCount = 0;
+    let d1VenueCount = 0;
+    const d1VenuesSeen = new Set();
+
+    const D1_TEAM_MILESTONES = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100];
+    const d1TeamsSeen = { M: new Set(), W: new Set() };
+
+    const actualD1Teams = new Set();
+    const teamAliases = DATA.teamAliases || {};
+    const reverseAliases = {};
+    for (const [alias, canonical] of Object.entries(teamAliases)) {
+        if (!reverseAliases[canonical]) reverseAliases[canonical] = new Set();
+        reverseAliases[canonical].add(alias);
+        reverseAliases[canonical].add(canonical);
+    }
+
+    for (const [confName, confData] of Object.entries(checklist)) {
+        if (confName === 'All D1' || confName === 'Historical/Other') continue;
+        (confData.teams || []).forEach(t => {
+            if (t.team) {
+                actualD1Teams.add(t.team);
+                const canonical = teamAliases[t.team];
+                if (canonical) actualD1Teams.add(canonical);
+                const aliases = reverseAliases[t.team];
+                if (aliases) aliases.forEach(a => actualD1Teams.add(a));
+            }
+        });
+    }
+
+    allGames.forEach((game, index) => {
+        const gameId = game.GameID || `game-${index}`;
+        const awayTeam = game['Away Team'] || '';
+        const homeTeam = game['Home Team'] || '';
+        const venue = game.Venue || '';
+        const city = game.City || '';
+        const state = game.State || '';
+        const gender = game.Gender || 'M';
+        const division = game.Division || 'D1';
+        const dateSort = game.DateSort || '';
+        const awayConf = getGameConference(game, 'away');
+        const homeConf = getGameConference(game, 'home');
+
+        gameMilestones[gameId] = { badges: [], gameNumber: index + 1 };
+
+        // Game count milestone
+        gameCount++;
+        if (GAME_MILESTONES.includes(gameCount)) {
+            gameMilestones[gameId].badges.push({
+                type: 'game-count',
+                text: `Game #${gameCount}`,
+                title: `${ordinal(gameCount)} game attended`
+            });
+        }
+
+        // D1 game count
+        if (division === 'D1') {
+            d1GameCount++;
+            if (D1_MILESTONES.includes(d1GameCount)) {
+                gameMilestones[gameId].badges.push({
+                    type: 'd1-game',
+                    text: `D1 #${d1GameCount}`,
+                    title: `${ordinal(d1GameCount)} D1 game attended`
+                });
+            }
+        }
+
+        // Streak tracking
+        if (lastGameDate && dateSort) {
+            const lastDate = new Date(lastGameDate.slice(0,4) + '-' + lastGameDate.slice(4,6) + '-' + lastGameDate.slice(6,8));
+            const thisDate = new Date(dateSort.slice(0,4) + '-' + dateSort.slice(4,6) + '-' + dateSort.slice(6,8));
+            const diffDays = Math.round((thisDate - lastDate) / (1000 * 60 * 60 * 24));
+            if (diffDays === 0) {
+                // Same day, streak continues
+            } else if (diffDays === 1) {
+                currentStreak++;
+            } else {
+                if (currentStreak >= 2) streakHistory.push(currentStreak);
+                maxStreak = Math.max(maxStreak, currentStreak);
+                currentStreak = 1;
+            }
+        } else {
+            currentStreak = 1;
+        }
+        if (dateSort) lastGameDate = dateSort;
+
+        if (currentStreak >= 2) {
+            gameMilestones[gameId].badges.push({
+                type: 'streak',
+                text: `${currentStreak}-Day Streak`,
+                title: `${currentStreak} consecutive days attending games`
+            });
+        }
+
+        // State tracking
+        if (state && !statesSeen.has(state)) {
+            statesSeen.add(state);
+            stateOrder.push(state);
+            gameMilestones[gameId].badges.push({
+                type: 'new-state',
+                text: `New State: ${state}`,
+                title: `${ordinal(statesSeen.size)} state visited`
+            });
+        }
+
+        // Venue milestones
+        if (venue) {
+            if (!venueCounts[venue]) {
+                venueCounts[venue] = 0;
+                venueOrder.push(venue);
+                const venueNum = venueOrder.length;
+                if (MILESTONE_COUNTS.includes(venueNum)) {
+                    gameMilestones[gameId].badges.push({
+                        type: 'venue-count',
+                        text: `${ordinal(venueNum)} Venue`,
+                        title: `${ordinal(venueNum)} unique venue visited: ${venue}`
+                    });
+                }
+                // D1 venue tracking
+                if (division === 'D1' && !d1VenuesSeen.has(venue)) {
+                    d1VenuesSeen.add(venue);
+                    d1VenueCount++;
+                }
+            }
+            venueCounts[venue]++;
+            if (venueCounts[venue] > 1 && MILESTONE_COUNTS.includes(venueCounts[venue])) {
+                gameMilestones[gameId].badges.push({
+                    type: 'venue-visit',
+                    text: `${venue} #${venueCounts[venue]}`,
+                    title: `${ordinal(venueCounts[venue])} game at ${venue}`
+                });
+            }
+        }
+
+        // Team milestones
+        [awayTeam, homeTeam].forEach(team => {
+            if (!team) return;
+            const teamKey = `${team}|${gender}`;
+            if (!teamCounts[teamKey]) {
+                teamCounts[teamKey] = 0;
+                // First time seeing this team
+                gameMilestones[gameId].badges.push({
+                    type: 'new-team',
+                    text: `New: ${team}${gender === 'W' ? ' (W)' : ''}`,
+                    title: `First time seeing ${team}${gender === 'W' ? ' (Women)' : ''}`
+                });
+
+                // D1 team tracking
+                if (actualD1Teams.has(team)) {
+                    d1TeamsSeen[gender].add(team);
+                    const count = d1TeamsSeen[gender].size;
+                    if (D1_TEAM_MILESTONES.includes(count)) {
+                        gameMilestones[gameId].badges.push({
+                            type: 'd1-team',
+                            text: `${count} D1 Teams${gender === 'W' ? ' (W)' : ''}`,
+                            title: `Seen ${count} unique D1 ${gender === 'W' ? "women's" : "men's"} teams`
+                        });
+                    }
+                }
+            }
+            teamCounts[teamKey]++;
+            if (teamCounts[teamKey] > 1 && MILESTONE_COUNTS.includes(teamCounts[teamKey])) {
+                gameMilestones[gameId].badges.push({
+                    type: 'team-visit',
+                    text: `${team} #${teamCounts[teamKey]}${gender === 'W' ? ' (W)' : ''}`,
+                    title: `${ordinal(teamCounts[teamKey])} time seeing ${team}`
+                });
+            }
+
+            // Track W-L record
+            if (!teamRecords[teamKey]) teamRecords[teamKey] = { wins: 0, losses: 0 };
+            const awayScore = game['Away Score'] || 0;
+            const homeScore = game['Home Score'] || 0;
+            const isWinner = (team === awayTeam && awayScore > homeScore) || (team === homeTeam && homeScore > awayScore);
+            if (isWinner) teamRecords[teamKey].wins++;
+            else teamRecords[teamKey].losses++;
+        });
+
+        // Conference tracking
+        [{ conf: awayConf, team: awayTeam }, { conf: homeConf, team: homeTeam }].forEach(({ conf, team }) => {
+            if (!conf || conf === 'Historical/Other') return;
+            const confGenderKey = `${conf}|${gender}`;
+            if (!confTeamsSeen[confGenderKey]) confTeamsSeen[confGenderKey] = new Set();
+            const wasNew = !confTeamsSeen[confGenderKey].has(team);
+            confTeamsSeen[confGenderKey].add(team);
+
+            if (!confTeamCounts[conf]) {
+                confTeamCounts[conf] = 0;
+                gameMilestones[gameId].badges.push({
+                    type: 'new-conf',
+                    text: `New conf: ${conf}`,
+                    title: `First ${conf} team seen`
+                });
+            }
+            if (wasNew) confTeamCounts[conf]++;
+
+            // Check conference completion
+            const totalTeams = conferenceTeamCounts[conf] || 0;
+            if (totalTeams > 0 && confTeamsSeen[confGenderKey].size >= totalTeams && !confCompleted[confGenderKey]) {
+                confCompleted[confGenderKey] = true;
+                gameMilestones[gameId].badges.push({
+                    type: 'conf-complete',
+                    text: `${conf} Complete${gender === 'W' ? ' (W)' : ''}!`,
+                    title: `Seen all ${totalTeams} ${conf} teams${gender === 'W' ? " (Women's)" : ''}`
+                });
+            }
+        });
+
+        // Matchup tracking
+        if (awayTeam && homeTeam) {
+            const matchupKey = [awayTeam, homeTeam].sort().join('|') + `|${gender}`;
+            if (!matchupsSeen[matchupKey]) {
+                matchupsSeen[matchupKey] = true;
+                gameMilestones[gameId].badges.push({
+                    type: 'new-matchup',
+                    text: `New matchup`,
+                    title: `First time seeing ${awayTeam} vs ${homeTeam}${gender === 'W' ? ' (W)' : ''}`
+                });
+            }
+        }
+
+        // Conference matchup tracking
+        if (awayConf && homeConf && awayConf !== homeConf) {
+            const confKey = [awayConf, homeConf].sort().join('|');
+            if (!confMatchupCounts[confKey]) {
+                confMatchupCounts[confKey] = 0;
+                gameMilestones[gameId].badges.push({
+                    type: 'conf-matchup',
+                    text: `${awayConf} vs ${homeConf}`,
+                    title: `First ${awayConf} vs ${homeConf} game`
+                });
+            }
+            confMatchupCounts[confKey]++;
+        }
+
+        // Conference venue tracking
+        if (venue && homeConf && homeConf !== 'Historical/Other') {
+            const confVenueKey = `${homeConf}|${venue}`;
+            if (!confVenuesSeen[confVenueKey]) {
+                confVenuesSeen[confVenueKey] = true;
+            }
+        }
+
+        // Track players on new teams (transfers)
+        const gamePlayers = (DATA.playerGames || []).filter(pg => pg.game_id === gameId);
+        gamePlayers.forEach(pg => {
+            const playerId = pg.player_id || pg.player;
+            const playerName = pg.player;
+            const playerTeam = pg.team;
+            const realgmPrevSchools = pg.realgm_previous_schools || [];
+            if (!playerId || !playerTeam) return;
+
+            if (!playerTeams[playerId]) {
+                playerTeams[playerId] = { name: playerName, teams: new Set() };
+                if (realgmPrevSchools.length > 0) {
+                    const currentDateSort = game.DateSort || '';
+                    realgmPrevSchools.forEach(prevSchool => {
+                        const hasPlayerAtSchoolBefore = (DATA.playerGames || []).some(pg2 => {
+                            const idMatch = playerId && pg2.player_id === playerId;
+                            const nameMatch = !playerId && pg2.player && pg2.player.toLowerCase() === playerName.toLowerCase();
+                            return (idMatch || nameMatch) &&
+                                pg2.team === prevSchool &&
+                                (pg2.date_yyyymmdd || '') < currentDateSort;
+                        });
+                        if (hasPlayerAtSchoolBefore) playerTeams[playerId].teams.add(prevSchool);
+                    });
+                }
+            }
+
+            if (playerTeams[playerId].teams.size > 0 && !playerTeams[playerId].teams.has(playerTeam)) {
+                const prevTeams = [...playerTeams[playerId].teams].join(', ');
+                gameMilestones[gameId].badges.push({
+                    type: 'transfer',
+                    text: `${playerName} (${prevTeams} → ${playerTeam})`,
+                    title: `First time seeing ${playerName} with ${playerTeam} (previously: ${prevTeams})`
+                });
+            }
+            playerTeams[playerId].teams.add(playerTeam);
+        });
     });
+
+    // Finalize streak tracking
+    if (currentStreak >= 2) streakHistory.push(currentStreak);
+    maxStreak = Math.max(maxStreak, currentStreak);
+
+    window.badgeTrackingData = {
+        confTeamsSeen, confCompleted, conferenceTeamCounts, venueOrder,
+        teamCounts, matchupsSeen, statesSeen, stateOrder, maxStreak,
+        streakHistory, d1TeamsSeen
+    };
+}
+
+// Run milestone computation
+try { computeGameMilestones(); } catch(e) { console.error('computeGameMilestones:', e); }
+
+// ============================================================================
+// SHARED COMPONENTS
+// ============================================================================
+
+function Toast({ message, onDone }) {
+    useEffect(() => {
+        if (message) {
+            const timer = setTimeout(onDone, 3000);
+            return () => clearTimeout(timer);
+        }
+    }, [message]);
+    if (!message) return null;
+    return html`<div class="toast show">${message}</div>`;
+}
+
+function StatBox({ label, value, icon }) {
+    return html`
+        <div class="stat-box">
+            ${icon && html`<div class="stat-icon">${icon}</div>`}
+            <div class="stat-number">${value}</div>
+            <div class="stat-label">${label}</div>
+        </div>
+    `;
+}
+
+function Card({ children, className = '', onClick }) {
+    return html`
+        <div class="card ${className}" onClick=${onClick}>
+            ${children}
+        </div>
+    `;
+}
+
+function Badge({ type, text, title }) {
+    // Shorten badge text for cleaner display
+    const BADGE_ICONS = {
+        'game-count': '#',
+        'd1-game': '#',
+        'streak': '🔥',
+        'new-state': '📍',
+        'venue-count': '🏟',
+        'venue-visit': '🏟',
+        'new-team': '👀',
+        'team-visit': '👀',
+        'd1-team': '🏀',
+        'new-conf': '🏅',
+        'conf-complete': '✅',
+        'new-matchup': '⚔️',
+        'conf-matchup': '🤝',
+        'transfer': '🔄',
+        'upset': '🚨',
+    };
+    const icon = BADGE_ICONS[type] || '';
+    return html`<span class="milestone-badge badge-${type}" title=${title}>${icon ? icon + ' ' : ''}${text}</span>`;
+}
+
+function EmptyState({ icon = '🏀', title = 'No data found', message = 'Try adjusting your filters' }) {
+    return html`
+        <div class="empty-state">
+            <div class="empty-state-icon">${icon}</div>
+            <h3>${title}</h3>
+            <p>${message}</p>
+        </div>
+    `;
+}
+
+function Pagination({ page, pageSize, total, onPageChange }) {
+    const totalPages = Math.ceil(total / pageSize);
+    if (totalPages <= 1) return null;
+    const pages = [];
+    for (let i = 1; i <= totalPages; i++) {
+        if (i === 1 || i === totalPages || (i >= page - 2 && i <= page + 2)) {
+            pages.push(i);
+        } else if (pages[pages.length - 1] !== '...') {
+            pages.push('...');
+        }
+    }
+    return html`
+        <div class="pagination">
+            <button disabled=${page === 1} onClick=${() => onPageChange(page - 1)}>Prev</button>
+            ${pages.map(p => p === '...'
+                ? html`<span class="pagination-ellipsis">...</span>`
+                : html`<button class=${p === page ? 'active' : ''} onClick=${() => onPageChange(p)}>${p}</button>`
+            )}
+            <button disabled=${page === totalPages} onClick=${() => onPageChange(page + 1)}>Next</button>
+            <span class="pagination-info">${total} items</span>
+        </div>
+    `;
+}
+
+function ViewToggle({ view, onToggle }) {
+    return html`
+        <div class="view-toggle">
+            <button class=${view === 'card' ? 'active' : ''} onClick=${() => onToggle('card')} title="Card View">▦</button>
+            <button class=${view === 'table' ? 'active' : ''} onClick=${() => onToggle('table')} title="Table View">☰</button>
+        </div>
+    `;
+}
+
+function SubNav({ items, active, onSelect }) {
+    return html`
+        <div class="sub-nav">
+            ${items.map(item => html`
+                <button
+                    class=${'sub-tab' + (active === item.id ? ' active' : '')}
+                    onClick=${() => onSelect(item.id)}
+                >${item.label}</button>
+            `)}
+        </div>
+    `;
+}
+
+function ScoreCard({ game, onClick }) {
+    const awayScore = game['Away Score'] || 0;
+    const homeScore = game['Home Score'] || 0;
+    const awayWon = awayScore > homeScore;
+    const linescore = game.Linescore || {};
+    const otPeriods = linescore.away?.OT?.length || 0;
+    const otText = otPeriods > 0 ? ` (${otPeriods > 1 ? otPeriods + 'OT' : 'OT'})` : '';
+    const milestones = gameMilestones[game.GameID] || { badges: [] };
+    const genderTag = game.Gender === 'W' ? ' (W)' : '';
+
+    return html`
+        <div class="score-card" onClick=${onClick}>
+            <div class="score-card-date">${formatDate(game.Date)}${genderTag}</div>
+            <div class="score-card-teams">
+                <div class=${'score-card-team' + (awayWon ? ' winner' : '')}>
+                    ${game.AwayRank ? html`<span class="ap-rank">#${game.AwayRank}</span>` : null}
+                    <span class="team-name">${game['Away Team']}</span>
+                    <span class="team-score">${awayScore}</span>
+                </div>
+                <div class=${'score-card-team' + (!awayWon ? ' winner' : '')}>
+                    ${game.HomeRank ? html`<span class="ap-rank">#${game.HomeRank}</span>` : null}
+                    <span class="team-name">${game['Home Team']}</span>
+                    <span class="team-score">${homeScore}</span>
+                </div>
+            </div>
+            <div class="score-card-venue">${game.Venue}${otText}</div>
+            ${milestones.badges.length > 0 ? html`
+                <div class="score-card-badges">
+                    ${milestones.badges.slice(0, 3).map(b => html`<${Badge} ...${b} />`)}
+                    ${milestones.badges.length > 3 ? html`<span class="badge-more">+${milestones.badges.length - 3}</span>` : null}
+                </div>
+            ` : null}
+        </div>
+    `;
+}
+
+function FilterBar({ children }) {
+    return html`<div class="filter-bar">${children}</div>`;
+}
+
+function QuickFilters({ filters, active, onSelect }) {
+    return html`
+        <div class="quick-filters">
+            ${filters.map(f => html`
+                <button
+                    class=${'quick-filter' + (active === f.id ? ' active' : '')}
+                    onClick=${() => onSelect(f.id)}
+                >${f.label}${f.count != null ? html` <span class="filter-count">${f.count}</span>` : null}</button>
+            `)}
+        </div>
+    `;
+}
+
+function Modal({ id, active, onClose, title, children }) {
+    const overlayRef = useRef();
+    useEffect(() => {
+        if (active) {
+            document.body.style.overflow = 'hidden';
+            const handleKey = (e) => { if (e.key === 'Escape') onClose(); };
+            document.addEventListener('keydown', handleKey);
+            return () => {
+                document.body.style.overflow = '';
+                document.removeEventListener('keydown', handleKey);
+            };
+        }
+    }, [active]);
+
+    if (!active) return null;
+    return html`
+        <div class="modal-overlay active" ref=${overlayRef} onClick=${(e) => { if (e.target === overlayRef.current) onClose(); }}>
+            <div class="modal" role="dialog" aria-modal="true" aria-labelledby="${id}-title">
+                <div class="modal-header">
+                    <h3 id="${id}-title">${title}</h3>
+                    <button class="modal-close" onClick=${onClose} aria-label="Close">×</button>
+                </div>
+                <div class="modal-body">
+                    ${children}
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+// ============================================================================
+// HEADER & NAV
+// ============================================================================
+
+function Header({ onSearch, toast, setToast }) {
+    const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'light');
+    const [searchQuery, setSearchQuery] = useState('');
+    const [searchResults, setSearchResults] = useState(null);
+    const searchRef = useRef();
+    const searchTimeout = useRef();
+
+    useEffect(() => {
+        document.body.setAttribute('data-theme', theme);
+        localStorage.setItem('theme', theme);
+    }, [theme]);
+
+    const toggleTheme = () => setTheme(t => t === 'dark' ? 'light' : 'dark');
+
+    const handleSearch = useCallback((e) => {
+        const query = e.target.value;
+        setSearchQuery(query);
+        if (searchTimeout.current) clearTimeout(searchTimeout.current);
+        if (query.trim().length < 2) { setSearchResults(null); return; }
+        searchTimeout.current = setTimeout(() => {
+            const q = query.trim().toLowerCase();
+            const results = { games: [], players: [], teams: [], venues: [] };
+            const max = 5;
+            (DATA.games || []).forEach(game => {
+                if (results.games.length >= max) return;
+                const str = `${game['Away Team']} ${game['Home Team']} ${game.Date} ${game.Venue}`.toLowerCase();
+                if (str.includes(q)) results.games.push(game);
+            });
+            (DATA.players || []).forEach(player => {
+                if (results.players.length >= max) return;
+                const str = `${player.Player || ''} ${player.Team || ''}`.toLowerCase();
+                if (str.includes(q)) results.players.push(player);
+            });
+            (DATA.teams || []).forEach(team => {
+                if (results.teams.length >= max) return;
+                if ((team.Team || '').toLowerCase().includes(q)) results.teams.push(team);
+            });
+            const venuesSeen = new Set();
+            (DATA.games || []).forEach(game => {
+                if (results.venues.length >= max) return;
+                const v = game.Venue;
+                if (v && !venuesSeen.has(v) && v.toLowerCase().includes(q)) {
+                    venuesSeen.add(v);
+                    results.venues.push({ Venue: v, City: game.City, State: game.State });
+                }
+            });
+            const total = results.games.length + results.players.length + results.teams.length + results.venues.length;
+            setSearchResults(total > 0 ? results : { empty: true });
+        }, 150);
+    }, []);
+
+    const selectResult = (type, id) => {
+        setSearchResults(null);
+        setSearchQuery('');
+        onSearch(type, id);
+    };
+
+    useEffect(() => {
+        const handleClick = (e) => {
+            if (searchRef.current && !searchRef.current.contains(e.target)) setSearchResults(null);
+        };
+        document.addEventListener('click', handleClick);
+        return () => document.removeEventListener('click', handleClick);
+    }, []);
+
+    const shareView = () => {
+        navigator.clipboard.writeText(window.location.href)
+            .then(() => setToast('Link copied to clipboard!'))
+            .catch(() => setToast('Could not copy link'));
+    };
+
+    return html`
+        <header class="header">
+            <div class="header-inner">
+                <div class="header-brand">
+                    <h1 class="header-title" onClick=${() => { window.location.hash = '#home'; }}>College Basketball Journal</h1>
+                </div>
+                <div class="global-search-container" ref=${searchRef}>
+                    <input
+                        type="text"
+                        class="global-search"
+                        placeholder="Search games, players, teams..."
+                        value=${searchQuery}
+                        onInput=${handleSearch}
+                        onKeyDown=${(e) => {
+                            if (e.key === 'Escape') { setSearchResults(null); e.target.blur(); }
+                            if (e.key === 'Enter') {
+                                const first = document.querySelector('.search-result-item');
+                                if (first) first.click();
+                            }
+                        }}
+                        onFocus=${() => { if (searchQuery.length >= 2) handleSearch({ target: { value: searchQuery } }); }}
+                    />
+                    ${searchResults && html`
+                        <div class="search-results" style="display:block">
+                            ${searchResults.empty ? html`<div class="search-no-results">No results found</div>` : html`
+                                ${searchResults.games?.length > 0 && html`
+                                    <div class="search-result-section">
+                                        <div class="search-result-header">Games</div>
+                                        ${searchResults.games.map(g => html`
+                                            <div class="search-result-item" onClick=${() => selectResult('game', g.GameID)}>
+                                                <span class="search-result-icon">🏀</span>
+                                                <div class="search-result-text">
+                                                    <div class="search-result-title">${g['Away Team']} @ ${g['Home Team']}</div>
+                                                    <div class="search-result-subtitle">${g.Date} - ${g['Away Score']}-${g['Home Score']}</div>
+                                                </div>
+                                            </div>
+                                        `)}
+                                    </div>
+                                `}
+                                ${searchResults.players?.length > 0 && html`
+                                    <div class="search-result-section">
+                                        <div class="search-result-header">Players</div>
+                                        ${searchResults.players.map(p => html`
+                                            <div class="search-result-item" onClick=${() => selectResult('player', p['Player ID'] || p.Player)}>
+                                                <span class="search-result-icon">👤</span>
+                                                <div class="search-result-text">
+                                                    <div class="search-result-title">${p.Player}</div>
+                                                    <div class="search-result-subtitle">${p.Team} - ${(p.PPG || 0).toFixed(1)} PPG</div>
+                                                </div>
+                                            </div>
+                                        `)}
+                                    </div>
+                                `}
+                                ${searchResults.teams?.length > 0 && html`
+                                    <div class="search-result-section">
+                                        <div class="search-result-header">Teams</div>
+                                        ${searchResults.teams.map(t => html`
+                                            <div class="search-result-item" onClick=${() => selectResult('team', t.Team)}>
+                                                <span class="search-result-icon">🏆</span>
+                                                <div class="search-result-text">
+                                                    <div class="search-result-title">${t.Team}</div>
+                                                    <div class="search-result-subtitle">${t.Conference || ''} - ${t.Wins || 0}W ${t.Losses || 0}L</div>
+                                                </div>
+                                            </div>
+                                        `)}
+                                    </div>
+                                `}
+                                ${searchResults.venues?.length > 0 && html`
+                                    <div class="search-result-section">
+                                        <div class="search-result-header">Venues</div>
+                                        ${searchResults.venues.map(v => html`
+                                            <div class="search-result-item" onClick=${() => selectResult('venue', v.Venue)}>
+                                                <span class="search-result-icon">🏟️</span>
+                                                <div class="search-result-text">
+                                                    <div class="search-result-title">${v.Venue}</div>
+                                                    <div class="search-result-subtitle">${v.City || ''}, ${v.State || ''}</div>
+                                                </div>
+                                            </div>
+                                        `)}
+                                    </div>
+                                `}
+                            `}
+                        </div>
+                    `}
+                </div>
+                <div class="header-actions">
+                    <button class="header-btn" onClick=${shareView} title="Share this view">↗</button>
+                    <button class="header-btn theme-toggle" onClick=${toggleTheme} title="Toggle theme">
+                        ${theme === 'dark' ? '☀' : '🌙'}
+                    </button>
+                </div>
+            </div>
+        </header>
+    `;
+}
+
+function Nav({ section, onChange }) {
+    const items = [
+        { id: 'home', label: 'Home', icon: '⌂' },
+        { id: 'games', label: 'Games', icon: '🏀' },
+        { id: 'people', label: 'People', icon: '👥' },
+        { id: 'places', label: 'Places', icon: '📍' },
+    ];
+    return html`
+        <nav class="nav" role="tablist">
+            <div class="nav-inner">
+                ${items.map(item => html`
+                    <button
+                        class=${'nav-item' + (section === item.id ? ' active' : '')}
+                        onClick=${() => onChange(item.id)}
+                        role="tab"
+                        aria-selected=${section === item.id}
+                    >
+                        <span class="nav-icon">${item.icon}</span>
+                        <span class="nav-label">${item.label}</span>
+                    </button>
+                `)}
+            </div>
+        </nav>
+        <nav class="bottom-nav">
+            ${items.map(item => html`
+                <button
+                    class=${'bottom-nav-item' + (section === item.id ? ' active' : '')}
+                    onClick=${() => onChange(item.id)}
+                >
+                    <span class="bottom-nav-icon">${item.icon}</span>
+                    <span class="bottom-nav-label">${item.label}</span>
+                </button>
+            `)}
+        </nav>
+    `;
+}
+
+// ============================================================================
+// HOME SECTION
+// ============================================================================
+
+function HomeSection({ onNavigate, showGameDetail, showPlayerDetail }) {
+    const summary = DATA.summary || {};
+    const games = DATA.games || [];
+    const recentGames = useMemo(() =>
+        [...games].sort((a, b) => (b.DateSort || '').localeCompare(a.DateSort || '')).slice(0, 5),
+        [games]
+    );
+
+    // On This Day
+    const onThisDay = useMemo(() => {
+        const today = new Date();
+        const month = today.getMonth();
+        const day = today.getDate();
+        return games.filter(g => {
+            const d = new Date(g.Date);
+            return d.getMonth() === month && d.getDate() === day;
+        });
+    }, [games]);
+
+    // Future Pros Spotlight (top 5 by pro games)
+    const futureProsSpotlight = useMemo(() => {
+        const fp = (DATA.players || []).filter(p => p.NBA || p.WNBA || p.International);
+        return [...fp]
+            .map(p => ({ ...p, proGames: p.Proballers_Games || (p.NBA_Games || 0) + (p.WNBA_Games || 0) }))
+            .sort((a, b) => b.proGames - a.proGames)
+            .slice(0, 5);
+    }, []);
+
+    return html`
+        <section class="home-section">
+            <div class="hero-stats">
+                <${StatBox} label="Games" value=${summary.totalGames || 0} icon="🏀" />
+                <${StatBox} label="Players" value=${summary.totalPlayers || 0} icon="👥" />
+                <${StatBox} label="Teams" value=${summary.totalTeams || 0} icon="🏆" />
+                <${StatBox} label="Venues" value=${summary.totalVenues || 0} icon="🏟️" />
+                <${StatBox} label="Points" value=${(summary.totalPoints || 0).toLocaleString()} icon="📊" />
+                <${StatBox} label="Ranked Matchups" value=${summary.rankedMatchups || 0} icon="⭐" />
+                <${StatBox} label="Upsets" value=${summary.upsets || 0} icon="🔥" />
+                <${StatBox} label="Future Pros" value=${summary.futurePros || 0} icon="🌟" />
+            </div>
+
+            <div class="home-grid">
+                <div class="home-column">
+                    <h2 class="section-title">Recent Games</h2>
+                    <div class="recent-games">
+                        ${recentGames.map(g => html`
+                            <${ScoreCard} game=${g} onClick=${() => showGameDetail(g.GameID)} />
+                        `)}
+                    </div>
+                    ${recentGames.length > 0 && html`
+                        <button class="link-btn" onClick=${() => onNavigate('games')}>View all games →</button>
+                    `}
+                </div>
+
+                <div class="home-column">
+                    ${onThisDay.length > 0 && html`
+                        <h2 class="section-title">On This Day</h2>
+                        <div class="on-this-day">
+                            ${onThisDay.map(g => html`
+                                <${ScoreCard} game=${g} onClick=${() => showGameDetail(g.GameID)} />
+                            `)}
+                        </div>
+                    `}
+
+                    ${futureProsSpotlight.length > 0 && html`
+                        <h2 class="section-title">Future Pros Spotlight</h2>
+                        <div class="future-pros-spotlight">
+                            ${futureProsSpotlight.map(p => html`
+                                <div class="spotlight-card" onClick=${() => showPlayerDetail(p['Player ID'] || p.Player)}>
+                                    <div class="spotlight-name">${p.Player}</div>
+                                    <div class="spotlight-info">
+                                        ${p.Team} · ${p.proGames} pro games
+                                        ${p.NBA ? html` <span class="badge badge-nba">NBA</span>` : null}
+                                        ${p.WNBA ? html` <span class="badge badge-wnba">WNBA</span>` : null}
+                                        ${p.Intl_Pro ? html` <span class="badge badge-intl">INTL</span>` : null}
+                                    </div>
+                                </div>
+                            `)}
+                            <button class="link-btn" onClick=${() => onNavigate('people', 'future-pros')}>View all future pros →</button>
+                        </div>
+                    `}
+
+                    <h2 class="section-title">Quick Links</h2>
+                    <div class="quick-links">
+                        <button class="quick-link-btn" onClick=${() => onNavigate('games', 'records')}>Game Records</button>
+                        <button class="quick-link-btn" onClick=${() => onNavigate('games', 'scorigami')}>Scorigami</button>
+                        <button class="quick-link-btn" onClick=${() => onNavigate('people', 'leaders')}>Stat Leaders</button>
+                        <button class="quick-link-btn" onClick=${() => onNavigate('people', 'achievements')}>Achievements</button>
+                        <button class="quick-link-btn" onClick=${() => onNavigate('places', 'map')}>School Map</button>
+                        <button class="quick-link-btn" onClick=${() => onNavigate('places', 'conferences')}>Conference Progress</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    `;
+}
+
+// ============================================================================
+// SECTION PLACEHOLDERS (to be filled in subsequent phases)
+// ============================================================================
+
+function GamesSection({ sub, onSubChange, showGameDetail }) {
+    const subItems = [
+        { id: '', label: 'Game Log' },
+        { id: 'records', label: 'Records' },
+        { id: 'seasons', label: 'Seasons' },
+        { id: 'scorigami', label: 'Scorigami' },
+        { id: 'calendar', label: 'Calendar' },
+        { id: 'matchups', label: 'Matchups' },
+        { id: 'teams', label: 'Teams' },
+    ];
+
+    return html`
+        <section class="section-content">
+            <${SubNav} items=${subItems} active=${sub} onSelect=${onSubChange} />
+            <div class="sub-content">
+                ${sub === '' && html`<${GameLog} showGameDetail=${showGameDetail} />`}
+                ${sub === 'records' && html`<${GameRecords} showGameDetail=${showGameDetail} />`}
+                ${sub === 'scorigami' && html`<${ScorigamiView} showGameDetail=${showGameDetail} />`}
+                ${sub === 'calendar' && html`<${CalendarView} showGameDetail=${showGameDetail} />`}
+                ${sub === 'teams' && html`<${TeamsView} />`}
+                ${sub === 'matchups' && html`<${MatchupsView} />`}
+                ${sub === 'seasons' && html`<${SeasonsView} />`}
+            </div>
+        </section>
+    `;
+}
+
+function PeopleSection({ sub, onSubChange, showPlayerDetail, showGameDetail }) {
+    const subItems = [
+        { id: '', label: 'Stats' },
+        { id: 'leaders', label: 'Leaders' },
+        { id: 'highs', label: 'Highs' },
+        { id: 'logs', label: 'Game Logs' },
+        { id: 'records', label: 'Records' },
+        { id: 'future-pros', label: 'Future Pros' },
+        { id: 'achievements', label: 'Achievements' },
+    ];
+
+    return html`
+        <section class="section-content">
+            <${SubNav} items=${subItems} active=${sub} onSelect=${onSubChange} />
+            <div class="sub-content">
+                ${sub === '' && html`<${PlayerStats} showPlayerDetail=${showPlayerDetail} />`}
+                ${sub === 'leaders' && html`<${StatLeaders} showPlayerDetail=${showPlayerDetail} />`}
+                ${sub === 'highs' && html`<${CareerHighs} showPlayerDetail=${showPlayerDetail} />`}
+                ${sub === 'logs' && html`<${PlayerGameLogs} showPlayerDetail=${showPlayerDetail} showGameDetail=${showGameDetail} />`}
+                ${sub === 'records' && html`<${PlayerRecords} showPlayerDetail=${showPlayerDetail} />`}
+                ${sub === 'future-pros' && html`<${FuturePros} showPlayerDetail=${showPlayerDetail} />`}
+                ${sub === 'achievements' && html`<${Achievements} showGameDetail=${showGameDetail} />`}
+            </div>
+        </section>
+    `;
+}
+
+function PlacesSection({ sub, onSubChange, showVenueDetail, showGameDetail }) {
+    const subItems = [
+        { id: '', label: 'Venues' },
+        { id: 'map', label: 'School Map' },
+        { id: 'conferences', label: 'Conferences' },
+        { id: 'upcoming', label: 'Upcoming' },
+    ];
+
+    return html`
+        <section class="section-content">
+            <${SubNav} items=${subItems} active=${sub} onSelect=${onSubChange} />
+            <div class="sub-content">
+                ${sub === '' && html`<${VenuesView} showVenueDetail=${showVenueDetail} />`}
+                ${sub === 'map' && html`<${SchoolMapView} />`}
+                ${sub === 'conferences' && html`<${ConferenceProgress} />`}
+                ${sub === 'upcoming' && html`<${UpcomingView} showGameDetail=${showGameDetail} />`}
+            </div>
+        </section>
+    `;
+}
+
+// ============================================================================
+// STUB COMPONENTS (to be implemented in subsequent phases)
+// ============================================================================
+
+function GameLog({ showGameDetail }) {
+    const [page, setPage] = useState(1);
+    const [quickFilter, setQuickFilter] = useState('all');
+    const [genderFilter, setGenderFilter] = useState('');
+    const pageSize = 50;
+
+    const games = DATA.games || [];
+    const filtered = useMemo(() => {
+        let result = [...games];
+        if (genderFilter) result = result.filter(g => g.Gender === genderFilter);
+        if (quickFilter === 'ranked') result = result.filter(g => g.AwayRank || g.HomeRank);
+        if (quickFilter === 'upsets') result = result.filter(g => {
+            const awayWon = (g['Away Score'] || 0) > (g['Home Score'] || 0);
+            const awayRank = g.AwayRank || 999;
+            const homeRank = g.HomeRank || 999;
+            return (awayWon && homeRank < awayRank) || (!awayWon && awayRank < homeRank);
+        });
+        if (quickFilter === 'overtime') result = result.filter(g => (g.Linescore?.away?.OT?.length || 0) > 0);
+        if (quickFilter === 'blowouts') result = result.filter(g => Math.abs((g['Away Score']||0) - (g['Home Score']||0)) >= 20);
+        if (quickFilter === 'close') result = result.filter(g => Math.abs((g['Away Score']||0) - (g['Home Score']||0)) <= 5);
+        if (quickFilter === 'neutral') result = result.filter(g => g.NeutralSite || NEUTRAL_SITES.has(g.Venue));
+        result.sort((a, b) => (b.DateSort || '').localeCompare(a.DateSort || ''));
+        return result;
+    }, [games, quickFilter, genderFilter]);
+
+    const pageData = filtered.slice((page - 1) * pageSize, page * pageSize);
+
+    const quickFilters = [
+        { id: 'all', label: 'All', count: games.length },
+        { id: 'ranked', label: 'Ranked' },
+        { id: 'upsets', label: 'Upsets' },
+        { id: 'overtime', label: 'OT' },
+        { id: 'blowouts', label: 'Blowouts' },
+        { id: 'close', label: 'Close' },
+        { id: 'neutral', label: 'Neutral' },
+    ];
+
+    const genderFilters = [
+        { id: '', label: 'All' },
+        { id: 'M', label: "Men's" },
+        { id: 'W', label: "Women's" },
+    ];
+
+    return html`
+        <div>
+            <${FilterBar}>
+                <${QuickFilters} filters=${quickFilters} active=${quickFilter} onSelect=${(f) => { setQuickFilter(f); setPage(1); }} />
+                <div class="gender-toggle">
+                    ${genderFilters.map(gf => html`
+                        <button class=${'quick-filter-btn' + (genderFilter === gf.id ? ' active' : '')} onClick=${() => { setGenderFilter(gf.id); setPage(1); }}>${gf.label}</button>
+                    `)}
+                </div>
+            <//>
+            ${pageData.length === 0
+                ? html`<${EmptyState} />`
+                : html`
+                    <div class="game-log-list">
+                                ${pageData.map(game => {
+                                    const milestones = gameMilestones[game.GameID] || { badges: [] };
+                                    const awayWon = (game['Away Score']||0) > (game['Home Score']||0);
+                                    const awayRank = game.AwayRank;
+                                    const homeRank = game.HomeRank;
+                                    let isUpset = false;
+                                    if (awayWon && (homeRank||999) < (awayRank||999)) isUpset = true;
+                                    if (!awayWon && (awayRank||999) < (homeRank||999)) isUpset = true;
+                                    const linescore = game.Linescore || {};
+                                    const otPeriods = linescore.away?.OT?.length || 0;
+                                    const otText = otPeriods > 0 ? ` (${otPeriods > 1 ? otPeriods + 'OT' : 'OT'})` : '';
+                                    const genderTag = game.Gender === 'W' ? ' (W)' : '';
+                                    const allBadges = [
+                                        ...(isUpset ? [{ type: 'upset', text: 'UPSET', title: 'Upset' }] : []),
+                                        ...milestones.badges
+                                    ];
+                                    const location = [game.City, game.State].filter(Boolean).join(', ');
+                                    const awayLogo = getTeamLogoUrl(game['Away Team']);
+                                    const homeLogo = getTeamLogoUrl(game['Home Team']);
+
+                                    return html`
+                                        <div class="game-log-card" onClick=${() => showGameDetail(game.GameID)}>
+                                            <div class="gl-date">
+                                                ${game.Date || ''}
+                                                ${(game.Division === 'D1' || !game.Division) && html`
+                                                    ${' '}<a href=${getSportsRefUrl(game)} target="_blank" class="external-link" title="Sports Reference" onClick=${(e) => e.stopPropagation()}>↗</a>
+                                                `}
+                                                ${game.Gender === 'W' ? html` <span class="badge badge-women">W</span>` : null}
+                                            </div>
+                                            <div class="gl-matchup">
+                                                <div class="gl-team gl-away ${awayWon ? 'gl-winner' : ''}">
+                                                    ${awayLogo ? html`<img src=${awayLogo} class="gl-logo" alt="" />` : null}
+                                                    ${awayRank ? html`<span class="ap-rank">#${awayRank}</span> ` : null}
+                                                    <span class="gl-team-name">${game['Away Team']}</span>
+                                                </div>
+                                                <div class="gl-score">
+                                                    <span class=${awayWon ? 'gl-winner-score' : ''}>${game['Away Score']||0}</span>
+                                                    <span class="gl-score-sep">-</span>
+                                                    <span class=${!awayWon ? 'gl-winner-score' : ''}>${game['Home Score']||0}</span>
+                                                    ${otText ? html`<span class="gl-ot">${otText}</span>` : null}
+                                                </div>
+                                                <div class="gl-team gl-home ${!awayWon ? 'gl-winner' : ''}">
+                                                    ${homeLogo ? html`<img src=${homeLogo} class="gl-logo" alt="" />` : null}
+                                                    ${homeRank ? html`<span class="ap-rank">#${homeRank}</span> ` : null}
+                                                    <span class="gl-team-name">${game['Home Team']}</span>
+                                                </div>
+                                            </div>
+                                            <div class="gl-venue">
+                                                ${game.Venue || ''}${game.NeutralSite ? html` <span class="neutral-badge">N</span>` : null}
+                                                ${location ? html` · ${location}` : null}
+                                            </div>
+                                            ${allBadges.length > 0 ? html`
+                                                <div class="gl-badges">
+                                                    ${allBadges.map(b => html`<${Badge} ...${b} />`)}
+                                                </div>
+                                            ` : null}
+                                        </div>
+                                    `;
+                                })}
+                    </div>
+                    <${Pagination} page=${page} pageSize=${pageSize} total=${filtered.length} onPageChange=${setPage} />
+                `
+            }
+        </div>
+    `;
+}
+
+function GameRecords({ showGameDetail }) {
+    const games = DATA.games || [];
+    const gamesWithMargin = useMemo(() => games.map(g => {
+        const awayScore = parseInt(g['Away Score']) || 0;
+        const homeScore = parseInt(g['Home Score']) || 0;
+        const margin = Math.abs(homeScore - awayScore);
+        const total = homeScore + awayScore;
+        const winner = homeScore > awayScore ? g['Home Team'] : g['Away Team'];
+        const loser = homeScore > awayScore ? g['Away Team'] : g['Home Team'];
+        const winnerScore = Math.max(homeScore, awayScore);
+        const loserScore = Math.min(homeScore, awayScore);
+        return { ...g, margin, total, winner, loser, winnerScore, loserScore };
+    }), [games]);
+
+    const records = useMemo(() => {
+        const blowouts = [...gamesWithMargin].sort((a, b) => b.margin - a.margin).slice(0, 10);
+        const closest = [...gamesWithMargin].sort((a, b) => a.margin - b.margin).slice(0, 10);
+        const highest = [...gamesWithMargin].sort((a, b) => b.total - a.total).slice(0, 10);
+        const lowest = [...gamesWithMargin].sort((a, b) => a.total - b.total).slice(0, 10);
+        return { blowouts, closest, highest, lowest };
+    }, [gamesWithMargin]);
+
+    const RecordList = ({ items, showMargin, showTotal }) => html`
+        ${items.map((g, i) => {
+            const wTag = g.Gender === 'W' ? ' (W)' : '';
+            return html`
+                <div class="record-item" onClick=${() => showGameDetail(g.GameID)}>
+                    <span class="rank">${i + 1}.</span>
+                    <span class="teams">${g.winner}${wTag} def. ${g.loser}${wTag}</span>
+                    <span class="score">${g.winnerScore}-${g.loserScore}</span>
+                    ${showMargin && html`<span class="margin">+${g.margin}</span>`}
+                    ${showTotal && html`<span class="total">${g.total} pts</span>`}
+                </div>
+            `;
+        })}
+    `;
+
+    return html`
+        <div class="records-grid">
+            <${Card} className="record-card">
+                <h3>Biggest Blowouts</h3>
+                <${RecordList} items=${records.blowouts} showMargin=${true} />
+            <//>
+            <${Card} className="record-card">
+                <h3>Closest Games</h3>
+                <${RecordList} items=${records.closest} showMargin=${true} />
+            <//>
+            <${Card} className="record-card">
+                <h3>Highest Scoring</h3>
+                <${RecordList} items=${records.highest} showTotal=${true} />
+            <//>
+            <${Card} className="record-card">
+                <h3>Lowest Scoring</h3>
+                <${RecordList} items=${records.lowest} showTotal=${true} />
+            <//>
+        </div>
+    `;
+}
+
+function ScorigamiView({ showGameDetail }) {
+    const allGames = DATA.games || [];
+    const [gender, setGender] = useState('');
+    const [hover, setHover] = useState(null);
+    const tooltipRef = useRef(null);
+
+    const { scoreMap, minWin, maxWin, minLose, maxLose, uniqueCount, totalGames, mostCommon } = useMemo(() => {
+        const games = allGames.filter(g => {
+            if (gender && g.Gender !== gender) return false;
+            return g['Away Score'] && g['Home Score'];
+        });
+        const map = {};
+        let mnW = Infinity, mxW = 0, mnL = Infinity, mxL = 0;
+        games.forEach(g => {
+            const away = parseInt(g['Away Score']) || 0;
+            const home = parseInt(g['Home Score']) || 0;
+            const win = Math.max(away, home);
+            const lose = Math.min(away, home);
+            const key = `${win}-${lose}`;
+            if (!map[key]) map[key] = [];
+            map[key].push(g);
+            mnW = Math.min(mnW, win); mxW = Math.max(mxW, win);
+            mnL = Math.min(mnL, lose); mxL = Math.max(mxL, lose);
+        });
+        let best = null, bestCount = 0;
+        for (const [k, v] of Object.entries(map)) {
+            if (v.length > bestCount) { bestCount = v.length; best = k; }
+        }
+        return {
+            scoreMap: map, minWin: mnW, maxWin: mxW, minLose: mnL, maxLose: mxL,
+            uniqueCount: Object.keys(map).length, totalGames: games.length,
+            mostCommon: best ? `${best} (${bestCount}×)` : '-'
+        };
+    }, [allGames, gender]);
+
+    const showTooltip = useCallback((e, win, lose) => {
+        const key = `${win}-${lose}`;
+        const games = scoreMap[key] || [];
+        if (!games.length) return;
+        setHover({ win, lose, games });
+        if (tooltipRef.current) {
+            const rect = e.target.getBoundingClientRect();
+            tooltipRef.current.style.left = Math.min(rect.right + 10, window.innerWidth - 320) + 'px';
+            tooltipRef.current.style.top = Math.max(10, rect.top - 50) + 'px';
+        }
+    }, [scoreMap]);
+
+    const cellClass = (count) => {
+        if (count >= 6) return 'has-game count-6';
+        if (count >= 5) return 'has-game count-5';
+        if (count >= 4) return 'has-game count-4';
+        if (count >= 3) return 'has-game count-3';
+        if (count >= 2) return 'has-game count-2';
+        return 'has-game';
+    };
+
+    if (totalGames === 0) return html`<${EmptyState} title="No games" message="No games to display for scorigami" />`;
+
+    return html`
+        <div>
+            <div class="scorigami-controls">
+                <div class="filter-group">
+                    <label>Gender</label>
+                    <div class="gender-toggle">
+                        ${[{id:'',label:'All'},{id:'M',label:"Men's"},{id:'W',label:"Women's"}].map(gf => html`
+                            <button class=${'quick-filter-btn' + (gender === gf.id ? ' active' : '')} onClick=${() => setGender(gf.id)}>${gf.label}</button>
+                        `)}
+                    </div>
+                </div>
+                <div class="scorigami-stats">
+                    <span>${uniqueCount}</span> unique scores from <span>${totalGames}</span> games
+                    <span style="margin-left: 1.5rem">Most common: <span>${mostCommon}</span></span>
+                </div>
+            </div>
+
+            <div class="scorigami-wrapper">
+                <div class="scorigami-y-label">Loser's Score</div>
+                <div class="scorigami-main">
+                    <div class="scorigami-container">
+                        <table class="scorigami-grid">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    ${Array.from({ length: maxWin - minWin + 1 }, (_, i) => html`<th>${minWin + i}</th>`)}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${Array.from({ length: maxLose - minLose + 1 }, (_, li) => {
+                                    const lose = minLose + li;
+                                    return html`
+                                        <tr>
+                                            <th>${lose}</th>
+                                            ${Array.from({ length: maxWin - minWin + 1 }, (_, wi) => {
+                                                const win = minWin + wi;
+                                                if (lose >= win) return html`<td class="impossible"></td>`;
+                                                const key = `${win}-${lose}`;
+                                                const games = scoreMap[key];
+                                                if (!games) return html`<td class="empty"></td>`;
+                                                return html`<td
+                                                    class=${cellClass(games.length)}
+                                                    onMouseEnter=${(e) => showTooltip(e, win, lose)}
+                                                    onMouseLeave=${() => setHover(null)}
+                                                    onClick=${() => games.length === 1 ? showGameDetail(games[0].GameID) : setHover({ win, lose, games, pinned: true })}
+                                                >${games.length}</td>`;
+                                            })}
+                                        </tr>
+                                    `;
+                                })}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="scorigami-x-label">Winner's Score</div>
+                </div>
+            </div>
+
+            <div class="scorigami-legend">
+                <div class="scorigami-legend-item"><div class="scorigami-legend-color" style="background: #1c1917"></div><span>Impossible</span></div>
+                <div class="scorigami-legend-item"><div class="scorigami-legend-color" style="background: #e2e8f0"></div><span>Not seen</span></div>
+                <div class="scorigami-legend-item"><div class="scorigami-legend-color" style="background: #86efac"></div><span>1 game</span></div>
+                <div class="scorigami-legend-item"><div class="scorigami-legend-color" style="background: #22c55e"></div><span>2-3 games</span></div>
+                <div class="scorigami-legend-item"><div class="scorigami-legend-color" style="background: #166534"></div><span>4+ games</span></div>
+            </div>
+
+            <div ref=${tooltipRef} class=${'scorigami-tooltip' + (hover ? ' visible' : '')}>
+                ${hover && html`
+                    <h4>${hover.win}-${hover.lose}</h4>
+                    ${hover.games.slice(0, 5).map(g => {
+                        const wTag = g.Gender === 'W' ? ' (W)' : '';
+                        return html`
+                            <div class="game-item" onClick=${() => showGameDetail(g.GameID)}>
+                                ${g['Away Team']}${wTag} ${g['Away Score']} @ ${g['Home Team']}${wTag} ${g['Home Score']}
+                                <br /><small>${g.Date || ''}</small>
+                            </div>
+                        `;
+                    })}
+                    ${hover.games.length > 5 && html`<div style="color: var(--text-secondary); font-size: 0.8rem; margin-top: 0.5rem">+${hover.games.length - 5} more</div>`}
+                `}
+            </div>
+        </div>
+    `;
+}
+
+function CalendarView({ showGameDetail }) {
+    const games = DATA.games || [];
+
+    // Group games by month+day (year-agnostic), keyed by "MMDD"
+    const gamesByMMDD = useMemo(() => {
+        const map = {};
+        games.forEach(g => {
+            const ds = g.DateSort || '';
+            if (!ds) return;
+            const mmdd = ds.slice(4, 8); // "MMDD"
+            if (!map[mmdd]) map[mmdd] = [];
+            map[mmdd].push(g);
+        });
+        return map;
+    }, [games]);
+
+    // Determine which months of the basketball season have games
+    const seasonMonths = useMemo(() => {
+        const monthSet = new Set();
+        games.forEach(g => {
+            const ds = g.DateSort || '';
+            if (ds) monthSet.add(parseInt(ds.slice(4, 6)));
+        });
+        // Basketball season order: Oct(10), Nov(11), Dec(12), Jan(1), Feb(2), Mar(3), Apr(4), May(5)
+        const order = [10, 11, 12, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+        return order.filter(m => monthSet.has(m));
+    }, [games]);
+
+    // Count unique game days
+    const gameDays = useMemo(() => Object.keys(gamesByMMDD).length, [gamesByMMDD]);
+
+    // On This Day
+    const today = new Date();
+    const todayMMDD = String(today.getMonth() + 1).padStart(2, '0') + String(today.getDate()).padStart(2, '0');
+    const onThisDay = gamesByMMDD[todayMMDD] || [];
+
+    const [selectedDay, setSelectedDay] = useState(null);
+
+    const monthNames = ['', 'January', 'February', 'March', 'April', 'May', 'June',
+        'July', 'August', 'September', 'October', 'November', 'December'];
+
+    const renderMonth = (monthNum) => {
+        // Use a reference year (2024 is a leap year so Feb has 29 days)
+        const refYear = 2024;
+        const monthIdx = monthNum - 1;
+        const firstDay = new Date(refYear, monthIdx, 1).getDay();
+        const daysInMonth = new Date(refYear, monthIdx + 1, 0).getDate();
+        const mm = String(monthNum).padStart(2, '0');
+
+        const cells = [];
+        for (let i = 0; i < firstDay; i++) cells.push(null);
+        for (let d = 1; d <= daysInMonth; d++) {
+            const dd = String(d).padStart(2, '0');
+            const mmdd = mm + dd;
+            cells.push({ day: d, mmdd, games: gamesByMMDD[mmdd] || [] });
+        }
+
+        return html`
+            <div class="calendar-month">
+                <h4 class="calendar-month-title">${monthNames[monthNum]}</h4>
+                <div class="calendar-grid">
+                    ${['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'].map(d => html`<div class="calendar-header-cell">${d}</div>`)}
+                    ${cells.map(cell => {
+                        if (!cell) return html`<div class="calendar-cell empty"></div>`;
+                        const hasGames = cell.games.length > 0;
+                        const isToday = cell.mmdd === todayMMDD;
+                        return html`
+                            <div
+                                class=${'calendar-cell' + (hasGames ? ' has-games' : '') + (isToday ? ' today' : '')}
+                                onClick=${hasGames ? () => setSelectedDay(cell) : null}
+                                title=${hasGames ? `${cell.games.length} game${cell.games.length > 1 ? 's' : ''}` : ''}
+                            >
+                                <span class="calendar-day">${cell.day}</span>
+                                ${hasGames && html`<span class="calendar-dot">${cell.games.length > 1 ? cell.games.length : ''}</span>`}
+                            </div>
+                        `;
+                    })}
+                </div>
+            </div>
+        `;
+    };
+
+    return html`
+        <div>
+            <div class="calendar-stats">
+                <${StatBox} label="Game Days" value=${gameDays} />
+                <${StatBox} label="Total Games" value=${games.length} />
+                <${StatBox} label="Season Months" value=${seasonMonths.length} />
+            </div>
+
+            ${onThisDay.length > 0 && html`
+                <div class="on-this-day-section">
+                    <h3 class="section-title">On This Day</h3>
+                    ${onThisDay.map(g => html`<${ScoreCard} game=${g} onClick=${() => showGameDetail(g.GameID)} />`)}
+                </div>
+            `}
+
+            <div class="calendar-months">
+                ${seasonMonths.map(m => renderMonth(m))}
+            </div>
+
+            ${selectedDay && html`
+                <${Modal} id="day-modal" active=${true} onClose=${() => setSelectedDay(null)} title="${monthNames[parseInt(selectedDay.mmdd.slice(0,2))]} ${parseInt(selectedDay.mmdd.slice(2))}">
+                    <div class="day-games">
+                        ${selectedDay.games.map(g => html`<${ScoreCard} game=${g} onClick=${() => { setSelectedDay(null); showGameDetail(g.GameID); }} />`)}
+                    </div>
+                <//>
+            `}
+        </div>
+    `;
+}
+
+function TeamsView() {
+    const [genderFilter, setGenderFilter] = useState('');
+    const [search, setSearch] = useState('');
+    const [teamTab, setTeamTab] = useState('records');
+    const teamTabs = [
+        { id: 'records', label: 'Records' },
+        { id: 'streaks', label: 'Streaks' },
+        { id: 'splits', label: 'Home/Away' },
+        { id: 'standings', label: 'Standings' },
+        { id: 'starters', label: 'Starters vs Bench' },
+    ];
+
+    const genderFilters = [{id:'',label:'All'},{id:'M',label:"Men's"},{id:'W',label:"Women's"}];
+
+    const filterBySearch = (data) => {
+        if (!search) return data;
+        const q = search.toLowerCase();
+        return data.filter(t => ((t.Team || '') + ' ' + (t.Conference || '')).toLowerCase().includes(q));
+    };
+
+    // Records
+    const teams = useMemo(() => {
+        let data = DATA.teams || [];
+        if (genderFilter) data = data.filter(t => t.Gender === genderFilter);
+        return filterBySearch(data);
+    }, [genderFilter, search]);
+
+    // Streaks
+    const streaks = useMemo(() => {
+        let data = DATA.teamStreaks || [];
+        if (genderFilter) data = data.filter(t => t.Gender === genderFilter);
+        return filterBySearch(data);
+    }, [genderFilter, search]);
+
+    // Home/Away Splits
+    const splits = useMemo(() => {
+        let data = DATA.homeAwaySplits || [];
+        if (genderFilter) data = data.filter(t => t.Gender === genderFilter);
+        return filterBySearch(data);
+    }, [genderFilter, search]);
+
+    // Conference Standings
+    const standings = useMemo(() => {
+        let data = DATA.conferenceStandings || [];
+        if (genderFilter) data = data.filter(t => t.Gender === genderFilter);
+        return filterBySearch(data);
+    }, [genderFilter, search]);
+
+    // Starters vs Bench
+    const starters = useMemo(() => {
+        let data = DATA.startersBench || [];
+        if (Array.isArray(data)) {
+            if (genderFilter) data = data.filter(t => t.Gender === genderFilter);
+            return filterBySearch(data);
+        }
+        const arr = Object.values(data);
+        if (genderFilter) return filterBySearch(arr.filter(t => t.Gender === genderFilter));
+        return filterBySearch(arr);
+    }, [genderFilter, search]);
+
+    return html`
+        <div>
+            <${FilterBar}>
+                <input type="text" class="filter-input" placeholder="Search teams..." value=${search} onInput=${(e) => setSearch(e.target.value)} />
+                <div class="gender-toggle">
+                    ${genderFilters.map(gf => html`
+                        <button class=${'quick-filter-btn' + (genderFilter === gf.id ? ' active' : '')} onClick=${() => setGenderFilter(gf.id)}>${gf.label}</button>
+                    `)}
+                </div>
+            <//>
+            <${SubNav} items=${teamTabs} active=${teamTab} onSelect=${setTeamTab} />
+
+            ${teamTab === 'records' && html`
+                <div class="team-cards-grid">
+                    ${teams.map(t => {
+                        const winPct = (t['Win%'] || 0) * 100;
+                        return html`
+                            <div class="team-record-card">
+                                <div class="team-record-header">
+                                    <span class="team-record-name">${t.Team}${t.Gender === 'W' ? ' (W)' : ''}</span>
+                                    <span class="team-record-gp">${t.Games || 0} GP</span>
+                                </div>
+                                <div class="team-record-wl">
+                                    <span class="team-wins">${t.Wins || 0}W</span>
+                                    <span class="team-record-dash">-</span>
+                                    <span class="team-losses">${t.Losses || 0}L</span>
+                                </div>
+                                <div class="team-winpct-bar">
+                                    <div class="team-winpct-fill" style=${'width:' + winPct + '%'}></div>
+                                </div>
+                                <div class="team-winpct-label">${winPct.toFixed(1)}%</div>
+                                <div class="team-record-scoring">
+                                    <div class="team-scoring-item">
+                                        <span class="team-scoring-label">PPG</span>
+                                        <span class="team-scoring-value">${(t.PPG || 0).toFixed(1)}</span>
+                                    </div>
+                                    <div class="team-scoring-item">
+                                        <span class="team-scoring-label">PAPG</span>
+                                        <span class="team-scoring-value">${(t.PAPG || 0).toFixed(1)}</span>
+                                    </div>
+                                    <div class="team-scoring-item">
+                                        <span class="team-scoring-label">Diff</span>
+                                        <span class=${'team-scoring-value ' + ((t.PPG || 0) - (t.PAPG || 0) >= 0 ? 'stat-good' : 'stat-poor')}>
+                                            ${((t.PPG || 0) - (t.PAPG || 0) >= 0 ? '+' : '') + ((t.PPG || 0) - (t.PAPG || 0)).toFixed(1)}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    })}
+                </div>
+            `}
+
+            ${teamTab === 'streaks' && html`
+                <div class="team-cards-grid">
+                    ${streaks.map(t => {
+                        const current = t['Current Streak'] || '-';
+                        const isWin = current.startsWith('W');
+                        const isLoss = current.startsWith('L');
+                        // Parse Last 5/10 into dots
+                        const parseLast = (str) => {
+                            if (!str) return [];
+                            return str.split('-').map(Number);
+                        };
+                        const last5 = parseLast(t['Last 5']);
+                        const last10 = parseLast(t['Last 10']);
+                        return html`
+                            <div class="team-record-card">
+                                <div class="team-record-header">
+                                    <span class="team-record-name">${t.Team}${t.Gender === 'W' ? ' (W)' : ''}</span>
+                                </div>
+                                <div class=${'streak-current ' + (isWin ? 'streak-win' : isLoss ? 'streak-loss' : '')}>
+                                    ${current}
+                                </div>
+                                <div class="streak-details">
+                                    <div class="streak-detail-item">
+                                        <span class="team-scoring-label">Best Win Streak</span>
+                                        <span class="team-scoring-value stat-good">${t['Longest Win Streak'] || 0}</span>
+                                    </div>
+                                    <div class="streak-detail-item">
+                                        <span class="team-scoring-label">Worst Loss Streak</span>
+                                        <span class="team-scoring-value stat-poor">${t['Longest Loss Streak'] || 0}</span>
+                                    </div>
+                                </div>
+                                <div class="streak-recent">
+                                    ${last5.length >= 2 ? html`
+                                        <div class="streak-recent-row">
+                                            <span class="team-scoring-label">Last 5</span>
+                                            <span class="team-scoring-value">${last5[0]}-${last5[1]}</span>
+                                        </div>
+                                    ` : null}
+                                    ${last10.length >= 2 ? html`
+                                        <div class="streak-recent-row">
+                                            <span class="team-scoring-label">Last 10</span>
+                                            <span class="team-scoring-value">${last10[0]}-${last10[1]}</span>
+                                        </div>
+                                    ` : null}
+                                </div>
+                            </div>
+                        `;
+                    })}
+                </div>
+            `}
+
+            ${teamTab === 'splits' && html`
+                <div class="team-cards-grid">
+                    ${splits.map(t => {
+                        const homePct = (t['Home Win%'] || 0) * 100;
+                        const awayPct = (t['Away Win%'] || 0) * 100;
+                        const totalW = t['Total W'] || 0;
+                        const totalL = t['Total L'] || 0;
+                        return html`
+                            <div class="team-record-card">
+                                <div class="team-record-header">
+                                    <span class="team-record-name">${t.Team}${t.Gender === 'W' ? ' (W)' : ''}</span>
+                                    <span class="team-record-gp">${totalW}-${totalL}</span>
+                                </div>
+                                <div class="splits-bars">
+                                    <div class="split-row">
+                                        <span class="split-label">Home</span>
+                                        <div class="split-bar-track">
+                                            <div class="split-bar-fill split-home" style=${'width:' + homePct + '%'}></div>
+                                        </div>
+                                        <span class="split-record">${t['Home W']}-${t['Home L']}</span>
+                                    </div>
+                                    <div class="split-row">
+                                        <span class="split-label">Away</span>
+                                        <div class="split-bar-track">
+                                            <div class="split-bar-fill split-away" style=${'width:' + awayPct + '%'}></div>
+                                        </div>
+                                        <span class="split-record">${t['Away W']}-${t['Away L']}</span>
+                                    </div>
+                                    ${(t['Neutral W'] || t['Neutral L']) ? html`
+                                        <div class="split-row">
+                                            <span class="split-label">Neutral</span>
+                                            <div class="split-bar-track">
+                                                <div class="split-bar-fill split-neutral" style=${'width:' + ((t['Neutral W'] || 0) / Math.max(1, (t['Neutral W'] || 0) + (t['Neutral L'] || 0)) * 100) + '%'}></div>
+                                            </div>
+                                            <span class="split-record">${t['Neutral W'] || 0}-${t['Neutral L'] || 0}</span>
+                                        </div>
+                                    ` : null}
+                                </div>
+                            </div>
+                        `;
+                    })}
+                </div>
+            `}
+
+            ${teamTab === 'standings' && html`
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead><tr><th>Conference</th><th>Team</th><th>Conf W-L</th><th>Conf%</th><th>Overall W-L</th><th>Overall%</th></tr></thead>
+                        <tbody>
+                            ${standings.map(t => html`
+                                <tr>
+                                    <td>${t.Conference}</td>
+                                    <td>${t.Team}${t.Gender === 'W' ? ' (W)' : ''}</td>
+                                    <td>${t['Conf W']}-${t['Conf L']}</td>
+                                    <td>${((t['Conf Win%'] || 0) * 100).toFixed(0)}%</td>
+                                    <td>${t['Overall W']}-${t['Overall L']}</td>
+                                    <td>${((t['Overall Win%'] || 0) * 100).toFixed(0)}%</td>
+                                </tr>
+                            `)}
+                        </tbody>
+                    </table>
+                </div>
+            `}
+
+            ${teamTab === 'starters' && html`
+                <div class="team-cards-grid">
+                    ${(() => {
+                        // Group starters by team
+                        const byTeam = {};
+                        starters.forEach(t => {
+                            const key = t.Team + (t.Gender === 'W' ? ' (W)' : '');
+                            if (!byTeam[key]) byTeam[key] = {};
+                            byTeam[key][t.Type] = t;
+                            byTeam[key].team = key;
+                        });
+                        return Object.values(byTeam).map(pair => {
+                            const s = pair.Starters || {};
+                            const b = pair.Bench || {};
+                            return html`
+                                <div class="team-record-card starters-card">
+                                    <div class="team-record-header">
+                                        <span class="team-record-name">${pair.team}</span>
+                                    </div>
+                                    <div class="starters-comparison">
+                                        <div class="starters-col">
+                                            <div class="starters-col-header"><span class="badge badge-starter">Starters</span></div>
+                                            <div class="starters-stat"><span class="team-scoring-label">PPG</span><span class="team-scoring-value">${(s.PPG || 0).toFixed(1)}</span></div>
+                                            <div class="starters-stat"><span class="team-scoring-label">RPG</span><span class="team-scoring-value">${(s.RPG || 0).toFixed(1)}</span></div>
+                                            <div class="starters-stat"><span class="team-scoring-label">APG</span><span class="team-scoring-value">${(s.APG || 0).toFixed(1)}</span></div>
+                                            <div class="starters-stat"><span class="team-scoring-label">MPG</span><span class="team-scoring-value">${(s.MPG || 0).toFixed(1)}</span></div>
+                                        </div>
+                                        <div class="starters-divider"></div>
+                                        <div class="starters-col">
+                                            <div class="starters-col-header"><span class="badge badge-bench">Bench</span></div>
+                                            <div class="starters-stat"><span class="team-scoring-label">PPG</span><span class="team-scoring-value">${(b.PPG || 0).toFixed(1)}</span></div>
+                                            <div class="starters-stat"><span class="team-scoring-label">RPG</span><span class="team-scoring-value">${(b.RPG || 0).toFixed(1)}</span></div>
+                                            <div class="starters-stat"><span class="team-scoring-label">APG</span><span class="team-scoring-value">${(b.APG || 0).toFixed(1)}</span></div>
+                                            <div class="starters-stat"><span class="team-scoring-label">MPG</span><span class="team-scoring-value">${(b.MPG || 0).toFixed(1)}</span></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                        });
+                    })()}
+                </div>
+            `}
+        </div>
+    `;
+}
+
+function MatchupsView() {
+    const games = DATA.games || [];
+    const [confFilter, setConfFilter] = useState('');
+
+    // Get all conferences
+    const allConfs = useMemo(() => {
+        const set = new Set();
+        games.forEach(g => {
+            const ac = getGameConference(g, 'away');
+            const hc = getGameConference(g, 'home');
+            if (ac) set.add(ac);
+            if (hc) set.add(hc);
+        });
+        return [...set].sort();
+    }, [games]);
+
+    // Conference-vs-conference matrix
+    const { confList, confMatrix } = useMemo(() => {
+        const confSet = new Set();
+        const data = {};
+        games.forEach(g => {
+            const ac = getGameConference(g, 'away');
+            const hc = getGameConference(g, 'home');
+            if (!ac || !hc) return;
+            confSet.add(ac);
+            confSet.add(hc);
+            if (ac === hc) {
+                // Intra-conference
+                if (!data[ac]) data[ac] = {};
+                if (!data[ac][ac]) data[ac][ac] = 0;
+                data[ac][ac]++;
+            } else {
+                // Inter-conference
+                if (!data[ac]) data[ac] = {};
+                if (!data[hc]) data[hc] = {};
+                if (!data[ac][hc]) data[ac][hc] = 0;
+                if (!data[hc][ac]) data[hc][ac] = 0;
+                data[ac][hc]++;
+                data[hc][ac]++;
+            }
+        });
+        const confs = [...confSet].sort();
+        return { confList: confs, confMatrix: data };
+    }, [games]);
+
+    // Team matrix (when conference is selected)
+    const { teamList, matchupData } = useMemo(() => {
+        if (!confFilter) return { teamList: [], matchupData: {} };
+        // Build team set from game data so non-D1 teams are included
+        const teamSet = new Set();
+        games.forEach(g => {
+            const ac = getGameConference(g, 'away');
+            const hc = getGameConference(g, 'home');
+            if (ac === confFilter) teamSet.add(g['Away Team']);
+            if (hc === confFilter) teamSet.add(g['Home Team']);
+        });
+        const teams = [...teamSet].sort();
+
+        const data = {};
+        teams.forEach(t => { data[t] = {}; });
+        games.forEach(g => {
+            const away = g['Away Team'];
+            const home = g['Home Team'];
+            if (!data[away] || !data[home]) return;
+            if (!data[away][home]) data[away][home] = { wins: 0, losses: 0, diff: 0, total: 0 };
+            if (!data[home][away]) data[home][away] = { wins: 0, losses: 0, diff: 0, total: 0 };
+            const as = g['Away Score'] || 0, hs = g['Home Score'] || 0;
+            data[away][home].total++;
+            data[home][away].total++;
+            if (as > hs) {
+                data[away][home].wins++; data[away][home].diff += (as - hs);
+                data[home][away].losses++; data[home][away].diff += (hs - as);
+            } else {
+                data[home][away].wins++; data[home][away].diff += (hs - as);
+                data[away][home].losses++; data[away][home].diff += (as - hs);
+            }
+        });
+
+        return { teamList: teams, matchupData: data };
+    }, [games, confFilter]);
+
+    const abbrev = (name) => name.length > 10 ? name.slice(0, 9) + '..' : name;
+    const maxConfGames = useMemo(() => {
+        let max = 0;
+        confList.forEach(c1 => confList.forEach(c2 => {
+            if (c1 !== c2) max = Math.max(max, confMatrix[c1]?.[c2] || 0);
+        }));
+        return max;
+    }, [confList, confMatrix]);
+
+    return html`
+        <div>
+            <${FilterBar}>
+                <select class="filter-select" value=${confFilter} onChange=${(e) => setConfFilter(e.target.value)}>
+                    <option value="">Conference Crossovers</option>
+                    ${allConfs.map(c => html`<option value=${c}>${c}</option>`)}
+                </select>
+            <//>
+
+            ${!confFilter && html`
+                <div class="matrix-scroll">
+                    <table class="matchup-matrix conf-matrix">
+                        <thead>
+                            <tr>
+                                <th class="matrix-corner"></th>
+                                ${confList.map(c => html`<th class="matrix-col-header" title=${c}>${abbrev(c)}</th>`)}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${confList.map(row => html`
+                                <tr>
+                                    <th class="matrix-row-header">${row}</th>
+                                    ${confList.map(col => {
+                                        const count = confMatrix[row]?.[col] || 0;
+                                        if (row === col) {
+                                            return html`<td class="matrix-diagonal conf-intra"
+                                                style="cursor:pointer"
+                                                onClick=${() => setConfFilter(row)}
+                                                title="View ${row} matchups">${count || ''}</td>`;
+                                        }
+                                        if (count === 0) return html`<td class="matrix-empty"></td>`;
+                                        // Color intensity based on count
+                                        const intensity = Math.min(1, count / Math.max(1, maxConfGames));
+                                        const alpha = 0.15 + intensity * 0.6;
+                                        return html`
+                                            <td class="matrix-cell conf-cross"
+                                                style=${'background: rgba(37, 99, 235, ' + alpha + ')'}
+                                                title="${row} vs ${col}: ${count} game${count !== 1 ? 's' : ''}">
+                                                <div class="matrix-record">${count}</div>
+                                            </td>
+                                        `;
+                                    })}
+                                </tr>
+                            `)}
+                        </tbody>
+                    </table>
+                </div>
+            `}
+
+            ${confFilter && html`
+                ${teamList.length === 0
+                    ? html`<${EmptyState} title="No teams found" />`
+                    : html`
+                        <div class="matrix-scroll">
+                            <table class="matchup-matrix">
+                                <thead>
+                                    <tr>
+                                        <th class="matrix-corner">Team</th>
+                                        ${teamList.map(t => html`<th class="matrix-col-header" title=${t}>${abbrev(t)}</th>`)}
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${teamList.map(row => html`
+                                        <tr>
+                                            <th class="matrix-row-header">${row}</th>
+                                            ${teamList.map(col => {
+                                                if (row === col) return html`<td class="matrix-diagonal">-</td>`;
+                                                const r = matchupData[row]?.[col];
+                                                if (!r || r.total === 0) return html`<td class="matrix-empty">-</td>`;
+                                                const cls = r.wins > r.losses ? 'matrix-win' : r.losses > r.wins ? 'matrix-loss' : 'matrix-even';
+                                                const diffStr = r.diff >= 0 ? '+' + r.diff : '' + r.diff;
+                                                return html`
+                                                    <td class=${'matrix-cell ' + cls}
+                                                        title="${row} vs ${col}: ${r.wins}-${r.losses} (${diffStr})">
+                                                        <div class="matrix-record">${r.wins}-${r.losses}</div>
+                                                        <div class="matrix-diff">${diffStr}</div>
+                                                    </td>
+                                                `;
+                                            })}
+                                        </tr>
+                                    `)}
+                                </tbody>
+                            </table>
+                        </div>
+                    `
+                }
+            `}
+        </div>
+    `;
+}
+
+function SeasonsView() {
+    const games = DATA.games || [];
+    const chartRef = useRef(null);
+    const chartInstance = useRef(null);
+
+    // Group games by season (Nov-Apr = one season)
+    const seasons = useMemo(() => {
+        const map = {};
+        games.forEach(g => {
+            const ds = g.DateSort || '';
+            if (!ds) return;
+            const year = parseInt(ds.slice(0,4));
+            const month = parseInt(ds.slice(4,6));
+            // Season: Nov 2024 - Apr 2025 = "2024-25"
+            const seasonYear = month >= 8 ? year : year - 1;
+            const seasonKey = `${seasonYear}-${String(seasonYear + 1).slice(2)}`;
+            if (!map[seasonKey]) map[seasonKey] = { games: [], totalPts: 0, gamesCount: 0 };
+            map[seasonKey].games.push(g);
+            map[seasonKey].totalPts += (g['Away Score']||0) + (g['Home Score']||0);
+            map[seasonKey].gamesCount++;
+        });
+        return Object.entries(map)
+            .sort((a, b) => a[0].localeCompare(b[0]))
+            .map(([key, data]) => ({
+                season: key,
+                games: data.gamesCount,
+                totalPts: data.totalPts,
+                avgPts: data.totalPts / (data.gamesCount || 1),
+                venues: new Set(data.games.map(g => g.Venue)).size,
+                teams: new Set(data.games.flatMap(g => [g['Away Team'], g['Home Team']])).size,
+            }));
+    }, [games]);
+
+    // Chart
+    useEffect(() => {
+        if (!chartRef.current || seasons.length < 2) return;
+        if (chartInstance.current) chartInstance.current.destroy();
+        const isDark = document.body.getAttribute('data-theme') === 'dark';
+        chartInstance.current = new Chart(chartRef.current, {
+            type: 'bar',
+            data: {
+                labels: seasons.map(s => s.season),
+                datasets: [{
+                    label: 'Games',
+                    data: seasons.map(s => s.games),
+                    backgroundColor: getComputedStyle(document.body).getPropertyValue('--accent').trim() || '#c2410c',
+                }]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: { beginAtZero: true, grid: { color: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)' } }
+                }
+            }
+        });
+        return () => { if (chartInstance.current) chartInstance.current.destroy(); };
+    }, [seasons]);
+
+    return html`
+        <div>
+            <h3>Season Comparison</h3>
+            ${seasons.length > 1 && html`
+                <div class="chart-container" style="height:250px; margin-bottom: var(--space-4)">
+                    <canvas ref=${chartRef}></canvas>
+                </div>
+            `}
+            <div class="table-container">
+                <table class="data-table">
+                    <thead><tr><th>Season</th><th>Games</th><th>Total Pts</th><th>Avg Combined</th><th>Venues</th><th>Teams</th></tr></thead>
+                    <tbody>
+                        ${seasons.map(s => html`
+                            <tr>
+                                <td><strong>${s.season}</strong></td>
+                                <td>${s.games}</td>
+                                <td>${s.totalPts.toLocaleString()}</td>
+                                <td>${s.avgPts.toFixed(1)}</td>
+                                <td>${s.venues}</td>
+                                <td>${s.teams}</td>
+                            </tr>
+                        `)}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    `;
+}
+
+function HeadToHeadView({ showGameDetail }) {
+    const [team1, setTeam1] = useState(window._h2hTeam1 || '');
+    const [team2, setTeam2] = useState(window._h2hTeam2 || '');
+    // Clear the global after picking it up
+    useEffect(() => { window._h2hTeam1 = null; window._h2hTeam2 = null; }, []);
+    const games = DATA.games || [];
+
+    const allTeams = useMemo(() => {
+        const set = new Set();
+        games.forEach(g => { set.add(g['Away Team']); set.add(g['Home Team']); });
+        return [...set].sort();
+    }, [games]);
+
+    const h2hGames = useMemo(() => {
+        if (!team1 || !team2) return [];
+        return games.filter(g =>
+            (g['Away Team'] === team1 && g['Home Team'] === team2) ||
+            (g['Away Team'] === team2 && g['Home Team'] === team1)
+        ).sort((a, b) => (b.DateSort || '').localeCompare(a.DateSort || ''));
+    }, [team1, team2, games]);
+
+    const record = useMemo(() => {
+        let t1Wins = 0, t2Wins = 0;
+        h2hGames.forEach(g => {
+            const winner = (g['Away Score']||0) > (g['Home Score']||0) ? g['Away Team'] : g['Home Team'];
+            if (winner === team1) t1Wins++;
+            else t2Wins++;
+        });
+        return { t1Wins, t2Wins };
+    }, [h2hGames, team1, team2]);
+
+    return html`
+        <div>
+            <h3>Head to Head</h3>
+            <${FilterBar}>
+                <select class="filter-select" value=${team1} onChange=${(e) => setTeam1(e.target.value)}>
+                    <option value="">Select Team 1</option>
+                    ${allTeams.map(t => html`<option value=${t}>${t}</option>`)}
+                </select>
+                <span style="color: var(--text-muted); font-weight: 600">vs</span>
+                <select class="filter-select" value=${team2} onChange=${(e) => setTeam2(e.target.value)}>
+                    <option value="">Select Team 2</option>
+                    ${allTeams.map(t => html`<option value=${t}>${t}</option>`)}
+                </select>
+            <//>
+
+            ${team1 && team2 && html`
+                ${h2hGames.length === 0
+                    ? html`<${EmptyState} title="No matchups found" message="${team1} and ${team2} haven't played in your game log" />`
+                    : html`
+                        <div class="h2h-summary" style="text-align:center; margin: var(--space-4) 0">
+                            <div style="font-size: 1.5rem; font-weight: 700">
+                                ${team1}: ${record.t1Wins} — ${record.t2Wins} :${team2}
+                            </div>
+                            <div style="color: var(--text-secondary); font-size: 0.875rem">${h2hGames.length} game${h2hGames.length !== 1 ? 's' : ''}</div>
+                        </div>
+                        <div class="table-container">
+                            <table class="data-table">
+                                <thead><tr><th>Date</th><th>Away</th><th>Score</th><th>Home</th><th>Venue</th></tr></thead>
+                                <tbody>
+                                    ${h2hGames.map(g => html`
+                                        <tr class="clickable-row" onClick=${() => showGameDetail(g.GameID)}>
+                                            <td>${g.Date}</td>
+                                            <td>${g['Away Team']}</td>
+                                            <td><span class="game-link">${g['Away Score']}-${g['Home Score']}</span></td>
+                                            <td>${g['Home Team']}</td>
+                                            <td>${g.Venue}</td>
+                                        </tr>
+                                    `)}
+                                </tbody>
+                            </table>
+                        </div>
+                    `
+                }
+            `}
+
+            ${(!team1 || !team2) && html`<${EmptyState} icon="⚔️" title="Select two teams" message="Choose teams above to compare their head-to-head record" />`}
+        </div>
+    `;
+}
+
+function PlayerStats({ showPlayerDetail }) {
+    const [page, setPage] = useState(1);
+    const [genderFilter, setGenderFilter] = useState('');
+    const [search, setSearch] = useState('');
+    const [sortCol, setSortCol] = useState('PPG');
+    const [sortAsc, setSortAsc] = useState(false);
+    const pageSize = 100;
+
+    const columns = [
+        { key: 'Games', label: 'GP', fmt: v => v || 0 },
+        { key: 'PPG', label: 'PPG', fmt: v => (v || 0).toFixed(1), threshold: STAT_THRESHOLDS.ppg },
+        { key: 'RPG', label: 'RPG', fmt: v => (v || 0).toFixed(1), threshold: STAT_THRESHOLDS.rpg },
+        { key: 'APG', label: 'APG', fmt: v => (v || 0).toFixed(1), threshold: STAT_THRESHOLDS.apg },
+        { key: 'SPG', label: 'SPG', fmt: v => (v || 0).toFixed(1) },
+        { key: 'BPG', label: 'BPG', fmt: v => (v || 0).toFixed(1) },
+        { key: 'FG%', label: 'FG%', fmt: v => ((v || 0) * 100).toFixed(1) + '%', threshold: STAT_THRESHOLDS.fgPct },
+        { key: '3P%', label: '3P%', fmt: v => ((v || 0) * 100).toFixed(1) + '%', threshold: STAT_THRESHOLDS.threePct },
+        { key: 'FT%', label: 'FT%', fmt: v => ((v || 0) * 100).toFixed(1) + '%' },
+        { key: 'Total PTS', label: 'PTS', fmt: v => v || 0 },
+        { key: 'Total REB', label: 'REB', fmt: v => v || 0 },
+        { key: 'Total AST', label: 'AST', fmt: v => v || 0 },
+    ];
+
+    const handleSort = (col) => {
+        if (sortCol === col) setSortAsc(!sortAsc);
+        else { setSortCol(col); setSortAsc(false); }
+        setPage(1);
+    };
+
+    const filtered = useMemo(() => {
+        let data = DATA.players || [];
+        if (genderFilter) data = data.filter(p => p.Gender === genderFilter);
+        if (search) {
+            const q = search.toLowerCase();
+            data = data.filter(p => (p.Player||'').toLowerCase().includes(q) || (p.Team||'').toLowerCase().includes(q));
+        }
+        return [...data].sort((a, b) => {
+            const va = a[sortCol] || 0;
+            const vb = b[sortCol] || 0;
+            return sortAsc ? va - vb : vb - va;
+        });
+    }, [genderFilter, search, sortCol, sortAsc]);
+
+    const pageData = filtered.slice((page - 1) * pageSize, page * pageSize);
+    const genderFilters = [{ id: '', label: 'All' }, { id: 'M', label: "Men's" }, { id: 'W', label: "Women's" }];
+
+    return html`
+        <div>
+            <${FilterBar}>
+                <input type="text" class="filter-input" placeholder="Search players..." value=${search} onInput=${(e) => { setSearch(e.target.value); setPage(1); }} />
+                <div class="gender-toggle">
+                    ${genderFilters.map(gf => html`
+                        <button class=${'quick-filter-btn' + (genderFilter === gf.id ? ' active' : '')} onClick=${() => { setGenderFilter(gf.id); setPage(1); }}>${gf.label}</button>
+                    `)}
+                </div>
+                <span class="filter-count">${filtered.length} players</span>
+            <//>
+            <div class="table-container">
+                <table class="data-table players-table">
+                    <thead>
+                        <tr>
+                            <th class="sticky-col">Player</th>
+                            <th>Team</th>
+                            ${columns.map(c => html`
+                                <th class="sortable-th" onClick=${() => handleSort(c.key)}>
+                                    ${c.label} ${sortCol === c.key ? (sortAsc ? '▲' : '▼') : ''}
+                                </th>
+                            `)}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${pageData.map(p => html`
+                            <tr>
+                                <td class="sticky-col">
+                                    <span class="player-link" onClick=${() => showPlayerDetail(p['Player ID'] || p.Player)}>${p.Player}</span>
+                                    ${p.Gender === 'W' ? html` <span class="gender-tag">(W)</span>` : null}
+                                    ${p.NBA ? html` <span class="badge badge-nba">NBA</span>` : null}
+                                    ${p.WNBA ? html` <span class="badge badge-wnba">WNBA</span>` : null}
+                                </td>
+                                <td>${p.Team}</td>
+                                ${columns.map(c => html`
+                                    <td class=${c.threshold ? getStatClass(p[c.key] || 0, c.threshold) : ''}>${c.fmt(p[c.key])}</td>
+                                `)}
+                            </tr>
+                        `)}
+                    </tbody>
+                </table>
+            </div>
+            <${Pagination} page=${page} pageSize=${pageSize} total=${filtered.length} onPageChange=${setPage} />
+        </div>
+    `;
+}
+
+function StatLeaders({ showPlayerDetail }) {
+    const [genderFilter, setGenderFilter] = useState('');
+    const [minGames, setMinGames] = useState(2);
 
     const categories = [
         { key: 'PPG', label: 'Points Per Game', format: v => v.toFixed(1) },
@@ -485,8403 +2508,1599 @@ function renderLeaders() {
         { key: 'Best Game Score', label: 'Best Game Score', format: v => v.toFixed(1) },
     ];
 
-    grid.innerHTML = categories.map(cat => {
-        const sorted = [...filtered]
-            .filter(p => p[cat.key] != null && !isNaN(p[cat.key]))
-            .sort((a, b) => b[cat.key] - a[cat.key])
-            .slice(0, 5);
+    const players = useMemo(() => {
+        let data = DATA.players || [];
+        if (genderFilter) data = data.filter(p => p.Gender === genderFilter);
+        return data.filter(p => (p.Games || 0) >= minGames);
+    }, [genderFilter, minGames]);
 
-        if (!sorted.length) return '';
-
-        return `
-        <div class="leader-card">
-            <h4>${cat.label}</h4>
-            <ul class="leader-list">
-                ${sorted.map((p, i) => `
-                    <li class="leader-item">
-                        <span class="leader-rank">${i + 1}</span>
-                        <span class="leader-name" onclick="showPlayerDetail('${(p['Player ID'] || p.Player || '').replace(/'/g, "\\'")}')">${p.Player}</span>
-                        <span class="leader-team">${p.Team || ''}</span>
-                        <span class="leader-value">${cat.format(p[cat.key])}</span>
-                    </li>
-                `).join('')}
-            </ul>
-        </div>`;
-    }).join('');
-}
-
-// Keyboard navigation
-document.addEventListener('keydown', (e) => {
-    // Tab navigation with arrow keys
-    if (e.target.classList.contains('tab')) {
-        const tabs = Array.from(document.querySelectorAll('.tab'));
-        const currentIndex = tabs.indexOf(e.target);
-        if (e.key === 'ArrowRight' && currentIndex < tabs.length - 1) {
-            tabs[currentIndex + 1].focus();
-            tabs[currentIndex + 1].click();
-        } else if (e.key === 'ArrowLeft' && currentIndex > 0) {
-            tabs[currentIndex - 1].focus();
-            tabs[currentIndex - 1].click();
-        }
-    }
-    // Close modals with Escape
-    if (e.key === 'Escape') {
-        document.querySelectorAll('.modal.active').forEach(m => m.classList.remove('active'));
-    }
-});
-
-function filterTable(tableId, query) {
-    const table = document.getElementById(tableId);
-    const rows = table.querySelectorAll('tbody tr');
-    const lowerQuery = query.toLowerCase();
-    rows.forEach(row => {
-        const text = row.textContent.toLowerCase();
-        row.style.display = text.includes(lowerQuery) ? '' : 'none';
-    });
-}
-
-function filterByTeam(teamName, gender) {
-    // Set the team dropdown and apply filters
-    const select = document.getElementById('games-team');
-    if (select) {
-        // Build the team|gender value
-        const filterValue = gender ? `${teamName}|${gender}` : `${teamName}|M`;
-        select.value = filterValue;
-        applyFilters('games');
-    }
-}
-
-function quickFilterGames(filterType) {
-    const clickedBtn = event.target;
-    const wasActive = clickedBtn.classList.contains('active');
-
-    // If clicking an active button (not 'all'), toggle back to 'all'
-    if (wasActive && filterType !== 'all') {
-        filterType = 'all';
-    }
-
-    // Update active button
-    document.querySelectorAll('.quick-filter').forEach(btn => btn.classList.remove('active'));
-    if (filterType === 'all') {
-        document.querySelector('.quick-filter').classList.add('active'); // First button is 'All'
-    } else {
-        clickedBtn.classList.add('active');
-    }
-
-    // Reset search box
-    const searchBox = document.getElementById('games-search');
-    if (searchBox) searchBox.value = '';
-
-    // Store the quick filter type for applyGamesFilters to use
-    window.currentQuickFilter = filterType;
-
-    // Apply the filter
-    applyGamesFilters();
-}
-
-function updateHeadToHead() {
-    const team1Value = document.getElementById('h2h-team1').value;
-    const team2Value = document.getElementById('h2h-team2').value;
-    const resultDiv = document.getElementById('h2h-result');
-    const summaryDiv = document.getElementById('h2h-summary');
-    const gamesDiv = document.getElementById('h2h-games');
-
-    if (!team1Value || !team2Value || team1Value === team2Value) {
-        resultDiv.style.display = 'none';
-        return;
-    }
-
-    // Parse team|gender values
-    const [team1Name, team1Gender] = team1Value.split('|');
-    const [team2Name, team2Gender] = team2Value.split('|');
-
-    // Find all games between these two teams (with matching gender)
-    const matchups = (DATA.games || []).filter(g => {
-        const genderMatch = !team1Gender || g.Gender === team1Gender;
-        const teamsMatch = (g['Away Team'] === team1Name && g['Home Team'] === team2Name) ||
-                           (g['Away Team'] === team2Name && g['Home Team'] === team1Name);
-        return genderMatch && teamsMatch;
-    }).sort((a, b) => (b.Date || '').localeCompare(a.Date || ''));
-
-    // Build display names
-    const team1Display = team1Gender === 'W' ? `${team1Name} (W)` : team1Name;
-    const team2Display = team2Gender === 'W' ? `${team2Name} (W)` : team2Name;
-
-    if (matchups.length === 0) {
-        resultDiv.style.display = 'block';
-        summaryDiv.innerHTML = `<h3>No games found between ${team1Display} and ${team2Display}</h3>`;
-        gamesDiv.innerHTML = '';
-        return;
-    }
-
-    // Calculate record
-    let team1Wins = 0, team2Wins = 0;
-    matchups.forEach(g => {
-        const awayScore = parseInt(g['Away Score']) || 0;
-        const homeScore = parseInt(g['Home Score']) || 0;
-        const awayWon = awayScore > homeScore;
-        if ((g['Away Team'] === team1Name && awayWon) || (g['Home Team'] === team1Name && !awayWon)) {
-            team1Wins++;
-        } else {
-            team2Wins++;
-        }
-    });
-
-    resultDiv.style.display = 'block';
-    summaryDiv.innerHTML = `
-        <h3 style="margin-bottom:0.5rem;">${team1Display} vs ${team2Display}</h3>
-        <div style="font-size:2rem;font-weight:bold;color:var(--accent-color);">${team1Wins} - ${team2Wins}</div>
-        <p style="color:var(--text-secondary);">${matchups.length} game${matchups.length !== 1 ? 's' : ''}</p>
-    `;
-
-    gamesDiv.innerHTML = `
-        <table>
-            <thead><tr><th>Date</th><th>Matchup</th><th>Score</th><th>Venue</th></tr></thead>
-            <tbody>
-                ${matchups.map(g => {
-                    const awayScore = parseInt(g['Away Score']) || 0;
-                    const homeScore = parseInt(g['Home Score']) || 0;
-                    const awayWon = awayScore > homeScore;
-                    const winner = awayWon ? g['Away Team'] : g['Home Team'];
-                    const genderTag = g.Gender === 'W' ? ' <span class="gender-tag">(W)</span>' : '';
-                    return `
-                        <tr class="clickable-row" onclick="showGameDetail('${g.GameID}')">
-                            <td><span class="game-link">${g.Date}</span></td>
-                            <td>${g['Away Team']} @ ${g['Home Team']}${genderTag}</td>
-                            <td><strong>${awayWon ? awayScore : homeScore}</strong>-${awayWon ? homeScore : awayScore} (${winner})</td>
-                            <td>${g.Venue || ''}</td>
-                        </tr>
+    return html`
+        <div>
+            <${FilterBar}>
+                <div class="gender-toggle">
+                    ${[{id:'',label:'All'},{id:'M',label:"Men's"},{id:'W',label:"Women's"}].map(gf => html`
+                        <button class=${'quick-filter-btn' + (genderFilter === gf.id ? ' active' : '')} onClick=${() => setGenderFilter(gf.id)}>${gf.label}</button>
+                    `)}
+                </div>
+                <label>Min Games: <input type="number" class="filter-input" style="width:60px" value=${minGames} min="1" onChange=${(e) => setMinGames(parseInt(e.target.value) || 1)} /></label>
+            <//>
+            <div class="leaders-grid">
+                ${categories.map(cat => {
+                    const sorted = [...players]
+                        .filter(p => p[cat.key] != null && !isNaN(p[cat.key]))
+                        .sort((a, b) => b[cat.key] - a[cat.key])
+                        .slice(0, 5);
+                    if (!sorted.length) return null;
+                    return html`
+                        <div class="leader-card">
+                            <h4>${cat.label}</h4>
+                            <ul class="leader-list">
+                                ${sorted.map((p, i) => html`
+                                    <li class="leader-item" onClick=${() => showPlayerDetail(p['Player ID'] || p.Player)}>
+                                        <span class="leader-rank">${i + 1}</span>
+                                        <span class="leader-name">${p.Player}</span>
+                                        <span class="leader-team">${p.Team}</span>
+                                        <span class="leader-value">${cat.format(p[cat.key])}</span>
+                                    </li>
+                                `)}
+                            </ul>
+                        </div>
                     `;
-                }).join('')}
-            </tbody>
-        </table>
-    `;
-}
-
-// Store all teams for H2H dropdown reset
-let allH2HTeams = [];
-
-function updateH2HTeam2Options() {
-    const team1Value = document.getElementById('h2h-team1').value;
-    const h2h2 = document.getElementById('h2h-team2');
-    const currentTeam2 = h2h2.value;
-
-    // Parse team1 value (format: "TeamName|Gender")
-    let team1Name = '', team1Gender = '';
-    if (team1Value && team1Value.includes('|')) {
-        const parts = team1Value.split('|');
-        team1Name = parts[0];
-        team1Gender = parts[1];
-    }
-
-    // Build gender lookup from games
-    const teamGenders = {};
-    (DATA.games || []).forEach(g => {
-        [g['Away Team'], g['Home Team']].forEach(team => {
-            if (team) {
-                if (!teamGenders[team]) teamGenders[team] = new Set();
-                if (g.Gender) teamGenders[team].add(g.Gender);
-            }
-        });
-    });
-
-    function getDisplayName(teamName, gender) {
-        const genders = teamGenders[teamName];
-        const hasBoth = genders && genders.has('M') && genders.has('W');
-        if (gender === 'W') return `${teamName} (W)`;
-        if (hasBoth && gender === 'M') return `${teamName} (M)`;
-        return teamName;
-    }
-
-    // Clear Team 2 dropdown
-    h2h2.innerHTML = '<option value="">Select Team 2</option>';
-
-    if (!team1Name) {
-        // No Team 1 selected - show all teams
-        allH2HTeams.forEach(teamValue => {
-            const [teamName, gender] = teamValue.split('|');
-            const opt = document.createElement('option');
-            opt.value = teamValue;
-            opt.textContent = getDisplayName(teamName, gender);
-            h2h2.appendChild(opt);
-        });
-    } else {
-        // Team 1 selected - show only opponents they've played (same gender)
-        const opponents = new Set();
-        (DATA.games || []).forEach(g => {
-            if (g.Gender !== team1Gender) return; // Must match gender
-            if (g['Away Team'] === team1Name) {
-                opponents.add(`${g['Home Team']}|${g.Gender}`);
-            } else if (g['Home Team'] === team1Name) {
-                opponents.add(`${g['Away Team']}|${g.Gender}`);
-            }
-        });
-
-        [...opponents].sort().forEach(teamValue => {
-            const [teamName, gender] = teamValue.split('|');
-            const opt = document.createElement('option');
-            opt.value = teamValue;
-            opt.textContent = getDisplayName(teamName, gender);
-            h2h2.appendChild(opt);
-        });
-    }
-
-    // Restore Team 2 selection if still valid
-    if (currentTeam2 && [...h2h2.options].some(o => o.value === currentTeam2)) {
-        h2h2.value = currentTeam2;
-    }
-}
-
-function buildMatchupMatrix() {
-    const confFilter = document.getElementById('matrix-conference').value;
-    const minGames = parseInt(document.getElementById('matrix-min-games')?.value) || 0;
-    const container = document.getElementById('matchup-matrix');
-
-    // Get all teams from games
-    const teamSet = new Set();
-    (DATA.games || []).forEach(g => {
-        teamSet.add(g['Away Team']);
-        teamSet.add(g['Home Team']);
-    });
-
-    let teams = [...teamSet].sort();
-
-    // Filter by conference if selected
-    if (confFilter) {
-        teams = teams.filter(t => getTeamConference(t) === confFilter);
-    }
-
-    if (teams.length === 0) {
-        container.innerHTML = '<div class="empty-state"><p>No teams found</p></div>';
-        return;
-    }
-
-    // Build matchup data: for each pair, calculate record from team1's perspective
-    const matchups = {};
-    teams.forEach(t => { matchups[t] = {}; });
-
-    (DATA.games || []).forEach(g => {
-        const away = g['Away Team'];
-        const home = g['Home Team'];
-        const awayScore = parseInt(g['Away Score']) || 0;
-        const homeScore = parseInt(g['Home Score']) || 0;
-
-        if (!matchups[away]) matchups[away] = {};
-        if (!matchups[home]) matchups[home] = {};
-        if (!matchups[away][home]) matchups[away][home] = { wins: 0, losses: 0, pointDiff: 0, totalGames: 0 };
-        if (!matchups[home][away]) matchups[home][away] = { wins: 0, losses: 0, pointDiff: 0, totalGames: 0 };
-
-        matchups[away][home].totalGames++;
-        matchups[home][away].totalGames++;
-
-        if (awayScore > homeScore) {
-            // Away team won
-            matchups[away][home].wins++;
-            matchups[away][home].pointDiff += (awayScore - homeScore);
-            matchups[home][away].losses++;
-            matchups[home][away].pointDiff += (homeScore - awayScore);
-        } else {
-            // Home team won
-            matchups[home][away].wins++;
-            matchups[home][away].pointDiff += (homeScore - awayScore);
-            matchups[away][home].losses++;
-            matchups[away][home].pointDiff += (awayScore - homeScore);
-        }
-    });
-
-    // Filter teams: hide those with no qualifying matchups when min games filter is active
-    if (minGames > 0) {
-        // Find teams that have at least one matchup meeting the min games threshold
-        const teamsWithMatches = new Set();
-        teams.forEach(team1 => {
-            teams.forEach(team2 => {
-                if (team1 !== team2) {
-                    const record = matchups[team1] && matchups[team1][team2];
-                    if (record && record.totalGames >= minGames) {
-                        teamsWithMatches.add(team1);
-                        teamsWithMatches.add(team2);
-                    }
-                }
-            });
-        });
-        teams = teams.filter(t => teamsWithMatches.has(t));
-    }
-
-    if (teams.length === 0) {
-        container.innerHTML = '<div class="empty-state"><p>No matchups found with current filters</p></div>';
-        return;
-    }
-
-    if (teams.length > 50) {
-        container.innerHTML = '<div class="empty-state"><p>Too many teams to display. Please select a conference filter.</p></div>';
-        return;
-    }
-
-    // Build table HTML
-    let html = '<table class="matchup-matrix"><thead><tr><th class="corner">Team</th>';
-    teams.forEach(t => {
-        // Abbreviate team names for column headers
-        const abbrev = t.length > 12 ? t.substring(0, 10) + '..' : t;
-        html += `<th title="${t}">${abbrev}</th>`;
-    });
-    html += '</tr></thead><tbody>';
-
-    teams.forEach(rowTeam => {
-        html += `<tr><th class="row-header">${rowTeam}</th>`;
-        teams.forEach(colTeam => {
-            if (rowTeam === colTeam) {
-                html += '<td class="diagonal">-</td>';
-            } else {
-                const record = matchups[rowTeam] && matchups[rowTeam][colTeam];
-                if (record && record.totalGames >= minGames && record.totalGames > 0) {
-                    const diff = record.pointDiff;
-                    const diffStr = diff >= 0 ? `+${diff}` : `${diff}`;
-                    let cellClass = 'even-record';
-                    if (record.wins > record.losses) cellClass = 'win-record';
-                    else if (record.losses > record.wins) cellClass = 'loss-record';
-
-                    html += `<td class="${cellClass}" onclick="showH2HFromMatrix('${rowTeam}', '${colTeam}')" title="${rowTeam} vs ${colTeam}: ${record.wins}-${record.losses} (${diffStr})">${record.wins}-${record.losses}<br><small>${diffStr}</small></td>`;
-                } else {
-                    html += '<td class="no-games">-</td>';
-                }
-            }
-        });
-        html += '</tr>';
-    });
-
-    html += '</tbody></table>';
-    container.innerHTML = html;
-}
-
-function showH2HFromMatrix(team1, team2) {
-    // Switch to Head-to-Head sub-tab and pre-select teams
-    showSubSection('teams', 'headtohead');
-
-    document.getElementById('h2h-team1').value = team1;
-    updateH2HTeam2Options();
-    document.getElementById('h2h-team2').value = team2;
-    updateHeadToHead();
-}
-
-function buildConferenceCrossover() {
-    const container = document.getElementById('conf-crossover-matrix');
-    if (!container) return;
-
-    // D1 conferences allowlist
-    const d1Conferences = [
-        'A-10', 'A-Sun', 'AAC', 'ACC', 'AEC', 'Big 12', 'Big East', 'Big Sky',
-        'Big South', 'Big Ten', 'Big West', 'CAA', 'CUSA', 'Horizon', 'Ind',
-        'Ivy', 'MAAC', 'MAC', 'MEAC', 'MVC', 'MWC', 'NEC', 'OVC', 'Pac-12',
-        'Patriot', 'SEC', 'Southern', 'Southland', 'Summit', 'Sun Belt', 'SWAC',
-        'WAC', 'WCC'
-    ];
-
-    // Get all conferences from games
-    const confSet = new Set();
-    const crossoverData = {};
-
-    (DATA.games || []).forEach(g => {
-        const awayConf = getGameConference(g, 'away');
-        const homeConf = getGameConference(g, 'home');
-
-        if (awayConf && d1Conferences.includes(awayConf)) confSet.add(awayConf);
-        if (homeConf && d1Conferences.includes(homeConf)) confSet.add(homeConf);
-
-        if (awayConf && homeConf && d1Conferences.includes(awayConf) && d1Conferences.includes(homeConf)) {
-            // Normalize key (alphabetical)
-            const key1 = awayConf < homeConf ? awayConf : homeConf;
-            const key2 = awayConf < homeConf ? homeConf : awayConf;
-            const key = `${key1}|${key2}`;
-
-            if (!crossoverData[key]) {
-                crossoverData[key] = { games: 0, conf1: key1, conf2: key2 };
-            }
-            crossoverData[key].games++;
-        }
-    });
-
-    const conferences = [...confSet].sort();
-
-    if (conferences.length === 0) {
-        container.innerHTML = '<div class="empty-state"><p>No conference data available</p></div>';
-        return;
-    }
-
-    // Calculate completion percentage (all matchups including intra-conference)
-    const n = conferences.length;
-    const totalPossibleMatchups = (n * (n + 1)) / 2; // triangular number for unique pairs
-    let matchupsWithGames = 0;
-
-    for (let i = 0; i < conferences.length; i++) {
-        for (let j = i; j < conferences.length; j++) {
-            const key = `${conferences[i]}|${conferences[j]}`;
-            if (crossoverData[key] && crossoverData[key].games > 0) {
-                matchupsWithGames++;
-            }
-        }
-    }
-
-    const completionPct = totalPossibleMatchups > 0 ? ((matchupsWithGames / totalPossibleMatchups) * 100).toFixed(1) : 0;
-
-    // Build matrix
-    let html = `<div class="crossover-summary" style="margin-bottom: 1rem; text-align: center;">
-        <span style="font-size: 0.9rem; color: var(--text-secondary);">
-            Conference matchups: <strong>${matchupsWithGames}</strong> of <strong>${totalPossibleMatchups}</strong>
-            (<strong>${completionPct}%</strong> complete)
-        </span>
-    </div>`;
-    // Helper to display "Non-D1" instead of "Historical/Other"
-    const displayConf = (c) => c === 'Historical/Other' ? 'Non-D1' : c;
-
-    html += '<table class="conf-crossover"><thead><tr><th></th>';
-    conferences.forEach(c => {
-        const display = displayConf(c);
-        const abbrev = display.length > 10 ? display.substring(0, 8) + '..' : display;
-        html += `<th title="${display}">${abbrev}</th>`;
-    });
-    html += '</tr></thead><tbody>';
-
-    conferences.forEach(rowConf => {
-        const rowDisplay = displayConf(rowConf);
-        html += `<tr><th>${rowDisplay}</th>`;
-        conferences.forEach(colConf => {
-            const colDisplay = displayConf(colConf);
-            if (rowConf === colConf) {
-                // Same conference
-                const key = `${rowConf}|${rowConf}`;
-                const data = crossoverData[key];
-                const count = data ? data.games : 0;
-                html += `<td class="diagonal" onclick="filterGamesByConferences('${rowConf}', '${colConf}')" title="${rowDisplay} intra-conference: ${count} games">${count || '-'}</td>`;
-            } else {
-                const key1 = rowConf < colConf ? rowConf : colConf;
-                const key2 = rowConf < colConf ? colConf : rowConf;
-                const key = `${key1}|${key2}`;
-                const data = crossoverData[key];
-                const count = data ? data.games : 0;
-
-                if (count > 0) {
-                    html += `<td class="has-games" onclick="filterGamesByConferences('${rowConf}', '${colConf}')" title="${rowDisplay} vs ${colDisplay}: ${count} games">${count}</td>`;
-                } else {
-                    html += `<td class="no-games" title="${rowDisplay} vs ${colDisplay}: 0 games">-</td>`;
-                }
-            }
-        });
-        html += '</tr>';
-    });
-
-    html += '</tbody></table>';
-    container.innerHTML = html;
-}
-
-function filterGamesByConferences(conf1, conf2) {
-    // Navigate to games tab and filter
-    showSection('games');
-
-    // Clear existing filters
-    clearFilters('games');
-
-    // Apply conference filter to one of the dropdowns and manually filter
-    const searchBox = document.getElementById('games-search');
-    if (conf1 === conf2) {
-        // Intra-conference - just filter by that conference
-        document.getElementById('games-conference').value = conf1;
-    } else {
-        // Cross-conference - we need custom filter
-        // Use search to show games where one team is from each conference
-        searchBox.value = `${conf1} vs ${conf2}`;
-    }
-
-    // Custom filtering for cross-conference
-    if (conf1 !== conf2) {
-        filteredData.games = (DATA.games || []).filter(game => {
-            const awayConf = getGameConference(game, 'away');
-            const homeConf = getGameConference(game, 'home');
-            return (awayConf === conf1 && homeConf === conf2) ||
-                   (awayConf === conf2 && homeConf === conf1);
-        });
-        searchBox.value = '';
-        pagination.games.page = 1;
-        pagination.games.total = filteredData.games.length;
-        renderGamesTable();
-        showToast(`Showing ${conf1} vs ${conf2} games`);
-    } else {
-        applyFilters('games');
-        showToast(`Showing ${conf1} games`);
-    }
-}
-
-function filterGameLog(teamName) {
-    // Navigate to games section
-    showSection('games');
-
-    // Clear existing filters
-    clearFilters('games');
-
-    // Try to find the team in the dropdown (with any gender)
-    const teamSelect = document.getElementById('games-team');
-    let found = false;
-    for (const option of teamSelect.options) {
-        if (option.value.startsWith(teamName + '|')) {
-            teamSelect.value = option.value;
-            found = true;
-            break;
-        }
-    }
-
-    // If not found in dropdown, use search box
-    if (!found) {
-        document.getElementById('games-search').value = teamName;
-    }
-
-    // Apply filters and show toast
-    applyFilters('games');
-    const count = filteredData.games.length;
-    showToast(`Showing ${count} game${count !== 1 ? 's' : ''} with ${teamName}`);
-}
-
-function applyFilters(type) {
-    if (type === 'games') {
-        applyGamesFilters();
-    } else if (type === 'players') {
-        applyPlayersFilters();
-    }
-}
-
-function applyGamesFilters() {
-    const search = document.getElementById('games-search').value.toLowerCase();
-    const dateFromRaw = document.getElementById('games-date-from').value;
-    const dateToRaw = document.getElementById('games-date-to').value;
-    // Convert YYYY-MM-DD to YYYYMMDD for comparison with DateSort
-    const dateFrom = dateFromRaw ? dateFromRaw.replace(/-/g, '') : '';
-    const dateTo = dateToRaw ? dateToRaw.replace(/-/g, '') : '';
-    const teamFilter = document.getElementById('games-team').value;
-    const conference = document.getElementById('games-conference').value;
-    const minMargin = parseInt(document.getElementById('games-margin').value) || 0;
-    const quickFilter = window.currentQuickFilter || 'all';
-
-    // Parse team filter (format: "TeamName|Gender" or empty)
-    let filterTeamName = '';
-    let filterTeamGender = '';
-    if (teamFilter && teamFilter.includes('|')) {
-        const parts = teamFilter.split('|');
-        filterTeamName = parts[0];
-        filterTeamGender = parts[1];
-    }
-
-    filteredData.games = (DATA.games || []).filter(game => {
-        const text = `${game['Away Team']} ${game['Home Team']} ${game.Venue || ''}`.toLowerCase();
-        if (search && !text.includes(search)) return false;
-        const gameDateSort = game.DateSort || '';
-        if (dateFrom && gameDateSort < dateFrom) return false;
-        if (dateTo && gameDateSort > dateTo) return false;
-        // Team filter: match team name AND gender
-        if (filterTeamName) {
-            const teamMatch = game['Away Team'] === filterTeamName || game['Home Team'] === filterTeamName;
-            const genderMatch = !filterTeamGender || game.Gender === filterTeamGender;
-            if (!teamMatch || !genderMatch) return false;
-        }
-        if (conference) {
-            const awayConf = getGameConference(game, 'away');
-            const homeConf = getGameConference(game, 'home');
-            if (awayConf !== conference && homeConf !== conference) return false;
-        }
-        if (minMargin > 0) {
-            const margin = Math.abs((game['Away Score'] || 0) - (game['Home Score'] || 0));
-            if (margin < minMargin) return false;
-        }
-        // Quick filter logic
-        if (quickFilter === 'ranked') {
-            if (!game.AwayRank && !game.HomeRank) return false;
-        } else if (quickFilter === 'upsets') {
-            // Upset = higher-ranked team lost
-            const awayRank = game.AwayRank || 999;
-            const homeRank = game.HomeRank || 999;
-            const awayWon = (game['Away Score'] || 0) > (game['Home Score'] || 0);
-            const isUpset = (awayWon && homeRank < awayRank) || (!awayWon && awayRank < homeRank);
-            if (!isUpset || (awayRank === 999 && homeRank === 999)) return false;
-        } else if (quickFilter === 'ot') {
-            const linescore = game.Linescore || {};
-            const otPeriods = (linescore.away || {}).OT || [];
-            if (otPeriods.length === 0) return false;
-        } else if (quickFilter === 'd1') {
-            if ((game.Division || 'D1') !== 'D1') return false;
-        } else if (quickFilter === 'neutral') {
-            if (!game.NeutralSite) return false;
-        } else if (quickFilter === 'mens') {
-            if (game.Gender !== 'M') return false;
-        } else if (quickFilter === 'womens') {
-            if (game.Gender !== 'W') return false;
-        }
-        return true;
-    });
-
-    // Sort by date descending, then by time (if available) for same-day games
-    filteredData.games.sort((a, b) => {
-        const dateCompare = (b.DateSort || '').localeCompare(a.DateSort || '');
-        if (dateCompare !== 0) return dateCompare;
-        // For same day, sort by TimeSort (ISO datetime) descending if available
-        const timeA = a.TimeSort || '';
-        const timeB = b.TimeSort || '';
-        if (timeA && timeB && timeA !== timeB) {
-            return timeB.localeCompare(timeA);  // Later time first
-        }
-        // When times are equal/unknown, sort by gender (M before W in descending)
-        // This puts women's games lower since they typically play first in doubleheaders
-        const genderA = a.Gender || 'M';
-        const genderB = b.Gender || 'M';
-        if (genderA !== genderB) {
-            return genderA === 'M' ? -1 : 1;  // M games appear higher (more recent)
-        }
-        // Final fallback to GameID descending
-        return (b.GameID || '').localeCompare(a.GameID || '');
-    });
-
-    pagination.games.page = 1;
-    pagination.games.total = filteredData.games.length;
-    renderGamesTable();
-
-    // Update filter summary
-    updateGamesFilterSummary({
-        search, gender, division, dateFromRaw, dateToRaw,
-        filterTeamName, filterTeamGender, conference, minMargin, otOnly, quickFilter
-    });
-}
-
-function updateGamesFilterSummary(filters) {
-    const summary = document.getElementById('games-filter-summary');
-    const textSpan = summary?.querySelector('.filter-summary-text');
-    if (!summary || !textSpan) return;
-
-    const chips = [];
-    const totalGames = (DATA.games || []).length;
-    const filteredCount = filteredData.games.length;
-
-    // Format date for display
-    function formatDate(dateStr) {
-        if (!dateStr) return '';
-        const [year, month, day] = dateStr.split('-');
-        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-        return `${months[parseInt(month) - 1]} ${parseInt(day)}, ${year}`;
-    }
-
-    if (filters.search) {
-        chips.push(`<span class="filter-chip" onclick="clearSingleFilter('games', 'search')" title="Click to remove">Search: "${filters.search}" ×</span>`);
-    }
-    if (filters.gender) {
-        chips.push(`<span class="filter-chip" onclick="clearSingleFilter('games', 'gender')" title="Click to remove">${filters.gender === 'M' ? "Men's" : "Women's"} ×</span>`);
-    }
-    if (filters.division) {
-        const divLabels = { 'D1': 'D1 Only', 'non-D1': 'Non-D1', 'D2': 'D2', 'D3': 'D3' };
-        chips.push(`<span class="filter-chip" onclick="clearSingleFilter('games', 'division')" title="Click to remove">${divLabels[filters.division] || filters.division} ×</span>`);
-    }
-    if (filters.dateFromRaw || filters.dateToRaw) {
-        const from = filters.dateFromRaw ? formatDate(filters.dateFromRaw) : 'Start';
-        const to = filters.dateToRaw ? formatDate(filters.dateToRaw) : 'Now';
-        chips.push(`<span class="filter-chip" onclick="clearSingleFilter('games', 'date')" title="Click to remove">${from} - ${to} ×</span>`);
-    }
-    if (filters.filterTeamName) {
-        const teamLabel = filters.filterTeamGender ? `${filters.filterTeamName} (${filters.filterTeamGender})` : filters.filterTeamName;
-        chips.push(`<span class="filter-chip" onclick="clearSingleFilter('games', 'team')" title="Click to remove">${teamLabel} ×</span>`);
-    }
-    if (filters.conference) {
-        chips.push(`<span class="filter-chip" onclick="clearSingleFilter('games', 'conference')" title="Click to remove">${filters.conference} ×</span>`);
-    }
-    if (filters.minMargin > 0) {
-        chips.push(`<span class="filter-chip" onclick="clearSingleFilter('games', 'margin')" title="Click to remove">Margin ${filters.minMargin}+ ×</span>`);
-    }
-    if (filters.otOnly) {
-        chips.push(`<span class="filter-chip" onclick="clearSingleFilter('games', 'ot')" title="Click to remove">OT Only ×</span>`);
-    }
-    if (filters.quickFilter && filters.quickFilter !== 'all') {
-        const qfLabels = { 'recent': 'Recent', 'home': 'Home', 'away': 'Away', 'neutral': 'Neutral', 'mens': "Men's", 'womens': "Women's" };
-        chips.push(`<span class="filter-chip" onclick="clearSingleFilter('games', 'quickFilter')" title="Click to remove">${qfLabels[filters.quickFilter] || filters.quickFilter} ×</span>`);
-    }
-
-    if (chips.length > 0) {
-        const countText = filteredCount === totalGames
-            ? `<strong>${filteredCount}</strong> games`
-            : `<strong>${filteredCount}</strong> of ${totalGames} games`;
-        textSpan.innerHTML = `Showing ${countText} ${chips.join(' ')}`;
-        summary.style.display = 'flex';
-    } else {
-        summary.style.display = 'none';
-    }
-}
-
-function applyPlayersFilters() {
-    const search = document.getElementById('players-search').value.toLowerCase();
-    const gender = document.getElementById('players-gender').value;
-    const teamFilter = document.getElementById('players-team').value;
-    const conference = document.getElementById('players-conference').value;
-    const minGames = parseInt(document.getElementById('players-min-games').value) || 0;
-    const minPPG = parseFloat(document.getElementById('players-min-ppg').value) || 0;
-
-    // Parse team filter (format: "TeamName|Gender" or empty)
-    let filterTeamName = '';
-    let filterTeamGender = '';
-    if (teamFilter && teamFilter.includes('|')) {
-        const parts = teamFilter.split('|');
-        filterTeamName = parts[0];
-        filterTeamGender = parts[1];
-    }
-
-    filteredData.players = (DATA.players || []).filter(player => {
-        const text = `${player.Player} ${player.Team}`.toLowerCase();
-        if (search && !text.includes(search)) return false;
-        if (gender && player.Gender !== gender) return false;
-        // Team filter: check if player's team string contains the selected team
-        // This handles players with multiple teams like "California, Loyola (IL)"
-        if (filterTeamName) {
-            // Split player's teams and check if selected team is one of them
-            const playerTeams = player.Team ? player.Team.split(/,\s*(?![^()]*\))/).map(t => t.trim()) : [];
-            if (!playerTeams.includes(filterTeamName)) return false;
-            if (filterTeamGender && player.Gender !== filterTeamGender) return false;
-        }
-        if (conference && getTeamConference(player.Team) !== conference) return false;
-        if ((player.Games || 0) < minGames) return false;
-        if ((player.PPG || 0) < minPPG) return false;
-        return true;
-    });
-
-    pagination.players.page = 1;
-    pagination.players.total = filteredData.players.length;
-    renderPlayersTable();
-
-    // Update filter summary
-    updatePlayersFilterSummary({
-        search, gender, filterTeamName, filterTeamGender, conference, minGames, minPPG
-    });
-}
-
-function updatePlayersFilterSummary(filters) {
-    const summary = document.getElementById('players-filter-summary');
-    const textSpan = summary?.querySelector('.filter-summary-text');
-    if (!summary || !textSpan) return;
-
-    const chips = [];
-    const totalPlayers = (DATA.players || []).length;
-    const filteredCount = filteredData.players.length;
-
-    if (filters.search) {
-        chips.push(`<span class="filter-chip">Search: "${filters.search}"</span>`);
-    }
-    if (filters.gender) {
-        chips.push(`<span class="filter-chip">${filters.gender === 'M' ? "Men's" : "Women's"}</span>`);
-    }
-    if (filters.filterTeamName) {
-        const teamLabel = filters.filterTeamGender ? `${filters.filterTeamName} (${filters.filterTeamGender})` : filters.filterTeamName;
-        chips.push(`<span class="filter-chip">${teamLabel}</span>`);
-    }
-    if (filters.conference) {
-        chips.push(`<span class="filter-chip">${filters.conference}</span>`);
-    }
-    if (filters.minGames > 0) {
-        chips.push(`<span class="filter-chip">Min ${filters.minGames} GP</span>`);
-    }
-    if (filters.minPPG > 0) {
-        chips.push(`<span class="filter-chip">Min ${filters.minPPG} PPG</span>`);
-    }
-
-    if (chips.length > 0) {
-        const countText = filteredCount === totalPlayers
-            ? `<strong>${filteredCount}</strong> players`
-            : `<strong>${filteredCount}</strong> of ${totalPlayers} players`;
-        textSpan.innerHTML = `Showing ${countText} ${chips.join(' ')}`;
-        summary.style.display = 'flex';
-    } else {
-        summary.style.display = 'none';
-    }
-}
-
-function clearFilters(type) {
-    if (type === 'games') {
-        document.getElementById('games-search').value = '';
-        document.getElementById('games-date-from').value = '';
-        document.getElementById('games-date-to').value = '';
-        document.getElementById('games-team').value = '';
-        document.getElementById('games-conference').value = '';
-        document.getElementById('games-margin').value = '';
-        // Reset quick filter
-        window.currentQuickFilter = 'all';
-        document.querySelectorAll('.quick-filter').forEach(btn => btn.classList.remove('active'));
-        const allBtn = document.querySelector('.quick-filter');
-        if (allBtn) allBtn.classList.add('active');
-        applyGamesFilters();
-    } else if (type === 'players') {
-        document.getElementById('players-search').value = '';
-        document.getElementById('players-gender').value = '';
-        document.getElementById('players-team').value = '';
-        document.getElementById('players-conference').value = '';
-        document.getElementById('players-min-games').value = '';
-        document.getElementById('players-min-ppg').value = '';
-        applyPlayersFilters();
-    }
-}
-
-function clearSingleFilter(type, filterName) {
-    if (type === 'games') {
-        switch (filterName) {
-            case 'search':
-                document.getElementById('games-search').value = '';
-                break;
-            case 'date':
-                document.getElementById('games-date-from').value = '';
-                document.getElementById('games-date-to').value = '';
-                break;
-            case 'team':
-                document.getElementById('games-team').value = '';
-                break;
-            case 'conference':
-                document.getElementById('games-conference').value = '';
-                break;
-            case 'margin':
-                document.getElementById('games-margin').value = '';
-                break;
-            case 'quickFilter':
-                // Reset quick filter buttons
-                window.currentQuickFilter = 'all';
-                document.querySelectorAll('.quick-filter').forEach(btn => btn.classList.remove('active'));
-                const qfAllBtn = document.querySelector('.quick-filter');
-                if (qfAllBtn) qfAllBtn.classList.add('active');
-                break;
-        }
-        applyGamesFilters();
-    } else if (type === 'players') {
-        switch (filterName) {
-            case 'search':
-                document.getElementById('players-search').value = '';
-                break;
-            case 'gender':
-                document.getElementById('players-gender').value = '';
-                break;
-            case 'team':
-                document.getElementById('players-team').value = '';
-                break;
-            case 'conference':
-                document.getElementById('players-conference').value = '';
-                break;
-            case 'minGames':
-                document.getElementById('players-min-games').value = '';
-                break;
-            case 'minPpg':
-                document.getElementById('players-min-ppg').value = '';
-                break;
-        }
-        applyPlayersFilters();
-    }
-}
-
-function getStatClass(value, thresholds) {
-    if (value >= thresholds.excellent) return 'stat-excellent';
-    if (value >= thresholds.good) return 'stat-good';
-    if (value >= thresholds.average) return 'stat-average';
-    return 'stat-poor';
-}
-
-function parseDate(dateStr) {
-    // Parse dates like "January 31, 2009" or "12/31/2024"
-    if (!dateStr) return null;
-    const d = new Date(dateStr);
-    if (!isNaN(d.getTime())) return d;
-    return null;
-}
-
-function formatDate(dateStr) {
-    // Normalize dates to "Month DD, YYYY" format
-    if (!dateStr) return '';
-    const d = parseDate(dateStr);
-    if (!d) return dateStr;
-    return d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-}
-
-function sortTable(tableId, colIndex) {
-    const table = document.getElementById(tableId);
-    const tbody = table.querySelector('tbody');
-    const rows = Array.from(tbody.querySelectorAll('tr'));
-    const headers = table.querySelectorAll('th');
-
-    const key = tableId + '-' + colIndex;
-    const ascending = currentSort[key] !== 'asc';
-    currentSort[key] = ascending ? 'asc' : 'desc';
-
-    headers.forEach((h, i) => {
-        h.classList.remove('sorted-asc', 'sorted-desc');
-        if (i === colIndex) {
-            h.classList.add(ascending ? 'sorted-asc' : 'sorted-desc');
-        }
-    });
-
-    // Check if this is a date column by looking at the header
-    const headerText = headers[colIndex].textContent.toLowerCase();
-    const isDateColumn = headerText.includes('date');
-
-    rows.sort((a, b) => {
-        let aVal = a.cells[colIndex].textContent.trim();
-        let bVal = b.cells[colIndex].textContent.trim();
-
-        // Try date parsing first for date columns
-        if (isDateColumn) {
-            const aDate = parseDate(aVal);
-            const bDate = parseDate(bVal);
-            if (aDate && bDate) {
-                return ascending ? aDate - bDate : bDate - aDate;
-            }
-        }
-
-        // Try numeric comparison (but not for dates)
-        if (!isDateColumn) {
-            const aNum = parseFloat(aVal.replace(/[^0-9.-]/g, ''));
-            const bNum = parseFloat(bVal.replace(/[^0-9.-]/g, ''));
-            if (!isNaN(aNum) && !isNaN(bNum)) {
-                return ascending ? aNum - bNum : bNum - aNum;
-            }
-        }
-
-        // Fall back to string comparison
-        return ascending ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal);
-    });
-
-    rows.forEach(row => tbody.appendChild(row));
-}
-
-function renderPagination(containerId, state, renderFn) {
-    const container = document.getElementById(containerId);
-    const totalPages = Math.ceil(state.total / state.pageSize);
-
-    let html = `
-        <button onclick="goToPage('${containerId.replace('-pagination', '')}', 1)" ${state.page === 1 ? 'disabled' : ''}>First</button>
-        <button onclick="goToPage('${containerId.replace('-pagination', '')}', ${state.page - 1})" ${state.page === 1 ? 'disabled' : ''}>Prev</button>
-        <span class="pagination-info">Page ${state.page} of ${totalPages || 1} (${state.total} items)</span>
-        <button onclick="goToPage('${containerId.replace('-pagination', '')}', ${state.page + 1})" ${state.page >= totalPages ? 'disabled' : ''}>Next</button>
-        <button onclick="goToPage('${containerId.replace('-pagination', '')}', ${totalPages})" ${state.page >= totalPages ? 'disabled' : ''}>Last</button>
-        <select class="page-size-select" onchange="changePageSize('${containerId.replace('-pagination', '')}', this.value)">
-            <option value="25" ${state.pageSize === 25 ? 'selected' : ''}>25 per page</option>
-            <option value="50" ${state.pageSize === 50 ? 'selected' : ''}>50 per page</option>
-            <option value="100" ${state.pageSize === 100 ? 'selected' : ''}>100 per page</option>
-            <option value="250" ${state.pageSize === 250 ? 'selected' : ''}>250 per page</option>
-            <option value="1000" ${state.pageSize >= 1000 ? 'selected' : ''}>Show All</option>
-        </select>
-    `;
-    container.innerHTML = html;
-}
-
-function goToPage(type, page) {
-    const state = pagination[type];
-    const totalPages = Math.ceil(state.total / state.pageSize);
-    state.page = Math.max(1, Math.min(page, totalPages));
-    if (type === 'games') renderGamesTable();
-    else if (type === 'players') renderPlayersTable();
-}
-
-function changePageSize(type, size) {
-    pagination[type].pageSize = parseInt(size);
-    pagination[type].page = 1;
-    if (type === 'games') renderGamesTable();
-    else if (type === 'players') renderPlayersTable();
-}
-
-function downloadCSV(type) {
-    let data, filename, headers;
-
-    if (type === 'games') {
-        data = DATA.games || [];
-        filename = 'games.csv';
-        headers = ['Date', 'Away Team', 'Away Score', 'Home Team', 'Home Score', 'Venue'];
-    } else if (type === 'players') {
-        data = DATA.players || [];
-        filename = 'players.csv';
-        headers = ['Player', 'Team', 'Games', 'PPG', 'RPG', 'APG', 'FG%', '3P%', 'FT%'];
-    } else if (type === 'teams') {
-        data = DATA.teams || [];
-        filename = 'teams.csv';
-        headers = ['Team', 'Games', 'Wins', 'Losses', 'Win%', 'PPG', 'PAPG'];
-    } else if (type === 'milestones') {
-        data = currentMilestoneData || [];
-        filename = `milestones_${currentMilestoneType || 'all'}.csv`;
-        headers = ['Date', 'Player', 'Team', 'Opponent', 'Detail'];
-    } else if (type === 'futurePros') {
-        data = filteredFuturePros || allFuturePros || [];
-        filename = 'future_pros.csv';
-        headers = ['Player', 'Team', 'Draft', 'League', 'Current Team', 'Current League', 'Pro Games', 'Games Seen', 'PPG', 'Total PTS', 'NBA', 'WNBA', 'International', 'G-League'];
-
-        if (!data.length) {
-            showToast('No data to download');
-            return;
-        }
-
-        let csv = headers.join(',') + '\n';
-        data.forEach(player => {
-            // Build draft string
-            let draft = '';
-            if (player.Draft_Round) {
-                draft = `R${player.Draft_Round} P${player.Draft_Pick} ${player.Draft_Year || ''}`;
-            } else if (player.Undrafted) {
-                draft = 'UDFA';
-            }
-
-            // Determine league
-            let league = '';
-            if (player.NBA) league = player.NBA_Played === false ? 'NBA (signed)' : 'NBA';
-            else if (player.WNBA) league = player.WNBA_Played === false ? 'WNBA (signed)' : 'WNBA';
-            else if (player.Intl_Pro) {
-                const leagues = player.Intl_Leagues || [];
-                league = leagues.length > 0 ? leagues.join('; ') : 'Overseas';
-            }
-            else if (player.Intl_National_Team) league = 'National Team';
-
-            const proGames = (player.NBA_Games || 0) + (player.WNBA_Games || 0);
-
-            const values = [
-                player.Player || '',
-                player.Team || '',
-                draft,
-                league,
-                player.Current_Team || '',
-                player.Current_League || '',
-                proGames || '',
-                player.Games || 0,
-                (player.PPG || 0).toFixed(1),
-                player['Total PTS'] || 0,
-                player.NBA ? 'Yes' : '',
-                player.WNBA ? 'Yes' : '',
-                player.International ? 'Yes' : '',
-                player.Had_GLeague ? 'Yes' : '',
-            ].map(v => {
-                v = String(v);
-                if (v.includes(',') || v.includes('"')) v = `"${v.replace(/"/g, '""')}"`;
-                return v;
-            });
-            csv += values.join(',') + '\n';
-        });
-
-        const blob = new Blob([csv], { type: 'text/csv' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = filename;
-        a.click();
-        URL.revokeObjectURL(url);
-        showToast(`Downloaded ${filename}`);
-        return;
-    }
-
-    if (!data.length) {
-        showToast('No data to download');
-        return;
-    }
-
-    let csv = headers.join(',') + '\n';
-    data.forEach(row => {
-        const values = headers.map(h => {
-            const key = h.replace('%', '_pct');
-            let val = row[h] || row[key] || '';
-            if (typeof val === 'string' && val.includes(',')) {
-                val = `"${val}"`;
-            }
-            return val;
-        });
-        csv += values.join(',') + '\n';
-    });
-
-    const blob = new Blob([csv], { type: 'text/csv' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = filename;
-    a.click();
-    URL.revokeObjectURL(url);
-    showToast(`Downloaded ${filename}`);
-}
-
-// Pre-compute milestones for badges
-let gameMilestones = {};
-// Team milestones: 1st, then every 5th (5, 10, 15, 20...)
-const MILESTONE_COUNTS = [1, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 75, 100, 150, 200];
-
-function computeGameMilestones() {
-    // Sort by DateSort (YYYYMMDD format) ascending - oldest first
-    // For same day, use TimeSort then gender (W before M since women's games typically first)
-    const allGames = (DATA.games || []).slice().sort((a, b) => {
-        const dateA = a.DateSort || '';
-        const dateB = b.DateSort || '';
-        const dateCompare = dateA.localeCompare(dateB);
-        if (dateCompare !== 0) return dateCompare;
-        // Same day - sort by time ascending (earlier first)
-        const timeA = a.TimeSort || '';
-        const timeB = b.TimeSort || '';
-        if (timeA && timeB && timeA !== timeB) {
-            return timeA.localeCompare(timeB);  // Earlier time first
-        }
-        // When times equal, women's games typically first in doubleheaders
-        const genderA = a.Gender || 'M';
-        const genderB = b.Gender || 'M';
-        if (genderA !== genderB) {
-            return genderA === 'W' ? -1 : 1;  // W games first (earlier)
-        }
-        // Final fallback to GameID ascending
-        return (a.GameID || '').localeCompare(b.GameID || '');
-    });
-
-    const teamCounts = {};         // track times each team seen (by gender)
-    const teamRecords = {};        // track W-L record for each team (by gender)
-    const venueCounts = {};        // track times each venue visited
-    const matchupsSeen = {};       // track first time each matchup seen (by gender)
-    const confMatchupCounts = {};  // track conference vs conference matchups
-    const confTeamCounts = {};     // track first team from each conference
-    const playerTeams = {};        // track teams each player has been seen on
-    let venueOrder = [];           // track order venues were first visited
-    const confTeamsSeen = {};      // track teams seen per conference per gender
-    const confVenuesSeen = {};     // track venues seen per conference (home team's conf)
-    const confCompleted = {};      // track which conferences have been completed
-    const statesSeen = new Set();  // track visited states
-    let stateOrder = [];           // track order states were first visited
-
-    // Streak tracking (consecutive days with games)
-    let currentStreak = 0;
-    let lastGameDate = null;
-    let maxStreak = 0;
-    const streakHistory = [];  // track all streaks for display
-
-    gameMilestones = {};
-
-    // Build conference team counts for completion tracking
-    const conferenceTeamCounts = {};
-    const checklist = DATA.conferenceChecklist || {};
-    for (const [confName, confData] of Object.entries(checklist)) {
-        if (confName === 'All D1' || confName === 'Historical/Other') continue;
-        conferenceTeamCounts[confName] = confData.totalTeams || 0;
-    }
-
-    // Game count milestone thresholds
-    const GAME_MILESTONES = [1, 10, 25, 50, 75, 100, 150, 200, 250, 500];
-    let gameCount = 0;
-
-    // D1 game and venue tracking
-    const D1_MILESTONES = [1, 10, 25, 50, 75, 100, 150, 200, 250, 500];
-    let d1GameCount = 0;
-    let d1VenueCount = 0;
-    const d1VenuesSeen = new Set();
-
-    // D1 team tracking (by gender) - badge every 5 teams
-    const D1_TEAM_MILESTONES = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100];
-    const d1TeamsSeen = { M: new Set(), W: new Set() };
-
-    // Build set of actual D1 teams from conference checklist data
-    // Use team aliases from constants (single source of truth)
-    const actualD1Teams = new Set();
-    const teamAliases = DATA.teamAliases || {};
-
-    // Build reverse alias map (canonical -> all variations)
-    const reverseAliases = {};
-    for (const [alias, canonical] of Object.entries(teamAliases)) {
-        if (!reverseAliases[canonical]) reverseAliases[canonical] = new Set();
-        reverseAliases[canonical].add(alias);
-        reverseAliases[canonical].add(canonical);
-    }
-
-    // Reuse checklist from above to build D1 team set
-    for (const [confName, confData] of Object.entries(checklist)) {
-        // Skip non-conference entries (All D1 is combined list, Historical/Other has non-D1)
-        if (confName === 'All D1' || confName === 'Historical/Other') continue;
-
-        (confData.teams || []).forEach(t => {
-            if (t.team) {
-                actualD1Teams.add(t.team);
-                // Add canonical name if this team IS an alias (e.g., "VCU" -> "Virginia Commonwealth")
-                const canonical = teamAliases[t.team];
-                if (canonical) {
-                    actualD1Teams.add(canonical);
-                }
-                // Also add all aliases that map TO this team
-                const aliases = reverseAliases[t.team];
-                if (aliases) {
-                    aliases.forEach(a => actualD1Teams.add(a));
-                }
-            }
-        });
-    }
-
-    // Helper to check if a team is D1 (handles aliases)
-    function isD1Team(teamName) {
-        if (actualD1Teams.has(teamName)) return true;
-        // Check if alias maps to a D1 team
-        const canonical = teamAliases[teamName];
-        if (canonical && actualD1Teams.has(canonical)) return true;
-        return false;
-    }
-
-    // Holiday detection helper (basketball season: Nov - April)
-    function getHoliday(dateStr) {
-        if (!dateStr) return null;
-        const date = new Date(dateStr);
-        const month = date.getMonth(); // 0-indexed
-        const day = date.getDate();
-        const dayOfWeek = date.getDay(); // 0 = Sunday
-        const year = date.getFullYear();
-
-        // Thanksgiving (4th Thursday of November)
-        if (month === 10 && dayOfWeek === 4 && day >= 22 && day <= 28) return 'Thanksgiving';
-        // Christmas Eve (Dec 24)
-        if (month === 11 && day === 24) return 'Christmas Eve';
-        // Christmas (Dec 25)
-        if (month === 11 && day === 25) return 'Christmas';
-        // New Year's Eve (Dec 31)
-        if (month === 11 && day === 31) return "New Year's Eve";
-        // New Year's Day (Jan 1)
-        if (month === 0 && day === 1) return "New Year's Day";
-        // MLK Day (3rd Monday of January)
-        if (month === 0 && dayOfWeek === 1 && day >= 15 && day <= 21) return 'MLK Day';
-        // Valentine's Day (Feb 14)
-        if (month === 1 && day === 14) return "Valentine's Day";
-        // Leap Day (Feb 29)
-        if (month === 1 && day === 29) return 'Leap Day';
-        // St. Patrick's Day (Mar 17)
-        if (month === 2 && day === 17) return "St. Patrick's Day";
-
-        return null;
-    }
-
-    allGames.forEach(game => {
-        const gameId = game.GameID;
-        const away = game['Away Team'];
-        const home = game['Home Team'];
-        const venue = game.Venue || '';
-        const gender = game.Gender || 'M';
-        const genderSuffix = gender === 'W' ? ' (W)' : ' (M)';
-
-        // Get conferences (using historical data from game)
-        const awayConf = getGameConference(game, 'away');
-        const homeConf = getGameConference(game, 'home');
-
-        // Include gender in keys for separate tracking
-        const awayKey = `${away}|${gender}`;
-        const homeKey = `${home}|${gender}`;
-        // Normalize matchup key (alphabetical order, include gender)
-        const matchupKey = [away, home].sort().join(' vs ') + `|${gender}`;
-
-        gameMilestones[gameId] = { badges: [] };
-
-        // Game count milestone
-        gameCount++;
-        if (GAME_MILESTONES.includes(gameCount)) {
-            gameMilestones[gameId].badges.push({
-                type: 'game-count',
-                text: `Game #${gameCount}`,
-                title: `${ordinal(gameCount)} game attended`
-            });
-        }
-
-        // Streak tracking (consecutive days with games)
-        const gameDateStr = game.DateSort || '';
-        if (gameDateStr) {
-            // Parse YYYYMMDD format
-            const gameDate = new Date(
-                parseInt(gameDateStr.substring(0, 4)),
-                parseInt(gameDateStr.substring(4, 6)) - 1,
-                parseInt(gameDateStr.substring(6, 8))
-            );
-
-            if (lastGameDate) {
-                const dayDiff = Math.floor((gameDate - lastGameDate) / (1000 * 60 * 60 * 24));
-                if (dayDiff === 0) {
-                    // Same day - streak continues but don't increment day count
-                } else if (dayDiff === 1) {
-                    // Next day - extend streak
-                    currentStreak++;
-                    if (currentStreak >= 2) {
-                        gameMilestones[gameId].badges.push({
-                            type: 'streak',
-                            text: `${currentStreak}-Day Streak`,
-                            title: `${currentStreak} consecutive days attending games!`
-                        });
-                    }
-                } else {
-                    // Streak broken - record it and reset
-                    if (currentStreak >= 2) {
-                        streakHistory.push(currentStreak);
-                    }
-                    maxStreak = Math.max(maxStreak, currentStreak);
-                    currentStreak = 1;
-                }
-            } else {
-                currentStreak = 1;
-            }
-            lastGameDate = gameDate;
-        }
-
-        // Holiday game badge
-        const dateForHoliday = game.DateSort || game.Date;
-        const holiday = getHoliday(dateForHoliday);
-        if (holiday) {
-            gameMilestones[gameId].badges.push({
-                type: 'holiday',
-                text: holiday,
-                title: `${holiday} game`
-            });
-        }
-
-        // State visit milestones (badge for each new state)
-        const gameState = game.State;
-        if (gameState && !statesSeen.has(gameState)) {
-            statesSeen.add(gameState);
-            stateOrder.push(gameState);
-            const stateNum = stateOrder.length;
-            gameMilestones[gameId].badges.push({
-                type: 'state',
-                text: `${gameState} (State #${stateNum})`,
-                title: `${ordinal(stateNum)} state visited: ${gameState}`
-            });
-        }
-
-        // D1 game and venue milestones
-        const isD1Game = game.Division === 'D1';
-        if (isD1Game) {
-            d1GameCount++;
-            if (D1_MILESTONES.includes(d1GameCount)) {
-                gameMilestones[gameId].badges.push({
-                    type: 'd1-game',
-                    text: `D1 Game #${d1GameCount}`,
-                    title: `${ordinal(d1GameCount)} Division 1 game attended`
-                });
-            }
-
-            // Track D1 venues - badge for every new D1 venue
-            if (venue && !d1VenuesSeen.has(venue)) {
-                d1VenuesSeen.add(venue);
-                d1VenueCount++;
-                gameMilestones[gameId].badges.push({
-                    type: 'd1-venue',
-                    text: `D1 Venue #${d1VenueCount}`,
-                    title: `${ordinal(d1VenueCount)} Division 1 venue visited: ${venue}`
-                });
-            }
-
-            // Track D1 teams seen (by gender) - badge every 5 teams
-            function trackD1Team(team, gender) {
-                // Only count teams that are actually D1
-                if (!isD1Team(team)) return;
-
-                const genderSet = d1TeamsSeen[gender];
-                const genderSuffix = gender === 'W' ? ' (W)' : ' (M)';
-
-                // Track gender-specific D1 teams - badge every 5 teams
-                if (genderSet && !genderSet.has(team)) {
-                    genderSet.add(team);
-                    const genderCount = genderSet.size;
-                    if (D1_TEAM_MILESTONES.includes(genderCount)) {
-                        gameMilestones[gameId].badges.push({
-                            type: 'd1-team',
-                            text: `D1${genderSuffix} #${genderCount}`,
-                            title: `${ordinal(genderCount)} D1${genderSuffix} team seen: ${team}`
-                        });
-                    }
-                }
-            }
-            trackD1Team(away, gender);
-            trackD1Team(home, gender);
-        }
-
-        // Track first team from each conference (by gender)
-        if (awayConf) {
-            const awayConfKey = `${awayConf}|${gender}`;
-            if (!confTeamCounts[awayConfKey]) {
-                confTeamCounts[awayConfKey] = true;
-                gameMilestones[gameId].badges.push({
-                    type: 'conf-first',
-                    text: `1st ${awayConf}${genderSuffix}`,
-                    title: `First ${awayConf} team seen${genderSuffix}: ${away}`
-                });
-            }
-        }
-        if (homeConf && homeConf !== awayConf) {
-            const homeConfKey = `${homeConf}|${gender}`;
-            if (!confTeamCounts[homeConfKey]) {
-                confTeamCounts[homeConfKey] = true;
-                gameMilestones[gameId].badges.push({
-                    type: 'conf-first',
-                    text: `1st ${homeConf}${genderSuffix}`,
-                    title: `First ${homeConf} team seen${genderSuffix}: ${home}`
-                });
-            }
-        }
-
-        // Track conference vs conference matchups (cross-conference only)
-        if (awayConf && homeConf && awayConf !== homeConf) {
-            const confMatchupKey = [awayConf, homeConf].sort().join(' vs ') + `|${gender}`;
-            confMatchupCounts[confMatchupKey] = (confMatchupCounts[confMatchupKey] || 0) + 1;
-
-            if (MILESTONE_COUNTS.includes(confMatchupCounts[confMatchupKey])) {
-                const confMatchupDisplay = [awayConf, homeConf].sort().join(' vs ');
-                gameMilestones[gameId].badges.push({
-                    type: 'conf-matchup',
-                    text: confMatchupCounts[confMatchupKey] === 1 ? `1st ${confMatchupDisplay}${genderSuffix}` : `${confMatchupDisplay}${genderSuffix} #${confMatchupCounts[confMatchupKey]}`,
-                    title: `${ordinal(confMatchupCounts[confMatchupKey])} ${awayConf} vs ${homeConf} game${genderSuffix}`
-                });
-            }
-        }
-
-        // Track team counts (by gender)
-        teamCounts[awayKey] = (teamCounts[awayKey] || 0) + 1;
-        teamCounts[homeKey] = (teamCounts[homeKey] || 0) + 1;
-
-        // Track W-L records for each team (by gender)
-        const awayScore = game['Away Score'] || 0;
-        const homeScore = game['Home Score'] || 0;
-        const awayWon = awayScore > homeScore;
-
-        if (!teamRecords[awayKey]) teamRecords[awayKey] = { wins: 0, losses: 0 };
-        if (!teamRecords[homeKey]) teamRecords[homeKey] = { wins: 0, losses: 0 };
-
-        if (awayWon) {
-            teamRecords[awayKey].wins++;
-            teamRecords[homeKey].losses++;
-        } else {
-            teamRecords[awayKey].losses++;
-            teamRecords[homeKey].wins++;
-        }
-
-        // Track teams seen per conference (for completion badges)
-        function trackConfTeam(team, conf, gender) {
-            if (!conf || conf === 'All D1' || conf === 'Historical/Other') return;
-            const confGenderKey = `${conf}|${gender}`;
-            if (!confTeamsSeen[confGenderKey]) {
-                confTeamsSeen[confGenderKey] = new Set();
-            }
-            const wasNew = !confTeamsSeen[confGenderKey].has(team);
-            confTeamsSeen[confGenderKey].add(team);
-
-            // Check if conference is now complete
-            if (wasNew && !confCompleted[confGenderKey]) {
-                const totalTeams = conferenceTeamCounts[conf] || 0;
-                if (totalTeams > 0 && confTeamsSeen[confGenderKey].size >= totalTeams) {
-                    confCompleted[confGenderKey] = true;
-                    const genderLabel = gender === 'W' ? " (W)" : " (M)";
-                    gameMilestones[gameId].badges.push({
-                        type: 'conf-complete',
-                        text: `${conf} Complete${genderLabel}`,
-                        title: `Seen all ${totalTeams} ${conf} teams${genderLabel}!`
-                    });
-                }
-            }
-        }
-        trackConfTeam(away, awayConf, gender);
-        trackConfTeam(home, homeConf, gender);
-
-        // Check for team milestones
-        if (MILESTONE_COUNTS.includes(teamCounts[awayKey])) {
-            gameMilestones[gameId].badges.push({
-                type: 'team',
-                text: teamCounts[awayKey] === 1 ? `1st ${away}${genderSuffix}` : `${away}${genderSuffix} #${teamCounts[awayKey]}`,
-                title: `${ordinal(teamCounts[awayKey])} time seeing ${away}${genderSuffix}`
-            });
-        }
-        if (MILESTONE_COUNTS.includes(teamCounts[homeKey])) {
-            gameMilestones[gameId].badges.push({
-                type: 'team',
-                text: teamCounts[homeKey] === 1 ? `1st ${home}${genderSuffix}` : `${home}${genderSuffix} #${teamCounts[homeKey]}`,
-                title: `${ordinal(teamCounts[homeKey])} time seeing ${home}${genderSuffix}`
-            });
-        }
-
-        // Track venue visits (shared across genders)
-        if (venue) {
-            const isFirstVenueVisit = !venueCounts[venue];
-            venueCounts[venue] = (venueCounts[venue] || 0) + 1;
-            const venueVisitCount = venueCounts[venue];
-
-            if (isFirstVenueVisit) {
-                venueOrder.push(venue);
-                const venueNum = venueOrder.length;
-                // Badge for new venue
-                gameMilestones[gameId].badges.push({
-                    type: 'venue',
-                    text: `${venue} (Venue #${venueNum})`,
-                    title: `${ordinal(venueNum)} different venue visited: ${venue}`,
-                    gender: gender
-                });
-            } else if (MILESTONE_COUNTS.includes(venueVisitCount)) {
-                // Badge for milestone visit count to same venue
-                gameMilestones[gameId].badges.push({
-                    type: 'venue',
-                    text: `${venue} #${venueVisitCount}`,
-                    title: `${ordinal(venueVisitCount)} game at ${venue}`,
-                    gender: gender
-                });
-            }
-
-            // Track conference venues (based on home team's conference)
-            if (homeConf && homeConf !== 'All D1' && homeConf !== 'Historical/Other') {
-                if (!confVenuesSeen[homeConf]) {
-                    confVenuesSeen[homeConf] = new Set();
-                }
-                confVenuesSeen[homeConf].add(venue);
-            }
-        }
-
-        // Store achievement details for game detail view (not badges, but detailed stats)
-        // Capture D1 counts for each team individually (count at moment they were added)
-        const awayIsNewD1 = teamCounts[awayKey] === 1 && isD1Team(away);
-        const homeIsNewD1 = teamCounts[homeKey] === 1 && isD1Team(home);
-        const currentD1Count = d1TeamsSeen[gender] ? d1TeamsSeen[gender].size : 0;
-
-        // Calculate what the D1 count was when each team was added
-        // If both are new, away was added first (so count was 1 less than current for away, current for home)
-        // If only one is new, current count is for that team
-        let awayD1Count = currentD1Count;
-        let homeD1Count = currentD1Count;
-        if (awayIsNewD1 && homeIsNewD1) {
-            awayD1Count = currentD1Count - 1;  // Away was added first
-            homeD1Count = currentD1Count;       // Home was added second
-        } else if (awayIsNewD1) {
-            awayD1Count = currentD1Count;
-        } else if (homeIsNewD1) {
-            homeD1Count = currentD1Count;
-        }
-
-        const awayConfTeamsTotal = awayConf && conferenceTeamCounts[awayConf] ? conferenceTeamCounts[awayConf] : 0;
-        const homeConfTeamsTotal = homeConf && conferenceTeamCounts[homeConf] ? conferenceTeamCounts[homeConf] : 0;
-        const awayConfGenderKey = awayConf ? `${awayConf}|${gender}` : null;
-        const homeConfGenderKey = homeConf ? `${homeConf}|${gender}` : null;
-
-        // Calculate conference team counts at the moment each team was added
-        let awayConfTeamsSeen = awayConfGenderKey && confTeamsSeen[awayConfGenderKey] ? confTeamsSeen[awayConfGenderKey].size : 0;
-        let homeConfTeamsSeen = homeConfGenderKey && confTeamsSeen[homeConfGenderKey] ? confTeamsSeen[homeConfGenderKey].size : 0;
-
-        // If both teams are new AND from same conference, adjust away's count
-        if (awayIsNewD1 && homeIsNewD1 && awayConf === homeConf && awayConf) {
-            awayConfTeamsSeen = awayConfTeamsSeen - 1;
-        }
-
-        gameMilestones[gameId].achievements = {
-            awayTeam: {
-                name: away,
-                visitNum: teamCounts[awayKey],
-                record: { ...teamRecords[awayKey] },
-                isNewTeam: teamCounts[awayKey] === 1,
-                conf: awayConf,
-                confTeamsSeen: awayConfTeamsSeen,
-                confTeamsTotal: awayConfTeamsTotal,
-                d1Count: awayD1Count
-            },
-            homeTeam: {
-                name: home,
-                visitNum: teamCounts[homeKey],
-                record: { ...teamRecords[homeKey] },
-                isNewTeam: teamCounts[homeKey] === 1,
-                conf: homeConf,
-                confTeamsSeen: homeConfTeamsSeen,
-                confTeamsTotal: homeConfTeamsTotal,
-                d1Count: homeD1Count
-            },
-            venue: {
-                name: venue,
-                visitNum: venueCounts[venue] || 0,
-                isNewVenue: venueCounts[venue] === 1,
-                totalVenuesSeen: venueOrder.length,
-                confVenuesSeen: homeConf && confVenuesSeen[homeConf] ? confVenuesSeen[homeConf].size : 0,
-                confVenuesTotal: homeConfTeamsTotal  // Approximation: same as teams
-            },
-            d1Stats: {
-                d1TeamsSeen: currentD1Count,
-                d1TeamsTotal: 365,
-                d1VenuesSeen: d1VenuesSeen.size,
-                d1VenuesTotal: 365
-            },
-            gender: gender
-        };
-
-        // Track first matchup (by gender)
-        if (!matchupsSeen[matchupKey]) {
-            matchupsSeen[matchupKey] = true;
-            gameMilestones[gameId].badges.push({
-                type: 'matchup',
-                text: `1st Matchup${genderSuffix}`,
-                title: `First time seeing ${away} vs ${home}${genderSuffix}`
-            });
-        }
-
-        // Track players on new teams (transfers)
-        const gamePlayers = (DATA.playerGames || []).filter(pg => pg.game_id === gameId);
-        gamePlayers.forEach(pg => {
-            const playerId = pg.player_id || pg.player;
-            const playerName = pg.player;
-            const playerTeam = pg.team;
-            const realgmPrevSchools = pg.realgm_previous_schools || [];
-
-            if (!playerId || !playerTeam) return;
-
-            if (!playerTeams[playerId]) {
-                playerTeams[playerId] = { name: playerName, teams: new Set() };
-
-                // Check RealGM previous schools - if we have playerGames data for this player
-                // at that school BEFORE the current game, pre-populate their teams set
-                // This handles D2/D3 transfers where player IDs don't match across sources
-                if (realgmPrevSchools.length > 0) {
-                    const currentDateSort = game.DateSort || '';
-                    realgmPrevSchools.forEach(prevSchool => {
-                        // Check if we have game data for this player at the previous school BEFORE current game
-                        // Match by player_id first (reliable), fall back to name match only if no player_id
-                        const hasPlayerAtSchoolBefore = (DATA.playerGames || []).some(pg => {
-                            const idMatch = playerId && pg.player_id === playerId;
-                            const nameMatch = !playerId && pg.player && pg.player.toLowerCase() === playerName.toLowerCase();
-                            return (idMatch || nameMatch) &&
-                                pg.team === prevSchool &&
-                                (pg.date_yyyymmdd || '') < currentDateSort;  // Only count games BEFORE current
-                        });
-                        if (hasPlayerAtSchoolBefore) {
-                            playerTeams[playerId].teams.add(prevSchool);
-                        }
-                    });
-                }
-            }
-
-            // Check if this is a new team for this player
-            if (playerTeams[playerId].teams.size > 0 && !playerTeams[playerId].teams.has(playerTeam)) {
-                const prevTeams = [...playerTeams[playerId].teams].join(', ');
-                gameMilestones[gameId].badges.push({
-                    type: 'transfer',
-                    text: `${playerName} (${prevTeams} → ${playerTeam})`,
-                    title: `First time seeing ${playerName} with ${playerTeam} (previously: ${prevTeams})`
-                });
-            }
-
-            playerTeams[playerId].teams.add(playerTeam);
-        });
-    });
-
-    // Finalize streak tracking
-    if (currentStreak >= 2) {
-        streakHistory.push(currentStreak);
-    }
-    maxStreak = Math.max(maxStreak, currentStreak);
-
-    // Store tracking data globally for badges display
-    window.badgeTrackingData = {
-        confTeamsSeen: confTeamsSeen,
-        confCompleted: confCompleted,
-        conferenceTeamCounts: conferenceTeamCounts,
-        venueOrder: venueOrder,
-        teamCounts: teamCounts,
-        matchupsSeen: matchupsSeen,
-        statesSeen: statesSeen,
-        stateOrder: stateOrder,
-        maxStreak: maxStreak,
-        streakHistory: streakHistory,
-        d1TeamsSeen: d1TeamsSeen
-    };
-}
-
-function ordinal(n) {
-    const s = ['th', 'st', 'nd', 'rd'];
-    const v = n % 100;
-    return n + (s[(v - 20) % 10] || s[v] || s[0]);
-}
-
-function renderGamesTable() {
-    const tbody = document.querySelector('#games-table tbody');
-    const state = pagination.games;
-    const data = filteredData.games;
-    const start = (state.page - 1) * state.pageSize;
-    const end = start + state.pageSize;
-    const pageData = data.slice(start, end);
-
-    if (pageData.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="8" class="empty-state"><div class="empty-state-icon">&#127936;</div><h3>No games found</h3><p>Try adjusting your filters</p></td></tr>';
-    } else {
-        tbody.innerHTML = pageData.map(game => {
-            const genderTag = game.Gender === 'W' ? ' <span class="gender-tag">(W)</span>' : '';
-
-            // Get milestone badges for this game
-            const milestones = gameMilestones[game.GameID] || { badges: [] };
-
-            // Check for upset (lower-ranked team wins, or unranked beats ranked)
-            let upsetBadge = '';
-            const awayWon = (game['Away Score'] || 0) > (game['Home Score'] || 0);
-            const awayRankNum = game.AwayRank || 999;
-            const homeRankNum = game.HomeRank || 999;
-
-            if (awayWon && homeRankNum < awayRankNum) {
-                upsetBadge = `<span class="upset-badge" title="Upset! #${homeRankNum} ${game['Home Team']} lost to ${awayRankNum < 999 ? '#' + awayRankNum + ' ' : ''}${game['Away Team']}">UPSET</span>`;
-            } else if (!awayWon && awayRankNum < homeRankNum) {
-                upsetBadge = `<span class="upset-badge" title="Upset! #${awayRankNum} ${game['Away Team']} lost to ${homeRankNum < 999 ? '#' + homeRankNum + ' ' : ''}${game['Home Team']}">UPSET</span>`;
-            }
-
-            // Check for overtime
-            const linescore = game.Linescore || {};
-            const otPeriods = (linescore.away?.OT?.length || 0);
-            const otText = otPeriods > 0 ? ` (${otPeriods > 1 ? otPeriods + 'OT' : 'OT'})` : '';
-
-            // Milestone badges (compact display with expandable)
-            const allBadges = [...(upsetBadge ? [{text: 'UPSET', title: upsetBadge.match(/title="([^"]+)"/)?.[1] || 'Upset', type: 'upset'}] : []), ...milestones.badges];
-            const visibleBadges = allBadges.slice(0, 3);
-            const hiddenBadges = allBadges.slice(3);
-            const gameIdSafe = (game.GameID || '').replace(/[^a-zA-Z0-9]/g, '_');
-
-            let badgeHtml = visibleBadges.map(b =>
-                b.type === 'upset'
-                    ? `<span class="upset-badge" title="${b.title}">UPSET</span>`
-                    : `<span class="milestone-badge" title="${b.title}">${b.text}</span>`
-            ).join('');
-
-            if (hiddenBadges.length > 0) {
-                const hiddenHtml = hiddenBadges.map(b =>
-                    `<span class="milestone-badge" title="${b.title}">${b.text}</span>`
-                ).join('');
-                badgeHtml += `<span class="milestone-badge more" onclick="toggleBadges('${gameIdSafe}', event)" title="Click to show ${hiddenBadges.length} more">+${hiddenBadges.length}</span>`;
-                badgeHtml += `<span id="badges-hidden-${gameIdSafe}" class="badges-hidden">${hiddenHtml}</span>`;
-            }
-
-            // AP ranking display
-            const awayRank = game.AwayRank ? `<span class="ap-rank" title="AP #${game.AwayRank}">#${game.AwayRank}</span> ` : '';
-            const homeRank = game.HomeRank ? `<span class="ap-rank" title="AP #${game.HomeRank}">#${game.HomeRank}</span> ` : '';
-
-            return `
-            <tr class="${game.AwayRank && game.HomeRank ? 'ranked-matchup' : game.AwayRank || game.HomeRank ? 'has-ranked' : ''}">
-                <td>${game.Date || ''}${game.Division === 'D1' || !game.Division ? ` <a href="${getSportsRefUrl(game)}" target="_blank" title="View on Sports Reference" class="external-link">&#8599;</a>` : ''}</td>
-                <td>${awayRank}<span class="team-link" onclick="filterByTeam('${game['Away Team'] || ''}', '${game.Gender || 'M'}')">${game['Away Team'] || ''}</span>${genderTag}</td>
-                <td><span class="game-link" onclick="showGameDetail('${game.GameID || ''}')">${game['Away Score'] || 0}-${game['Home Score'] || 0}${otText}</span></td>
-                <td>${homeRank}<span class="team-link" onclick="filterByTeam('${game['Home Team'] || ''}', '${game.Gender || 'M'}')">${game['Home Team'] || ''}</span>${genderTag}</td>
-                <td><span class="venue-link" onclick="showVenueDetail('${game.Venue || ''}')">${game.Venue || ''}</span>${game.NeutralSite ? ' <span class="neutral-badge" title="Neutral Site">N</span>' : ''}</td>
-                <td>${game.City || ''}</td>
-                <td>${game.State || ''}</td>
-                <td class="badges-cell">${badgeHtml}</td>
-            </tr>
-        `}).join('');
-    }
-
-    renderPagination('games-pagination', state);
-}
-
-function renderPlayersTable() {
-    const tbody = document.querySelector('#players-table tbody');
-    const state = pagination.players;
-    const data = filteredData.players;
-    const start = (state.page - 1) * state.pageSize;
-    const end = start + state.pageSize;
-    const pageData = data.slice(start, end);
-
-    if (pageData.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="23" class="empty-state"><div class="empty-state-icon">&#129351;</div><h3>No players found</h3><p>Try adjusting your filters</p></td></tr>';
-    } else {
-        tbody.innerHTML = pageData.map(player => {
-            const gp = player.Games || 0;
-            const mpg = player.MPG || 0;
-            const ppg = player.PPG || 0;
-            const rpg = player.RPG || 0;
-            const apg = player.APG || 0;
-            const spg = player.SPG || 0;
-            const bpg = player.BPG || 0;
-            const fgm = player.FGM || 0;
-            const fga = player.FGA || 0;
-            const fgPct = player['FG%'] || 0;
-            const tpm = player['3PM'] || 0;
-            const tpa = player['3PA'] || 0;
-            const threePct = player['3P%'] || 0;
-            const ftm = player.FTM || 0;
-            const fta = player.FTA || 0;
-            const ftPct = player['FT%'] || 0;
-            const totalPts = player['Total PTS'] || 0;
-            const totalReb = player['Total REB'] || 0;
-            const totalAst = player['Total AST'] || 0;
-            const totalStl = player['Total STL'] || 0;
-            const totalBlk = player['Total BLK'] || 0;
-
-            const genderTag = player.Gender === 'W' ? '<span class="gender-tag">(W)</span>' : '';
-
-            // NBA badge with game count tooltip
-            let nbaTag = '';
-            if (player.NBA) {
-                const nbaGames = player.NBA_Games;
-                const nbaTooltip = player.NBA_Played === false
-                    ? 'Signed to NBA (never played)'
-                    : (nbaGames ? `NBA: ${nbaGames} games` : (player.NBA_Active ? 'Active NBA player' : 'Former NBA player'));
-                const nbaLogo = player.NBA_Played === false
-                    ? '📝'
-                    : '<img src="https://a.espncdn.com/combiner/i?img=/i/teamlogos/leagues/500/nba.png&w=32&h=32" alt="NBA" class="league-logo">';
-                nbaTag = `<span class="nba-badge${player.NBA_Played === false ? ' signed-only' : ''}" data-tooltip="${nbaTooltip}">${nbaLogo}</span>`;
-            }
-
-            // WNBA badge with game count tooltip
-            let wnbaTag = '';
-            if (player.WNBA) {
-                const wnbaGames = player.WNBA_Games;
-                const wnbaTooltip = player.WNBA_Played === false
-                    ? 'Signed to WNBA (never played)'
-                    : (wnbaGames ? `WNBA: ${wnbaGames} games` : (player.WNBA_Active ? 'Active WNBA player' : 'Former WNBA player'));
-                const wnbaLogo = player.WNBA_Played === false
-                    ? '📝'
-                    : '<img src="https://a.espncdn.com/combiner/i?img=/i/teamlogos/leagues/500/wnba.png&w=32&h=32" alt="WNBA" class="league-logo">';
-                wnbaTag = `<span class="wnba-badge${player.WNBA_Played === false ? ' signed-only' : ''}" data-tooltip="${wnbaTooltip}">${wnbaLogo}</span>`;
-            }
-
-            const playerId = player['Player ID'] || '';
-            const sportsRefLink = getPlayerSportsRefLink(player);
-            // Priority: WNBA > NBA for row styling
-            const rowClass = player.WNBA ? 'wnba-player' : (player.NBA ? 'nba-player' : '');
-            return `
-                <tr class="${rowClass}">
-                    <td class="sticky-col"><span class="player-link" onclick="showPlayerDetail('${playerId || player.Player}')">${player.Player || ''}</span>${nbaTag}${wnbaTag}${sportsRefLink}</td>
-                    <td>${player.Team || ''} ${genderTag}</td>
-                    <td>${gp}</td>
-                    <td>${mpg.toFixed(1)}</td>
-                    <td class="${getStatClass(ppg, STAT_THRESHOLDS.ppg)}">${ppg.toFixed(1)}</td>
-                    <td class="${getStatClass(rpg, STAT_THRESHOLDS.rpg)}">${rpg.toFixed(1)}</td>
-                    <td class="${getStatClass(apg, STAT_THRESHOLDS.apg)}">${apg.toFixed(1)}</td>
-                    <td>${spg.toFixed(1)}</td>
-                    <td>${bpg.toFixed(1)}</td>
-                    <td>${fgm}</td>
-                    <td>${fga}</td>
-                    <td class="${getStatClass(fgPct, STAT_THRESHOLDS.fgPct)}">${(fgPct * 100).toFixed(1)}%</td>
-                    <td>${tpm}</td>
-                    <td>${tpa}</td>
-                    <td class="${getStatClass(threePct, STAT_THRESHOLDS.threePct)}">${(threePct * 100).toFixed(1)}%</td>
-                    <td>${ftm}</td>
-                    <td>${fta}</td>
-                    <td>${(ftPct * 100).toFixed(1)}%</td>
-                    <td>${totalPts}</td>
-                    <td>${totalReb}</td>
-                    <td>${totalAst}</td>
-                    <td>${totalStl}</td>
-                    <td>${totalBlk}</td>
-                </tr>
-            `;
-        }).join('');
-    }
-
-    renderPagination('players-pagination', state);
-}
-
-function populateGamesTable() {
-    // Apply filters (which includes sorting) instead of just setting data
-    applyGamesFilters();
-
-    // Populate team filter with separate options for each gender
-    const teamGenders = {};
-    (DATA.games || []).forEach(g => {
-        [g['Away Team'], g['Home Team']].forEach(team => {
-            if (team) {
-                if (!teamGenders[team]) teamGenders[team] = new Set();
-                if (g.Gender) teamGenders[team].add(g.Gender);
-            }
-        });
-    });
-    const teamNames = Object.keys(teamGenders).sort();
-    const select = document.getElementById('games-team');
-    // Create separate options for each team+gender combination
-    teamNames.forEach(team => {
-        const genders = teamGenders[team];
-        if (genders.has('M')) {
-            const option = document.createElement('option');
-            option.value = `${team}|M`;
-            option.textContent = genders.has('W') ? `${team} (M)` : team;
-            select.appendChild(option);
-        }
-        if (genders.has('W')) {
-            const option = document.createElement('option');
-            option.value = `${team}|W`;
-            option.textContent = `${team} (W)`;
-            select.appendChild(option);
-        }
-    });
-
-    // Populate conference filter
-    const conferences = [...new Set(teamNames.map(t => getTeamConference(t)))].filter(c => c).sort();
-    const confSelect = document.getElementById('games-conference');
-    conferences.forEach(conf => {
-        const option = document.createElement('option');
-        option.value = conf;
-        option.textContent = conf;
-        confSelect.appendChild(option);
-    });
-
-    // Populate head-to-head dropdowns with separate gender options
-    const h2h1 = document.getElementById('h2h-team1');
-    const h2h2 = document.getElementById('h2h-team2');
-    allH2HTeams = []; // Store team|gender combos for later use
-    teamNames.forEach(team => {
-        const genders = teamGenders[team];
-        if (genders.has('M')) {
-            const value = `${team}|M`;
-            const displayName = genders.has('W') ? `${team} (M)` : team;
-            allH2HTeams.push(value);
-            const opt1 = document.createElement('option');
-            opt1.value = value;
-            opt1.textContent = displayName;
-            h2h1.appendChild(opt1);
-            const opt2 = document.createElement('option');
-            opt2.value = value;
-            opt2.textContent = displayName;
-            h2h2.appendChild(opt2);
-        }
-        if (genders.has('W')) {
-            const value = `${team}|W`;
-            const displayName = `${team} (W)`;
-            allH2HTeams.push(value);
-            const opt1 = document.createElement('option');
-            opt1.value = value;
-            opt1.textContent = displayName;
-            h2h1.appendChild(opt1);
-            const opt2 = document.createElement('option');
-            opt2.value = value;
-            opt2.textContent = displayName;
-            h2h2.appendChild(opt2);
-        }
-    });
-
-    // Populate matrix conference dropdown (D1 conferences only)
-    const d1Conferences = [
-        'A-10', 'A-Sun', 'AAC', 'ACC', 'AEC', 'Big 12', 'Big East', 'Big Sky',
-        'Big South', 'Big Ten', 'Big West', 'CAA', 'CUSA', 'Horizon', 'Ind',
-        'Ivy', 'MAAC', 'MAC', 'MEAC', 'MVC', 'MWC', 'NEC', 'OVC', 'Pac-12',
-        'Patriot', 'SEC', 'Southern', 'Southland', 'Summit', 'Sun Belt', 'SWAC',
-        'WAC', 'WCC'
-    ];
-    const matrixConfSelect = document.getElementById('matrix-conference');
-    if (matrixConfSelect) {
-        conferences.filter(conf => d1Conferences.includes(conf)).forEach(conf => {
-            const option = document.createElement('option');
-            option.value = conf;
-            option.textContent = conf;
-            matrixConfSelect.appendChild(option);
-        });
-    }
-}
-
-function populatePlayersTable() {
-    filteredData.players = DATA.players || [];
-    pagination.players.total = filteredData.players.length;
-    renderPlayersTable();
-
-    // Populate team filter with separate options for each gender
-    // Split combined team names (e.g., "California, Loyola (IL)") into individual teams
-    const playerTeamGenders = {};
-    (DATA.players || []).forEach(p => {
-        if (p.Team) {
-            // Split by comma but handle team names with parentheses like "Loyola (IL)"
-            const teams = p.Team.split(/,\s*(?![^()]*\))/);
-            teams.forEach(team => {
-                const trimmedTeam = team.trim();
-                if (trimmedTeam) {
-                    if (!playerTeamGenders[trimmedTeam]) playerTeamGenders[trimmedTeam] = new Set();
-                    if (p.Gender) playerTeamGenders[trimmedTeam].add(p.Gender);
-                }
-            });
-        }
-    });
-    const playerTeamNames = Object.keys(playerTeamGenders).sort();
-    const select = document.getElementById('players-team');
-    playerTeamNames.forEach(team => {
-        const genders = playerTeamGenders[team];
-        if (genders.has('M')) {
-            const option = document.createElement('option');
-            option.value = `${team}|M`;
-            option.textContent = genders.has('W') ? `${team} (M)` : team;
-            select.appendChild(option);
-        }
-        if (genders.has('W')) {
-            const option = document.createElement('option');
-            option.value = `${team}|W`;
-            option.textContent = `${team} (W)`;
-            select.appendChild(option);
-        }
-    });
-
-    // Populate conference filter
-    const conferences = [...new Set(playerTeamNames.map(t => getTeamConference(t)))].filter(c => c).sort();
-    const confSelect = document.getElementById('players-conference');
-    conferences.forEach(conf => {
-        const option = document.createElement('option');
-        option.value = conf;
-        option.textContent = conf;
-        confSelect.appendChild(option);
-    });
-
-    // Populate comparison dropdowns
-    const players = DATA.players || [];
-    ['compare-player1', 'compare-player2'].forEach(id => {
-        const sel = document.getElementById(id);
-        sel.innerHTML = '<option value="">Select a player...</option>';
-        players.forEach(p => {
-            const genderTag = p.Gender === 'W' ? ' (W)' : '';
-            const option = document.createElement('option');
-            option.value = p['Player ID'] || p.Player;
-            option.textContent = `${p.Player} (${p.Team}${genderTag})`;
-            sel.appendChild(option);
-        });
-    });
-
-}
-
-function populateSeasonHighs() {
-    const tbody = document.querySelector('#highs-table tbody');
-    const data = DATA.seasonHighs || [];
-
-    if (data.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="7" class="empty-state"><h3>No career highs data</h3></td></tr>';
-        return;
-    }
-
-    tbody.innerHTML = data.map(player => {
-        const playerId = player['Player ID'] || '';
-        const sportsRefLink = getPlayerSportsRefLink(player);
-        return `
-        <tr>
-            <td><span class="player-link" onclick="showPlayerDetail('${playerId || player.Player}')">${player.Player || ''}</span>${sportsRefLink}</td>
-            <td>${player.Team || ''}</td>
-            <td>${player['High PTS'] || 0}</td>
-            <td>${player['High REB'] || 0}</td>
-            <td>${player['High AST'] || 0}</td>
-            <td>${player['High 3PM'] || 0}</td>
-            <td>${(player['Best Game Score'] || 0).toFixed(1)}</td>
-        </tr>
-    `}).join('');
-}
-
-function populateMilestones() {
-    const grid = document.getElementById('milestone-grid');
-    const milestones = DATA.milestones || {};
-    const entries = Object.entries(milestones).filter(([k, v]) => v.length > 0);
-
-    if (entries.length === 0) {
-        grid.innerHTML = '';
-        document.getElementById('milestones-empty').style.display = 'block';
-        return;
-    }
-
-    document.getElementById('milestones-empty').style.display = 'none';
-
-    grid.innerHTML = entries.map(([key, items]) => `
-        <div class="milestone-card" onclick="showMilestoneEntries('${key}')" tabindex="0" role="option" aria-selected="false">
-            <div class="count">${items.length}</div>
-            <div class="name">${key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}</div>
+                })}
+            </div>
         </div>
-    `).join('');
-
-    // Show first milestone by default (don't update URL during init)
-    if (entries.length > 0) {
-        showMilestoneEntries(entries[0][0], false);
-    }
+    `;
 }
 
-function showMilestoneEntries(key, updateUrl = true) {
-    const milestones = DATA.milestones || {};
-    const entries = (milestones[key] || []).slice();
-    // Build date lookup from games
-    const gameDateSort = {};
-    (DATA.games || []).forEach(g => { gameDateSort[g.GameID] = g.DateSort || ''; });
-    // Sort by date descending (newest first)
-    entries.sort((a, b) => {
-        const dateA = gameDateSort[a.GameID] || '';
-        const dateB = gameDateSort[b.GameID] || '';
-        return dateB.localeCompare(dateA);
-    });
-    currentMilestoneType = key;
-    currentMilestoneData = entries;
-
-    document.querySelectorAll('.milestone-card').forEach(c => {
-        c.classList.remove('active');
-        c.setAttribute('aria-selected', 'false');
-    });
-    const cards = document.querySelectorAll('.milestone-card');
-    cards.forEach(c => {
-        if (c.textContent.toLowerCase().includes(key.replace(/_/g, ' '))) {
-            c.classList.add('active');
-            c.setAttribute('aria-selected', 'true');
-        }
-    });
-
-    const tbody = document.querySelector('#milestones-table tbody');
-
-    tbody.innerHTML = entries.map(entry => {
-        const playerId = entry['Player ID'] || '';
-        const sportsRefLink = getPlayerSportsRefLink(entry);
-        const genderTag = entry.Gender === 'W' ? ' <span class="gender-tag">(W)</span>' : '';
-        return `
-        <tr>
-            <td>${formatDate(entry.Date)}</td>
-            <td><span class="player-link" onclick="showPlayerDetail('${playerId || entry.Player}')">${entry.Player || ''}</span>${sportsRefLink}</td>
-            <td>${entry.Team || ''}${genderTag}</td>
-            <td>${entry.Opponent || ''}${genderTag}</td>
-            <td>${entry.Detail || ''}</td>
-        </tr>
-    `}).join('');
-
-    if (updateUrl) {
-        updateURL('milestones', { type: key });
-    }
-}
-
-function populateTeamsTable() {
-    const tbody = document.querySelector('#teams-table tbody');
-    const genderFilter = document.getElementById('teams-gender')?.value || '';
-    const divisionFilter = document.getElementById('teams-division')?.value || '';
-    const countEl = document.getElementById('teams-count');
-    let data = DATA.teams || [];
-
-    // Apply gender filter
-    if (genderFilter) {
-        data = data.filter(team => team.Gender === genderFilter);
-    }
-
-    // Apply D1 filter
-    if (divisionFilter === 'D1') {
-        // Build set of D1 teams from conference checklist
-        const d1Teams = new Set();
-        const checklist = DATA.conferenceChecklist || {};
-        for (const [confName, confData] of Object.entries(checklist)) {
-            if (confName === 'All D1' || confName === 'Historical/Other') continue;
-            (confData.teams || []).forEach(t => {
-                if (t.team) d1Teams.add(t.team);
-            });
-        }
-        data = data.filter(team => d1Teams.has(team.Team));
-    }
-
-    // Update count
-    if (countEl) {
-        countEl.textContent = `${data.length} teams`;
-    }
-
-    if (data.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="7" class="empty-state"><h3>No team data</h3></td></tr>';
-        return;
-    }
-
-    tbody.innerHTML = data.map(team => {
-        const genderTag = team.Gender === 'W' ? ' <span class="gender-tag">(W)</span>' : '';
-        return `
-        <tr>
-            <td>${team.Team || ''}${genderTag}</td>
-            <td>${team.Games || 0}</td>
-            <td>${team.Wins || 0}</td>
-            <td>${team.Losses || 0}</td>
-            <td>${((team['Win%'] || 0) * 100).toFixed(1)}%</td>
-            <td>${(team.PPG || 0).toFixed(1)}</td>
-            <td>${(team.PAPG || 0).toFixed(1)}</td>
-        </tr>
-    `}).join('');
-}
-
-// Known neutral site venues
-const VENUE_NEUTRAL_SITES = new Set([
-    'Chase Center', 'Barclays Center', 'Madison Square Garden',
-    'United Center', 'T-Mobile Arena', 'Footprint Center',
-    'Crypto.com Arena', 'TD Garden', 'Capital One Arena',
-    'Smoothie King Center', 'State Farm Arena', 'Little Caesars Arena',
-    'Rocket Mortgage FieldHouse', 'Spectrum Center', 'Ball Arena',
-    'Climate Pledge Arena', 'Intuit Dome', 'Kia Center',
-]);
-
-window.venueFilters = new Set();  // Multi-select filters: 'd1', 'neutral', 'active', 'historic'
-
-function quickFilterVenues(filterType) {
-    const clickedBtn = event.target;
-    const venuesSection = document.getElementById('venues');
-
-    if (filterType === 'all') {
-        // Clear all filters
-        window.venueFilters.clear();
-        venuesSection.querySelectorAll('.quick-filter').forEach(btn => btn.classList.remove('active'));
-        clickedBtn.classList.add('active');
-    } else {
-        // Remove 'All' active state
-        venuesSection.querySelector('.quick-filter').classList.remove('active');
-
-        // Handle mutually exclusive filters (active/historic, home/neutral)
-        if (filterType === 'active' && window.venueFilters.has('historic')) {
-            window.venueFilters.delete('historic');
-            venuesSection.querySelector('[onclick*="historic"]').classList.remove('active');
-        } else if (filterType === 'historic' && window.venueFilters.has('active')) {
-            window.venueFilters.delete('active');
-            venuesSection.querySelector('[onclick*="active"]').classList.remove('active');
-        }
-        if (filterType === 'home' && window.venueFilters.has('neutral')) {
-            window.venueFilters.delete('neutral');
-            venuesSection.querySelector('[onclick*="neutral"]').classList.remove('active');
-        } else if (filterType === 'neutral' && window.venueFilters.has('home')) {
-            window.venueFilters.delete('home');
-            venuesSection.querySelector('[onclick*="home"]').classList.remove('active');
-        }
-
-        // Toggle the clicked filter
-        if (window.venueFilters.has(filterType)) {
-            window.venueFilters.delete(filterType);
-            clickedBtn.classList.remove('active');
-        } else {
-            window.venueFilters.add(filterType);
-            clickedBtn.classList.add('active');
-        }
-
-        // If no filters active, show 'All' as active
-        if (window.venueFilters.size === 0) {
-            venuesSection.querySelector('.quick-filter').classList.add('active');
-        }
-    }
-
-    applyVenuesFilters();
-}
-
-function applyVenuesFilters() {
-    // Skip filtering when in unvisited mode
-    if (window.venueMapMode === 'unvisited') return;
-
-    const search = (document.getElementById('venues-search')?.value || '').toLowerCase();
-    const filters = window.venueFilters || new Set();
-
-    const allVenues = DATA.venues || [];
-    const filtered = allVenues.filter(venue => {
-        const text = `${venue.Venue || ''} ${venue.City || ''} ${venue.State || ''}`.toLowerCase();
-        if (search && !text.includes(search)) return false;
-
-        const division = venue.Division || 'D1';
-        const status = venue.Status || 'Current';
-        const isNeutralSite = VENUE_NEUTRAL_SITES.has(venue.Venue);
-
-        // Apply all active filters (AND logic)
-        if (filters.has('d1') && division !== 'D1') return false;
-        if (filters.has('home') && isNeutralSite) return false;
-        if (filters.has('neutral') && !isNeutralSite) return false;
-        if (filters.has('active') && status !== 'Current') return false;
-        if (filters.has('historic') && status !== 'Historic') return false;
-
-        return true;
-    });
-
-    populateVenuesTable(filtered);
-
-    // Also filter map markers
-    if (venuesMap && venueMarkers.length > 0) {
-        venueMarkers.forEach(({marker, venue, isNeutralSite, division, status}) => {
-            const text = `${venue.Venue || ''} ${venue.City || ''} ${venue.State || ''}`.toLowerCase();
-            let show = true;
-
-            if (search && !text.includes(search)) show = false;
-            if (filters.has('d1') && division !== 'D1') show = false;
-            if (filters.has('home') && isNeutralSite) show = false;
-            if (filters.has('neutral') && !isNeutralSite) show = false;
-            if (filters.has('active') && status !== 'Current') show = false;
-            if (filters.has('historic') && status !== 'Historic') show = false;
-
-            if (show) {
-                if (!venuesMap.hasLayer(marker)) {
-                    marker.addTo(venuesMap);
-                }
-            } else {
-                if (venuesMap.hasLayer(marker)) {
-                    venuesMap.removeLayer(marker);
-                }
-            }
-        });
-    }
-
-    // Update summary stats based on filtered venues
-    updateVenuesSummary(filtered);
-}
-
-function updateVenuesSummary(filteredVenues) {
-    const summary = document.getElementById('venues-map-summary');
-    if (!summary) return;
-
-    // Count stats from filtered venues
-    let homeVenues = 0;
-    let neutralVenues = 0;
-    const statesSet = new Set();
-
-    filteredVenues.forEach(venue => {
-        const isNeutralSite = VENUE_NEUTRAL_SITES.has(venue.Venue);
-        if (isNeutralSite) {
-            neutralVenues++;
-        } else {
-            homeVenues++;
-        }
-        if (venue.State) {
-            statesSet.add(venue.State);
-        }
-    });
-
-    // Update stats boxes
-    const statBoxes = summary.querySelectorAll('.stat-box');
-    if (statBoxes.length >= 4) {
-        statBoxes[0].querySelector('.stat-value').textContent = filteredVenues.length;
-        statBoxes[1].querySelector('.stat-value').textContent = homeVenues;
-        statBoxes[2].querySelector('.stat-value').textContent = neutralVenues;
-        statBoxes[3].querySelector('.stat-value').textContent = statesSet.size;
-    }
-}
-
-function populateVenuesTable(data = null) {
-    const tbody = document.querySelector('#venues-table tbody');
-    if (data === null) {
-        data = DATA.venues || [];
-    }
-
-    if (data.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="10" class="empty-state"><h3>No venue data</h3></td></tr>';
-        return;
-    }
-
-    tbody.innerHTML = data.map(venue => {
-        const division = venue.Division || 'D1';
-        const status = venue.Status || 'Current';
-        const divClass = division === 'D1' ? '' : (division === 'D2' ? 'division-d2' : 'division-d3');
-        const statusClass = status === 'Historic' ? 'status-historic' : '';
-        const isNeutralSite = VENUE_NEUTRAL_SITES.has(venue.Venue);
-        const neutralBadge = isNeutralSite ? ' <span class="neutral-badge">Neutral</span>' : '';
-        return `
-        <tr class="${divClass} ${statusClass}">
-            <td><span class="venue-link" onclick="showVenueDetail('${venue.Venue || ''}')">${venue.Venue || 'Unknown'}</span>${neutralBadge}</td>
-            <td>${venue.City || ''}</td>
-            <td>${venue.State || ''}</td>
-            <td><span class="division-badge division-${division.toLowerCase()}">${division}</span></td>
-            <td><span class="status-badge status-${status.toLowerCase()}">${status}</span></td>
-            <td>${venue.Games || 0}</td>
-            <td>${venue['Home Wins'] || 0}</td>
-            <td>${venue['Away Wins'] || 0}</td>
-            <td>${(venue['Avg Home Pts'] || 0).toFixed(1)}</td>
-            <td>${(venue['Avg Away Pts'] || 0).toFixed(1)}</td>
-        </tr>
-    `}).join('');
-}
-
-let venuesMap = null;
-let venuesMapInitialized = false;
-let venueMarkers = [];  // Store {marker, venue, isNeutralSite} for filtering
-let unvisitedVenueMarkers = [];  // Store {marker, arena} for unvisited arenas
-window.venueMapMode = 'visited';
-
-function initVenuesMap() {
-    if (venuesMapInitialized) return;
-
-    const container = document.getElementById('venues-map-container');
-    if (!container) return;
-
-    venuesMap = L.map('venues-map-container').setView([39.8283, -98.5795], 4);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 18,
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(venuesMap);
-
-    const venues = DATA.venues || [];
-    const games = DATA.games || [];
-    const checklist = DATA.conferenceChecklist || {};
-
-    // Build venue -> home team lookup from actual game data
-    // This handles D1, D2, D3, NAIA schools correctly
-    const venueHomeTeams = {};  // venue -> {team, gender, count, espnId}
-    games.forEach(g => {
-        const venueName = g.Venue || g.venue;
-        const homeTeam = g['Home Team'] || g.home_team;
-        const gender = g.Gender || 'M';
-        if (venueName && homeTeam) {
-            const key = `${venueName}|${gender}`;
-            if (!venueHomeTeams[key]) {
-                venueHomeTeams[key] = { team: homeTeam, gender, count: 0, espnId: null };
-            }
-            venueHomeTeams[key].count++;
-        }
-    });
-
-    // Build team -> espnId lookup from conferenceChecklist (for D1 logos)
-    const teamToEspnId = {};
-    Object.values(checklist).forEach(conf => {
-        (conf.teams || []).forEach(team => {
-            if (team.espnId) {
-                teamToEspnId[team.team] = team.espnId;
-                // Also add without parenthetical qualifier for matching
-                // e.g., "Saint Mary's (CA)" -> also add "Saint Mary's"
-                const parenMatch = team.team.match(/^(.+?)\s*\([^)]+\)$/);
-                if (parenMatch) {
-                    teamToEspnId[parenMatch[1]] = team.espnId;
-                }
-            }
-        });
-    });
-
-    // Add espnId to venue home teams where available
-    Object.values(venueHomeTeams).forEach(info => {
-        if (teamToEspnId[info.team]) {
-            info.espnId = teamToEspnId[info.team];
-        }
-    });
-
-    // NCAA logo for neutral sites
-    const ncaaLogoUrl = 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/NCAA_logo.svg/200px-NCAA_logo.svg.png';
-
-    // Custom logos for non-D1 teams (from athletic department websites)
-    const CUSTOM_LOGOS = {
-        'Academy of Art': 'https://artuathletics.com/images/responsive/cal_logo.png',
-        'Johns Hopkins': 'https://dxbhsrqyrr690.cloudfront.net/sidearm.nextgen.sites/hopkinssports.com/images/responsive_2025/logos/logo_main.svg',
-        'University of Chicago': 'https://dbukjj6eu5tsf.cloudfront.net/sidearm.sites/chgo.sidearmsports.com/images/responsive_2023/main_logo.png',
-        'Chicago': 'https://dbukjj6eu5tsf.cloudfront.net/sidearm.sites/chgo.sidearmsports.com/images/responsive_2023/main_logo.png',
-        'Washington College': 'https://dxbhsrqyrr690.cloudfront.net/sidearm.nextgen.sites/washingtoncollegesports.com/images/responsive_2022/svgs/on-light-theme.svg',
-        'Brandeis': 'https://dbukjj6eu5tsf.cloudfront.net/sidearm.sites/brandeisu.sidearmsports.com/images/responsive_2023/logo_main_new.svg',
-        'Jessup': 'https://dxbhsrqyrr690.cloudfront.net/sidearm.nextgen.sites/jessup.sidearmsports.com/images/responsive_2024/logo_main.svg',
-    };
-
-    // Known neutral site venues (tournament/showcase venues)
-    const NEUTRAL_SITES = new Set([
-        'Chase Center', 'Barclays Center', 'Madison Square Garden',
-        'United Center', 'T-Mobile Arena', 'Footprint Center',
-        'Crypto.com Arena', 'TD Garden', 'Capital One Arena',
-        'Smoothie King Center', 'State Farm Arena', 'Little Caesars Arena',
-        'Rocket Mortgage FieldHouse', 'Spectrum Center', 'Ball Arena',
-        'Climate Pledge Arena', 'Intuit Dome', 'Kia Center',
-    ]);
-
-    // Specific venue coordinates for neutral sites and arenas
-    const VENUE_COORDS = {
-        // Neutral sites
-        'Chase Center': [37.7680466, -122.387715],  // 1 Warriors Way, San Francisco
-        'Barclays Center': [40.682732, -73.975876],  // 620 Atlantic Ave, Brooklyn
-        'Madison Square Garden': [40.7505, -73.9934],
-        'United Center': [41.8807, -87.6742],
-        'T-Mobile Arena': [36.1029, -115.1784],
-        'Footprint Center': [33.4457, -112.0712],
-        'Crypto.com Arena': [34.0430, -118.2673],
-        'TD Garden': [42.3662, -71.0621],
-        'Capital One Arena': [38.8981, -77.0209],
-        'Bridgestone Arena': [36.1591, -86.7785],  // Nashville, TN
-        // D3/D2 venues
-        'Kezar Pavilion': [37.7670, -122.4535],  // Academy of Art, San Francisco
-        'Ratner Center': [41.7942, -87.6019],  // University of Chicago
-        'Goldfarb Gym': [39.3299, -76.6205],  // Johns Hopkins, Baltimore
-        // Historical venues
-        'Towson Center': [39.3935, -76.6100],  // 7500 Osler Drive, Towson - Towson's arena before SECU Arena (pre-2013)
-    };
-
-    // State abbreviations for city lookup
-    const stateAbbrev = {
-        'Alabama': 'AL', 'Alaska': 'AK', 'Arizona': 'AZ', 'Arkansas': 'AR',
-        'California': 'CA', 'Colorado': 'CO', 'Connecticut': 'CT', 'Delaware': 'DE',
-        'Florida': 'FL', 'Georgia': 'GA', 'Hawaii': 'HI', 'Idaho': 'ID',
-        'Illinois': 'IL', 'Indiana': 'IN', 'Iowa': 'IA', 'Kansas': 'KS',
-        'Kentucky': 'KY', 'Louisiana': 'LA', 'Maine': 'ME', 'Maryland': 'MD',
-        'Massachusetts': 'MA', 'Michigan': 'MI', 'Minnesota': 'MN', 'Mississippi': 'MS',
-        'Missouri': 'MO', 'Montana': 'MT', 'Nebraska': 'NE', 'Nevada': 'NV',
-        'New Hampshire': 'NH', 'New Jersey': 'NJ', 'New Mexico': 'NM', 'New York': 'NY',
-        'North Carolina': 'NC', 'North Dakota': 'ND', 'Ohio': 'OH', 'Oklahoma': 'OK',
-        'Oregon': 'OR', 'Pennsylvania': 'PA', 'Rhode Island': 'RI', 'South Carolina': 'SC',
-        'South Dakota': 'SD', 'Tennessee': 'TN', 'Texas': 'TX', 'Utah': 'UT',
-        'Vermont': 'VT', 'Virginia': 'VA', 'Washington': 'WA', 'West Virginia': 'WV',
-        'Wisconsin': 'WI', 'Wyoming': 'WY', 'District of Columbia': 'DC'
-    };
-
-    let stateStats = {};
-    let placedVenues = 0;
-    let homeVenues = 0;
-    let neutralVenues = 0;
-    const markers = [];
-
-    venues.forEach(venue => {
-        const city = venue.City || '';
-        const state = venue.State || '';
-        const venueName = venue.Venue || '';
-
-        // Find games at this venue to determine predominant gender
-        const venueGames = games.filter(g =>
-            (g.Venue || g.venue) === venue.Venue
-        );
-        const mGames = venueGames.filter(g => g.Gender === 'M').length;
-        const wGames = venueGames.filter(g => g.Gender === 'W').length;
-        const predominantGender = wGames > mGames ? 'W' : 'M';
-
-        // Look up home team from game data
-        const venueKey = `${venueName}|${predominantGender}`;
-        let teamInfo = venueHomeTeams[venueKey];
-
-        // If no match for predominant gender, try other gender
-        if (!teamInfo) {
-            const altGender = predominantGender === 'M' ? 'W' : 'M';
-            teamInfo = venueHomeTeams[`${venueName}|${altGender}`];
-        }
-
-        // Determine if this is a home venue vs neutral site
-        // Check known neutral sites first, then heuristics
-        const isKnownNeutralSite = NEUTRAL_SITES.has(venueName);
-        const homeTeamsAtVenue = new Set(venueGames.map(g => g['Home Team']));
-        // Neutral if: in known list, or multiple "home" teams, or no team info
-        const isNeutralSite = isKnownNeutralSite || homeTeamsAtVenue.size > 2 || !teamInfo;
-
-        // Get coordinates - try venue-specific, then school, then city
-        let coords = null;
-        // 1. Check specific venue coordinates (for neutral sites like Chase Center)
-        if (VENUE_COORDS[venueName]) {
-            coords = VENUE_COORDS[venueName];
-        }
-        // 2. Try school coordinates for home team
-        else if (teamInfo && SCHOOL_COORDS[teamInfo.team]) {
-            coords = SCHOOL_COORDS[teamInfo.team];
-        }
-        // 3. Try city coordinates with state abbreviation (e.g., "San Francisco, CA")
-        else if (city && state) {
-            // Handle both full state names and abbreviations
-            const abbrev = stateAbbrev[state] || state;
-            const cityKey = `${city}, ${abbrev}`;
-            if (CITY_COORDS[cityKey]) {
-                coords = CITY_COORDS[cityKey];
-            }
-            // Also try just the city name if state lookup failed
-            else if (CITY_COORDS[city]) {
-                coords = CITY_COORDS[city];
-            }
-        }
-
-        // Skip venues we can't accurately place
-        if (!coords) return;
-
-        // Track stats by state
-        if (!stateStats[state]) {
-            stateStats[state] = { count: 0, games: 0 };
-        }
-        stateStats[state].count++;
-        stateStats[state].games += venue.Games || 0;
-
-        placedVenues++;
-
-        // Track home vs neutral venues
-        const isHomeVenue = !isNeutralSite;
-        if (isHomeVenue) {
-            homeVenues++;
-        } else {
-            neutralVenues++;
-        }
-
-        // Create popup content - show gender indicator for women's teams
-        const genderSuffix = teamInfo && teamInfo.gender === 'W' ? ' (W)' : '';
-        const teamLabel = teamInfo ? `<strong>${teamInfo.team}${genderSuffix}</strong> Home Arena<br>` : '<em>Neutral Site</em><br>';
-        const venueDivision = venue.Division || 'D1';
-        const venueStatus = venue.Status || 'Current';
-        const divisionBadge = venueDivision !== 'D1' ? `<span style="background: ${venueDivision === 'D2' ? '#F57C00' : '#757575'}; color: white; padding: 1px 6px; border-radius: 3px; font-size: 10px; margin-left: 4px;">${venueDivision}</span>` : '';
-        const historicBadge = venueStatus === 'Historic' ? '<span style="background: #F57C00; color: white; padding: 1px 6px; border-radius: 3px; font-size: 10px; margin-left: 4px;">Historic</span>' : '';
-        const popupContent = `
-            <div style="min-width: 220px;">
-                ${teamLabel}
-                <strong style="font-size: 14px;">${venueName}</strong>${divisionBadge}${historicBadge}<br>
-                <span style="color: #666;">${city}, ${state}</span>
-                <hr style="margin: 8px 0;">
-                <div style="font-size: 12px;">
-                    <strong>${venue.Games || 0}</strong> games attended<br>
-                    Home: ${venue['Home Wins'] || 0}W | Away: ${venue['Away Wins'] || 0}W
-                </div>
-                ${venueGames.length > 0 ? `
-                <hr style="margin: 8px 0;">
-                <div style="font-size: 11px; max-height: 150px; overflow-y: auto;">
-                    ${venueGames.slice(0, 5).map(g => `
-                        <div style="margin-bottom: 4px;">
-                            ${g.Date || ''}: ${g['Away Team'] || ''} @ ${g['Home Team'] || ''}
-                        </div>
-                    `).join('')}
-                    ${venueGames.length > 5 ? `<div style="color: #888;">...and ${venueGames.length - 5} more</div>` : ''}
-                </div>` : ''}
-            </div>
-        `;
-
-        // Create marker with logo - check custom logos first, then ESPN, then NCAA
-        let logoUrl = ncaaLogoUrl;  // default fallback
-        if (isNeutralSite) {
-            logoUrl = ncaaLogoUrl;  // Always NCAA logo for neutral sites
-        } else if (teamInfo && CUSTOM_LOGOS[teamInfo.team]) {
-            logoUrl = CUSTOM_LOGOS[teamInfo.team];  // Non-D1 custom logo
-        } else if (teamInfo && teamInfo.espnId) {
-            logoUrl = `https://a.espncdn.com/i/teamlogos/ncaa/500/${teamInfo.espnId}.png`;  // D1 ESPN logo
-        }
-
-        const size = Math.min(Math.max(28 + (venue.Games || 1) * 2, 28), 44);
-
-        // Border color based on division: D1=green/blue, D2=orange, D3=gray
-        const division = venue.Division || 'D1';
-        const isHistoric = venue.Status === 'Historic';
-        let borderColor;
-        if (isNeutralSite) {
-            borderColor = '#1565C0';  // Blue for neutral
-        } else if (division === 'D2') {
-            borderColor = '#F57C00';  // Orange for D2
-        } else if (division === 'D3') {
-            borderColor = '#757575';  // Gray for D3
-        } else {
-            borderColor = '#2E7D32';  // Green for D1 home
-        }
-
-        // Historic venues get dashed border
-        const borderStyle = isHistoric ? 'dashed' : 'solid';
-        const historicIndicator = isHistoric ? '<div style="position: absolute; top: -2px; right: -2px; background: #F57C00; color: white; border-radius: 50%; width: 14px; height: 14px; font-size: 9px; display: flex; align-items: center; justify-content: center; font-weight: bold;" title="Historic venue">H</div>' : '';
-
-        const icon = L.divIcon({
-            className: 'venue-logo-marker',
-            html: `<div style="
-                position: relative;
-                width: ${size}px;
-                height: ${size}px;
-                border-radius: 50%;
-                border: 3px ${borderStyle} ${borderColor};
-                background: white;
-                box-shadow: 0 2px 6px rgba(0,0,0,0.4);
-                overflow: visible;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            "><img src="${logoUrl}" style="
-                width: ${size - 4}px;
-                height: ${size - 4}px;
-                object-fit: contain;
-                border-radius: 50%;
-            " onerror="this.src='${ncaaLogoUrl}'">${historicIndicator}</div>`,
-            iconSize: [size + 6, size + 6],
-            iconAnchor: [(size + 6) / 2, (size + 6) / 2],
-        });
-
-        const marker = L.marker(coords, { icon }).addTo(venuesMap).bindPopup(popupContent);
-        markers.push(marker);
-        // Store marker with venue data for filtering
-        venueMarkers.push({
-            marker,
-            venue,
-            isNeutralSite,
-            division: venue.Division || 'D1',
-            status: venue.Status || 'Current'
-        });
-    });
-
-    // Show summary
-    const summary = document.getElementById('venues-map-summary');
-    if (summary) {
-        const stateCount = Object.keys(stateStats).length;
-        const topStates = Object.entries(stateStats)
-            .sort((a, b) => b[1].count - a[1].count)
-            .slice(0, 5);
-
-        // Count D2/D3/Historic venues
-        const d2Venues = venues.filter(v => v.Division === 'D2').length;
-        const d3Venues = venues.filter(v => v.Division === 'D3').length;
-        const historicVenues = venues.filter(v => v.Status === 'Historic').length;
-
-        summary.innerHTML = `
-            <div class="stat-box">
-                <div class="stat-value">${placedVenues}</div>
-                <div class="stat-label">Venues</div>
-            </div>
-            <div class="stat-box">
-                <div class="stat-value">${homeVenues}</div>
-                <div class="stat-label">Home Arenas</div>
-            </div>
-            <div class="stat-box">
-                <div class="stat-value">${neutralVenues}</div>
-                <div class="stat-label">Neutral Sites</div>
-            </div>
-            <div class="stat-box">
-                <div class="stat-value">${stateCount}</div>
-                <div class="stat-label">States</div>
-            </div>
-            <div style="flex: 1; font-size: 0.85rem;">
-                <strong>Legend:</strong>
-                <span style="display: inline-flex; align-items: center; margin-left: 8px;">
-                    <span style="width: 12px; height: 12px; border: 2px solid #2E7D32; border-radius: 50%; display: inline-block; margin-right: 3px;"></span>D1
-                </span>
-                ${d2Venues > 0 ? `<span style="display: inline-flex; align-items: center; margin-left: 8px;">
-                    <span style="width: 12px; height: 12px; border: 2px solid #F57C00; border-radius: 50%; display: inline-block; margin-right: 3px;"></span>D2
-                </span>` : ''}
-                ${d3Venues > 0 ? `<span style="display: inline-flex; align-items: center; margin-left: 8px;">
-                    <span style="width: 12px; height: 12px; border: 2px solid #757575; border-radius: 50%; display: inline-block; margin-right: 3px;"></span>D3
-                </span>` : ''}
-                <span style="display: inline-flex; align-items: center; margin-left: 8px;">
-                    <span style="width: 12px; height: 12px; border: 2px solid #1565C0; border-radius: 50%; display: inline-block; margin-right: 3px;"></span>Neutral
-                </span>
-                ${historicVenues > 0 ? `<span style="display: inline-flex; align-items: center; margin-left: 8px;">
-                    <span style="width: 12px; height: 12px; border: 2px dashed #2E7D32; border-radius: 50%; display: inline-block; margin-right: 3px;"></span>Historic
-                </span>` : ''}
-            </div>
-        `;
-    }
-
-    venuesMapInitialized = true;
-
-    // Fit bounds to markers if we have any
-    if (markers.length > 0) {
-        const group = L.featureGroup(markers);
-        venuesMap.fitBounds(group.getBounds().pad(0.1));
-    }
-
-    // Build unvisited arena markers (hidden by default)
-    const unvisitedArenas = DATA.unvisitedHomeArenas || [];
-    unvisitedArenas.forEach(arena => {
-        const team = arena.team || '';
-        const coords = SCHOOL_COORDS[team];
-        if (!coords) return;
-
-        const espnId = arena.espnId;
-        const logoUrl = espnId
-            ? `https://a.espncdn.com/i/teamlogos/ncaa/500/${espnId}.png`
-            : ncaaLogoUrl;
-
-        const popupContent = `
-            <div style="min-width: 200px;">
-                <strong>${team}</strong><br>
-                <strong style="font-size: 14px;">${arena.venue}</strong><br>
-                <span style="color: #666;">${arena.city}, ${arena.state}</span>
-                <hr style="margin: 8px 0;">
-                <div style="font-size: 12px; color: #888;">
-                    <em>Not yet visited</em><br>
-                    ${arena.conference}
-                </div>
-            </div>
-        `;
-
-        const size = 28;
-        const icon = L.divIcon({
-            className: 'venue-logo-marker',
-            html: `<div style="
-                position: relative;
-                width: ${size}px;
-                height: ${size}px;
-                border-radius: 50%;
-                background: white;
-                box-shadow: 0 2px 6px rgba(0,0,0,0.4);
-                overflow: visible;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            "><img src="${logoUrl}" style="
-                width: ${size - 4}px;
-                height: ${size - 4}px;
-                object-fit: contain;
-                border-radius: 50%;
-            " onerror="this.src='${ncaaLogoUrl}'"></div>`,
-            iconSize: [size + 4, size + 4],
-            iconAnchor: [(size + 4) / 2, (size + 4) / 2],
-        });
-
-        const marker = L.marker(coords, { icon }).bindPopup(popupContent);
-        unvisitedVenueMarkers.push({ marker, arena });
-    });
-
-    // Set initial toggle label state
-    const visitedLabel = document.getElementById('toggle-label-visited');
-    if (visitedLabel) visitedLabel.classList.add('active');
-}
-
-function toggleVenueMapView() {
-    const toggle = document.getElementById('venue-visited-toggle');
-    const isUnvisited = toggle && toggle.checked;
-    window.venueMapMode = isUnvisited ? 'unvisited' : 'visited';
-
-    // Update toggle label styles
-    const visitedLabel = document.getElementById('toggle-label-visited');
-    const unvisitedLabel = document.getElementById('toggle-label-unvisited');
-    if (visitedLabel) visitedLabel.classList.toggle('active', !isUnvisited);
-    if (unvisitedLabel) unvisitedLabel.classList.toggle('active', isUnvisited);
-
-    // Toggle visited markers — don't add all back here, let applyVenuesFilters handle it
-    if (isUnvisited) {
-        venueMarkers.forEach(({marker}) => {
-            if (venuesMap.hasLayer(marker)) venuesMap.removeLayer(marker);
-        });
-    }
-
-    // Toggle unvisited markers
-    unvisitedVenueMarkers.forEach(({marker}) => {
-        if (isUnvisited) {
-            if (!venuesMap.hasLayer(marker)) marker.addTo(venuesMap);
-        } else {
-            if (venuesMap.hasLayer(marker)) venuesMap.removeLayer(marker);
-        }
-    });
-
-    // Show/hide filters, search, and table
-    const quickFilters = document.querySelector('#venues .quick-filters');
-    const searchBox = document.getElementById('venues-search');
-    const tableContainer = document.querySelector('#venues .table-container');
-    const downloadBtn = document.querySelector('#venues .section-actions');
-    if (quickFilters) quickFilters.style.display = isUnvisited ? 'none' : '';
-    if (searchBox) searchBox.style.display = isUnvisited ? 'none' : '';
-    if (tableContainer) tableContainer.style.display = isUnvisited ? 'none' : '';
-    if (downloadBtn) downloadBtn.style.display = isUnvisited ? 'none' : '';
-
-    // Update summary
-    const summary = document.getElementById('venues-map-summary');
-    if (summary) {
-        if (isUnvisited) {
-            const arenas = DATA.unvisitedHomeArenas || [];
-            const placed = unvisitedVenueMarkers.length;
-            const statesSet = new Set(arenas.map(a => a.state).filter(Boolean));
-            const confsSet = new Set(arenas.map(a => a.conference).filter(Boolean));
-            summary.innerHTML = `
-                <div class="stat-box">
-                    <div class="stat-value">${arenas.length}</div>
-                    <div class="stat-label">Unvisited Arenas</div>
-                </div>
-                <div class="stat-box">
-                    <div class="stat-value">${placed}</div>
-                    <div class="stat-label">On Map</div>
-                </div>
-                <div class="stat-box">
-                    <div class="stat-value">${statesSet.size}</div>
-                    <div class="stat-label">States</div>
-                </div>
-                <div class="stat-box">
-                    <div class="stat-value">${confsSet.size}</div>
-                    <div class="stat-label">Conferences</div>
-                </div>
-                <div style="flex: 1; font-size: 0.85rem;">
-                    <strong>Legend:</strong>
-                    <span style="display: inline-flex; align-items: center; margin-left: 8px;">
-                        <span style="width: 12px; height: 12px; border: 2px dashed #999; border-radius: 50%; display: inline-block; margin-right: 3px; opacity: 0.7;"></span>Unvisited
-                    </span>
-                </div>
-            `;
-        } else {
-            // Restore visited: re-add markers and rebuild summary via filter logic
-            venueMarkers.forEach(({marker}) => {
-                marker.addTo(venuesMap);
-            });
-            // Rebuild full summary HTML first, then let applyVenuesFilters update it
-            const venues = DATA.venues || [];
-            const d2Venues = venues.filter(v => v.Division === 'D2').length;
-            const d3Venues = venues.filter(v => v.Division === 'D3').length;
-            const historicVenues = venues.filter(v => v.Status === 'Historic').length;
-            summary.innerHTML = `
-                <div class="stat-box">
-                    <div class="stat-value">0</div>
-                    <div class="stat-label">Venues</div>
-                </div>
-                <div class="stat-box">
-                    <div class="stat-value">0</div>
-                    <div class="stat-label">Home Arenas</div>
-                </div>
-                <div class="stat-box">
-                    <div class="stat-value">0</div>
-                    <div class="stat-label">Neutral Sites</div>
-                </div>
-                <div class="stat-box">
-                    <div class="stat-value">0</div>
-                    <div class="stat-label">States</div>
-                </div>
-                <div style="flex: 1; font-size: 0.85rem;">
-                    <strong>Legend:</strong>
-                    <span style="display: inline-flex; align-items: center; margin-left: 8px;">
-                        <span style="width: 12px; height: 12px; border: 2px solid #2E7D32; border-radius: 50%; display: inline-block; margin-right: 3px;"></span>D1
-                    </span>
-                    ${d2Venues > 0 ? `<span style="display: inline-flex; align-items: center; margin-left: 8px;">
-                        <span style="width: 12px; height: 12px; border: 2px solid #F57C00; border-radius: 50%; display: inline-block; margin-right: 3px;"></span>D2
-                    </span>` : ''}
-                    ${d3Venues > 0 ? `<span style="display: inline-flex; align-items: center; margin-left: 8px;">
-                        <span style="width: 12px; height: 12px; border: 2px solid #757575; border-radius: 50%; display: inline-block; margin-right: 3px;"></span>D3
-                    </span>` : ''}
-                    <span style="display: inline-flex; align-items: center; margin-left: 8px;">
-                        <span style="width: 12px; height: 12px; border: 2px solid #1565C0; border-radius: 50%; display: inline-block; margin-right: 3px;"></span>Neutral
-                    </span>
-                    ${historicVenues > 0 ? `<span style="display: inline-flex; align-items: center; margin-left: 8px;">
-                        <span style="width: 12px; height: 12px; border: 2px dashed #2E7D32; border-radius: 50%; display: inline-block; margin-right: 3px;"></span>Historic
-                    </span>` : ''}
-                </div>
-            `;
-            applyVenuesFilters();
-        }
-    }
-
-    // Fit bounds to visible markers
-    if (isUnvisited) {
-        const onMap = unvisitedVenueMarkers.map(m => m.marker).filter(m => venuesMap.hasLayer(m));
-        if (onMap.length > 0) {
-            const group = L.featureGroup(onMap);
-            venuesMap.fitBounds(group.getBounds().pad(0.1));
-        }
-    } else {
-        const onMap = venueMarkers.map(m => m.marker).filter(m => venuesMap.hasLayer(m));
-        if (onMap.length > 0) {
-            const group = L.featureGroup(onMap);
-            venuesMap.fitBounds(group.getBounds().pad(0.1));
-        }
-    }
-}
-
-// Future Pros filtering state
-let filteredFuturePros = [];
-let allFuturePros = [];
-
-function populateFutureProsTable() {
-    const players = DATA.players || [];
-
-    // Filter to players who went pro (NBA, WNBA, or International)
-    allFuturePros = players.filter(p => p.NBA || p.WNBA || p.International);
-
-    // Sort by pro games (prioritize those who actually played), then by total points
-    allFuturePros.sort((a, b) => {
-        const aGames = (a.NBA_Games || 0) + (a.WNBA_Games || 0);
-        const bGames = (b.NBA_Games || 0) + (b.WNBA_Games || 0);
-        if (bGames !== aGames) return bGames - aGames;
-        return (b['Total PTS'] || 0) - (a['Total PTS'] || 0);
-    });
-
-    // Build summary stats
-    const summaryEl = document.getElementById('future-pros-summary');
-    if (summaryEl) {
-        const nbaCount = allFuturePros.filter(p => p.NBA).length;
-        const wnbaCount = allFuturePros.filter(p => p.WNBA).length;
-        const intlCount = allFuturePros.filter(p => p.Intl_Pro).length;
-        const activeCount = allFuturePros.filter(p => p.NBA_Active || p.WNBA_Active || !!p.Current_Team).length;
-        summaryEl.innerHTML = `
-            <div class="fp-card"><div class="fp-card-number">${allFuturePros.length}</div><div class="fp-card-label">Total</div></div>
-            <div class="fp-card fp-nba"><div class="fp-card-number">${nbaCount}</div><div class="fp-card-label">NBA</div></div>
-            <div class="fp-card fp-wnba"><div class="fp-card-number">${wnbaCount}</div><div class="fp-card-label">WNBA</div></div>
-            <div class="fp-card fp-intl"><div class="fp-card-number">${intlCount}</div><div class="fp-card-label">International</div></div>
-            <div class="fp-card fp-active"><div class="fp-card-number">${activeCount}</div><div class="fp-card-label">Active</div></div>
-        `;
-    }
-
-    // Initial render uses filters (which defaults to showing all)
-    applyFutureProsFilters();
-}
-
-function renderFutureProsTable(futurePros) {
-    const tbody = document.querySelector('#future-pros-table tbody');
-
-    if (futurePros.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="8" class="empty-state"><h3>No future pros match filters</h3></td></tr>';
-        return;
-    }
-
-    tbody.innerHTML = futurePros.map(player => {
-        const playerId = player['Player ID'] || '';
-        // Don't show (W) gender tag if player has WNBA badge - it's redundant
-        const genderTag = (player.Gender === 'W' && !player.WNBA) ? ' <span class="gender-tag">(W)</span>' : '';
-        const sportsRefLink = getPlayerSportsRefLink(player);
-
-        // Determine primary league and build badges
-        let badges = '';
-        let league = '';
-        let proGames = '';
-        let proUrl = '#';
-        let linkClass = '';
-        let rowClass = '';
-
-        if (player.NBA) {
-            const nbaGames = player.NBA_Games;
-            const signedOnly = player.NBA_Played === false;
-            const isActive = player.NBA_Active === true;
-            const tooltip = signedOnly
-                ? 'Signed to NBA (never played)'
-                : (nbaGames
-                    ? `NBA: ${nbaGames} games${isActive ? ' (Active)' : ''}`
-                    : (isActive ? 'Active NBA player' : 'Former NBA player'));
-            const nbaLogo = signedOnly ? '📝' : '<img src="https://a.espncdn.com/combiner/i?img=/i/teamlogos/leagues/500/nba.png&w=32&h=32" alt="NBA" class="league-logo">';
-            const activeIndicator = isActive && !signedOnly ? '<span class="active-indicator" data-tooltip="Currently Active"></span>' : '';
-            badges += `<span class="nba-badge${signedOnly ? ' signed-only' : ''}" data-tooltip="${tooltip}">${nbaLogo}</span>${activeIndicator}`;
-            if (!league) {
-                league = signedOnly ? 'NBA (signed)' : 'NBA';
-                proGames = signedOnly ? '0' : (nbaGames || '?');
-                proUrl = player.NBA_URL || '#';
-                linkClass = 'nba-link';
-                rowClass = signedOnly ? 'signed-only' : 'nba-player';
-            }
-        }
-
-        if (player.WNBA) {
-            const wnbaGames = player.WNBA_Games;
-            const signedOnly = player.WNBA_Played === false;
-            const isActive = player.WNBA_Active === true;
-            const tooltip = signedOnly
-                ? 'Signed to WNBA (never played)'
-                : (wnbaGames
-                    ? `WNBA: ${wnbaGames} games${isActive ? ' (Active)' : ''}`
-                    : (isActive ? 'Active WNBA player' : 'Former WNBA player'));
-            const wnbaLogo = signedOnly ? '📝' : '<img src="https://a.espncdn.com/combiner/i?img=/i/teamlogos/leagues/500/wnba.png&w=32&h=32" alt="WNBA" class="league-logo">';
-            const activeIndicator = isActive && !signedOnly ? '<span class="active-indicator" data-tooltip="Currently Active"></span>' : '';
-            badges += `<span class="wnba-badge${signedOnly ? ' signed-only' : ''}" data-tooltip="${tooltip}">${wnbaLogo}</span>${activeIndicator}`;
-            if (!league || league.includes('signed')) {
-                league = signedOnly ? 'WNBA (signed)' : 'WNBA';
-                proGames = signedOnly ? '0' : (wnbaGames || '?');
-                proUrl = player.WNBA_URL || '#';
-                linkClass = 'wnba-link';
-                rowClass = signedOnly ? 'signed-only' : 'wnba-player';
-            }
-        }
-
-        // International badges - can have both pro and national team
-        if (player.Intl_Pro) {
-            const intlLeagues = player.Intl_Leagues || [];
-            const leagueTooltip = intlLeagues.length > 0 ? intlLeagues.join(', ') : 'Overseas Pro League';
-            badges += `<span class="intl-badge" data-tooltip="${leagueTooltip}">🌍</span>`;
-            if (!league || league.includes('signed')) {
-                // Show all leagues (up to 3, then "+N more")
-                if (intlLeagues.length > 3) {
-                    league = intlLeagues.slice(0, 3).join(', ') + ` +${intlLeagues.length - 3} more`;
-                } else {
-                    league = intlLeagues.length > 0 ? intlLeagues.join(', ') : 'Overseas';
-                }
-                const pbGames = player.Proballers_Games || 0;
-                proGames = pbGames > 0 ? pbGames : '—';
-                proUrl = player.Intl_URL || player.Proballers_URL || '#';
-                linkClass = 'intl-link';
-                rowClass = 'intl-player';
-            }
-        }
-        if (player.Intl_National_Team) {
-            const fibaLogo = '<img src="https://a.espncdn.com/combiner/i?img=/i/teamlogos/leagues/500/fiba.png&w=32&h=32" alt="FIBA" class="league-logo fiba-logo">';
-            // Show specific tournaments in tooltip
-            const tournaments = player.Intl_Tournaments || [];
-            const tournamentTooltip = tournaments.length > 0
-                ? `National Team: ${tournaments.join(', ')}`
-                : 'National Team (Olympics/FIBA)';
-            badges += `<span class="intl-badge national-team" data-tooltip="${tournamentTooltip}">${fibaLogo}</span>`;
-            if (!league || league.includes('signed')) {
-                league = 'National Team';
-                const pbGames = player.Proballers_Games || 0;
-                proGames = pbGames > 0 ? pbGames : '—';
-                proUrl = player.Intl_URL || player.Proballers_URL || '#';
-                linkClass = 'natl-link';
-                rowClass = 'national-team-player';
-            }
-        }
-
-        // For players whose primary league is international (not NBA/WNBA), use Proballers as main link
-        const proballersUrl = player.Proballers_URL || '';
-        if (player.Intl_Pro && !player.NBA && !player.WNBA && proballersUrl && proballersUrl !== '#') {
-            proUrl = proballersUrl;
-        }
-
-        // Show Proballers link badge only if it's different from the main link
-        const showProballers = proballersUrl && proballersUrl !== '#' && proballersUrl !== proUrl;
-        const proballersLink = showProballers
-            ? ` <a href="${proballersUrl}" target="_blank" class="proballers-link" data-tooltip="View on Proballers">PB</a>`
-            : '';
-
-        // Build draft display
-        let draftDisplay = '';
-        if (player.Draft_Round) {
-            draftDisplay = `${player.Draft_Year} Draft: Round ${player.Draft_Round}, Pick ${player.Draft_Pick}`;
-        } else if (player.Undrafted) {
-            draftDisplay = 'UDFA';
-        }
-
-        // Build current team display with G-League indicator
-        let currentTeamDisplay = '—';
-        if (player.Current_Team) {
-            // Build G-League tooltip with team names and years
-            let gleagueTag = '';
-            if (player.Had_GLeague) {
-                const gleagueTeams = player.GLeague_Teams || [];
-                let gleagueTooltip = 'G-League Experience';
-                if (gleagueTeams.length > 0) {
-                    gleagueTooltip = 'G-League: ' + gleagueTeams.map(t => {
-                        const yr = t.year ? ` '${String(t.year).slice(2)}` : '';
-                        return `${t.team}${yr}`;
-                    }).join(', ');
-                }
-                gleagueTag = `<span class="gleague-tag" data-tooltip="${gleagueTooltip}">G</span>`;
-            }
-            currentTeamDisplay = `<span class="team-name" data-tooltip="${player.Current_Team}">${player.Current_Team}</span>${gleagueTag}`;
-        }
-
-        // Build player name — link to pro stats page if available
-        const playerNameHtml = proUrl && proUrl !== '#'
-            ? `<a href="${proUrl}" target="_blank" class="player-link ${linkClass}">${player.Player || ''}</a>`
-            : `<span class="player-link" onclick="showPlayerDetail('${playerId || player.Player}')">${player.Player || ''}</span>`;
-
-        return `
-            <tr class="${rowClass}">
-                <td>
-                    ${playerNameHtml}
-                    ${badges}${proballersLink}
-                    ${sportsRefLink}${genderTag}
-                </td>
-                <td>${player.Team || ''}</td>
-                <td class="fp-draft draft-cell">${draftDisplay}</td>
-                <td>${league}</td>
-                <td class="current-team-cell">${currentTeamDisplay}</td>
-                <td>${proGames}</td>
-                <td>${player.Games || 0}</td>
-                <td class="fp-ppg">${(player.PPG || 0).toFixed(1)}</td>
-            </tr>
-        `;
-    }).join('');
-}
-
-function applyFutureProsFilters() {
-    const searchEl = document.getElementById('future-pros-search');
-    const leagueEl = document.getElementById('future-pros-league');
-    const statusEl = document.getElementById('future-pros-status');
-    const playingEl = document.getElementById('future-pros-playing');
-
-    const search = searchEl ? searchEl.value.toLowerCase() : '';
-    const leagueFilter = leagueEl ? leagueEl.value : '';
-    const statusFilter = statusEl ? statusEl.value : '';
-    const playingFilter = playingEl ? playingEl.value : '';
-
-    // Check for special quick-filter
-    const section = document.getElementById('future-pros');
-    const quickFilter = section ? section.dataset.quickFilter : '';
-
-    filteredFuturePros = allFuturePros.filter(player => {
-        // Search filter
+function CareerHighs({ showPlayerDetail }) {
+    const seasonHighs = DATA.seasonHighs || [];
+    const [sortCol, setSortCol] = useState('High PTS');
+    const [sortAsc, setSortAsc] = useState(false);
+    const [search, setSearch] = useState('');
+
+    const filtered = useMemo(() => {
+        let data = [...seasonHighs];
         if (search) {
-            const text = `${player.Player} ${player.Team}`.toLowerCase();
-            if (!text.includes(search)) return false;
+            const q = search.toLowerCase();
+            data = data.filter(h => (h.Player || '').toLowerCase().includes(q) || (h.Team || '').toLowerCase().includes(q));
         }
+        return data.sort((a, b) => {
+            const va = a[sortCol] || 0;
+            const vb = b[sortCol] || 0;
+            return sortAsc ? va - vb : vb - va;
+        });
+    }, [seasonHighs, sortCol, sortAsc, search]);
 
-        // League filter
-        if (leagueFilter) {
-            if (leagueFilter === 'nba' && !player.NBA) return false;
-            if (leagueFilter === 'wnba' && !player.WNBA) return false;
-            if (leagueFilter === 'intl' && !player.Intl_Pro) return false;
-            if (leagueFilter === 'national' && !player.Intl_National_Team) return false;
-            if (leagueFilter === 'gleague' && !player.Had_GLeague) return false;
-        }
+    const handleSort = (col) => {
+        if (sortCol === col) setSortAsc(!sortAsc);
+        else { setSortCol(col); setSortAsc(false); }
+    };
 
-        // Status filter
-        if (statusFilter) {
-            const isActive = player.NBA_Active || player.WNBA_Active || !!player.Current_Team;
-            const isSignedOnly = (player.NBA && player.NBA_Played === false) ||
-                                 (player.WNBA && player.WNBA_Played === false);
-            if (statusFilter === 'active' && !isActive) return false;
-            if (statusFilter === 'former' && (isActive || isSignedOnly)) return false;
-            if (statusFilter === 'signed' && !isSignedOnly) return false;
-        }
+    const SortTh = ({ col, label }) => html`
+        <th onClick=${() => handleSort(col)} style="cursor:pointer">
+            ${label} ${sortCol === col ? (sortAsc ? '▲' : '▼') : ''}
+        </th>
+    `;
 
-        // Currently Playing filter
-        if (playingFilter) {
-            const hasCurrentTeam = !!player.Current_Team;
-            if (playingFilter === 'playing' && !hasCurrentTeam) return false;
-            if (playingFilter === 'not-playing' && hasCurrentTeam) return false;
-        }
+    if (!seasonHighs.length) return html`<${EmptyState} title="No season highs data" />`;
 
-        // Quick-filter: Drafted
-        if (quickFilter === 'drafted' && !player.Draft_Round) return false;
-
-        return true;
-    });
-
-    renderFutureProsTable(filteredFuturePros);
-    updateFutureProsFilterSummary();
+    return html`
+        <div>
+            <h3>Career Highs</h3>
+            <${FilterBar}>
+                <input type="text" class="filter-input" placeholder="Search players..." value=${search} onInput=${(e) => setSearch(e.target.value)} />
+                <span class="filter-count">${filtered.length} players</span>
+            <//>
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Player</th>
+                            <th>Team</th>
+                            <${SortTh} col="High PTS" label="PTS" />
+                            <th>Game</th>
+                            <${SortTh} col="High REB" label="REB" />
+                            <th>Game</th>
+                            <${SortTh} col="High AST" label="AST" />
+                            <th>Game</th>
+                            <${SortTh} col="High 3PM" label="3PM" />
+                            <${SortTh} col="Best Game Score" label="GmSc" />
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${filtered.map(h => html`
+                            <tr>
+                                <td><span class="player-link" onClick=${() => showPlayerDetail(h['Player ID'] || h.Player)}>${h.Player}</span></td>
+                                <td>${h.Team || ''}</td>
+                                <td class=${(h['High PTS'] || 0) >= 20 ? 'stat-excellent' : (h['High PTS'] || 0) >= 15 ? 'stat-good' : ''}>${h['High PTS'] || 0}</td>
+                                <td class="text-muted">${h['PTS Opponent'] ? `vs ${h['PTS Opponent']}` : ''}</td>
+                                <td class=${(h['High REB'] || 0) >= 10 ? 'stat-excellent' : (h['High REB'] || 0) >= 7 ? 'stat-good' : ''}>${h['High REB'] || 0}</td>
+                                <td class="text-muted">${h['REB Opponent'] ? `vs ${h['REB Opponent']}` : ''}</td>
+                                <td class=${(h['High AST'] || 0) >= 7 ? 'stat-excellent' : (h['High AST'] || 0) >= 5 ? 'stat-good' : ''}>${h['High AST'] || 0}</td>
+                                <td class="text-muted">${h['AST Opponent'] ? `vs ${h['AST Opponent']}` : ''}</td>
+                                <td>${h['High 3PM'] || 0}</td>
+                                <td>${h['Best Game Score'] != null ? h['Best Game Score'].toFixed(1) : '-'}</td>
+                            </tr>
+                        `)}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    `;
 }
 
-function clearFutureProsFilters() {
-    const searchEl = document.getElementById('future-pros-search');
-    const leagueEl = document.getElementById('future-pros-league');
-    const statusEl = document.getElementById('future-pros-status');
-    const playingEl = document.getElementById('future-pros-playing');
+function PlayerGameLogs({ showPlayerDetail, showGameDetail }) {
+    const [search, setSearch] = useState('');
+    const [selectedPlayer, setSelectedPlayer] = useState(null);
+    const allPlayers = DATA.players || [];
 
-    if (searchEl) searchEl.value = '';
-    if (leagueEl) leagueEl.value = '';
-    if (statusEl) statusEl.value = '';
-    if (playingEl) playingEl.value = '';
+    const suggestions = useMemo(() => {
+        if (search.length < 2) return [];
+        const q = search.toLowerCase();
+        return allPlayers.filter(p => (p.Player || '').toLowerCase().includes(q)).slice(0, 10);
+    }, [search, allPlayers]);
 
-    // Reset quick-filter pills
-    const qfContainer = document.getElementById('future-pros-quick-filters');
-    if (qfContainer) {
-        qfContainer.querySelectorAll('.quick-filter').forEach(btn => btn.classList.remove('active'));
-        qfContainer.querySelector('.quick-filter').classList.add('active'); // "All" button
-    }
+    const gameLogs = useMemo(() => {
+        if (!selectedPlayer) return [];
+        const playerId = selectedPlayer['Player ID'] || selectedPlayer.Player;
+        return (DATA.playerGames || [])
+            .filter(g => (g.player_id || g.player) === playerId)
+            .sort((a, b) => (b.date_yyyymmdd || b.date || '').localeCompare(a.date_yyyymmdd || a.date || ''));
+    }, [selectedPlayer]);
 
-    applyFutureProsFilters();
+    return html`
+        <div>
+            <${FilterBar}>
+                <div class="global-search-container" style="position:relative; max-width:300px;">
+                    <input type="text" class="filter-input" placeholder="Search for a player..."
+                        value=${search}
+                        onInput=${(e) => { setSearch(e.target.value); if (!e.target.value) setSelectedPlayer(null); }}
+                    />
+                    ${suggestions.length > 0 && !selectedPlayer && html`
+                        <div class="search-results" style="display:block; top:100%; left:0; right:0;">
+                            ${suggestions.map(p => html`
+                                <div class="search-result-item" onClick=${() => { setSelectedPlayer(p); setSearch(p.Player); }}>
+                                    <span class="search-result-icon">👤</span>
+                                    <div class="search-result-text">
+                                        <div class="search-result-title">${p.Player}</div>
+                                        <div class="search-result-subtitle">${p.Team} - ${(p.PPG||0).toFixed(1)} PPG</div>
+                                    </div>
+                                </div>
+                            `)}
+                        </div>
+                    `}
+                </div>
+            <//>
+
+            ${selectedPlayer && html`
+                <h3 style="margin: var(--space-3) 0">${selectedPlayer.Player} — ${selectedPlayer.Team}${selectedPlayer.Gender === 'W' ? ' (W)' : ''}</h3>
+                ${gameLogs.length === 0
+                    ? html`<${EmptyState} title="No game logs found" />`
+                    : html`
+                        <div class="table-container">
+                            <table class="data-table">
+                                <thead><tr><th>Date</th><th>Opp</th><th>Result</th><th>MIN</th><th>PTS</th><th>REB</th><th>AST</th><th>STL</th><th>BLK</th><th>FG</th><th>3P</th><th>FT</th><th>GmSc</th></tr></thead>
+                                <tbody>
+                                    ${gameLogs.map(g => html`
+                                        <tr class="clickable-row" onClick=${() => showGameDetail(g.game_id)}>
+                                            <td><span class="game-link">${g.date}</span></td>
+                                            <td>${g.opponent}</td>
+                                            <td>${g.result} ${g.score || ''}</td>
+                                            <td>${formatMinutes(g.mp)}</td>
+                                            <td class=${(g.pts||0) >= 20 ? 'stat-excellent' : ''}>${g.pts || 0}</td>
+                                            <td>${g.trb || 0}</td>
+                                            <td>${g.ast || 0}</td>
+                                            <td>${g.stl || 0}</td>
+                                            <td>${g.blk || 0}</td>
+                                            <td>${g.fg || 0}-${g.fga || 0}</td>
+                                            <td>${g.fg3 || 0}-${g.fg3a || 0}</td>
+                                            <td>${g.ft || 0}-${g.fta || 0}</td>
+                                            <td>${g.game_score != null ? g.game_score.toFixed(1) : '-'}</td>
+                                        </tr>
+                                    `)}
+                                </tbody>
+                            </table>
+                        </div>
+                    `
+                }
+            `}
+
+            ${!selectedPlayer && html`<${EmptyState} icon="🔍" title="Search for a player" message="Type a player name to view their game log" />`}
+        </div>
+    `;
 }
 
-function quickFilterFuturePros(type) {
-    // Reset dropdowns first
-    const leagueEl = document.getElementById('future-pros-league');
-    const statusEl = document.getElementById('future-pros-status');
-    const playingEl = document.getElementById('future-pros-playing');
-    if (leagueEl) leagueEl.value = '';
-    if (statusEl) statusEl.value = '';
-    if (playingEl) playingEl.value = '';
+function PlayerRecords({ showPlayerDetail }) {
+    const playerGames = DATA.playerGames || [];
+    const records = useMemo(() => {
+        // Build per-game records
+        const byPts = [...playerGames].sort((a, b) => (b.pts||0) - (a.pts||0)).slice(0, 10);
+        const byReb = [...playerGames].sort((a, b) => (b.trb||0) - (a.trb||0)).slice(0, 10);
+        const byAst = [...playerGames].sort((a, b) => (b.ast||0) - (a.ast||0)).slice(0, 10);
+        const byStl = [...playerGames].sort((a, b) => (b.stl||0) - (a.stl||0)).slice(0, 10);
+        const byBlk = [...playerGames].sort((a, b) => (b.blk||0) - (a.blk||0)).slice(0, 10);
+        const byGmSc = [...playerGames].filter(p => p.game_score != null).sort((a, b) => (b.game_score||0) - (a.game_score||0)).slice(0, 10);
+        return { byPts, byReb, byAst, byStl, byBlk, byGmSc };
+    }, [playerGames]);
 
-    // Set appropriate dropdown based on pill
-    if (type === 'nba' && leagueEl) leagueEl.value = 'nba';
-    else if (type === 'wnba' && leagueEl) leagueEl.value = 'wnba';
-    else if (type === 'intl' && leagueEl) leagueEl.value = 'intl';
-    else if (type === 'active' && statusEl) statusEl.value = 'active';
-    else if (type === 'drafted') {
-        // "Drafted" is a special filter — handled in applyFutureProsFilters
-        // We set a data attribute to signal this
-        const section = document.getElementById('future-pros');
-        if (section) section.dataset.quickFilter = 'drafted';
-    }
+    const RecordList = ({ items, statKey, label, format }) => html`
+        <${Card} className="record-card">
+            <h3>${label}</h3>
+            ${items.map((p, i) => html`
+                <div class="record-item" onClick=${() => showPlayerDetail(p.player_id || p.player)}>
+                    <span class="rank">${i + 1}.</span>
+                    <span class="teams">
+                        <span class="player-link">${p.player}</span>
+                        <span style="color: var(--text-muted); font-size: 0.8125rem"> (${p.team}) vs ${p.opponent}, ${p.date}</span>
+                    </span>
+                    <span class="score">${format ? format(p[statKey]) : p[statKey] || 0}</span>
+                </div>
+            `)}
+        <//>
+    `;
 
-    if (type !== 'drafted') {
-        const section = document.getElementById('future-pros');
-        if (section) delete section.dataset.quickFilter;
-    }
-
-    // Update pill active state
-    const qfContainer = document.getElementById('future-pros-quick-filters');
-    if (qfContainer) {
-        qfContainer.querySelectorAll('.quick-filter').forEach(btn => btn.classList.remove('active'));
-        event.target.classList.add('active');
-    }
-
-    applyFutureProsFilters();
+    return html`
+        <div class="records-grid">
+            <${RecordList} items=${records.byPts} statKey="pts" label="Most Points" />
+            <${RecordList} items=${records.byReb} statKey="trb" label="Most Rebounds" />
+            <${RecordList} items=${records.byAst} statKey="ast" label="Most Assists" />
+            <${RecordList} items=${records.byStl} statKey="stl" label="Most Steals" />
+            <${RecordList} items=${records.byBlk} statKey="blk" label="Most Blocks" />
+            <${RecordList} items=${records.byGmSc} statKey="game_score" label="Best Game Score" format=${v => v != null ? v.toFixed(1) : '-'} />
+        </div>
+    `;
 }
 
-function updateFutureProsFilterSummary() {
-    const summary = document.getElementById('future-pros-filter-summary');
-    const textSpan = summary?.querySelector('.filter-summary-text');
-    if (!summary || !textSpan) return;
+function FuturePros({ showPlayerDetail }) {
+    const [search, setSearch] = useState('');
+    const [quickFilter, setQuickFilter] = useState('all');
 
-    const searchEl = document.getElementById('future-pros-search');
-    const leagueEl = document.getElementById('future-pros-league');
-    const statusEl = document.getElementById('future-pros-status');
-    const playingEl = document.getElementById('future-pros-playing');
+    const allPros = useMemo(() => (DATA.players || []).filter(p => p.NBA || p.WNBA || p.International), []);
+    const filtered = useMemo(() => {
+        let data = [...allPros];
+        if (search) {
+            const q = search.toLowerCase();
+            data = data.filter(p => (p.Player||'').toLowerCase().includes(q) || (p.Team||'').toLowerCase().includes(q));
+        }
+        if (quickFilter === 'nba') data = data.filter(p => p.NBA);
+        if (quickFilter === 'wnba') data = data.filter(p => p.WNBA);
+        if (quickFilter === 'intl') data = data.filter(p => p.Intl_Pro);
+        if (quickFilter === 'active') data = data.filter(p => p.NBA_Active || p.WNBA_Active);
+        if (quickFilter === 'drafted') data = data.filter(p => p.Draft_Round);
+        return data;
+    }, [allPros, search, quickFilter]);
 
-    const search = searchEl ? searchEl.value : '';
-    const league = leagueEl ? leagueEl.value : '';
-    const status = statusEl ? statusEl.value : '';
-    const playing = playingEl ? playingEl.value : '';
+    const quickFilters = [
+        { id: 'all', label: 'All', count: allPros.length },
+        { id: 'nba', label: 'NBA' },
+        { id: 'wnba', label: 'WNBA' },
+        { id: 'intl', label: 'International' },
+        { id: 'active', label: 'Active' },
+        { id: 'drafted', label: 'Drafted' },
+    ];
 
-    const chips = [];
-    if (search) chips.push(`Search: "${search}"`);
-    if (league) chips.push(league.toUpperCase());
-    if (status) chips.push(status.charAt(0).toUpperCase() + status.slice(1));
-    if (playing) chips.push(playing === 'playing' ? 'Currently Playing' : 'Not Playing');
-
-    if (chips.length > 0) {
-        textSpan.innerHTML = `Showing <strong>${filteredFuturePros.length}</strong> of ${allFuturePros.length} players: ${chips.join(', ')}`;
-        summary.style.display = 'flex';
-    } else {
-        summary.style.display = 'none';
-    }
+    return html`
+        <div>
+            <${FilterBar}>
+                <input type="text" class="filter-input" placeholder="Search future pros..." value=${search} onInput=${(e) => setSearch(e.target.value)} />
+                <${QuickFilters} filters=${quickFilters} active=${quickFilter} onSelect=${setQuickFilter} />
+            <//>
+            <p class="filter-count">${filtered.length} of ${allPros.length} future pros</p>
+            <div class="future-pros-grid">
+                ${filtered.map(p => {
+                    let league = '';
+                    if (p.NBA) league = 'NBA';
+                    else if (p.WNBA) league = 'WNBA';
+                    else if (p.Intl_Pro) league = 'Intl';
+                    let draft = '';
+                    if (p.Draft_Round) draft = `R${p.Draft_Round} P${p.Draft_Pick} (${p.Draft_Year || ''})`;
+                    else if (p.Undrafted) draft = 'UDFA';
+                    const proGames = p.Proballers_Games || (p.NBA_Games || 0) + (p.WNBA_Games || 0);
+                    const logoUrl = getTeamLogoUrl(p.Team);
+                    return html`
+                        <div class="future-pro-card" onClick=${() => showPlayerDetail(p['Player ID'] || p.Player)}>
+                            <div class="fp-card-top">
+                                ${logoUrl ? html`<img src=${logoUrl} class="fp-team-logo" alt="" />` : null}
+                                <div class="fp-badges">
+                                    ${p.NBA ? html`<span class="badge badge-nba">NBA</span>` : null}
+                                    ${p.WNBA ? html`<span class="badge badge-wnba">WNBA</span>` : null}
+                                    ${p.Intl_Pro ? html`<span class="badge badge-intl">INTL</span>` : null}
+                                    ${(p.NBA_Active || p.WNBA_Active) ? html`<span class="badge badge-active-pro">Active</span>` : null}
+                                </div>
+                            </div>
+                            <div class="fp-name">${p.Player}</div>
+                            <div class="fp-team">${p.Team}</div>
+                            ${draft ? html`<div class="fp-draft">${draft}</div>` : null}
+                            <div class="fp-stats-row">
+                                <div class="fp-stat">
+                                    <span class="fp-stat-value">${proGames || '-'}</span>
+                                    <span class="fp-stat-label">Pro Games</span>
+                                </div>
+                                <div class="fp-stat">
+                                    <span class="fp-stat-value">${p.Games || 0}</span>
+                                    <span class="fp-stat-label">Seen</span>
+                                </div>
+                                <div class="fp-stat">
+                                    <span class="fp-stat-value">${(p.PPG || 0).toFixed(1)}</span>
+                                    <span class="fp-stat-label">PPG</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                })}
+            </div>
+        </div>
+    `;
 }
 
-// Upcoming Games section - games at unvisited venues
-let upcomingGamesData = [];
-let upcomingTeamsData = {};
-let selectedTeams = new Set();
-let upcomingVenuesMap = null;
-let upcomingVisitedVenues = [];
+function Achievements({ showGameDetail }) {
+    const milestones = DATA.milestones || {};
+    const summary = DATA.summary?.milestones || {};
+    const [activeType, setActiveType] = useState(null);
 
-// Format game date/time from ISO to local time
-function formatGameDateTime(isoDate, timeDetail) {
-    try {
-        // ESPN provides actual game time in timeDetail (e.g., "12/28 - 7:00 PM EST")
-        // The isoDate field is often wrong (midnight UTC, sometimes wrong day)
-        if (timeDetail && timeDetail.includes(' - ')) {
-            // Parse "12/28 - 7:00 PM EST" or "1/16 - 7:00 PM EST" format
-            const parts = timeDetail.split(' - ');
-            const datePart = parts[0];  // "12/28" or "1/16"
-            const timePart = parts[1];  // "7:00 PM EST"
+    const milestoneTypes = [
+        { key: 'double_doubles', label: 'Double-Doubles', icon: '✌️' },
+        { key: 'triple_doubles', label: 'Triple-Doubles', icon: '🔥' },
+        { key: 'twenty_point_games', label: '20+ Points', icon: '🎯' },
+        { key: 'thirty_point_games', label: '30+ Points', icon: '💥' },
+        { key: 'forty_point_games', label: '40+ Points', icon: '🌟' },
+        { key: 'ten_rebound_games', label: '10+ Rebounds', icon: '🏀' },
+        { key: 'fifteen_rebound_games', label: '15+ Rebounds', icon: '💪' },
+        { key: 'ten_assist_games', label: '10+ Assists', icon: '🤝' },
+        { key: 'five_block_games', label: '5+ Blocks', icon: '🚫' },
+        { key: 'five_steal_games', label: '5+ Steals', icon: '🔒' },
+        { key: 'five_three_games', label: '5+ Threes', icon: '🎯' },
+        { key: 'hot_shooting_games', label: 'Hot Shooting', icon: '🔥' },
+        { key: 'perfect_ft_games', label: 'Perfect FT', icon: '✅' },
+        { key: 'twenty_ten_games', label: '20-10 Games', icon: '⭐' },
+    ];
 
-            // Parse the date from datePart (MM/DD format)
-            const dateMatch = datePart.match(/^(\d{1,2})\/(\d{1,2})$/);
-            const timeMatch = timePart.match(/^(\d{1,2}):(\d{2})\s*(AM|PM)\s*(EST|EDT|CST|CDT|MST|MDT|PST|PDT)?$/i);
+    const activeEntries = useMemo(() => {
+        if (!activeType) return [];
+        const entries = [...(milestones[activeType] || [])];
+        entries.sort((a, b) => (b.GameID || '').localeCompare(a.GameID || ''));
+        return entries;
+    }, [activeType, milestones]);
 
-            if (dateMatch && timeMatch) {
-                const gameMonth = parseInt(dateMatch[1]) - 1;  // 0-indexed
-                const gameDay = parseInt(dateMatch[2]);
-                let hours = parseInt(timeMatch[1]);
-                const minutes = parseInt(timeMatch[2]);
-                const ampm = timeMatch[3].toUpperCase();
-                const tz = (timeMatch[4] || 'EST').toUpperCase();
+    // Badge tracking data from computeGameMilestones
+    const tracking = window.badgeTrackingData || {};
 
-                // Convert to 24-hour format
-                if (ampm === 'PM' && hours !== 12) hours += 12;
-                if (ampm === 'AM' && hours === 12) hours = 0;
+    return html`
+        <div>
+            <h3>Achievement Summary</h3>
+            <div class="badge-grid">
+                ${milestoneTypes.map(mt => {
+                    const count = summary[mt.key] || 0;
+                    if (count === 0) return null;
+                    return html`
+                        <div class=${'badge-card' + (activeType === mt.key ? ' active' : '')}
+                            onClick=${() => setActiveType(activeType === mt.key ? null : mt.key)}>
+                            <div class="badge-icon">${mt.icon}</div>
+                            <div class="badge-count">${count}</div>
+                            <div class="badge-label">${mt.label}</div>
+                        </div>
+                    `;
+                })}
+            </div>
 
-                // Determine year from isoDate (handles Dec->Jan transition)
-                const baseDt = new Date(isoDate);
-                let year = baseDt.getUTCFullYear();
-                // If isoDate is in Dec but game month is Jan, use next year
-                if (baseDt.getUTCMonth() === 11 && gameMonth === 0) year++;
+            ${tracking.statesSeen && html`
+                <div class="achievement-extras" style="margin-top: var(--space-4)">
+                    <div class="badge-grid">
+                        <div class="badge-card">
+                            <div class="badge-icon">🗺️</div>
+                            <div class="badge-count">${tracking.statesSeen.size || 0}</div>
+                            <div class="badge-label">States</div>
+                        </div>
+                        <div class="badge-card">
+                            <div class="badge-icon">🏟️</div>
+                            <div class="badge-count">${tracking.venueOrder?.length || 0}</div>
+                            <div class="badge-label">Venues</div>
+                        </div>
+                        <div class="badge-card">
+                            <div class="badge-icon">🔥</div>
+                            <div class="badge-count">${tracking.maxStreak || 0}</div>
+                            <div class="badge-label">Max Streak</div>
+                        </div>
+                    </div>
+                </div>
+            `}
 
-                // Timezone offsets from UTC (negative = behind UTC)
-                const tzOffsets = {
-                    'EST': -5, 'EDT': -4,
-                    'CST': -6, 'CDT': -5,
-                    'MST': -7, 'MDT': -6,
-                    'PST': -8, 'PDT': -7
-                };
-                const offset = tzOffsets[tz] || -5;
+            ${activeType && html`
+                <div style="margin-top: var(--space-4)">
+                    <h3>${milestoneTypes.find(m => m.key === activeType)?.label || activeType} (${activeEntries.length})</h3>
+                    ${activeEntries.length === 0
+                        ? html`<${EmptyState} title="No entries" />`
+                        : html`
+                            <div class="table-container">
+                                <table class="data-table">
+                                    <thead><tr><th>Date</th><th>Player</th><th>Team</th><th>Opponent</th><th>Detail</th></tr></thead>
+                                    <tbody>
+                                        ${activeEntries.map(e => html`
+                                            <tr class="clickable-row" onClick=${() => e.GameID && showGameDetail(e.GameID)}>
+                                                <td>${e.Date}</td>
+                                                <td>${e.Player}${e.Gender === 'W' ? ' (W)' : ''}</td>
+                                                <td>${e.Team}</td>
+                                                <td>${e.Opponent || ''}</td>
+                                                <td>${e.Detail || ''}</td>
+                                            </tr>
+                                        `)}
+                                    </tbody>
+                                </table>
+                            </div>
+                        `
+                    }
+                </div>
+            `}
+        </div>
+    `;
+}
 
-                // Create date in UTC, then adjust for the source timezone
-                const utcMs = Date.UTC(year, gameMonth, gameDay, hours - offset, minutes);
-                const localDt = new Date(utcMs);
+function VenuesView({ showVenueDetail }) {
+    const venues = DATA.venues || [];
+    const unvisited = DATA.unvisitedHomeArenas || [];
+    const mapRef = useRef(null);
+    const mapInstance = useRef(null);
+    const markersRef = useRef({ visited: [], unvisited: [] });
+    const [quickFilter, setQuickFilter] = useState('all');
+    const [search, setSearch] = useState('');
+    const [showUnvisited, setShowUnvisited] = useState(false);
 
-                // Format in user's local timezone
-                const dayOfWeek = localDt.toLocaleDateString('en-US', { weekday: 'short' });
-                const monthStr = localDt.toLocaleDateString('en-US', { month: 'short' });
-                const dayNum = localDt.getDate();
-                const timeStr = localDt.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+    const filtered = useMemo(() => {
+        let result = [...venues];
+        if (search) {
+            const q = search.toLowerCase();
+            result = result.filter(v => `${v.Venue} ${v.City} ${v.State}`.toLowerCase().includes(q));
+        }
+        if (quickFilter === 'd1') result = result.filter(v => (v.Division || 'D1') === 'D1');
+        if (quickFilter === 'neutral') result = result.filter(v => NEUTRAL_SITES.has(v.Venue));
+        if (quickFilter === 'home') result = result.filter(v => !NEUTRAL_SITES.has(v.Venue));
+        if (quickFilter === 'historic') result = result.filter(v => v.Status === 'Historic');
+        return result;
+    }, [venues, search, quickFilter]);
 
-                return `${dayOfWeek}, ${monthStr} ${dayNum} ${timeStr}`;
+    // Venue stats
+    const stats = useMemo(() => {
+        const statesSet = new Set();
+        let homeCount = 0, neutralCount = 0, historicCount = 0;
+        filtered.forEach(v => {
+            if (v.State) statesSet.add(v.State);
+            if (NEUTRAL_SITES.has(v.Venue)) neutralCount++;
+            else homeCount++;
+            if (v.Status === 'Historic') historicCount++;
+        });
+        return { total: filtered.length, home: homeCount, neutral: neutralCount, states: statesSet.size, historic: historicCount };
+    }, [filtered]);
+
+    // Create custom icon helper
+    const createTeamIcon = (teamName, espnId, color) => {
+        const logoUrl = espnId ? getEspnLogoUrl(espnId) : getTeamLogoUrl(teamName);
+        if (logoUrl) {
+            return L.divIcon({
+                className: 'venue-marker-icon',
+                html: `<div style="width:32px;height:32px;border-radius:50%;border:3px solid ${color};background:#fff;overflow:hidden;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,0.3);">
+                    <img src="${logoUrl}" style="width:24px;height:24px;object-fit:contain;" onerror="this.style.display='none'" />
+                </div>`,
+                iconSize: [32, 32],
+                iconAnchor: [16, 16],
+                popupAnchor: [0, -16]
+            });
+        }
+        return L.divIcon({
+            className: 'venue-marker-icon',
+            html: `<div style="width:14px;height:14px;border-radius:50%;border:2px solid #fff;background:${color};box-shadow:0 2px 4px rgba(0,0,0,0.3);"></div>`,
+            iconSize: [14, 14],
+            iconAnchor: [7, 7],
+            popupAnchor: [0, -7]
+        });
+    };
+
+    // Init map
+    useEffect(() => {
+        if (mapInstance.current || !mapRef.current) return;
+        const timer = requestAnimationFrame(() => {
+            if (!mapRef.current) return;
+            const map = L.map(mapRef.current).setView([39.8283, -98.5795], 4);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 18,
+                attribution: '&copy; OpenStreetMap contributors'
+            }).addTo(map);
+            mapInstance.current = map;
+
+            // Visited venue markers (green)
+            venues.forEach(venue => {
+                const coords = VENUE_COORDS[venue.Venue];
+                let markerCoords = coords;
+                if (!coords) {
+                    const stateAbbr = STATE_ABBREV[venue.State];
+                    const cityKey = stateAbbr ? `${venue.City}, ${stateAbbr}` : venue.City;
+                    markerCoords = CITY_COORDS[cityKey];
+                    if (!markerCoords) return;
+                }
+                const isNeutral = NEUTRAL_SITES.has(venue.Venue);
+                const isHistoric = venue.Status === 'Historic';
+                const color = isHistoric ? '#a855f7' : isNeutral ? '#f59e0b' : '#16a34a';
+                const icon = createTeamIcon(venue['Home Team'], null, color);
+                const marker = L.marker(markerCoords, { icon }).bindPopup(
+                    `<strong>${venue.Venue}</strong>${isNeutral ? ' (Neutral)' : ''}${isHistoric ? ' (Historic)' : ''}<br>${venue.City}, ${venue.State}<br>${venue.Games || 0} games`
+                ).addTo(map);
+                markersRef.current.visited.push(marker);
+            });
+
+            // Unvisited venue markers (gray) — hidden by default
+            unvisited.forEach(uv => {
+                const coords = VENUE_COORDS[uv.venue] || SCHOOL_COORDS[uv.team];
+                if (!coords) return;
+                const icon = createTeamIcon(uv.team, uv.espnId, '#9ca3af');
+                const marker = L.marker(coords, { icon }).bindPopup(
+                    `<strong>${uv.venue}</strong> (Not visited)<br>${uv.city}, ${uv.state}<br>${uv.team} — ${uv.conference}`
+                );
+                markersRef.current.unvisited.push(marker);
+            });
+
+            setTimeout(() => map.invalidateSize(), 100);
+        });
+        return () => cancelAnimationFrame(timer);
+    }, []);
+
+    // Toggle unvisited markers (hide visited when showing unvisited)
+    useEffect(() => {
+        const map = mapInstance.current;
+        if (!map) return;
+        markersRef.current.unvisited.forEach(m => {
+            if (showUnvisited) m.addTo(map);
+            else map.removeLayer(m);
+        });
+        markersRef.current.visited.forEach(m => {
+            if (showUnvisited) map.removeLayer(m);
+            else m.addTo(map);
+        });
+    }, [showUnvisited]);
+
+    const quickFilters = [
+        { id: 'all', label: 'All', count: venues.length },
+        { id: 'd1', label: 'D1' },
+        { id: 'home', label: 'Home' },
+        { id: 'neutral', label: 'Neutral' },
+        { id: 'historic', label: 'Historic' },
+    ];
+
+    return html`
+        <div>
+            <div class="venue-stats-summary">
+                <${StatBox} label="Venues" value=${stats.total} />
+                <${StatBox} label="Home" value=${stats.home} />
+                <${StatBox} label="Neutral" value=${stats.neutral} />
+                <${StatBox} label="States" value=${stats.states} />
+            </div>
+
+            <div style="position:relative;">
+                <div class="map-container" style="height: 400px; border-radius: var(--radius-lg); overflow: hidden; margin-bottom: var(--space-4);">
+                    <div ref=${mapRef} style="width: 100%; height: 100%;"></div>
+                </div>
+                <div class="map-toggle" style="position:absolute;top:10px;right:10px;z-index:1000;">
+                    <button class=${'map-toggle-btn' + (showUnvisited ? ' active' : '')} onClick=${() => setShowUnvisited(!showUnvisited)}>
+                        ${showUnvisited ? 'Show Visited' : 'Show Unvisited'} (${showUnvisited ? venues.length : unvisited.length})
+                    </button>
+                </div>
+                <div class="map-legend" style="position:absolute;bottom:30px;left:10px;z-index:1000;background:var(--bg-card);padding:8px 12px;border-radius:var(--radius-md);font-size:0.75rem;box-shadow:var(--shadow-sm);">
+                    <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
+                        <span><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#16a34a;margin-right:4px;"></span>Visited</span>
+                        <span><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#f59e0b;margin-right:4px;"></span>Neutral</span>
+                        <span><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#a855f7;margin-right:4px;"></span>Historic</span>
+                        ${showUnvisited && html`<span><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#9ca3af;margin-right:4px;"></span>Unvisited</span>`}
+                    </div>
+                </div>
+            </div>
+
+            <${FilterBar}>
+                <${QuickFilters} filters=${quickFilters} active=${quickFilter} onSelect=${setQuickFilter} />
+                <input type="text" class="filter-input" placeholder="Search venues..." value=${search} onInput=${(e) => setSearch(e.target.value)} />
+            <//>
+
+            <div class="venue-cards-grid">
+                ${filtered.map(v => {
+                    const logoUrl = getTeamLogoUrl(v['Home Team']);
+                    const isNeutral = NEUTRAL_SITES.has(v.Venue);
+                    const isHistoric = v.Status === 'Historic';
+                    const homeWins = v['Home Wins'] || 0;
+                    const awayWins = v['Away Wins'] || 0;
+                    const games = v.Games || 0;
+                    return html`
+                        <div class=${'venue-card' + (isHistoric ? ' venue-card-historic' : '')} onClick=${() => showVenueDetail(v.Venue)}>
+                            <div class="venue-card-header">
+                                ${logoUrl ? html`<img src=${logoUrl} class="venue-card-logo" alt="" />` : null}
+                                <div class="venue-card-badges">
+                                    <span class=${'badge badge-div-' + (v.Division || 'D1').toLowerCase()}>${v.Division || 'D1'}</span>
+                                    ${isNeutral ? html`<span class="neutral-badge">N</span>` : null}
+                                    ${isHistoric ? html`<span class="badge badge-historic">Historic</span>` : null}
+                                </div>
+                            </div>
+                            <div class="venue-card-name">${v.Venue}</div>
+                            <div class="venue-card-location">${v.City || ''}${v.State ? ', ' + v.State : ''}</div>
+                            <div class="venue-card-stats">
+                                <div class="venue-card-stat">
+                                    <span class="venue-card-stat-value">${games}</span>
+                                    <span class="venue-card-stat-label">Games</span>
+                                </div>
+                                <div class="venue-card-stat">
+                                    <span class="venue-card-stat-value stat-good">${homeWins}</span>
+                                    <span class="venue-card-stat-label">Home W</span>
+                                </div>
+                                <div class="venue-card-stat">
+                                    <span class="venue-card-stat-value">${awayWins}</span>
+                                    <span class="venue-card-stat-label">Away W</span>
+                                </div>
+                            </div>
+                            <div class="venue-card-scoring">
+                                ${(v['Avg Home Pts'] || 0).toFixed(1)} - ${(v['Avg Away Pts'] || 0).toFixed(1)} avg
+                            </div>
+                        </div>
+                    `;
+                })}
+            </div>
+        </div>
+    `;
+}
+
+function SchoolMapView() {
+    const mapRef = useRef(null);
+    const mapInstance = useRef(null);
+    const [confFilter, setConfFilter] = useState('');
+
+    const conferences = useMemo(() => {
+        const checklist = DATA.conferenceChecklist || {};
+        return Object.keys(checklist).filter(c => c !== 'All D1' && c !== 'Historical/Other').sort();
+    }, []);
+
+    useEffect(() => {
+        if (mapInstance.current || !mapRef.current) return;
+        // Delay init to ensure container is visible
+        const timer = requestAnimationFrame(() => {
+            if (!mapRef.current) return;
+            const map = L.map(mapRef.current).setView([39.8283, -98.5795], 4);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 18,
+                attribution: '&copy; OpenStreetMap contributors'
+            }).addTo(map);
+            mapInstance.current = map;
+
+            // Add school markers
+            const checklist = DATA.conferenceChecklist || {};
+            const tracking = window.badgeTrackingData || {};
+            const teamCounts = tracking.teamCounts || {};
+
+            for (const [confName, confData] of Object.entries(checklist)) {
+                if (confName === 'All D1' || confName === 'Historical/Other') continue;
+                (confData.teams || []).forEach(team => {
+                    const coords = SCHOOL_COORDS[team.team];
+                    if (!coords) return;
+
+                    const seenM = teamCounts[`${team.team}|M`] > 0;
+                    const seenW = teamCounts[`${team.team}|W`] > 0;
+                    const seen = seenM || seenW;
+
+                    // Use ESPN logo for icon
+                    let iconUrl = null;
+                    if (team.espnId) {
+                        iconUrl = `https://a.espncdn.com/i/teamlogos/ncaa/500/${team.espnId}.png`;
+                    } else if (CUSTOM_LOGOS[team.team]) {
+                        iconUrl = CUSTOM_LOGOS[team.team];
+                    }
+
+                    const icon = iconUrl ? L.icon({
+                        iconUrl,
+                        iconSize: seen ? [28, 28] : [18, 18],
+                        className: seen ? 'school-marker-seen' : 'school-marker-unseen',
+                    }) : L.divIcon({
+                        className: seen ? 'school-dot seen' : 'school-dot unseen',
+                        iconSize: seen ? [12, 12] : [8, 8],
+                    });
+
+                    const marker = L.marker(coords, { icon });
+                    const genderInfo = seenM && seenW ? '(M+W)' : seenM ? '(M)' : seenW ? '(W)' : '';
+                    marker.bindPopup(`<strong>${team.team}</strong><br>${confName}${seen ? `<br>Seen ${genderInfo}` : '<br><em>Not yet seen</em>'}`);
+                    marker.conf = confName;
+                    marker.addTo(map);
+                });
             }
-        }
 
-        const dt = new Date(isoDate);
-        // Check if time is midnight UTC (likely no time specified)
-        const hasTime = dt.getUTCHours() !== 0 || dt.getUTCMinutes() !== 0;
+            setTimeout(() => map.invalidateSize(), 100);
+        });
+        return () => cancelAnimationFrame(timer);
+    }, []);
 
-        const options = { weekday: 'short', month: 'short', day: 'numeric' };
-        const dateStr = dt.toLocaleDateString('en-US', options);
+    // Handle conference filter
+    useEffect(() => {
+        if (!mapInstance.current) return;
+        mapInstance.current.eachLayer(layer => {
+            if (layer instanceof L.Marker) {
+                if (!confFilter || layer.conf === confFilter) {
+                    layer.setOpacity(1);
+                } else {
+                    layer.setOpacity(0.1);
+                }
+            }
+        });
+    }, [confFilter]);
 
-        if (hasTime) {
-            const timeStr = dt.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
-            return `${dateStr} ${timeStr}`;
-        }
-        return dateStr;
-    } catch (e) {
-        return isoDate;
-    }
+    return html`
+        <div>
+            <${FilterBar}>
+                <select class="filter-select" value=${confFilter} onChange=${(e) => setConfFilter(e.target.value)}>
+                    <option value="">All Conferences</option>
+                    ${conferences.map(c => html`<option value=${c}>${c}</option>`)}
+                </select>
+            <//>
+            <div class="map-container" style="height: 600px; border-radius: var(--radius-lg); overflow: hidden;">
+                <div ref=${mapRef} style="width: 100%; height: 100%;"></div>
+            </div>
+        </div>
+    `;
 }
 
-// Get actual game date from time_detail (ESPN's date field is often wrong)
-function getActualGameDate(isoDate, timeDetail) {
-    if (timeDetail && timeDetail.includes(' - ')) {
-        const parts = timeDetail.split(' - ');
-        const datePart = parts[0];  // "1/14" or "12/28"
-        const dateMatch = datePart.match(/^(\d{1,2})\/(\d{1,2})$/);
-        if (dateMatch) {
-            const gameMonth = parseInt(dateMatch[1]) - 1;
-            const gameDay = parseInt(dateMatch[2]);
-            const baseDt = new Date(isoDate);
-            let year = baseDt.getUTCFullYear();
-            // Handle Dec->Jan year transition
-            if (baseDt.getUTCMonth() === 11 && gameMonth === 0) year++;
-            return new Date(year, gameMonth, gameDay);
-        }
-    }
-    return new Date(isoDate);
+function ConferenceProgress() {
+    const checklist = DATA.conferenceChecklist || {};
+    const [genderFilter, setGenderFilter] = useState('');
+    const [search, setSearch] = useState('');
+    const [selectedConf, setSelectedConf] = useState(null);
+
+    const tracking = window.badgeTrackingData || {};
+    const confTeamsSeen = tracking.confTeamsSeen || {};
+
+    const conferences = useMemo(() => {
+        return Object.entries(checklist)
+            .filter(([name]) => name !== 'All D1' && name !== 'Historical/Other')
+            .map(([name, data]) => {
+                const totalTeams = data.totalTeams || 0;
+                const teams = data.teams || [];
+                const teamsSeen = genderFilter === 'M' ? (data.teamsSeenM || 0) : genderFilter === 'W' ? (data.teamsSeenW || 0) : (data.teamsSeen || 0);
+                const venuesVisited = genderFilter === 'M' ? (data.venuesVisitedM || 0) : genderFilter === 'W' ? (data.venuesVisitedW || 0) : (data.venuesVisited || 0);
+                const totalVenues = data.totalVenues || totalTeams;
+                const teamPct = totalTeams > 0 ? teamsSeen / totalTeams : 0;
+                const venuePct = totalVenues > 0 ? venuesVisited / totalVenues : 0;
+                return { name, totalTeams, teams, teamsSeen, venuesVisited, totalVenues, teamPct, venuePct };
+            })
+            .filter(c => {
+                if (search) {
+                    const q = search.toLowerCase();
+                    if (!c.name.toLowerCase().includes(q)) return false;
+                }
+                return true;
+            })
+            .sort((a, b) => b.teamPct - a.teamPct || a.name.localeCompare(b.name));
+    }, [checklist, genderFilter, search]);
+
+    return html`
+        <div>
+            <${FilterBar}>
+                <input type="text" class="filter-input" placeholder="Search conferences..." value=${search} onInput=${(e) => setSearch(e.target.value)} />
+                <div class="gender-toggle">
+                    ${[{id:'',label:'All'},{id:'M',label:"Men's"},{id:'W',label:"Women's"}].map(gf => html`
+                        <button class=${'quick-filter-btn' + (genderFilter === gf.id ? ' active' : '')} onClick=${() => setGenderFilter(gf.id)}>${gf.label}</button>
+                    `)}
+                </div>
+            <//>
+
+            <div class="conference-grid">
+                ${conferences.map(c => html`
+                    <div class=${'conference-card' + (c.teamPct >= 1 ? ' complete' : '')} onClick=${() => setSelectedConf(selectedConf === c.name ? null : c.name)}>
+                        <div class="conference-card-header">
+                            <h4>${c.name}</h4>
+                        </div>
+                        <div class="conf-stat-row">
+                            <span class="conf-stat-label">Teams</span>
+                            <span class="conference-count">${c.teamsSeen}/${c.totalTeams}</span>
+                        </div>
+                        <div class="progress-bar" style="margin-bottom:6px">
+                            <div class="progress-fill" style="width: ${(c.teamPct * 100).toFixed(1)}%"></div>
+                        </div>
+                        <div class="conf-stat-row">
+                            <span class="conf-stat-label">Venues</span>
+                            <span class="conference-count venue-count">${c.venuesVisited}/${c.totalVenues}</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill venue-fill" style="width: ${(c.venuePct * 100).toFixed(1)}%"></div>
+                        </div>
+                    </div>
+                `)}
+            </div>
+
+            ${selectedConf && html`
+                <${Modal} id="conf-modal" active=${true} onClose=${() => setSelectedConf(null)} title=${selectedConf}>
+                    <${ConferenceTeamsDetail} confName=${selectedConf} gender=${genderFilter} />
+                <//>
+            `}
+        </div>
+    `;
 }
 
-// Format team name with ranking badge for display
-function formatTeamWithRank(teamName, rank) {
-    if (rank) {
-        return `<span class="team-rank">#${rank}</span> ${teamName}`;
-    }
-    return teamName;
+function ConferenceTeamsDetail({ confName, gender }) {
+    const checklist = DATA.conferenceChecklist || {};
+    const confData = checklist[confName] || {};
+    const teams = confData.teams || [];
+
+    const categorized = useMemo(() => {
+        return teams.map(t => {
+            const seen = gender === 'M' ? t.seenM : gender === 'W' ? t.seenW : t.seen;
+            const visited = gender === 'M' ? t.arenaVisitedM : gender === 'W' ? t.arenaVisitedW : t.arenaVisited;
+            const arena = gender === 'W' ? (t.homeArenaW || t.homeArena) : (t.homeArenaM || t.homeArena);
+            return { ...t, seen, visited, arena };
+        }).sort((a, b) => {
+            if (a.seen !== b.seen) return a.seen ? -1 : 1;
+            return a.team.localeCompare(b.team);
+        });
+    }, [teams, confName, gender]);
+
+    const seenCount = categorized.filter(t => t.seen).length;
+    const visitedCount = categorized.filter(t => t.visited).length;
+
+    return html`
+        <div>
+            <div style="display:flex;gap:var(--space-4);margin-bottom:var(--space-3);font-size:0.9rem;">
+                <span><strong>${seenCount}</strong> of ${teams.length} teams seen</span>
+                <span><strong>${visitedCount}</strong> of ${teams.length} venues visited</span>
+            </div>
+            <div class="checklist-grid">
+                ${categorized.map(t => html`
+                    <div class=${'checklist-item' + (t.seen ? ' seen' : '')}>
+                        <div class=${'check-icon' + (t.seen ? ' checked' : '')}>
+                            ${t.seen ? '✓' : ''}
+                        </div>
+                        <div class="checklist-details">
+                            <div class="checklist-team">
+                                ${t.espnId ? html`<img src=${getEspnLogoUrl(t.espnId)} class="venue-team-logo" alt="" />` : null}
+                                ${t.team}
+                                ${!gender && t.seenM && html` <span class="gender-seen gender-m">M</span>`}
+                                ${!gender && t.seenW && html` <span class="gender-seen gender-w">W</span>`}
+                            </div>
+                            ${t.arena && html`
+                                <div class="checklist-venue">
+                                    ${t.visited ? html`<span class="venue-visited-icon" title="Venue visited">🏟️</span>` : html`<span class="venue-not-visited" title="Not visited">○</span>`}
+                                    ${t.arena}
+                                </div>
+                            `}
+                        </div>
+                    </div>
+                `)}
+            </div>
+        </div>
+    `;
 }
 
-// Format matchup with rankings for popup/list display (plain text version)
-function formatMatchupWithRanks(game) {
-    const awayRank = game.awayRank ? `#${game.awayRank} ` : '';
-    const homeRank = game.homeRank ? `#${game.homeRank} ` : '';
-    const awayName = game.awayTeam || game.away || '';
-    const homeName = game.homeTeam || game.home || '';
-    return `${awayRank}${awayName} @ ${homeRank}${homeName}`;
-}
-
-// Set of visited venue keys for filtering
-let visitedVenueKeys = new Set();
-
-function initUpcomingGames() {
+function UpcomingView({ showGameDetail }) {
     const upcoming = DATA.upcomingGames || {};
-    upcomingGamesData = upcoming.games || [];
-    upcomingTeamsData = upcoming.teamBreakdown || {};
-    upcomingVisitedVenues = upcoming.visitedVenues || [];
+    const gamesData = upcoming.games || [];
+    const [search, setSearch] = useState('');
+    const [stateFilter, setStateFilter] = useState('');
+    const [genderFilter, setGenderFilter] = useState('');
+    const [dateFrom, setDateFrom] = useState('');
+    const [dateTo, setDateTo] = useState('');
+    const [mapReady, setMapReady] = useState(false);
+    const mapRef = useRef(null);
+    const mapInstance = useRef(null);
+    const markersRef = useRef([]);
 
-    // Build set of visited venue keys for filtering
-    visitedVenueKeys = new Set();
-    upcomingVisitedVenues.forEach(v => {
-        // Create a key that can match against upcoming games
-        const key = `${v.venue.toLowerCase()}|${v.city.toLowerCase()}|${v.state.toLowerCase()}`;
-        visitedVenueKeys.add(key);
-    });
+    const states = useMemo(() => {
+        const set = new Set();
+        gamesData.forEach(g => { if (g.state) set.add(g.state); });
+        return [...set].sort();
+    }, [gamesData]);
 
-    if (upcomingGamesData.length === 0) {
-        const tbody = document.querySelector('#upcoming-table tbody');
-        if (tbody) {
-            tbody.innerHTML = '<tr><td colspan="6" class="empty-state"><h3>No upcoming games data</h3><p>Run the schedule scraper to load upcoming games.</p></td></tr>';
-        }
-        return;
-    }
-
-    // Populate state filter multi-select dropdown (alphabetically sorted)
-    const stateOptions = document.getElementById('upcoming-state-options');
-    if (stateOptions && upcoming.stateBreakdown) {
-        const states = Object.entries(upcoming.stateBreakdown)
-            .sort((a, b) => a[0].localeCompare(b[0]));  // Sort alphabetically
-
-        // Add select all / clear all buttons
-        const actionsDiv = document.createElement('div');
-        actionsDiv.className = 'multi-select-actions';
-        actionsDiv.innerHTML = `
-            <button type="button" onclick="selectAllStates()">Select All</button>
-            <button type="button" onclick="clearAllStates()">Clear All</button>
-        `;
-        stateOptions.appendChild(actionsDiv);
-
-        states.forEach(([state, count]) => {
-            const label = document.createElement('label');
-            label.className = 'multi-select-option';
-            label.innerHTML = `
-                <input type="checkbox" value="${state}" onchange="updateStateFilter()">
-                <span>${state} (${count})</span>
-            `;
-            stateOptions.appendChild(label);
-        });
-    }
-
-    // Populate conference filter dropdown
-    const confFilter = document.getElementById('upcoming-conf-filter');
-    if (confFilter && upcoming.conferenceBreakdown) {
-        const confs = Object.entries(upcoming.conferenceBreakdown)
-            .sort((a, b) => b[1] - a[1]);
-        confs.forEach(([conf, count]) => {
-            if (conf) {
-                const option = document.createElement('option');
-                option.value = conf;
-                option.textContent = `${conf} (${count})`;
-                confFilter.appendChild(option);
+    // Get unique dates for the date filter
+    const uniqueDates = useMemo(() => {
+        const dateSet = new Set();
+        gamesData.forEach(g => {
+            if (g.date) {
+                const d = new Date(g.date);
+                dateSet.add(d.toISOString().split('T')[0]);
             }
         });
-    }
+        return [...dateSet].sort();
+    }, [gamesData]);
 
-    // Initial filter
-    filterUpcomingGames();
-}
+    const filtered = useMemo(() => {
+        let result = [...gamesData];
+        if (search) {
+            const q = search.toLowerCase().trim();
+            // Check if query exactly matches any team name — if so, only show exact matches
+            const allTeamNames = new Set();
+            gamesData.forEach(g => {
+                [g.home, g.homeTeam, g.homeTeamFull, g.away, g.awayTeam, g.awayTeamFull,
+                 g.homeTeamAbbrev, g.awayTeamAbbrev].forEach(n => {
+                    if (n) allTeamNames.add(n.toLowerCase());
+                });
+            });
+            const isExact = allTeamNames.has(q);
+            result = result.filter(g => {
+                const teams = [g.home, g.homeTeam, g.homeTeamFull, g.away, g.awayTeam, g.awayTeamFull,
+                    g.homeTeamAbbrev, g.awayTeamAbbrev].filter(Boolean);
+                if (isExact) {
+                    if (teams.some(t => t.toLowerCase() === q)) return true;
+                } else {
+                    if (teams.some(t => t.toLowerCase().startsWith(q))) return true;
+                }
+                const other = `${g.venue || ''} ${g.city || ''}`.toLowerCase();
+                return other.includes(q);
+            });
+        }
+        if (genderFilter) result = result.filter(g => g.gender === genderFilter);
+        if (stateFilter) result = result.filter(g => g.state === stateFilter);
+        if (dateFrom || dateTo) {
+            result = result.filter(g => {
+                if (!g.date) return false;
+                const d = new Date(g.date).toISOString().split('T')[0];
+                if (dateFrom && d < dateFrom) return false;
+                if (dateTo && d > dateTo) return false;
+                return true;
+            });
+        }
+        return result.sort((a, b) => (a.date || '').localeCompare(b.date || ''));
+    }, [gamesData, search, genderFilter, stateFilter, dateFrom, dateTo]);
 
-let tripPlannerInitialized = false;
+    // Init map
+    useEffect(() => {
+        if (mapInstance.current || !mapRef.current) return;
+        const timer = requestAnimationFrame(() => {
+            if (!mapRef.current) return;
+            const map = L.map(mapRef.current).setView([39.8283, -98.5795], 4);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 18,
+                attribution: '&copy; OpenStreetMap contributors'
+            }).addTo(map);
+            mapInstance.current = map;
+            setTimeout(() => { map.invalidateSize(); setMapReady(true); }, 100);
+        });
+        return () => cancelAnimationFrame(timer);
+    }, []);
 
-function showUpcomingSubTab(tabId) {
-    document.querySelectorAll('#upcoming .sub-section').forEach(s => s.classList.remove('active'));
-    document.querySelectorAll('#upcoming .sub-tab').forEach(t => t.classList.remove('active'));
-    document.getElementById(tabId)?.classList.add('active');
-    event.target.classList.add('active');
-
-    if (tabId === 'upcoming-map') {
-        setTimeout(() => {
-            if (upcomingVenuesMap) {
-                // Fix map rendering when tab becomes visible
-                upcomingVenuesMap.invalidateSize();
+    // Update map markers when filtered changes — group by venue for performance
+    useEffect(() => {
+        const map = mapInstance.current;
+        if (!map || !mapReady) return;
+        // Clear old markers
+        markersRef.current.forEach(m => map.removeLayer(m));
+        markersRef.current = [];
+        // Group games by venue
+        const byVenue = {};
+        filtered.forEach(g => {
+            const key = g.venue || (g.home || g.homeTeam || 'Unknown');
+            if (!byVenue[key]) byVenue[key] = { games: [], venue: g.venue, home: g.home || g.homeTeam || '', city: g.city, state: g.state };
+            byVenue[key].games.push(g);
+        });
+        // Add one marker per venue
+        Object.values(byVenue).forEach(v => {
+            const normalizedHome = normalizeTeamName(v.home);
+            const coords = VENUE_COORDS[v.venue] || SCHOOL_COORDS[normalizedHome] || SCHOOL_COORDS[v.home];
+            if (!coords) return;
+            const homeLogo = getTeamLogoUrl(v.home);
+            let icon;
+            if (homeLogo) {
+                icon = L.divIcon({
+                    className: 'venue-marker-icon',
+                    html: '<div style="width:28px;height:28px;border-radius:50%;border:3px solid #c2410c;background:#fff;overflow:hidden;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,0.3);">' +
+                        '<img src="' + homeLogo + '" style="width:20px;height:20px;object-fit:contain;" onerror="this.style.display=\'none\'" />' +
+                        '</div>',
+                    iconSize: [28, 28],
+                    iconAnchor: [14, 14],
+                    popupAnchor: [0, -14]
+                });
             } else {
-                initUpcomingMap();
+                icon = L.divIcon({
+                    className: 'venue-marker-icon',
+                    html: '<div style="width:12px;height:12px;border-radius:50%;border:2px solid #fff;background:#c2410c;box-shadow:0 2px 4px rgba(0,0,0,0.3);"></div>',
+                    iconSize: [12, 12],
+                    iconAnchor: [6, 6],
+                    popupAnchor: [0, -6]
+                });
             }
-        }, 100);
-    } else if (tabId === 'upcoming-trips') {
-        if (!tripPlannerInitialized) {
-            initTripPlanner();
-            tripPlannerInitialized = true;
-        }
-    }
-}
+            const count = v.games.length;
+            const popupLines = v.games.slice(0, 5).map(g => {
+                const dateStr = g.date ? formatGameDateTime(g.date, g.time_detail) : '';
+                return (g.away || g.awayTeam || '') + ' @ ' + (g.home || g.homeTeam || '') + ' — ' + dateStr;
+            });
+            const popup = '<strong>' + (v.venue || v.home) + '</strong><br>' +
+                (v.city ? v.city + (v.state ? ', ' + v.state : '') + '<br>' : '') +
+                count + ' game' + (count !== 1 ? 's' : '') + '<br><hr style="margin:4px 0">' +
+                popupLines.join('<br>') +
+                (count > 5 ? '<br><em>...and ' + (count - 5) + ' more</em>' : '');
+            const marker = L.marker(coords, { icon }).bindPopup(popup).addTo(map);
+            markersRef.current.push(marker);
+        });
+    }, [filtered, mapReady]);
 
-function updateTeamSuggestions() {
-    const input = document.getElementById('upcoming-team-filter');
-    const dropdown = document.getElementById('team-suggestions');
-    const query = input.value.toLowerCase().trim();
-
-    if (query.length < 2) {
-        dropdown.style.display = 'none';
-        return;
-    }
-
-    const matches = Object.keys(upcomingTeamsData)
-        .filter(team => team.toLowerCase().includes(query) && !selectedTeams.has(team))
-        .slice(0, 10);
-
-    if (matches.length === 0) {
-        dropdown.style.display = 'none';
-        return;
+    if (gamesData.length === 0) {
+        return html`<${EmptyState} title="No upcoming games data" message="Run the schedule scraper to load upcoming games." />`;
     }
 
-    dropdown.innerHTML = matches.map(team =>
-        `<div class="suggestion-item" onclick="selectTeam('${team.replace(/'/g, "\'")}')">${team} (${upcomingTeamsData[team]} games)</div>`
-    ).join('');
-    dropdown.style.display = 'block';
+    return html`
+        <div>
+            <div class="map-container" style="height: 350px; border-radius: var(--radius-lg); overflow: hidden; margin-bottom: var(--space-4);">
+                <div ref=${mapRef} style="width: 100%; height: 100%;"></div>
+            </div>
+
+            <${FilterBar}>
+                <input type="text" class="filter-input" placeholder="Search teams, venues..." value=${search} onInput=${(e) => setSearch(e.target.value)} />
+                <div class="gender-toggle">
+                    ${[{id:'',label:'All'},{id:'M',label:"Men's"},{id:'W',label:"Women's"}].map(gf => html`
+                        <button class=${'quick-filter-btn' + (genderFilter === gf.id ? ' active' : '')} onClick=${() => setGenderFilter(gf.id)}>${gf.label}</button>
+                    `)}
+                </div>
+                <div class="date-range-filter">
+                    <input type="date" class="filter-input" value=${dateFrom} onChange=${(e) => setDateFrom(e.target.value)}
+                        min=${uniqueDates[0] || ''} max=${uniqueDates[uniqueDates.length - 1] || ''} />
+                    <span class="date-range-sep">to</span>
+                    <input type="date" class="filter-input" value=${dateTo} onChange=${(e) => setDateTo(e.target.value)}
+                        min=${dateFrom || uniqueDates[0] || ''} max=${uniqueDates[uniqueDates.length - 1] || ''} />
+                </div>
+                <select class="filter-select" value=${stateFilter} onChange=${(e) => setStateFilter(e.target.value)}>
+                    <option value="">All States</option>
+                    ${states.map(s => html`<option value=${s}>${s}</option>`)}
+                </select>
+                ${(dateFrom || dateTo) ? html`<button class="quick-filter-btn" onClick=${() => { setDateFrom(''); setDateTo(''); }}>Clear dates</button>` : null}
+                <span class="filter-count">${filtered.length} games</span>
+            <//>
+
+            <div class="upcoming-cards-grid">
+                ${filtered.slice(0, 100).map(g => {
+                    const dateStr = g.date ? formatGameDateTime(g.date, g.time_detail) : '';
+                    const awayLogo = getTeamLogoUrl(g.away || g.awayTeam);
+                    const homeLogo = getTeamLogoUrl(g.home || g.homeTeam);
+                    return html`
+                        <div class="upcoming-card">
+                            <div class="upcoming-date">
+                                ${dateStr}
+                                ${g.gender === 'W' ? html` <span class="badge badge-women">W</span>` : null}
+                            </div>
+                            <div class="upcoming-matchup">
+                                <div class="upcoming-team">
+                                    ${awayLogo ? html`<img src=${awayLogo} class="upcoming-logo" alt="" />` : null}
+                                    <div>
+                                        ${g.awayRank ? html`<span class="ap-rank">#${g.awayRank}</span> ` : null}
+                                        <span class="upcoming-team-name">${g.away || g.awayTeam || ''}</span>
+                                    </div>
+                                </div>
+                                <span class="upcoming-at">@</span>
+                                <div class="upcoming-team">
+                                    ${homeLogo ? html`<img src=${homeLogo} class="upcoming-logo" alt="" />` : null}
+                                    <div>
+                                        ${g.homeRank ? html`<span class="ap-rank">#${g.homeRank}</span> ` : null}
+                                        <span class="upcoming-team-name">${g.home || g.homeTeam || ''}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="upcoming-venue">${g.venue || ''}</div>
+                            <div class="upcoming-meta">
+                                <span>${g.city || ''}${g.state ? ', ' + g.state : ''}</span>
+                                ${(g.tv || []).length > 0 ? html`<span class="upcoming-tv">${g.tv.join(', ')}</span>` : null}
+                            </div>
+                        </div>
+                    `;
+                })}
+                ${filtered.length > 100 ? html`<div class="text-muted" style="text-align:center;padding:var(--space-4);grid-column:1/-1;">Showing first 100 of ${filtered.length} games. Use filters to narrow results.</div>` : null}
+            </div>
+        </div>
+    `;
 }
 
-function handleTeamKeydown(e) {
-    if (e.key === 'Escape') {
-        document.getElementById('team-suggestions').style.display = 'none';
-    }
-}
+// ============================================================================
+// GAME DETAIL MODAL
+// ============================================================================
 
-function selectTeam(team) {
-    selectedTeams.add(team);
-    document.getElementById('upcoming-team-filter').value = '';
-    document.getElementById('team-suggestions').style.display = 'none';
-    renderSelectedTeams();
-    filterUpcomingGames();
-}
+function GameDetailModal({ gameId, onClose, showPlayerDetail }) {
+    const game = useMemo(() => (DATA.games || []).find(g => g.GameID === gameId), [gameId]);
+    if (!game) return null;
 
-function removeTeam(team) {
-    selectedTeams.delete(team);
-    renderSelectedTeams();
-    filterUpcomingGames();
-}
+    const awayScore = game['Away Score'] || 0;
+    const homeScore = game['Home Score'] || 0;
+    const awayWon = awayScore > homeScore;
+    const linescore = game.Linescore || {};
+    const milestones = gameMilestones[gameId] || { badges: [] };
+    const genderTag = game.Gender === 'W' ? ' (W)' : '';
 
-function renderSelectedTeams() {
-    const container = document.getElementById('selected-teams');
-    container.innerHTML = Array.from(selectedTeams).map(team =>
-        `<span class="team-tag" style="background: var(--accent-color); color: white; padding: 0.25rem 0.5rem; border-radius: 4px; display: inline-flex; align-items: center; gap: 0.25rem;">
-            ${team}
-            <button onclick="removeTeam('${team.replace(/'/g, "\'")}')" style="background: none; border: none; color: white; cursor: pointer; font-size: 1.2em; line-height: 1;">&times;</button>
-        </span>`
-    ).join('');
-}
+    // Get box score data
+    const boxScore = useMemo(() => {
+        const playerGames = (DATA.playerGames || []).filter(pg => pg.game_id === gameId);
+        const away = playerGames.filter(pg => pg.team === game['Away Team']);
+        const home = playerGames.filter(pg => pg.team === game['Home Team']);
+        return { away, home };
+    }, [gameId]);
 
-// ============ MAP TAB TEAM SEARCH ============
-let selectedMapTeams = new Set();
+    // Linescore rendering
+    const periods = linescore.away?.quarters ? 'quarters' : 'halves';
+    const periodData = linescore.away?.[periods] || [];
+    const periodLabels = periods === 'quarters'
+        ? periodData.map((_, i) => `Q${i + 1}`)
+        : periodData.map((_, i) => `H${i + 1}`);
+    const otData = linescore.away?.OT || [];
+    otData.forEach((_, i) => periodLabels.push(i === 0 ? 'OT' : `${i + 1}OT`));
 
-function updateMapTeamSuggestions() {
-    const input = document.getElementById('upcoming-map-team-filter');
-    const dropdown = document.getElementById('map-team-suggestions');
-    const query = input.value.toLowerCase().trim();
-
-    if (query.length < 2) {
-        dropdown.style.display = 'none';
-        return;
-    }
-
-    const matches = Object.keys(upcomingTeamsData)
-        .filter(team => team.toLowerCase().includes(query) && !selectedMapTeams.has(team))
-        .slice(0, 10);
-
-    if (matches.length === 0) {
-        dropdown.style.display = 'none';
-        return;
-    }
-
-    dropdown.innerHTML = matches.map(team =>
-        `<div class="suggestion-item" onclick="selectMapTeam('${team.replace(/'/g, "\'")}')">${team} (${upcomingTeamsData[team]} games)</div>`
-    ).join('');
-    dropdown.style.display = 'block';
-}
-
-function handleMapTeamKeydown(e) {
-    if (e.key === 'Escape') {
-        document.getElementById('map-team-suggestions').style.display = 'none';
-    }
-}
-
-function selectMapTeam(team) {
-    selectedMapTeams.add(team);
-    document.getElementById('upcoming-map-team-filter').value = '';
-    document.getElementById('map-team-suggestions').style.display = 'none';
-    renderSelectedMapTeams();
-    updateUpcomingMap();
-}
-
-function removeMapTeam(team) {
-    selectedMapTeams.delete(team);
-    renderSelectedMapTeams();
-    updateUpcomingMap();
-}
-
-function renderSelectedMapTeams() {
-    const container = document.getElementById('selected-map-teams');
-    container.innerHTML = Array.from(selectedMapTeams).map(team =>
-        `<span class="team-tag" style="background: var(--accent-color); color: white; padding: 0.25rem 0.5rem; border-radius: 4px; display: inline-flex; align-items: center; gap: 0.25rem;">
-            ${team}
-            <button onclick="removeMapTeam('${team.replace(/'/g, "\'")}')" style="background: none; border: none; color: white; cursor: pointer; font-size: 1.2em; line-height: 1;">&times;</button>
-        </span>`
-    ).join('');
-}
-
-// ============ TRIP PLANNER TEAM SEARCH ============
-let selectedTripTeams = new Set();
-
-function updateTripTeamSuggestions() {
-    const input = document.getElementById('trip-team-filter');
-    const dropdown = document.getElementById('trip-team-suggestions');
-    const query = input.value.toLowerCase().trim();
-
-    if (query.length < 2) {
-        dropdown.style.display = 'none';
-        return;
-    }
-
-    const matches = Object.keys(upcomingTeamsData)
-        .filter(team => team.toLowerCase().includes(query) && !selectedTripTeams.has(team))
-        .slice(0, 10);
-
-    if (matches.length === 0) {
-        dropdown.style.display = 'none';
-        return;
-    }
-
-    dropdown.innerHTML = matches.map(team =>
-        `<div class="suggestion-item" onclick="selectTripTeam('${team.replace(/'/g, "\'")}')">${team} (${upcomingTeamsData[team]} games)</div>`
-    ).join('');
-    dropdown.style.display = 'block';
-}
-
-function handleTripTeamKeydown(e) {
-    if (e.key === 'Escape') {
-        document.getElementById('trip-team-suggestions').style.display = 'none';
-    }
-}
-
-function selectTripTeam(team) {
-    selectedTripTeams.add(team);
-    document.getElementById('trip-team-filter').value = '';
-    document.getElementById('trip-team-suggestions').style.display = 'none';
-    renderSelectedTripTeams();
-    generateTrips();
-}
-
-function removeTripTeam(team) {
-    selectedTripTeams.delete(team);
-    renderSelectedTripTeams();
-    generateTrips();
-}
-
-function renderSelectedTripTeams() {
-    const container = document.getElementById('selected-trip-teams');
-    container.innerHTML = Array.from(selectedTripTeams).map(team =>
-        `<span class="team-tag" style="background: var(--accent-color); color: white; padding: 0.25rem 0.5rem; border-radius: 4px; display: inline-flex; align-items: center; gap: 0.25rem;">
-            ${team}
-            <button onclick="removeTripTeam('${team.replace(/'/g, "\'")}')" style="background: none; border: none; color: white; cursor: pointer; font-size: 1.2em; line-height: 1;">&times;</button>
-        </span>`
-    ).join('');
-}
-
-function clearDateFilter() {
-    document.getElementById('upcoming-start-date').value = '';
-    document.getElementById('upcoming-end-date').value = '';
-    filterUpcomingGames();
-}
-
-// State multi-select dropdown functions
-function toggleStateDropdown() {
-    const options = document.getElementById('upcoming-state-options');
-    options.classList.toggle('show');
-}
-
-function getSelectedStates() {
-    const checkboxes = document.querySelectorAll('#upcoming-state-options input[type="checkbox"]:checked');
-    return Array.from(checkboxes).map(cb => cb.value);
-}
-
-function updateStateFilter() {
-    const selected = getSelectedStates();
-    const label = document.getElementById('upcoming-state-label');
-    if (selected.length === 0) {
-        label.textContent = 'All States';
-    } else if (selected.length === 1) {
-        label.textContent = selected[0];
-    } else {
-        label.textContent = `${selected.length} states`;
-    }
-    filterUpcomingGames();
-}
-
-function selectAllStates() {
-    document.querySelectorAll('#upcoming-state-options input[type="checkbox"]')
-        .forEach(cb => cb.checked = true);
-    updateStateFilter();
-}
-
-function clearAllStates() {
-    document.querySelectorAll('#upcoming-state-options input[type="checkbox"]')
-        .forEach(cb => cb.checked = false);
-    updateStateFilter();
-}
-
-// Close dropdown when clicking outside
-document.addEventListener('click', function(e) {
-    const dropdown = document.getElementById('upcoming-state-dropdown');
-    if (dropdown && !dropdown.contains(e.target)) {
-        document.getElementById('upcoming-state-options')?.classList.remove('show');
-    }
-});
-
-function filterUpcomingGames() {
-    const selectedStates = getSelectedStates();
-    const confFilter = document.getElementById('upcoming-conf-filter')?.value || '';
-    const startDate = document.getElementById('upcoming-start-date')?.value;
-    const endDate = document.getElementById('upcoming-end-date')?.value;
-    const tvOnly = document.getElementById('upcoming-tv-filter')?.checked || false;
-    const rankedOnly = document.getElementById('upcoming-ranked-filter')?.checked || false;
-    const unvisitedOnly = document.getElementById('upcoming-unvisited-filter')?.checked || false;
-
-    const now = new Date();
-    now.setHours(0, 0, 0, 0);
-
-    let filtered = upcomingGamesData.filter(game => {
-        // State filter (multi-select)
-        if (selectedStates.length > 0 && !selectedStates.includes(game.state)) return false;
-
-        // Conference filter
-        if (confFilter && game.homeConf !== confFilter && game.awayConf !== confFilter) return false;
-
-        // Date range filter - use actual game date from time_detail
-        const gameDate = getActualGameDate(game.date, game.time_detail);
-        gameDate.setHours(0, 0, 0, 0);
-        if (startDate) {
-            const [y, m, d] = startDate.split('-').map(Number);
-            const start = new Date(y, m - 1, d);
-            if (gameDate < start) return false;
-        }
-        if (endDate) {
-            const [y, m, d] = endDate.split('-').map(Number);
-            const end = new Date(y, m - 1, d, 23, 59, 59);
-            if (gameDate > end) return false;
-        }
-
-        // Default: only future games
-        if (!startDate && !endDate && gameDate < now) return false;
-
-        // TV filter
-        if (tvOnly && (!game.tv || game.tv.length === 0)) return false;
-
-        // Ranked filter
-        if (rankedOnly && !game.homeRank && !game.awayRank) return false;
-
-        // Team filter
-        if (selectedTeams.size > 0) {
-            if (!selectedTeams.has(game.homeTeam) && !selectedTeams.has(game.awayTeam)) return false;
-        }
-
-        // Unvisited venues filter
-        if (unvisitedOnly) {
-            const venueKey = `${(game.venue || '').toLowerCase()}|${(game.city || '').toLowerCase()}|${(game.state || '').toLowerCase()}`;
-            if (visitedVenueKeys.has(venueKey)) return false;
-        }
-
-        return true;
-    });
-
-    // Group by venue to get unique venue count
-    const uniqueVenues = new Set(filtered.map(g => g.venue));
-    const rankedGames = filtered.filter(g => g.homeRank || g.awayRank).length;
-
-    // Update summary
-    const summary = document.getElementById('upcoming-summary');
-    if (summary) {
-        const rankedText = rankedGames > 0 ? ` (${rankedGames} with ranked teams)` : '';
-        summary.textContent = `${filtered.length} games at ${uniqueVenues.size} venues${rankedText}`;
-    }
-
-    // Populate table
-    const tbody = document.querySelector('#upcoming-table tbody');
-    if (!tbody) return;
-
-    if (filtered.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="6" class="empty-state"><h3>No games match filters</h3><p>Try adjusting your filters.</p></td></tr>';
-        return;
-    }
-
-    tbody.innerHTML = filtered.slice(0, 200).map(game => {
-        const tvDisplay = game.tv && game.tv.length > 0
-            ? game.tv.join(', ')
-            : '<span style="color: var(--text-secondary);">—</span>';
-
-        const confDisplay = game.homeConf || game.awayConf
-            ? (game.homeConf === game.awayConf ? game.homeConf : `${game.awayConf || '?'} @ ${game.homeConf || '?'}`)
-            : '—';
-
-        // Format team names with rankings
-        const awayRankDisplay = game.awayRank ? `<span class="team-rank">#${game.awayRank}</span> ` : '';
-        const homeRankDisplay = game.homeRank ? `<span class="team-rank">#${game.homeRank}</span> ` : '';
-        const awayTeamDisplay = `${awayRankDisplay}<strong>${game.awayTeam}</strong>`;
-        const homeTeamDisplay = `${homeRankDisplay}<strong>${game.homeTeam}</strong>`;
-
-        return `
+    const BoxScoreTable = ({ players, teamName }) => {
+        if (!players.length) return null;
+        const starters = players.filter(p => p.starter);
+        const bench = players.filter(p => !p.starter);
+        const renderRow = (p) => html`
             <tr>
-                <td style="white-space: nowrap;">${formatGameDateTime(game.date, game.time_detail)}</td>
-                <td>${awayTeamDisplay} @ ${homeTeamDisplay}</td>
-                <td>${confDisplay}</td>
-                <td>${game.venue}</td>
-                <td>${game.city}, ${game.state}</td>
-                <td>${tvDisplay}</td>
+                <td>
+                    <span class="player-link" onClick=${() => { showPlayerDetail(p.player_id || p.player); }}>${p.player}</span>
+                    ${p.starter ? '' : ''}
+                </td>
+                <td>${formatMinutes(p.mp)}</td>
+                <td class="stat-highlight">${p.pts || 0}</td>
+                <td>${p.trb || 0}</td>
+                <td>${p.ast || 0}</td>
+                <td>${p.stl || 0}</td>
+                <td>${p.blk || 0}</td>
+                <td>${p.fg || 0}-${p.fga || 0}</td>
+                <td>${p.fg3 || 0}-${p.fg3a || 0}</td>
+                <td>${p.ft || 0}-${p.fta || 0}</td>
+                <td>${p.pf || 0}</td>
             </tr>
         `;
-    }).join('');
-
-    // Add note if truncated
-    if (filtered.length > 200) {
-        tbody.innerHTML += `<tr><td colspan="6" style="text-align: center; color: var(--text-secondary);">Showing first 200 of ${filtered.length} games. Use filters to narrow results.</td></tr>`;
-    }
-}
-
-// Venue coordinates for map (US state centers as fallback)
-const STATE_COORDS = {
-    'Alabama': [32.806671, -86.791130], 'Alaska': [61.370716, -152.404419],
-    'Arizona': [33.729759, -111.431221], 'Arkansas': [34.969704, -92.373123],
-    'California': [36.116203, -119.681564], 'Colorado': [39.059811, -105.311104],
-    'Connecticut': [41.597782, -72.755371], 'Delaware': [39.318523, -75.507141],
-    'Florida': [27.766279, -81.686783], 'Georgia': [33.040619, -83.643074],
-    'Hawaii': [21.094318, -157.498337], 'Idaho': [44.240459, -114.478828],
-    'Illinois': [40.349457, -88.986137], 'Indiana': [39.849426, -86.258278],
-    'Iowa': [42.011539, -93.210526], 'Kansas': [38.526600, -96.726486],
-    'Kentucky': [37.668140, -84.670067], 'Louisiana': [31.169546, -91.867805],
-    'Maine': [44.693947, -69.381927], 'Maryland': [39.063946, -76.802101],
-    'Massachusetts': [42.230171, -71.530106], 'Michigan': [43.326618, -84.536095],
-    'Minnesota': [45.694454, -93.900192], 'Mississippi': [32.741646, -89.678696],
-    'Missouri': [38.456085, -92.288368], 'Montana': [46.921925, -110.454353],
-    'Nebraska': [41.125370, -98.268082], 'Nevada': [38.313515, -117.055374],
-    'New Hampshire': [43.452492, -71.563896], 'New Jersey': [40.298904, -74.521011],
-    'New Mexico': [34.840515, -106.248482], 'New York': [42.165726, -74.948051],
-    'North Carolina': [35.630066, -79.806419], 'North Dakota': [47.528912, -99.784012],
-    'Ohio': [40.388783, -82.764915], 'Oklahoma': [35.565342, -96.928917],
-    'Oregon': [44.572021, -122.070938], 'Pennsylvania': [40.590752, -77.209755],
-    'Rhode Island': [41.680893, -71.511780], 'South Carolina': [33.856892, -80.945007],
-    'South Dakota': [44.299782, -99.438828], 'Tennessee': [35.747845, -86.692345],
-    'Texas': [31.054487, -97.563461], 'Utah': [40.150032, -111.862434],
-    'Vermont': [44.045876, -72.710686], 'Virginia': [37.769337, -78.169968],
-    'Washington': [47.400902, -121.490494], 'West Virginia': [38.491226, -80.954453],
-    'Wisconsin': [44.268543, -89.616508], 'Wyoming': [42.755966, -107.302490],
-    'District of Columbia': [38.897438, -77.026817]
-};
-
-// City coordinates for accurate venue placement
-const CITY_COORDS = {
-    // Major cities
-    'Philadelphia, PA': [39.9526, -75.1652], 'Houston, TX': [29.7604, -95.3698],
-    'Chicago, IL': [41.8781, -87.6298], 'Nashville, TN': [36.1627, -86.7816],
-    'Washington, DC': [38.9072, -77.0369], 'Baltimore, MD': [39.2904, -76.6122],
-    'San Diego, CA': [32.7157, -117.1611], 'Los Angeles, CA': [34.0522, -118.2437],
-    'Charleston, SC': [32.7765, -79.9311], 'Atlanta, GA': [33.7490, -84.3880],
-    'Pittsburgh, PA': [40.4406, -79.9959], 'Jacksonville, FL': [30.3322, -81.6557],
-    'Richmond, VA': [37.5407, -77.4360], 'Seattle, WA': [47.6062, -122.3321],
-    'Fairfield, CT': [41.1408, -73.2637], 'Cincinnati, OH': [39.1031, -84.5120],
-    'Baton Rouge, LA': [30.4515, -91.1871], 'San Antonio, TX': [29.4241, -98.4936],
-    'Riverside, CA': [33.9533, -117.3962], 'Buffalo, NY': [42.8864, -78.8784],
-    'Spartanburg, SC': [34.9496, -81.9320], 'Portland, OR': [45.5152, -122.6784],
-    'Newark, NJ': [40.7357, -74.1724], 'Dayton, OH': [39.7589, -84.1916],
-    'Milwaukee, WI': [43.0389, -87.9065], 'Charlotte, NC': [35.2271, -80.8431],
-    'Syracuse, NY': [43.0481, -76.1474], 'Boston, MA': [42.3601, -71.0589],
-    'Tallahassee, FL': [30.4383, -84.2807], 'New Orleans, LA': [29.9511, -90.0715],
-    // California cities
-    'San Francisco, CA': [37.7749, -122.4194], 'Oakland, CA': [37.8044, -122.2712],
-    'Berkeley, CA': [37.8716, -122.2727], 'Stanford, CA': [37.4275, -122.1697],
-    'San Jose, CA': [37.3382, -121.8863], 'Sacramento, CA': [38.5816, -121.4944],
-    'Fresno, CA': [36.7378, -119.7871], 'Moraga, CA': [37.8349, -122.1297],
-    'Malibu, CA': [34.0259, -118.7798], 'Irvine, CA': [33.6846, -117.8265],
-    'Fullerton, CA': [33.8704, -117.9242], 'Long Beach, CA': [33.7701, -118.1937],
-    'Santa Barbara, CA': [34.4208, -119.6982], 'Davis, CA': [38.5449, -121.7405],
-    'Northridge, CA': [34.2381, -118.5302], 'Bakersfield, CA': [35.3733, -119.0187],
-    // Texas cities
-    'Austin, TX': [30.2672, -97.7431], 'Dallas, TX': [32.7767, -96.7970],
-    'Fort Worth, TX': [32.7555, -97.3308], 'Lubbock, TX': [33.5779, -101.8552],
-    'Waco, TX': [31.5493, -97.1467], 'College Station, TX': [30.6280, -96.3344],
-    'El Paso, TX': [31.7619, -106.4850], 'Denton, TX': [33.2148, -97.1331],
-    // Florida cities
-    'Miami, FL': [25.7617, -80.1918], 'Orlando, FL': [28.5383, -81.3792],
-    'Tampa, FL': [27.9506, -82.4572], 'Gainesville, FL': [29.6516, -82.3248],
-    'Coral Gables, FL': [25.7215, -80.2684], 'Boca Raton, FL': [26.3587, -80.0831],
-    // New York cities
-    'New York, NY': [40.7128, -74.0060], 'Brooklyn, NY': [40.6782, -73.9442],
-    'Albany, NY': [42.6526, -73.7562], 'Ithaca, NY': [42.4440, -76.5019],
-    'Rochester, NY': [43.1566, -77.6088], 'Hempstead, NY': [40.7062, -73.6187],
-    // Other major college towns
-    'Durham, NC': [35.9940, -78.8986], 'Raleigh, NC': [35.7796, -78.6382],
-    'Chapel Hill, NC': [35.9132, -79.0558], 'Greensboro, NC': [36.0726, -79.7920],
-    'Winston-Salem, NC': [36.0999, -80.2442], 'Lexington, KY': [38.0406, -84.5037],
-    'Louisville, KY': [38.2527, -85.7585], 'Indianapolis, IN': [39.7684, -86.1581],
-    'West Lafayette, IN': [40.4259, -86.9081], 'Bloomington, IN': [39.1653, -86.5264],
-    'South Bend, IN': [41.6764, -86.2520], 'Ann Arbor, MI': [42.2808, -83.7430],
-    'East Lansing, MI': [42.7369, -84.4839], 'Detroit, MI': [42.3314, -83.0458],
-    'Columbus, OH': [39.9612, -82.9988], 'Cleveland, OH': [41.4993, -81.6944],
-    'Akron, OH': [41.0814, -81.5190], 'Tucson, AZ': [32.2226, -110.9747],
-    'Tempe, AZ': [33.4255, -111.9400], 'Phoenix, AZ': [33.4484, -112.0740],
-    'Salt Lake City, UT': [40.7608, -111.8910], 'Provo, UT': [40.2338, -111.6585],
-    'Denver, CO': [39.7392, -104.9903], 'Boulder, CO': [40.0150, -105.2705],
-    'Fort Collins, CO': [40.5853, -105.0844], 'Albuquerque, NM': [35.0844, -106.6504],
-    'Las Vegas, NV': [36.1699, -115.1398], 'Reno, NV': [39.5296, -119.8138],
-    'Minneapolis, MN': [44.9778, -93.2650], 'St. Paul, MN': [44.9537, -93.0900],
-    'Madison, WI': [43.0731, -89.4012], 'Iowa City, IA': [41.6611, -91.5302],
-    'Ames, IA': [42.0308, -93.6319], 'Lawrence, KS': [38.9717, -95.2353],
-    'Manhattan, KS': [39.1836, -96.5717], 'Wichita, KS': [37.6872, -97.3301],
-    'Lincoln, NE': [40.8258, -96.6852], 'Omaha, NE': [41.2565, -95.9345],
-    'Norman, OK': [35.2226, -97.4395], 'Stillwater, OK': [36.1156, -97.0584],
-    'Tulsa, OK': [36.1540, -95.9928], 'Columbia, MO': [38.9517, -92.3341],
-    'St. Louis, MO': [38.6270, -90.1994], 'Kansas City, MO': [39.0997, -94.5786],
-    'Spokane, WA': [47.6588, -117.4260], 'Pullman, WA': [46.7298, -117.1817],
-    'Eugene, OR': [44.0521, -123.0868], 'Corvallis, OR': [44.5646, -123.2620],
-    'Boise, ID': [43.6150, -116.2023], 'Missoula, MT': [46.8721, -113.9940],
-    'Laramie, WY': [41.3114, -105.5911], 'Fayetteville, AR': [36.0626, -94.1574],
-    'Little Rock, AR': [34.7465, -92.2896], 'Auburn, AL': [32.6099, -85.4808],
-    'Tuscaloosa, AL': [33.2098, -87.5692], 'Birmingham, AL': [33.5207, -86.8025],
-    'Oxford, MS': [34.3665, -89.5192], 'Starkville, MS': [33.4504, -88.8184],
-    'Knoxville, TN': [35.9606, -83.9207], 'Memphis, TN': [35.1495, -90.0490],
-    'Athens, GA': [33.9519, -83.3576], 'Macon, GA': [32.8407, -83.6324],
-    'Clemson, SC': [34.6834, -82.8374], 'Columbia, SC': [34.0007, -81.0348],
-    'Gainesville, GA': [34.2979, -83.8241], 'Charlottesville, VA': [38.0293, -78.4767],
-    'Blacksburg, VA': [37.2296, -80.4139], 'Norfolk, VA': [36.8508, -76.2859],
-    'College Park, MD': [38.9897, -76.9378], 'Towson, MD': [39.3943, -76.6019],
-    'State College, PA': [40.7934, -77.8600], 'Villanova, PA': [40.0388, -75.3455],
-    'Providence, RI': [41.8240, -71.4128], 'Hartford, CT': [41.7658, -72.6734],
-    'Storrs, CT': [41.8084, -72.2495], 'New Haven, CT': [41.3083, -72.9279],
-    'Worcester, MA': [42.2626, -71.8023], 'Amherst, MA': [42.3732, -72.5199],
-    'Princeton, NJ': [40.3573, -74.6672], 'Piscataway, NJ': [40.4862, -74.4518],
-    'West Point, NY': [41.3915, -73.9566], 'Annapolis, MD': [38.9784, -76.4922],
-    'Colorado Springs, CO': [38.8339, -104.8214], 'Spokane, WA': [47.6588, -117.4260],
-    'Honolulu, HI': [21.3069, -157.8583], 'Anchorage, AK': [61.2181, -149.9003],
-};
-
-let upcomingMapMarkers = [];
-
-// Helper to normalize ESPN team names to match SCHOOL_COORDS (shared function)
-function normalizeEspnTeamName(name) {
-    if (!name) return name;
-
-    // Normalize curly quotes to straight quotes (ESPN uses curly)
-    name = name.replace(/'/g, "'").replace(/'/g, "'").replace(/"/g, '"').replace(/"/g, '"');
-
-    // Explicit ESPN -> SCHOOL_COORDS mappings
-    const explicitMappings = {
-        // UC schools
-        'Santa Barbara': 'UC Santa Barbara', 'Davis': 'UC Davis', 'Riverside': 'UC Riverside',
-        'Irvine': 'UC Irvine', 'San Diego': 'San Diego', 'UCSB': 'UC Santa Barbara',
-        'UCD': 'UC Davis', 'UCR': 'UC Riverside', 'UCI': 'UC Irvine', 'UCSD': 'UC San Diego',
-        // Cal State schools
-        'Bakersfield': 'Cal State Bakersfield', 'Fullerton': 'Cal State Fullerton',
-        'Northridge': 'Cal State Northridge', 'LMU': 'Loyola Marymount',
-        'CSU Bakersfield': 'Cal State Bakersfield', 'CSU Fullerton': 'Cal State Fullerton',
-        'CSU Northridge': 'Cal State Northridge',
-        'Long Beach St': 'Long Beach State', 'Sacramento St': 'Sacramento State',
-        'San Jose St': 'San Jose State', 'San José St': 'San Jose State',
-        'Fresno St': 'Fresno State', 'San Diego St': 'San Diego State',
-        'CA Baptist': 'California Baptist', 'Cal Baptist': 'California Baptist',
-        // Direction abbreviations
-        'UMES': 'Maryland-Eastern Shore', 'MD Eastern': 'Maryland-Eastern Shore',
-        'N Arizona': 'Northern Arizona', 'N Colorado': 'Northern Colorado',
-        'N Dakota': 'North Dakota', 'N Dakota St': 'North Dakota State',
-        'S Dakota': 'South Dakota', 'S Dakota St': 'South Dakota State',
-        'S Florida': 'South Florida', 'N Texas': 'North Texas', 'W Virginia': 'West Virginia',
-        'W Kentucky': 'Western Kentucky', 'E Kentucky': 'Eastern Kentucky', 'E Washington': 'Eastern Washington',
-        'N Illinois': 'Northern Illinois', 'N Kentucky': 'Northern Kentucky',
-        'E Illinois': 'Eastern Illinois', 'E Michigan': 'Eastern Michigan',
-        'W Carolina': 'Western Carolina', 'W Illinois': 'Western Illinois', 'W Michigan': 'Western Michigan',
-        'S Illinois': 'Southern Illinois', 'C Arkansas': 'Central Arkansas',
-        'C Connecticut': 'Central Connecticut', 'C Michigan': 'Central Michigan',
-        // Saint/St variations
-        'St Marys': "Saint Mary's (CA)", "Saint Mary's": "Saint Mary's (CA)",
-        'Mount St Marys': "Mount St. Mary's", "St John's": "St. John's",
-        'St Bonaventure': 'St. Bonaventure', "St Peter's": "Saint Peter's",
-        'St Thomas': 'St. Thomas', 'St Thomas (MN)': 'St. Thomas',
-        // Common abbreviations
-        'App State': 'Appalachian State', 'G Washington': 'George Washington',
-        'UMass': 'Massachusetts', 'UConn': 'Connecticut', 'Ole Miss': 'Mississippi',
-        'Pitt': 'Pittsburgh', 'Miami': 'Miami (FL)', 'Miami OH': 'Miami (OH)',
-        'FGCU': 'Florida Gulf Coast', 'FAU': 'Florida Atlantic', 'FIU': 'Florida International',
-        'UNC': 'North Carolina', 'VCU': 'Virginia Commonwealth', 'UCF': 'Central Florida',
-        'UNLV': 'Nevada-Las Vegas', 'SMU': 'Southern Methodist', 'LSU': 'Louisiana State',
-        'BYU': 'Brigham Young', 'TCU': 'Texas Christian', 'USC': 'Southern California',
-        'SFA': 'Stephen F. Austin', 'UTEP': 'UTEP', 'UTSA': 'Texas-San Antonio',
-        'LIU': 'Long Island', 'UAB': 'UAB', 'URI': 'Rhode Island', 'UNI': 'Northern Iowa',
-        'NIU': 'Northern Illinois', 'SIU': 'Southern Illinois', 'SIUE': 'SIU Edwardsville',
-        'WKU': 'Western Kentucky', 'ETSU': 'East Tennessee State', 'MTSU': 'Middle Tennessee',
-        // ESPN variations
-        'Loyola Chi': 'Loyola Chicago', 'Loyola MD': 'Loyola (MD)',
-        'Little Rock': 'Arkansas-Little Rock', 'Omaha': 'Nebraska-Omaha',
-        'AR-Pine Bluff': 'Arkansas-Pine Bluff', 'Abilene Chrstn': 'Abilene Christian',
-        'Bethune': 'Bethune-Cookman', 'Boston U': 'Boston University',
-        'Charleston So': 'Charleston Southern', 'Coastal': 'Coastal Carolina',
-        'E Texas A&M': 'East Texas A&M', 'FDU': 'Fairleigh Dickinson',
-        'GA Southern': 'Georgia Southern', 'Grambling': 'Grambling State',
-        "Hawai'i": 'Hawaii', 'Hou Christian': 'Houston Christian',
-        'IU Indy': 'Indiana-Purdue Indianapolis', 'Jax State': 'Jacksonville State',
-        'Miss Valley St': 'Mississippi Valley State', 'NC A&T': 'North Carolina A&T',
-        'NC Central': 'North Carolina Central', "N'Western St": 'Northwestern State',
-        'NW State': 'Northwestern State', 'Prairie View': 'Prairie View A&M',
-        'Purdue FW': 'Purdue Fort Wayne', 'SC State': 'South Carolina State',
-        'SC Upstate': 'USC Upstate', 'SE Louisiana': 'Southeastern Louisiana',
-        'SE Missouri': 'Southeast Missouri State', 'SF Austin': 'Stephen F. Austin',
-        'Saint Francis': 'Saint Francis (PA)', 'Seattle U': 'Seattle',
-        'So Indiana': 'Southern Indiana', 'Texas A&M-CC': 'Texas A&M-Corpus Christi',
-        'UAlbany': 'Albany', 'UL Monroe': 'Louisiana-Monroe',
-        'UT Rio Grande': 'Texas-Rio Grande Valley', 'Arizona St': 'Arizona State',
-        'Western KY': 'Western Kentucky', 'Grand Canyon': 'Grand Canyon',
-        'Southern Miss': 'Southern Miss', 'UNC Wilmington': 'UNC Wilmington'
+        return html`
+            <div class="box-score-section">
+                <h4>${teamName}${genderTag}</h4>
+                <div class="table-container">
+                    <table class="data-table box-score-table">
+                        <thead><tr><th>Player</th><th>MIN</th><th>PTS</th><th>REB</th><th>AST</th><th>STL</th><th>BLK</th><th>FG</th><th>3P</th><th>FT</th><th>PF</th></tr></thead>
+                        <tbody>
+                            ${starters.length > 0 && html`<tr class="section-divider"><td colspan="11">Starters</td></tr>`}
+                            ${starters.map(renderRow)}
+                            ${bench.length > 0 && html`<tr class="section-divider"><td colspan="11">Bench</td></tr>`}
+                            ${bench.map(renderRow)}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        `;
     };
 
-    if (explicitMappings[name]) return explicitMappings[name];
-
-    // Handle " St" suffix -> " State"
-    if (name.endsWith(' St')) return name.slice(0, -3) + ' State';
-
-    // Handle "St " prefix -> "Saint "
-    if (name.startsWith('St ')) return 'Saint ' + name.slice(3);
-
-    return name;
-}
-
-function initUpcomingMap() {
-    const mapEl = document.getElementById('upcoming-venues-map');
-    if (!mapEl || upcomingVenuesMap) return;
-
-    upcomingVenuesMap = L.map('upcoming-venues-map').setView([39.8283, -98.5795], 4);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '© OpenStreetMap contributors'
-    }).addTo(upcomingVenuesMap);
-
-    // Set default date range (next 30 days)
-    const today = new Date();
-    const thirtyDays = new Date(today.getTime() + 30 * 24 * 60 * 60 * 1000);
-    document.getElementById('upcoming-map-start-date').value = today.toISOString().split('T')[0];
-    document.getElementById('upcoming-map-end-date').value = thirtyDays.toISOString().split('T')[0];
-
-    // Update on map move
-    upcomingVenuesMap.on('moveend', updateMapGamesList);
-
-    updateUpcomingMap();
-}
-
-let userLocationMarker = null;
-
-function findMyLocation() {
-    if (!upcomingVenuesMap) {
-        showToast('Map not initialized yet');
-        return;
-    }
-
-    if (!navigator.geolocation) {
-        showToast('Geolocation is not supported by your browser');
-        return;
-    }
-
-    showToast('Finding your location...');
-
-    navigator.geolocation.getCurrentPosition(
-        (position) => {
-            const lat = position.coords.latitude;
-            const lng = position.coords.longitude;
-
-            // Remove existing user location marker if any
-            if (userLocationMarker) {
-                upcomingVenuesMap.removeLayer(userLocationMarker);
-            }
-
-            // Add a marker for user's location
-            userLocationMarker = L.marker([lat, lng], {
-                icon: L.divIcon({
-                    className: 'user-location-marker',
-                    html: '<div style="background: #2563eb; width: 16px; height: 16px; border-radius: 50%; border: 3px solid white; box-shadow: 0 2px 6px rgba(0,0,0,0.3);"></div>',
-                    iconSize: [22, 22],
-                    iconAnchor: [11, 11]
-                })
-            }).addTo(upcomingVenuesMap)
-              .bindPopup('You are here');
-
-            // Zoom to user's location
-            upcomingVenuesMap.setView([lat, lng], 8);
-
-            showToast('Location found!');
-        },
-        (error) => {
-            let message = 'Unable to find your location';
-            switch(error.code) {
-                case error.PERMISSION_DENIED:
-                    message = 'Location access denied. Please enable location permissions.';
-                    break;
-                case error.POSITION_UNAVAILABLE:
-                    message = 'Location information unavailable';
-                    break;
-                case error.TIMEOUT:
-                    message = 'Location request timed out';
-                    break;
-            }
-            showToast(message);
-        },
-        {
-            enableHighAccuracy: true,
-            timeout: 10000,
-            maximumAge: 300000  // Cache location for 5 minutes
+    // PBP Analysis
+    const pbp = game.ESPNPBPAnalysis || {};
+    const gameGender = game.Gender || 'M';
+    const getPeriodLabel = (period) => {
+        if (gameGender === 'W') {
+            if (period <= 4) return `Q${period}`;
+            return `OT${period - 4 > 1 ? period - 4 : ''}`;
+        } else {
+            if (period === 1) return '1st half';
+            if (period === 2) return '2nd half';
+            return `OT${period - 2 > 1 ? period - 2 : ''}`;
         }
+    };
+
+    return html`
+        <div>
+            <div class="game-detail-header">
+                <div class="game-detail-score">
+                    <div class=${'team-side' + (awayWon ? ' winner' : '')}>
+                        ${game.AwayRank ? html`<span class="ap-rank">#${game.AwayRank}</span>` : null}
+                        <span class="team-name">${game['Away Team']}</span>
+                        <span class="team-score">${awayScore}</span>
+                    </div>
+                    <div class="score-divider">@</div>
+                    <div class=${'team-side' + (!awayWon ? ' winner' : '')}>
+                        ${game.HomeRank ? html`<span class="ap-rank">#${game.HomeRank}</span>` : null}
+                        <span class="team-name">${game['Home Team']}</span>
+                        <span class="team-score">${homeScore}</span>
+                    </div>
+                </div>
+                <div class="game-detail-info">
+                    <span>${game.Date}${genderTag}</span>
+                    <span>${game.Venue}, ${game.City}, ${game.State}</span>
+                    ${game.Attendance ? html`<span>Attendance: ${game.Attendance.toLocaleString()}</span>` : null}
+                    ${(game.Division === 'D1' || !game.Division) && html`
+                        <a href=${getSportsRefUrl(game)} target="_blank" class="external-link">Sports Reference ↗</a>
+                    `}
+                </div>
+            </div>
+
+            ${periodData.length > 0 && html`
+                <div class="linescore-table">
+                    <table class="data-table">
+                        <thead><tr><th>Team</th>${periodLabels.map(l => html`<th>${l}</th>`)}<th>T</th></tr></thead>
+                        <tbody>
+                            <tr>
+                                <td>${game['Away Team']}</td>
+                                ${(linescore.away?.[periods] || []).map(s => html`<td>${s}</td>`)}
+                                ${(linescore.away?.OT || []).map(s => html`<td>${s}</td>`)}
+                                <td class="stat-highlight">${awayScore}</td>
+                            </tr>
+                            <tr>
+                                <td>${game['Home Team']}</td>
+                                ${(linescore.home?.[periods] || []).map(s => html`<td>${s}</td>`)}
+                                ${(linescore.home?.OT || []).map(s => html`<td>${s}</td>`)}
+                                <td class="stat-highlight">${homeScore}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            `}
+
+            ${milestones.badges.length > 0 && html`
+                <div class="game-badges">
+                    ${milestones.badges.map(b => html`<${Badge} ...${b} />`)}
+                </div>
+            `}
+
+            <${BoxScoreTable} players=${boxScore.away} teamName=${game['Away Team']} />
+            <${BoxScoreTable} players=${boxScore.home} teamName=${game['Home Team']} />
+
+            ${(pbp.biggestComeback || pbp.teamScoringRuns?.length > 0 || pbp.playerPointStreaks?.length > 0 || pbp.decisiveShot || pbp.clutchGoAhead) && html`
+                <div class="espn-pbp-analysis">
+                    <div class="pbp-section-title">Advanced Game Analysis</div>
+
+                    ${pbp.biggestComeback && html`
+                        <div class="pbp-comeback">
+                            ${pbp.biggestComeback.neverTrailed
+                                ? html`<strong>${pbp.biggestComeback.team}</strong> led wire-to-wire`
+                                : html`<strong>${pbp.biggestComeback.team}</strong> ${pbp.biggestComeback.won ? 'overcame' : 'nearly overcame'} ${pbp.biggestComeback.deficit}-pt deficit
+                                    <span class="pbp-detail">(down ${pbp.biggestComeback.deficit} at ${pbp.biggestComeback.deficitScore}, ${pbp.biggestComeback.deficitTime} in ${getPeriodLabel(pbp.biggestComeback.deficitPeriod)})</span>`
+                            }
+                        </div>
+                    `}
+
+                    ${pbp.teamScoringRuns?.length > 0 && html`
+                        <div class="pbp-item">
+                            <strong>Scoring Runs:</strong>
+                            ${pbp.teamScoringRuns.map(run => html`
+                                <span class="espn-run-badge">${run.team} ${run.points}-0 run (${run.startScore} → ${run.endScore}) ${run.startTime}-${run.endTime} ${getPeriodLabel(run.endPeriod)}</span>
+                            `)}
+                        </div>
+                    `}
+
+                    ${pbp.playerPointStreaks?.length > 0 && html`
+                        <div class="pbp-item">
+                            <strong>Individual Streaks:</strong>
+                            ${pbp.playerPointStreaks.map(s => html`
+                                <span class="espn-streak-badge">${s.player} (${s.team}) ${s.points} consecutive pts (${s.startScore} → ${s.endScore}) ${s.startTime}-${s.endTime} ${getPeriodLabel(s.endPeriod)}</span>
+                            `)}
+                        </div>
+                    `}
+
+                    ${(pbp.clutchGoAhead || pbp.decisiveShot) && html`
+                        <div class="pbp-item">
+                            <strong>Decisive Shots:</strong>
+                            ${pbp.clutchGoAhead && html`
+                                <span class="espn-gws-badge">${pbp.clutchGoAhead.player} (${pbp.clutchGoAhead.team}) go-ahead ${pbp.clutchGoAhead.points === 1 ? 'FT' : pbp.clutchGoAhead.points === 2 ? 'bucket' : 'three'} at ${pbp.clutchGoAhead.time} → ${pbp.clutchGoAhead.score}</span>
+                            `}
+                            ${pbp.decisiveShot && (pbp.decisiveShot.time !== pbp.clutchGoAhead?.time) && html`
+                                <span class="espn-gws-badge">${pbp.decisiveShot.player} (${pbp.decisiveShot.team}) decisive shot at ${pbp.decisiveShot.time} ${getPeriodLabel(pbp.decisiveShot.period)} → ${pbp.decisiveShot.score}</span>
+                            `}
+                        </div>
+                    `}
+                </div>
+            `}
+        </div>
+    `;
+}
+
+// ============================================================================
+// PLAYER DETAIL MODAL
+// ============================================================================
+
+function PlayerDetailModal({ playerId, onClose, showGameDetail }) {
+    const player = useMemo(() => (DATA.players || []).find(p => (p['Player ID'] || p.Player) === playerId), [playerId]);
+    if (!player) return null;
+
+    const chartRef = useRef(null);
+    const chartInstance = useRef(null);
+    const [chartStat, setChartStat] = useState('pts');
+
+    const games = useMemo(() =>
+        (DATA.playerGames || [])
+            .filter(g => (g.player_id || g.player) === playerId)
+            .sort((a, b) => (b.date_yyyymmdd || b.date || '').localeCompare(a.date_yyyymmdd || a.date || '')),
+        [playerId]
     );
-}
 
-function updateUpcomingMap() {
-    if (!upcomingVenuesMap) return;
+    const genderTag = player.Gender === 'W' ? ' (W)' : '';
+    const link = getPlayerSportsRefLink(player);
 
-    const startDate = document.getElementById('upcoming-map-start-date')?.value;
-    const endDate = document.getElementById('upcoming-map-end-date')?.value;
-    const hideVisited = document.getElementById('upcoming-map-hide-visited')?.checked || false;
-    const now = new Date();
-    now.setHours(0, 0, 0, 0);
+    // Chart
+    useEffect(() => {
+        if (!chartRef.current || games.length < 2) return;
+        if (chartInstance.current) chartInstance.current.destroy();
 
-    // Clear existing markers
-    upcomingMapMarkers.forEach(m => upcomingVenuesMap.removeLayer(m));
-    upcomingMapMarkers = [];
-
-    // Group games by venue
-    const venueGames = {};
-    upcomingGamesData.forEach(game => {
-        // Use actual game date from time_detail (ESPN's date field is often wrong)
-        const gameDate = getActualGameDate(game.date, game.time_detail);
-        gameDate.setHours(0, 0, 0, 0);  // Normalize to midnight for date comparison
-
-        // Date filter - parse as local dates (not UTC)
-        if (startDate) {
-            const [y, m, d] = startDate.split('-').map(Number);
-            const start = new Date(y, m - 1, d);
-            if (gameDate < start) return;
-        }
-        if (endDate) {
-            const [y, m, d] = endDate.split('-').map(Number);
-            const end = new Date(y, m - 1, d, 23, 59, 59);
-            if (gameDate > end) return;
-        }
-        if (!startDate && !endDate && gameDate < now) return;
-
-        // Team filter - if teams are selected, only show games involving those teams
-        if (selectedMapTeams.size > 0) {
-            const awayTeam = game.awayTeam || '';
-            const homeTeam = game.homeTeam || '';
-            const matchesTeam = Array.from(selectedMapTeams).some(team =>
-                awayTeam.toLowerCase().includes(team.toLowerCase()) ||
-                homeTeam.toLowerCase().includes(team.toLowerCase())
-            );
-            if (!matchesTeam) return;
-        }
-
-        const key = `${game.venue}|${game.city}|${game.state}`;
-        if (!venueGames[key]) {
-            venueGames[key] = { venue: game.venue, city: game.city, state: game.state, games: [] };
-        }
-        venueGames[key].games.push(game);
-    });
-
-    // Add markers for each venue
-    Object.values(venueGames).forEach(v => {
-        // Try to get coordinates from home team (most accurate), then city, then state
-        let coords = null;
-        let lat, lng;
-
-        // First: try home team from SCHOOL_COORDS (actual arena locations)
-        if (v.games.length > 0) {
-            const homeTeam = v.games[0].homeTeam;
-            // Try direct match, then normalized name (using shared normalizeEspnTeamName)
-            coords = SCHOOL_COORDS[homeTeam] || SCHOOL_COORDS[normalizeEspnTeamName(homeTeam)];
-        }
-
-        if (coords) {
-            // Small offset for multiple venues at same school
-            lat = coords[0] + (Math.random() - 0.5) * 0.01;
-            lng = coords[1] + (Math.random() - 0.5) * 0.01;
-        } else {
-            // Second: try city coordinates
-            const cityKey = `${v.city}, ${v.state}`;
-            coords = CITY_COORDS[cityKey];
-
-            if (coords) {
-                lat = coords[0] + (Math.random() - 0.5) * 0.02;
-                lng = coords[1] + (Math.random() - 0.5) * 0.02;
-            } else {
-                // Third: fall back to state center
-                coords = STATE_COORDS[v.state];
-                if (!coords) return;
-                lat = coords[0] + (Math.random() - 0.5) * 2;
-                lng = coords[1] + (Math.random() - 0.5) * 3;
-            }
-        }
-        v.lat = lat;
-        v.lng = lng;
-
-        const gameCount = v.games.length;
-        const color = gameCount >= 6 ? '#22c55e' : gameCount >= 3 ? '#f97316' : '#ef4444';
-        const radius = Math.min(5 + gameCount, 15);
-
-        // Known neutral site venues
-        const NEUTRAL_SITES = new Set([
-            'Chase Center', 'Barclays Center', 'Madison Square Garden',
-            'United Center', 'T-Mobile Arena', 'Footprint Center',
-            'Crypto.com Arena', 'TD Garden', 'Capital One Arena',
-            'Smoothie King Center', 'State Farm Arena', 'Little Caesars Arena',
-            'Rocket Mortgage FieldHouse', 'Spectrum Center', 'Ball Arena',
-            'Climate Pledge Arena', 'Intuit Dome', 'Kia Center',
-        ]);
-
-        const isNeutralSite = NEUTRAL_SITES.has(v.venue);
-        const neutralTag = isNeutralSite ? '<br><span style="color: #9333ea;">📍 Neutral Site</span>' : '';
-
-        const gameList = v.games.slice(0, 5).map(g =>
-            `${formatGameDateTime(g.date, g.time_detail)}: ${formatMatchupWithRanks(g)}`
-        ).join('<br>');
-        const moreText = v.games.length > 5 ? `<br>...and ${v.games.length - 5} more` : '';
-
-        const marker = L.circleMarker([lat, lng], {
-            radius: radius,
-            fillColor: isNeutralSite ? '#9333ea' : color,  // Purple for neutral sites
-            color: '#fff',
-            weight: 2,
-            opacity: 1,
-            fillOpacity: 0.8
-        }).addTo(upcomingVenuesMap)
-          .bindPopup(`<strong>${v.venue}</strong><br>${v.city}, ${v.state}${neutralTag}<br><br>${gameCount} games:<br>${gameList}${moreText}`);
-
-        marker.venueData = v;
-        marker.isVisited = false;
-        upcomingMapMarkers.push(marker);
-    });
-
-    // Specific venue coordinates (for neutral sites, renamed arenas, etc.)
-    const VENUE_COORDS = {
-        'Chase Center': [37.7680, -122.3877],
-        'Barclays Center': [40.6826, -73.9754],
-        'Madison Square Garden': [40.7505, -73.9934],
-        'T-Mobile Arena': [36.1028, -115.1784],
-        'United Center': [41.8807, -87.6742],
-        'Footprint Center': [33.4457, -112.0712],
-        'Crypto.com Arena': [34.0430, -118.2673],
-        'Capital One Arena': [38.8982, -77.0208],
-        'Bridgestone Arena': [36.1591, -86.7785],  // Nashville, TN
-        // Historical venues
-        'Towson Center': [39.3935, -76.6100],  // Towson's arena before SECU Arena (pre-2013)
-    };
-
-    // Add visited venue markers (blue) unless hidden by filter
-    if (!hideVisited) upcomingVisitedVenues.forEach(v => {
-        let coords = null;
-        let lat, lng;
-
-        // First check specific venue coordinates (for neutral sites)
-        coords = VENUE_COORDS[v.venue];
-
-        // Fall back to home team's coordinates
-        if (!coords && v.homeTeam) {
-            coords = SCHOOL_COORDS[v.homeTeam] || SCHOOL_COORDS[normalizeEspnTeamName(v.homeTeam)];
-        }
-
-        if (coords) {
-            lat = coords[0] + (Math.random() - 0.5) * 0.01;
-            lng = coords[1] + (Math.random() - 0.5) * 0.01;
-        } else {
-            // Fall back to city coordinates
-            const cityKey = `${v.city}, ${v.state}`;
-            coords = CITY_COORDS[cityKey];
-
-            if (coords) {
-                lat = coords[0] + (Math.random() - 0.5) * 0.02;
-                lng = coords[1] + (Math.random() - 0.5) * 0.02;
-            } else {
-                // Fall back to state center
-                coords = STATE_COORDS[v.state];
-                if (!coords) return;
-                lat = coords[0] + (Math.random() - 0.5) * 2;
-                lng = coords[1] + (Math.random() - 0.5) * 3;
-            }
-        }
-
-        const pastGames = v.pastGames || v.games || 1;
-        const allUpcomingGames = v.upcomingGames || [];
-        const radius = Math.min(5 + pastGames, 15);
-
-        // Filter upcoming games by date range AND team filter
-        const filteredUpcoming = allUpcomingGames.filter(g => {
-            const gameDate = getActualGameDate(g.date, g.time_detail);
-            gameDate.setHours(0, 0, 0, 0);
-            if (startDate) {
-                const [y, m, d] = startDate.split('-').map(Number);
-                const start = new Date(y, m - 1, d);
-                if (gameDate < start) return false;
-            }
-            if (endDate) {
-                const [y, m, d] = endDate.split('-').map(Number);
-                const end = new Date(y, m - 1, d, 23, 59, 59);
-                if (gameDate > end) return false;
-            }
-            // Team filter - if teams are selected, only show games involving those teams
-            if (selectedMapTeams.size > 0) {
-                const awayTeam = g.away || g.awayTeam || '';
-                const homeTeam = g.home || g.homeTeam || '';
-                const matchesTeam = Array.from(selectedMapTeams).some(team =>
-                    awayTeam.toLowerCase().includes(team.toLowerCase()) ||
-                    homeTeam.toLowerCase().includes(team.toLowerCase())
-                );
-                if (!matchesTeam) return false;
-            }
-            return true;
+        const chartGames = [...games].reverse();
+        const labels = chartGames.map(g => {
+            const parts = (g.date || '').split(' ');
+            return parts.length >= 2 ? `${parts[0].slice(0,3)} ${parts[1].replace(',','')}` : g.date;
         });
-
-        // Skip visited venues with no upcoming games matching filters
-        if (filteredUpcoming.length === 0) return;
-
-        // Build popup content
-        let popupContent = `<strong>${v.venue}</strong><br>${v.city}, ${v.state}<br><span style="color: #3b82f6;">✓ Visited (${pastGames} game${pastGames > 1 ? 's' : ''})</span>`;
-
-        popupContent += `<br><br><strong>Upcoming:</strong><br>`;
-        popupContent += filteredUpcoming.slice(0, 5).map(g =>
-            `${formatGameDateTime(g.date, g.time_detail)}: ${formatMatchupWithRanks(g)}`
-        ).join('<br>');
-        if (filteredUpcoming.length > 5) {
-            popupContent += `<br>...+${filteredUpcoming.length - 5} more`;
-        }
-
-        const marker = L.circleMarker([lat, lng], {
-            radius: radius,
-            fillColor: '#3b82f6',  // Blue for visited
-            color: '#fff',
-            weight: 2,
-            opacity: 1,
-            fillOpacity: 0.7
-        }).addTo(upcomingVenuesMap)
-          .bindPopup(popupContent);
-
-        marker.venueData = { ...v, lat, lng, upcomingGames: filteredUpcoming };
-        marker.isVisited = true;
-        upcomingMapMarkers.push(marker);
-    });
-
-    updateMapGamesList();
-}
-
-function updateMapGamesList() {
-    if (!upcomingVenuesMap) return;
-
-    const bounds = upcomingVenuesMap.getBounds();
-
-    // Get all games from visible markers (both visited and unvisited)
-    // Always filter by visible area
-    let visibleGames = [];
-    let visibleVenues = 0;
-    let visitedVenueCount = 0;
-
-    upcomingMapMarkers.forEach(marker => {
-        const v = marker.venueData;
-        const inBounds = bounds.contains([v.lat, v.lng]);
-
-        if (inBounds) {
-            visibleVenues++;
-            if (marker.isVisited) {
-                visitedVenueCount++;
-                // Visited venues store filtered games in upcomingGames
-                const visitedGames = (v.upcomingGames || []).map(g => ({
-                    ...g,
-                    venue: v.venue,
-                    city: v.city,
-                    state: v.state,
-                    isVisited: true
-                }));
-                visibleGames = visibleGames.concat(visitedGames);
-            } else {
-                // Unvisited venues store games directly
-                const unvisitedGames = (v.games || []).map(g => ({ ...g, isVisited: false }));
-                visibleGames = visibleGames.concat(unvisitedGames);
-            }
-        }
-    });
-
-    // Sort by date
-    visibleGames.sort((a, b) => new Date(a.date) - new Date(b.date));
-
-    // Update summary
-    const summary = document.getElementById('upcoming-map-summary');
-    if (summary) {
-        const visitedNote = visitedVenueCount > 0 ? ` (${visitedVenueCount} visited)` : '';
-        summary.textContent = `${visibleGames.length} games at ${visibleVenues} venues${visitedNote} in view`;
-    }
-
-    // Update table
-    const tbody = document.querySelector('#upcoming-map-table tbody');
-    if (!tbody) return;
-
-    if (visibleGames.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="4" class="empty-state">No games in this area/date range</td></tr>';
-        return;
-    }
-
-    tbody.innerHTML = visibleGames.slice(0, 100).map(game => {
-        const visitedBadge = game.isVisited ? '<span style="color: #3b82f6; margin-left: 4px;" title="Visited venue">✓</span>' : '';
-        return `
-        <tr${game.isVisited ? ' style="background: rgba(59, 130, 246, 0.05);"' : ''}>
-            <td style="white-space: nowrap;">${formatGameDateTime(game.date, game.time_detail)}</td>
-            <td>${formatMatchupWithRanks(game)}</td>
-            <td>${game.venue}${visitedBadge}</td>
-            <td>${game.city}, ${game.state}</td>
-        </tr>
-    `}).join('');
-
-    if (visibleGames.length > 100) {
-        tbody.innerHTML += `<tr><td colspan="4" style="text-align: center; color: var(--text-secondary);">Showing first 100 of ${visibleGames.length} games</td></tr>`;
-    }
-}
-
-// ============ TRIP PLANNER ============
-
-// Haversine formula to calculate distance between two lat/lng points in miles
-function haversineDistance(lat1, lng1, lat2, lng2) {
-    const R = 3959; // Earth's radius in miles
-    const dLat = (lat2 - lat1) * Math.PI / 180;
-    const dLng = (lng2 - lng1) * Math.PI / 180;
-    const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-              Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-              Math.sin(dLng / 2) * Math.sin(dLng / 2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    return R * c;
-}
-
-// Get coordinates for a game (using home team's location)
-function getGameCoords(game) {
-    const homeTeam = game.homeTeam || '';
-    const normalizedName = normalizeEspnTeamName(homeTeam);
-
-    // Try SCHOOL_COORDS first
-    if (SCHOOL_COORDS[normalizedName]) {
-        return SCHOOL_COORDS[normalizedName];
-    }
-    if (SCHOOL_COORDS[homeTeam]) {
-        return SCHOOL_COORDS[homeTeam];
-    }
-
-    // Try CITY_COORDS
-    const cityKey = `${game.city}, ${game.state}`;
-    if (CITY_COORDS[cityKey]) {
-        return CITY_COORDS[cityKey];
-    }
-
-    // Fall back to state center
-    const stateCoords = STATE_COORDS[game.state];
-    if (stateCoords) {
-        return stateCoords;
-    }
-
-    return null;
-}
-
-// Trip Planner state multi-select functions
-function toggleTripStateDropdown() {
-    const options = document.getElementById('trip-state-options');
-    options.classList.toggle('show');
-}
-
-function getTripSelectedStates() {
-    const checkboxes = document.querySelectorAll('#trip-state-options input[type="checkbox"]:checked');
-    return Array.from(checkboxes).map(cb => cb.value);
-}
-
-function updateTripStateFilter() {
-    const selected = getTripSelectedStates();
-    const label = document.getElementById('trip-state-label');
-    if (selected.length === 0) {
-        label.textContent = 'Select states...';
-    } else if (selected.length === 1) {
-        label.textContent = selected[0];
-    } else {
-        label.textContent = `${selected.length} states`;
-    }
-    generateTrips();
-}
-
-function selectAllTripStates() {
-    document.querySelectorAll('#trip-state-options input[type="checkbox"]')
-        .forEach(cb => cb.checked = true);
-    updateTripStateFilter();
-}
-
-function clearAllTripStates() {
-    document.querySelectorAll('#trip-state-options input[type="checkbox"]')
-        .forEach(cb => cb.checked = false);
-    updateTripStateFilter();
-}
-
-// Close trip dropdown when clicking outside
-document.addEventListener('click', function(e) {
-    const dropdown = document.getElementById('trip-state-dropdown');
-    if (dropdown && !dropdown.contains(e.target)) {
-        document.getElementById('trip-state-options')?.classList.remove('show');
-    }
-});
-
-function initTripPlanner() {
-    // Populate state filter multi-select dropdown (alphabetically sorted)
-    const stateOptions = document.getElementById('trip-state-options');
-    if (stateOptions && upcomingGamesData.length > 0) {
-        // Count games by state
-        const stateCounts = {};
-        upcomingGamesData.forEach(g => {
-            if (g.state) {
-                stateCounts[g.state] = (stateCounts[g.state] || 0) + 1;
-            }
-        });
-
-        // Sort alphabetically
-        const states = Object.entries(stateCounts)
-            .sort((a, b) => a[0].localeCompare(b[0]));
-
-        // Clear existing options
-        stateOptions.innerHTML = '';
-
-        // Add select all / clear all buttons
-        const actionsDiv = document.createElement('div');
-        actionsDiv.className = 'multi-select-actions';
-        actionsDiv.innerHTML = `
-            <button type="button" onclick="selectAllTripStates()">Select All</button>
-            <button type="button" onclick="clearAllTripStates()">Clear All</button>
-        `;
-        stateOptions.appendChild(actionsDiv);
-
-        states.forEach(([state, count]) => {
-            const label = document.createElement('label');
-            label.className = 'multi-select-option';
-            label.innerHTML = `
-                <input type="checkbox" value="${state}" onchange="updateTripStateFilter()">
-                <span>${state} (${count})</span>
-            `;
-            stateOptions.appendChild(label);
-        });
-    }
-
-    // Set default date range (next 60 days)
-    const today = new Date();
-    const sixtyDays = new Date(today.getTime() + 60 * 24 * 60 * 60 * 1000);
-    document.getElementById('trip-start-date').value = today.toISOString().split('T')[0];
-    document.getElementById('trip-end-date').value = sixtyDays.toISOString().split('T')[0];
-
-    // Run initial search
-    generateTrips();
-}
-
-function generateTrips() {
-    const selectedStates = getTripSelectedStates();
-    const maxDistance = parseInt(document.getElementById('trip-max-distance')?.value) || 100;
-    const minGames = parseInt(document.getElementById('trip-min-games')?.value) || 2;
-    const maxGap = parseInt(document.getElementById('trip-max-gap')?.value) || 1;
-    const startDate = document.getElementById('trip-start-date')?.value;
-    const endDate = document.getElementById('trip-end-date')?.value;
-
-    const resultsDiv = document.getElementById('trip-results');
-    const summaryDiv = document.getElementById('trip-summary');
-
-    if (selectedStates.length === 0) {
-        summaryDiv.innerHTML = 'Select one or more states to find road trip opportunities.';
-        resultsDiv.innerHTML = '';
-        return;
-    }
-
-    // Filter games by state and date range
-    const now = new Date();
-    now.setHours(0, 0, 0, 0);
-
-    let filteredGames = upcomingGamesData.filter(game => {
-        // State filter - games in any of the selected states
-        if (!selectedStates.includes(game.state)) return false;
-
-        // Date filter
-        const gameDate = getActualGameDate(game.date, game.time_detail);
-        gameDate.setHours(0, 0, 0, 0);
-
-        if (startDate) {
-            const [y, m, d] = startDate.split('-').map(Number);
-            const start = new Date(y, m - 1, d);
-            if (gameDate < start) return false;
-        }
-        if (endDate) {
-            const [y, m, d] = endDate.split('-').map(Number);
-            const end = new Date(y, m - 1, d, 23, 59, 59);
-            if (gameDate > end) return false;
-        }
-
-        // Only future games
-        if (gameDate < now) return false;
-
-        // Team filter - if teams are selected, only show games involving those teams
-        if (selectedTripTeams.size > 0) {
-            const awayTeam = game.awayTeam || '';
-            const homeTeam = game.homeTeam || '';
-            const matchesTeam = Array.from(selectedTripTeams).some(team =>
-                awayTeam.toLowerCase().includes(team.toLowerCase()) ||
-                homeTeam.toLowerCase().includes(team.toLowerCase())
-            );
-            if (!matchesTeam) return false;
-        }
-
-        return true;
-    });
-
-    // Add coordinates to each game
-    filteredGames = filteredGames.map(g => ({
-        ...g,
-        coords: getGameCoords(g),
-        gameDate: getActualGameDate(g.date, g.time_detail)
-    })).filter(g => g.coords !== null);
-
-    // Sort by date
-    filteredGames.sort((a, b) => a.gameDate - b.gameDate);
-
-    const statesLabel = selectedStates.length === 1 ? selectedStates[0] : `${selectedStates.length} states`;
-
-    if (filteredGames.length === 0) {
-        summaryDiv.innerHTML = `No upcoming games found in ${statesLabel} for the selected date range.`;
-        resultsDiv.innerHTML = '';
-        return;
-    }
-
-    // Find all possible trips
-    const trips = findTrips(filteredGames, maxDistance, minGames, maxGap);
-
-    // Sort trips by number of games (descending), then by start date
-    trips.sort((a, b) => {
-        if (b.games.length !== a.games.length) {
-            return b.games.length - a.games.length;
-        }
-        return a.games[0].gameDate - b.games[0].gameDate;
-    });
-
-    if (trips.length === 0) {
-        summaryDiv.innerHTML = `Found ${filteredGames.length} games in ${statesLabel}, but no multi-game trips matching your criteria. Try increasing the max distance or allowing more days between games.`;
-        resultsDiv.innerHTML = '';
-        return;
-    }
-
-    // Display summary
-    const totalGamesInTrips = trips.reduce((sum, t) => sum + t.games.length, 0);
-    summaryDiv.innerHTML = `Found <strong>${trips.length} road trip${trips.length > 1 ? 's' : ''}</strong> covering <strong>${totalGamesInTrips} games</strong> in ${statesLabel} (from ${filteredGames.length} total games in date range)`;
-
-    // Display trips
-    resultsDiv.innerHTML = trips.slice(0, 20).map((trip, i) => renderTrip(trip, i)).join('');
-
-    if (trips.length > 20) {
-        resultsDiv.innerHTML += `<p style="text-align: center; color: var(--text-secondary); margin-top: 1rem;">Showing top 20 of ${trips.length} trips. Adjust filters to narrow results.</p>`;
-    }
-}
-
-function findTrips(games, maxDistance, minGames, maxGap) {
-    const trips = [];
-
-    // Group games by date
-    const gamesByDate = {};
-    games.forEach(g => {
-        const dateKey = g.gameDate.toISOString().split('T')[0];
-        if (!gamesByDate[dateKey]) {
-            gamesByDate[dateKey] = [];
-        }
-        gamesByDate[dateKey].push(g);
-    });
-
-    // Get sorted unique dates
-    const sortedDates = Object.keys(gamesByDate).sort();
-
-    // Build trips using a sliding window approach
-    // For each game, try to extend into a trip
-    const usedGameKeys = new Set(); // Track games already in trips
-
-    games.forEach(startGame => {
-        const gameKey = `${startGame.venue}-${startGame.date}`;
-        if (usedGameKeys.has(gameKey)) return;
-
-        // Try to build a trip starting from this game
-        const trip = [startGame];
-        let currentDate = new Date(startGame.gameDate);
-        let lastGame = startGame;
-
-        // Look for games on subsequent days
-        for (let dayOffset = 1; dayOffset <= maxGap * 30; dayOffset++) { // Check up to 30 * maxGap days ahead
-            const nextDate = new Date(currentDate);
-            nextDate.setDate(nextDate.getDate() + dayOffset);
-            const nextDateKey = nextDate.toISOString().split('T')[0];
-
-            // Check if we've exceeded the max gap from the last game in our trip
-            const lastGameDate = trip[trip.length - 1].gameDate;
-            const daysSinceLastGame = Math.floor((nextDate - lastGameDate) / (1000 * 60 * 60 * 24));
-
-            if (daysSinceLastGame > maxGap) {
-                // We've exceeded the gap - stop extending this trip
-                break;
-            }
-
-            if (gamesByDate[nextDateKey]) {
-                // Find games on this date that are within distance of ANY game in current trip
-                const nearbyGames = gamesByDate[nextDateKey].filter(candidate => {
-                    // Check distance from the last game in the trip
-                    const lastTripGame = trip[trip.length - 1];
-                    const dist = haversineDistance(
-                        lastTripGame.coords[0], lastTripGame.coords[1],
-                        candidate.coords[0], candidate.coords[1]
-                    );
-                    return dist <= maxDistance;
-                });
-
-                if (nearbyGames.length > 0) {
-                    // Add the closest game to the trip
-                    const lastTripGame = trip[trip.length - 1];
-                    nearbyGames.sort((a, b) => {
-                        const distA = haversineDistance(lastTripGame.coords[0], lastTripGame.coords[1], a.coords[0], a.coords[1]);
-                        const distB = haversineDistance(lastTripGame.coords[0], lastTripGame.coords[1], b.coords[0], b.coords[1]);
-                        return distA - distB;
-                    });
-
-                    trip.push(nearbyGames[0]);
-                }
-            }
-        }
-
-        // Only keep trips with minimum number of games
-        if (trip.length >= minGames) {
-            // Calculate total distance and span
-            let totalDistance = 0;
-            for (let i = 1; i < trip.length; i++) {
-                totalDistance += haversineDistance(
-                    trip[i-1].coords[0], trip[i-1].coords[1],
-                    trip[i].coords[0], trip[i].coords[1]
-                );
-            }
-
-            const firstDate = trip[0].gameDate;
-            const lastDate = trip[trip.length - 1].gameDate;
-            const daySpan = Math.floor((lastDate - firstDate) / (1000 * 60 * 60 * 24)) + 1;
-
-            // Mark these games as used
-            trip.forEach(g => {
-                usedGameKeys.add(`${g.venue}-${g.date}`);
-            });
-
-            trips.push({
-                games: trip,
-                totalDistance: Math.round(totalDistance),
-                daySpan,
-                uniqueVenues: new Set(trip.map(g => g.venue)).size
-            });
-        }
-    });
-
-    return trips;
-}
-
-function renderTrip(trip, index) {
-    const firstGame = trip.games[0];
-    const lastGame = trip.games[trip.games.length - 1];
-
-    // Format date range
-    const startDateStr = firstGame.gameDate.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
-    const endDateStr = lastGame.gameDate.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
-    const dateRange = trip.games.length === 1 ? startDateStr :
-        (startDateStr === endDateStr ? startDateStr : `${startDateStr} - ${endDateStr}`);
-
-    // Build itinerary
-    let prevGame = null;
-    const itinerary = trip.games.map((game, i) => {
-        let distanceNote = '';
-        if (prevGame) {
-            const dist = Math.round(haversineDistance(
-                prevGame.coords[0], prevGame.coords[1],
-                game.coords[0], game.coords[1]
-            ));
-            distanceNote = `<span class="trip-distance">↳ ${dist} mi</span>`;
-        }
-        prevGame = game;
-
-        const gameDate = game.gameDate.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
-        const timeMatch = game.time_detail?.match(/(\d{1,2}:\d{2}\s*(?:AM|PM))/i);
-        const timeStr = timeMatch ? timeMatch[1] : '';
-
-        const tvBadge = game.tv && game.tv.length > 0
-            ? `<span class="trip-tv">${game.tv[0]}</span>`
-            : '';
-
-        return `
-            <div class="trip-game">
-                ${distanceNote}
-                <div class="trip-game-info">
-                    <span class="trip-date">${gameDate}${timeStr ? ' · ' + timeStr : ''}</span>
-                    <span class="trip-matchup">${formatMatchupWithRanks(game)}</span>
-                    <span class="trip-venue">${game.venue}, ${game.city}</span>
-                    ${tvBadge}
-                </div>
-            </div>
-        `;
-    }).join('');
-
-    return `
-        <div class="trip-card">
-            <div class="trip-header">
-                <div class="trip-title">
-                    <span class="trip-number">#${index + 1}</span>
-                    <span class="trip-games-count">${trip.games.length} Games</span>
-                    <span class="trip-venues-count">${trip.uniqueVenues} Venue${trip.uniqueVenues > 1 ? 's' : ''}</span>
-                </div>
-                <div class="trip-meta">
-                    <span class="trip-dates">${dateRange}</span>
-                    <span class="trip-total-distance">${trip.totalDistance} mi total</span>
-                </div>
-            </div>
-            <div class="trip-itinerary">
-                ${itinerary}
-            </div>
-        </div>
-    `;
-}
-
-function populateRecords() {
-    const games = DATA.games || [];
-    if (games.length === 0) return;
-
-    // Calculate margin for each game
-    const gamesWithMargin = games.map(g => {
-        const awayScore = parseInt(g['Away Score']) || 0;
-        const homeScore = parseInt(g['Home Score']) || 0;
-        const margin = Math.abs(homeScore - awayScore);
-        const total = homeScore + awayScore;
-        const winner = homeScore > awayScore ? g['Home Team'] : g['Away Team'];
-        const loser = homeScore > awayScore ? g['Away Team'] : g['Home Team'];
-        const winnerScore = Math.max(homeScore, awayScore);
-        const loserScore = Math.min(homeScore, awayScore);
-        return { ...g, margin, total, winner, loser, winnerScore, loserScore };
-    });
-
-    // Top 10 biggest blowouts
-    const blowouts = [...gamesWithMargin].sort((a, b) => b.margin - a.margin).slice(0, 10);
-    const blowoutsHtml = blowouts.map((g, i) => {
-        const wTag = g.Gender === 'W' ? ' (W)' : '';
-        return `
-            <div class="record-item" onclick="showGameDetail('${g.GameID || ''}')">
-                <span class="rank">${i + 1}.</span>
-                <span class="teams">${g.winner}${wTag} def. ${g.loser}${wTag}</span>
-                <span class="score">${g.winnerScore}-${g.loserScore}</span>
-                <span class="margin">+${g.margin}</span>
-            </div>
-        `;
-    }).join('');
-    document.getElementById('records-blowouts').innerHTML = blowoutsHtml || '<p>No games</p>';
-
-    // Top 10 closest games
-    const closest = [...gamesWithMargin].sort((a, b) => a.margin - b.margin).slice(0, 10);
-    const closestHtml = closest.map((g, i) => {
-        const wTag = g.Gender === 'W' ? ' (W)' : '';
-        return `
-            <div class="record-item" onclick="showGameDetail('${g.GameID || ''}')">
-                <span class="rank">${i + 1}.</span>
-                <span class="teams">${g.winner}${wTag} def. ${g.loser}${wTag}</span>
-                <span class="score">${g.winnerScore}-${g.loserScore}</span>
-                <span class="margin">+${g.margin}</span>
-            </div>
-        `;
-    }).join('');
-    document.getElementById('records-closest').innerHTML = closestHtml || '<p>No games</p>';
-
-    // Top 10 highest scoring games (combined)
-    const highest = [...gamesWithMargin].sort((a, b) => b.total - a.total).slice(0, 10);
-    const highestHtml = highest.map((g, i) => {
-        const wTag = g.Gender === 'W' ? ' (W)' : '';
-        const awayScore = parseInt(g['Away Score']) || 0;
-        const homeScore = parseInt(g['Home Score']) || 0;
-        return `
-            <div class="record-item" onclick="showGameDetail('${g.GameID || ''}')">
-                <span class="rank">${i + 1}.</span>
-                <span class="teams">${g['Away Team']}${wTag} @ ${g['Home Team']}${wTag}</span>
-                <span class="score">${awayScore}-${homeScore}</span>
-                <span class="total">${g.total} pts</span>
-            </div>
-        `;
-    }).join('');
-    document.getElementById('records-highest').innerHTML = highestHtml || '<p>No games</p>';
-
-    // Top 10 lowest scoring games (combined)
-    const lowest = [...gamesWithMargin].sort((a, b) => a.total - b.total).slice(0, 10);
-    const lowestHtml = lowest.map((g, i) => {
-        const wTag = g.Gender === 'W' ? ' (W)' : '';
-        const awayScore = parseInt(g['Away Score']) || 0;
-        const homeScore = parseInt(g['Home Score']) || 0;
-        return `
-            <div class="record-item" onclick="showGameDetail('${g.GameID || ''}')">
-                <span class="rank">${i + 1}.</span>
-                <span class="teams">${g['Away Team']}${wTag} @ ${g['Home Team']}${wTag}</span>
-                <span class="score">${awayScore}-${homeScore}</span>
-                <span class="total">${g.total} pts</span>
-            </div>
-        `;
-    }).join('');
-    document.getElementById('records-lowest').innerHTML = lowestHtml || '<p>No games</p>';
-
-    // Build single-team scoring records (each game contributes 2 entries - one per team)
-    const singleTeamScores = [];
-    games.forEach(g => {
-        const awayScore = parseInt(g['Away Score']) || 0;
-        const homeScore = parseInt(g['Home Score']) || 0;
-        const wTag = g.Gender === 'W' ? ' (W)' : '';
-        singleTeamScores.push({
-            team: g['Away Team'],
-            opponent: g['Home Team'],
-            score: awayScore,
-            oppScore: homeScore,
-            gameId: g.GameID,
-            wTag,
-            isAway: true
-        });
-        singleTeamScores.push({
-            team: g['Home Team'],
-            opponent: g['Away Team'],
-            score: homeScore,
-            oppScore: awayScore,
-            gameId: g.GameID,
-            wTag,
-            isAway: false
-        });
-    });
-
-    // Top 10 most points by single team
-    const mostSingle = [...singleTeamScores].sort((a, b) => b.score - a.score).slice(0, 10);
-    const mostSingleHtml = mostSingle.map((g, i) => `
-        <div class="record-item" onclick="showGameDetail('${g.gameId || ''}')">
-            <span class="rank">${i + 1}.</span>
-            <span class="teams">${g.team}${g.wTag} ${g.isAway ? '@' : 'vs'} ${g.opponent}${g.wTag}</span>
-            <span class="score">${g.score}-${g.oppScore}</span>
-            <span class="total">${g.score} pts</span>
-        </div>
-    `).join('');
-    document.getElementById('records-most-single').innerHTML = mostSingleHtml || '<p>No games</p>';
-
-    // Top 10 fewest points by single team
-    const fewestSingle = [...singleTeamScores].sort((a, b) => a.score - b.score).slice(0, 10);
-    const fewestSingleHtml = fewestSingle.map((g, i) => `
-        <div class="record-item" onclick="showGameDetail('${g.gameId || ''}')">
-            <span class="rank">${i + 1}.</span>
-            <span class="teams">${g.team}${g.wTag} ${g.isAway ? '@' : 'vs'} ${g.opponent}${g.wTag}</span>
-            <span class="score">${g.score}-${g.oppScore}</span>
-            <span class="total">${g.score} pts</span>
-        </div>
-    `).join('');
-    document.getElementById('records-fewest-single').innerHTML = fewestSingleHtml || '<p>No games</p>';
-
-    // 100+ point games - only show section if there are any
-    const hundredPtGames = singleTeamScores.filter(g => g.score >= 100).sort((a, b) => b.score - a.score);
-    const hundredPtContainer = document.getElementById('records-100pt');
-    if (hundredPtContainer) {
-        const section = hundredPtContainer.closest('.records-section');
-        if (hundredPtGames.length > 0) {
-            section.style.display = '';
-            hundredPtContainer.innerHTML = hundredPtGames.map((g, i) => `
-                <div class="record-item" onclick="showGameDetail('${g.gameId || ''}')">
-                    <span class="rank">${i + 1}.</span>
-                    <span class="teams">${g.team}${g.wTag} ${g.isAway ? '@' : 'vs'} ${g.opponent}${g.wTag}</span>
-                    <span class="score">${g.score}-${g.oppScore}</span>
-                    <span class="total">${g.score} pts</span>
-                </div>
-            `).join('');
-        } else {
-            section.style.display = 'none';
-        }
-    }
-
-    // Biggest Comebacks - from ESPN PBP data
-    const comebacks = [];
-    games.forEach(g => {
-        const espnPbp = g.ESPNPBPAnalysis || {};
-        if (espnPbp.biggestComeback && espnPbp.biggestComeback.deficit > 0 && !espnPbp.biggestComeback.neverTrailed) {
-            const cb = espnPbp.biggestComeback;
-            const wTag = g.Gender === 'W' ? ' (W)' : '';
-            comebacks.push({
-                team: cb.team,
-                deficit: cb.deficit,
-                won: cb.won,
-                gameId: g.GameID,
-                awayTeam: g['Away Team'],
-                homeTeam: g['Home Team'],
-                wTag
-            });
-        }
-    });
-    comebacks.sort((a, b) => b.deficit - a.deficit);
-    const comebacksContainer = document.getElementById('records-comebacks');
-    if (comebacksContainer) {
-        const section = comebacksContainer.closest('.records-section');
-        if (comebacks.length > 0) {
-            section.style.display = '';
-            comebacksContainer.innerHTML = comebacks.slice(0, 10).map((c, i) => `
-                <div class="record-item player-record" onclick="showGameDetail('${c.gameId || ''}')">
-                    <span class="rank">${i + 1}.</span>
-                    <div class="record-details">
-                        <div class="record-main">
-                            <span class="player-name">${c.team}${c.wTag}</span>
-                            <span class="stat-value">${c.deficit}-pt deficit</span>
-                        </div>
-                        <div class="record-sub">${c.awayTeam} @ ${c.homeTeam} | ${c.won ? 'Won' : 'Lost'}</div>
-                    </div>
-                </div>
-            `).join('');
-        } else {
-            section.style.display = 'none';
-        }
-    }
-
-    // Largest Scoring Runs - from ESPN PBP data
-    const runs = [];
-    games.forEach(g => {
-        const espnPbp = g.ESPNPBPAnalysis || {};
-        if (espnPbp.teamScoringRuns && espnPbp.teamScoringRuns.length > 0) {
-            const wTag = g.Gender === 'W' ? ' (W)' : '';
-            espnPbp.teamScoringRuns.forEach(r => {
-                if (r.points >= 8) {
-                    runs.push({
-                        team: r.team,
-                        points: r.points,
-                        startScore: r.startScore,
-                        endScore: r.endScore,
-                        startTime: r.startTime,
-                        endTime: r.endTime,
-                        period: r.endPeriod,
-                        gameId: g.GameID,
-                        wTag
-                    });
-                }
-            });
-        }
-    });
-    runs.sort((a, b) => b.points - a.points);
-    const runsContainer = document.getElementById('records-runs');
-    if (runsContainer) {
-        const section = runsContainer.closest('.records-section');
-        if (runs.length > 0) {
-            section.style.display = '';
-            const periodLabel = (p) => p === 1 ? '1st' : p === 2 ? '2nd' : `OT${p - 2 || ''}`;
-            // Helper to calculate time duration between two clock times
-            const calcDuration = (startTime, endTime) => {
-                if (!startTime || !endTime) return '';
-                const parseTime = (t) => {
-                    const match = t.match(/(\d+):(\d+)/);
-                    return match ? parseInt(match[1]) * 60 + parseInt(match[2]) : null;
-                };
-                const startSec = parseTime(startTime);
-                const endSec = parseTime(endTime);
-                if (startSec === null || endSec === null) return '';
-                const durationSec = startSec - endSec;  // Clock counts down
-                if (durationSec <= 0) return '';
-                const mins = Math.floor(durationSec / 60);
-                const secs = durationSec % 60;
-                return mins > 0 ? `${mins}:${secs.toString().padStart(2, '0')}` : `${secs}s`;
-            };
-            runsContainer.innerHTML = runs.slice(0, 10).map((r, i) => {
-                const duration = calcDuration(r.startTime, r.endTime);
-                const durationText = duration ? ` (${duration})` : '';
-                return `
-                    <div class="record-item player-record" onclick="showGameDetail('${r.gameId || ''}')">
-                        <span class="rank">${i + 1}.</span>
-                        <div class="record-details">
-                            <div class="record-main">
-                                <span class="player-name">${r.team}${r.wTag}</span>
-                                <span class="stat-value">${r.points}-0 run</span>
-                            </div>
-                            <div class="record-sub">${r.startScore} → ${r.endScore} | ${r.startTime}-${r.endTime}${durationText} ${periodLabel(r.period)}</div>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        } else {
-            section.style.display = 'none';
-        }
-    }
-
-    // Longest Player Streaks - from ESPN PBP data
-    const streaks = [];
-    games.forEach(g => {
-        const espnPbp = g.ESPNPBPAnalysis || {};
-        if (espnPbp.playerPointStreaks && espnPbp.playerPointStreaks.length > 0) {
-            const wTag = g.Gender === 'W' ? ' (W)' : '';
-            espnPbp.playerPointStreaks.forEach(s => {
-                if (s.points >= 6) {
-                    streaks.push({
-                        player: s.player,
-                        team: s.team,
-                        points: s.points,
-                        startTime: s.startTime,
-                        endTime: s.endTime,
-                        startScore: s.startScore,
-                        endScore: s.endScore,
-                        period: s.endPeriod,
-                        gameId: g.GameID,
-                        wTag
-                    });
-                }
-            });
-        }
-    });
-    streaks.sort((a, b) => b.points - a.points);
-    const streaksContainer = document.getElementById('records-streaks');
-    if (streaksContainer) {
-        const section = streaksContainer.closest('.records-section');
-        if (streaks.length > 0) {
-            section.style.display = '';
-            const periodLabel = (p) => p === 1 ? '1st' : p === 2 ? '2nd' : `OT${p - 2 || ''}`;
-            streaksContainer.innerHTML = streaks.slice(0, 10).map((s, i) => {
-                const scoreChange = s.startScore && s.endScore ? `${s.startScore} → ${s.endScore}` : '';
-                const timeInfo = s.startTime && s.endTime ? `${s.startTime}-${s.endTime}` : '';
-                const details = [scoreChange, timeInfo, periodLabel(s.period)].filter(x => x).join(' | ');
-                return `
-                    <div class="record-item player-record" onclick="showGameDetail('${s.gameId || ''}')">
-                        <span class="rank">${i + 1}.</span>
-                        <div class="record-details">
-                            <div class="record-main">
-                                <span class="player-name">${s.player}${s.wTag}</span>
-                                <span class="stat-value">${s.points} straight pts</span>
-                            </div>
-                            <div class="record-sub">${s.team}${details ? ' | ' + details : ''}</div>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        } else {
-            section.style.display = 'none';
-        }
-    }
-
-    // Earliest/Latest Decisive Shots - from ESPN PBP data
-    const decisiveShots = [];
-    games.forEach(g => {
-        const espnPbp = g.ESPNPBPAnalysis || {};
-        if (espnPbp.decisiveShot) {
-            const ds = espnPbp.decisiveShot;
-            const gender = g.Gender || 'M';
-            const wTag = gender === 'W' ? ' (W)' : '';
-            // Parse time to minutes for sorting
-            const timeMatch = (ds.time || '').match(/(\d+):(\d+)/);
-            const timeMinutes = timeMatch ? parseInt(timeMatch[1]) + parseInt(timeMatch[2])/60 : 0;
-
-            // Normalize period for sorting - women's Q4 = men's 2nd half (regulation end)
-            const isRegulation = gender === 'W' ? ds.period <= 4 : ds.period <= 2;
-            const isOT = gender === 'W' ? ds.period > 4 : ds.period > 2;
-            const otNumber = gender === 'W' ? ds.period - 4 : ds.period - 2;
-
-            decisiveShots.push({
-                player: ds.player,
-                team: ds.team || '',
-                time: ds.time || '',
-                period: ds.period || 2,
-                timeMinutes,
-                gameId: g.GameID,
-                awayTeam: g['Away Team'],
-                homeTeam: g['Home Team'],
-                wTag,
-                gender,
-                isRegulation,
-                isOT,
-                otNumber,
-                score: ds.score || '',
-            });
-        }
-    });
-
-    // Helper to get period label
-    const getPeriodLabel = (d) => {
-        if (d.gender === 'W') {
-            if (d.period <= 4) return `Q${d.period}`;
-            return `OT${d.period - 4 || ''}`;
-        } else {
-            if (d.period === 1) return '1st half';
-            if (d.period === 2) return '2nd half';
-            return `OT${d.period - 2 || ''}`;
-        }
-    };
-
-    // Earliest decisive shots (most time remaining in regulation)
-    const earliestContainer = document.getElementById('records-earliest-decisive');
-    if (earliestContainer) {
-        const section = earliestContainer.closest('.records-section');
-        // Include all regulation shots (1st half, 2nd half for men; Q1-Q4 for women)
-        const regulationShots = decisiveShots.filter(d => d.isRegulation);
-        if (regulationShots.length > 0) {
-            section.style.display = '';
-            // Sort by period asc (earlier periods first), then timeMinutes desc (more time remaining)
-            regulationShots.sort((a, b) => {
-                if (a.period !== b.period) return a.period - b.period;
-                return b.timeMinutes - a.timeMinutes;
-            });
-            earliestContainer.innerHTML = regulationShots.slice(0, 10).map((d, i) => {
-                const displayName = d.player ? `${d.player} (${d.team})` : d.team;
-                return `
-                    <div class="record-item player-record" onclick="showGameDetail('${d.gameId || ''}')">
-                        <span class="rank">${i + 1}.</span>
-                        <div class="record-details">
-                            <div class="record-main">
-                                <span class="player-name">${displayName}${d.wTag}</span>
-                                <span class="stat-value">${d.time} ${getPeriodLabel(d)}</span>
-                            </div>
-                            <div class="record-sub">${d.awayTeam} @ ${d.homeTeam}${d.score ? ' → ' + d.score : ''}</div>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        } else {
-            section.style.display = 'none';
-        }
-    }
-
-    // Latest decisive shots (least time remaining - OT first, then end of regulation)
-    const latestContainer = document.getElementById('records-latest-decisive');
-    if (latestContainer) {
-        const section = latestContainer.closest('.records-section');
-        if (decisiveShots.length > 0) {
-            section.style.display = '';
-            // Sort: OT shots first (by OT number desc, then time asc), then regulation (by period desc, time asc)
-            decisiveShots.sort((a, b) => {
-                // OT shots come first
-                if (a.isOT && !b.isOT) return -1;
-                if (!a.isOT && b.isOT) return 1;
-                // Both OT: higher OT number first, then lower time
-                if (a.isOT && b.isOT) {
-                    if (a.otNumber !== b.otNumber) return b.otNumber - a.otNumber;
-                    return a.timeMinutes - b.timeMinutes;
-                }
-                // Both regulation: later period first, then lower time
-                if (a.period !== b.period) return b.period - a.period;
-                return a.timeMinutes - b.timeMinutes;
-            });
-            latestContainer.innerHTML = decisiveShots.slice(0, 10).map((d, i) => {
-                const displayName = d.player ? `${d.player} (${d.team})` : d.team;
-                return `
-                    <div class="record-item player-record" onclick="showGameDetail('${d.gameId || ''}')">
-                        <span class="rank">${i + 1}.</span>
-                        <div class="record-details">
-                            <div class="record-main">
-                                <span class="player-name">${displayName}${d.wTag}</span>
-                                <span class="stat-value">${d.time} ${getPeriodLabel(d)}</span>
-                            </div>
-                            <div class="record-sub">${d.awayTeam} @ ${d.homeTeam}${d.score ? ' → ' + d.score : ''}</div>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        } else {
-            section.style.display = 'none';
-        }
-    }
-
-}
-
-// Scorigami functions
-function renderScorigami() {
-    const gender = document.getElementById('scorigami-gender')?.value || '';
-    const games = (DATA.games || []).filter(g => {
-        if (gender && g.Gender !== gender) return false;
-        return g['Away Score'] && g['Home Score'];
-    });
-
-    // Build score map: key = "winScore-loseScore" => array of games
-    const scoreMap = {};
-    let minLose = Infinity, maxLose = 0, minWin = Infinity, maxWin = 0;
-
-    games.forEach(g => {
-        const away = parseInt(g['Away Score']) || 0;
-        const home = parseInt(g['Home Score']) || 0;
-        const winScore = Math.max(away, home);
-        const loseScore = Math.min(away, home);
-        const key = `${winScore}-${loseScore}`;
-
-        if (!scoreMap[key]) scoreMap[key] = [];
-        scoreMap[key].push(g);
-
-        minLose = Math.min(minLose, loseScore);
-        maxLose = Math.max(maxLose, loseScore);
-        minWin = Math.min(minWin, winScore);
-        maxWin = Math.max(maxWin, winScore);
-    });
-
-    // Update stats
-    const uniqueCount = Object.keys(scoreMap).length;
-    document.getElementById('scorigami-unique').textContent = uniqueCount;
-    document.getElementById('scorigami-total').textContent = games.length;
-
-    // Find most common score
-    let mostCommonKey = null;
-    let mostCommonCount = 0;
-    for (const [key, gamesArr] of Object.entries(scoreMap)) {
-        if (gamesArr.length > mostCommonCount) {
-            mostCommonCount = gamesArr.length;
-            mostCommonKey = key;
-        }
-    }
-    if (mostCommonKey) {
-        const [win, lose] = mostCommonKey.split('-');
-        document.getElementById('scorigami-most-common').textContent = `${win}-${lose} (${mostCommonCount}×)`;
-    } else {
-        document.getElementById('scorigami-most-common').textContent = '-';
-    }
-
-    // Build grid - Winner score on X-axis (columns), Loser score on Y-axis (rows)
-    const grid = document.getElementById('scorigami-grid');
-    if (games.length === 0) {
-        grid.innerHTML = '<p style="padding: 1rem; color: var(--text-secondary);">No games to display</p>';
-        return;
-    }
-
-    // Use actual min/max from data
-    const startLose = minLose;
-    const endLose = maxLose;
-    const startWin = minWin;
-    const endWin = maxWin;
-
-    let html = '<thead><tr><th></th>';
-
-    // Header row: winner scores (low to high)
-    for (let win = startWin; win <= endWin; win++) {
-        html += `<th>${win}</th>`;
-    }
-    html += '</tr></thead><tbody>';
-
-    // Data rows: loser scores (low to high)
-    for (let lose = startLose; lose <= endLose; lose++) {
-        html += `<tr><th>${lose}</th>`;
-        for (let win = startWin; win <= endWin; win++) {
-            const key = `${win}-${lose}`;
-            const gamesAtScore = scoreMap[key] || [];
-            const count = gamesAtScore.length;
-            const impossible = lose >= win;
-
-            let cellClass = '';
-            let cellContent = '';
-            let cellAttrs = '';
-
-            if (impossible) {
-                cellClass = 'impossible';
-            } else if (count > 0) {
-                cellClass = 'has-game';
-                if (count >= 6) cellClass += ' count-6';
-                else if (count >= 5) cellClass += ' count-5';
-                else if (count >= 4) cellClass += ' count-4';
-                else if (count >= 3) cellClass += ' count-3';
-                else if (count >= 2) cellClass += ' count-2';
-                cellContent = count;
-                cellAttrs = ` onclick="showScorigamiGames(${win}, ${lose}, event)" onmouseenter="showScorigamiTooltip(event, ${win}, ${lose})" onmouseleave="hideScorigamiTooltip()"`;
-            } else {
-                cellClass = 'empty';
-            }
-
-            html += `<td class="${cellClass}"${cellAttrs}>${cellContent}</td>`;
-        }
-        html += '</tr>';
-    }
-    html += '</tbody>';
-
-    grid.innerHTML = html;
-}
-
-function getScorigamiGames(winScore, loseScore) {
-    const gender = document.getElementById('scorigami-gender')?.value || '';
-    return (DATA.games || []).filter(g => {
-        if (gender && g.Gender !== gender) return false;
-        const away = parseInt(g['Away Score']) || 0;
-        const home = parseInt(g['Home Score']) || 0;
-        const win = Math.max(away, home);
-        const lose = Math.min(away, home);
-        return win === winScore && lose === loseScore;
-    });
-}
-
-function showScorigamiTooltip(event, winScore, loseScore) {
-    const games = getScorigamiGames(winScore, loseScore);
-    if (games.length === 0) return;
-
-    const tooltip = document.getElementById('scorigami-tooltip');
-    let html = `<h4>${winScore}-${loseScore}</h4>`;
-    html += games.slice(0, 5).map(g => {
-        const away = parseInt(g['Away Score']) || 0;
-        const home = parseInt(g['Home Score']) || 0;
-        const wTag = g.Gender === 'W' ? ' (W)' : '';
-        return `<div class="game-item">${g['Away Team']}${wTag} ${away} @ ${g['Home Team']}${wTag} ${home}<br><small>${g.Date || ''}</small></div>`;
-    }).join('');
-    if (games.length > 5) {
-        html += `<div style="color: var(--text-secondary); font-size: 0.8rem; margin-top: 0.5rem;">+${games.length - 5} more</div>`;
-    }
-
-    tooltip.innerHTML = html;
-    tooltip.classList.add('visible');
-
-    const rect = event.target.getBoundingClientRect();
-    tooltip.style.left = Math.min(rect.right + 10, window.innerWidth - 320) + 'px';
-    tooltip.style.top = Math.max(10, rect.top - 50) + 'px';
-}
-
-function hideScorigamiTooltip(force) {
-    const tooltip = document.getElementById('scorigami-tooltip');
-    if (!force && tooltip.classList.contains('interactive')) return;
-    tooltip.classList.remove('visible', 'interactive');
-}
-
-function showScorigamiGames(winScore, loseScore, event) {
-    const games = getScorigamiGames(winScore, loseScore);
-    if (games.length === 1) {
-        showGameDetail(games[0].GameID);
-    } else if (games.length > 1) {
-        hideScorigamiTooltip();
-        const popup = document.getElementById('scorigami-tooltip');
-        let html = `<h4>${winScore}-${loseScore} (${games.length} games)</h4>`;
-        html += '<div style="max-height: 300px; overflow-y: auto;">';
-        html += games.map(g => {
-            const away = parseInt(g['Away Score']) || 0;
-            const home = parseInt(g['Home Score']) || 0;
-            const wTag = g.Gender === 'W' ? ' (W)' : '';
-            return `<div class="game-item" data-game-id="${g.GameID}">${g['Away Team']}${wTag} ${away} @ ${g['Home Team']}${wTag} ${home}<br><small>${g.Date || ''}</small></div>`;
-        }).join('');
-        html += '</div>';
-        popup.innerHTML = html;
-        popup.classList.add('visible', 'interactive');
-
-        if (event) {
-            const rect = event.target.getBoundingClientRect();
-            popup.style.left = Math.min(rect.right + 10, window.innerWidth - 340) + 'px';
-            popup.style.top = Math.max(10, rect.top) + 'px';
-        }
-    }
-}
-
-// Handle clicks on scorigami popup game items
-document.addEventListener('click', function(e) {
-    const gameItem = e.target.closest('.scorigami-tooltip .game-item');
-    if (gameItem && gameItem.dataset.gameId) {
-        e.stopPropagation();
-        hideScorigamiTooltip(true);
-        showGameDetail(gameItem.dataset.gameId);
-        return;
-    }
-
-    // Close scorigami popup when clicking outside
-    const tooltip = document.getElementById('scorigami-tooltip');
-    if (tooltip && tooltip.classList.contains('interactive') && !tooltip.contains(e.target) && !e.target.closest('.scorigami-grid')) {
-        hideScorigamiTooltip(true);
-    }
-});
-
-function populatePlayerRecords() {
-    const playerGames = DATA.playerGames || [];
-    if (playerGames.length === 0) return;
-
-    // Helper to render a record list
-    const renderRecords = (sorted, statKey, label) => {
-        return sorted.slice(0, 10).map((g, i) => {
-            const wTag = g.gender === 'W' ? ' (W)' : '';
-            return `
-                <div class="record-item player-record" onclick="showGameDetail('${g.game_id || ''}')">
-                    <span class="rank">${i + 1}.</span>
-                    <div class="record-details">
-                        <div class="record-main">
-                            <span class="player-name">${g.player}</span>
-                            <span class="stat-value">${g[statKey]} ${label}</span>
-                        </div>
-                        <div class="record-sub">${g.team} vs ${g.opponent}${wTag}</div>
-                    </div>
-                </div>
-            `;
-        }).join('');
-    };
-
-    // Most points
-    const byPts = [...playerGames].sort((a, b) => (b.pts || 0) - (a.pts || 0));
-    document.getElementById('player-records-pts').innerHTML = renderRecords(byPts, 'pts', 'pts') || '<p>No data</p>';
-
-    // Most rebounds
-    const byReb = [...playerGames].sort((a, b) => (b.trb || 0) - (a.trb || 0));
-    document.getElementById('player-records-reb').innerHTML = renderRecords(byReb, 'trb', 'reb') || '<p>No data</p>';
-
-    // Most assists
-    const byAst = [...playerGames].sort((a, b) => (b.ast || 0) - (a.ast || 0));
-    document.getElementById('player-records-ast').innerHTML = renderRecords(byAst, 'ast', 'ast') || '<p>No data</p>';
-
-    // Most 3-pointers
-    const by3pm = [...playerGames].sort((a, b) => (b.fg3 || 0) - (a.fg3 || 0));
-    document.getElementById('player-records-3pm').innerHTML = renderRecords(by3pm, 'fg3', '3pm') || '<p>No data</p>';
-
-    // Most steals
-    const byStl = [...playerGames].sort((a, b) => (b.stl || 0) - (a.stl || 0));
-    document.getElementById('player-records-stl').innerHTML = renderRecords(byStl, 'stl', 'stl') || '<p>No data</p>';
-
-    // Most blocks
-    const byBlk = [...playerGames].sort((a, b) => (b.blk || 0) - (a.blk || 0));
-    document.getElementById('player-records-blk').innerHTML = renderRecords(byBlk, 'blk', 'blk') || '<p>No data</p>';
-}
-
-function populateStreaksTable() {
-    const tbody = document.querySelector('#streaks-table tbody');
-    const data = DATA.teamStreaks || [];
-
-    if (data.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="6" class="empty-state"><h3>No streak data</h3></td></tr>';
-        return;
-    }
-
-    tbody.innerHTML = data.map(team => {
-        const genderTag = team.Gender === 'W' ? ' <span class="gender-tag">(W)</span>' : '';
-        return `
-        <tr>
-            <td>${team.Team || ''}${genderTag}</td>
-            <td>${team['Current Streak'] || '-'}</td>
-            <td>${team['Longest Win Streak'] || 0}</td>
-            <td>${team['Longest Loss Streak'] || 0}</td>
-            <td>${team['Last 5'] || '-'}</td>
-            <td>${team['Last 10'] || '-'}</td>
-        </tr>
-    `}).join('');
-}
-
-function populateSplitsTable() {
-    const tbody = document.querySelector('#splits-table tbody');
-    const data = DATA.homeAwaySplits || [];
-
-    if (data.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="6" class="empty-state"><h3>No split data</h3></td></tr>';
-        return;
-    }
-
-    tbody.innerHTML = data.map(team => {
-        const genderTag = team.Gender === 'W' ? ' <span class="gender-tag">(W)</span>' : '';
-        return `
-        <tr>
-            <td>${team.Team || ''}${genderTag}</td>
-            <td>${team['Home W'] || 0}-${team['Home L'] || 0}</td>
-            <td>${((team['Home Win%'] || 0) * 100).toFixed(1)}%</td>
-            <td>${team['Away W'] || 0}-${team['Away L'] || 0}</td>
-            <td>${((team['Away Win%'] || 0) * 100).toFixed(1)}%</td>
-            <td>${team['Neutral W'] || 0}-${team['Neutral L'] || 0}</td>
-        </tr>
-    `}).join('');
-}
-
-function populateConferenceTable() {
-    const tbody = document.querySelector('#conference-table tbody');
-    const data = DATA.conferenceStandings || [];
-
-    if (data.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="5" class="empty-state"><h3>No conference data</h3></td></tr>';
-        return;
-    }
-
-    tbody.innerHTML = data.map(team => {
-        const genderTag = team.Gender === 'W' ? ' <span class="gender-tag">(W)</span>' : '';
-        return `
-        <tr>
-            <td>${team.Conference || 'Independent'}</td>
-            <td>${team.Team || ''}${genderTag}</td>
-            <td>${team['Conf W'] || 0}-${team['Conf L'] || 0}</td>
-            <td>${((team['Conf Win%'] || 0) * 100).toFixed(1)}%</td>
-            <td>${team['Overall W'] || 0}-${team['Overall L'] || 0}</td>
-        </tr>
-    `}).join('');
-}
-
-function initChecklist() {
-    const select = document.getElementById('checklist-conference');
-    const checklist = DATA.conferenceChecklist || {};
-    let conferences = Object.keys(checklist).sort();
-
-    // Move special entries to top/bottom
-    const specialOrder = ['All D1', 'Historical/Other'];
-    const realConferences = conferences.filter(c => !specialOrder.includes(c));
-    conferences = [...realConferences];
-    if (checklist['All D1']) conferences.unshift('All D1');
-    if (checklist['Historical/Other']) conferences.push('Historical/Other');
-
-    // Count conferences with at least one team seen
-    let conferencesSeen = 0;
-    const totalConferences = realConferences.length;
-    realConferences.forEach(conf => {
-        const data = checklist[conf];
-        if (data && data.teamsSeen > 0) {
-            conferencesSeen++;
-        }
-    });
-
-    // Update conferences seen count display
-    const countEl = document.getElementById('conferences-seen-count');
-    if (countEl) {
-        countEl.textContent = `${conferencesSeen}/${totalConferences}`;
-    }
-
-    conferences.forEach(conf => {
-        const option = document.createElement('option');
-        option.value = conf;
-        const data = checklist[conf];
-        // Display "Non-D1" instead of "Historical/Other"
-        const displayName = conf === 'Historical/Other' ? 'Non-D1' : conf;
-        option.textContent = `${displayName} (${data.teamsSeen}/${data.totalTeams})`;
-        select.appendChild(option);
-    });
-
-    // Auto-select first conference
-    if (conferences.length > 0) {
-        select.value = conferences[0];
-        populateChecklist();
-    }
-}
-
-function initCalendar() {
-    try {
-        renderCalendar();
-    } catch (e) {
-        console.error('Error in renderCalendar:', e);
-    }
-}
-
-function initOnThisDay() {
-    renderOnThisDay();
-}
-
-function renderOnThisDay() {
-    const today = new Date();
-    const currentMonth = today.getMonth() + 1;
-    const currentDay = today.getDate();
-
-    const monthNames = ['', 'January', 'February', 'March', 'April', 'May', 'June',
-                       'July', 'August', 'September', 'October', 'November', 'December'];
-    const dateLabel = document.getElementById('onthisday-date');
-    const content = document.getElementById('onthisday-content');
-    const emptyState = document.getElementById('onthisday-empty');
-
-    if (!dateLabel || !content || !emptyState) return;
-
-    dateLabel.textContent = `${monthNames[currentMonth]} ${currentDay}`;
-
-    // Find all games that occurred on this month/day (any year)
-    const games = (DATA.games || []).filter(g => {
-        const d = new Date(g.Date);
-        if (isNaN(d)) return false;
-        return (d.getMonth() + 1) === currentMonth && d.getDate() === currentDay;
-    });
-
-    if (games.length === 0) {
-        content.innerHTML = '';
-        emptyState.style.display = 'block';
-        return;
-    }
-
-    emptyState.style.display = 'none';
-
-    // Group games by year
-    const gamesByYear = {};
-    games.forEach(g => {
-        const d = new Date(g.Date);
-        const year = d.getFullYear();
-        if (!gamesByYear[year]) gamesByYear[year] = [];
-        gamesByYear[year].push(g);
-    });
-
-    // Sort years descending
-    const years = Object.keys(gamesByYear).map(Number).sort((a, b) => b - a);
-
-    let html = '<div class="onthisday-games">';
-    years.forEach(year => {
-        const yearGames = gamesByYear[year];
-        const yearsAgo = today.getFullYear() - year;
-        const yearsAgoText = yearsAgo === 0 ? 'Today' : yearsAgo === 1 ? '1 year ago' : `${yearsAgo} years ago`;
-
-        html += `
-            <div class="onthisday-year" style="margin-bottom: 1.5rem;">
-                <h4 style="margin-bottom: 0.75rem; color: var(--text-secondary); border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;">
-                    <span style="font-size: 1.25rem; color: var(--accent-color);">${year}</span>
-                    <span style="font-size: 0.9rem; margin-left: 0.5rem;">(${yearsAgoText})</span>
-                </h4>
-                <div class="onthisday-game-list">
-        `;
-
-        yearGames.forEach(g => {
-            const genderTag = g.Gender === 'M' ? '<span class="gender-seen gender-m">M</span>' :
-                             g.Gender === 'W' ? '<span class="gender-seen gender-w">W</span>' : '';
-            const awayWon = (g['Away Score'] || 0) > (g['Home Score'] || 0);
-            const homeWon = (g['Home Score'] || 0) > (g['Away Score'] || 0);
-            const awayStyle = awayWon ? 'font-weight: bold;' : '';
-            const homeStyle = homeWon ? 'font-weight: bold;' : '';
-
-            html += `
-                <div class="onthisday-game" style="background: var(--bg-primary); padding: 1rem; border-radius: 8px; margin-bottom: 0.75rem; cursor: pointer;" onclick="showGameDetail('${g.GameID}')">
-                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
-                        <div style="flex: 1; min-width: 200px;">
-                            <span style="${awayStyle}">${g['Away Team']}</span>
-                            <span style="margin: 0 0.5rem; color: var(--text-muted);">${g['Away Score'] || 0}</span>
-                            <span style="color: var(--text-muted);">@</span>
-                            <span style="margin: 0 0.5rem; color: var(--text-muted);">${g['Home Score'] || 0}</span>
-                            <span style="${homeStyle}">${g['Home Team']}</span>
-                            ${genderTag}
-                        </div>
-                        <div style="color: var(--text-secondary); font-size: 0.85rem;">
-                            ${g.Venue || ''}${g.City ? ', ' + g.City : ''}${g.State ? ', ' + g.State : ''}
-                        </div>
-                    </div>
-                </div>
-            `;
-        });
-
-        html += `
-                </div>
-            </div>
-        `;
-    });
-    html += '</div>';
-
-    content.innerHTML = html;
-}
-
-// School coordinates for map
-const SCHOOL_COORDS = {
-    // ACC
-    'Boston College': [42.3355, -71.1685],
-    'California': [37.8697, -122.2619],
-    'Clemson': [34.6834, -82.8374],
-    'Duke': [36.0014, -78.9382],
-    'Florida State': [30.4383, -84.3040],
-    'Georgia Tech': [33.7756, -84.3963],
-    'Louisville': [38.2186, -85.7585],
-    'Miami (FL)': [25.7145, -80.2833],
-    'NC State': [35.7872, -78.6705],
-    'North Carolina': [35.9049, -79.0469],
-    'Notre Dame': [41.7052, -86.2352],
-    'Pittsburgh': [40.4443, -79.9608],
-    'SMU': [32.8412, -96.7852],
-    'Stanford': [37.4346, -122.1609],
-    'Syracuse': [43.0481, -76.1474],
-    'Virginia': [38.0336, -78.5080],
-    'Virginia Tech': [37.2296, -80.4139],
-    'Wake Forest': [36.1338, -80.2820],
-    // Big Ten
-    'Illinois': [40.1020, -88.2272],
-    'Indiana': [39.1682, -86.5231],
-    'Iowa': [41.6611, -91.5499],
-    'Maryland': [38.9897, -76.9378],
-    'Michigan': [42.2808, -83.7430],
-    'Michigan State': [42.7284, -84.4822],
-    'Minnesota': [44.9740, -93.2277],
-    'Nebraska': [40.8202, -96.7005],
-    'Northwestern': [42.0565, -87.6753],
-    'Ohio State': [40.0076, -83.0251],
-    'Oregon': [44.0448, -123.0726],
-    'Penn State': [40.8148, -77.8563],
-    'Purdue': [40.4259, -86.9081],
-    'Rutgers': [40.5008, -74.4474],
-    'UCLA': [34.0689, -118.4452],
-    'USC': [34.0224, -118.2851],
-    'Washington': [47.6553, -122.3035],
-    'Wisconsin': [43.0731, -89.4012],
-    // SEC
-    'Alabama': [33.2098, -87.5692],
-    'Arkansas': [36.0679, -94.1737],
-    'Auburn': [32.6026, -85.4808],
-    'Florida': [29.6499, -82.3486],
-    'Georgia': [33.9480, -83.3773],
-    'Kentucky': [38.0406, -84.5037],
-    'LSU': [30.4133, -91.1838],
-    'Mississippi State': [33.4504, -88.7934],
-    'Missouri': [38.9517, -92.3341],
-    'Oklahoma': [35.2226, -97.4395],
-    'Ole Miss': [34.3647, -89.5387],
-    'South Carolina': [33.9940, -81.0254],
-    'Tennessee': [35.9544, -83.9295],
-    'Texas': [30.2849, -97.7341],
-    'Texas A&M': [30.6043, -96.3711],
-    'Vanderbilt': [36.1447, -86.8027],
-    // Big 12
-    'Arizona': [32.2319, -110.9501],
-    'Arizona State': [33.4255, -111.9400],
-    'Baylor': [31.5586, -97.1164],
-    'BYU': [40.2338, -111.6585],
-    'Cincinnati': [39.1329, -84.5150],
-    'Colorado': [40.0076, -105.2659],
-    'Houston': [29.7199, -95.3422],
-    'Iowa State': [42.0140, -93.6357],
-    'Kansas': [38.9543, -95.2558],
-    'Kansas State': [39.1836, -96.5717],
-    'Oklahoma State': [36.1156, -97.0584],
-    'TCU': [32.7098, -97.3633],
-    'Texas Tech': [33.5906, -101.8749],
-    'UCF': [28.6024, -81.2001],
-    'Utah': [40.7649, -111.8421],
-    'West Virginia': [39.6480, -79.9544],
-    // Big East
-    'Butler': [39.8407, -86.1694],
-    'UConn': [41.8084, -72.2495],
-    'Creighton': [41.2627, -95.9378],
-    'DePaul': [41.9253, -87.6569],
-    'Georgetown': [38.9076, -77.0723],
-    'Marquette': [43.0389, -87.9295],
-    'Providence': [41.8403, -71.4354],
-    'Seton Hall': [40.7424, -74.2433],
-    "St. John's": [40.7228, -73.7949],
-    'Villanova': [40.0346, -75.3378],
-    'Xavier': [39.1494, -84.4734],
-    // WCC
-    'Gonzaga': [47.6671, -117.4017],
-    'Loyola Marymount': [33.9700, -118.4175],
-    'Oregon State': [44.5646, -123.2750],
-    'Pacific': [37.9818, -121.3108],
-    'Pepperdine': [34.0400, -118.7098],
-    'Portland': [45.5646, -122.7225],
-    "Saint Mary's (CA)": [37.8406, -122.1081],
-    'San Diego': [32.7710, -117.1878],
-    'San Francisco': [37.7765, -122.4506],
-    'Santa Clara': [37.3496, -121.9390],
-    'Seattle': [47.6062, -122.3321],
-    'Seattle U': [47.6097, -122.3175],
-    'Washington State': [46.7324, -117.1631],
-    // American (AAC)
-    'Charlotte': [35.3074, -80.7330],
-    'East Carolina': [35.6066, -77.3664],
-    'Florida Atlantic': [26.3683, -80.1018],
-    'Memphis': [35.1174, -89.9711],
-    'North Texas': [33.2148, -97.1331],
-    'Rice': [29.7174, -95.4018],
-    'South Florida': [28.0587, -82.4139],
-    'Temple': [39.9812, -75.1495],
-    'Tulane': [29.9340, -90.1185],
-    'Tulsa': [36.1512, -95.9446],
-    'UAB': [33.5021, -86.7993],
-    'UTSA': [29.5830, -98.6197],
-    'Wichita State': [37.7200, -97.2957],
-    // Mountain West
-    'Air Force': [39.0068, -104.8836],
-    'Boise State': [43.6034, -116.2024],
-    'Colorado State': [40.5734, -105.0865],
-    'Fresno State': [36.8116, -119.7485],
-    'Grand Canyon': [33.5097, -112.1257],
-    'Nevada': [39.5497, -119.8143],
-    'New Mexico': [35.0853, -106.6056],
-    'San Diego State': [32.7761, -117.0701],
-    'San Jose State': [37.3352, -121.8811],
-    'UNLV': [36.1085, -115.1397],
-    'Utah State': [41.7520, -111.8126],
-    'Wyoming': [41.3149, -105.5666],
-    // Ivy League
-    'Brown': [41.8268, -71.4025],
-    'Columbia': [40.8075, -73.9626],
-    'Cornell': [42.4534, -76.4735],
-    'Dartmouth': [43.7044, -72.2887],
-    'Harvard': [42.3770, -71.1167],
-    'Penn': [39.9522, -75.1932],
-    'Princeton': [40.3440, -74.6514],
-    'Yale': [41.3111, -72.9267],
-    // Atlantic 10
-    'Dayton': [39.7405, -84.1796],
-    'Davidson': [35.5016, -80.8428],
-    'Duquesne': [40.4365, -79.9878],
-    'Fordham': [40.8612, -73.8865],
-    'George Mason': [38.8298, -77.3074],
-    'George Washington': [38.9007, -77.0508],
-    'La Salle': [40.0379, -75.1551],
-    'Loyola Chicago': [41.9998, -87.6579],
-    'Rhode Island': [41.4806, -71.5276],
-    'Richmond': [37.5740, -77.5400],
-    "Saint Joseph's": [40.0313, -75.2348],
-    'Saint Louis': [38.6361, -90.2340],
-    'St. Bonaventure': [42.0778, -78.4756],
-    'VCU': [37.5495, -77.4508],
-    // MVC
-    'Belmont': [36.1330, -86.7967],
-    'Bradley': [40.6984, -89.6177],
-    'Drake': [41.6005, -93.6527],
-    'Evansville': [37.9748, -87.5006],
-    'Illinois State': [40.5142, -88.9906],
-    'Indiana State': [39.4653, -87.4056],
-    'Murray State': [36.6127, -88.3151],
-    'Northern Iowa': [42.5142, -92.4631],
-    'Southern Illinois': [37.7145, -89.2173],
-    'UIC': [41.8719, -87.6484],
-    'Valparaiso': [41.4531, -87.0360],
-    // CAA
-    'Campbell': [35.4174, -78.8553],
-    'Charleston': [32.7833, -79.9370],
-    'Drexel': [39.9566, -75.1899],
-    'Elon': [36.1054, -79.5022],
-    'Hampton': [37.0231, -76.3346],
-    'Hofstra': [40.7154, -73.6004],
-    'Monmouth': [40.2774, -74.0046],
-    'UNCW': [34.2257, -77.8723],
-    'Northeastern': [42.3398, -71.0892],
-    'North Carolina A&T': [36.0726, -79.7777],
-    'Stony Brook': [40.9176, -73.1233],
-    'Towson': [39.3943, -76.6097],
-    'William & Mary': [37.2707, -76.7075],
-    // Patriot League
-    'American': [38.9365, -77.0878],
-    'Army': [41.3915, -73.9653],
-    'Boston University': [42.3505, -71.1054],
-    'Bucknell': [40.9553, -76.8847],
-    'Colgate': [42.8185, -75.5399],
-    'Holy Cross': [42.2373, -71.8078],
-    'Lafayette': [40.6977, -75.2109],
-    'Lehigh': [40.6084, -75.3781],
-    'Loyola (MD)': [39.3482, -76.6256],
-    'Navy': [38.9847, -76.4888],
-    // WAC
-    'Abilene Christian': [32.4601, -99.7778],
-    'California Baptist': [33.9295, -117.4260],
-    'Southern Utah': [37.6772, -113.0619],
-    'Tarleton State': [32.2235, -98.2175],
-    'Utah Tech': [37.1041, -113.5841],
-    'Utah Valley': [40.2789, -111.7144],
-    'UT Arlington': [32.7299, -97.1133],
-    // Big Sky
-    'Eastern Washington': [47.4886, -117.5826],
-    'Idaho': [46.7324, -117.0002],
-    'Idaho State': [42.8621, -112.4278],
-    'Montana': [46.8625, -113.9847],
-    'Montana State': [45.6670, -111.0429],
-    'Northern Arizona': [35.1894, -111.6514],
-    'Northern Colorado': [40.4053, -104.6975],
-    'Portland State': [45.5118, -122.6842],
-    'Sacramento State': [38.5618, -121.4240],
-    'Weber State': [41.1928, -111.9348],
-    // Horizon League
-    'Cleveland State': [41.5025, -81.6736],
-    'Detroit Mercy': [42.3528, -83.0657],
-    'Green Bay': [44.5333, -87.9096],
-    'IU Indianapolis': [39.7745, -86.1758],
-    'Milwaukee': [43.0766, -87.8815],
-    'Northern Kentucky': [39.0284, -84.4631],
-    'Oakland': [42.6679, -83.2184],
-    'Purdue Fort Wayne': [41.1176, -85.1090],
-    'Robert Morris': [40.5186, -80.1839],
-    'Wright State': [39.7817, -84.0620],
-    'Youngstown State': [41.1067, -80.6495],
-    // ASUN
-    'Austin Peay': [36.5366, -87.3461],
-    'Bellarmine': [38.2072, -85.6821],
-    'Central Arkansas': [35.0764, -92.4592],
-    'Eastern Kentucky': [37.7378, -84.2942],
-    'Florida Gulf Coast': [26.4615, -81.7729],
-    'Jacksonville': [30.3505, -81.6050],
-    'Lipscomb': [36.1194, -86.8007],
-    'North Alabama': [34.8059, -87.6771],
-    'North Florida': [30.2722, -81.5103],
-    'Queens': [35.1872, -80.8326],
-    'Stetson': [29.0411, -81.3039],
-    'West Georgia': [33.5834, -85.0867],
-    // NEC
-    'Central Connecticut': [41.5658, -72.7823],
-    'Chicago State': [41.7186, -87.6094],
-    'Fairleigh Dickinson': [40.8554, -74.2293],
-    'Le Moyne': [43.0300, -76.0700],
-    'LIU': [40.6891, -73.9866],
-    'Mercyhurst': [42.0987, -80.0923],
-    'Merrimack': [42.7110, -71.1897],
-    'New Haven': [41.2903, -72.9510],
-    'Sacred Heart': [41.2059, -73.2207],
-    'St. Francis (PA)': [40.4583, -78.5505],
-    'Stonehill': [42.1062, -71.1073],
-    'Wagner': [40.6162, -74.0936],
-    // MAAC
-    'Canisius': [42.9383, -78.8442],
-    'Fairfield': [41.2054, -73.2413],
-    'Iona': [40.9235, -73.8270],
-    'Manhattan': [40.8905, -73.8991],
-    'Marist': [41.7262, -73.9330],
-    "Mount St. Mary's": [39.6936, -77.4364],
-    'Niagara': [43.1400, -79.0400],
-    'Quinnipiac': [41.4193, -72.8932],
-    'Rider': [40.2855, -74.7470],
-    "Saint Peter's": [40.7420, -74.0545],
-    'Siena': [42.7189, -73.7530],
-    // MEAC
-    'Coppin State': [39.3409, -76.6654],
-    'Delaware State': [39.1896, -75.5422],
-    'Howard': [38.9224, -77.0197],
-    'Maryland-Eastern Shore': [38.2091, -75.8333],
-    'Morgan State': [39.3434, -76.5824],
-    'Norfolk State': [36.8474, -76.2672],
-    'North Carolina Central': [35.9746, -78.8986],
-    'South Carolina State': [33.4934, -80.8544],
-    // SWAC
-    'Alabama A&M': [34.7831, -86.5686],
-    'Alabama State': [32.3643, -86.2956],
-    'Alcorn State': [31.8766, -91.1349],
-    'Arkansas-Pine Bluff': [34.2284, -92.0032],
-    'Bethune-Cookman': [29.2108, -81.0228],
-    'Florida A&M': [30.4278, -84.2878],
-    'Grambling State': [32.5244, -92.7147],
-    'Jackson State': [32.2979, -90.2094],
-    'Mississippi Valley State': [33.4897, -90.3073],
-    'Prairie View A&M': [30.0943, -95.9898],
-    'Southern': [30.5184, -91.1904],
-    'Texas Southern': [29.7238, -95.3573],
-    // Southland
-    'East Texas A&M': [33.2348, -95.9153],
-    'Houston Christian': [29.7319, -95.5850],
-    'Incarnate Word': [29.4632, -98.4669],
-    'Lamar': [30.0580, -94.0657],
-    'McNeese': [30.2097, -93.2108],
-    'New Orleans': [30.0277, -90.0674],
-    'Nicholls': [29.7949, -90.8106],
-    'Northwestern State': [31.7497, -93.1035],
-    'Southeastern Louisiana': [30.5180, -90.4631],
-    'Stephen F. Austin': [31.6250, -94.6437],
-    'Texas A&M-Corpus Christi': [27.7130, -97.3256],
-    'UTRGV': [26.3038, -98.1784],
-    // OVC
-    'Eastern Illinois': [39.4780, -88.1759],
-    'Little Rock': [34.7257, -92.3421],
-    'Lindenwood': [38.6887, -90.3847],
-    'Morehead State': [38.1856, -83.4341],
-    'SIU Edwardsville': [38.7945, -89.9975],
-    'Southeast Missouri State': [37.3091, -89.5503],
-    'Southern Indiana': [38.0138, -87.5763],
-    'Tennessee State': [36.1681, -86.8326],
-    'Tennessee Tech': [36.1720, -85.5088],
-    'UT Martin': [36.3450, -88.8528],
-    'Western Illinois': [40.4735, -90.6801],
-    // Big West
-    'Cal Poly': [35.3050, -120.6625],
-    'Cal State Bakersfield': [35.3506, -119.1038],
-    'Cal State Fullerton': [33.8829, -117.8869],
-    'Cal State Northridge': [34.2400, -118.5291],
-    'Hawaii': [21.2969, -157.8171],
-    'Long Beach State': [33.7838, -118.1141],
-    'UC Davis': [38.5382, -121.7617],
-    'UC Irvine': [33.6405, -117.8443],
-    'UC Riverside': [33.9737, -117.3281],
-    'UC San Diego': [32.8801, -117.2340],
-    'UC Santa Barbara': [34.4133, -119.8610],
-    // Summit League
-    'Denver': [39.6774, -104.9619],
-    'Kansas City': [39.0997, -94.5786],
-    'North Dakota': [47.9253, -97.0329],
-    'North Dakota State': [46.8958, -96.8003],
-    'Omaha': [41.2565, -96.0135],
-    'Oral Roberts': [36.0550, -95.9389],
-    'South Dakota': [42.7896, -96.9267],
-    'South Dakota State': [44.3114, -96.7984],
-    'St. Thomas': [44.9467, -93.1892],
-    // Southern Conference
-    'Chattanooga': [35.0456, -85.3097],
-    'East Tennessee State': [36.3081, -82.3645],
-    'Furman': [34.9270, -82.4391],
-    'Mercer': [32.8308, -83.6500],
-    'Samford': [33.4644, -86.7929],
-    'The Citadel': [32.7967, -79.9581],
-    'UNC Greensboro': [36.0687, -79.8100],
-    'VMI': [37.7910, -79.4420],
-    'Western Carolina': [35.3073, -83.1857],
-    'Wofford': [34.9507, -81.9320],
-    // America East
-    'Albany': [42.6867, -73.8232],
-    'Binghamton': [42.0873, -75.9693],
-    'Bryant': [41.8465, -71.4548],
-    'Maine': [44.9010, -68.6731],
-    'New Hampshire': [43.1339, -70.9264],
-    'NJIT': [40.7424, -74.1790],
-    'UMass Lowell': [42.6526, -71.3247],
-    'UMBC': [39.2554, -76.7107],
-    'Vermont': [44.4759, -73.1983],
-    // Conference USA
-    'Delaware': [39.6837, -75.7497],
-    'FIU': [25.7578, -80.3733],
-    'Jacksonville State': [33.8200, -85.7653],
-    'Kennesaw State': [34.0234, -84.5819],
-    'Liberty': [37.3519, -79.1731],
-    'Louisiana Tech': [32.5270, -92.6477],
-    'Middle Tennessee': [35.8487, -86.3680],
-    'Missouri State': [37.2089, -93.2923],
-    'New Mexico State': [32.2830, -106.7473],
-    'Sam Houston': [30.7149, -95.5508],
-    'UTEP': [31.7706, -106.5069],
-    'Western Kentucky': [36.9833, -86.4500],
-    // MAC
-    'Akron': [41.0733, -81.5068],
-    'Ball State': [40.2060, -85.4097],
-    'Bowling Green': [41.3763, -83.6275],
-    'Buffalo': [42.9984, -78.7911],
-    'Central Michigan': [43.5917, -84.7688],
-    'Eastern Michigan': [42.2486, -83.6238],
-    'Kent State': [41.1461, -81.3420],
-    'Miami (OH)': [39.5089, -84.7340],
-    'Northern Illinois': [41.9360, -88.7633],
-    'Ohio': [39.3203, -82.0997],
-    'Toledo': [41.6528, -83.6127],
-    'UMass': [42.3868, -72.5301],
-    'Western Michigan': [42.2848, -85.6152],
-    // Sun Belt
-    'Appalachian State': [36.2152, -81.6746],
-    'Arkansas State': [35.8423, -90.6792],
-    'Coastal Carolina': [33.7959, -79.0103],
-    'Georgia Southern': [32.4219, -81.7832],
-    'Georgia State': [33.7530, -84.3853],
-    'James Madison': [38.4362, -78.8675],
-    'Louisiana': [30.2140, -92.0192],
-    'Louisiana-Monroe': [32.5293, -92.0755],
-    'Marshall': [38.4238, -82.4238],
-    'Old Dominion': [36.8865, -76.3059],
-    'South Alabama': [30.6965, -88.1780],
-    'Southern Miss': [31.3271, -89.3350],
-    'Texas State': [29.8884, -97.9384],
-    'Troy': [31.7988, -85.9636],
-    // Big South
-    'Charleston Southern': [32.9804, -80.0634],
-    'Gardner-Webb': [35.2284, -81.5856],
-    'High Point': [35.9735, -79.9928],
-    'Longwood': [37.2968, -78.3961],
-    'Presbyterian': [34.5035, -81.8593],
-    'Radford': [37.1318, -80.5540],
-    'UNC Asheville': [35.6138, -82.5675],
-    'USC Upstate': [34.9254, -81.9826],
-    'Winthrop': [34.9418, -81.0331],
-    // Additional schools
-    'Long Island': [40.8176, -73.1163],
-    "St. John's": [40.7222, -73.7949],
-    "Saint Joseph's": [40.0158, -75.2356],
-    "Saint Peter's": [40.7321, -74.0676],
-    'UNC Wilmington': [34.2257, -77.8709],
-    'Texas-Rio Grande Valley': [26.3038, -98.1784],
-    "Mount St. Mary's": [39.7031, -77.3575],
-    'Saint Francis (PA)': [40.3960, -78.5091],
-    'Indiana-Purdue Indianapolis': [39.7740, -86.1816],
-    'Seattle': [47.6097, -122.3331],
-    'Boston University': [42.3505, -71.1054],
-    'Central Arkansas': [35.0849, -92.4403],
-    'Central Connecticut': [41.5682, -72.8740],
-    'Fairleigh Dickinson': [40.9157, -74.1238],
-    'Abilene Christian': [32.4669, -99.6940],
-    'Northern Kentucky': [39.0284, -84.4621],
-    'Purdue Fort Wayne': [41.1175, -85.1045],
-    // D2/D3/NAIA Schools
-    'University of Chicago': [41.7919, -87.5997],  // Ratner Center
-    'Chicago': [41.7919, -87.5997],  // University of Chicago / Ratner Center
-    'Johns Hopkins': [39.3299, -76.6205],  // Goldfarb Gym
-    'Brandeis': [42.3654, -74.2631],  // Auerbach Arena
-    'Washington College': [39.2107, -76.0721],  // Gibson Center
-    'Academy of Art': [37.7673, -122.4545],  // Kezar Pavilion
-    'Jessup': [38.8238, -121.2422],  // Warrior Arena
-};
-
-let schoolMap = null;
-let mapMarkers = [];
-
-function initMap() {
-    // Initialize the map centered on continental US
-    schoolMap = L.map('school-map').setView([39.5, -98.35], 4);
-
-    // Add OpenStreetMap tiles
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 18,
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(schoolMap);
-
-    // Populate conference dropdown
-    const confSelect = document.getElementById('map-conference');
-    const checklist = DATA.conferenceChecklist || {};
-    const confNames = Object.keys(checklist).sort((a, b) => {
-        if (a === 'All D1') return -1;
-        if (b === 'All D1') return 1;
-        return a.localeCompare(b);
-    });
-    confNames.forEach(conf => {
-        if (conf !== 'Historical/Other') {
-            const opt = document.createElement('option');
-            opt.value = conf;
-            opt.textContent = conf;
-            confSelect.appendChild(opt);
-        }
-    });
-
-    updateMapMarkers();
-}
-
-function updateMapMarkers() {
-    // Clear existing markers
-    mapMarkers.forEach(m => schoolMap.removeLayer(m));
-    mapMarkers = [];
-
-    const confName = document.getElementById('map-conference').value;
-    const filter = document.getElementById('map-filter').value;
-    const checklist = DATA.conferenceChecklist || {};
-
-    if (!checklist[confName]) return;
-
-    const teams = checklist[confName].teams || [];
-
-    teams.forEach(team => {
-        const coords = SCHOOL_COORDS[team.team];
-        if (!coords) return;
-
-        // Determine status
-        const visited = team.arenaVisited;
-        const seen = team.seen;
-
-        // Apply filter
-        if (filter === 'visited' && !visited) return;
-        if (filter === 'seen' && !seen) return;
-        if (filter === 'unseen' && seen) return;
-
-        // Determine marker color for fallback/border
-        let color;
-        if (visited) {
-            color = '#2E7D32';  // Green - visited home arena
-        } else if (seen) {
-            color = '#1976D2';  // Blue - seen but not at home
-        } else {
-            color = '#9E9E9E';  // Gray - not seen
-        }
-
-        // Determine opacity based on status
-        const opacity = visited ? 1.0 : (seen ? 0.6 : 0.4);
-        const espnId = team.espnId;
-
-        // Create icon - use ESPN logo if available, fallback to colored circle
-        let icon;
-        if (espnId) {
-            const logoUrl = `https://a.espncdn.com/i/teamlogos/ncaa/500/${espnId}.png`;
-            const size = visited ? 38 : (seen ? 28 : 20);
-            const borderWidth = visited ? 3 : (seen ? 2 : 1);
-            icon = L.divIcon({
-                className: 'team-logo-marker',
-                html: `<div style="
-                    width: ${size}px;
-                    height: ${size}px;
-                    border-radius: 50%;
-                    border: ${borderWidth}px solid ${color};
-                    background: white;
-                    box-shadow: ${visited ? '0 2px 6px rgba(0,0,0,0.4)' : (seen ? '0 1px 3px rgba(0,0,0,0.3)' : 'none')};
-                    overflow: hidden;
-                    opacity: ${opacity};
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                "><img src="${logoUrl}" style="
-                    width: ${size - 2}px;
-                    height: ${size - 2}px;
-                    object-fit: contain;
-                " onerror="this.parentElement.innerHTML='<div style=\'background:${color};width:100%;height:100%;border-radius:50%\'></div>'"></div>`,
-                iconSize: [size + borderWidth * 2, size + borderWidth * 2],
-                iconAnchor: [(size + borderWidth * 2) / 2, (size + borderWidth * 2) / 2],
-            });
-        } else {
-            // Fallback to colored circle
-            const circleSize = visited ? 14 : (seen ? 10 : 8);
-            icon = L.divIcon({
-                className: 'custom-marker',
-                html: `<div style="
-                    background: ${color};
-                    width: ${circleSize}px;
-                    height: ${circleSize}px;
-                    border-radius: 50%;
-                    border: ${visited ? 2 : 1}px solid white;
-                    box-shadow: ${visited ? '0 2px 4px rgba(0,0,0,0.3)' : 'none'};
-                    opacity: ${opacity};
-                "></div>`,
-                iconSize: [circleSize + 4, circleSize + 4],
-                iconAnchor: [(circleSize + 4) / 2, (circleSize + 4) / 2],
-            });
-        }
-
-        const marker = L.marker(coords, { icon }).addTo(schoolMap);
-
-        // Add popup with games list
-        const statusText = visited ? 'Visited' : (seen ? 'Seen (Away)' : 'Not Seen');
-        const arena = team.homeArena || 'Unknown';
-
-        // Find games involving this team
-        const teamGames = (DATA.games || []).filter(g =>
-            g['Away Team'] === team.team || g['Home Team'] === team.team
-        );
-
-        let gamesHtml = '';
-        if (teamGames.length > 0) {
-            const gameLinks = teamGames.slice(0, 5).map(g => {
-                const isHome = g['Home Team'] === team.team;
-                const opponent = isHome ? g['Away Team'] : g['Home Team'];
-                const result = isHome
-                    ? `${g['Home Score']}-${g['Away Score']}`
-                    : `${g['Away Score']}-${g['Home Score']}`;
-                const dateStr = g.Date || '';
-                // Shorten date like "December 22, 2025" to "Dec 22"
-                const shortDate = dateStr.replace(/(\w{3})\w* (\d+), \d+/, '$1 $2');
-                return `<a href="#" onclick="filterGameLog('${team.team}'); return false;" style="color: #1976D2; text-decoration: none;">
-                    ${shortDate}: ${isHome ? 'vs' : '@'} ${opponent} (${result})
-                </a>`;
-            }).join('<br>');
-            gamesHtml = `<div style="margin-top: 8px; padding-top: 8px; border-top: 1px solid #ddd; font-size: 12px;">
-                <strong>Games (${teamGames.length}):</strong><br>${gameLinks}
-                ${teamGames.length > 5 ? `<br><a href="#" onclick="filterGameLog('${team.team}'); return false;" style="color: #1976D2;">...and ${teamGames.length - 5} more</a>` : ''}
-            </div>`;
-        }
-
-        marker.bindPopup(`
-            <strong>${team.team}</strong><br>
-            ${team.conference ? team.conference + '<br>' : ''}
-            <em>${arena}</em><br>
-            <span style="color: ${color}; font-weight: bold;">${statusText}</span>
-            ${gamesHtml}
-        `, { maxWidth: 300 });
-
-        mapMarkers.push(marker);
-    });
-
-    // Fit bounds if there are markers
-    if (mapMarkers.length > 0) {
-        const group = L.featureGroup(mapMarkers);
-        schoolMap.fitBounds(group.getBounds().pad(0.1));
-    }
-}
-
-function renderCalendar() {
-    const games = DATA.games || [];
-    const grid = document.getElementById('calendar-grid');
-
-    if (!grid) {
-        console.warn('calendar-grid element not found');
-        return;
-    }
-
-    // Group games by month-day (year agnostic)
-    const gamesByMonthDay = {};
-    let earliestMonthDay = null;  // Format: MM-DD
-    let latestMonthDay = null;
-
-    games.forEach(g => {
-        const date = new Date(g.Date);
-        if (isNaN(date.getTime())) return;
-        const month = date.getMonth();  // 0-11
-        const day = date.getDate();
-        const monthDay = `${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-
-        if (!gamesByMonthDay[monthDay]) gamesByMonthDay[monthDay] = [];
-        gamesByMonthDay[monthDay].push(g);
-
-        // Track earliest and latest in season order (Nov=11 comes before Jan=1)
-        // Convert to season order: Nov(11)=1, Dec(12)=2, Jan(1)=3, ..., Oct(10)=12
-        const seasonOrder = month >= 10 ? month - 9 : month + 3;
-        const seasonKey = seasonOrder * 100 + day;
-
-        if (earliestMonthDay === null || seasonKey < earliestMonthDay.key) {
-            earliestMonthDay = { monthDay, month, day, key: seasonKey };
-        }
-        if (latestMonthDay === null || seasonKey > latestMonthDay.key) {
-            latestMonthDay = { monthDay, month, day, key: seasonKey };
-        }
-    });
-
-    if (!earliestMonthDay || !latestMonthDay) {
-        grid.innerHTML = '<p>No games found.</p>';
-        return;
-    }
-
-    // Build season months array (from earliest to latest)
-    const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
-                       'July', 'August', 'September', 'October', 'November', 'December'];
-    const dayNames = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
-
-    // Season typically runs Nov -> April, so order months accordingly
-    const seasonMonthOrder = [10, 11, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9];  // Nov, Dec, Jan, Feb, Mar, Apr, ...
-
-    // Find which months to display based on earliest/latest
-    const startSeasonIdx = seasonMonthOrder.indexOf(earliestMonthDay.month);
-    const endSeasonIdx = seasonMonthOrder.indexOf(latestMonthDay.month);
-    const monthsToShow = [];
-    for (let i = startSeasonIdx; i <= endSeasonIdx; i++) {
-        monthsToShow.push(seasonMonthOrder[i]);
-    }
-
-    // Count total days and days with games for progress
-    let totalDays = 0;
-    let daysWithGames = 0;
-    monthsToShow.forEach(month => {
-        const daysInMonth = new Date(2024, month + 1, 0).getDate();  // Use leap year
-        const startDay = (month === earliestMonthDay.month) ? earliestMonthDay.day : 1;
-        const endDay = (month === latestMonthDay.month) ? latestMonthDay.day : daysInMonth;
-        for (let d = startDay; d <= endDay; d++) {
-            totalDays++;
-            const monthDay = `${String(month + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
-            if (gamesByMonthDay[monthDay]) daysWithGames++;
-        }
-    });
-
-    let html = `<div class="calendar-progress">
-        <div class="progress-text"><strong>${daysWithGames}</strong> of <strong>${totalDays}</strong> days (${(daysWithGames/totalDays*100).toFixed(1)}%)</div>
-        <div class="progress-bar"><div class="progress-fill" style="width: ${(daysWithGames/totalDays*100)}%"></div></div>
-    </div>`;
-
-    html += '<div class="calendar-months">';
-
-    monthsToShow.forEach(month => {
-        const daysInMonth = new Date(2024, month + 1, 0).getDate();  // Use leap year for Feb
-        const firstDayOfWeek = new Date(2024, month, 1).getDay();
-
-        // Determine start/end days for this month
-        const startDay = (month === earliestMonthDay.month) ? earliestMonthDay.day : 1;
-        const endDay = (month === latestMonthDay.month) ? latestMonthDay.day : daysInMonth;
-
-        html += `<div class="calendar-month"><h4>${monthNames[month]}</h4><div class="calendar-days">`;
-
-        // Day headers
-        dayNames.forEach(d => {
-            html += `<div class="calendar-day-header">${d}</div>`;
-        });
-
-        // Empty cells for days before the 1st
-        for (let i = 0; i < firstDayOfWeek; i++) {
-            html += `<div class="calendar-day empty"></div>`;
-        }
-
-        // Days of the month
-        for (let day = 1; day <= daysInMonth; day++) {
-            const monthDay = `${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-            const dayGames = gamesByMonthDay[monthDay] || [];
-            const hasGame = dayGames.length > 0;
-            const isInRange = day >= startDay && day <= endDay;
-
-            if (!isInRange) {
-                html += `<div class="calendar-day out-of-range">${day}</div>`;
-            } else if (hasGame) {
-                const years = [...new Set(dayGames.map(g => new Date(g.Date).getFullYear()))].sort();
-                const tooltip = dayGames.map(g => `${new Date(g.Date).getFullYear()}: ${g['Away Team']} @ ${g['Home Team']}`).join('\n');
-                html += `<div class="calendar-day has-game${dayGames.length > 1 ? ' has-multiple' : ''}"
-                            onclick="showCalendarDayGames('${monthDay}')"
-                            title="${tooltip}">${day}</div>`;
-            } else {
-                html += `<div class="calendar-day">${day}</div>`;
-            }
-        }
-
-        html += `</div></div>`;
-    });
-
-    html += '</div>';
-    grid.innerHTML = html;
-}
-
-// Track last shown calendar day for back navigation
-let lastCalendarMonthDay = null;
-
-function showCalendarDayGames(monthDay) {
-    // Find all games on this month-day (any year)
-    const [month, day] = monthDay.split('-').map(Number);
-    const games = DATA.games.filter(g => {
-        const date = new Date(g.Date);
-        return date.getMonth() === month - 1 && date.getDate() === day;
-    }).sort((a, b) => (b.DateSort || '').localeCompare(a.DateSort || ''));
-
-    if (games.length === 1) {
-        lastCalendarMonthDay = null;  // No back button for single game
-        showGameDetail(games[0].GameID);
-    } else if (games.length > 1) {
-        lastCalendarMonthDay = monthDay;  // Store for back navigation
-        // Show modal with clickable game list
-        const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
-                           'July', 'August', 'September', 'October', 'November', 'December'];
-        const dateLabel = `${monthNames[month - 1]} ${day}`;
-
-        let gamesHtml = games.map(g => {
-            const date = new Date(g.Date);
-            const year = date.getFullYear();
-            const genderTag = g.Gender === 'W' ? ' <span class="gender-tag">(W)</span>' : '';
-            const awayScore = g['Away Score'] || 0;
-            const homeScore = g['Home Score'] || 0;
-            return `
-                <div class="day-game-item" onclick="closeModal('day-games-modal'); showGameDetailFromCalendar('${g.GameID}', '${monthDay}')">
-                    <span class="day-game-year">${year}</span>
-                    <span class="day-game-matchup">${g['Away Team']} @ ${g['Home Team']}${genderTag}</span>
-                    <span class="day-game-score">${awayScore}-${homeScore}</span>
-                </div>
-            `;
-        }).join('');
-
-        document.getElementById('day-games-detail').innerHTML = `
-            <h3 id="day-games-modal-title">Games on ${dateLabel}</h3>
-            <p style="color: var(--text-secondary); margin-bottom: 1rem;">${games.length} games across multiple years</p>
-            <div class="day-games-list">${gamesHtml}</div>
-        `;
-        document.getElementById('day-games-modal').classList.add('active');
-    }
-}
-
-function showGameDetailFromCalendar(gameId, monthDay) {
-    lastCalendarMonthDay = monthDay;
-    showGameDetail(gameId, true);  // true = show back button
-}
-
-// Badges section functions
-function populateBadges() {
-    const genderFilter = document.getElementById('badges-gender')?.value || '';
-
-    // Collect all badges from gameMilestones
-    const allBadges = [];
-    const teamBadges = [];
-    const venueBadges = [];
-    const specialBadges = [];
-
-    // Iterate through games in chronological order
-    const games = (DATA.games || []).slice().sort((a, b) => {
-        const dateA = a.DateSort || '';
-        const dateB = b.DateSort || '';
-        return dateA.localeCompare(dateB);
-    });
-
-    games.forEach(game => {
-        const milestones = gameMilestones[game.GameID];
-        if (!milestones || !milestones.badges) return;
-
-        const gameGender = game.Gender || 'M';
-
-        // Skip if gender filter doesn't match
-        if (genderFilter && gameGender !== genderFilter) return;
-
-        milestones.badges.forEach(badge => {
-            const badgeWithContext = {
-                ...badge,
-                date: game.Date,
-                gameId: game.GameID,
-                away: game['Away Team'],
-                home: game['Home Team'],
-                gender: badge.gender || gameGender
-            };
-
-            allBadges.push(badgeWithContext);
-
-            if (badge.type === 'team') {
-                teamBadges.push(badgeWithContext);
-            } else if (badge.type === 'venue') {
-                venueBadges.push(badgeWithContext);
-            } else if (['holiday', 'game-count', 'transfer', 'conf-complete'].includes(badge.type)) {
-                specialBadges.push(badgeWithContext);
-            }
-        });
-    });
-
-    // Update summary stats
-    document.getElementById('badges-total').textContent = allBadges.length;
-    const tracking = window.badgeTrackingData || {};
-    const completedConfs = Object.keys(tracking.confCompleted || {}).length;
-    document.getElementById('badges-conferences-complete').textContent = completedConfs;
-    document.getElementById('badges-venues-count').textContent = (tracking.venueOrder || []).length;
-    document.getElementById('badges-matchups').textContent = Object.keys(tracking.matchupsSeen || {}).length;
-
-    // Render all badges
-    renderBadgesGrid('all-badges-grid', allBadges);
-    renderBadgesGrid('team-badges-grid', teamBadges);
-    renderBadgesGrid('venue-badges-grid', venueBadges);
-    renderBadgesGrid('special-badges-grid', specialBadges);
-
-    // Populate conference progress
-    populateConferenceProgress();
-}
-
-function renderBadgesGrid(containerId, badges) {
-    const container = document.getElementById(containerId);
-    if (!container) return;
-
-    if (badges.length === 0) {
-        container.innerHTML = '<div class="empty-state"><div class="empty-state-icon">🏅</div><h3>No badges yet</h3><p>Keep attending games to earn badges!</p></div>';
-        return;
-    }
-
-    // Reverse to show newest first
-    const sortedBadges = [...badges].reverse();
-
-    const html = sortedBadges.map(badge => {
-        const typeClass = `badge-type-${badge.type}`;
-        const iconClass = `badge-icon-${badge.type}`;
-
-        return `
-            <div class="badge-card ${typeClass}" onclick="showGameDetail('${badge.gameId}')" title="${badge.title}">
-                <div class="badge-card-header">
-                    <div class="badge-icon ${iconClass}"></div>
-                    <div>
-                        <div class="badge-title">${badge.text}</div>
-                        <div class="badge-subtitle">${badge.away} vs ${badge.home}</div>
-                    </div>
-                </div>
-                <div class="badge-date">${badge.date}</div>
-            </div>
-        `;
-    }).join('');
-    container.innerHTML = html;
-}
-
-function populateConferenceProgress() {
-    const container = document.getElementById('conference-progress-grid');
-    if (!container) return;
-
-    const gender = document.getElementById('conf-progress-gender')?.value || '';
-    const checklist = DATA.conferenceChecklist || {};
-
-    const conferences = Object.entries(checklist)
-        .filter(([name]) => name !== 'All D1' && name !== 'Historical/Other')
-        .sort((a, b) => a[0].localeCompare(b[0]));
-
-    // Calculate totals for summary
-    let totalConferences = conferences.length;
-    let conferencesSeen = 0;
-    let totalTeamsSeen = 0;
-    let totalTeams = 0;
-    let totalVenuesVisited = 0;
-    let totalVenues = 0;
-
-    const cards = conferences.map(([confName, confData]) => {
-        const teams = confData.teams || [];
-        const numTeams = teams.length;
-        totalTeams += numTeams;
-        totalVenues += numTeams; // Each team has one home venue
-
-        // Count teams seen and venues visited based on gender filter
-        let teamsSeen = 0;
-        let venuesVisited = 0;
-
-        teams.forEach(team => {
-            let seen, visited;
-            if (gender === 'M') {
-                seen = team.seenM;
-                visited = team.arenaVisitedM;
-            } else if (gender === 'W') {
-                seen = team.seenW;
-                visited = team.arenaVisitedW;
-            } else {
-                seen = team.seen;
-                visited = team.arenaVisited;
-            }
-            if (seen) teamsSeen++;
-            if (visited) venuesVisited++;
-        });
-
-        totalTeamsSeen += teamsSeen;
-        totalVenuesVisited += venuesVisited;
-        if (teamsSeen > 0) conferencesSeen++;
-
-        const isComplete = teamsSeen >= numTeams;
-        const progressPct = numTeams > 0 ? (teamsSeen / numTeams * 100) : 0;
-
-        // Generate team dots
-        const teamDots = teams.map(team => {
-            let dotClass = 'conf-team-dot';
-            let seen;
-            if (gender === 'M') {
-                seen = team.seenM;
-            } else if (gender === 'W') {
-                seen = team.seenW;
-            } else {
-                seen = team.seen;
-            }
-            if (seen) dotClass += ' seen';
-            return `<span class="${dotClass}" title="${team.team}"></span>`;
-        }).join('');
-
-        // Venue dots (home arenas visited)
-        const venueDots = teams.map(team => {
-            let dotClass = 'conf-venue-dot';
-            let visited;
-            if (gender === 'M') {
-                visited = team.arenaVisitedM;
-            } else if (gender === 'W') {
-                visited = team.arenaVisitedW;
-            } else {
-                visited = team.arenaVisited;
-            }
-            if (visited) dotClass += ' visited';
-            const arena = gender === 'W' ? (team.homeArenaW || team.homeArena) : team.homeArena;
-            return `<span class="${dotClass}" title="${team.team}: ${arena}"></span>`;
-        }).join('');
-
-        const teamsRemaining = numTeams - teamsSeen;
-        const remainingText = isComplete ? '<span style="color: var(--success);">✓ Complete!</span>' :
-            `<span style="color: var(--warning);">${teamsRemaining} team${teamsRemaining !== 1 ? 's' : ''} remaining</span>`;
-
-        return `
-            <div class="conf-progress-card ${isComplete ? 'complete' : ''}" data-conf="${confName}" onclick="showConferenceDetail('${confName.replace(/'/g, "\'")}')">
-                <div class="conf-progress-header">
-                    <span class="conf-progress-name">${confName}</span>
-                    <span class="conf-progress-count">${teamsSeen}/${numTeams}</span>
-                </div>
-                <div class="badge-progress">
-                    <div class="badge-progress-bar">
-                        <div class="badge-progress-fill ${isComplete ? 'complete' : ''}" style="width: ${progressPct}%"></div>
-                    </div>
-                </div>
-                <div style="font-size: 0.75rem; margin-top: 0.25rem; text-align: center;">
-                    ${remainingText}
-                </div>
-                <div class="conf-progress-teams">${teamDots}</div>
-                <div class="conf-progress-venues" style="font-size: 0.75rem; margin-top: 0.25rem;">
-                    🏟️ ${venuesVisited}/${numTeams} venues
-                </div>
-                <div class="conf-progress-venue-dots">${venueDots}</div>
-            </div>
-        `;
-    }).join('');
-
-    container.innerHTML = cards || '<p>No conference data available.</p>';
-
-    // Update summary stats
-    const confCountEl = document.getElementById('conferences-seen-count');
-    if (confCountEl) confCountEl.textContent = `${conferencesSeen}/${totalConferences}`;
-
-    const teamsCountEl = document.getElementById('total-teams-seen-count');
-    if (teamsCountEl) teamsCountEl.textContent = `${totalTeamsSeen}/${totalTeams}`;
-
-    const venuesCountEl = document.getElementById('total-venues-visited-count');
-    if (venuesCountEl) venuesCountEl.textContent = `${totalVenuesVisited}/${totalVenues}`;
-}
-
-function showConferenceDetail(confName) {
-    currentConfDetailName = confName;  // Track for gender filter refresh
-    const gender = document.getElementById('conf-progress-gender')?.value || '';
-    const checklist = DATA.conferenceChecklist || {};
-    const conf = checklist[confName];
-
-    if (!conf) return;
-
-    const teams = conf.teams || [];
-    const teamCounts = window.badgeTrackingData?.teamCounts || {};
-
-    // Map official names to common abbreviations used in games
-    const teamAliases = {
-        'North Carolina': ['UNC', 'North Carolina'],
-        'Pittsburgh': ['Pitt', 'Pittsburgh'],
-        'USC': ['Southern California', 'USC'],
-        'UConn': ['Connecticut', 'UConn'],
-        'SMU': ['Southern Methodist', 'SMU'],
-        'UCF': ['Central Florida', 'UCF'],
-        'UNLV': ['Nevada-Las Vegas', 'UNLV'],
-        'VCU': ['Virginia Commonwealth', 'VCU'],
-        'LSU': ['Louisiana State', 'LSU'],
-        'Ole Miss': ['Mississippi', 'Ole Miss'],
-        'Miami (FL)': ['Miami', 'Miami (FL)'],
-        'Cal': ['California', 'Cal'],
-        "Saint Mary's (CA)": ["Saint Mary's (CA)", "Saint Mary's", "St. Mary's", "St Mary's"],
-        'Loyola Marymount': ['LMU', 'Loyola Marymount'],
-        'Brigham Young': ['BYU', 'Brigham Young'],
-        'Texas Christian': ['TCU', 'Texas Christian'],
-        'Southern Methodist': ['SMU', 'Southern Methodist'],
-    };
-
-    // Helper to get team visit count (checks aliases)
-    function getTeamCount(teamName) {
-        const namesToCheck = teamAliases[teamName] || [teamName];
-
-        if (gender === 'M' || gender === 'W') {
-            for (const name of namesToCheck) {
-                const count = teamCounts[`${name}|${gender}`];
-                if (count) return count;
-            }
-            return 0;
-        }
-        // For 'all', sum both genders across all aliases
-        let total = 0;
-        for (const name of namesToCheck) {
-            total += (teamCounts[`${name}|M`] || 0) + (teamCounts[`${name}|W`] || 0);
-        }
-        return total;
-    }
-
-    // Separate teams by seen/unseen and venues by visited/unvisited
-    const seenTeams = [];
-    const unseenTeams = [];
-    const visitedVenues = [];
-    const unvisitedVenues = [];
-
-    teams.forEach(team => {
-        let seen, visited, homeArena;
-        if (gender === 'M') {
-            seen = team.seenM;
-            visited = team.arenaVisitedM;
-            homeArena = team.homeArenaM || team.homeArena;
-        } else if (gender === 'W') {
-            seen = team.seenW;
-            visited = team.arenaVisitedW;
-            homeArena = team.homeArenaW || team.homeArena;
-        } else {
-            seen = team.seen;
-            visited = team.arenaVisited;
-            homeArena = team.homeArena;
-        }
-        team._homeArena = homeArena; // Store for display
-        team._visitCount = getTeamCount(team.team); // Store visit count
-
-        if (seen) {
-            seenTeams.push(team);
-        } else {
-            unseenTeams.push(team);
-        }
-
-        if (visited) {
-            visitedVenues.push(team);
-        } else {
-            unvisitedVenues.push(team);
-        }
-    });
-
-    // Sort lists alphabetically
-    seenTeams.sort((a, b) => a.team.localeCompare(b.team));
-    unseenTeams.sort((a, b) => a.team.localeCompare(b.team));
-    visitedVenues.sort((a, b) => a.team.localeCompare(b.team));
-    unvisitedVenues.sort((a, b) => a.team.localeCompare(b.team));
-
-    const genderLabel = gender === 'M' ? " (Men's)" : gender === 'W' ? " (Women's)" : '';
-
-    const seenHtml = seenTeams.length > 0 ? seenTeams.map(t => `
-        <div class="conf-team-item seen">
-            <span class="conf-team-check">✓</span>
-            <span class="conf-team-name">${t.team}</span>
-            <span class="conf-team-count" style="margin-left: auto; color: var(--text-secondary);">${t._visitCount}x</span>
-        </div>
-    `).join('') : '<p class="conf-team-empty">No teams seen yet</p>';
-
-    const unseenHtml = unseenTeams.length > 0 ? unseenTeams.map(t => `
-        <div class="conf-team-item unseen">
-            <span class="conf-team-check">○</span>
-            <span class="conf-team-name">${t.team}</span>
-        </div>
-    `).join('') : '<p class="conf-team-empty">All teams seen!</p>';
-
-    const visitedHtml = visitedVenues.length > 0 ? visitedVenues.map(t => `
-        <div class="conf-team-item seen">
-            <span class="conf-team-check">✓</span>
-            <span class="conf-team-name">${t._homeArena || 'Unknown Arena'}</span>
-            <span class="conf-team-count" style="margin-left: auto; color: var(--text-secondary);">${t.team}</span>
-        </div>
-    `).join('') : '<p class="conf-team-empty">No venues visited yet</p>';
-
-    const unvisitedHtml = unvisitedVenues.length > 0 ? unvisitedVenues.map(t => `
-        <div class="conf-team-item unseen">
-            <span class="conf-team-check">○</span>
-            <span class="conf-team-name">${t._homeArena || 'Unknown Arena'}</span>
-            <span class="conf-team-count" style="margin-left: auto; color: var(--text-secondary);">${t.team}</span>
-        </div>
-    `).join('') : '<p class="conf-team-empty">All venues visited!</p>';
-
-    const teamsRemaining = unseenTeams.length;
-    const venuesRemaining = unvisitedVenues.length;
-    const isComplete = teamsRemaining === 0;
-
-    const detailHtml = `
-        <div class="conf-detail-summary" style="display: flex; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap;">
-            <div class="stat-box">
-                <div class="number">${seenTeams.length}/${teams.length}</div>
-                <div class="label">Teams Seen</div>
-            </div>
-            <div class="stat-box">
-                <div class="number" style="color: ${isComplete ? 'var(--success)' : 'var(--warning)'};">${teamsRemaining}</div>
-                <div class="label">Teams Remaining</div>
-            </div>
-            <div class="stat-box">
-                <div class="number">${visitedVenues.length}/${teams.length}</div>
-                <div class="label">Venues Visited</div>
-            </div>
-            <div class="stat-box">
-                <div class="number" style="color: ${venuesRemaining === 0 ? 'var(--success)' : 'var(--warning)'};">${venuesRemaining}</div>
-                <div class="label">Venues Remaining</div>
-            </div>
-        </div>
-        <div class="conf-detail-sections" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
-            <div class="conf-detail-section">
-                <h4 style="margin-bottom: 1rem;">Teams</h4>
-                <div class="conf-teams-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-                    <div class="conf-teams-column">
-                        <h5 class="conf-teams-heading seen" style="color: var(--success-color); margin-bottom: 0.5rem;">Seen (${seenTeams.length})</h5>
-                        ${seenHtml}
-                    </div>
-                    <div class="conf-teams-column">
-                        <h5 class="conf-teams-heading unseen" style="color: var(--text-secondary); margin-bottom: 0.5rem;">Not Seen (${unseenTeams.length})</h5>
-                        ${unseenHtml}
-                    </div>
-                </div>
-            </div>
-            <div class="conf-detail-section">
-                <h4 style="margin-bottom: 1rem;">Venues</h4>
-                <div class="conf-teams-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-                    <div class="conf-teams-column">
-                        <h5 class="conf-teams-heading seen" style="color: var(--success-color); margin-bottom: 0.5rem;">Visited (${visitedVenues.length})</h5>
-                        ${visitedHtml}
-                    </div>
-                    <div class="conf-teams-column">
-                        <h5 class="conf-teams-heading unseen" style="color: var(--text-secondary); margin-bottom: 0.5rem;">Not Visited (${unvisitedVenues.length})</h5>
-                        ${unvisitedHtml}
-                    </div>
-                </div>
-            </div>
-        </div>
-    `;
-
-    document.getElementById('conference-detail-title').textContent = confName + genderLabel;
-    document.getElementById('conference-detail-content').innerHTML = detailHtml;
-    document.getElementById('conference-progress-grid').style.display = 'none';
-    document.getElementById('conference-detail-panel').style.display = 'block';
-}
-
-function hideConferenceDetail() {
-    currentConfDetailName = null;  // Clear tracking
-    document.getElementById('conference-progress-grid').style.display = '';
-    document.getElementById('conference-detail-panel').style.display = 'none';
-}
-
-function refreshConferenceDetailIfOpen() {
-    // Refresh detail view if it's currently open (for gender filter changes)
-    if (currentConfDetailName) {
-        showConferenceDetail(currentConfDetailName);
-    }
-}
-
-function searchConferenceTeam() {
-    const query = document.getElementById('conf-progress-search').value.toLowerCase().trim();
-    const cards = document.querySelectorAll('#conference-progress-grid .conf-progress-card');
-    const checklist = DATA.conferenceChecklist || {};
-
-    if (!query) {
-        // Show all cards
-        cards.forEach(card => card.style.display = '');
-        return;
-    }
-
-    // Find which conferences have matching teams
-    const matchingConferences = new Set();
-    Object.entries(checklist).forEach(([confName, confData]) => {
-        if (confName === 'All D1' || confName === 'Historical/Other') return;
-        const teams = confData.teams || [];
-        teams.forEach(team => {
-            if (team.team.toLowerCase().includes(query)) {
-                matchingConferences.add(confName);
-            }
-        });
-    });
-
-    // Show/hide cards based on matches
-    cards.forEach(card => {
-        const confName = card.dataset.conf;
-        if (matchingConferences.has(confName)) {
-            card.style.display = '';
-        } else {
-            card.style.display = 'none';
-        }
-    });
-}
-
-// Keep old function for modal (used elsewhere)
-function showConferenceTeams(confName) {
-    showConferenceDetail(confName);
-}
-
-function populateChecklist() {
-    const confName = document.getElementById('checklist-conference').value;
-    const gender = document.getElementById('checklist-gender').value;
-    const teamFilter = document.getElementById('checklist-team-filter').value;
-    const venueFilter = document.getElementById('checklist-venue-filter').value;
-    const container = document.getElementById('checklist-content');
-    const checklist = DATA.conferenceChecklist || {};
-
-    if (!confName || !checklist[confName]) {
-        container.innerHTML = '<p>Select a conference to view the checklist.</p>';
-        return;
-    }
-
-    const conf = checklist[confName];
-    const teams = conf.teams || [];
-
-    // Get gender-specific counts
-    let teamsSeen, venuesVisited;
-    if (gender === 'M') {
-        teamsSeen = conf.teamsSeenM || 0;
-        venuesVisited = conf.venuesVisitedM || 0;
-    } else if (gender === 'W') {
-        teamsSeen = conf.teamsSeenW || 0;
-        venuesVisited = conf.venuesVisitedW || 0;
-    } else {
-        teamsSeen = conf.teamsSeen || 0;
-        venuesVisited = conf.venuesVisited || 0;
-    }
-
-    const summaryHtml = `
-        <div class="checklist-summary">
-            <div class="checklist-stat">
-                <div class="checklist-stat-value">${teamsSeen}/${conf.totalTeams || 0}</div>
-                <div class="checklist-stat-label">Teams Seen</div>
-            </div>
-            <div class="checklist-stat">
-                <div class="checklist-stat-value">${venuesVisited}/${conf.totalVenues || 0}</div>
-                <div class="checklist-stat-label">Home Venues Visited</div>
-            </div>
-        </div>
-    `;
-
-    const showConference = confName === 'All D1' || confName === 'Historical/Other';
-
-    // Filter teams based on selection
-    const filteredTeams = teams.filter(t => {
-        let seen, arenaVisited;
-        if (gender === 'M') {
-            seen = t.seenM;
-            arenaVisited = t.arenaVisitedM;
-        } else if (gender === 'W') {
-            seen = t.seenW;
-            arenaVisited = t.arenaVisitedW;
-        } else {
-            seen = t.seen;
-            arenaVisited = t.arenaVisited;
-        }
-
-        // Apply team filter
-        if (teamFilter === 'seen' && !seen) return false;
-        if (teamFilter === 'unseen' && seen) return false;
-
-        // Apply venue filter
-        if (venueFilter === 'visited' && !arenaVisited) return false;
-        if (venueFilter === 'unvisited' && arenaVisited) return false;
-
-        return true;
-    });
-
-    const teamsHtml = filteredTeams.map(t => {
-        // Get gender-specific values
-        let seen, arenaVisited, homeArena;
-        if (gender === 'M') {
-            seen = t.seenM;
-            arenaVisited = t.arenaVisitedM;
-            homeArena = t.homeArenaM || t.homeArena;
-        } else if (gender === 'W') {
-            seen = t.seenW;
-            arenaVisited = t.arenaVisitedW;
-            homeArena = t.homeArenaW || t.homeArena;
-        } else {
-            seen = t.seen;
-            arenaVisited = t.arenaVisited;
-            homeArena = t.homeArena;
-        }
-
-        // Build gender indicators for "All" view (gender === '' means All)
-        let genderIndicators = '';
-        if (gender === '' && (t.seenM || t.seenW)) {
-            const parts = [];
-            if (t.seenM) parts.push('<span class="gender-seen gender-m">M</span>');
-            if (t.seenW) parts.push('<span class="gender-seen gender-w">W</span>');
-            genderIndicators = parts.join('');
-        }
-
-        // Arena indicator for "All" view
-        let arenaIndicators = '';
-        if (gender === '' && (t.arenaVisitedM || t.arenaVisitedW)) {
-            if (t.arenaVisitedM && t.arenaVisitedW) {
-                arenaIndicators = '✓ ';  // Both visited
-            } else if (t.arenaVisitedM) {
-                arenaIndicators = '<span class="gender-seen gender-m">M</span> ';
-            } else if (t.arenaVisitedW) {
-                arenaIndicators = '<span class="gender-seen gender-w">W</span> ';
-            }
-        } else if (arenaVisited) {
-            arenaIndicators = '✓ ';
-        }
-
-        return `
-            <div class="checklist-item ${seen ? 'seen' : ''}">
-                <div class="check-icon ${seen ? 'checked' : 'unchecked'}">
-                    ${seen ? '✓' : ''}
-                </div>
-                <div class="checklist-details">
-                    <div class="checklist-team">${t.team}${genderIndicators ? ' ' + genderIndicators : ''}${showConference && t.conference ? ` <span class="checklist-conf">${t.conference.includes('(Division') ? t.conference : '(' + t.conference + ')'}</span>` : ''}</div>
-                    <div class="checklist-venue ${arenaVisited ? 'visited' : ''}">
-                        ${arenaIndicators}${homeArena}
-                    </div>
-                </div>
-            </div>
-        `;
-    }).join('');
-
-    const filterNote = filteredTeams.length !== teams.length ?
-        `<p style="color: var(--text-secondary); margin-bottom: 0.5rem;">Showing ${filteredTeams.length} of ${teams.length} teams</p>` : '';
-
-    container.innerHTML = summaryHtml + filterNote + '<div class="checklist-grid">' + teamsHtml + '</div>';
-}
-
-function showPlayerDetail(playerId) {
-    const player = DATA.players.find(p => (p['Player ID'] || p.Player) === playerId);
-    if (!player) {
-        showToast('Player not found');
-        return;
-    }
-
-    const games = (DATA.playerGames || []).filter(g => (g.player_id || g.player) === playerId)
-        .sort((a, b) => (b.date_yyyymmdd || b.date || '').localeCompare(a.date_yyyymmdd || a.date || ''));
-
-    let gamesHtml = games.map(g => `
-        <tr class="clickable-row" onclick="closeModal('player-modal'); showGameDetail('${g.game_id}')">
-            <td><span class="game-link">${g.date}</span></td>
-            <td>${g.opponent}</td>
-            <td>${g.result} ${g.score || ''}</td>
-            <td>${formatMinutes(g.mp)}</td>
-            <td>${g.pts || 0}</td>
-            <td>${g.trb || 0}</td>
-            <td>${g.ast || 0}</td>
-            <td>${g.stl || 0}</td>
-            <td>${g.blk || 0}</td>
-            <td>${g.fg || 0}-${g.fga || 0}</td>
-            <td>${g.fg3 || 0}-${g.fg3a || 0}</td>
-            <td>${g.ft || 0}-${g.fta || 0}</td>
-            <td>${g.game_score != null ? g.game_score.toFixed(1) : '-'}</td>
-        </tr>
-    `).join('');
-
-    const genderTag = player.Gender === 'W' ? '<span class="gender-tag">(W)</span>' : '';
-    const sportsRefLink = getPlayerSportsRefLink(player);
-
-    let html = `
-        <h3 id="player-modal-title">${player.Player} ${sportsRefLink}</h3>
-        <p>Team: ${player.Team} ${genderTag} | Games: ${player.Games}</p>
-        <div class="compare-grid">
-            <div class="compare-card">
-                <h4>Averages</h4>
-                <div class="stat-row"><span>PPG</span><span class="${getStatClass(player.PPG || 0, STAT_THRESHOLDS.ppg)}">${player.PPG || 0}</span></div>
-                <div class="stat-row"><span>RPG</span><span class="${getStatClass(player.RPG || 0, STAT_THRESHOLDS.rpg)}">${player.RPG || 0}</span></div>
-                <div class="stat-row"><span>APG</span><span class="${getStatClass(player.APG || 0, STAT_THRESHOLDS.apg)}">${player.APG || 0}</span></div>
-                <div class="stat-row"><span>SPG</span><span>${player.SPG || 0}</span></div>
-                <div class="stat-row"><span>BPG</span><span>${player.BPG || 0}</span></div>
-            </div>
-            <div class="compare-card">
-                <h4>Shooting</h4>
-                <div class="stat-row"><span>FG%</span><span class="${getStatClass(player['FG%'] || 0, STAT_THRESHOLDS.fgPct)}">${((player['FG%'] || 0) * 100).toFixed(1)}%</span></div>
-                <div class="stat-row"><span>3P%</span><span class="${getStatClass(player['3P%'] || 0, STAT_THRESHOLDS.threePct)}">${((player['3P%'] || 0) * 100).toFixed(1)}%</span></div>
-                <div class="stat-row"><span>FT%</span><span>${((player['FT%'] || 0) * 100).toFixed(1)}%</span></div>
-            </div>
-            <div class="compare-card">
-                <h4>Totals</h4>
-                <div class="stat-row"><span>Total Points</span><span>${player['Total PTS'] || 0}</span></div>
-                <div class="stat-row"><span>Total Rebounds</span><span>${player['Total REB'] || 0}</span></div>
-                <div class="stat-row"><span>Total Assists</span><span>${player['Total AST'] || 0}</span></div>
-            </div>
-        </div>`;
-
-    if (games.length > 1) {
-        html += `
-        <div class="chart-section">
-            <div class="chart-header">
-                <h4>Performance Trend</h4>
-                <div class="chart-toggles">
-                    <button class="chart-toggle active" data-stat="pts">PTS</button>
-                    <button class="chart-toggle" data-stat="trb">REB</button>
-                    <button class="chart-toggle" data-stat="ast">AST</button>
-                    <button class="chart-toggle" data-stat="game_score">GmSc</button>
-                </div>
-            </div>
-            <div class="chart-container" style="height:200px;">
-                <canvas id="player-chart"></canvas>
-            </div>
-        </div>`;
-    }
-
-    if (games.length > 0) {
-        html += `
-            <h4 style="margin-top:1rem">Game Log (${games.length} games)</h4>
-            <div class="table-container" style="max-height:300px;overflow-y:auto;">
-                <table>
-                    <thead><tr><th>Date</th><th>Opp</th><th>Result</th><th>MIN</th><th>PTS</th><th>REB</th><th>AST</th><th>STL</th><th>BLK</th><th>FG</th><th>3P</th><th>FT</th><th>GmSc</th></tr></thead>
-                    <tbody>${gamesHtml}</tbody>
-                </table>
-            </div>`;
-    }
-
-    document.getElementById('player-detail').innerHTML = html;
-    document.getElementById('player-modal').classList.add('active');
-    updateURL('players', { player: playerId });
-
-    if (games.length > 1) {
-        setTimeout(() => initPlayerChart(games, 'pts'), 100);
-        document.querySelectorAll('.chart-toggle').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                document.querySelectorAll('.chart-toggle').forEach(b => b.classList.remove('active'));
-                e.target.classList.add('active');
-                initPlayerChart(games, e.target.dataset.stat);
-            });
-        });
-    }
-}
-
-function initPlayerChart(games, stat) {
-    const ctx = document.getElementById('player-chart');
-    if (!ctx) return;
-
-    if (playerChart) {
-        playerChart.destroy();
-    }
-
-    const chartGames = [...games].reverse();
-
-    const labels = chartGames.map(g => {
-        const d = g.date || '';
-        const parts = d.split(' ');
-        return parts.length >= 3 ? `${parts[0].slice(0,3)} ${parts[1].replace(',','')} '${parts[2].slice(2)}` : parts.length >= 2 ? `${parts[0].slice(0,3)} ${parts[1].replace(',','')}` : d;
-    });
-
-    const data = chartGames.map(g => g[stat] || 0);
-    const avg = data.reduce((a,b) => a+b, 0) / data.length;
-
-    const statLabels = { pts: 'Points', trb: 'Rebounds', ast: 'Assists', game_score: 'Game Score' };
-    const statColors = { pts: '#4ade80', trb: '#60a5fa', ast: '#f472b6', game_score: '#fbbf24' };
-
-    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-    const gridColor = isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)';
-    const textColor = isDark ? '#b0b0b0' : '#666666';
-
-    playerChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: labels,
-            datasets: [{
-                label: statLabels[stat] || stat,
-                data: data,
-                borderColor: statColors[stat] || '#4ade80',
-                backgroundColor: (statColors[stat] || '#4ade80') + '20',
-                fill: true,
-                tension: 0.3,
-                pointRadius: 5,
-                pointHoverRadius: 7,
-            }, {
-                label: `Avg: ${avg.toFixed(1)}`,
-                data: data.map(() => avg),
-                borderColor: isDark ? 'rgba(255,255,255,0.4)' : 'rgba(0,0,0,0.3)',
-                borderWidth: 1,
-                borderDash: [5, 5],
-                pointRadius: 0,
-                pointHoverRadius: 0,
-                fill: false,
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: { display: false },
-                tooltip: {
-                    filter: (item) => item.datasetIndex === 0,
-                    callbacks: {
-                        title: (items) => chartGames[items[0].dataIndex]?.date || '',
-                        afterLabel: (item) => `vs ${chartGames[item.dataIndex]?.opponent || ''}`
-                    }
-                }
+        const data = chartGames.map(g => g[chartStat] || 0);
+        const avg = data.reduce((a,b) => a+b, 0) / data.length;
+        const statLabels = { pts: 'Points', trb: 'Rebounds', ast: 'Assists', game_score: 'Game Score' };
+        const statColors = { pts: '#4ade80', trb: '#60a5fa', ast: '#f472b6', game_score: '#fbbf24' };
+        const isDark = document.body.getAttribute('data-theme') === 'dark';
+
+        chartInstance.current = new Chart(chartRef.current, {
+            type: 'line',
+            data: {
+                labels,
+                datasets: [{
+                    label: statLabels[chartStat] || chartStat,
+                    data,
+                    borderColor: statColors[chartStat] || '#4ade80',
+                    backgroundColor: (statColors[chartStat] || '#4ade80') + '20',
+                    fill: true, tension: 0.3, pointRadius: 5, pointHoverRadius: 7,
+                }, {
+                    label: `Avg: ${avg.toFixed(1)}`,
+                    data: data.map(() => avg),
+                    borderColor: isDark ? 'rgba(255,255,255,0.4)' : 'rgba(0,0,0,0.3)',
+                    borderWidth: 1, borderDash: [5, 5], pointRadius: 0, fill: false,
+                }]
             },
-            scales: {
-                x: {
-                    grid: { color: gridColor },
-                    ticks: { color: textColor, maxRotation: 45 }
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        filter: (item) => item.datasetIndex === 0,
+                        callbacks: {
+                            title: (items) => chartGames[items[0].dataIndex]?.date || '',
+                            afterLabel: (item) => `vs ${chartGames[item.dataIndex]?.opponent || ''}`
+                        }
+                    }
                 },
-                y: {
-                    beginAtZero: true,
-                    grid: { color: gridColor },
-                    ticks: { color: textColor }
+                scales: {
+                    x: { grid: { color: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)' }, ticks: { color: isDark ? '#b0b0b0' : '#666', maxRotation: 45 } },
+                    y: { beginAtZero: true, grid: { color: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)' }, ticks: { color: isDark ? '#b0b0b0' : '#666' } }
                 }
             }
-        }
-    });
+        });
+
+        return () => { if (chartInstance.current) chartInstance.current.destroy(); };
+    }, [chartStat, games, playerId]);
+
+    return html`
+        <div>
+            <p>Team: ${player.Team} ${genderTag} | Games: ${player.Games}
+                ${link && html` <a href=${link.url} target="_blank" class="external-link" title=${link.title}>↗</a>`}
+            </p>
+            <div class="player-detail-stats">
+                <div class="compare-card">
+                    <h4>Averages</h4>
+                    <div class="stat-row"><span>PPG</span><span class=${getStatClass(player.PPG||0, STAT_THRESHOLDS.ppg)}>${player.PPG||0}</span></div>
+                    <div class="stat-row"><span>RPG</span><span class=${getStatClass(player.RPG||0, STAT_THRESHOLDS.rpg)}>${player.RPG||0}</span></div>
+                    <div class="stat-row"><span>APG</span><span class=${getStatClass(player.APG||0, STAT_THRESHOLDS.apg)}>${player.APG||0}</span></div>
+                    <div class="stat-row"><span>SPG</span><span>${player.SPG||0}</span></div>
+                    <div class="stat-row"><span>BPG</span><span>${player.BPG||0}</span></div>
+                </div>
+                <div class="compare-card">
+                    <h4>Shooting</h4>
+                    <div class="stat-row"><span>FG%</span><span class=${getStatClass(player['FG%']||0, STAT_THRESHOLDS.fgPct)}>${((player['FG%']||0)*100).toFixed(1)}%</span></div>
+                    <div class="stat-row"><span>3P%</span><span class=${getStatClass(player['3P%']||0, STAT_THRESHOLDS.threePct)}>${((player['3P%']||0)*100).toFixed(1)}%</span></div>
+                    <div class="stat-row"><span>FT%</span><span>${((player['FT%']||0)*100).toFixed(1)}%</span></div>
+                </div>
+                <div class="compare-card">
+                    <h4>Totals</h4>
+                    <div class="stat-row"><span>Points</span><span>${player['Total PTS']||0}</span></div>
+                    <div class="stat-row"><span>Rebounds</span><span>${player['Total REB']||0}</span></div>
+                    <div class="stat-row"><span>Assists</span><span>${player['Total AST']||0}</span></div>
+                </div>
+            </div>
+
+            ${games.length > 1 && html`
+                <div class="chart-section">
+                    <div class="chart-header">
+                        <h4>Performance Trend</h4>
+                        <div class="chart-toggles">
+                            ${['pts', 'trb', 'ast', 'game_score'].map(stat => html`
+                                <button class=${'chart-toggle' + (chartStat === stat ? ' active' : '')} onClick=${() => setChartStat(stat)}>
+                                    ${{ pts: 'PTS', trb: 'REB', ast: 'AST', game_score: 'GmSc' }[stat]}
+                                </button>
+                            `)}
+                        </div>
+                    </div>
+                    <div class="chart-container" style="height:200px">
+                        <canvas ref=${chartRef}></canvas>
+                    </div>
+                </div>
+            `}
+
+            ${games.length > 0 && html`
+                <h4 style="margin-top:1rem">Game Log (${games.length} games)</h4>
+                <div class="table-container" style="max-height:300px;overflow-y:auto">
+                    <table class="data-table">
+                        <thead><tr><th>Date</th><th>Opp</th><th>Result</th><th>MIN</th><th>PTS</th><th>REB</th><th>AST</th><th>STL</th><th>BLK</th><th>FG</th><th>3P</th><th>FT</th><th>GmSc</th></tr></thead>
+                        <tbody>
+                            ${games.map(g => html`
+                                <tr class="clickable-row" onClick=${() => { onClose(); showGameDetail(g.game_id); }}>
+                                    <td><span class="game-link">${g.date}</span></td>
+                                    <td>${g.opponent}</td>
+                                    <td>${g.result} ${g.score || ''}</td>
+                                    <td>${formatMinutes(g.mp)}</td>
+                                    <td>${g.pts || 0}</td>
+                                    <td>${g.trb || 0}</td>
+                                    <td>${g.ast || 0}</td>
+                                    <td>${g.stl || 0}</td>
+                                    <td>${g.blk || 0}</td>
+                                    <td>${g.fg || 0}-${g.fga || 0}</td>
+                                    <td>${g.fg3 || 0}-${g.fg3a || 0}</td>
+                                    <td>${g.ft || 0}-${g.fta || 0}</td>
+                                    <td>${g.game_score != null ? g.game_score.toFixed(1) : '-'}</td>
+                                </tr>
+                            `)}
+                        </tbody>
+                    </table>
+                </div>
+            `}
+        </div>
+    `;
 }
 
-function showVenueDetail(venueName) {
-    if (!venueName) {
-        showToast('Venue not specified');
-        return;
-    }
+// ============================================================================
+// VENUE DETAIL MODAL
+// ============================================================================
 
-    // Find all games at this venue
-    const games = (DATA.games || []).filter(g => g.Venue === venueName);
+function VenueDetailModal({ venueName, onClose, showGameDetail }) {
+    const games = useMemo(() =>
+        (DATA.games || []).filter(g => g.Venue === venueName)
+            .sort((a, b) => (b.DateSort || '').localeCompare(a.DateSort || '')),
+        [venueName]
+    );
 
-    if (games.length === 0) {
-        showToast('No games found at this venue');
-        return;
-    }
+    if (!games.length) return null;
 
-    // Sort by date (most recent first)
-    games.sort((a, b) => (b.DateSort || '').localeCompare(a.DateSort || ''));
-
-    // Get venue info
-    const venueInfo = DATA.venues?.find(v => v.Venue === venueName) || {};
+    const venueInfo = (DATA.venues || []).find(v => v.Venue === venueName) || {};
     const city = games[0]?.City || venueInfo.City || '';
     const state = games[0]?.State || venueInfo.State || '';
 
-    // Compute teams seen at this venue (with gender tracking)
-    const confSet = new Set();
-    // Track team+gender combinations
-    const teamGenderSet = new Map();  // key: "team|gender", value: {team, gender, conf}
-    games.forEach(g => {
-        const gender = g.Gender || 'M';
-        const awayConf = getGameConference(g, 'away');
-        const homeConf = getGameConference(g, 'home');
-        const awayKey = `${g['Away Team']}|${gender}`;
-        const homeKey = `${g['Home Team']}|${gender}`;
-        if (!teamGenderSet.has(awayKey)) {
-            teamGenderSet.set(awayKey, { team: g['Away Team'], gender, conf: awayConf });
-        }
-        if (!teamGenderSet.has(homeKey)) {
-            teamGenderSet.set(homeKey, { team: g['Home Team'], gender, conf: homeConf });
-        }
-        if (awayConf) confSet.add(awayConf);
-        if (homeConf) confSet.add(homeConf);
-    });
-
-    const teamsList = [...teamGenderSet.values()].sort((a, b) => {
-        const teamCompare = a.team.localeCompare(b.team);
-        if (teamCompare !== 0) return teamCompare;
-        return a.gender === 'W' ? 1 : -1;  // Men first, then women
-    });
-    const confsList = [...confSet].sort();
-
-    // Build teams list HTML with conference labels and gender indicators
-    const teamsHtml = teamsList.map(({team, gender, conf}) => {
-        const genderSuffix = gender === 'W' ? ' (W)' : '';
-        // For non-D1 conferences, show with division indicator
-        let confLabel = conf || '';
-        if (conf === 'Historical/Other') {
-            confLabel = 'Non-D1';
-        }
-        return `<span class="venue-team-tag">${team}${genderSuffix}${confLabel ? `<span class="conf-label">${confLabel}</span>` : ''}</span>`;
-    }).join('');
-
-    const gamesHtml = games.map(g => {
-        const homeWon = (g['Home Score'] || 0) > (g['Away Score'] || 0);
-        const winner = homeWon ? g['Home Team'] : g['Away Team'];
-        const loser = homeWon ? g['Away Team'] : g['Home Team'];
-        const winScore = homeWon ? g['Home Score'] : g['Away Score'];
-        const loseScore = homeWon ? g['Away Score'] : g['Home Score'];
-        const genderTag = g.Gender === 'W' ? ' <span class="gender-tag">(W)</span>' : '';
-        return `
-        <tr>
-            <td>${g.Division === 'D1' || !g.Division ? `<a href="${getSportsRefUrl(g)}" target="_blank" class="game-link">${g.Date || ''}</a>` : g.Date || ''}</td>
-            <td><strong>${winner || ''}${genderTag}</strong></td>
-            <td>${winScore || 0}-${loseScore || 0}</td>
-            <td>${loser || ''}${genderTag}</td>
-        </tr>
-    `}).join('');
-
-    document.getElementById('venue-detail').innerHTML = `
-        <h3 id="venue-modal-title">${venueName}</h3>
-        <p>${city}${state ? ', ' + state : ''}</p>
-
-        <div class="venue-stats-summary">
-            <div class="venue-stat-item">
-                <div class="value">${games.length}</div>
-                <div class="label">Games</div>
-            </div>
-            <div class="venue-stat-item">
-                <div class="value">${teamsList.length}</div>
-                <div class="label">Teams Seen</div>
-            </div>
-            <div class="venue-stat-item">
-                <div class="value">${confsList.length}</div>
-                <div class="label">Conferences</div>
-            </div>
-            ${venueInfo['Home Wins'] !== undefined ? `
-            <div class="venue-stat-item">
-                <div class="value">${venueInfo['Home Wins'] || 0}-${venueInfo['Away Wins'] || 0}</div>
-                <div class="label">Home-Away</div>
-            </div>
-            ` : ''}
-        </div>
-
-        <h4 style="margin-top: 1rem; margin-bottom: 0.5rem; color: var(--text-secondary);">Teams Seen Here</h4>
-        <div class="venue-teams-list">${teamsHtml}</div>
-
-        <h4 style="margin-top: 1.5rem; margin-bottom: 0.5rem; color: var(--text-secondary);">Game History</h4>
-        <div class="table-container">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Winner</th>
-                        <th>Score</th>
-                        <th>Loser</th>
-                    </tr>
-                </thead>
-                <tbody>${gamesHtml}</tbody>
-            </table>
-        </div>
-    `;
-
-    document.getElementById('venue-modal').classList.add('active');
-}
-
-function showGameDetail(gameId, fromCalendarDay = false) {
-    const game = DATA.games.find(g => g.GameID === gameId);
-    if (!game) {
-        showToast('Game not found');
-        return;
-    }
-
-    // Build back button HTML if coming from calendar day list
-    const backButtonHtml = (fromCalendarDay && lastCalendarMonthDay) ? `
-        <button class="back-to-day-btn" onclick="closeModal('game-modal'); showCalendarDayGames('${lastCalendarMonthDay}')">
-            &larr; Back to day list
-        </button>
-    ` : '';
-
-    // Get players from this game
-    const playerGames = (DATA.playerGames || []).filter(pg => pg.game_id === gameId);
-    const awayPlayers = playerGames.filter(p => p.team === game['Away Team']);
-    const homePlayers = playerGames.filter(p => p.team === game['Home Team']);
-
-    // Build pro status lookup from DATA.players keyed by Player ID
-    const proLookup = {};
-    (DATA.players || []).forEach(p => {
-        const pid = p['Player ID'];
-        if (pid && (p.NBA || p.WNBA || p.International)) {
-            proLookup[pid] = p;
-        }
-    });
-
-    const renderPlayerRow = (p) => {
-        const pid = p.player_id || '';
-        const proPlayer = proLookup[pid];
-        let proBadge = '';
-        let rowClass = '';
-
-        if (proPlayer) {
-            rowClass = 'went-pro';
-            if (proPlayer.NBA) {
-                const tooltip = proPlayer.NBA_Active ? 'Active NBA player' : 'Former NBA player';
-                proBadge += `<span class="box-score-pro-badge" data-tooltip="${tooltip}"><img src="https://a.espncdn.com/combiner/i?img=/i/teamlogos/leagues/500/nba.png&w=32&h=32" alt="NBA" class="inline-league-logo"></span>`;
-            }
-            if (proPlayer.WNBA) {
-                const tooltip = proPlayer.WNBA_Active ? 'Active WNBA player' : 'Former WNBA player';
-                proBadge += `<span class="box-score-pro-badge" data-tooltip="${tooltip}"><img src="https://a.espncdn.com/combiner/i?img=/i/teamlogos/leagues/500/wnba.png&w=32&h=32" alt="WNBA" class="inline-league-logo"></span>`;
-            }
-            if (proPlayer.Intl_Pro) {
-                const leagues = proPlayer.Intl_Leagues || [];
-                const tooltip = leagues.length > 0 ? leagues.join(', ') : 'Overseas Pro';
-                proBadge += `<span class="box-score-pro-badge" data-tooltip="${tooltip}">&#127758;</span>`;
-            }
-        }
-
-        return `
-        <tr class="${rowClass}">
-            <td><span class="player-link" onclick="closeModal('game-modal'); showPlayerDetail('${p.player_id || p.player}')">${p.player || ''}</span>${proBadge}${getPlayerSportsRefLink(p)}</td>
-            <td>${formatMinutes(p.mp)}</td>
-            <td>${p.pts || 0}</td>
-            <td>${p.fg || 0}-${p.fga || 0}</td>
-            <td>${p.fg3 || 0}-${p.fg3a || 0}</td>
-            <td>${p.ft || 0}-${p.fta || 0}</td>
-            <td>${p.orb || 0}</td>
-            <td>${p.drb || 0}</td>
-            <td>${p.trb || 0}</td>
-            <td>${p.ast || 0}</td>
-            <td>${p.stl || 0}</td>
-            <td>${p.blk || 0}</td>
-            <td>${p.tov || 0}</td>
-            <td>${p.pf || 0}</td>
-        </tr>`;
-    };
-
-    const renderBoxScore = (players, teamName) => {
-        if (players.length === 0) return '<p>No box score data available</p>';
-
-        const starters = players.filter(p => p.starter).sort((a, b) => (b.mp || 0) - (a.mp || 0));
-        const bench = players.filter(p => !p.starter).sort((a, b) => (b.mp || 0) - (a.mp || 0));
-        const hasStarterData = starters.length > 0;
-
-        let rowsHtml = '';
-        if (hasStarterData) {
-            rowsHtml += `<tr class="roster-divider"><td colspan="14">Starters</td></tr>`;
-            rowsHtml += starters.map(renderPlayerRow).join('');
-            rowsHtml += `<tr class="roster-divider"><td colspan="14">Bench</td></tr>`;
-            rowsHtml += bench.map(renderPlayerRow).join('');
-        } else {
-            rowsHtml = players.sort((a, b) => (b.mp || 0) - (a.mp || 0)).map(renderPlayerRow).join('');
-        }
-
-        return `
-            <table>
-                <thead>
-                    <tr>
-                        <th>Player</th>
-                        <th>MIN</th>
-                        <th>PTS</th>
-                        <th>FG</th>
-                        <th>3P</th>
-                        <th>FT</th>
-                        <th>ORB</th>
-                        <th>DRB</th>
-                        <th>REB</th>
-                        <th>AST</th>
-                        <th>STL</th>
-                        <th>BLK</th>
-                        <th>TOV</th>
-                        <th>PF</th>
-                    </tr>
-                </thead>
-                <tbody>${rowsHtml}</tbody>
-            </table>
-        `;
-    };
-
-    // Build linescore table if available
-    const linescore = game.Linescore || {};
-    const awayLine = linescore.away || {};
-    const homeLine = linescore.home || {};
-    const periods = awayLine.quarters || awayLine.halves || [];
-    const homePeriods = homeLine.quarters || homeLine.halves || [];
-    const awayOT = awayLine.OT || [];
-    const homeOT = homeLine.OT || [];
-    const isQuarters = !!awayLine.quarters;
-
-    let linescoreHtml = '';
-    if (periods.length > 0) {
-        const headers = periods.map((_, i) => isQuarters ? `Q${i+1}` : `${i+1}H`);
-        const otHeaders = awayOT.map((_, i) => `OT${awayOT.length > 1 ? i+1 : ''}`);
-        linescoreHtml = `
-            <table class="linescore-table" style="width:auto;margin:0 auto 1rem auto;">
-                <thead>
-                    <tr>
-                        <th style="text-align:left;">Team</th>
-                        ${headers.map(h => `<th style="width:40px;text-align:center;">${h}</th>`).join('')}
-                        ${otHeaders.map(h => `<th style="width:40px;text-align:center;">${h}</th>`).join('')}
-                        <th style="width:50px;text-align:center;font-weight:bold;">T</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td style="text-align:left;">${game['Away Team']}</td>
-                        ${periods.map(s => `<td style="text-align:center;">${s}</td>`).join('')}
-                        ${awayOT.map(s => `<td style="text-align:center;">${s}</td>`).join('')}
-                        <td style="text-align:center;font-weight:bold;">${awayLine.total || game['Away Score'] || 0}</td>
-                    </tr>
-                    <tr>
-                        <td style="text-align:left;">${game['Home Team']}</td>
-                        ${homePeriods.map(s => `<td style="text-align:center;">${s}</td>`).join('')}
-                        ${homeOT.map(s => `<td style="text-align:center;">${s}</td>`).join('')}
-                        <td style="text-align:center;font-weight:bold;">${homeLine.total || game['Home Score'] || 0}</td>
-                    </tr>
-                </tbody>
-            </table>
-        `;
-    }
-
-    // Build game info section with attendance, officials, etc.
-    const awayRankDisplay = game.AwayRank ? `<span class="team-rank">#${game.AwayRank}</span> ` : '';
-    const homeRankDisplay = game.HomeRank ? `<span class="team-rank">#${game.HomeRank}</span> ` : '';
-    const neutralBadge = game.NeutralSite ? '<span class="game-badge neutral-badge">Neutral Site</span>' : '';
-    const divisionBadge = game.Division && game.Division !== 'D1' ? `<span class="game-badge division-badge">${game.Division}</span>` : '';
-
-    // Format attendance with commas
-    const attendanceDisplay = game.Attendance ? `<span class="game-info-item"><strong>Attendance:</strong> ${game.Attendance.toLocaleString()}</span>` : '';
-
-    // Format officials list
-    const officials = game.Officials || [];
-    const officialsDisplay = officials.length > 0
-        ? `<span class="game-info-item"><strong>Officials:</strong> ${officials.join(', ')}</span>`
-        : '';
-
-    // Play-by-play analysis section
-    const pbp = game.PlayByPlay || {};
-    let pbpHtml = '';
-    if (pbp.totalPlays > 0) {
-        const largestLeads = pbp.largestLeads || {};
-        const awayLead = largestLeads.away || {};
-        const homeLead = largestLeads.home || {};
-        const scoringRuns = pbp.scoringRuns || [];
-
-        let runsHtml = '';
-        if (scoringRuns.length > 0) {
-            runsHtml = scoringRuns.map(run => {
-                const teamLabel = run.team === 'away' ? game['Away Team'] : game['Home Team'];
-                return `<span class="scoring-run">${teamLabel} ${run.points}-0 run (${run.start_time})</span>`;
-            }).join(' ');
-        }
-
-        pbpHtml = `
-            <div class="pbp-analysis" style="background:var(--bg-secondary);padding:0.75rem 1rem;border-radius:8px;margin-bottom:1rem;">
-                <div style="display:flex;justify-content:space-around;flex-wrap:wrap;gap:1rem;text-align:center;">
-                    <div>
-                        <div style="font-size:1.5rem;font-weight:bold;color:var(--accent)">${pbp.leadChanges || 0}</div>
-                        <div style="font-size:0.8rem;color:var(--text-secondary)">Lead Changes</div>
-                    </div>
-                    ${awayLead.lead > 0 ? `
-                    <div>
-                        <div style="font-size:1.5rem;font-weight:bold;">+${awayLead.lead}</div>
-                        <div style="font-size:0.8rem;color:var(--text-secondary)">${game['Away Team']} Largest Lead</div>
-                    </div>
-                    ` : ''}
-                    ${homeLead.lead > 0 ? `
-                    <div>
-                        <div style="font-size:1.5rem;font-weight:bold;">+${homeLead.lead}</div>
-                        <div style="font-size:0.8rem;color:var(--text-secondary)">${game['Home Team']} Largest Lead</div>
-                    </div>
-                    ` : ''}
-                </div>
-                ${runsHtml ? `<div style="margin-top:0.75rem;font-size:0.85rem;color:var(--text-secondary)"><strong>Scoring Runs:</strong> ${runsHtml}</div>` : ''}
-            </div>
-        `;
-    }
-
-    // ESPN Play-by-Play Analysis section
-    const espnPbp = game.ESPNPBPAnalysis || {};
-    let espnPbpHtml = '';
-
-    // Check if we have any ESPN PBP data to display
-    const hasTeamRuns = (espnPbp.teamScoringRuns || []).length > 0;
-    const hasPlayerStreaks = (espnPbp.playerPointStreaks || []).length > 0;
-    const hasComeback = !!espnPbp.biggestComeback;
-    const hasClutchGoAhead = espnPbp.clutchGoAhead;
-    const hasDecisiveShot = espnPbp.decisiveShot;
-
-    if (hasTeamRuns || hasPlayerStreaks || hasComeback || hasClutchGoAhead || hasDecisiveShot) {
-        let espnSections = [];
-
-        // Helper to get period label - handles both men's (2 halves) and women's (4 quarters)
-        const gameGender = game.Gender || 'M';
-        const getPeriodLabel = (period, gender) => {
-            if (gender === 'W') {
-                // Women's basketball: 4 quarters
-                if (period <= 4) return `Q${period}`;
-                return `OT${period - 4 || ''}`;
-            } else {
-                // Men's basketball: 2 halves
-                if (period === 1) return '1st half';
-                if (period === 2) return '2nd half';
-                return `OT${period - 2 || ''}`;
-            }
-        };
-
-        // Biggest comeback (most prominent)
-        if (hasComeback) {
-            const cb = espnPbp.biggestComeback;
-            if (cb.neverTrailed) {
-                espnSections.push(`
-                    <div class="espn-pbp-item comeback-item" style="text-align:center;padding:0.5rem;background:var(--bg-primary);border-radius:6px;">
-                        <div style="font-size:1.2rem;font-weight:bold;color:var(--accent);">${cb.team} led wire-to-wire</div>
-                        <div style="font-size:0.8rem;color:var(--text-secondary);">Never trailed in this game</div>
-                    </div>
-                `);
-            } else {
-                const wonText = cb.won ? 'overcame' : 'nearly overcame';
-                espnSections.push(`
-                    <div class="espn-pbp-item comeback-item" style="text-align:center;padding:0.5rem;background:var(--bg-primary);border-radius:6px;">
-                        <div style="font-size:1.2rem;font-weight:bold;color:var(--accent);">${cb.team} ${wonText} ${cb.deficit}-pt deficit</div>
-                        <div style="font-size:0.8rem;color:var(--text-secondary);">Down ${cb.deficit} (${cb.deficitScore}) at ${cb.deficitTime} in ${getPeriodLabel(cb.deficitPeriod, gameGender)}</div>
-                    </div>
-                `);
-            }
-        }
-
-        // Team scoring runs
-        if (hasTeamRuns) {
-            const runsText = espnPbp.teamScoringRuns.map(r => {
-                const periodLabel = getPeriodLabel(r.endPeriod, gameGender);
-                const scoreChange = r.startScore && r.endScore ? ` (${r.startScore} → ${r.endScore})` : '';
-                const timeRange = r.startTime && r.endTime ? ` ${r.startTime}-${r.endTime}` : '';
-                return `<span class="espn-run-badge">${r.team} ${r.points}-0 run${scoreChange}${timeRange} ${periodLabel}</span>`;
-            }).join(' ');
-            espnSections.push(`
-                <div class="espn-pbp-item">
-                    <strong>Scoring Runs:</strong> ${runsText}
-                </div>
-            `);
-        }
-
-        // Player point streaks
-        if (hasPlayerStreaks) {
-            const streaksText = espnPbp.playerPointStreaks.map(s => {
-                const periodLabel = getPeriodLabel(s.endPeriod, gameGender);
-                const timeRange = s.startTime && s.endTime ? ` ${s.startTime}-${s.endTime}` : '';
-                const scoreChange = s.startScore && s.endScore ? ` (${s.startScore} → ${s.endScore})` : '';
-                return `<span class="espn-streak-badge">${s.player} (${s.team}) ${s.points} consecutive pts${scoreChange}${timeRange} ${periodLabel}</span>`;
-            }).join(' ');
-            espnSections.push(`
-                <div class="espn-pbp-item">
-                    <strong>Individual Streaks:</strong> ${streaksText}
-                </div>
-            `);
-        }
-
-        // Decisive shots
-        if (hasClutchGoAhead || hasDecisiveShot) {
-            let gwsText = '';
-
-            if (hasClutchGoAhead) {
-                const cga = espnPbp.clutchGoAhead;
-                const playerInfo = cga.player ? `${cga.player} (${cga.team})` : cga.team;
-                const scoreInfo = cga.score ? ` → ${cga.score}` : '';
-                gwsText = `<span class="espn-gws-badge">${playerInfo} go-ahead ${cga.points === 1 ? 'FT' : cga.points === 2 ? 'bucket' : 'three'} at ${cga.time}${scoreInfo}</span>`;
-            }
-            // Show decisive shot if different from clutch go-ahead
-            if (hasDecisiveShot && (!hasClutchGoAhead || espnPbp.decisiveShot.time !== espnPbp.clutchGoAhead.time)) {
-                const ds = espnPbp.decisiveShot;
-                const playerInfo = ds.player ? `${ds.player} (${ds.team})` : ds.team;
-                const periodLabel = getPeriodLabel(ds.period, gameGender);
-                const scoreInfo = ds.score ? ` → ${ds.score}` : '';
-                gwsText += `<span class="espn-gws-badge">${playerInfo} decisive shot at ${ds.time} ${periodLabel}${scoreInfo}</span>`;
-            }
-            if (gwsText) {
-                espnSections.push(`
-                    <div class="espn-pbp-item">
-                        <strong>Decisive Shots:</strong> ${gwsText}
-                    </div>
-                `);
-            }
-        }
-
-        espnPbpHtml = `
-            <div class="espn-pbp-analysis" style="background:var(--bg-secondary);padding:0.75rem 1rem;border-radius:8px;margin-bottom:1rem;border-left:3px solid var(--accent);">
-                <div style="font-size:0.9rem;font-weight:bold;margin-bottom:0.5rem;color:var(--text-secondary);">Advanced Game Analysis</div>
-                <div style="display:flex;flex-direction:column;gap:0.5rem;font-size:0.85rem;">
-                    ${espnSections.join('')}
-                </div>
-            </div>
-        `;
-    }
-
-    // Conference info
-    const confDisplay = game.AwayConf || game.HomeConf
-        ? `<span class="game-info-item"><strong>Conference:</strong> ${game.AwayConf === game.HomeConf ? game.AwayConf : `${game.AwayConf || '?'} vs ${game.HomeConf || '?'}`}</span>`
-        : '';
-
-    // Build achievements text (copyable summary)
-    const achievements = (gameMilestones[gameId] || {}).achievements;
-    let achievementsHtml = '';
-    if (achievements) {
-        const lines = [];
-        // Only show (W) for women's games, nothing for men's
-        const genderLabel = achievements.gender === 'W' ? ' (W)' : '';
-
-        // Check if both teams are new
-        const awayNew = achievements.awayTeam.isNewTeam;
-        const homeNew = achievements.homeTeam.isNewTeam;
-
-        // D1 teams - show final total (highest count after both teams counted)
-        if (awayNew && homeNew) {
-            const totalD1 = Math.max(achievements.awayTeam.d1Count, achievements.homeTeam.d1Count);
-            lines.push(`${totalD1}/365 D1 teams seen${genderLabel}`);
-        } else if (awayNew) {
-            lines.push(`${achievements.awayTeam.d1Count}/365 D1 teams seen${genderLabel}`);
-        } else if (homeNew) {
-            lines.push(`${achievements.homeTeam.d1Count}/365 D1 teams seen${genderLabel}`);
-        }
-
-        // Conference teams - consolidate if same conference
-        const awayConf = achievements.awayTeam.conf;
-        const homeConf = achievements.homeTeam.conf;
-        if (awayNew && homeNew && awayConf === homeConf && awayConf && achievements.awayTeam.confTeamsTotal > 0) {
-            // Both new, same conference - show final total
-            const totalConf = Math.max(achievements.awayTeam.confTeamsSeen, achievements.homeTeam.confTeamsSeen);
-            lines.push(`${totalConf}/${achievements.awayTeam.confTeamsTotal} ${awayConf} teams seen`);
-        } else {
-            // Different conferences or only one new - show separately
-            if (awayNew && awayConf && achievements.awayTeam.confTeamsTotal > 0) {
-                lines.push(`${achievements.awayTeam.confTeamsSeen}/${achievements.awayTeam.confTeamsTotal} ${awayConf} teams seen`);
-            }
-            if (homeNew && homeConf && achievements.homeTeam.confTeamsTotal > 0 && homeConf !== awayConf) {
-                lines.push(`${achievements.homeTeam.confTeamsSeen}/${achievements.homeTeam.confTeamsTotal} ${homeConf} teams seen`);
-            }
-        }
-
-        // Repeat visits for non-new teams
-        if (!awayNew) {
-            const awayRec = achievements.awayTeam.record;
-            const awayRecordStr = `${awayRec.wins}-${awayRec.losses}`;
-            lines.push(`${ordinal(achievements.awayTeam.visitNum)} time seeing ${achievements.awayTeam.name}${genderLabel} (${awayRecordStr})`);
-        }
-        if (!homeNew) {
-            const homeRec = achievements.homeTeam.record;
-            const homeRecordStr = `${homeRec.wins}-${homeRec.losses}`;
-            lines.push(`${ordinal(achievements.homeTeam.visitNum)} time seeing ${achievements.homeTeam.name}${genderLabel} (${homeRecordStr})`);
-        }
-
-        // Venue (no gender - venues are shared)
-        if (achievements.venue.name) {
-            if (achievements.venue.isNewVenue) {
-                lines.push(`${achievements.venue.totalVenuesSeen}/365 D1 venues seen`);
-                if (achievements.homeTeam.conf && achievements.venue.confVenuesTotal > 0) {
-                    lines.push(`${achievements.venue.confVenuesSeen}/${achievements.venue.confVenuesTotal} ${achievements.homeTeam.conf} venues seen`);
+    const { teamsList, confsList } = useMemo(() => {
+        const teamGenderSet = new Map();
+        const confSet = new Set();
+        games.forEach(g => {
+            const gender = g.Gender || 'M';
+            const awayConf = getGameConference(g, 'away');
+            const homeConf = getGameConference(g, 'home');
+            [`${g['Away Team']}|${gender}`, `${g['Home Team']}|${gender}`].forEach((key, idx) => {
+                if (!teamGenderSet.has(key)) {
+                    teamGenderSet.set(key, { team: key.split('|')[0], gender, conf: idx === 0 ? awayConf : homeConf });
                 }
-            } else {
-                lines.push(`${ordinal(achievements.venue.visitNum)} time at ${achievements.venue.name}`);
-            }
-        }
-
-        const achievementsText = lines.join('\n');
-        achievementsHtml = `
-            <div class="achievements-section" style="background:var(--bg-primary);padding:0.75rem 1rem;border-radius:8px;margin-bottom:1rem;border-left:3px solid var(--success);">
-                <div style="font-size:0.85rem;color:var(--text-secondary);cursor:pointer;user-select:all;white-space:pre-line;" onclick="navigator.clipboard.writeText(this.innerText).then(() => showToast('Copied!'))" title="Click to copy">${achievementsText}</div>
-            </div>
-        `;
-    }
-
-    document.getElementById('game-detail').innerHTML = `
-        ${backButtonHtml}
-        <div class="box-score-header">
-            <div class="box-score-team">
-                <h3>${awayRankDisplay}${game['Away Team']}</h3>
-                <div class="box-score-score">${game['Away Score'] || 0}</div>
-            </div>
-            <div class="box-score-vs">@</div>
-            <div class="box-score-team">
-                <h3>${homeRankDisplay}${game['Home Team']}</h3>
-                <div class="box-score-score">${game['Home Score'] || 0}</div>
-            </div>
-        </div>
-        <div class="game-badges" style="text-align:center;margin-bottom:0.5rem;">
-            ${neutralBadge}${divisionBadge}
-        </div>
-        <p style="text-align:center;margin-bottom:0.5rem;color:var(--text-secondary)">
-            ${game.Date} | ${game.Venue || 'Unknown Venue'}${game.City ? `, ${game.City}` : ''}${game.State ? `, ${game.State}` : ''}
-        </p>
-        <div class="game-info-row" style="text-align:center;margin-bottom:1rem;color:var(--text-secondary);font-size:0.9rem;">
-            ${attendanceDisplay}
-            ${confDisplay}
-        </div>
-        ${officialsDisplay ? `<div class="game-officials" style="text-align:center;margin-bottom:1rem;color:var(--text-secondary);font-size:0.85rem;">${officialsDisplay}</div>` : ''}
-        ${linescoreHtml}
-        ${achievementsHtml}
-        ${pbpHtml}
-        ${espnPbpHtml}
-        <div class="box-score-section">
-            <h4>${game['Away Team']}</h4>
-            <div class="table-container">${renderBoxScore(awayPlayers, game['Away Team'])}</div>
-        </div>
-        <div class="box-score-section">
-            <h4>${game['Home Team']}</h4>
-            <div class="table-container">${renderBoxScore(homePlayers, game['Home Team'])}</div>
-        </div>
-    `;
-
-    document.getElementById('game-modal').classList.add('active');
-    updateURL('games', { game: gameId });
-}
-
-function updatePlayerSuggestions() {
-    const input = document.getElementById('gamelog-player-search');
-    const dropdown = document.getElementById('player-suggestions');
-    const query = input.value.toLowerCase().trim();
-
-    if (query.length < 2) {
-        dropdown.style.display = 'none';
-        if (query.length === 0) {
-            document.getElementById('gamelog-container').innerHTML = `
-                <div class="empty-state">
-                    <div class="empty-state-icon">&#128203;</div>
-                    <h3>Search for a player</h3>
-                    <p>Type a player name above to view their game log</p>
-                </div>`;
-        }
-        return;
-    }
-
-    const players = DATA.players || [];
-    const matches = players.filter(p =>
-        p.Player.toLowerCase().includes(query)
-    ).slice(0, 10);
-
-    if (matches.length === 0) {
-        dropdown.style.display = 'none';
-        document.getElementById('gamelog-container').innerHTML = `
-            <div class="empty-state">
-                <div class="empty-state-icon">&#128533;</div>
-                <h3>No player found</h3>
-                <p>Try a different search term</p>
-            </div>`;
-        return;
-    }
-
-    dropdown.innerHTML = matches.map(p => {
-        const playerId = p['Player ID'] || p.Player;
-        const displayName = `${p.Player} (${p.Team})`;
-        return `<div class="suggestion-item" onclick="selectPlayer('${playerId.replace(/'/g, "\'")}')">${displayName}</div>`;
-    }).join('');
-    dropdown.style.display = 'block';
-}
-
-function handlePlayerKeydown(e) {
-    const dropdown = document.getElementById('player-suggestions');
-    if (e.key === 'Escape') {
-        dropdown.style.display = 'none';
-    } else if (e.key === 'Enter') {
-        // Select the first suggestion if visible
-        const firstItem = dropdown.querySelector('.suggestion-item');
-        if (firstItem && dropdown.style.display !== 'none') {
-            firstItem.click();
-            e.preventDefault();
-        }
-    }
-}
-
-function selectPlayer(playerId) {
-    document.getElementById('player-suggestions').style.display = 'none';
-    const players = DATA.players || [];
-    const player = players.find(p => (p['Player ID'] || p.Player) === playerId);
-    if (player) {
-        document.getElementById('gamelog-player-search').value = `${player.Player} (${player.Team})`;
-    }
-    showPlayerGameLogById(playerId);
-}
-
-// Close player suggestions when clicking outside
-document.addEventListener('click', function(e) {
-    const container = document.querySelector('#players-gamelogs .search-container');
-    if (container && !container.contains(e.target)) {
-        document.getElementById('player-suggestions')?.style && (document.getElementById('player-suggestions').style.display = 'none');
-    }
-});
-
-function showPlayerGameLogById(playerId) {
-    if (!playerId) return;
-
-    const games = (DATA.playerGames || []).filter(g => (g.player_id || g.player) === playerId);
-
-    if (games.length === 0) {
-        document.getElementById('gamelog-container').innerHTML = `
-            <div class="empty-state">
-                <div class="empty-state-icon">&#128203;</div>
-                <h3>No games found</h3>
-                <p>This player has no recorded games</p>
-            </div>`;
-        return;
-    }
-
-    let html = `<table><thead><tr>
-        <th>Date</th><th>Opponent</th><th>Result</th><th>MIN</th>
-        <th>PTS</th><th>REB</th><th>AST</th><th>STL</th><th>BLK</th>
-        <th>FG</th><th>3P</th><th>FT</th>
-    </tr></thead><tbody>`;
-
-    games.forEach(g => {
-        html += `<tr>
-            <td>${g.date}</td>
-            <td>${g.opponent}</td>
-            <td>${g.result} ${g.score}</td>
-            <td>${g.mp ? g.mp.toFixed(0) : 0}</td>
-            <td>${g.pts || 0}</td>
-            <td>${g.trb || 0}</td>
-            <td>${g.ast || 0}</td>
-            <td>${g.stl || 0}</td>
-            <td>${g.blk || 0}</td>
-            <td>${g.fg || 0}-${g.fga || 0}</td>
-            <td>${g.fg3 || 0}-${g.fg3a || 0}</td>
-            <td>${g.ft || 0}-${g.fta || 0}</td>
-        </tr>`;
-    });
-
-    html += '</tbody></table>';
-    document.getElementById('gamelog-container').innerHTML = html;
-}
-
-function closeModal(modalId) {
-    document.getElementById(modalId).classList.remove('active');
-    // Clean up URL params
-    const { section } = parseURL();
-    updateURL(section);
-}
-
-function updateComparison() {
-    const id1 = document.getElementById('compare-player1').value;
-    const id2 = document.getElementById('compare-player2').value;
-
-    if (!id1 || !id2) {
-        document.getElementById('compare-grid').innerHTML = `
-            <div class="empty-state">
-                <div class="empty-state-icon">&#128101;</div>
-                <h3>Select two players</h3>
-                <p>Choose players from the dropdowns above to compare their statistics</p>
-            </div>
-        `;
-        if (compareChart) {
-            compareChart.destroy();
-            compareChart = null;
-        }
-        return;
-    }
-
-    const p1 = DATA.players.find(p => (p['Player ID'] || p.Player) === id1);
-    const p2 = DATA.players.find(p => (p['Player ID'] || p.Player) === id2);
-
-    if (!p1 || !p2) return;
-
-    const stats = ['PPG', 'RPG', 'APG', 'SPG', 'BPG'];
-
-    let html = `
-        <div class="compare-card">
-            <h4>${p1.Player}</h4>
-            <p style="color:var(--text-secondary);margin-bottom:0.5rem">${p1.Team} | ${p1.Games} games</p>
-            ${stats.map(s => `<div class="stat-row"><span>${s}</span><span>${p1[s] || 0}</span></div>`).join('')}
-        </div>
-        <div class="compare-card">
-            <h4>${p2.Player}</h4>
-            <p style="color:var(--text-secondary);margin-bottom:0.5rem">${p2.Team} | ${p2.Games} games</p>
-            ${stats.map(s => `<div class="stat-row"><span>${s}</span><span>${p2[s] || 0}</span></div>`).join('')}
-        </div>
-    `;
-
-    document.getElementById('compare-grid').innerHTML = html;
-
-    // Update chart
-    if (compareChart) compareChart.destroy();
-
-    const ctx = document.getElementById('compare-chart').getContext('2d');
-    compareChart = new Chart(ctx, {
-        type: 'radar',
-        data: {
-            labels: stats,
-            datasets: [
-                {
-                    label: p1.Player,
-                    data: stats.map(s => p1[s] || 0),
-                    borderColor: '#003087',
-                    backgroundColor: 'rgba(0, 48, 135, 0.2)',
-                },
-                {
-                    label: p2.Player,
-                    data: stats.map(s => p2[s] || 0),
-                    borderColor: '#e74c3c',
-                    backgroundColor: 'rgba(231, 76, 60, 0.2)',
-                }
-            ]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-        }
-    });
-
-    updateURL('compare', { p1: id1, p2: id2 });
-}
-
-// Season stats chart
-let seasonChart = null;
-
-function getSeasonFromDate(dateSort) {
-    // dateSort is YYYYMMDD format
-    if (!dateSort || dateSort.length !== 8) return null;
-    const year = parseInt(dateSort.substring(0, 4));
-    const month = parseInt(dateSort.substring(4, 6));
-    // Basketball season: Nov-Apr spans two calendar years
-    // Nov-Dec = first year of season, Jan-Apr = second year
-    if (month >= 11) {
-        return `${year}-${String(year + 1).slice(-2)}`;
-    } else if (month <= 4) {
-        return `${year - 1}-${String(year).slice(-2)}`;
-    } else {
-        // May-Oct = off-season, assign to upcoming season
-        return `${year}-${String(year + 1).slice(-2)}`;
-    }
-}
-
-function populateSeasonStats() {
-    const games = DATA.games || [];
-    if (games.length === 0) return;
-
-    // Aggregate stats by season
-    const seasonData = {};
-
-    games.forEach(game => {
-        const season = getSeasonFromDate(game.DateSort);
-        if (!season) return;
-
-        if (!seasonData[season]) {
-            seasonData[season] = {
-                games: 0,
-                teams: new Set(),
-                players: new Set(),
-                venues: new Set(),
-                otGames: 0
-            };
-        }
-
-        const s = seasonData[season];
-        s.games++;
-        if (game['Away Team']) s.teams.add(game['Away Team']);
-        if (game['Home Team']) s.teams.add(game['Home Team']);
-        if (game.Venue) s.venues.add(game.Venue);
-        // Check for OT in linescore
-        const linescore = game.Linescore;
-        if (linescore) {
-            const awayOT = linescore.away?.OT || [];
-            const homeOT = linescore.home?.OT || [];
-            if (awayOT.length > 0 || homeOT.length > 0) {
-                s.otGames++;
-            }
-        }
-    });
-
-    // Get players per season from player games data
-    const playerGames = DATA.playerGames || [];
-    playerGames.forEach(pg => {
-        const season = getSeasonFromDate(pg.date_yyyymmdd);
-        if (season && seasonData[season]) {
-            if (pg.player_id) seasonData[season].players.add(pg.player_id);
-        }
-    });
-
-    // Convert to sorted array
-    const seasons = Object.keys(seasonData).sort();
-    const stats = seasons.map(season => ({
-        season,
-        games: seasonData[season].games,
-        teams: seasonData[season].teams.size,
-        players: seasonData[season].players.size,
-        venues: seasonData[season].venues.size,
-        otGames: seasonData[season].otGames
-    }));
-
-    // Populate table
-    const tbody = document.querySelector('#season-table tbody');
-    if (tbody) {
-        tbody.innerHTML = stats.map(s => `
-            <tr>
-                <td><strong>${s.season}</strong></td>
-                <td>${s.games}</td>
-                <td>${s.teams}</td>
-                <td>${s.players}</td>
-                <td>${s.venues}</td>
-                <td>${s.otGames}</td>
-            </tr>
-        `).join('');
-    }
-
-    // Create chart
-    if (seasonChart) seasonChart.destroy();
-    const ctx = document.getElementById('season-chart');
-    if (!ctx) return;
-
-    seasonChart = new Chart(ctx.getContext('2d'), {
-        type: 'bar',
-        data: {
-            labels: seasons,
-            datasets: [
-                {
-                    label: 'Games',
-                    data: stats.map(s => s.games),
-                    backgroundColor: '#003087',
-                    yAxisID: 'y'
-                },
-                {
-                    label: 'Teams',
-                    data: stats.map(s => s.teams),
-                    backgroundColor: '#27ae60',
-                    yAxisID: 'y'
-                },
-                {
-                    label: 'Venues',
-                    data: stats.map(s => s.venues),
-                    backgroundColor: '#9b59b6',
-                    yAxisID: 'y'
-                }
-            ]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: { display: true },
-                title: { display: true, text: 'Season-over-Season Comparison' }
-            },
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    title: { display: true, text: 'Count' }
-                }
-            }
-        }
-    });
-
-    // Summary
-    const summary = document.getElementById('season-summary');
-    if (summary && stats.length > 0) {
-        const totalGames = stats.reduce((sum, s) => sum + s.games, 0);
-        const avgPerSeason = Math.round(totalGames / stats.length);
-        const bestSeason = stats.reduce((best, s) => s.games > best.games ? s : best, stats[0]);
-
-        summary.innerHTML = `
-            <div class="summary-cards" style="display: flex; gap: 1rem; flex-wrap: wrap;">
-                <div class="stat-card" style="background: var(--bg-secondary); padding: 1rem; border-radius: 8px; text-align: center; min-width: 120px;">
-                    <div style="font-size: 1.5rem; font-weight: bold; color: var(--primary);">${stats.length}</div>
-                    <div style="color: var(--text-secondary);">Seasons</div>
-                </div>
-                <div class="stat-card" style="background: var(--bg-secondary); padding: 1rem; border-radius: 8px; text-align: center; min-width: 120px;">
-                    <div style="font-size: 1.5rem; font-weight: bold; color: var(--primary);">${avgPerSeason}</div>
-                    <div style="color: var(--text-secondary);">Avg Games/Season</div>
-                </div>
-                <div class="stat-card" style="background: var(--bg-secondary); padding: 1rem; border-radius: 8px; text-align: center; min-width: 120px;">
-                    <div style="font-size: 1.5rem; font-weight: bold; color: var(--primary);">${bestSeason.season}</div>
-                    <div style="color: var(--text-secondary);">Best Season (${bestSeason.games} games)</div>
-                </div>
-            </div>
-        `;
-    }
-}
-
-function showChart(type) {
-    document.querySelectorAll('#charts .sub-tab').forEach(t => t.classList.remove('active'));
-    // Find and activate the button for this chart type
-    const btn = document.querySelector(`#charts .sub-tab[onclick*="'${type}'"]`);
-    if (btn) btn.classList.add('active');
-
-    if (statsChart) statsChart.destroy();
-
-    let data, label, color;
-
-    if (type === 'scoring') {
-        const top = [...(DATA.players || [])].sort((a, b) => (b.PPG || 0) - (a.PPG || 0)).slice(0, 10);
-        data = {
-            labels: top.map(p => p.Player),
-            values: top.map(p => p.PPG || 0)
-        };
-        label = 'Points Per Game';
-        color = '#003087';
-    } else if (type === 'rebounds') {
-        const sorted = [...(DATA.players || [])].sort((a, b) => (b.RPG || 0) - (a.RPG || 0)).slice(0, 10);
-        data = {
-            labels: sorted.map(p => p.Player),
-            values: sorted.map(p => p.RPG || 0)
-        };
-        label = 'Rebounds Per Game';
-        color = '#27ae60';
-    } else if (type === 'assists') {
-        const sorted = [...(DATA.players || [])].sort((a, b) => (b.APG || 0) - (a.APG || 0)).slice(0, 10);
-        data = {
-            labels: sorted.map(p => p.Player),
-            values: sorted.map(p => p.APG || 0)
-        };
-        label = 'Assists Per Game';
-        color = '#9b59b6';
-    } else if (type === 'efficiency') {
-        // Shooting efficiency chart - eFG% and TS% for top 10 players by games
-        // Calculate eFG% and TS% from raw stats
-        const calcEfficiency = (p) => {
-            const fgm = p.FGM || 0;
-            const fga = p.FGA || 0;
-            const fg3m = p['3PM'] || 0;
-            const fta = p.FTA || 0;
-            const pts = p['Total PTS'] || 0;
-            // eFG% = (FGM + 0.5 * 3PM) / FGA
-            const efg = fga > 0 ? ((fgm + 0.5 * fg3m) / fga) * 100 : 0;
-            // TS% = PTS / (2 * (FGA + 0.44 * FTA))
-            const tsa = 2 * (fga + 0.44 * fta);
-            const ts = tsa > 0 ? (pts / tsa) * 100 : 0;
-            return { efg, ts };
-        };
-        const qualified = [...(DATA.players || [])]
-            .filter(p => p.Games >= 3 && p.FGA >= 5)
-            .map(p => ({ ...p, ...calcEfficiency(p) }))
-            .sort((a, b) => b.ts - a.ts)
-            .slice(0, 10);
-        const ctx = document.getElementById('stats-chart').getContext('2d');
-        statsChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: qualified.map(p => p.Player),
-                datasets: [
-                    {
-                        label: 'eFG%',
-                        data: qualified.map(p => p.efg.toFixed(1)),
-                        backgroundColor: '#003087',
-                    },
-                    {
-                        label: 'TS%',
-                        data: qualified.map(p => p.ts.toFixed(1)),
-                        backgroundColor: '#27ae60',
-                    }
-                ]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: { display: true },
-                    title: { display: true, text: 'Shooting Efficiency (min 3 games, 5 FGA)' }
-                },
-                scales: {
-                    y: { beginAtZero: true, max: 100, title: { display: true, text: 'Percentage' } }
-                }
-            }
+            });
+            if (awayConf) confSet.add(awayConf);
+            if (homeConf) confSet.add(homeConf);
         });
-        return;
-    } else if (type === 'trends') {
-        // Scoring trends over time - average points per game by date
-        const games = [...(DATA.games || [])].sort((a, b) => (a.DateSort || '').localeCompare(b.DateSort || ''));
-        if (games.length === 0) {
-            alert('No game data available for trends');
-            return;
-        }
-        const labels = games.map(g => g.Date);
-        const awayScores = games.map(g => g['Away Score'] || 0);
-        const homeScores = games.map(g => g['Home Score'] || 0);
-        const totalScores = games.map((g, i) => awayScores[i] + homeScores[i]);
-
-        const ctx = document.getElementById('stats-chart').getContext('2d');
-        statsChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: labels,
-                datasets: [
-                    {
-                        label: 'Combined Score',
-                        data: totalScores,
-                        borderColor: '#003087',
-                        backgroundColor: 'rgba(0, 48, 135, 0.1)',
-                        fill: true,
-                        tension: 0.3
-                    },
-                    {
-                        label: 'Away Score',
-                        data: awayScores,
-                        borderColor: '#e74c3c',
-                        backgroundColor: 'transparent',
-                        tension: 0.3
-                    },
-                    {
-                        label: 'Home Score',
-                        data: homeScores,
-                        borderColor: '#27ae60',
-                        backgroundColor: 'transparent',
-                        tension: 0.3
-                    }
-                ]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: { display: true },
-                    title: { display: true, text: 'Scoring Trends Over Time' }
-                },
-                scales: {
-                    y: { beginAtZero: true, title: { display: true, text: 'Points' } },
-                    x: { title: { display: true, text: 'Game Date' } }
-                }
-            }
-        });
-        return;
-    } else {
-        const teams = [...(DATA.teams || [])].sort((a, b) => (b.Wins || 0) - (a.Wins || 0)).slice(0, 10);
-        data = {
-            labels: teams.map(t => t.Team),
-            values: teams.map(t => t.Wins || 0)
+        return {
+            teamsList: [...teamGenderSet.values()].sort((a, b) => a.team.localeCompare(b.team)),
+            confsList: [...confSet].sort()
         };
-        label = 'Wins';
-        color = '#e74c3c';
-    }
+    }, [games]);
 
-    const ctx = document.getElementById('stats-chart').getContext('2d');
-    statsChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: data.labels,
-            datasets: [{
-                label: label,
-                data: data.values,
-                backgroundColor: color,
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: { display: false }
-            },
-            scales: {
-                y: { beginAtZero: true }
-            }
-        }
-    });
+    return html`
+        <div>
+            <p>${city}${state ? ', ' + state : ''}</p>
+            <div class="venue-stats-summary">
+                <${StatBox} label="Games" value=${games.length} />
+                <${StatBox} label="Teams Seen" value=${teamsList.length} />
+                <${StatBox} label="Conferences" value=${confsList.length} />
+                ${venueInfo['Home Wins'] !== undefined && html`
+                    <${StatBox} label="Home-Away" value="${venueInfo['Home Wins'] || 0}-${venueInfo['Away Wins'] || 0}" />
+                `}
+            </div>
+
+            <h4 style="margin-top:1rem">Teams Seen Here</h4>
+            <div class="venue-teams-list">
+                ${teamsList.map(({ team, gender, conf }) => html`
+                    <span class="venue-team-tag">${team}${gender === 'W' ? ' (W)' : ''}${conf ? html`<span class="conf-label">${conf}</span>` : null}</span>
+                `)}
+            </div>
+
+            <h4 style="margin-top:1.5rem">Game History</h4>
+            <div class="table-container">
+                <table class="data-table">
+                    <thead><tr><th>Date</th><th>Winner</th><th>Score</th><th>Loser</th></tr></thead>
+                    <tbody>
+                        ${games.map(g => {
+                            const homeWon = (g['Home Score']||0) > (g['Away Score']||0);
+                            const winner = homeWon ? g['Home Team'] : g['Away Team'];
+                            const loser = homeWon ? g['Away Team'] : g['Home Team'];
+                            const winScore = homeWon ? g['Home Score'] : g['Away Score'];
+                            const loseScore = homeWon ? g['Away Score'] : g['Home Score'];
+                            const gTag = g.Gender === 'W' ? ' (W)' : '';
+                            return html`
+                                <tr class="clickable-row" onClick=${() => { onClose(); showGameDetail(g.GameID); }}>
+                                    <td>${g.Date}</td>
+                                    <td><strong>${winner}${gTag}</strong></td>
+                                    <td>${winScore}-${loseScore}</td>
+                                    <td>${loser}${gTag}</td>
+                                </tr>
+                            `;
+                        })}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    `;
 }
 
-// Handle URL navigation on load
-function handleURLNavigation() {
-    const { section, params } = parseURL();
+// ============================================================================
+// APP (root component)
+// ============================================================================
 
-    // Show the right section
-    if (section && document.getElementById(section)) {
-        showSection(section);
-    }
+function App() {
+    const [route, setRoute] = useState(() => parseRoute());
+    const [toast, setToast] = useState('');
 
-    // Handle subsections
-    if (params.sub) {
-        const subBtn = document.querySelector(`#${section} .sub-tab:nth-child(${['stats', 'highs', 'gamelogs', 'records', 'streaks', 'splits', 'conference'].indexOf(params.sub) + 1})`);
-        if (subBtn) subBtn.click();
-    }
+    // Modal state
+    const [gameModal, setGameModal] = useState(null);
+    const [playerModal, setPlayerModal] = useState(null);
+    const [venueModal, setVenueModal] = useState(null);
 
-    // Handle specific views
-    if (params.player) {
-        setTimeout(() => showPlayerDetail(params.player), 100);
-    }
-    if (params.game) {
-        setTimeout(() => showGameDetail(params.game), 100);
-    }
-    if (params.type && section === 'milestones') {
-        setTimeout(() => showMilestoneEntries(params.type), 100);
-    }
-    if (params.p1 && params.p2 && section === 'compare') {
-        document.getElementById('compare-player1').value = params.p1;
-        document.getElementById('compare-player2').value = params.p2;
-        setTimeout(updateComparison, 100);
-    }
+    // Listen for hash changes
+    useEffect(() => {
+        const handler = () => setRoute(parseRoute());
+        window.addEventListener('hashchange', handler);
+        window.addEventListener('popstate', handler);
+        return () => {
+            window.removeEventListener('hashchange', handler);
+            window.removeEventListener('popstate', handler);
+        };
+    }, []);
+
+    const navigate = useCallback((section, sub = '') => {
+        updateRoute(section, sub);
+        setRoute({ section, sub, params: {} });
+    }, []);
+
+    const onSubChange = useCallback((sub) => {
+        updateRoute(route.section, sub);
+        setRoute(r => ({ ...r, sub }));
+    }, [route.section]);
+
+    const showGameDetail = useCallback((gameId) => {
+        setGameModal(gameId);
+    }, []);
+
+    const showPlayerDetail = useCallback((playerId) => {
+        setPlayerModal(playerId);
+    }, []);
+
+    const showVenueDetail = useCallback((venueName) => {
+        setVenueModal(venueName);
+    }, []);
+
+    // Handle search result selection
+    const handleSearch = useCallback((type, id) => {
+        if (type === 'game') showGameDetail(id);
+        else if (type === 'player') showPlayerDetail(id);
+        else if (type === 'venue') showVenueDetail(id);
+        else if (type === 'team') navigate('games', 'teams');
+    }, []);
+
+    // Handle deep links
+    useEffect(() => {
+        if (route.params.game) showGameDetail(route.params.game);
+        if (route.params.player) showPlayerDetail(route.params.player);
+    }, []);
+
+    const { section, sub } = route;
+
+    return html`
+        <${Header} onSearch=${handleSearch} toast=${toast} setToast=${setToast} />
+        <${Nav} section=${section} onChange=${(s) => navigate(s)} />
+        <main id="main-content" class="main-content">
+            ${section === 'home' && html`<${HomeSection} onNavigate=${navigate} showGameDetail=${showGameDetail} showPlayerDetail=${showPlayerDetail} />`}
+            ${section === 'games' && html`<${GamesSection} sub=${sub} onSubChange=${onSubChange} showGameDetail=${showGameDetail} />`}
+            ${section === 'people' && html`<${PeopleSection} sub=${sub} onSubChange=${onSubChange} showPlayerDetail=${showPlayerDetail} showGameDetail=${showGameDetail} />`}
+            ${section === 'places' && html`<${PlacesSection} sub=${sub} onSubChange=${onSubChange} showVenueDetail=${showVenueDetail} showGameDetail=${showGameDetail} />`}
+        </main>
+
+        <${Modal} id="game-modal" active=${!!gameModal} onClose=${() => setGameModal(null)} title="Game Detail">
+            ${gameModal && html`<${GameDetailModal} gameId=${gameModal} onClose=${() => setGameModal(null)} showPlayerDetail=${showPlayerDetail} />`}
+        <//>
+        <${Modal} id="player-modal" active=${!!playerModal} onClose=${() => setPlayerModal(null)} title=${playerModal ? ((DATA.players||[]).find(p => (p['Player ID']||p.Player) === playerModal)?.Player || 'Player Detail') : ''}>
+            ${playerModal && html`<${PlayerDetailModal} playerId=${playerModal} onClose=${() => setPlayerModal(null)} showGameDetail=${showGameDetail} />`}
+        <//>
+        <${Modal} id="venue-modal" active=${!!venueModal} onClose=${() => setVenueModal(null)} title=${venueModal || 'Venue Detail'}>
+            ${venueModal && html`<${VenueDetailModal} venueName=${venueModal} onClose=${() => setVenueModal(null)} showGameDetail=${showGameDetail} />`}
+        <//>
+
+        <${Toast} message=${toast} onDone=${() => setToast('')} />
+    `;
 }
 
-// Initialize
-try { computeGameMilestones(); } catch(e) { console.error('computeGameMilestones:', e); }
-try { populateGamesTable(); } catch(e) { console.error('populateGamesTable:', e); }
-try { populatePlayersTable(); } catch(e) { console.error('populatePlayersTable:', e); }
-try { populateSeasonHighs(); } catch(e) { console.error('populateSeasonHighs:', e); }
-try { populateMilestones(); } catch(e) { console.error('populateMilestones:', e); }
-try { populateTeamsTable(); } catch(e) { console.error('populateTeamsTable:', e); }
-try { populateStreaksTable(); } catch(e) { console.error('populateStreaksTable:', e); }
-try { populateSplitsTable(); } catch(e) { console.error('populateSplitsTable:', e); }
-try { populateConferenceTable(); } catch(e) { console.error('populateConferenceTable:', e); }
-try { buildMatchupMatrix(); } catch(e) { console.error('buildMatchupMatrix:', e); }
-try { buildConferenceCrossover(); } catch(e) { console.error('buildConferenceCrossover:', e); }
-try { populateVenuesTable(); } catch(e) { console.error('populateVenuesTable:', e); }
-try { populateFutureProsTable(); } catch(e) { console.error('populateFutureProsTable:', e); }
-try { initUpcomingGames(); } catch(e) { console.error('initUpcomingGames:', e); }
-try { populateRecords(); } catch(e) { console.error('populateRecords:', e); }
-try { populatePlayerRecords(); } catch(e) { console.error('populatePlayerRecords:', e); }
-try { renderScorigami(); } catch(e) { console.error('renderScorigami:', e); }
-try { initCalendar(); } catch(e) { console.error('initCalendar:', e); }
-try { initChecklist(); } catch(e) { console.error('initChecklist:', e); }
-try { initOnThisDay(); } catch(e) { console.error('initOnThisDay:', e); }
-try { populateBadges(); } catch(e) { console.error('populateBadges:', e); }
-try { populateSeasonStats(); } catch(e) { console.error('populateSeasonStats:', e); }
-try { showChart('scoring'); } catch(e) { console.error('showChart:', e); }
+// ============================================================================
+// MOUNT
+// ============================================================================
 
-// Handle URL on load
-handleURLNavigation();
-
-// Handle browser back/forward
-window.addEventListener('popstate', handleURLNavigation);
+render(html`<${App} />`, document.getElementById('app'));

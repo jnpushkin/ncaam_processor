@@ -1,1729 +1,13 @@
 {
-  "scraped_at": "2026-02-16T07:44:54.265850",
-  "games_count": 1309,
+  "scraped_at": "2026-02-18T15:42:51.482275",
+  "games_count": 1255,
   "gender": "M",
   "games": [
-    {
-      "espn_id": "401808719",
-      "date": "2026-02-16T19:00Z",
-      "date_display": "Mon, Feb 16 2026",
-      "time_detail": "2/16 - 2:00 PM EST",
-      "name": "SE Louisiana Lions at East Texas A&M Lions",
-      "short_name": "SELA @ ETAM",
-      "home_team": {
-        "id": "2837",
-        "name": "East Texas A&M Lions",
-        "abbreviation": "ETAM",
-        "short_name": "E Texas A&M"
-      },
-      "away_team": {
-        "id": "2545",
-        "name": "SE Louisiana Lions",
-        "abbreviation": "SELA",
-        "short_name": "SE Louisiana"
-      },
-      "venue": {
-        "id": "7339",
-        "name": "The Field House",
-        "city": "Commerce",
-        "state": "TX"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401822776",
-      "date": "2026-02-16T21:30Z",
-      "date_display": "Mon, Feb 16 2026",
-      "time_detail": "2/16 - 4:30 PM EST",
-      "name": "Coppin State Eagles at South Carolina State Bulldogs",
-      "short_name": "COPP @ SCST",
-      "home_team": {
-        "id": "2569",
-        "name": "South Carolina State Bulldogs",
-        "abbreviation": "SCST",
-        "short_name": "SC State"
-      },
-      "away_team": {
-        "id": "2154",
-        "name": "Coppin State Eagles",
-        "abbreviation": "COPP",
-        "short_name": "Coppin St"
-      },
-      "venue": {
-        "id": "2077",
-        "name": "Smith-Hammond-Middleton Memorial Center",
-        "city": "Orangeburg",
-        "state": "SC"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401808640",
-      "date": "2026-02-16T22:00Z",
-      "date_display": "Mon, Feb 16 2026",
-      "time_detail": "2/16 - 5:00 PM EST",
-      "name": "Louisiana Ragin' Cajuns at Old Dominion Monarchs",
-      "short_name": "UL @ ODU",
-      "home_team": {
-        "id": "295",
-        "name": "Old Dominion Monarchs",
-        "abbreviation": "ODU",
-        "short_name": "Old Dominion"
-      },
-      "away_team": {
-        "id": "309",
-        "name": "Louisiana Ragin' Cajuns",
-        "abbreviation": "UL",
-        "short_name": "Louisiana"
-      },
-      "venue": {
-        "id": "1940",
-        "name": "Chartway Arena",
-        "city": "Norfolk",
-        "state": "VA"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401824374",
-      "date": "2026-02-16T23:00Z",
-      "date_display": "Mon, Feb 16 2026",
-      "time_detail": "2/16 - 6:00 PM EST",
-      "name": "Colgate Raiders at Boston University Terriers",
-      "short_name": "COLG @ BU",
-      "home_team": {
-        "id": "104",
-        "name": "Boston University Terriers",
-        "abbreviation": "BU",
-        "short_name": "Boston U"
-      },
-      "away_team": {
-        "id": "2142",
-        "name": "Colgate Raiders",
-        "abbreviation": "COLG",
-        "short_name": "Colgate"
-      },
-      "venue": {
-        "id": "1999",
-        "name": "Case Gym",
-        "city": "Boston",
-        "state": "MA"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "CBSSN"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401820747",
-      "date": "2026-02-17T00:00Z",
-      "date_display": "Mon, Feb 16 2026",
-      "time_detail": "2/16 - 7:00 PM EST",
-      "name": "Syracuse Orange at Duke Blue Devils",
-      "short_name": "SYR @ DUKE",
-      "home_team": {
-        "id": "150",
-        "name": "Duke Blue Devils",
-        "abbreviation": "DUKE",
-        "short_name": "Duke"
-      },
-      "away_team": {
-        "id": "183",
-        "name": "Syracuse Orange",
-        "abbreviation": "SYR",
-        "short_name": "Syracuse"
-      },
-      "venue": {
-        "id": "1914",
-        "name": "Cameron Indoor Stadium",
-        "city": "Durham",
-        "state": "NC"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401859836",
-      "date": "2026-02-17T00:00Z",
-      "date_display": "Mon, Feb 16 2026",
-      "time_detail": "2/16 - 7:00 PM EST",
-      "name": "Wagner Seahawks at Long Island University Sharks",
-      "short_name": "WAG @ LIU",
-      "home_team": {
-        "id": "112358",
-        "name": "Long Island University Sharks",
-        "abbreviation": "LIU",
-        "short_name": "Long Island"
-      },
-      "away_team": {
-        "id": "2681",
-        "name": "Wagner Seahawks",
-        "abbreviation": "WAG",
-        "short_name": "Wagner"
-      },
-      "venue": {
-        "id": "2140",
-        "name": "Steinberg Wellness Center",
-        "city": "Brooklyn",
-        "state": "NY"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "NEC Front Row"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401830242",
-      "date": "2026-02-17T00:00Z",
-      "date_display": "Mon, Feb 16 2026",
-      "time_detail": "2/16 - 7:00 PM EST",
-      "name": "Howard Bison at Delaware State Hornets",
-      "short_name": "HOW @ DSU",
-      "home_team": {
-        "id": "2169",
-        "name": "Delaware State Hornets",
-        "abbreviation": "DSU",
-        "short_name": "Delaware St"
-      },
-      "away_team": {
-        "id": "47",
-        "name": "Howard Bison",
-        "abbreviation": "HOW",
-        "short_name": "Howard"
-      },
-      "venue": {
-        "id": "1957",
-        "name": "Memorial Hall (DE)",
-        "city": "Dover",
-        "state": "DE"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401828694",
-      "date": "2026-02-17T00:00Z",
-      "date_display": "Mon, Feb 16 2026",
-      "time_detail": "2/16 - 7:00 PM EST",
-      "name": "Morgan State Bears at North Carolina Central Eagles",
-      "short_name": "MORG @ NCCU",
-      "home_team": {
-        "id": "2428",
-        "name": "North Carolina Central Eagles",
-        "abbreviation": "NCCU",
-        "short_name": "NC Central"
-      },
-      "away_team": {
-        "id": "2415",
-        "name": "Morgan State Bears",
-        "abbreviation": "MORG",
-        "short_name": "Morgan St"
-      },
-      "venue": {
-        "id": "2081",
-        "name": "McDougald-McLendon Arena",
-        "city": "Durham",
-        "state": "NC"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401827167",
-      "date": "2026-02-17T00:00Z",
-      "date_display": "Mon, Feb 16 2026",
-      "time_detail": "2/16 - 7:00 PM EST",
-      "name": "Mississippi Valley State Delta Devils at Alabama State Hornets",
-      "short_name": "MVSU @ ALST",
-      "home_team": {
-        "id": "2011",
-        "name": "Alabama State Hornets",
-        "abbreviation": "ALST",
-        "short_name": "Alabama St"
-      },
-      "away_team": {
-        "id": "2400",
-        "name": "Mississippi Valley State Delta Devils",
-        "abbreviation": "MVSU",
-        "short_name": "Miss Valley St"
-      },
-      "venue": {
-        "id": "2204",
-        "name": "Dunn-Oliver Acadome",
-        "city": "Montgomery",
-        "state": "AL"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401827123",
-      "date": "2026-02-17T00:00Z",
-      "date_display": "Mon, Feb 16 2026",
-      "time_detail": "2/16 - 7:00 PM EST",
-      "name": "Bethune-Cookman Wildcats at Jackson State Tigers",
-      "short_name": "BCU @ JKST",
-      "home_team": {
-        "id": "2296",
-        "name": "Jackson State Tigers",
-        "abbreviation": "JKST",
-        "short_name": "Jackson St"
-      },
-      "away_team": {
-        "id": "2065",
-        "name": "Bethune-Cookman Wildcats",
-        "abbreviation": "BCU",
-        "short_name": "Bethune"
-      },
-      "venue": {
-        "id": "1945",
-        "name": "Lee E. Williams Athletics and Assembly Center",
-        "city": "Jackson",
-        "state": "MS"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPNU"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401827077",
-      "date": "2026-02-17T00:00Z",
-      "date_display": "Mon, Feb 16 2026",
-      "time_detail": "2/16 - 7:00 PM EST",
-      "name": "Grambling Tigers at Prairie View A&M Panthers",
-      "short_name": "GRAM @ PV",
-      "home_team": {
-        "id": "2504",
-        "name": "Prairie View A&M Panthers",
-        "abbreviation": "PV",
-        "short_name": "Prairie View"
-      },
-      "away_team": {
-        "id": "2755",
-        "name": "Grambling Tigers",
-        "abbreviation": "GRAM",
-        "short_name": "Grambling"
-      },
-      "venue": {
-        "id": "2027",
-        "name": "William Nicks Building",
-        "city": "Prairie View",
-        "state": "TX"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401823053",
-      "date": "2026-02-17T00:00Z",
-      "date_display": "Mon, Feb 16 2026",
-      "time_detail": "2/16 - 7:00 PM EST",
-      "name": "Norfolk State Spartans at Maryland Eastern Shore Hawks",
-      "short_name": "NORF @ UMES",
-      "home_team": {
-        "id": "2379",
-        "name": "Maryland Eastern Shore Hawks",
-        "abbreviation": "UMES",
-        "short_name": "MD Eastern"
-      },
-      "away_team": {
-        "id": "2450",
-        "name": "Norfolk State Spartans",
-        "abbreviation": "NORF",
-        "short_name": "Norfolk St"
-      },
-      "venue": {
-        "id": "2064",
-        "name": "Hytche Center",
-        "city": "Princess Anne",
-        "state": "MD"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "DSN"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401808639",
-      "date": "2026-02-17T00:00Z",
-      "date_display": "Mon, Feb 16 2026",
-      "time_detail": "2/16 - 7:00 PM EST",
-      "name": "South Alabama Jaguars at Marshall Thundering Herd",
-      "short_name": "USA @ MRSH",
-      "home_team": {
-        "id": "276",
-        "name": "Marshall Thundering Herd",
-        "abbreviation": "MRSH",
-        "short_name": "Marshall"
-      },
-      "away_team": {
-        "id": "6",
-        "name": "South Alabama Jaguars",
-        "abbreviation": "USA",
-        "short_name": "South Alabama"
-      },
-      "venue": {
-        "id": "1935",
-        "name": "Cam Henderson Center",
-        "city": "Huntington",
-        "state": "WV"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401808983",
-      "date": "2026-02-17T00:30Z",
-      "date_display": "Mon, Feb 16 2026",
-      "time_detail": "2/16 - 7:30 PM EST",
-      "name": "Lamar Cardinals at UT Rio Grande Valley Vaqueros",
-      "short_name": "LAM @ RGV",
-      "home_team": {
-        "id": "292",
-        "name": "UT Rio Grande Valley Vaqueros",
-        "abbreviation": "RGV",
-        "short_name": "UT Rio Grande"
-      },
-      "away_team": {
-        "id": "2320",
-        "name": "Lamar Cardinals",
-        "abbreviation": "LAM",
-        "short_name": "Lamar"
-      },
-      "venue": {
-        "id": "2153",
-        "name": "UTRGV Fieldhouse",
-        "city": "Edinburg",
-        "state": "TX"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401808914",
-      "date": "2026-02-17T00:30Z",
-      "date_display": "Mon, Feb 16 2026",
-      "time_detail": "2/16 - 7:30 PM EST",
-      "name": "New Orleans Privateers at Incarnate Word Cardinals",
-      "short_name": "UNO @ UIW",
-      "home_team": {
-        "id": "2916",
-        "name": "Incarnate Word Cardinals",
-        "abbreviation": "UIW",
-        "short_name": "Incarnate Word"
-      },
-      "away_team": {
-        "id": "2443",
-        "name": "New Orleans Privateers",
-        "abbreviation": "UNO",
-        "short_name": "New Orleans"
-      },
-      "venue": {
-        "id": "4532",
-        "name": "McDermott Center",
-        "city": "San Antonio",
-        "state": "TX"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401808885",
-      "date": "2026-02-17T00:30Z",
-      "date_display": "Mon, Feb 16 2026",
-      "time_detail": "2/16 - 7:30 PM EST",
-      "name": "McNeese Cowboys at Northwestern State Demons",
-      "short_name": "MCN @ NWST",
-      "home_team": {
-        "id": "2466",
-        "name": "Northwestern State Demons",
-        "abbreviation": "NWST",
-        "short_name": "N'Western St"
-      },
-      "away_team": {
-        "id": "2377",
-        "name": "McNeese Cowboys",
-        "abbreviation": "MCN",
-        "short_name": "McNeese"
-      },
-      "venue": {
-        "id": "1939",
-        "name": "Prather Coliseum",
-        "city": "Natchitoches",
-        "state": "LA"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401858742",
-      "date": "2026-02-17T01:00Z",
-      "date_display": "Mon, Feb 16 2026",
-      "time_detail": "2/16 - 8:00 PM EST",
-      "name": "Abilene Christian Wildcats at Tarleton State Texans",
-      "short_name": "ACU @ TAR",
-      "home_team": {
-        "id": "2627",
-        "name": "Tarleton State Texans",
-        "abbreviation": "TAR",
-        "short_name": "Tarleton St"
-      },
-      "away_team": {
-        "id": "2000",
-        "name": "Abilene Christian Wildcats",
-        "abbreviation": "ACU",
-        "short_name": "Abilene Chrstn"
-      },
-      "venue": {
-        "id": "7094",
-        "name": "Wisdom Gym",
-        "city": "Stephenville",
-        "state": "TX"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401829690",
-      "date": "2026-02-17T01:00Z",
-      "date_display": "Mon, Feb 16 2026",
-      "time_detail": "2/16 - 8:00 PM EST",
-      "name": "Florida A&M Rattlers at Alcorn State Braves",
-      "short_name": "FAMU @ ALCN",
-      "home_team": {
-        "id": "2016",
-        "name": "Alcorn State Braves",
-        "abbreviation": "ALCN",
-        "short_name": "Alcorn St"
-      },
-      "away_team": {
-        "id": "50",
-        "name": "Florida A&M Rattlers",
-        "abbreviation": "FAMU",
-        "short_name": "Florida A&M"
-      },
-      "venue": {
-        "id": "2072",
-        "name": "Davey L. Whitney Complex",
-        "city": "Lorman",
-        "state": "MS"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401827147",
-      "date": "2026-02-17T01:00Z",
-      "date_display": "Mon, Feb 16 2026",
-      "time_detail": "2/16 - 8:00 PM EST",
-      "name": "Arkansas-Pine Bluff Golden Lions at Alabama A&M Bulldogs",
-      "short_name": "UAPB @ AAMU",
-      "home_team": {
-        "id": "2010",
-        "name": "Alabama A&M Bulldogs",
-        "abbreviation": "AAMU",
-        "short_name": "Alabama A&M"
-      },
-      "away_team": {
-        "id": "2029",
-        "name": "Arkansas-Pine Bluff Golden Lions",
-        "abbreviation": "UAPB",
-        "short_name": "AR-Pine Bluff"
-      },
-      "venue": {
-        "id": "7507",
-        "name": "Event Center",
-        "city": "Huntsville",
-        "state": "AL"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401827033",
-      "date": "2026-02-17T01:00Z",
-      "date_display": "Mon, Feb 16 2026",
-      "time_detail": "2/16 - 8:00 PM EST",
-      "name": "Southern Jaguars at Texas Southern Tigers",
-      "short_name": "SOU @ TXSO",
-      "home_team": {
-        "id": "2640",
-        "name": "Texas Southern Tigers",
-        "abbreviation": "TXSO",
-        "short_name": "Texas Southern"
-      },
-      "away_team": {
-        "id": "2582",
-        "name": "Southern Jaguars",
-        "abbreviation": "SOU",
-        "short_name": "Southern"
-      },
-      "venue": {
-        "id": "2165",
-        "name": "H&PE Arena",
-        "city": "Houston",
-        "state": "TX"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401812070",
-      "date": "2026-02-17T01:00Z",
-      "date_display": "Mon, Feb 16 2026",
-      "time_detail": "2/16 - 8:00 PM EST",
-      "name": "Drexel Dragons at Stony Brook Seawolves",
-      "short_name": "DREX @ STBK",
-      "home_team": {
-        "id": "2619",
-        "name": "Stony Brook Seawolves",
-        "abbreviation": "STBK",
-        "short_name": "Stony Brook"
-      },
-      "away_team": {
-        "id": "2182",
-        "name": "Drexel Dragons",
-        "abbreviation": "DREX",
-        "short_name": "Drexel"
-      },
-      "venue": {
-        "id": "5309",
-        "name": "Stony Brook Arena",
-        "city": "Stony Brook",
-        "state": "NY"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "CBSSN"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401808973",
-      "date": "2026-02-17T01:00Z",
-      "date_display": "Mon, Feb 16 2026",
-      "time_detail": "2/16 - 8:00 PM EST",
-      "name": "Stephen F. Austin Lumberjacks at Texas A&M-Corpus Christi Islanders",
-      "short_name": "SFA @ AMCC",
-      "home_team": {
-        "id": "357",
-        "name": "Texas A&M-Corpus Christi Islanders",
-        "abbreviation": "AMCC",
-        "short_name": "Texas A&M-CC"
-      },
-      "away_team": {
-        "id": "2617",
-        "name": "Stephen F. Austin Lumberjacks",
-        "abbreviation": "SFA",
-        "short_name": "SF Austin"
-      },
-      "venue": {
-        "id": "2211",
-        "name": "Hilliard Center",
-        "city": "Corpus Christi",
-        "state": "TX"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401808930",
-      "date": "2026-02-17T01:00Z",
-      "date_display": "Mon, Feb 16 2026",
-      "time_detail": "2/16 - 8:00 PM EST",
-      "name": "Nicholls Colonels at Houston Christian Huskies",
-      "short_name": "NICH @ HCU",
-      "home_team": {
-        "id": "2277",
-        "name": "Houston Christian Huskies",
-        "abbreviation": "HCU",
-        "short_name": "Hou Christian"
-      },
-      "away_team": {
-        "id": "2447",
-        "name": "Nicholls Colonels",
-        "abbreviation": "NICH",
-        "short_name": "Nicholls"
-      },
-      "venue": {
-        "id": "2012",
-        "name": "Sharp Gymnasium",
-        "city": "Houston",
-        "state": "TX"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401820819",
-      "date": "2026-02-17T02:00Z",
-      "date_display": "Mon, Feb 16 2026",
-      "time_detail": "2/16 - 9:00 PM EST",
-      "name": "Houston Cougars at Iowa State Cyclones",
-      "short_name": "HOU @ ISU",
-      "home_team": {
-        "id": "66",
-        "name": "Iowa State Cyclones",
-        "abbreviation": "ISU",
-        "short_name": "Iowa State"
-      },
-      "away_team": {
-        "id": "248",
-        "name": "Houston Cougars",
-        "abbreviation": "HOU",
-        "short_name": "Houston"
-      },
-      "venue": {
-        "id": "432",
-        "name": "Hilton Coliseum",
-        "city": "Ames",
-        "state": "IA"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401823930",
-      "date": "2026-02-17T23:00Z",
-      "date_display": "Tue, Feb 17 2026",
-      "time_detail": "2/17 - 6:00 PM EST",
-      "name": "Gardner-Webb Runnin' Bulldogs at Charleston Southern Buccaneers",
-      "short_name": "GWEB @ CHSO",
-      "home_team": {
-        "id": "2127",
-        "name": "Charleston Southern Buccaneers",
-        "abbreviation": "CHSO",
-        "short_name": "Charleston So"
-      },
-      "away_team": {
-        "id": "2241",
-        "name": "Gardner-Webb Runnin' Bulldogs",
-        "abbreviation": "GWEB",
-        "short_name": "Gardner-Webb"
-      },
-      "venue": {
-        "id": "2187",
-        "name": "Buccaneer Fieldhouse",
-        "city": "Charleston",
-        "state": "SC"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401820748",
-      "date": "2026-02-17T23:00Z",
-      "date_display": "Tue, Feb 17 2026",
-      "time_detail": "2/17 - 6:00 PM EST",
-      "name": "Boston College Eagles at Florida State Seminoles",
-      "short_name": "BC @ FSU",
-      "home_team": {
-        "id": "52",
-        "name": "Florida State Seminoles",
-        "abbreviation": "FSU",
-        "short_name": "Florida St"
-      },
-      "away_team": {
-        "id": "103",
-        "name": "Boston College Eagles",
-        "abbreviation": "BC",
-        "short_name": "Boston College"
-      },
-      "venue": {
-        "id": "1952",
-        "name": "Tucker Center",
-        "city": "Tallahassee",
-        "state": "FL"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ACC Network"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401825524",
-      "date": "2026-02-17T23:30Z",
-      "date_display": "Tue, Feb 17 2026",
-      "time_detail": "2/17 - 6:30 PM EST",
-      "name": "Michigan Wolverines at Purdue Boilermakers",
-      "short_name": "MICH @ PUR",
-      "home_team": {
-        "id": "2509",
-        "name": "Purdue Boilermakers",
-        "abbreviation": "PUR",
-        "short_name": "Purdue"
-      },
-      "away_team": {
-        "id": "130",
-        "name": "Michigan Wolverines",
-        "abbreviation": "MICH",
-        "short_name": "Michigan"
-      },
-      "venue": {
-        "id": "399",
-        "name": "Mackey Arena",
-        "city": "West Lafayette",
-        "state": "IN"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "Peacock"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401822947",
-      "date": "2026-02-17T23:30Z",
-      "date_display": "Tue, Feb 17 2026",
-      "time_detail": "2/17 - 6:30 PM EST",
-      "name": "Villanova Wildcats at Xavier Musketeers",
-      "short_name": "VILL @ XAV",
-      "home_team": {
-        "id": "2752",
-        "name": "Xavier Musketeers",
-        "abbreviation": "XAV",
-        "short_name": "Xavier"
-      },
-      "away_team": {
-        "id": "222",
-        "name": "Villanova Wildcats",
-        "abbreviation": "VILL",
-        "short_name": "Villanova"
-      },
-      "venue": {
-        "id": "1973",
-        "name": "Cintas Center",
-        "city": "Cincinnati",
-        "state": "OH"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "FS1"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401814573",
-      "date": "2026-02-17T23:30Z",
-      "date_display": "Tue, Feb 17 2026",
-      "time_detail": "2/17 - 6:30 PM EST",
-      "name": "Northern Illinois Huskies at Buffalo Bulls",
-      "short_name": "NIU @ BUF",
-      "home_team": {
-        "id": "2084",
-        "name": "Buffalo Bulls",
-        "abbreviation": "BUF",
-        "short_name": "Buffalo"
-      },
-      "away_team": {
-        "id": "2459",
-        "name": "Northern Illinois Huskies",
-        "abbreviation": "NIU",
-        "short_name": "N Illinois"
-      },
-      "venue": {
-        "id": "2107",
-        "name": "Alumni Arena",
-        "city": "Buffalo",
-        "state": "NY"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401814570",
-      "date": "2026-02-17T23:30Z",
-      "date_display": "Tue, Feb 17 2026",
-      "time_detail": "2/17 - 6:30 PM EST",
-      "name": "Central Michigan Chippewas at Eastern Michigan Eagles",
-      "short_name": "CMU @ EMU",
-      "home_team": {
-        "id": "2199",
-        "name": "Eastern Michigan Eagles",
-        "abbreviation": "EMU",
-        "short_name": "E Michigan"
-      },
-      "away_team": {
-        "id": "2117",
-        "name": "Central Michigan Chippewas",
-        "abbreviation": "CMU",
-        "short_name": "C Michigan"
-      },
-      "venue": {
-        "id": "2109",
-        "name": "Gervin GameAbove Center",
-        "city": "Ypsilanti",
-        "state": "MI"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401820752",
-      "date": "2026-02-18T00:00Z",
-      "date_display": "Tue, Feb 17 2026",
-      "time_detail": "2/17 - 7:00 PM EST",
-      "name": "North Carolina Tar Heels at NC State Wolfpack",
-      "short_name": "UNC @ NCSU",
-      "home_team": {
-        "id": "152",
-        "name": "NC State Wolfpack",
-        "abbreviation": "NCSU",
-        "short_name": "NC State"
-      },
-      "away_team": {
-        "id": "153",
-        "name": "North Carolina Tar Heels",
-        "abbreviation": "UNC",
-        "short_name": "North Carolina"
-      },
-      "venue": {
-        "id": "999",
-        "name": "Lenovo Center",
-        "city": "Raleigh",
-        "state": "NC"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401808241",
-      "date": "2026-02-18T00:00Z",
-      "date_display": "Tue, Feb 17 2026",
-      "time_detail": "2/17 - 7:00 PM EST",
-      "name": "South Carolina Gamecocks at Florida Gators",
-      "short_name": "SC @ FLA",
-      "home_team": {
-        "id": "57",
-        "name": "Florida Gators",
-        "abbreviation": "FLA",
-        "short_name": "Florida"
-      },
-      "away_team": {
-        "id": "2579",
-        "name": "South Carolina Gamecocks",
-        "abbreviation": "SC",
-        "short_name": "South Carolina"
-      },
-      "venue": {
-        "id": "360",
-        "name": "Stephen C. O'Connell Center",
-        "city": "Gainesville",
-        "state": "FL"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "SEC Network"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401828431",
-      "date": "2026-02-18T00:00Z",
-      "date_display": "Tue, Feb 17 2026",
-      "time_detail": "2/17 - 7:00 PM EST",
-      "name": "Saint Louis Billikens at Rhode Island Rams",
-      "short_name": "SLU @ URI",
-      "home_team": {
-        "id": "227",
-        "name": "Rhode Island Rams",
-        "abbreviation": "URI",
-        "short_name": "Rhode Island"
-      },
-      "away_team": {
-        "id": "139",
-        "name": "Saint Louis Billikens",
-        "abbreviation": "SLU",
-        "short_name": "Saint Louis"
-      },
-      "venue": {
-        "id": "2179",
-        "name": "Thomas M. Ryan Center",
-        "city": "Kingston",
-        "state": "RI"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401814572",
-      "date": "2026-02-18T00:00Z",
-      "date_display": "Tue, Feb 17 2026",
-      "time_detail": "2/17 - 7:00 PM EST",
-      "name": "Miami (OH) RedHawks at Massachusetts Minutemen",
-      "short_name": "M-OH @ MASS",
-      "home_team": {
-        "id": "113",
-        "name": "Massachusetts Minutemen",
-        "abbreviation": "MASS",
-        "short_name": "UMass"
-      },
-      "away_team": {
-        "id": "193",
-        "name": "Miami (OH) RedHawks",
-        "abbreviation": "M-OH",
-        "short_name": "Miami OH"
-      },
-      "venue": {
-        "id": "1984",
-        "name": "Mullins Center",
-        "city": "Amherst",
-        "state": "MA"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401820749",
-      "date": "2026-02-18T00:00Z",
-      "date_display": "Tue, Feb 17 2026",
-      "time_detail": "2/17 - 7:00 PM EST",
-      "name": "Louisville Cardinals at SMU Mustangs",
-      "short_name": "LOU @ SMU",
-      "home_team": {
-        "id": "2567",
-        "name": "SMU Mustangs",
-        "abbreviation": "SMU",
-        "short_name": "SMU"
-      },
-      "away_team": {
-        "id": "97",
-        "name": "Louisville Cardinals",
-        "abbreviation": "LOU",
-        "short_name": "Louisville"
-      },
-      "venue": {
-        "id": "1961",
-        "name": "Moody Coliseum (Dallas)",
-        "city": "Dallas",
-        "state": "TX"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN2"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401827687",
-      "date": "2026-02-18T00:00Z",
-      "date_display": "Tue, Feb 17 2026",
-      "time_detail": "2/17 - 7:00 PM EST",
-      "name": "TCU Horned Frogs at UCF Knights",
-      "short_name": "TCU @ UCF",
-      "home_team": {
-        "id": "2116",
-        "name": "UCF Knights",
-        "abbreviation": "UCF",
-        "short_name": "UCF"
-      },
-      "away_team": {
-        "id": "2628",
-        "name": "TCU Horned Frogs",
-        "abbreviation": "TCU",
-        "short_name": "TCU"
-      },
-      "venue": {
-        "id": "4484",
-        "name": "Addition Financial Arena",
-        "city": "Orlando",
-        "state": "FL"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401814571",
-      "date": "2026-02-18T00:00Z",
-      "date_display": "Tue, Feb 17 2026",
-      "time_detail": "2/17 - 7:00 PM EST",
-      "name": "Kent State Golden Flashes at Bowling Green Falcons",
-      "short_name": "KENT @ BGSU",
-      "home_team": {
-        "id": "189",
-        "name": "Bowling Green Falcons",
-        "abbreviation": "BGSU",
-        "short_name": "Bowling Green"
-      },
-      "away_team": {
-        "id": "2309",
-        "name": "Kent State Golden Flashes",
-        "abbreviation": "KENT",
-        "short_name": "Kent State"
-      },
-      "venue": {
-        "id": "2220",
-        "name": "Stroh Center",
-        "city": "Bowling Green",
-        "state": "OH"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401814569",
-      "date": "2026-02-18T00:00Z",
-      "date_display": "Tue, Feb 17 2026",
-      "time_detail": "2/17 - 7:00 PM EST",
-      "name": "Ball State Cardinals at Ohio Bobcats",
-      "short_name": "BALL @ OHIO",
-      "home_team": {
-        "id": "195",
-        "name": "Ohio Bobcats",
-        "abbreviation": "OHIO",
-        "short_name": "Ohio"
-      },
-      "away_team": {
-        "id": "2050",
-        "name": "Ball State Cardinals",
-        "abbreviation": "BALL",
-        "short_name": "Ball State"
-      },
-      "venue": {
-        "id": "2135",
-        "name": "Convocation Center (OH)",
-        "city": "Athens",
-        "state": "OH"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401814568",
-      "date": "2026-02-18T00:00Z",
-      "date_display": "Tue, Feb 17 2026",
-      "time_detail": "2/17 - 7:00 PM EST",
-      "name": "Akron Zips at Western Michigan Broncos",
-      "short_name": "AKR @ WMU",
-      "home_team": {
-        "id": "2711",
-        "name": "Western Michigan Broncos",
-        "abbreviation": "WMU",
-        "short_name": "W Michigan"
-      },
-      "away_team": {
-        "id": "2006",
-        "name": "Akron Zips",
-        "abbreviation": "AKR",
-        "short_name": "Akron"
-      },
-      "venue": {
-        "id": "1972",
-        "name": "University Arena (MI)",
-        "city": "Kalamazoo",
-        "state": "MI"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401828430",
-      "date": "2026-02-18T01:00Z",
-      "date_display": "Tue, Feb 17 2026",
-      "time_detail": "2/17 - 8:00 PM EST",
-      "name": "George Washington Revolutionaries at VCU Rams",
-      "short_name": "GW @ VCU",
-      "home_team": {
-        "id": "2670",
-        "name": "VCU Rams",
-        "abbreviation": "VCU",
-        "short_name": "VCU"
-      },
-      "away_team": {
-        "id": "45",
-        "name": "George Washington Revolutionaries",
-        "abbreviation": "GW",
-        "short_name": "G Washington"
-      },
-      "venue": {
-        "id": "2051",
-        "name": "Siegel Center",
-        "city": "Richmond",
-        "state": "VA"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "CBSSN"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401820751",
-      "date": "2026-02-18T01:00Z",
-      "date_display": "Tue, Feb 17 2026",
-      "time_detail": "2/17 - 8:00 PM EST",
-      "name": "Virginia Tech Hokies at Miami Hurricanes",
-      "short_name": "VT @ MIA",
-      "home_team": {
-        "id": "2390",
-        "name": "Miami Hurricanes",
-        "abbreviation": "MIA",
-        "short_name": "Miami"
-      },
-      "away_team": {
-        "id": "259",
-        "name": "Virginia Tech Hokies",
-        "abbreviation": "VT",
-        "short_name": "Virginia Tech"
-      },
-      "venue": {
-        "id": "1985",
-        "name": "Watsco Center",
-        "city": "Coral Gables",
-        "state": "FL"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ACC Network"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401825521",
-      "date": "2026-02-18T01:30Z",
-      "date_display": "Tue, Feb 17 2026",
-      "time_detail": "2/17 - 8:30 PM EST",
-      "name": "UCLA Bruins at Michigan State Spartans",
-      "short_name": "UCLA @ MSU",
-      "home_team": {
-        "id": "127",
-        "name": "Michigan State Spartans",
-        "abbreviation": "MSU",
-        "short_name": "Michigan St"
-      },
-      "away_team": {
-        "id": "26",
-        "name": "UCLA Bruins",
-        "abbreviation": "UCLA",
-        "short_name": "UCLA"
-      },
-      "venue": {
-        "id": "1987",
-        "name": "Breslin Center",
-        "city": "East Lansing",
-        "state": "MI"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "Peacock"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401828933",
-      "date": "2026-02-18T01:30Z",
-      "date_display": "Tue, Feb 17 2026",
-      "time_detail": "2/17 - 8:30 PM EST",
-      "name": "Fresno State Bulldogs at Wyoming Cowboys",
-      "short_name": "FRES @ WYO",
-      "home_team": {
-        "id": "2751",
-        "name": "Wyoming Cowboys",
-        "abbreviation": "WYO",
-        "short_name": "Wyoming"
-      },
-      "away_team": {
-        "id": "278",
-        "name": "Fresno State Bulldogs",
-        "abbreviation": "FRES",
-        "short_name": "Fresno St"
-      },
-      "venue": {
-        "id": "2053",
-        "name": "Arena-Auditorium",
-        "city": "Laramie",
-        "state": "WY"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "MWN"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401825522",
-      "date": "2026-02-18T01:30Z",
-      "date_display": "Tue, Feb 17 2026",
-      "time_detail": "2/17 - 8:30 PM EST",
-      "name": "Wisconsin Badgers at Ohio State Buckeyes",
-      "short_name": "WIS @ OSU",
-      "home_team": {
-        "id": "194",
-        "name": "Ohio State Buckeyes",
-        "abbreviation": "OSU",
-        "short_name": "Ohio State"
-      },
-      "away_team": {
-        "id": "275",
-        "name": "Wisconsin Badgers",
-        "abbreviation": "WIS",
-        "short_name": "Wisconsin"
-      },
-      "venue": {
-        "id": "317",
-        "name": "Value City Arena",
-        "city": "Columbus",
-        "state": "OH"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "FS1"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401806491",
-      "date": "2026-02-18T01:30Z",
-      "date_display": "Tue, Feb 17 2026",
-      "time_detail": "2/17 - 8:30 PM EST",
-      "name": "Southeast Missouri State Redhawks at UT Martin Skyhawks",
-      "short_name": "SEMO @ UTM",
-      "home_team": {
-        "id": "2630",
-        "name": "UT Martin Skyhawks",
-        "abbreviation": "UTM",
-        "short_name": "UT Martin"
-      },
-      "away_team": {
-        "id": "2546",
-        "name": "Southeast Missouri State Redhawks",
-        "abbreviation": "SEMO",
-        "short_name": "SE Missouri"
-      },
-      "venue": {
-        "id": "7229",
-        "name": "Kathleen and Tom Elam Center",
-        "city": "Martin",
-        "state": "TN"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401825520",
-      "date": "2026-02-18T02:00Z",
-      "date_display": "Tue, Feb 17 2026",
-      "time_detail": "2/17 - 9:00 PM EST",
-      "name": "Nebraska Cornhuskers at Iowa Hawkeyes",
-      "short_name": "NEB @ IOWA",
-      "home_team": {
-        "id": "2294",
-        "name": "Iowa Hawkeyes",
-        "abbreviation": "IOWA",
-        "short_name": "Iowa"
-      },
-      "away_team": {
-        "id": "158",
-        "name": "Nebraska Cornhuskers",
-        "abbreviation": "NEB",
-        "short_name": "Nebraska"
-      },
-      "venue": {
-        "id": "363",
-        "name": "Carver-Hawkeye Arena",
-        "city": "Iowa City",
-        "state": "IA"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "BTN"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401808245",
-      "date": "2026-02-18T02:00Z",
-      "date_display": "Tue, Feb 17 2026",
-      "time_detail": "2/17 - 9:00 PM EST",
-      "name": "Georgia Bulldogs at Kentucky Wildcats",
-      "short_name": "UGA @ UK",
-      "home_team": {
-        "id": "96",
-        "name": "Kentucky Wildcats",
-        "abbreviation": "UK",
-        "short_name": "Kentucky"
-      },
-      "away_team": {
-        "id": "61",
-        "name": "Georgia Bulldogs",
-        "abbreviation": "UGA",
-        "short_name": "Georgia"
-      },
-      "venue": {
-        "id": "251",
-        "name": "Rupp Arena",
-        "city": "Lexington",
-        "state": "KY"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401827688",
-      "date": "2026-02-18T02:00Z",
-      "date_display": "Tue, Feb 17 2026",
-      "time_detail": "2/17 - 9:00 PM EST",
-      "name": "Baylor Bears at Kansas State Wildcats",
-      "short_name": "BAY @ KSU",
-      "home_team": {
-        "id": "2306",
-        "name": "Kansas State Wildcats",
-        "abbreviation": "KSU",
-        "short_name": "Kansas St"
-      },
-      "away_team": {
-        "id": "239",
-        "name": "Baylor Bears",
-        "abbreviation": "BAY",
-        "short_name": "Baylor"
-      },
-      "venue": {
-        "id": "2131",
-        "name": "Bramlage Coliseum",
-        "city": "Manhattan",
-        "state": "KS"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN2"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401820571",
-      "date": "2026-02-18T02:00Z",
-      "date_display": "Tue, Feb 17 2026",
-      "time_detail": "2/17 - 9:00 PM EST",
-      "name": "Air Force Falcons at New Mexico Lobos",
-      "short_name": "AF @ UNM",
-      "home_team": {
-        "id": "167",
-        "name": "New Mexico Lobos",
-        "abbreviation": "UNM",
-        "short_name": "New Mexico"
-      },
-      "away_team": {
-        "id": "2005",
-        "name": "Air Force Falcons",
-        "abbreviation": "AF",
-        "short_name": "Air Force"
-      },
-      "venue": {
-        "id": "2024",
-        "name": "The Pit",
-        "city": "Albuquerque",
-        "state": "NM"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "MWN"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401808243",
-      "date": "2026-02-18T02:00Z",
-      "date_display": "Tue, Feb 17 2026",
-      "time_detail": "2/17 - 9:00 PM EST",
-      "name": "LSU Tigers at Texas Longhorns",
-      "short_name": "LSU @ TEX",
-      "home_team": {
-        "id": "251",
-        "name": "Texas Longhorns",
-        "abbreviation": "TEX",
-        "short_name": "Texas"
-      },
-      "away_team": {
-        "id": "99",
-        "name": "LSU Tigers",
-        "abbreviation": "LSU",
-        "short_name": "LSU"
-      },
-      "venue": {
-        "id": "7317",
-        "name": "Moody Center",
-        "city": "Austin",
-        "state": "TX"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "SEC Network"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401829318",
-      "date": "2026-02-18T03:00Z",
-      "date_display": "Tue, Feb 17 2026",
-      "time_detail": "2/17 - 10:00 PM EST",
-      "name": "Nevada Wolf Pack at San Jos\u00e9 State Spartans",
-      "short_name": "NEV @ SJSU",
-      "home_team": {
-        "id": "23",
-        "name": "San Jos\u00e9 State Spartans",
-        "abbreviation": "SJSU",
-        "short_name": "San Jos\u00e9 St"
-      },
-      "away_team": {
-        "id": "2440",
-        "name": "Nevada Wolf Pack",
-        "abbreviation": "NEV",
-        "short_name": "Nevada"
-      },
-      "venue": {
-        "id": "2192",
-        "name": "Provident Credit Union Event Center",
-        "city": "San Jose",
-        "state": "CA"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "MWN"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401823782",
-      "date": "2026-02-18T03:00Z",
-      "date_display": "Tue, Feb 17 2026",
-      "time_detail": "2/17 - 10:00 PM EST",
-      "name": "Grand Canyon Lopes at San Diego State Aztecs",
-      "short_name": "GCU @ SDSU",
-      "home_team": {
-        "id": "21",
-        "name": "San Diego State Aztecs",
-        "abbreviation": "SDSU",
-        "short_name": "San Diego St"
-      },
-      "away_team": {
-        "id": "2253",
-        "name": "Grand Canyon Lopes",
-        "abbreviation": "GCU",
-        "short_name": "Grand Canyon"
-      },
-      "venue": {
-        "id": "2111",
-        "name": "Viejas Arena",
-        "city": "San Diego",
-        "state": "CA"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "CBSSN"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401825523",
-      "date": "2026-02-18T03:30Z",
-      "date_display": "Tue, Feb 17 2026",
-      "time_detail": "2/17 - 10:30 PM EST",
-      "name": "Minnesota Golden Gophers at Oregon Ducks",
-      "short_name": "MINN @ ORE",
-      "home_team": {
-        "id": "2483",
-        "name": "Oregon Ducks",
-        "abbreviation": "ORE",
-        "short_name": "Oregon"
-      },
-      "away_team": {
-        "id": "135",
-        "name": "Minnesota Golden Gophers",
-        "abbreviation": "MINN",
-        "short_name": "Minnesota"
-      },
-      "venue": {
-        "id": "1977",
-        "name": "Matthew Knight Arena",
-        "city": "Eugene",
-        "state": "OR"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "FS1"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401827686",
-      "date": "2026-02-18T04:00Z",
-      "date_display": "Tue, Feb 17 2026",
-      "time_detail": "2/17 - 11:00 PM EST",
-      "name": "Texas Tech Red Raiders at Arizona State Sun Devils",
-      "short_name": "TTU @ ASU",
-      "home_team": {
-        "id": "9",
-        "name": "Arizona State Sun Devils",
-        "abbreviation": "ASU",
-        "short_name": "Arizona St"
-      },
-      "away_team": {
-        "id": "2641",
-        "name": "Texas Tech Red Raiders",
-        "abbreviation": "TTU",
-        "short_name": "Texas Tech"
-      },
-      "venue": {
-        "id": "833",
-        "name": "Desert Financial Arena",
-        "city": "Tempe",
-        "state": "AZ"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN2"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
     {
       "espn_id": "401825526",
       "date": "2026-02-18T23:00Z",
       "date_display": "Wed, Feb 18 2026",
-      "time_detail": "2/18 - 6:00 PM EST",
+      "time_detail": "1:19 - 1st",
       "name": "Rutgers Scarlet Knights at Penn State Nittany Lions",
       "short_name": "RUTG @ PSU",
       "home_team": {
@@ -1749,13 +33,13 @@
       "tv": [
         "BTN"
       ],
-      "status": "STATUS_SCHEDULED"
+      "status": "STATUS_IN_PROGRESS"
     },
     {
       "espn_id": "401824394",
       "date": "2026-02-18T23:00Z",
       "date_display": "Wed, Feb 18 2026",
-      "time_detail": "2/18 - 6:00 PM EST",
+      "time_detail": "0:34 - 1st",
       "name": "Lafayette Leopards at Holy Cross Crusaders",
       "short_name": "LAF @ HC",
       "home_team": {
@@ -1781,13 +65,13 @@
       "tv": [
         "ESPN+"
       ],
-      "status": "STATUS_SCHEDULED"
+      "status": "STATUS_IN_PROGRESS"
     },
     {
       "espn_id": "401809375",
       "date": "2026-02-18T23:00Z",
       "date_display": "Wed, Feb 18 2026",
-      "time_detail": "2/18 - 6:00 PM EST",
+      "time_detail": "3:26 - 1st",
       "name": "VMI Keydets at Wofford Terriers",
       "short_name": "VMI @ WOF",
       "home_team": {
@@ -1813,13 +97,13 @@
       "tv": [
         "ESPN+"
       ],
-      "status": "STATUS_SCHEDULED"
+      "status": "STATUS_IN_PROGRESS"
     },
     {
       "espn_id": "401822950",
       "date": "2026-02-18T23:30Z",
       "date_display": "Wed, Feb 18 2026",
-      "time_detail": "2/18 - 6:30 PM EST",
+      "time_detail": "15:39 - 1st",
       "name": "Butler Bulldogs at Georgetown Hoyas",
       "short_name": "BUT @ GTWN",
       "home_team": {
@@ -1845,13 +129,13 @@
       "tv": [
         "FS1"
       ],
-      "status": "STATUS_SCHEDULED"
+      "status": "STATUS_IN_PROGRESS"
     },
     {
       "espn_id": "401817672",
       "date": "2026-02-18T23:30Z",
       "date_display": "Wed, Feb 18 2026",
-      "time_detail": "2/18 - 6:30 PM EST",
+      "time_detail": "15:51 - 1st",
       "name": "Cleveland State Vikings at Youngstown State Penguins",
       "short_name": "CLE @ YSU",
       "home_team": {
@@ -1877,13 +161,13 @@
       "tv": [
         "ESPN+"
       ],
-      "status": "STATUS_SCHEDULED"
+      "status": "STATUS_IN_PROGRESS"
     },
     {
       "espn_id": "401809373",
       "date": "2026-02-18T23:30Z",
       "date_display": "Wed, Feb 18 2026",
-      "time_detail": "2/18 - 6:30 PM EST",
+      "time_detail": "16:00 - 1st",
       "name": "East Tennessee State Buccaneers at Furman Paladins",
       "short_name": "ETSU @ FUR",
       "home_team": {
@@ -1909,7 +193,7 @@
       "tv": [
         "ESPN+"
       ],
-      "status": "STATUS_SCHEDULED"
+      "status": "STATUS_IN_PROGRESS"
     },
     {
       "espn_id": "401822948",
@@ -1941,38 +225,6 @@
       "tv": [
         "TNT",
         "HBO Max"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401820753",
-      "date": "2026-02-19T00:00Z",
-      "date_display": "Wed, Feb 18 2026",
-      "time_detail": "2/18 - 7:00 PM EST",
-      "name": "Clemson Tigers at Wake Forest Demon Deacons",
-      "short_name": "CLEM @ WAKE",
-      "home_team": {
-        "id": "154",
-        "name": "Wake Forest Demon Deacons",
-        "abbreviation": "WAKE",
-        "short_name": "Wake Forest"
-      },
-      "away_team": {
-        "id": "228",
-        "name": "Clemson Tigers",
-        "abbreviation": "CLEM",
-        "short_name": "Clemson"
-      },
-      "venue": {
-        "id": "2120",
-        "name": "LJVM Coliseum",
-        "city": "Winston-Salem",
-        "state": "NC"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ACC Network"
       ],
       "status": "STATUS_SCHEDULED"
     },
@@ -2325,6 +577,38 @@
       "conference_game": true,
       "tv": [
         "ESPNU"
+      ],
+      "status": "STATUS_SCHEDULED"
+    },
+    {
+      "espn_id": "401820753",
+      "date": "2026-02-19T00:00Z",
+      "date_display": "Wed, Feb 18 2026",
+      "time_detail": "2/18 - 7:00 PM EST",
+      "name": "Clemson Tigers at Wake Forest Demon Deacons",
+      "short_name": "CLEM @ WAKE",
+      "home_team": {
+        "id": "154",
+        "name": "Wake Forest Demon Deacons",
+        "abbreviation": "WAKE",
+        "short_name": "Wake Forest"
+      },
+      "away_team": {
+        "id": "228",
+        "name": "Clemson Tigers",
+        "abbreviation": "CLEM",
+        "short_name": "Clemson"
+      },
+      "venue": {
+        "id": "2120",
+        "name": "LJVM Coliseum",
+        "city": "Winston-Salem",
+        "state": "NC"
+      },
+      "neutral_site": false,
+      "conference_game": true,
+      "tv": [
+        "ACC Network"
       ],
       "status": "STATUS_SCHEDULED"
     },
@@ -5532,36 +3816,6 @@
       "status": "STATUS_SCHEDULED"
     },
     {
-      "espn_id": "401813430",
-      "date": "2026-02-21T00:00Z",
-      "date_display": "Fri, Feb 20 2026",
-      "time_detail": "2/20 - 7:00 PM EST",
-      "name": "Siena Saints at Merrimack Warriors",
-      "short_name": "SIE @ MRMK",
-      "home_team": {
-        "id": "2771",
-        "name": "Merrimack Warriors",
-        "abbreviation": "MRMK",
-        "short_name": "Merrimack"
-      },
-      "away_team": {
-        "id": "2561",
-        "name": "Siena Saints",
-        "abbreviation": "SIE",
-        "short_name": "Siena"
-      },
-      "venue": {
-        "id": "1218",
-        "name": "Lawler Arena",
-        "city": "North Andover",
-        "state": "MA"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
       "espn_id": "401813393",
       "date": "2026-02-21T00:00Z",
       "date_display": "Fri, Feb 20 2026",
@@ -5690,6 +3944,38 @@
       "status": "STATUS_SCHEDULED"
     },
     {
+      "espn_id": "401813430",
+      "date": "2026-02-21T01:00Z",
+      "date_display": "Fri, Feb 20 2026",
+      "time_detail": "2/20 - 8:00 PM EST",
+      "name": "Siena Saints at Merrimack Warriors",
+      "short_name": "SIE @ MRMK",
+      "home_team": {
+        "id": "2771",
+        "name": "Merrimack Warriors",
+        "abbreviation": "MRMK",
+        "short_name": "Merrimack"
+      },
+      "away_team": {
+        "id": "2561",
+        "name": "Siena Saints",
+        "abbreviation": "SIE",
+        "short_name": "Siena"
+      },
+      "venue": {
+        "id": "1218",
+        "name": "Lawler Arena",
+        "city": "North Andover",
+        "state": "MA"
+      },
+      "neutral_site": false,
+      "conference_game": true,
+      "tv": [
+        "ESPNU"
+      ],
+      "status": "STATUS_SCHEDULED"
+    },
+    {
       "espn_id": "401814575",
       "date": "2026-02-21T01:30Z",
       "date_display": "Fri, Feb 20 2026",
@@ -5748,7 +4034,9 @@
       },
       "neutral_site": false,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "ESPN"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -5784,38 +4072,6 @@
       "status": "STATUS_SCHEDULED"
     },
     {
-      "espn_id": "401820755",
-      "date": "2026-02-21T17:00Z",
-      "date_display": "Sat, Feb 21 2026",
-      "time_detail": "2/21 - 12:00 PM EST",
-      "name": "Florida State Seminoles at Clemson Tigers",
-      "short_name": "FSU @ CLEM",
-      "home_team": {
-        "id": "228",
-        "name": "Clemson Tigers",
-        "abbreviation": "CLEM",
-        "short_name": "Clemson"
-      },
-      "away_team": {
-        "id": "52",
-        "name": "Florida State Seminoles",
-        "abbreviation": "FSU",
-        "short_name": "Florida St"
-      },
-      "venue": {
-        "id": "1912",
-        "name": "Littlejohn Coliseum",
-        "city": "Clemson",
-        "state": "SC"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "The CW Network"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
       "espn_id": "401828441",
       "date": "2026-02-21T17:00Z",
       "date_display": "Sat, Feb 21 2026",
@@ -5842,7 +4098,9 @@
       },
       "neutral_site": false,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "ESPNU"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -5872,7 +4130,9 @@
       },
       "neutral_site": false,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "ESPN2"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -5936,6 +4196,38 @@
       "conference_game": true,
       "tv": [
         "ACC Network"
+      ],
+      "status": "STATUS_SCHEDULED"
+    },
+    {
+      "espn_id": "401820755",
+      "date": "2026-02-21T17:00Z",
+      "date_display": "Sat, Feb 21 2026",
+      "time_detail": "2/21 - 12:00 PM EST",
+      "name": "Florida State Seminoles at Clemson Tigers",
+      "short_name": "FSU @ CLEM",
+      "home_team": {
+        "id": "228",
+        "name": "Clemson Tigers",
+        "abbreviation": "CLEM",
+        "short_name": "Clemson"
+      },
+      "away_team": {
+        "id": "52",
+        "name": "Florida State Seminoles",
+        "abbreviation": "FSU",
+        "short_name": "Florida St"
+      },
+      "venue": {
+        "id": "1912",
+        "name": "Littlejohn Coliseum",
+        "city": "Clemson",
+        "state": "SC"
+      },
+      "neutral_site": false,
+      "conference_game": true,
+      "tv": [
+        "The CW Network"
       ],
       "status": "STATUS_SCHEDULED"
     },
@@ -6383,7 +4675,9 @@
       },
       "neutral_site": false,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "ESPN2"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -6413,7 +4707,9 @@
       },
       "neutral_site": false,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "ESPN"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -7600,7 +5896,9 @@
       },
       "neutral_site": false,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "ESPN"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -7756,7 +6054,9 @@
       },
       "neutral_site": false,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "ESPN2"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -8074,9 +6374,7 @@
       },
       "neutral_site": false,
       "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
+      "tv": [],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -8846,6 +7144,38 @@
       "status": "STATUS_SCHEDULED"
     },
     {
+      "espn_id": "401808252",
+      "date": "2026-02-21T23:00Z",
+      "date_display": "Sat, Feb 21 2026",
+      "time_detail": "2/21 - 6:00 PM EST",
+      "name": "Alabama Crimson Tide at LSU Tigers",
+      "short_name": "ALA @ LSU",
+      "home_team": {
+        "id": "99",
+        "name": "LSU Tigers",
+        "abbreviation": "LSU",
+        "short_name": "LSU"
+      },
+      "away_team": {
+        "id": "333",
+        "name": "Alabama Crimson Tide",
+        "abbreviation": "ALA",
+        "short_name": "Alabama"
+      },
+      "venue": {
+        "id": "557",
+        "name": "Pete Maravich Assembly Center",
+        "city": "Baton Rouge",
+        "state": "LA"
+      },
+      "neutral_site": false,
+      "conference_game": true,
+      "tv": [
+        "SEC Network"
+      ],
+      "status": "STATUS_SCHEDULED"
+    },
+    {
       "espn_id": "401830310",
       "date": "2026-02-21T23:00Z",
       "date_display": "Sat, Feb 21 2026",
@@ -8998,7 +7328,9 @@
       },
       "neutral_site": false,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "ESPN2"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -9319,38 +7651,6 @@
       "status": "STATUS_SCHEDULED"
     },
     {
-      "espn_id": "401808252",
-      "date": "2026-02-21T23:00Z",
-      "date_display": "Sat, Feb 21 2026",
-      "time_detail": "2/21 - 6:00 PM EST",
-      "name": "Alabama Crimson Tide at LSU Tigers",
-      "short_name": "ALA @ LSU",
-      "home_team": {
-        "id": "99",
-        "name": "LSU Tigers",
-        "abbreviation": "LSU",
-        "short_name": "LSU"
-      },
-      "away_team": {
-        "id": "333",
-        "name": "Alabama Crimson Tide",
-        "abbreviation": "ALA",
-        "short_name": "Alabama"
-      },
-      "venue": {
-        "id": "557",
-        "name": "Pete Maravich Assembly Center",
-        "city": "Baton Rouge",
-        "state": "LA"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "SEC Network"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
       "espn_id": "401817238",
       "date": "2026-02-21T23:30Z",
       "date_display": "Sat, Feb 21 2026",
@@ -9601,39 +7901,6 @@
       "conference_game": true,
       "tv": [
         "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401824375",
-      "date": "2026-02-22T00:30Z",
-      "date_display": "Sat, Feb 21 2026",
-      "time_detail": "2/21 - 7:30 PM EST",
-      "name": "Boston University Terriers at Lehigh Mountain Hawks",
-      "short_name": "BU @ LEH",
-      "home_team": {
-        "id": "2329",
-        "name": "Lehigh Mountain Hawks",
-        "abbreviation": "LEH",
-        "short_name": "Lehigh"
-      },
-      "away_team": {
-        "id": "104",
-        "name": "Boston University Terriers",
-        "abbreviation": "BU",
-        "short_name": "Boston U"
-      },
-      "venue": {
-        "id": "2141",
-        "name": "Stabler Arena",
-        "city": "Bethlehem",
-        "state": "PA"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+",
-        "CBSSN"
       ],
       "status": "STATUS_SCHEDULED"
     },
@@ -9959,38 +8226,6 @@
       "status": "STATUS_SCHEDULED"
     },
     {
-      "espn_id": "401808250",
-      "date": "2026-02-22T01:30Z",
-      "date_display": "Sat, Feb 21 2026",
-      "time_detail": "2/21 - 8:30 PM EST",
-      "name": "Kentucky Wildcats at Auburn Tigers",
-      "short_name": "UK @ AUB",
-      "home_team": {
-        "id": "2",
-        "name": "Auburn Tigers",
-        "abbreviation": "AUB",
-        "short_name": "Auburn"
-      },
-      "away_team": {
-        "id": "96",
-        "name": "Kentucky Wildcats",
-        "abbreviation": "UK",
-        "short_name": "Kentucky"
-      },
-      "venue": {
-        "id": "1953",
-        "name": "Neville Arena",
-        "city": "Auburn",
-        "state": "AL"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
       "espn_id": "401808256",
       "date": "2026-02-22T01:30Z",
       "date_display": "Sat, Feb 21 2026",
@@ -10019,6 +8254,38 @@
       "conference_game": true,
       "tv": [
         "SEC Network"
+      ],
+      "status": "STATUS_SCHEDULED"
+    },
+    {
+      "espn_id": "401808250",
+      "date": "2026-02-22T01:30Z",
+      "date_display": "Sat, Feb 21 2026",
+      "time_detail": "2/21 - 8:30 PM EST",
+      "name": "Kentucky Wildcats at Auburn Tigers",
+      "short_name": "UK @ AUB",
+      "home_team": {
+        "id": "2",
+        "name": "Auburn Tigers",
+        "abbreviation": "AUB",
+        "short_name": "Auburn"
+      },
+      "away_team": {
+        "id": "96",
+        "name": "Kentucky Wildcats",
+        "abbreviation": "UK",
+        "short_name": "Kentucky"
+      },
+      "venue": {
+        "id": "1953",
+        "name": "Neville Arena",
+        "city": "Auburn",
+        "state": "AL"
+      },
+      "neutral_site": false,
+      "conference_game": true,
+      "tv": [
+        "ESPN"
       ],
       "status": "STATUS_SCHEDULED"
     },
@@ -10402,7 +8669,8 @@
       "neutral_site": false,
       "conference_game": true,
       "tv": [
-        "ESPN+"
+        "ESPN+",
+        "Spectrum Sports Net"
       ],
       "status": "STATUS_SCHEDULED"
     },
@@ -10563,6 +8831,38 @@
       "conference_game": true,
       "tv": [
         "ESPN+"
+      ],
+      "status": "STATUS_SCHEDULED"
+    },
+    {
+      "espn_id": "401824375",
+      "date": "2026-02-22T17:00Z",
+      "date_display": "Sun, Feb 22 2026",
+      "time_detail": "2/22 - 12:00 PM EST",
+      "name": "Boston University Terriers at Lehigh Mountain Hawks",
+      "short_name": "BU @ LEH",
+      "home_team": {
+        "id": "2329",
+        "name": "Lehigh Mountain Hawks",
+        "abbreviation": "LEH",
+        "short_name": "Lehigh"
+      },
+      "away_team": {
+        "id": "104",
+        "name": "Boston University Terriers",
+        "abbreviation": "BU",
+        "short_name": "Boston U"
+      },
+      "venue": {
+        "id": "2141",
+        "name": "Stabler Arena",
+        "city": "Bethlehem",
+        "state": "PA"
+      },
+      "neutral_site": false,
+      "conference_game": true,
+      "tv": [
+        "CBSSN"
       ],
       "status": "STATUS_SCHEDULED"
     },
@@ -10785,7 +9085,9 @@
       },
       "neutral_site": false,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "ESPNU"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -11013,66 +9315,6 @@
       "status": "STATUS_SCHEDULED"
     },
     {
-      "espn_id": "401828243",
-      "date": "2026-02-22T21:00Z",
-      "date_display": "Sun, Feb 22 2026",
-      "time_detail": "2/22 - 4:00 PM EST",
-      "name": "UTSA Roadrunners at Tulsa Golden Hurricane",
-      "short_name": "UTSA @ TLSA",
-      "home_team": {
-        "id": "202",
-        "name": "Tulsa Golden Hurricane",
-        "abbreviation": "TLSA",
-        "short_name": "Tulsa"
-      },
-      "away_team": {
-        "id": "2636",
-        "name": "UTSA Roadrunners",
-        "abbreviation": "UTSA",
-        "short_name": "UTSA"
-      },
-      "venue": {
-        "id": "2049",
-        "name": "Reynolds Center",
-        "city": "Tulsa",
-        "state": "OK"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401828241",
-      "date": "2026-02-22T21:00Z",
-      "date_display": "Sun, Feb 22 2026",
-      "time_detail": "2/22 - 4:00 PM EST",
-      "name": "Florida Atlantic Owls at North Texas Mean Green",
-      "short_name": "FAU @ UNT",
-      "home_team": {
-        "id": "249",
-        "name": "North Texas Mean Green",
-        "abbreviation": "UNT",
-        "short_name": "North Texas"
-      },
-      "away_team": {
-        "id": "2226",
-        "name": "Florida Atlantic Owls",
-        "abbreviation": "FAU",
-        "short_name": "FAU"
-      },
-      "venue": {
-        "id": "1938",
-        "name": "The Super Pit",
-        "city": "Denton",
-        "state": "TX"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
       "espn_id": "401825535",
       "date": "2026-02-22T21:00Z",
       "date_display": "Sun, Feb 22 2026",
@@ -11105,33 +9347,67 @@
       "status": "STATUS_SCHEDULED"
     },
     {
-      "espn_id": "401827098",
-      "date": "2026-02-23T05:00Z",
-      "date_display": "Mon, Feb 23 2026",
-      "time_detail": "TBD",
-      "name": "Mississippi Valley State Delta Devils at Grambling Tigers",
-      "short_name": "MVSU @ GRAM",
+      "espn_id": "401828243",
+      "date": "2026-02-22T21:00Z",
+      "date_display": "Sun, Feb 22 2026",
+      "time_detail": "2/22 - 4:00 PM EST",
+      "name": "UTSA Roadrunners at Tulsa Golden Hurricane",
+      "short_name": "UTSA @ TLSA",
       "home_team": {
-        "id": "2755",
-        "name": "Grambling Tigers",
-        "abbreviation": "GRAM",
-        "short_name": "Grambling"
+        "id": "202",
+        "name": "Tulsa Golden Hurricane",
+        "abbreviation": "TLSA",
+        "short_name": "Tulsa"
       },
       "away_team": {
-        "id": "2400",
-        "name": "Mississippi Valley State Delta Devils",
-        "abbreviation": "MVSU",
-        "short_name": "Miss Valley St"
+        "id": "2636",
+        "name": "UTSA Roadrunners",
+        "abbreviation": "UTSA",
+        "short_name": "UTSA"
       },
       "venue": {
-        "id": "1928",
-        "name": "Fredrick C. Hobdy Assembly Center",
-        "city": "Grambling",
-        "state": "LA"
+        "id": "2049",
+        "name": "Reynolds Center",
+        "city": "Tulsa",
+        "state": "OK"
       },
       "neutral_site": false,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "ESPNEWS"
+      ],
+      "status": "STATUS_SCHEDULED"
+    },
+    {
+      "espn_id": "401828241",
+      "date": "2026-02-22T21:00Z",
+      "date_display": "Sun, Feb 22 2026",
+      "time_detail": "2/22 - 4:00 PM EST",
+      "name": "Florida Atlantic Owls at North Texas Mean Green",
+      "short_name": "FAU @ UNT",
+      "home_team": {
+        "id": "249",
+        "name": "North Texas Mean Green",
+        "abbreviation": "UNT",
+        "short_name": "North Texas"
+      },
+      "away_team": {
+        "id": "2226",
+        "name": "Florida Atlantic Owls",
+        "abbreviation": "FAU",
+        "short_name": "FAU"
+      },
+      "venue": {
+        "id": "1938",
+        "name": "The Super Pit",
+        "city": "Denton",
+        "state": "TX"
+      },
+      "neutral_site": false,
+      "conference_game": true,
+      "tv": [
+        "ESPNU"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -11359,6 +9635,36 @@
       "status": "STATUS_SCHEDULED"
     },
     {
+      "espn_id": "401827098",
+      "date": "2026-02-24T01:00Z",
+      "date_display": "Mon, Feb 23 2026",
+      "time_detail": "2/23 - 8:00 PM EST",
+      "name": "Mississippi Valley State Delta Devils at Grambling Tigers",
+      "short_name": "MVSU @ GRAM",
+      "home_team": {
+        "id": "2755",
+        "name": "Grambling Tigers",
+        "abbreviation": "GRAM",
+        "short_name": "Grambling"
+      },
+      "away_team": {
+        "id": "2400",
+        "name": "Mississippi Valley State Delta Devils",
+        "abbreviation": "MVSU",
+        "short_name": "Miss Valley St"
+      },
+      "venue": {
+        "id": "1928",
+        "name": "Fredrick C. Hobdy Assembly Center",
+        "city": "Grambling",
+        "state": "LA"
+      },
+      "neutral_site": false,
+      "conference_game": true,
+      "tv": [],
+      "status": "STATUS_SCHEDULED"
+    },
+    {
       "espn_id": "401820820",
       "date": "2026-02-24T02:00Z",
       "date_display": "Mon, Feb 23 2026",
@@ -11417,7 +9723,9 @@
       },
       "neutral_site": false,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "NEC Front Row"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -11543,7 +9851,41 @@
       },
       "neutral_site": false,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "ESPN"
+      ],
+      "status": "STATUS_SCHEDULED"
+    },
+    {
+      "espn_id": "401827704",
+      "date": "2026-02-25T00:00Z",
+      "date_display": "Tue, Feb 24 2026",
+      "time_detail": "2/24 - 7:00 PM EST",
+      "name": "Cincinnati Bearcats at Texas Tech Red Raiders",
+      "short_name": "CIN @ TTU",
+      "home_team": {
+        "id": "2641",
+        "name": "Texas Tech Red Raiders",
+        "abbreviation": "TTU",
+        "short_name": "Texas Tech"
+      },
+      "away_team": {
+        "id": "2132",
+        "name": "Cincinnati Bearcats",
+        "abbreviation": "CIN",
+        "short_name": "Cincinnati"
+      },
+      "venue": {
+        "id": "2047",
+        "name": "United Supermarkets Arena",
+        "city": "Lubbock",
+        "state": "TX"
+      },
+      "neutral_site": false,
+      "conference_game": true,
+      "tv": [
+        "ESPN2"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -11579,36 +9921,6 @@
       "status": "STATUS_SCHEDULED"
     },
     {
-      "espn_id": "401827704",
-      "date": "2026-02-25T00:00Z",
-      "date_display": "Tue, Feb 24 2026",
-      "time_detail": "2/24 - 7:00 PM EST",
-      "name": "Cincinnati Bearcats at Texas Tech Red Raiders",
-      "short_name": "CIN @ TTU",
-      "home_team": {
-        "id": "2641",
-        "name": "Texas Tech Red Raiders",
-        "abbreviation": "TTU",
-        "short_name": "Texas Tech"
-      },
-      "away_team": {
-        "id": "2132",
-        "name": "Cincinnati Bearcats",
-        "abbreviation": "CIN",
-        "short_name": "Cincinnati"
-      },
-      "venue": {
-        "id": "2047",
-        "name": "United Supermarkets Arena",
-        "city": "Lubbock",
-        "state": "TX"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
       "espn_id": "401828443",
       "date": "2026-02-25T00:00Z",
       "date_display": "Tue, Feb 24 2026",
@@ -11638,38 +9950,6 @@
       "tv": [
         "ESPN+",
         "FanDuel SN OH"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401808260",
-      "date": "2026-02-25T00:00Z",
-      "date_display": "Tue, Feb 24 2026",
-      "time_detail": "2/24 - 7:00 PM EST",
-      "name": "Kentucky Wildcats at South Carolina Gamecocks",
-      "short_name": "UK @ SC",
-      "home_team": {
-        "id": "2579",
-        "name": "South Carolina Gamecocks",
-        "abbreviation": "SC",
-        "short_name": "South Carolina"
-      },
-      "away_team": {
-        "id": "96",
-        "name": "Kentucky Wildcats",
-        "abbreviation": "UK",
-        "short_name": "Kentucky"
-      },
-      "venue": {
-        "id": "1962",
-        "name": "Colonial Life Arena",
-        "city": "Columbia",
-        "state": "SC"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "SEC Network"
       ],
       "status": "STATUS_SCHEDULED"
     },
@@ -12026,6 +10306,38 @@
       "status": "STATUS_SCHEDULED"
     },
     {
+      "espn_id": "401808260",
+      "date": "2026-02-25T00:00Z",
+      "date_display": "Tue, Feb 24 2026",
+      "time_detail": "2/24 - 7:00 PM EST",
+      "name": "Kentucky Wildcats at South Carolina Gamecocks",
+      "short_name": "UK @ SC",
+      "home_team": {
+        "id": "2579",
+        "name": "South Carolina Gamecocks",
+        "abbreviation": "SC",
+        "short_name": "South Carolina"
+      },
+      "away_team": {
+        "id": "96",
+        "name": "Kentucky Wildcats",
+        "abbreviation": "UK",
+        "short_name": "Kentucky"
+      },
+      "venue": {
+        "id": "1962",
+        "name": "Colonial Life Arena",
+        "city": "Columbia",
+        "state": "SC"
+      },
+      "neutral_site": false,
+      "conference_game": true,
+      "tv": [
+        "SEC Network"
+      ],
+      "status": "STATUS_SCHEDULED"
+    },
+    {
       "espn_id": "401822958",
       "date": "2026-02-25T00:30Z",
       "date_display": "Tue, Feb 24 2026",
@@ -12309,7 +10621,9 @@
       },
       "neutral_site": false,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "MWN"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -12467,7 +10781,9 @@
       },
       "neutral_site": false,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "ESPNU"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -12529,7 +10845,9 @@
       },
       "neutral_site": false,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "ESPN2"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -12878,7 +11196,9 @@
       },
       "neutral_site": false,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "ESPNU"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -13872,7 +12192,41 @@
       },
       "neutral_site": false,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "ESPN2"
+      ],
+      "status": "STATUS_SCHEDULED"
+    },
+    {
+      "espn_id": "401808263",
+      "date": "2026-02-26T02:00Z",
+      "date_display": "Wed, Feb 25 2026",
+      "time_detail": "2/25 - 9:00 PM EST",
+      "name": "Mississippi State Bulldogs at Alabama Crimson Tide",
+      "short_name": "MSST @ ALA",
+      "home_team": {
+        "id": "333",
+        "name": "Alabama Crimson Tide",
+        "abbreviation": "ALA",
+        "short_name": "Alabama"
+      },
+      "away_team": {
+        "id": "344",
+        "name": "Mississippi State Bulldogs",
+        "abbreviation": "MSST",
+        "short_name": "Mississippi St"
+      },
+      "venue": {
+        "id": "1925",
+        "name": "Coleman Coliseum",
+        "city": "Tuscaloosa",
+        "state": "AL"
+      },
+      "neutral_site": false,
+      "conference_game": true,
+      "tv": [
+        "ESPNU"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -14036,36 +12390,6 @@
       "status": "STATUS_SCHEDULED"
     },
     {
-      "espn_id": "401808263",
-      "date": "2026-02-26T02:00Z",
-      "date_display": "Wed, Feb 25 2026",
-      "time_detail": "2/25 - 9:00 PM EST",
-      "name": "Mississippi State Bulldogs at Alabama Crimson Tide",
-      "short_name": "MSST @ ALA",
-      "home_team": {
-        "id": "333",
-        "name": "Alabama Crimson Tide",
-        "abbreviation": "ALA",
-        "short_name": "Alabama"
-      },
-      "away_team": {
-        "id": "344",
-        "name": "Mississippi State Bulldogs",
-        "abbreviation": "MSST",
-        "short_name": "Mississippi St"
-      },
-      "venue": {
-        "id": "1925",
-        "name": "Coleman Coliseum",
-        "city": "Tuscaloosa",
-        "state": "AL"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
       "espn_id": "401808258",
       "date": "2026-02-26T02:00Z",
       "date_display": "Wed, Feb 25 2026",
@@ -14162,6 +12486,38 @@
       "status": "STATUS_SCHEDULED"
     },
     {
+      "espn_id": "401825542",
+      "date": "2026-02-26T04:00Z",
+      "date_display": "Wed, Feb 25 2026",
+      "time_detail": "2/25 - 11:00 PM EST",
+      "name": "Wisconsin Badgers at Oregon Ducks",
+      "short_name": "WIS @ ORE",
+      "home_team": {
+        "id": "2483",
+        "name": "Oregon Ducks",
+        "abbreviation": "ORE",
+        "short_name": "Oregon"
+      },
+      "away_team": {
+        "id": "275",
+        "name": "Wisconsin Badgers",
+        "abbreviation": "WIS",
+        "short_name": "Wisconsin"
+      },
+      "venue": {
+        "id": "1977",
+        "name": "Matthew Knight Arena",
+        "city": "Eugene",
+        "state": "OR"
+      },
+      "neutral_site": false,
+      "conference_game": true,
+      "tv": [
+        "BTN"
+      ],
+      "status": "STATUS_SCHEDULED"
+    },
+    {
       "espn_id": "401829264",
       "date": "2026-02-26T04:00Z",
       "date_display": "Wed, Feb 25 2026",
@@ -14222,38 +12578,6 @@
       "conference_game": true,
       "tv": [
         "CBSSN"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401825542",
-      "date": "2026-02-26T04:00Z",
-      "date_display": "Wed, Feb 25 2026",
-      "time_detail": "2/25 - 11:00 PM EST",
-      "name": "Wisconsin Badgers at Oregon Ducks",
-      "short_name": "WIS @ ORE",
-      "home_team": {
-        "id": "2483",
-        "name": "Oregon Ducks",
-        "abbreviation": "ORE",
-        "short_name": "Oregon"
-      },
-      "away_team": {
-        "id": "275",
-        "name": "Wisconsin Badgers",
-        "abbreviation": "WIS",
-        "short_name": "Wisconsin"
-      },
-      "venue": {
-        "id": "1977",
-        "name": "Matthew Knight Arena",
-        "city": "Eugene",
-        "state": "OR"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "BTN"
       ],
       "status": "STATUS_SCHEDULED"
     },
@@ -14603,7 +12927,9 @@
       },
       "neutral_site": false,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "ESPNU"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -16556,8 +14882,39 @@
       "neutral_site": false,
       "conference_game": true,
       "tv": [
-        "FOX",
-        "ABC7"
+        "FOX"
+      ],
+      "status": "STATUS_SCHEDULED"
+    },
+    {
+      "espn_id": "401814586",
+      "date": "2026-02-28T01:00Z",
+      "date_display": "Fri, Feb 27 2026",
+      "time_detail": "2/27 - 8:00 PM EST",
+      "name": "Akron Zips at Kent State Golden Flashes",
+      "short_name": "AKR @ KENT",
+      "home_team": {
+        "id": "2309",
+        "name": "Kent State Golden Flashes",
+        "abbreviation": "KENT",
+        "short_name": "Kent State"
+      },
+      "away_team": {
+        "id": "2006",
+        "name": "Akron Zips",
+        "abbreviation": "AKR",
+        "short_name": "Akron"
+      },
+      "venue": {
+        "id": "2020",
+        "name": "M.A.C. Center",
+        "city": "Kent",
+        "state": "OH"
+      },
+      "neutral_site": false,
+      "conference_game": true,
+      "tv": [
+        "ESPNU"
       ],
       "status": "STATUS_SCHEDULED"
     },
@@ -16717,6 +15074,7 @@
       "neutral_site": false,
       "conference_game": true,
       "tv": [
+        "ESPN2",
         "ESPN+"
       ],
       "status": "STATUS_SCHEDULED"
@@ -17987,7 +16345,9 @@
       },
       "neutral_site": false,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "FloSports"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -18271,38 +16631,6 @@
         "name": "OU Credit Union O'rena",
         "city": "Rochester",
         "state": "MI"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401814586",
-      "date": "2026-02-28T20:00Z",
-      "date_display": "Sat, Feb 28 2026",
-      "time_detail": "2/28 - 3:00 PM EST",
-      "name": "Akron Zips at Kent State Golden Flashes",
-      "short_name": "AKR @ KENT",
-      "home_team": {
-        "id": "2309",
-        "name": "Kent State Golden Flashes",
-        "abbreviation": "KENT",
-        "short_name": "Kent State"
-      },
-      "away_team": {
-        "id": "2006",
-        "name": "Akron Zips",
-        "abbreviation": "AKR",
-        "short_name": "Akron"
-      },
-      "venue": {
-        "id": "2020",
-        "name": "M.A.C. Center",
-        "city": "Kent",
-        "state": "OH"
       },
       "neutral_site": false,
       "conference_game": true,
@@ -18631,6 +16959,38 @@
       "status": "STATUS_SCHEDULED"
     },
     {
+      "espn_id": "401825549",
+      "date": "2026-02-28T21:00Z",
+      "date_display": "Sat, Feb 28 2026",
+      "time_detail": "2/28 - 4:00 PM EST",
+      "name": "Wisconsin Badgers at Washington Huskies",
+      "short_name": "WIS @ WASH",
+      "home_team": {
+        "id": "264",
+        "name": "Washington Huskies",
+        "abbreviation": "WASH",
+        "short_name": "Washington"
+      },
+      "away_team": {
+        "id": "275",
+        "name": "Wisconsin Badgers",
+        "abbreviation": "WIS",
+        "short_name": "Wisconsin"
+      },
+      "venue": {
+        "id": "782",
+        "name": "Alaska Airlines Arena",
+        "city": "Seattle",
+        "state": "WA"
+      },
+      "neutral_site": false,
+      "conference_game": true,
+      "tv": [
+        "FS1"
+      ],
+      "status": "STATUS_SCHEDULED"
+    },
+    {
       "espn_id": "401830777",
       "date": "2026-02-28T21:00Z",
       "date_display": "Sat, Feb 28 2026",
@@ -18787,38 +17147,6 @@
       "conference_game": true,
       "tv": [
         "CBSSN"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401825549",
-      "date": "2026-02-28T21:00Z",
-      "date_display": "Sat, Feb 28 2026",
-      "time_detail": "2/28 - 4:00 PM EST",
-      "name": "Wisconsin Badgers at Washington Huskies",
-      "short_name": "WIS @ WASH",
-      "home_team": {
-        "id": "264",
-        "name": "Washington Huskies",
-        "abbreviation": "WASH",
-        "short_name": "Washington"
-      },
-      "away_team": {
-        "id": "275",
-        "name": "Wisconsin Badgers",
-        "abbreviation": "WIS",
-        "short_name": "Wisconsin"
-      },
-      "venue": {
-        "id": "782",
-        "name": "Alaska Airlines Arena",
-        "city": "Seattle",
-        "state": "WA"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "FS1"
       ],
       "status": "STATUS_SCHEDULED"
     },
@@ -20002,6 +18330,36 @@
       "status": "STATUS_SCHEDULED"
     },
     {
+      "espn_id": "401808271",
+      "date": "2026-02-28T23:00Z",
+      "date_display": "Sat, Feb 28 2026",
+      "time_detail": "2/28 - 6:00 PM EST",
+      "name": "Alabama Crimson Tide at Tennessee Volunteers",
+      "short_name": "ALA @ TENN",
+      "home_team": {
+        "id": "2633",
+        "name": "Tennessee Volunteers",
+        "abbreviation": "TENN",
+        "short_name": "Tennessee"
+      },
+      "away_team": {
+        "id": "333",
+        "name": "Alabama Crimson Tide",
+        "abbreviation": "ALA",
+        "short_name": "Alabama"
+      },
+      "venue": {
+        "id": "2044",
+        "name": "Food City Center",
+        "city": "Knoxville",
+        "state": "TN"
+      },
+      "neutral_site": false,
+      "conference_game": true,
+      "tv": [],
+      "status": "STATUS_SCHEDULED"
+    },
+    {
       "espn_id": "401829268",
       "date": "2026-02-28T23:00Z",
       "date_display": "Sat, Feb 28 2026",
@@ -20287,36 +18645,6 @@
       "tv": [
         "ESPN+"
       ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401808271",
-      "date": "2026-02-28T23:00Z",
-      "date_display": "Sat, Feb 28 2026",
-      "time_detail": "2/28 - 6:00 PM EST",
-      "name": "Alabama Crimson Tide at Tennessee Volunteers",
-      "short_name": "ALA @ TENN",
-      "home_team": {
-        "id": "2633",
-        "name": "Tennessee Volunteers",
-        "abbreviation": "TENN",
-        "short_name": "Tennessee"
-      },
-      "away_team": {
-        "id": "333",
-        "name": "Alabama Crimson Tide",
-        "abbreviation": "ALA",
-        "short_name": "Alabama"
-      },
-      "venue": {
-        "id": "2044",
-        "name": "Food City Center",
-        "city": "Knoxville",
-        "state": "TN"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -21080,7 +19408,10 @@
       },
       "neutral_site": false,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "Summit League Network",
+        "Midco Sports Plus"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -21558,38 +19889,6 @@
       "status": "STATUS_SCHEDULED"
     },
     {
-      "espn_id": "401830217",
-      "date": "2026-03-01T19:00Z",
-      "date_display": "Sun, Mar 01 2026",
-      "time_detail": "3/1 - 2:00 PM EST",
-      "name": "Belmont Bruins at Illinois State Redbirds",
-      "short_name": "BEL @ ILST",
-      "home_team": {
-        "id": "2287",
-        "name": "Illinois State Redbirds",
-        "abbreviation": "ILST",
-        "short_name": "Illinois St"
-      },
-      "away_team": {
-        "id": "2057",
-        "name": "Belmont Bruins",
-        "abbreviation": "BEL",
-        "short_name": "Belmont"
-      },
-      "venue": {
-        "id": "1932",
-        "name": "CEFCU Arena",
-        "city": "Normal",
-        "state": "IL"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
       "espn_id": "401828253",
       "date": "2026-03-01T19:00Z",
       "date_display": "Sun, Mar 01 2026",
@@ -21974,6 +20273,38 @@
       "status": "STATUS_SCHEDULED"
     },
     {
+      "espn_id": "401830217",
+      "date": "2026-03-01T22:00Z",
+      "date_display": "Sun, Mar 01 2026",
+      "time_detail": "3/1 - 5:00 PM EST",
+      "name": "Belmont Bruins at Illinois State Redbirds",
+      "short_name": "BEL @ ILST",
+      "home_team": {
+        "id": "2287",
+        "name": "Illinois State Redbirds",
+        "abbreviation": "ILST",
+        "short_name": "Illinois St"
+      },
+      "away_team": {
+        "id": "2057",
+        "name": "Belmont Bruins",
+        "abbreviation": "BEL",
+        "short_name": "Belmont"
+      },
+      "venue": {
+        "id": "1932",
+        "name": "CEFCU Arena",
+        "city": "Normal",
+        "state": "IL"
+      },
+      "neutral_site": false,
+      "conference_game": true,
+      "tv": [
+        "CBSSN"
+      ],
+      "status": "STATUS_SCHEDULED"
+    },
+    {
       "espn_id": "401828255",
       "date": "2026-03-01T22:00Z",
       "date_display": "Sun, Mar 01 2026",
@@ -22034,6 +20365,38 @@
       "conference_game": true,
       "tv": [
         "CBSSN"
+      ],
+      "status": "STATUS_SCHEDULED"
+    },
+    {
+      "espn_id": "401829289",
+      "date": "2026-03-02T21:00Z",
+      "date_display": "Mon, Mar 02 2026",
+      "time_detail": "3/2 - 4:00 PM EST",
+      "name": "South Carolina State Bulldogs at Delaware State Hornets",
+      "short_name": "SCST @ DSU",
+      "home_team": {
+        "id": "2169",
+        "name": "Delaware State Hornets",
+        "abbreviation": "DSU",
+        "short_name": "Delaware St"
+      },
+      "away_team": {
+        "id": "2569",
+        "name": "South Carolina State Bulldogs",
+        "abbreviation": "SCST",
+        "short_name": "SC State"
+      },
+      "venue": {
+        "id": "1957",
+        "name": "Memorial Hall (DE)",
+        "city": "Dover",
+        "state": "DE"
+      },
+      "neutral_site": false,
+      "conference_game": true,
+      "tv": [
+        "ESPN+"
       ],
       "status": "STATUS_SCHEDULED"
     },
@@ -22155,38 +20518,6 @@
         "name": "",
         "city": "",
         "state": ""
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401829289",
-      "date": "2026-03-03T00:00Z",
-      "date_display": "Mon, Mar 02 2026",
-      "time_detail": "3/2 - 7:00 PM EST",
-      "name": "South Carolina State Bulldogs at Delaware State Hornets",
-      "short_name": "SCST @ DSU",
-      "home_team": {
-        "id": "2169",
-        "name": "Delaware State Hornets",
-        "abbreviation": "DSU",
-        "short_name": "Delaware St"
-      },
-      "away_team": {
-        "id": "2569",
-        "name": "South Carolina State Bulldogs",
-        "abbreviation": "SCST",
-        "short_name": "SC State"
-      },
-      "venue": {
-        "id": "1957",
-        "name": "Memorial Hall (DE)",
-        "city": "Dover",
-        "state": "DE"
       },
       "neutral_site": false,
       "conference_game": true,
@@ -22866,6 +21197,38 @@
       "status": "STATUS_SCHEDULED"
     },
     {
+      "espn_id": "401808277",
+      "date": "2026-03-03T23:30Z",
+      "date_display": "Tue, Mar 03 2026",
+      "time_detail": "3/3 - 6:30 PM EST",
+      "name": "Alabama Crimson Tide at Georgia Bulldogs",
+      "short_name": "ALA @ UGA",
+      "home_team": {
+        "id": "61",
+        "name": "Georgia Bulldogs",
+        "abbreviation": "UGA",
+        "short_name": "Georgia"
+      },
+      "away_team": {
+        "id": "333",
+        "name": "Alabama Crimson Tide",
+        "abbreviation": "ALA",
+        "short_name": "Alabama"
+      },
+      "venue": {
+        "id": "2088",
+        "name": "Stegeman Coliseum",
+        "city": "Athens",
+        "state": "GA"
+      },
+      "neutral_site": false,
+      "conference_game": true,
+      "tv": [
+        "ESPNEWS"
+      ],
+      "status": "STATUS_SCHEDULED"
+    },
+    {
       "espn_id": "401814594",
       "date": "2026-03-03T23:30Z",
       "date_display": "Tue, Mar 03 2026",
@@ -22930,65 +21293,35 @@
       "status": "STATUS_SCHEDULED"
     },
     {
-      "espn_id": "401808277",
-      "date": "2026-03-03T23:30Z",
+      "espn_id": "401827719",
+      "date": "2026-03-04T00:00Z",
       "date_display": "Tue, Mar 03 2026",
-      "time_detail": "3/3 - 6:30 PM EST",
-      "name": "Alabama Crimson Tide at Georgia Bulldogs",
-      "short_name": "ALA @ UGA",
+      "time_detail": "3/3 - 7:00 PM EST",
+      "name": "TCU Horned Frogs at Texas Tech Red Raiders",
+      "short_name": "TCU @ TTU",
       "home_team": {
-        "id": "61",
-        "name": "Georgia Bulldogs",
-        "abbreviation": "UGA",
-        "short_name": "Georgia"
+        "id": "2641",
+        "name": "Texas Tech Red Raiders",
+        "abbreviation": "TTU",
+        "short_name": "Texas Tech"
       },
       "away_team": {
-        "id": "333",
-        "name": "Alabama Crimson Tide",
-        "abbreviation": "ALA",
-        "short_name": "Alabama"
+        "id": "2628",
+        "name": "TCU Horned Frogs",
+        "abbreviation": "TCU",
+        "short_name": "TCU"
       },
       "venue": {
-        "id": "2088",
-        "name": "Stegeman Coliseum",
-        "city": "Athens",
-        "state": "GA"
+        "id": "2047",
+        "name": "United Supermarkets Arena",
+        "city": "Lubbock",
+        "state": "TX"
       },
       "neutral_site": false,
       "conference_game": true,
       "tv": [
-        "ESPNEWS"
+        "FS1"
       ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401820779",
-      "date": "2026-03-04T00:00Z",
-      "date_display": "Tue, Mar 03 2026",
-      "time_detail": "3/3 - 7:00 PM EST",
-      "name": "Clemson Tigers at North Carolina Tar Heels",
-      "short_name": "CLEM @ UNC",
-      "home_team": {
-        "id": "153",
-        "name": "North Carolina Tar Heels",
-        "abbreviation": "UNC",
-        "short_name": "North Carolina"
-      },
-      "away_team": {
-        "id": "228",
-        "name": "Clemson Tigers",
-        "abbreviation": "CLEM",
-        "short_name": "Clemson"
-      },
-      "venue": {
-        "id": "207",
-        "name": "Dean E. Smith Center",
-        "city": "Chapel Hill",
-        "state": "NC"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -23024,35 +21357,33 @@
       "status": "STATUS_SCHEDULED"
     },
     {
-      "espn_id": "401827719",
+      "espn_id": "401820779",
       "date": "2026-03-04T00:00Z",
       "date_display": "Tue, Mar 03 2026",
       "time_detail": "3/3 - 7:00 PM EST",
-      "name": "TCU Horned Frogs at Texas Tech Red Raiders",
-      "short_name": "TCU @ TTU",
+      "name": "Clemson Tigers at North Carolina Tar Heels",
+      "short_name": "CLEM @ UNC",
       "home_team": {
-        "id": "2641",
-        "name": "Texas Tech Red Raiders",
-        "abbreviation": "TTU",
-        "short_name": "Texas Tech"
+        "id": "153",
+        "name": "North Carolina Tar Heels",
+        "abbreviation": "UNC",
+        "short_name": "North Carolina"
       },
       "away_team": {
-        "id": "2628",
-        "name": "TCU Horned Frogs",
-        "abbreviation": "TCU",
-        "short_name": "TCU"
+        "id": "228",
+        "name": "Clemson Tigers",
+        "abbreviation": "CLEM",
+        "short_name": "Clemson"
       },
       "venue": {
-        "id": "2047",
-        "name": "United Supermarkets Arena",
-        "city": "Lubbock",
-        "state": "TX"
+        "id": "207",
+        "name": "Dean E. Smith Center",
+        "city": "Chapel Hill",
+        "state": "NC"
       },
       "neutral_site": false,
       "conference_game": true,
-      "tv": [
-        "FS1"
-      ],
+      "tv": [],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -23088,36 +21419,6 @@
       "status": "STATUS_SCHEDULED"
     },
     {
-      "espn_id": "401827717",
-      "date": "2026-03-04T00:00Z",
-      "date_display": "Tue, Mar 03 2026",
-      "time_detail": "3/3 - 7:00 PM EST",
-      "name": "BYU Cougars at Cincinnati Bearcats",
-      "short_name": "BYU @ CIN",
-      "home_team": {
-        "id": "2132",
-        "name": "Cincinnati Bearcats",
-        "abbreviation": "CIN",
-        "short_name": "Cincinnati"
-      },
-      "away_team": {
-        "id": "252",
-        "name": "BYU Cougars",
-        "abbreviation": "BYU",
-        "short_name": "BYU"
-      },
-      "venue": {
-        "id": "201",
-        "name": "Fifth Third Arena",
-        "city": "Cincinnati",
-        "state": "OH"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
       "espn_id": "401814597",
       "date": "2026-03-04T00:00Z",
       "date_display": "Tue, Mar 03 2026",
@@ -23150,29 +21451,29 @@
       "status": "STATUS_SCHEDULED"
     },
     {
-      "espn_id": "401808275",
+      "espn_id": "401827717",
       "date": "2026-03-04T00:00Z",
       "date_display": "Tue, Mar 03 2026",
       "time_detail": "3/3 - 7:00 PM EST",
-      "name": "Kentucky Wildcats at Texas A&M Aggies",
-      "short_name": "UK @ TA&M",
+      "name": "BYU Cougars at Cincinnati Bearcats",
+      "short_name": "BYU @ CIN",
       "home_team": {
-        "id": "245",
-        "name": "Texas A&M Aggies",
-        "abbreviation": "TA&M",
-        "short_name": "Texas A&M"
+        "id": "2132",
+        "name": "Cincinnati Bearcats",
+        "abbreviation": "CIN",
+        "short_name": "Cincinnati"
       },
       "away_team": {
-        "id": "96",
-        "name": "Kentucky Wildcats",
-        "abbreviation": "UK",
-        "short_name": "Kentucky"
+        "id": "252",
+        "name": "BYU Cougars",
+        "abbreviation": "BYU",
+        "short_name": "BYU"
       },
       "venue": {
-        "id": "2114",
-        "name": "Reed Arena",
-        "city": "College Station",
-        "state": "TX"
+        "id": "201",
+        "name": "Fifth Third Arena",
+        "city": "Cincinnati",
+        "state": "OH"
       },
       "neutral_site": false,
       "conference_game": true,
@@ -23526,7 +21827,9 @@
       },
       "neutral_site": false,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "FloSports"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -23624,6 +21927,36 @@
       "tv": [
         "ESPNU"
       ],
+      "status": "STATUS_SCHEDULED"
+    },
+    {
+      "espn_id": "401808275",
+      "date": "2026-03-04T00:00Z",
+      "date_display": "Tue, Mar 03 2026",
+      "time_detail": "3/3 - 7:00 PM EST",
+      "name": "Kentucky Wildcats at Texas A&M Aggies",
+      "short_name": "UK @ TA&M",
+      "home_team": {
+        "id": "245",
+        "name": "Texas A&M Aggies",
+        "abbreviation": "TA&M",
+        "short_name": "Texas A&M"
+      },
+      "away_team": {
+        "id": "96",
+        "name": "Kentucky Wildcats",
+        "abbreviation": "UK",
+        "short_name": "Kentucky"
+      },
+      "venue": {
+        "id": "2114",
+        "name": "Reed Arena",
+        "city": "College Station",
+        "state": "TX"
+      },
+      "neutral_site": false,
+      "conference_game": true,
+      "tv": [],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -23845,38 +22178,6 @@
       "status": "STATUS_SCHEDULED"
     },
     {
-      "espn_id": "401825553",
-      "date": "2026-03-04T02:00Z",
-      "date_display": "Tue, Mar 03 2026",
-      "time_detail": "3/3 - 9:00 PM EST",
-      "name": "Oregon Ducks at Illinois Fighting Illini",
-      "short_name": "ORE @ ILL",
-      "home_team": {
-        "id": "356",
-        "name": "Illinois Fighting Illini",
-        "abbreviation": "ILL",
-        "short_name": "Illinois"
-      },
-      "away_team": {
-        "id": "2483",
-        "name": "Oregon Ducks",
-        "abbreviation": "ORE",
-        "short_name": "Oregon"
-      },
-      "venue": {
-        "id": "2127",
-        "name": "State Farm Center",
-        "city": "Champaign",
-        "state": "IL"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "Peacock"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
       "espn_id": "401827715",
       "date": "2026-03-04T02:00Z",
       "date_display": "Tue, Mar 03 2026",
@@ -23909,6 +22210,38 @@
       "status": "STATUS_SCHEDULED"
     },
     {
+      "espn_id": "401825553",
+      "date": "2026-03-04T02:00Z",
+      "date_display": "Tue, Mar 03 2026",
+      "time_detail": "3/3 - 9:00 PM EST",
+      "name": "Oregon Ducks at Illinois Fighting Illini",
+      "short_name": "ORE @ ILL",
+      "home_team": {
+        "id": "356",
+        "name": "Illinois Fighting Illini",
+        "abbreviation": "ILL",
+        "short_name": "Illinois"
+      },
+      "away_team": {
+        "id": "2483",
+        "name": "Oregon Ducks",
+        "abbreviation": "ORE",
+        "short_name": "Oregon"
+      },
+      "venue": {
+        "id": "2127",
+        "name": "State Farm Center",
+        "city": "Champaign",
+        "state": "IL"
+      },
+      "neutral_site": false,
+      "conference_game": true,
+      "tv": [
+        "Peacock"
+      ],
+      "status": "STATUS_SCHEDULED"
+    },
+    {
       "espn_id": "401808279",
       "date": "2026-03-04T02:00Z",
       "date_display": "Tue, Mar 03 2026",
@@ -23935,7 +22268,9 @@
       },
       "neutral_site": false,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "SECN+"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -24403,7 +22738,9 @@
       },
       "neutral_site": true,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "ESPN+"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -24433,7 +22770,9 @@
       },
       "neutral_site": true,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "ESPN+"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -24463,7 +22802,9 @@
       },
       "neutral_site": true,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "ESPN+"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -25099,7 +23440,9 @@
       },
       "neutral_site": true,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "ESPN+"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -25167,6 +23510,38 @@
       "status": "STATUS_SCHEDULED"
     },
     {
+      "espn_id": "401825559",
+      "date": "2026-03-05T01:00Z",
+      "date_display": "Wed, Mar 04 2026",
+      "time_detail": "3/4 - 8:00 PM EST",
+      "name": "Maryland Terrapins at Wisconsin Badgers",
+      "short_name": "MD @ WIS",
+      "home_team": {
+        "id": "275",
+        "name": "Wisconsin Badgers",
+        "abbreviation": "WIS",
+        "short_name": "Wisconsin"
+      },
+      "away_team": {
+        "id": "120",
+        "name": "Maryland Terrapins",
+        "abbreviation": "MD",
+        "short_name": "Maryland"
+      },
+      "venue": {
+        "id": "348",
+        "name": "Kohl Center",
+        "city": "Madison",
+        "state": "WI"
+      },
+      "neutral_site": false,
+      "conference_game": true,
+      "tv": [
+        "FS1"
+      ],
+      "status": "STATUS_SCHEDULED"
+    },
+    {
       "espn_id": "401851619",
       "date": "2026-03-05T01:00Z",
       "date_display": "Wed, Mar 04 2026",
@@ -25228,38 +23603,6 @@
       "conference_game": true,
       "tv": [
         "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401825559",
-      "date": "2026-03-05T01:00Z",
-      "date_display": "Wed, Mar 04 2026",
-      "time_detail": "3/4 - 8:00 PM EST",
-      "name": "Maryland Terrapins at Wisconsin Badgers",
-      "short_name": "MD @ WIS",
-      "home_team": {
-        "id": "275",
-        "name": "Wisconsin Badgers",
-        "abbreviation": "WIS",
-        "short_name": "Wisconsin"
-      },
-      "away_team": {
-        "id": "120",
-        "name": "Maryland Terrapins",
-        "abbreviation": "MD",
-        "short_name": "Maryland"
-      },
-      "venue": {
-        "id": "348",
-        "name": "Kohl Center",
-        "city": "Madison",
-        "state": "WI"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "FS1"
       ],
       "status": "STATUS_SCHEDULED"
     },
@@ -25710,6 +24053,38 @@
       "status": "STATUS_SCHEDULED"
     },
     {
+      "espn_id": "401822780",
+      "date": "2026-03-05T21:00Z",
+      "date_display": "Thu, Mar 05 2026",
+      "time_detail": "3/5 - 4:00 PM EST",
+      "name": "Coppin State Eagles at Morgan State Bears",
+      "short_name": "COPP @ MORG",
+      "home_team": {
+        "id": "2415",
+        "name": "Morgan State Bears",
+        "abbreviation": "MORG",
+        "short_name": "Morgan St"
+      },
+      "away_team": {
+        "id": "2154",
+        "name": "Coppin State Eagles",
+        "abbreviation": "COPP",
+        "short_name": "Coppin St"
+      },
+      "venue": {
+        "id": "2021",
+        "name": "Hill Field House",
+        "city": "Baltimore",
+        "state": "MD"
+      },
+      "neutral_site": false,
+      "conference_game": true,
+      "tv": [
+        "ESPN+"
+      ],
+      "status": "STATUS_SCHEDULED"
+    },
+    {
       "espn_id": "401851485",
       "date": "2026-03-05T21:30Z",
       "date_display": "Thu, Mar 05 2026",
@@ -25738,38 +24113,6 @@
       "conference_game": true,
       "tv": [
         "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401829290",
-      "date": "2026-03-05T22:00Z",
-      "date_display": "Thu, Mar 05 2026",
-      "time_detail": "3/5 - 5:00 PM EST",
-      "name": "South Carolina State Bulldogs at North Carolina Central Eagles",
-      "short_name": "SCST @ NCCU",
-      "home_team": {
-        "id": "2428",
-        "name": "North Carolina Central Eagles",
-        "abbreviation": "NCCU",
-        "short_name": "NC Central"
-      },
-      "away_team": {
-        "id": "2569",
-        "name": "South Carolina State Bulldogs",
-        "abbreviation": "SCST",
-        "short_name": "SC State"
-      },
-      "venue": {
-        "id": "2081",
-        "name": "McDougald-McLendon Arena",
-        "city": "Durham",
-        "state": "NC"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPNU"
       ],
       "status": "STATUS_SCHEDULED"
     },
@@ -26155,6 +24498,38 @@
       "status": "STATUS_SCHEDULED"
     },
     {
+      "espn_id": "401829290",
+      "date": "2026-03-06T00:30Z",
+      "date_display": "Thu, Mar 05 2026",
+      "time_detail": "3/5 - 7:30 PM EST",
+      "name": "South Carolina State Bulldogs at North Carolina Central Eagles",
+      "short_name": "SCST @ NCCU",
+      "home_team": {
+        "id": "2428",
+        "name": "North Carolina Central Eagles",
+        "abbreviation": "NCCU",
+        "short_name": "NC Central"
+      },
+      "away_team": {
+        "id": "2569",
+        "name": "South Carolina State Bulldogs",
+        "abbreviation": "SCST",
+        "short_name": "SC State"
+      },
+      "venue": {
+        "id": "2081",
+        "name": "McDougald-McLendon Arena",
+        "city": "Durham",
+        "state": "NC"
+      },
+      "neutral_site": false,
+      "conference_game": true,
+      "tv": [
+        "ESPNU"
+      ],
+      "status": "STATUS_SCHEDULED"
+    },
+    {
       "espn_id": "401825560",
       "date": "2026-03-06T01:00Z",
       "date_display": "Thu, Mar 05 2026",
@@ -26276,38 +24651,6 @@
       "neutral_site": false,
       "conference_game": true,
       "tv": [],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401822780",
-      "date": "2026-03-06T01:00Z",
-      "date_display": "Thu, Mar 05 2026",
-      "time_detail": "3/5 - 8:00 PM EST",
-      "name": "Coppin State Eagles at Morgan State Bears",
-      "short_name": "COPP @ MORG",
-      "home_team": {
-        "id": "2415",
-        "name": "Morgan State Bears",
-        "abbreviation": "MORG",
-        "short_name": "Morgan St"
-      },
-      "away_team": {
-        "id": "2154",
-        "name": "Coppin State Eagles",
-        "abbreviation": "COPP",
-        "short_name": "Coppin St"
-      },
-      "venue": {
-        "id": "2021",
-        "name": "Hill Field House",
-        "city": "Baltimore",
-        "state": "MD"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -27069,7 +25412,9 @@
       },
       "neutral_site": true,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "ESPN+"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -27098,6 +25443,38 @@
         "state": "MO"
       },
       "neutral_site": true,
+      "conference_game": true,
+      "tv": [
+        "ESPN+"
+      ],
+      "status": "STATUS_SCHEDULED"
+    },
+    {
+      "espn_id": "401814601",
+      "date": "2026-03-06T19:00Z",
+      "date_display": "Fri, Mar 06 2026",
+      "time_detail": "3/6 - 2:00 PM EST",
+      "name": "Miami (OH) RedHawks at Ohio Bobcats",
+      "short_name": "M-OH @ OHIO",
+      "home_team": {
+        "id": "195",
+        "name": "Ohio Bobcats",
+        "abbreviation": "OHIO",
+        "short_name": "Ohio"
+      },
+      "away_team": {
+        "id": "193",
+        "name": "Miami (OH) RedHawks",
+        "abbreviation": "M-OH",
+        "short_name": "Miami OH"
+      },
+      "venue": {
+        "id": "2135",
+        "name": "Convocation Center (OH)",
+        "city": "Athens",
+        "state": "OH"
+      },
+      "neutral_site": false,
       "conference_game": true,
       "tv": [
         "ESPN+"
@@ -27195,7 +25572,9 @@
       },
       "neutral_site": true,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "ESPN+"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -27289,7 +25668,9 @@
       },
       "neutral_site": true,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "ESPN+"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -27412,38 +25793,6 @@
         "name": "Gervin GameAbove Center",
         "city": "Ypsilanti",
         "state": "MI"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401814601",
-      "date": "2026-03-07T00:00Z",
-      "date_display": "Fri, Mar 06 2026",
-      "time_detail": "3/6 - 7:00 PM EST",
-      "name": "Miami (OH) RedHawks at Ohio Bobcats",
-      "short_name": "M-OH @ OHIO",
-      "home_team": {
-        "id": "195",
-        "name": "Ohio Bobcats",
-        "abbreviation": "OHIO",
-        "short_name": "Ohio"
-      },
-      "away_team": {
-        "id": "193",
-        "name": "Miami (OH) RedHawks",
-        "abbreviation": "M-OH",
-        "short_name": "Miami OH"
-      },
-      "venue": {
-        "id": "2135",
-        "name": "Convocation Center (OH)",
-        "city": "Athens",
-        "state": "OH"
       },
       "neutral_site": false,
       "conference_game": true,
@@ -27736,7 +26085,9 @@
       },
       "neutral_site": false,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "ESPN+"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -27798,7 +26149,9 @@
       },
       "neutral_site": true,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "ESPN+"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -28213,7 +26566,9 @@
       },
       "neutral_site": false,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "ESPN+"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -28243,7 +26598,9 @@
       },
       "neutral_site": false,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "ESPN+"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -28273,7 +26630,9 @@
       },
       "neutral_site": false,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "ESPN+"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -28303,7 +26662,9 @@
       },
       "neutral_site": false,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "ESPN+"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -28335,38 +26696,6 @@
       "conference_game": true,
       "tv": [
         "CBS"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401820787",
-      "date": "2026-03-07T17:00Z",
-      "date_display": "Sat, Mar 07 2026",
-      "time_detail": "3/7 - 12:00 PM EST",
-      "name": "Georgia Tech Yellow Jackets at Clemson Tigers",
-      "short_name": "GT @ CLEM",
-      "home_team": {
-        "id": "228",
-        "name": "Clemson Tigers",
-        "abbreviation": "CLEM",
-        "short_name": "Clemson"
-      },
-      "away_team": {
-        "id": "59",
-        "name": "Georgia Tech Yellow Jackets",
-        "abbreviation": "GT",
-        "short_name": "Georgia Tech"
-      },
-      "venue": {
-        "id": "1912",
-        "name": "Littlejohn Coliseum",
-        "city": "Clemson",
-        "state": "SC"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ACC Network"
       ],
       "status": "STATUS_SCHEDULED"
     },
@@ -28656,6 +26985,38 @@
       "conference_game": true,
       "tv": [
         "ESPNU"
+      ],
+      "status": "STATUS_SCHEDULED"
+    },
+    {
+      "espn_id": "401820787",
+      "date": "2026-03-07T17:00Z",
+      "date_display": "Sat, Mar 07 2026",
+      "time_detail": "3/7 - 12:00 PM EST",
+      "name": "Georgia Tech Yellow Jackets at Clemson Tigers",
+      "short_name": "GT @ CLEM",
+      "home_team": {
+        "id": "228",
+        "name": "Clemson Tigers",
+        "abbreviation": "CLEM",
+        "short_name": "Clemson"
+      },
+      "away_team": {
+        "id": "59",
+        "name": "Georgia Tech Yellow Jackets",
+        "abbreviation": "GT",
+        "short_name": "Georgia Tech"
+      },
+      "venue": {
+        "id": "1912",
+        "name": "Littlejohn Coliseum",
+        "city": "Clemson",
+        "state": "SC"
+      },
+      "neutral_site": false,
+      "conference_game": true,
+      "tv": [
+        "ACC Network"
       ],
       "status": "STATUS_SCHEDULED"
     },
@@ -29805,7 +28166,9 @@
       },
       "neutral_site": true,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "ESPN+"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -30284,7 +28647,9 @@
       },
       "neutral_site": true,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "ESPN+"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -30314,7 +28679,9 @@
       },
       "neutral_site": true,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "ESPN+"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -30414,6 +28781,38 @@
       "status": "STATUS_SCHEDULED"
     },
     {
+      "espn_id": "401808288",
+      "date": "2026-03-08T01:30Z",
+      "date_display": "Sat, Mar 07 2026",
+      "time_detail": "3/7 - 8:30 PM EST",
+      "name": "Auburn Tigers at Alabama Crimson Tide",
+      "short_name": "AUB @ ALA",
+      "home_team": {
+        "id": "333",
+        "name": "Alabama Crimson Tide",
+        "abbreviation": "ALA",
+        "short_name": "Alabama"
+      },
+      "away_team": {
+        "id": "2",
+        "name": "Auburn Tigers",
+        "abbreviation": "AUB",
+        "short_name": "Auburn"
+      },
+      "venue": {
+        "id": "1925",
+        "name": "Coleman Coliseum",
+        "city": "Tuscaloosa",
+        "state": "AL"
+      },
+      "neutral_site": false,
+      "conference_game": true,
+      "tv": [
+        "ESPN"
+      ],
+      "status": "STATUS_SCHEDULED"
+    },
+    {
       "espn_id": "401856426",
       "date": "2026-03-08T01:30Z",
       "date_display": "Sat, Mar 07 2026",
@@ -30506,38 +28905,6 @@
       "conference_game": true,
       "tv": [
         "ESPN+"
-      ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401808288",
-      "date": "2026-03-08T01:30Z",
-      "date_display": "Sat, Mar 07 2026",
-      "time_detail": "3/7 - 8:30 PM EST",
-      "name": "Auburn Tigers at Alabama Crimson Tide",
-      "short_name": "AUB @ ALA",
-      "home_team": {
-        "id": "333",
-        "name": "Alabama Crimson Tide",
-        "abbreviation": "ALA",
-        "short_name": "Alabama"
-      },
-      "away_team": {
-        "id": "2",
-        "name": "Auburn Tigers",
-        "abbreviation": "AUB",
-        "short_name": "Auburn"
-      },
-      "venue": {
-        "id": "1925",
-        "name": "Coleman Coliseum",
-        "city": "Tuscaloosa",
-        "state": "AL"
-      },
-      "neutral_site": false,
-      "conference_game": true,
-      "tv": [
-        "ESPN"
       ],
       "status": "STATUS_SCHEDULED"
     },
@@ -30856,7 +29223,9 @@
       },
       "neutral_site": true,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "ESPN+"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -31874,7 +30243,9 @@
       },
       "neutral_site": true,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "ESPN+"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -32096,7 +30467,9 @@
       },
       "neutral_site": true,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "ESPN+"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -32158,7 +30531,9 @@
       },
       "neutral_site": true,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "ESPN+"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -32344,7 +30719,9 @@
       },
       "neutral_site": true,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "ESPN+"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -32406,7 +30783,9 @@
       },
       "neutral_site": true,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "ESPN+"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -32532,7 +30911,9 @@
       },
       "neutral_site": true,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "ESPN+"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -32626,7 +31007,9 @@
       },
       "neutral_site": false,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "ESPN+"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -32656,7 +31039,9 @@
       },
       "neutral_site": false,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "ESPN+"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -32686,7 +31071,9 @@
       },
       "neutral_site": true,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "ESPN+"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -32716,7 +31103,9 @@
       },
       "neutral_site": true,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "ESPN+"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -32778,7 +31167,9 @@
       },
       "neutral_site": true,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "ESPN+"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -33032,7 +31423,9 @@
       },
       "neutral_site": true,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "ESPN+"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -33126,7 +31519,9 @@
       },
       "neutral_site": true,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "ESPN+"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -33284,7 +31679,9 @@
       },
       "neutral_site": true,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "ESPN+"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -33317,36 +31714,6 @@
       "tv": [
         "ESPN2"
       ],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401851472",
-      "date": "2026-03-11T04:00Z",
-      "date_display": "Tue, Mar 10 2026",
-      "time_detail": "TBD",
-      "name": "TBD at TBD",
-      "short_name": "TBD VS TBD",
-      "home_team": {
-        "id": "-1",
-        "name": "TBD",
-        "abbreviation": "TBD",
-        "short_name": "TBD"
-      },
-      "away_team": {
-        "id": "-2",
-        "name": "TBD",
-        "abbreviation": "TBD",
-        "short_name": "TBD"
-      },
-      "venue": {
-        "id": "26",
-        "name": "Norfolk Scope Arena",
-        "city": "Norfolk",
-        "state": "VA"
-      },
-      "neutral_site": true,
-      "conference_game": true,
-      "tv": [],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -33532,7 +31899,9 @@
       },
       "neutral_site": true,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "ESPN+"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -33722,7 +32091,9 @@
       },
       "neutral_site": true,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "ESPN+"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -33819,6 +32190,36 @@
       "tv": [
         "MWN"
       ],
+      "status": "STATUS_SCHEDULED"
+    },
+    {
+      "espn_id": "401851472",
+      "date": "2026-03-11T22:00Z",
+      "date_display": "Wed, Mar 11 2026",
+      "time_detail": "3/11 - 6:00 PM EDT",
+      "name": "TBD at TBD",
+      "short_name": "TBD VS TBD",
+      "home_team": {
+        "id": "-1",
+        "name": "TBD",
+        "abbreviation": "TBD",
+        "short_name": "TBD"
+      },
+      "away_team": {
+        "id": "-2",
+        "name": "TBD",
+        "abbreviation": "TBD",
+        "short_name": "TBD"
+      },
+      "venue": {
+        "id": "26",
+        "name": "Norfolk Scope Arena",
+        "city": "Norfolk",
+        "state": "VA"
+      },
+      "neutral_site": true,
+      "conference_game": true,
+      "tv": [],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -34006,7 +32407,9 @@
       },
       "neutral_site": true,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "ESPN+"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -34036,7 +32439,9 @@
       },
       "neutral_site": true,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "ESPN+"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -34130,7 +32535,9 @@
       },
       "neutral_site": true,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "ESPN+"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -34224,7 +32631,9 @@
       },
       "neutral_site": true,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "ESPN+"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -34472,7 +32881,9 @@
       },
       "neutral_site": true,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "ESPN+"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -34508,100 +32919,10 @@
       "status": "STATUS_SCHEDULED"
     },
     {
-      "espn_id": "401858189",
-      "date": "2026-03-12T04:00Z",
-      "date_display": "Wed, Mar 11 2026",
-      "time_detail": "TBD",
-      "name": "TBD at TBD",
-      "short_name": "TBD VS TBD",
-      "home_team": {
-        "id": "-1",
-        "name": "TBD",
-        "abbreviation": "TBD",
-        "short_name": "TBD"
-      },
-      "away_team": {
-        "id": "-2",
-        "name": "TBD",
-        "abbreviation": "TBD",
-        "short_name": "TBD"
-      },
-      "venue": {
-        "id": "3417",
-        "name": "Rocket Arena",
-        "city": "Cleveland",
-        "state": "OH"
-      },
-      "neutral_site": true,
-      "conference_game": true,
-      "tv": [],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401858188",
-      "date": "2026-03-12T04:00Z",
-      "date_display": "Wed, Mar 11 2026",
-      "time_detail": "TBD",
-      "name": "TBD at TBD",
-      "short_name": "TBD VS TBD",
-      "home_team": {
-        "id": "-1",
-        "name": "TBD",
-        "abbreviation": "TBD",
-        "short_name": "TBD"
-      },
-      "away_team": {
-        "id": "-2",
-        "name": "TBD",
-        "abbreviation": "TBD",
-        "short_name": "TBD"
-      },
-      "venue": {
-        "id": "3417",
-        "name": "Rocket Arena",
-        "city": "Cleveland",
-        "state": "OH"
-      },
-      "neutral_site": true,
-      "conference_game": true,
-      "tv": [],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401858187",
-      "date": "2026-03-12T04:00Z",
-      "date_display": "Wed, Mar 11 2026",
-      "time_detail": "TBD",
-      "name": "TBD at TBD",
-      "short_name": "TBD VS TBD",
-      "home_team": {
-        "id": "-1",
-        "name": "TBD",
-        "abbreviation": "TBD",
-        "short_name": "TBD"
-      },
-      "away_team": {
-        "id": "-2",
-        "name": "TBD",
-        "abbreviation": "TBD",
-        "short_name": "TBD"
-      },
-      "venue": {
-        "id": "3417",
-        "name": "Rocket Arena",
-        "city": "Cleveland",
-        "state": "OH"
-      },
-      "neutral_site": true,
-      "conference_game": true,
-      "tv": [],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
       "espn_id": "401858186",
-      "date": "2026-03-12T04:00Z",
-      "date_display": "Wed, Mar 11 2026",
-      "time_detail": "TBD",
+      "date": "2026-03-12T15:00Z",
+      "date_display": "Thu, Mar 12 2026",
+      "time_detail": "3/12 - 11:00 AM EDT",
       "name": "TBD at TBD",
       "short_name": "TBD VS TBD",
       "home_team": {
@@ -34624,67 +32945,9 @@
       },
       "neutral_site": true,
       "conference_game": true,
-      "tv": [],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401851474",
-      "date": "2026-03-12T04:00Z",
-      "date_display": "Wed, Mar 11 2026",
-      "time_detail": "TBD",
-      "name": "TBD at TBD",
-      "short_name": "TBD VS TBD",
-      "home_team": {
-        "id": "-1",
-        "name": "TBD",
-        "abbreviation": "TBD",
-        "short_name": "TBD"
-      },
-      "away_team": {
-        "id": "-2",
-        "name": "TBD",
-        "abbreviation": "TBD",
-        "short_name": "TBD"
-      },
-      "venue": {
-        "id": "26",
-        "name": "Norfolk Scope Arena",
-        "city": "Norfolk",
-        "state": "VA"
-      },
-      "neutral_site": true,
-      "conference_game": true,
-      "tv": [],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401851473",
-      "date": "2026-03-12T04:00Z",
-      "date_display": "Wed, Mar 11 2026",
-      "time_detail": "TBD",
-      "name": "TBD at TBD",
-      "short_name": "TBD VS TBD",
-      "home_team": {
-        "id": "-1",
-        "name": "TBD",
-        "abbreviation": "TBD",
-        "short_name": "TBD"
-      },
-      "away_team": {
-        "id": "-2",
-        "name": "TBD",
-        "abbreviation": "TBD",
-        "short_name": "TBD"
-      },
-      "venue": {
-        "id": "26",
-        "name": "Norfolk Scope Arena",
-        "city": "Norfolk",
-        "state": "VA"
-      },
-      "neutral_site": true,
-      "conference_game": true,
-      "tv": [],
+      "tv": [
+        "ESPN+"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -34876,6 +33139,38 @@
       "status": "STATUS_SCHEDULED"
     },
     {
+      "espn_id": "401858187",
+      "date": "2026-03-12T17:30Z",
+      "date_display": "Thu, Mar 12 2026",
+      "time_detail": "3/12 - 1:30 PM EDT",
+      "name": "TBD at TBD",
+      "short_name": "TBD VS TBD",
+      "home_team": {
+        "id": "-1",
+        "name": "TBD",
+        "abbreviation": "TBD",
+        "short_name": "TBD"
+      },
+      "away_team": {
+        "id": "-2",
+        "name": "TBD",
+        "abbreviation": "TBD",
+        "short_name": "TBD"
+      },
+      "venue": {
+        "id": "3417",
+        "name": "Rocket Arena",
+        "city": "Cleveland",
+        "state": "OH"
+      },
+      "neutral_site": true,
+      "conference_game": true,
+      "tv": [
+        "ESPN+"
+      ],
+      "status": "STATUS_SCHEDULED"
+    },
+    {
       "espn_id": "401851719",
       "date": "2026-03-12T18:00Z",
       "date_display": "Thu, Mar 12 2026",
@@ -34902,7 +33197,9 @@
       },
       "neutral_site": true,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "ESPN+"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -35126,6 +33423,38 @@
       "status": "STATUS_SCHEDULED"
     },
     {
+      "espn_id": "401858188",
+      "date": "2026-03-12T20:00Z",
+      "date_display": "Thu, Mar 12 2026",
+      "time_detail": "3/12 - 4:00 PM EDT",
+      "name": "TBD at TBD",
+      "short_name": "TBD VS TBD",
+      "home_team": {
+        "id": "-1",
+        "name": "TBD",
+        "abbreviation": "TBD",
+        "short_name": "TBD"
+      },
+      "away_team": {
+        "id": "-2",
+        "name": "TBD",
+        "abbreviation": "TBD",
+        "short_name": "TBD"
+      },
+      "venue": {
+        "id": "3417",
+        "name": "Rocket Arena",
+        "city": "Cleveland",
+        "state": "OH"
+      },
+      "neutral_site": true,
+      "conference_game": true,
+      "tv": [
+        "ESPN+"
+      ],
+      "status": "STATUS_SCHEDULED"
+    },
+    {
       "espn_id": "401851266",
       "date": "2026-03-12T21:00Z",
       "date_display": "Thu, Mar 12 2026",
@@ -35186,6 +33515,68 @@
       "conference_game": true,
       "tv": [
         "CBSSN"
+      ],
+      "status": "STATUS_SCHEDULED"
+    },
+    {
+      "espn_id": "401851473",
+      "date": "2026-03-12T22:00Z",
+      "date_display": "Thu, Mar 12 2026",
+      "time_detail": "3/12 - 6:00 PM EDT",
+      "name": "TBD at TBD",
+      "short_name": "TBD VS TBD",
+      "home_team": {
+        "id": "-1",
+        "name": "TBD",
+        "abbreviation": "TBD",
+        "short_name": "TBD"
+      },
+      "away_team": {
+        "id": "-2",
+        "name": "TBD",
+        "abbreviation": "TBD",
+        "short_name": "TBD"
+      },
+      "venue": {
+        "id": "26",
+        "name": "Norfolk Scope Arena",
+        "city": "Norfolk",
+        "state": "VA"
+      },
+      "neutral_site": true,
+      "conference_game": true,
+      "tv": [],
+      "status": "STATUS_SCHEDULED"
+    },
+    {
+      "espn_id": "401858189",
+      "date": "2026-03-12T22:30Z",
+      "date_display": "Thu, Mar 12 2026",
+      "time_detail": "3/12 - 6:30 PM EDT",
+      "name": "TBD at TBD",
+      "short_name": "TBD VS TBD",
+      "home_team": {
+        "id": "-1",
+        "name": "TBD",
+        "abbreviation": "TBD",
+        "short_name": "TBD"
+      },
+      "away_team": {
+        "id": "-2",
+        "name": "TBD",
+        "abbreviation": "TBD",
+        "short_name": "TBD"
+      },
+      "venue": {
+        "id": "3417",
+        "name": "Rocket Arena",
+        "city": "Cleveland",
+        "state": "OH"
+      },
+      "neutral_site": true,
+      "conference_game": true,
+      "tv": [
+        "ESPN+"
       ],
       "status": "STATUS_SCHEDULED"
     },
@@ -35442,6 +33833,36 @@
       "status": "STATUS_SCHEDULED"
     },
     {
+      "espn_id": "401851474",
+      "date": "2026-03-13T00:00Z",
+      "date_display": "Thu, Mar 12 2026",
+      "time_detail": "3/12 - 8:00 PM EDT",
+      "name": "TBD at TBD",
+      "short_name": "TBD VS TBD",
+      "home_team": {
+        "id": "-1",
+        "name": "TBD",
+        "abbreviation": "TBD",
+        "short_name": "TBD"
+      },
+      "away_team": {
+        "id": "-2",
+        "name": "TBD",
+        "abbreviation": "TBD",
+        "short_name": "TBD"
+      },
+      "venue": {
+        "id": "26",
+        "name": "Norfolk Scope Arena",
+        "city": "Norfolk",
+        "state": "VA"
+      },
+      "neutral_site": true,
+      "conference_game": true,
+      "tv": [],
+      "status": "STATUS_SCHEDULED"
+    },
+    {
       "espn_id": "401851720",
       "date": "2026-03-13T00:30Z",
       "date_display": "Thu, Mar 12 2026",
@@ -35468,7 +33889,9 @@
       },
       "neutral_site": true,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "ESPN+"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -35594,7 +34017,9 @@
       },
       "neutral_site": true,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "ESPN+"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -35876,127 +34301,9 @@
       },
       "neutral_site": true,
       "conference_game": true,
-      "tv": [],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401858191",
-      "date": "2026-03-13T04:00Z",
-      "date_display": "Thu, Mar 12 2026",
-      "time_detail": "TBD",
-      "name": "TBD at TBD",
-      "short_name": "TBD VS TBD",
-      "home_team": {
-        "id": "-1",
-        "name": "TBD",
-        "abbreviation": "TBD",
-        "short_name": "TBD"
-      },
-      "away_team": {
-        "id": "-2",
-        "name": "TBD",
-        "abbreviation": "TBD",
-        "short_name": "TBD"
-      },
-      "venue": {
-        "id": "3417",
-        "name": "Rocket Arena",
-        "city": "Cleveland",
-        "state": "OH"
-      },
-      "neutral_site": true,
-      "conference_game": true,
-      "tv": [],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401858190",
-      "date": "2026-03-13T04:00Z",
-      "date_display": "Thu, Mar 12 2026",
-      "time_detail": "TBD",
-      "name": "TBD at TBD",
-      "short_name": "TBD VS TBD",
-      "home_team": {
-        "id": "-1",
-        "name": "TBD",
-        "abbreviation": "TBD",
-        "short_name": "TBD"
-      },
-      "away_team": {
-        "id": "-2",
-        "name": "TBD",
-        "abbreviation": "TBD",
-        "short_name": "TBD"
-      },
-      "venue": {
-        "id": "3417",
-        "name": "Rocket Arena",
-        "city": "Cleveland",
-        "state": "OH"
-      },
-      "neutral_site": true,
-      "conference_game": true,
-      "tv": [],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401851476",
-      "date": "2026-03-13T04:00Z",
-      "date_display": "Thu, Mar 12 2026",
-      "time_detail": "TBD",
-      "name": "TBD at TBD",
-      "short_name": "TBD VS TBD",
-      "home_team": {
-        "id": "-1",
-        "name": "TBD",
-        "abbreviation": "TBD",
-        "short_name": "TBD"
-      },
-      "away_team": {
-        "id": "-2",
-        "name": "TBD",
-        "abbreviation": "TBD",
-        "short_name": "TBD"
-      },
-      "venue": {
-        "id": "26",
-        "name": "Norfolk Scope Arena",
-        "city": "Norfolk",
-        "state": "VA"
-      },
-      "neutral_site": true,
-      "conference_game": true,
-      "tv": [],
-      "status": "STATUS_SCHEDULED"
-    },
-    {
-      "espn_id": "401851475",
-      "date": "2026-03-13T04:00Z",
-      "date_display": "Thu, Mar 12 2026",
-      "time_detail": "TBD",
-      "name": "TBD at TBD",
-      "short_name": "TBD VS TBD",
-      "home_team": {
-        "id": "-1",
-        "name": "TBD",
-        "abbreviation": "TBD",
-        "short_name": "TBD"
-      },
-      "away_team": {
-        "id": "-2",
-        "name": "TBD",
-        "abbreviation": "TBD",
-        "short_name": "TBD"
-      },
-      "venue": {
-        "id": "26",
-        "name": "Norfolk Scope Arena",
-        "city": "Norfolk",
-        "state": "VA"
-      },
-      "neutral_site": true,
-      "conference_game": true,
-      "tv": [],
+      "tv": [
+        "ESPN+"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -36090,7 +34397,9 @@
       },
       "neutral_site": true,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "CBSSN"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -36184,7 +34493,9 @@
       },
       "neutral_site": true,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "ESPN+"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -36278,7 +34589,9 @@
       },
       "neutral_site": true,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "CBSSN"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -36346,6 +34659,38 @@
       "status": "STATUS_SCHEDULED"
     },
     {
+      "espn_id": "401858190",
+      "date": "2026-03-13T21:00Z",
+      "date_display": "Fri, Mar 13 2026",
+      "time_detail": "3/13 - 5:00 PM EDT",
+      "name": "TBD at TBD",
+      "short_name": "TBD VS TBD",
+      "home_team": {
+        "id": "-1",
+        "name": "TBD",
+        "abbreviation": "TBD",
+        "short_name": "TBD"
+      },
+      "away_team": {
+        "id": "-2",
+        "name": "TBD",
+        "abbreviation": "TBD",
+        "short_name": "TBD"
+      },
+      "venue": {
+        "id": "3417",
+        "name": "Rocket Arena",
+        "city": "Cleveland",
+        "state": "OH"
+      },
+      "neutral_site": true,
+      "conference_game": true,
+      "tv": [
+        "CBSSN"
+      ],
+      "status": "STATUS_SCHEDULED"
+    },
+    {
       "espn_id": "401851273",
       "date": "2026-03-13T21:00Z",
       "date_display": "Fri, Mar 13 2026",
@@ -36407,6 +34752,36 @@
       "tv": [
         "FOX"
       ],
+      "status": "STATUS_SCHEDULED"
+    },
+    {
+      "espn_id": "401851475",
+      "date": "2026-03-13T22:00Z",
+      "date_display": "Fri, Mar 13 2026",
+      "time_detail": "3/13 - 6:00 PM EDT",
+      "name": "TBD at TBD",
+      "short_name": "TBD VS TBD",
+      "home_team": {
+        "id": "-1",
+        "name": "TBD",
+        "abbreviation": "TBD",
+        "short_name": "TBD"
+      },
+      "away_team": {
+        "id": "-2",
+        "name": "TBD",
+        "abbreviation": "TBD",
+        "short_name": "TBD"
+      },
+      "venue": {
+        "id": "26",
+        "name": "Norfolk Scope Arena",
+        "city": "Norfolk",
+        "state": "VA"
+      },
+      "neutral_site": true,
+      "conference_game": true,
+      "tv": [],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -36534,6 +34909,38 @@
       "status": "STATUS_SCHEDULED"
     },
     {
+      "espn_id": "401858191",
+      "date": "2026-03-13T23:30Z",
+      "date_display": "Fri, Mar 13 2026",
+      "time_detail": "3/13 - 7:30 PM EDT",
+      "name": "TBD at TBD",
+      "short_name": "TBD VS TBD",
+      "home_team": {
+        "id": "-1",
+        "name": "TBD",
+        "abbreviation": "TBD",
+        "short_name": "TBD"
+      },
+      "away_team": {
+        "id": "-2",
+        "name": "TBD",
+        "abbreviation": "TBD",
+        "short_name": "TBD"
+      },
+      "venue": {
+        "id": "3417",
+        "name": "Rocket Arena",
+        "city": "Cleveland",
+        "state": "OH"
+      },
+      "neutral_site": true,
+      "conference_game": true,
+      "tv": [
+        "CBSSN"
+      ],
+      "status": "STATUS_SCHEDULED"
+    },
+    {
       "espn_id": "401851274",
       "date": "2026-03-13T23:30Z",
       "date_display": "Fri, Mar 13 2026",
@@ -36563,6 +34970,36 @@
       "tv": [
         "CNBC"
       ],
+      "status": "STATUS_SCHEDULED"
+    },
+    {
+      "espn_id": "401851476",
+      "date": "2026-03-14T00:00Z",
+      "date_display": "Fri, Mar 13 2026",
+      "time_detail": "3/13 - 8:00 PM EDT",
+      "name": "TBD at TBD",
+      "short_name": "TBD VS TBD",
+      "home_team": {
+        "id": "-1",
+        "name": "TBD",
+        "abbreviation": "TBD",
+        "short_name": "TBD"
+      },
+      "away_team": {
+        "id": "-2",
+        "name": "TBD",
+        "abbreviation": "TBD",
+        "short_name": "TBD"
+      },
+      "venue": {
+        "id": "26",
+        "name": "Norfolk Scope Arena",
+        "city": "Norfolk",
+        "state": "VA"
+      },
+      "neutral_site": true,
+      "conference_game": true,
+      "tv": [],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -36624,7 +35061,9 @@
       },
       "neutral_site": true,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "ESPN+"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {
@@ -37512,7 +35951,9 @@
       },
       "neutral_site": true,
       "conference_game": true,
-      "tv": [],
+      "tv": [
+        "CBSSN"
+      ],
       "status": "STATUS_SCHEDULED"
     },
     {

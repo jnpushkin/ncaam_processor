@@ -12,7 +12,7 @@ from ..utils.nba_players import (
 )
 from ..utils.d2d3_scraper import enrich_player_with_realgm, lookup_player_transfers
 from ..utils.schedule_scraper import (
-    get_schedule, filter_upcoming_games,
+    get_schedule, filter_upcoming_games, venue_matches,
     SCHEDULE_CACHE_FILE, SCHEDULE_CACHE_FILE_WOMENS, normalize_state, get_espn_team_id
 )
 from ..utils.team_names import normalize_team_name
@@ -899,8 +899,25 @@ class DataSerializer:
         except Exception as e:
             return {'games': [], 'error': str(e)}
 
-        # Filter to upcoming games at unvisited venues
-        upcoming = filter_upcoming_games(schedule, visited_venues)
+        # Filter to all future games (not just unvisited — website handles filtering)
+        from datetime import datetime
+        now = datetime.now()
+        upcoming = []
+        for game in schedule:
+            try:
+                game_date = datetime.fromisoformat(game["date"].replace("Z", "+00:00"))
+            except (ValueError, AttributeError):
+                continue
+            if game_date.replace(tzinfo=None) < now:
+                continue
+            # Mark whether venue is visited
+            espn_venue = game.get("venue", {})
+            venue_key = f"{espn_venue.get('name', '')}, {espn_venue.get('city', '')}, {espn_venue.get('state', '')}"
+            game["venue_visited"] = any(
+                venue_matches(espn_venue, v) for v in visited_venues
+            ) if espn_venue.get('name') else False
+            upcoming.append(game)
+        upcoming.sort(key=lambda g: g["date"])
 
         # Format for website
         formatted_games = []
@@ -937,6 +954,7 @@ class DataSerializer:
                 'date': game['date'],
                 'dateDisplay': game['date_display'],
                 'time_detail': game.get('time_detail', ''),  # ESPN's actual game time
+                'gender': game_gender,
                 'homeTeam': home_name,
                 'homeTeamFull': game['home_team']['name'],
                 'homeTeamAbbrev': game['home_team']['abbreviation'],
@@ -953,6 +971,7 @@ class DataSerializer:
                 'tv': game.get('tv', []),
                 'neutralSite': game.get('neutral_site', False),
                 'conferenceGame': game.get('conference_game', False),
+                'venueVisited': game.get('venue_visited', False),
             })
 
             # Track conferences
