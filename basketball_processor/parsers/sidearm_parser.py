@@ -441,6 +441,7 @@ def _extract_player_stats_sidearm(table: BeautifulSoup) -> List[Dict[str, Any]]:
 
         player = {
             'name': '',
+            'starter': False,
             'mp': 0.0,
             'fg': 0, 'fga': 0,
             'fg3': 0, 'fg3a': 0,
@@ -473,6 +474,11 @@ def _extract_player_stats_sidearm(table: BeautifulSoup) -> List[Dict[str, Any]]:
         # Skip empty names and team entries
         if not player['name'] or player['name'].upper() in ['TMTEAM', 'TEAM', 'TM']:
             continue
+
+        # Check GS (game started) column - "*" indicates a starter
+        if 'gs' in col_map:
+            gs_val = cells[col_map['gs']].get_text(strip=True) if col_map['gs'] < len(cells) else ''
+            player['starter'] = gs_val == '*'
 
         # Generate player_id if not extracted from URL
         if 'player_id' not in player:
@@ -779,10 +785,14 @@ def parse_sidearm_boxscore(html_content: str, gender: str = 'M', url: str = '') 
         'home': {'periods': home_periods} if home_periods else {},
     }
 
-    # Generate game ID
+    # Generate game ID and normalize date to "Month Day, Year" format
     date_str = game_info.get('date', '')
     if date_str:
         date_yyyymmdd = format_date_yyyymmdd(date_str)
+        # Normalize date display format to match Sports Reference ("January 18, 2025")
+        parsed_dt = parse_date(date_str)
+        if parsed_dt:
+            date_str = f"{parsed_dt.strftime('%B')} {parsed_dt.day}, {parsed_dt.year}"
     else:
         date_yyyymmdd = '00000000'
 

@@ -12,6 +12,14 @@ const html = htm.bind(h);
 
 const DEFUNCT_TEAM_CONFERENCES = { 'St. Francis (NY)': 'NEC' };
 
+const D1_CONFERENCES = new Set([
+    'A-10', 'A-Sun', 'AAC', 'ACC', 'AEC', 'Atlantic 10', 'Big 12', 'Big East',
+    'Big Sky', 'Big South', 'Big Ten', 'Big West', 'CAA', 'CUSA', 'Horizon',
+    'Ind', 'Ivy', 'MAAC', 'MAC', 'MEAC', 'MVC', 'MWC', 'Mountain West',
+    'NEC', 'OVC', 'Pac-12', 'Patriot', 'SEC', 'Southern', 'Southland',
+    'Summit', 'Sun Belt', 'SWAC', 'WAC', 'WCC'
+]);
+
 const STAT_THRESHOLDS = {
     ppg: { excellent: 20, good: 15, average: 10 },
     rpg: { excellent: 10, good: 7, average: 5 },
@@ -732,6 +740,42 @@ function computeGameMilestones() {
             }
             playerTeams[playerId].teams.add(playerTeam);
         });
+
+        // Build copyable achievements summary
+        const awayKey = `${awayTeam}|${gender}`;
+        const homeKey = `${homeTeam}|${gender}`;
+        const awayConfKey = awayConf ? `${awayConf}|${gender}` : null;
+        const homeConfKey = homeConf ? `${homeConf}|${gender}` : null;
+        gameMilestones[gameId].achievements = {
+            gameNumber: gameCount,
+            gender,
+            awayTeam: {
+                name: awayTeam,
+                visitNum: teamCounts[awayKey] || 0,
+                record: { ...(teamRecords[awayKey] || { wins: 0, losses: 0 }) },
+                isNewTeam: (teamCounts[awayKey] || 0) === 1,
+                conf: awayConf,
+                confTeamsSeen: awayConfKey && confTeamsSeen[awayConfKey] ? confTeamsSeen[awayConfKey].size : 0,
+                confTeamsTotal: conferenceTeamCounts[awayConf] || 0,
+                d1Count: d1TeamsSeen[gender] ? d1TeamsSeen[gender].size : 0,
+            },
+            homeTeam: {
+                name: homeTeam,
+                visitNum: teamCounts[homeKey] || 0,
+                record: { ...(teamRecords[homeKey] || { wins: 0, losses: 0 }) },
+                isNewTeam: (teamCounts[homeKey] || 0) === 1,
+                conf: homeConf,
+                confTeamsSeen: homeConfKey && confTeamsSeen[homeConfKey] ? confTeamsSeen[homeConfKey].size : 0,
+                confTeamsTotal: conferenceTeamCounts[homeConf] || 0,
+                d1Count: d1TeamsSeen[gender] ? d1TeamsSeen[gender].size : 0,
+            },
+            venue: {
+                name: venue,
+                visitNum: venueCounts[venue] || 0,
+                isNewVenue: (venueCounts[venue] || 0) === 1,
+                totalVenuesSeen: d1VenuesSeen.size,
+            },
+        };
     });
 
     // Finalize streak tracking
@@ -1479,7 +1523,16 @@ function GameRecords({ showGameDetail }) {
         const closest = [...gamesWithMargin].sort((a, b) => a.margin - b.margin).slice(0, 10);
         const highest = [...gamesWithMargin].sort((a, b) => b.total - a.total).slice(0, 10);
         const lowest = [...gamesWithMargin].sort((a, b) => a.total - b.total).slice(0, 10);
-        return { blowouts, closest, highest, lowest };
+        // Biggest team scoring runs from PBP data
+        const scoringRuns = [];
+        games.forEach(g => {
+            const runs = g.ESPNPBPAnalysis?.teamScoringRuns || [];
+            runs.forEach(run => {
+                scoringRuns.push({ ...run, game: g, GameID: g.GameID, Gender: g.Gender });
+            });
+        });
+        scoringRuns.sort((a, b) => b.points - a.points);
+        return { blowouts, closest, highest, lowest, scoringRuns: scoringRuns.slice(0, 10) };
     }, [gamesWithMargin]);
 
     const RecordList = ({ items, showMargin, showTotal }) => html`
@@ -1514,6 +1567,22 @@ function GameRecords({ showGameDetail }) {
             <${Card} className="record-card">
                 <h3>Lowest Scoring</h3>
                 <${RecordList} items=${records.lowest} showTotal=${true} />
+            <//>
+            <${Card} className="record-card">
+                <h3>Biggest Scoring Runs</h3>
+                ${records.scoringRuns.map((r, i) => {
+                    const wTag = r.Gender === 'W' ? ' (W)' : '';
+                    const away = r.game['Away Team'];
+                    const home = r.game['Home Team'];
+                    return html`
+                        <div class="record-item" onClick=${() => showGameDetail(r.GameID)}>
+                            <span class="rank">${i + 1}.</span>
+                            <span class="teams">${r.team}${wTag} vs ${r.team === away ? home : away}${wTag}</span>
+                            <span class="score">${r.points}-0 run</span>
+                            <span class="total">${r.startScore} → ${r.endScore}</span>
+                        </div>
+                    `;
+                })}
             <//>
         </div>
     `;
@@ -2051,19 +2120,19 @@ function MatchupsView() {
     const games = DATA.games || [];
     const [confFilter, setConfFilter] = useState('');
 
-    // Get all conferences
+    // Get all D1 conferences
     const allConfs = useMemo(() => {
         const set = new Set();
         games.forEach(g => {
             const ac = getGameConference(g, 'away');
             const hc = getGameConference(g, 'home');
-            if (ac) set.add(ac);
-            if (hc) set.add(hc);
+            if (ac && D1_CONFERENCES.has(ac)) set.add(ac);
+            if (hc && D1_CONFERENCES.has(hc)) set.add(hc);
         });
         return [...set].sort();
     }, [games]);
 
-    // Conference-vs-conference matrix
+    // Conference-vs-conference matrix (D1 only)
     const { confList, confMatrix } = useMemo(() => {
         const confSet = new Set();
         const data = {};
@@ -2071,15 +2140,14 @@ function MatchupsView() {
             const ac = getGameConference(g, 'away');
             const hc = getGameConference(g, 'home');
             if (!ac || !hc) return;
+            if (!D1_CONFERENCES.has(ac) || !D1_CONFERENCES.has(hc)) return;
             confSet.add(ac);
             confSet.add(hc);
             if (ac === hc) {
-                // Intra-conference
                 if (!data[ac]) data[ac] = {};
                 if (!data[ac][ac]) data[ac][ac] = 0;
                 data[ac][ac]++;
             } else {
-                // Inter-conference
                 if (!data[ac]) data[ac] = {};
                 if (!data[hc]) data[hc] = {};
                 if (!data[ac][hc]) data[ac][hc] = 0;
@@ -2095,13 +2163,13 @@ function MatchupsView() {
     // Team matrix (when conference is selected)
     const { teamList, matchupData } = useMemo(() => {
         if (!confFilter) return { teamList: [], matchupData: {} };
-        // Build team set from game data so non-D1 teams are included
+        // Build team set using current conference (not historical game-level conference)
         const teamSet = new Set();
         games.forEach(g => {
-            const ac = getGameConference(g, 'away');
-            const hc = getGameConference(g, 'home');
-            if (ac === confFilter) teamSet.add(g['Away Team']);
-            if (hc === confFilter) teamSet.add(g['Home Team']);
+            const away = g['Away Team'];
+            const home = g['Home Team'];
+            if (getTeamConference(away) === confFilter) teamSet.add(away);
+            if (getTeamConference(home) === confFilter) teamSet.add(home);
         });
         const teams = [...teamSet].sort();
 
@@ -2838,7 +2906,17 @@ function PlayerRecords({ showPlayerDetail }) {
         const byStl = [...playerGames].sort((a, b) => (b.stl||0) - (a.stl||0)).slice(0, 10);
         const byBlk = [...playerGames].sort((a, b) => (b.blk||0) - (a.blk||0)).slice(0, 10);
         const byGmSc = [...playerGames].filter(p => p.game_score != null).sort((a, b) => (b.game_score||0) - (a.game_score||0)).slice(0, 10);
-        return { byPts, byReb, byAst, byStl, byBlk, byGmSc };
+        // Most consecutive points from PBP data
+        const streaks = [];
+        (DATA.games || []).forEach(g => {
+            const ps = g.ESPNPBPAnalysis?.playerPointStreaks || [];
+            ps.forEach(s => {
+                streaks.push({ ...s, game: g, GameID: g.GameID, Gender: g.Gender, date: g.Date,
+                    opponent: s.team === g['Away Team'] ? g['Home Team'] : g['Away Team'] });
+            });
+        });
+        streaks.sort((a, b) => b.points - a.points);
+        return { byPts, byReb, byAst, byStl, byBlk, byGmSc, streaks: streaks.slice(0, 10) };
     }, [playerGames]);
 
     const RecordList = ({ items, statKey, label, format }) => html`
@@ -2865,6 +2943,19 @@ function PlayerRecords({ showPlayerDetail }) {
             <${RecordList} items=${records.byStl} statKey="stl" label="Most Steals" />
             <${RecordList} items=${records.byBlk} statKey="blk" label="Most Blocks" />
             <${RecordList} items=${records.byGmSc} statKey="game_score" label="Best Game Score" format=${v => v != null ? v.toFixed(1) : '-'} />
+            <${Card} className="record-card">
+                <h3>Most Consecutive Points</h3>
+                ${records.streaks.map((s, i) => html`
+                    <div class="record-item" onClick=${() => showPlayerDetail(null)}>
+                        <span class="rank">${i + 1}.</span>
+                        <span class="teams">
+                            <span class="player-link">${s.player}</span>
+                            <span style="color: var(--text-muted); font-size: 0.8125rem"> vs ${s.opponent}, ${s.date}</span>
+                        </span>
+                        <span class="score">${s.points} pts</span>
+                    </div>
+                `)}
+            <//>
         </div>
     `;
 }
@@ -3627,8 +3718,8 @@ function UpcomingView({ showGameDetail }) {
             const count = v.games.length;
             const popupLines = v.games.slice(0, 5).map(g => {
                 const dateStr = g.date ? formatGameDateTime(g.date, g.time_detail) : '';
-                const tag = g.gender === 'W' ? ' (W)' : '';
-                return (g.away || g.awayTeam || '') + ' @ ' + (g.home || g.homeTeam || '') + tag + ' — ' + dateStr;
+                const genderTag = g.gender === 'W' ? ' (W)' : g.gender === 'M' ? ' (M)' : '';
+                return (g.away || g.awayTeam || '') + ' @ ' + (g.home || g.homeTeam || '') + genderTag + ' — ' + dateStr;
             });
             const popup = '<strong>' + (v.venue || v.home) + '</strong><br>' +
                 (v.city ? v.city + (v.state ? ', ' + v.state : '') + '<br>' : '') +
@@ -3853,6 +3944,49 @@ function GameDetailModal({ gameId, onClose, showPlayerDetail }) {
                     ${milestones.badges.map(b => html`<${Badge} ...${b} />`)}
                 </div>
             `}
+
+            ${(() => {
+                const ach = milestones.achievements;
+                if (!ach) return null;
+                const lines = [];
+                const gl = ach.gender === 'W' ? ' (W)' : '';
+                const aNew = ach.awayTeam.isNewTeam;
+                const hNew = ach.homeTeam.isNewTeam;
+                // D1 teams seen (only if at least one team is D1 and new)
+                const ac = ach.awayTeam.conf, hc = ach.homeTeam.conf;
+                const awayIsD1 = ac && D1_CONFERENCES.has(ac);
+                const homeIsD1 = hc && D1_CONFERENCES.has(hc);
+                if ((aNew && awayIsD1) || (hNew && homeIsD1)) {
+                    const total = Math.max(ach.awayTeam.d1Count, ach.homeTeam.d1Count);
+                    lines.push(`${total}/365 D1 teams seen${gl}`);
+                }
+                // Conference teams (D1 conferences only)
+                if (aNew && hNew && ac === hc && awayIsD1 && ach.awayTeam.confTeamsTotal > 0) {
+                    const total = Math.max(ach.awayTeam.confTeamsSeen, ach.homeTeam.confTeamsSeen);
+                    lines.push(`${total}/${ach.awayTeam.confTeamsTotal} ${ac} teams seen`);
+                } else {
+                    if (aNew && awayIsD1 && ach.awayTeam.confTeamsTotal > 0) lines.push(`${ach.awayTeam.confTeamsSeen}/${ach.awayTeam.confTeamsTotal} ${ac} teams seen`);
+                    if (hNew && homeIsD1 && ach.homeTeam.confTeamsTotal > 0 && hc !== ac) lines.push(`${ach.homeTeam.confTeamsSeen}/${ach.homeTeam.confTeamsTotal} ${hc} teams seen`);
+                }
+                // Team records (always show both)
+                const ar = ach.awayTeam.record;
+                lines.push(`${ordinal(ach.awayTeam.visitNum)} time seeing ${ach.awayTeam.name}${gl} (${ar.wins}-${ar.losses})`);
+                const hr = ach.homeTeam.record;
+                lines.push(`${ordinal(ach.homeTeam.visitNum)} time seeing ${ach.homeTeam.name}${gl} (${hr.wins}-${hr.losses})`);
+                // Venue
+                if (ach.venue.name) {
+                    if (ach.venue.isNewVenue) lines.push(`${ach.venue.totalVenuesSeen}/365 D1 venues seen`);
+                    else lines.push(`${ordinal(ach.venue.visitNum)} time at ${ach.venue.name}`);
+                }
+                const text = lines.join('\n');
+                return html`
+                    <div class="achievements-section" style="background:var(--bg-primary);padding:0.75rem 1rem;border-radius:8px;margin-bottom:1rem;border-left:3px solid var(--accent-primary);cursor:pointer;user-select:all;white-space:pre-line;font-size:0.85rem;color:var(--text-secondary);"
+                        onClick=${() => navigator.clipboard.writeText(text).then(() => alert('Copied!'))}
+                        title="Click to copy">
+                        ${text}
+                    </div>
+                `;
+            })()}
 
             <${BoxScoreTable} players=${boxScore.away} teamName=${game['Away Team']} />
             <${BoxScoreTable} players=${boxScore.home} teamName=${game['Home Team']} />
