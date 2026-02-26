@@ -452,10 +452,13 @@ function computeGameMilestones() {
     gameMilestones = {};
 
     const conferenceTeamCounts = {};
+    let totalD1Teams = 0;
     const checklist = DATA.conferenceChecklist || {};
     for (const [confName, confData] of Object.entries(checklist)) {
         if (confName === 'All D1' || confName === 'Historical/Other') continue;
-        conferenceTeamCounts[confName] = confData.totalTeams || 0;
+        const count = confData.totalTeams || 0;
+        conferenceTeamCounts[confName] = count;
+        totalD1Teams += count;
     }
 
     const GAME_MILESTONES = [1, 10, 25, 50, 75, 100, 150, 200, 250, 500];
@@ -501,8 +504,8 @@ function computeGameMilestones() {
         const gender = game.Gender || 'M';
         const division = game.Division || 'D1';
         const dateSort = game.DateSort || '';
-        const awayConf = getGameConference(game, 'away');
-        const homeConf = getGameConference(game, 'home');
+        const awayConf = getTeamConference(awayTeam);
+        const homeConf = getTeamConference(homeTeam);
 
         gameMilestones[gameId] = { badges: [], gameNumber: index + 1 };
 
@@ -749,6 +752,7 @@ function computeGameMilestones() {
         gameMilestones[gameId].achievements = {
             gameNumber: gameCount,
             gender,
+            totalD1Teams,
             awayTeam: {
                 name: awayTeam,
                 visitNum: teamCounts[awayKey] || 0,
@@ -783,7 +787,7 @@ function computeGameMilestones() {
     maxStreak = Math.max(maxStreak, currentStreak);
 
     window.badgeTrackingData = {
-        confTeamsSeen, confCompleted, conferenceTeamCounts, venueOrder,
+        confTeamsSeen, confCompleted, conferenceTeamCounts, totalD1Teams, venueOrder,
         teamCounts, matchupsSeen, statesSeen, stateOrder, maxStreak,
         streakHistory, d1TeamsSeen
     };
@@ -2434,16 +2438,26 @@ function SeasonsView() {
             map[seasonKey].totalPts += (g['Away Score']||0) + (g['Home Score']||0);
             map[seasonKey].gamesCount++;
         });
-        return Object.entries(map)
-            .sort((a, b) => a[0].localeCompare(b[0]))
-            .map(([key, data]) => ({
-                season: key,
-                games: data.gamesCount,
-                totalPts: data.totalPts,
-                avgPts: data.totalPts / (data.gamesCount || 1),
-                venues: new Set(data.games.map(g => g.Venue)).size,
-                teams: new Set(data.games.flatMap(g => [g['Away Team'], g['Home Team']])).size,
-            }));
+        const sorted = Object.entries(map).sort((a, b) => a[0].localeCompare(b[0]));
+        const allTimTeams = new Set();
+        const allTimeVenues = new Set();
+        return sorted.map(([key, data]) => {
+                const seasonTeams = new Set(data.games.flatMap(g => [g['Away Team'], g['Home Team']]));
+                const seasonVenues = new Set(data.games.map(g => g.Venue).filter(Boolean));
+                let newTeams = 0, newVenues = 0;
+                seasonTeams.forEach(t => { if (!allTimTeams.has(t)) { newTeams++; allTimTeams.add(t); } });
+                seasonVenues.forEach(v => { if (!allTimeVenues.has(v)) { newVenues++; allTimeVenues.add(v); } });
+                return {
+                    season: key,
+                    games: data.gamesCount,
+                    totalPts: data.totalPts,
+                    avgPts: data.totalPts / (data.gamesCount || 1),
+                    venues: seasonVenues.size,
+                    teams: seasonTeams.size,
+                    newTeams,
+                    newVenues,
+                };
+            });
     }, [games]);
 
     // Chart
@@ -2482,7 +2496,7 @@ function SeasonsView() {
             `}
             <div class="table-container">
                 <table class="data-table">
-                    <thead><tr><th>Season</th><th>Games</th><th>Total Pts</th><th>Avg Combined</th><th>Venues</th><th>Teams</th></tr></thead>
+                    <thead><tr><th>Season</th><th>Games</th><th>Total Pts</th><th>Avg Combined</th><th>Venues</th><th>New Venues</th><th>Teams</th><th>New Teams</th></tr></thead>
                     <tbody>
                         ${seasons.map(s => html`
                             <tr>
@@ -2491,7 +2505,9 @@ function SeasonsView() {
                                 <td>${s.totalPts.toLocaleString()}</td>
                                 <td>${s.avgPts.toFixed(1)}</td>
                                 <td>${s.venues}</td>
+                                <td>${s.newVenues}</td>
                                 <td>${s.teams}</td>
+                                <td>${s.newTeams}</td>
                             </tr>
                         `)}
                     </tbody>
@@ -3958,7 +3974,7 @@ function GameDetailModal({ gameId, onClose, showPlayerDetail }) {
                 const homeIsD1 = hc && D1_CONFERENCES.has(hc);
                 if ((aNew && awayIsD1) || (hNew && homeIsD1)) {
                     const total = Math.max(ach.awayTeam.d1Count, ach.homeTeam.d1Count);
-                    lines.push(`${total}/365 D1 teams seen${gl}`);
+                    lines.push(`${total}/${ach.totalD1Teams} D1 teams seen${gl}`);
                 }
                 // Conference teams (D1 conferences only)
                 if (aNew && hNew && ac === hc && awayIsD1 && ach.awayTeam.confTeamsTotal > 0) {
@@ -3975,7 +3991,7 @@ function GameDetailModal({ gameId, onClose, showPlayerDetail }) {
                 lines.push(`${ordinal(ach.homeTeam.visitNum)} time seeing ${ach.homeTeam.name}${gl} (${hr.wins}-${hr.losses})`);
                 // Venue
                 if (ach.venue.name) {
-                    if (ach.venue.isNewVenue) lines.push(`${ach.venue.totalVenuesSeen}/365 D1 venues seen`);
+                    if (ach.venue.isNewVenue) lines.push(`${ach.venue.totalVenuesSeen}/${ach.totalD1Teams} D1 venues seen`);
                     else lines.push(`${ordinal(ach.venue.visitNum)} time at ${ach.venue.name}`);
                 }
                 const text = lines.join('\n');
