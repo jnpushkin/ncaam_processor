@@ -80,3 +80,21 @@ Saved polls to: /Users/jeremypushkin/ncaam_processor/basketball_processor/refere
 Successfully updated Women's 2025-26 poll data
 [2025-12-30 08:00:32] Women's polls updated successfully
 [2025-12-30 08:00:32] === Poll update complete ===
+[2026-02-24 08:03:51] === Starting poll update for 2025-26 ===
+[2026-02-24 08:03:51] Updating men's polls...
+/Users/jeremypushkin/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/runpy.py:127: RuntimeWarning: 'basketball_processor.scrapers.poll_scraper' found in sys.modules after import of package 'basketball_processor.scrapers', but prior to execution of 'basketball_processor.scrapers.poll_scraper'; this may result in unpredictable behaviour
+  warn(RuntimeWarning(msg))
+
+Successfully updated Men's 2025-26 poll data
+[2026-02-24 08:03:56] Men's polls updated successfully
+[2026-02-24 08:04:01] Updating women's polls...
+/Users/jeremypushkin/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/runpy.py:127: RuntimeWarning: 'basketball_processor.scrapers.poll_scraper' found in sys.modules after import of package 'basketball_processor.scrapers', but prior to execution of 'basketball_processor.scrapers.poll_scraper'; this may result in unpredictable behaviour
+  warn(RuntimeWarning(msg))
+
+Successfully updated Women's 2025-26 poll data
+[2026-02-24 08:04:05] Women's polls updated successfully
+[2026-02-24 08:04:05] === Poll update complete ===
